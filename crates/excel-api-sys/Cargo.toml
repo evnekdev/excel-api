@@ -1,0 +1,13 @@
+[package]
+name = "excel-api-sys"
+description = "Raw Microsoft Excel C API ABI definitions for Rust"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true
