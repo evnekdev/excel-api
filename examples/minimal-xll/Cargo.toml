@@ -1,0 +1,17 @@
+[package]
+name = "minimal-xll"
+publish = false
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+excel-api = { path = "../../crates/excel-api" }
+excel-api-sys = { path = "../../crates/excel-api-sys" }
+
+[lints]
+workspace = true

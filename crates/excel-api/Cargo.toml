@@ -1,0 +1,19 @@
+[package]
+name = "excel-api"
+description = "Safe Rust abstractions for native Microsoft Excel XLL add-ins"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[features]
+default = ["macros"]
+macros = ["dep:excel-api-macros"]
+
+[dependencies]
+excel-api-sys = { path = "../excel-api-sys", version = "0.1.0" }
+excel-api-macros = { path = "../excel-api-macros", version = "0.1.0", optional = true }
+
+[lints]
+workspace = true
