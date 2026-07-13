@@ -1,20 +1,15 @@
 # Book-driven Revision Notes
 
-The uploaded book materially strengthened these areas:
+The uploaded second edition of Steve Dalton's book strengthened the design for:
 
-- exact lifecycle callback ordering and the need for idempotent initialization;
-- distinction between reference-preserving and value-only general arguments;
-- separate treatment of `FP12`, mixed multis, references, missing, nil, and
-  binary names;
-- `xlFree` rules for Excel-created multis;
-- timing of `xlbitXLFree`;
-- per-call heap return roots versus TLS return slots;
-- thread-safety constraints on static return objects;
-- arrays-of-arrays and arrays containing references should not be returned;
-- current versus active workbook/sheet/cell terminology;
-- C API legality depends on function/command/macro context;
-- interface code should remain separate from core calculation code.
+- idempotent lifecycle initialization;
+- reference-preserving versus value-only arguments;
+- `FP12`, multis, references, missing, and nil;
+- `xlFree` and `xlbitXLFree` timing;
+- thread-safe return storage;
+- current versus active Excel context;
+- C API legality by callback context;
+- separation of interface glue from calculation logic.
 
-The architecture deliberately adopts stricter ownership invariants than the
-book's flexible mixed-ownership array example because Rust can make a
-single-owner return tree safer and easier to audit.
+The Rust architecture intentionally uses stricter single-owner return trees than
+flexible mixed-ownership C examples.

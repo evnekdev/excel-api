@@ -1,80 +1,74 @@
-You are implementing one milestone in the `excel-api` Rust workspace.
+# Prompt 01: verify the Excel 12 ABI comprehensively
 
-Before editing:
+## Required reading
 
-1. inspect the repository and current branch;
-2. read all architecture files relevant to this milestone;
-3. read ADRs and checklists under `docs/`;
-4. run the current test suite;
-5. do not modify unrelated files.
+Read all root architecture documents relevant to ABI, memory, strings, arrays,
+threading, registration, and testing, plus:
 
-Global rules:
+- `tools/Excel2013XLLSDK/INCLUDE/XLCALL.H`
+- `tools/Excel2013XLLSDK/SRC/XLCALL.CPP`
+- SDK samples
+- existing `excel-api-sys`
+- existing `tools/abi-check`
 
-- target Windows x64 MSVC and Excel 12+;
-- keep raw ABI in `excel-api-sys`;
-- keep ownership/conversion/runtime policy in `excel-api`;
-- callback inputs are borrowed and read-only;
-- Excel API results use `ExcelOwnedValue`;
-- XLL returns use `ExcelReturn`;
-- Excel-owned memory is released with `xlFree` or consuming XLFree transfer;
-- XLL-owned return memory uses DLLFree and `xlAutoFree12`;
-- deep-copy pointer-bearing elements into DLL-owned multis;
-- no arrays-of-arrays or arrays containing references as returns;
-- no static mutable return root in thread-safe UDFs;
-- no panic crosses FFI;
-- document every unsafe invariant;
-- stop and document uncertainty rather than guessing.
+Run the current workspace tests first.
 
-At completion run:
+## Objective
+
+Make `excel-api-sys` a faithful, auditable representation of the Excel 12+ ABI
+for Windows x64 MSVC. This milestone is raw ABI only.
+
+## Source priority
+
+1. official checked-in `XLCALL.H`;
+2. official SDK source/docs;
+3. Microsoft public docs;
+4. the uploaded book for interpretation;
+5. Excel-DNA only as a secondary cross-check.
+
+## Implement and verify
+
+- primitive aliases: `XCHAR`, Boolean, `RW`, `COL`, `IDSHEET`;
+- `XLREF12`, variable-length `XLMREF12`, `FP12`;
+- complete `XLOPER12` and every nested union/struct member;
+- all `xltype*`, ownership bits, errors, flow values, return codes;
+- row, column, and string limits;
+- function IDs needed by milestones 01–08;
+- registration type-text codes/modifiers needed by milestone 08;
+- exact `Excel12`, `Excel12v`, and lifecycle callback signatures.
+
+Keep flexible-array C layouts faithful. Do not invent safe abstractions in
+`excel-api-sys`.
+
+## ABI checker
+
+Expand `tools/abi-check` to compare C and Rust sizes, alignments, offsets, and
+constants for every supported raw definition. Normal workspace tests must not
+require the SDK; the standalone checker may require Windows/MSVC/SDK.
+
+## Restrictions
+
+- no `ExcelStr`, `ExcelValueRef`, `ExcelOwnedValue`, or `ExcelReturn`;
+- no pointer dereferencing;
+- no ownership policy in the raw crate;
+- no placeholder union member presented as authoritative;
+- document uncertainties instead of guessing.
+
+## Validation
 
 ```text
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 cargo test --workspace --all-features
+cargo run --manifest-path tools/abi-check/Cargo.toml
 ```
 
-Report changed files, test commands, verified behavior, and remaining unknowns.
+## Acceptance criteria
 
-# Prompt 01: Verify the Excel 12 ABI
-
-## Goal
-
-Make `excel-api-sys` authoritative for the supported modern ABI.
-
-## Required work
-
-Verify:
-
-- `XLOPER12` union and 32-bit `xltype`;
-- `XLREF12`;
-- variable-length `XLMREF12`;
-- `FP12`;
-- `xltypeBigData`;
-- row/column/integer/error widths;
-- `Excel12`, `Excel12v`, and lifecycle signatures;
-- type and ownership bit constants;
-- C API return codes;
-- `xlFree` function ID;
-- registration type-text codes for:
-  - reference-preserving general XLOPER12;
-  - value-only general XLOPER12;
-  - counted wide string;
-  - null-terminated wide string;
-  - thread-safe, macro-sheet, volatile, cluster-safe, modify-in-place modifiers.
-
-Add an optional C/Rust ABI-check tool using official headers.
-
-## Tests
-
-- size/alignment/offsets;
-- constant values;
-- root/union capacity;
-- no SDK required for normal workspace tests.
-
-## Non-goals
-
-No safe parsing, conversion, calls, allocation, or registration.
-
-## Acceptance
-
-No placeholder raw definition is presented as verified.
+1. supported modern definitions match `XLCALL.H`;
+2. `xltypeRef` and `xltypeInt` cannot be confused;
+3. complete supported union/layout coverage exists;
+4. standalone ABI checker passes on Windows x64 MSVC;
+5. ordinary workspace tests pass without SDK dependency;
+6. no safe-wrapper implementation has started;
+7. remaining unsupported legacy definitions are explicit.

@@ -1,0 +1,507 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'crates/excel-api-sys/src/constants.rs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/research/BOOK_REVISION_NOTES.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'prompts-dev/01-verify-xloper12-abi.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/Excel2013XLLSDK/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tools/abi-check/Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/BOOK_REVISION_NOTES.md b/BOOK_REVISION_NOTES.md[m
+[1mdeleted file mode 100644[m
+[1mindex 11886ba..0000000[m
+[1m--- a/BOOK_REVISION_NOTES.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,20 +0,0 @@[m
+[31m-# Book-driven Revision Notes[m
+[31m-[m
+[31m-The uploaded book materially strengthened these areas:[m
+[31m-[m
+[31m-- exact lifecycle callback ordering and the need for idempotent initialization;[m
+[31m-- distinction between reference-preserving and value-only general arguments;[m
+[31m-- separate treatment of `FP12`, mixed multis, references, missing, nil, and[m
+[31m-  binary names;[m
+[31m-- `xlFree` rules for Excel-created multis;[m
+[31m-- timing of `xlbitXLFree`;[m
+[31m-- per-call heap return roots versus TLS return slots;[m
+[31m-- thread-safety constraints on static return objects;[m
+[31m-- arrays-of-arrays and arrays containing references should not be returned;[m
+[31m-- current versus active workbook/sheet/cell terminology;[m
+[31m-- C API legality depends on function/command/macro context;[m
+[31m-- interface code should remain separate from core calculation code.[m
+[31m-[m
+[31m-The architecture deliberately adopts stricter ownership invariants than the[m
+[31m-book's flexible mixed-ownership array example because Rust can make a[m
+[31m-single-owner return tree safer and easier to audit.[m
+[1mdiff --git a/MANIFEST.md b/MANIFEST.md[m
+[1mdeleted file mode 100644[m
+[1mindex 46d90d6..0000000[m
+[1m--- a/MANIFEST.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,62 +0,0 @@[m
+[31m-# Files[m
+[31m-[m
+[31m-- `ABI_ARCHITECTURE.md`[m
+[31m-- `ARCHITECTURE.md`[m
+[31m-- `ARCHITECTURE_INDEX.md`[m
+[31m-- `ARRAY_REFERENCE_ARCHITECTURE.md`[m
+[31m-- `BOOK_REVISION_NOTES.md`[m
+[31m-- `CALLBACK_LIFECYCLE_ARCHITECTURE.md`[m
+[31m-- `CONTRIBUTING_ARCHITECTURE.md`[m
+[31m-- `ERROR_ARCHITECTURE.md`[m
+[31m-- `EXCELDNA_CAPABILITY_MAP.md`[m
+[31m-- `EXCEL_CALL_ARCHITECTURE.md`[m
+[31m-- `IMPLEMENTATION_ROADMAP.md`[m
+[31m-- `MEMORY_OWNERSHIP_ARCHITECTURE.md`[m
+[31m-- `MEMORY_OWNERSHIP_ROADMAP.md`[m
+[31m-- `PACKAGE_README.md`[m
+[31m-- `PACKAGING_ARCHITECTURE.md`[m
+[31m-- `PROC_MACRO_ARCHITECTURE.md`[m
+[31m-- `REGISTRATION_ARCHITECTURE.md`[m
+[31m-- `RUNTIME_CONTEXT_ARCHITECTURE.md`[m
+[31m-- `STRING_ARCHITECTURE.md`[m
+[31m-- `STRING_IMPLEMENTATION_ROADMAP.md`[m
+[31m-- `TESTING_ARCHITECTURE.md`[m
+[31m-- `THREADING_ARCHITECTURE.md`[m
+[31m-- `TYPE_CONVERSION_ARCHITECTURE.md`[m
+[31m-- `docs/adr/0001-project-goals.md`[m
+[31m-- `docs/adr/0002-crate-layout.md`[m
+[31m-- `docs/adr/0003-memory-model.md`[m
+[31m-- `docs/adr/0004-registration-model.md`[m
+[31m-- `docs/adr/0005-macro-strategy.md`[m
+[31m-- `docs/adr/0006-threading-model.md`[m
+[31m-- `docs/adr/0007-error-handling.md`[m
+[31m-- `docs/adr/0008-testing-strategy.md`[m
+[31m-- `docs/adr/0009-input-borrowing-and-call-lifetimes.md`[m
+[31m-- `docs/adr/0010-return-allocation-and-xlautofree12.md`[m
+[31m-- `docs/adr/0011-excel-owned-api-results.md`[m
+[31m-- `docs/adr/0012-string-representations.md`[m
+[31m-- `docs/adr/0013-owned-text-in-excelvalue.md`[m
+[31m-- `docs/adr/0014-string-return-strategies.md`[m
+[31m-- `docs/adr/0015-array-ownership.md`[m
+[31m-- `docs/adr/0016-reference-value-separation.md`[m
+[31m-- `docs/adr/0017-lifecycle-idempotence.md`[m
+[31m-- `docs/adr/0018-modern-excel12-first.md`[m
+[31m-- `docs/checklists/call-context-review.md`[m
+[31m-- `docs/checklists/memory-safety-review.md`[m
+[31m-- `docs/checklists/string-safety-review.md`[m
+[31m-- `docs/diagrams/call-contexts.md`[m
+[31m-- `docs/diagrams/crate-dependencies.md`[m
+[31m-- `docs/diagrams/lifecycle-state.md`[m
+[31m-- `docs/diagrams/memory-ownership-model.md`[m
+[31m-- `docs/diagrams/reference-conversion.md`[m
+[31m-- `docs/diagrams/registration-pipeline.md`[m
+[31m-- `docs/diagrams/string-abi-and-ownership.md`[m
+[31m-- `prompts-dev/01-verify-xloper12-abi.md`[m
+[31m-- `prompts-dev/02-borrowed-excel-values.md`[m
+[31m-- `prompts-dev/03-owned-excel-values.md`[m
+[31m-- `prompts-dev/04-return-planning.md`[m
+[31m-- `prompts-dev/05-stable-return-allocation.md`[m
+[31m-- `prompts-dev/06-xlautofree12-handoff.md`[m
+[31m-- `prompts-dev/07-excel-owned-api-results.md`[m
+[31m-- `prompts-dev/08-manual-function-registration.md`[m
+[31m-- `prompts-dev/README.md`[m
+\ No newline at end of file[m
+[1mdiff --git a/README.md b/README.md[m
+[1mindex 8c4a903..1781754 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -1,12 +1,18 @@[m
+ # excel-api[m
+ [m
+[31m-A Rust-first project for building native Microsoft Excel add-ins through the Excel C API.[m
+[32m+[m[32mA Rust-first project for building native Microsoft Excel add-ins through the[m
+[32m+[m[32mExcel C API.[m
+ [m
+[31m-The intended long-term outcome is an idiomatic Rust ecosystem for native `.xll` add-ins: raw C API bindings, safe values and calls, generated worksheet-function registration, arrays, commands, asynchronous calculation, and optional Windows integrations.[m
+[32m+[m[32mThe intended long-term outcome is an idiomatic Rust ecosystem for native `.xll`[m
+[32m+[m[32madd-ins: raw C API bindings, safe values and calls, generated worksheet-function[m
+[32m+[m[32mregistration, arrays, commands, asynchronous calculation, and optional Windows[m
+[32m+[m[32mintegrations.[m
+ [m
+ ## Current status[m
+ [m
+[31m-The project is in the architecture and ABI-research stage. The first implementation target is a minimal 64-bit Rust XLL that Excel can load and that registers a scalar worksheet function through the Excel C API.[m
+[32m+[m[32mThe project is in the architecture and ABI-research stage. The first target is[m
+[32m+[m[32ma minimal 64-bit Rust XLL that Excel can load and that registers a scalar[m
+[32m+[m[32mworksheet function through the Excel C API.[m
+ [m
+ ## Architecture references[m
+ [m
+[36m@@ -18,13 +24,17 @@[m [mThe project is in the architecture and ABI-research stage. The first implementat[m
+ - [Array and reference architecture](ARRAY_REFERENCE_ARCHITECTURE.md)[m
+ - [Type conversion architecture](TYPE_CONVERSION_ARCHITECTURE.md)[m
+ - [Threading architecture](THREADING_ARCHITECTURE.md)[m
+[32m+[m[32m- [Runtime context architecture](RUNTIME_CONTEXT_ARCHITECTURE.md)[m
+ - [Excel call architecture](EXCEL_CALL_ARCHITECTURE.md)[m
+[32m+[m[32m- [Callback and lifecycle architecture](CALLBACK_LIFECYCLE_ARCHITECTURE.md)[m
+ - [Registration architecture](REGISTRATION_ARCHITECTURE.md)[m
+[32m+[m[32m- [Error architecture](ERROR_ARCHITECTURE.md)[m
+[32m+[m[32m- [Testing architecture](TESTING_ARCHITECTURE.md)[m
+ - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)[m
+ - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)[m
+ - [Codex development prompts](prompts-dev/README.md)[m
+ [m
+[31m-These documents are living references. They should be updated whenever implementation experience changes the proposed architecture or priority of a capability.[m
+[32m+[m[32mThese documents are living references and must track implementation changes.[m
+ [m
+ ## Workspace[m
+ [m
+[36m@@ -33,21 +43,27 @@[m [mcrates/[m
+   excel-api-sys/[m
+   excel-api/[m
+   excel-api-macros/[m
+[31m-[m
+ examples/[m
+   minimal-xll/[m
+[31m-[m
+ docs/[m
+   adr/[m
+   checklists/[m
+   diagrams/[m
+   research/[m
+[31m-[m
+ prompts-dev/[m
+[31m-[m
+ tools/[m
+   Excel2013XLLSDK/[m
+   abi-check/[m
+ ```[m
+ [m
+[31m-The Microsoft SDK material is used as the authoritative ABI reference. See [`tools/Excel2013XLLSDK/README.md`](tools/Excel2013XLLSDK/README.md) for provenance and licensing notes.[m
+[32m+[m[32mThe Microsoft SDK is the authoritative ABI reference. See[m
+[32m+[m[32m[`tools/Excel2013XLLSDK/README.md`](tools/Excel2013XLLSDK/README.md).[m
+[32m+[m
+[32m+[m[32m## Prompt 01 readiness[m
+[32m+[m
+[32m+[m[32mComplete [`prompts-dev/01-verify-xloper12-abi.md`](prompts-dev/01-verify-xloper12-abi.md)[m
+[32m+[m[32mbefore safe wrappers.[m
+[32m+[m
+[32m+[m[32m```powershell[m
+[32m+[m[32mcargo run --manifest-path tools/abi-check/Cargo.toml[m
+[32m+[m[32m```[m
+[1mdiff --git a/crates/excel-api-sys/src/constants.rs b/crates/excel-api-sys/src/constants.rs[m
+[1mindex bd88b10..0cacc0e 100644[m
+[1m--- a/crates/excel-api-sys/src/constants.rs[m
+[1m+++ b/crates/excel-api-sys/src/constants.rs[m
+[36m@@ -1,52 +1,43 @@[m
+ /// Base Excel value type mask.[m
+ pub const XLTYPE_MASK: u32 = 0x0FFF;[m
+[31m-[m
+[31m-/// Numeric value.[m
+ pub const XLTYPE_NUM: u32 = 0x0001;[m
+[31m-/// UTF-16 string value.[m
+ pub const XLTYPE_STR: u32 = 0x0002;[m
+[31m-/// Boolean value.[m
+ pub const XLTYPE_BOOL: u32 = 0x0004;[m
+[31m-/// Multi-area reference value.[m
+ pub const XLTYPE_REF: u32 = 0x0008;[m
+[31m-/// Excel error value.[m
+ pub const XLTYPE_ERR: u32 = 0x0010;[m
+[31m-/// Flow-control value.[m
+ pub const XLTYPE_FLOW: u32 = 0x0020;[m
+[31m-/// Rectangular multi-cell value.[m
+ pub const XLTYPE_MULTI: u32 = 0x0040;[m
+[31m-/// Missing function argument.[m
+ pub const XLTYPE_MISSING: u32 = 0x0080;[m
+[31m-/// Empty value.[m
+ pub const XLTYPE_NIL: u32 = 0x0100;[m
+[31m-/// Single-area reference value.[m
+ pub const XLTYPE_SREF: u32 = 0x0400;[m
+[31m-/// Integer value.[m
+ pub const XLTYPE_INT: u32 = 0x0800;[m
+[31m-/// Big-data value, represented by the combined string and integer type bits.[m
+ pub const XLTYPE_BIG_DATA: u32 = XLTYPE_STR | XLTYPE_INT;[m
+[31m-[m
+[31m-/// Excel owns the value and must free it after consuming the result.[m
+ pub const XLBIT_XL_FREE: u32 = 0x1000;[m
+[31m-/// The XLL owns the value and Excel will call `xlAutoFree12`.[m
+ pub const XLBIT_DLL_FREE: u32 = 0x4000;[m
+[31m-[m
+[31m-/// Return code indicating a successful Excel C API call.[m
+ pub const XLRET_SUCCESS: i32 = 0;[m
+[31m-[m
+[31m-/// Maximum number of rows supported by modern Excel.[m
+[32m+[m[32mpub const XLRET_ABORT: i32 = 1;[m
+[32m+[m[32mpub const XLRET_INV_XLFN: i32 = 2;[m
+[32m+[m[32mpub const XLRET_INV_COUNT: i32 = 4;[m
+[32m+[m[32mpub const XLRET_INV_XLOPER: i32 = 8;[m
+[32m+[m[32mpub const XLRET_STACK_OVFL: i32 = 16;[m
+[32m+[m[32mpub const XLRET_FAILED: i32 = 32;[m
+[32m+[m[32mpub const XLRET_UNCALCED: i32 = 64;[m
+[32m+[m[32mpub const XLRET_NOT_THREAD_SAFE: i32 = 128;[m
+[32m+[m[32mpub const XLRET_INV_ASYNC_CONTEXT: i32 = 256;[m
+[32m+[m[32mpub const XLRET_NOT_CLUSTER_SAFE: i32 = 512;[m
+ pub const EXCEL12_MAX_ROWS: u32 = 1_048_576;[m
+[31m-/// Maximum number of columns supported by modern Excel.[m
+ pub const EXCEL12_MAX_COLUMNS: u32 = 16_384;[m
+[32m+[m[32mpub const EXCEL12_MAX_STRING_CODE_UNITS: usize = 32_767;[m
+ [m
+ #[cfg(test)][m
+ mod tests {[m
+     use super::*;[m
+[31m-[m
+     #[test][m
+[31m-    fn type_constants_match_xlcall_header() {[m
+[32m+[m[32m    fn constants_match_xlcall_header() {[m
+         assert_eq!(XLTYPE_REF, 0x0008);[m
+         assert_eq!(XLTYPE_INT, 0x0800);[m
+         assert_eq!(XLTYPE_BIG_DATA, XLTYPE_STR | XLTYPE_INT);[m
+[32m+[m[32m        assert_eq!(XLBIT_XL_FREE & XLTYPE_MASK, 0);[m
+[32m+[m[32m        assert_eq!(XLBIT_DLL_FREE & XLTYPE_MASK, 0);[m
+     }[m
+ }[m
+[1mdiff --git a/docs/research/BOOK_REVISION_NOTES.md b/docs/research/BOOK_REVISION_NOTES.md[m
+[1mindex 11886ba..229c93c 100644[m
+[1m--- a/docs/research/BOOK_REVISION_NOTES.md[m
+[1m+++ b/docs/research/BOOK_REVISION_NOTES.md[m
+[36m@@ -1,20 +1,15 @@[m
+ # Book-driven Revision Notes[m
+ [m
+[31m-The uploaded book materially strengthened these areas:[m
+[32m+[m[32mThe uploaded second edition of Steve Dalton's book strengthened the design for:[m
+ [m
+[31m-- exact lifecycle callback ordering and the need for idempotent initialization;[m
+[31m-- distinction between reference-preserving and value-only general arguments;[m
+[31m-- separate treatment of `FP12`, mixed multis, references, missing, nil, and[m
+[31m-  binary names;[m
+[31m-- `xlFree` rules for Excel-created multis;[m
+[31m-- timing of `xlbitXLFree`;[m
+[31m-- per-call heap return roots versus TLS return slots;[m
+[31m-- thread-safety constraints on static return objects;[m
+[31m-- arrays-of-arrays and arrays containing references should not be returned;[m
+[31m-- current versus active workbook/sheet/cell terminology;[m
+[31m-- C API legality depends on function/command/macro context;[m
+[31m-- interface code should remain separate from core calculation code.[m
+[32m+[m[32m- idempotent lifecycle initialization;[m
+[32m+[m[32m- reference-preserving versus value-only arguments;[m
+[32m+[m[32m- `FP12`, multis, references, missing, and nil;[m
+[32m+[m[32m- `xlFree` and `xlbitXLFree` timing;[m
+[32m+[m[32m- thread-safe return storage;[m
+[32m+[m[32m- current versus active Excel context;[m
+[32m+[m[32m- C API legality by callback context;[m
+[32m+[m[32m- separation of interface glue from calculation logic.[m
+ [m
+[31m-The architecture deliberately adopts stricter ownership invariants than the[m
+[31m-book's flexible mixed-ownership array example because Rust can make a[m
+[31m-single-owner return tree safer and easier to audit.[m
+[32m+[m[32mThe Rust architecture intentionally uses stricter single-owner return trees than[m
+[32m+[m[32mflexible mixed-ownership C examples.[m
+[1mdiff --git a/prompts-dev/01-verify-xloper12-abi.md b/prompts-dev/01-verify-xloper12-abi.md[m
+[1mindex ef6da10..31d767f 100644[m
+[1m--- a/prompts-dev/01-verify-xloper12-abi.md[m
+[1m+++ b/prompts-dev/01-verify-xloper12-abi.md[m
+[36m@@ -1,80 +1,74 @@[m
+[31m-You are implementing one milestone in the `excel-api` Rust workspace.[m
+[31m-[m
+[31m-Before editing:[m
+[31m-[m
+[31m-1. inspect the repository and current branch;[m
+[31m-2. read all architecture files relevant to this milestone;[m
+[31m-3. read ADRs and checklists under `docs/`;[m
+[31m-4. run the current test suite;[m
+[31m-5. do not modify unrelated files.[m
+[31m-[m
+[31m-Global rules:[m
+[31m-[m
+[31m-- target Windows x64 MSVC and Excel 12+;[m
+[31m-- keep raw ABI in `excel-api-sys`;[m
+[31m-- keep ownership/conversion/runtime policy in `excel-api`;[m
+[31m-- callback inputs are borrowed and read-only;[m
+[31m-- Excel API results use `ExcelOwnedValue`;[m
+[31m-- XLL returns use `ExcelReturn`;[m
+[31m-- Excel-owned memory is released with `xlFree` or consuming XLFree transfer;[m
+[31m-- XLL-owned return memory uses DLLFree and `xlAutoFree12`;[m
+[31m-- deep-copy pointer-bearing elements into DLL-owned multis;[m
+[31m-- no arrays-of-arrays or arrays containing references as returns;[m
+[31m-- no static mutable return root in thread-safe UDFs;[m
+[31m-- no panic crosses FFI;[m
+[31m-- document every unsafe invariant;[m
+[31m-- stop and document uncertainty rather than guessing.[m
+[31m-[m
+[31m-At completion run:[m
+[32m+[m[32m# Prompt 01: verify the Excel 12 ABI comprehensively[m
+ [m
+[31m-```text[m
+[31m-cargo fmt --all --check[m
+[31m-cargo clippy --workspace --all-targets --all-features -- -D warnings[m
+[31m-cargo test --workspace --all-features[m
+[31m-```[m
+[32m+[m[32m## Required reading[m
+[32m+[m
+[32m+[m[32mRead all root architecture documents relevant to ABI, memory, strings, arrays,[m
+[32m+[m[32mthreading, registration, and testing, plus:[m
+[32m+[m
+[32m+[m[32m- `tools/Excel2013XLLSDK/INCLUDE/XLCALL.H`[m
+[32m+[m[32m- `tools/Excel2013XLLSDK/SRC/XLCALL.CPP`[m
+[32m+[m[32m- SDK samples[m
+[32m+[m[32m- existing `excel-api-sys`[m
+[32m+[m[32m- existing `tools/abi-check`[m
+ [m
+[31m-Report changed files, test commands, verified behavior, and remaining unknowns.[m
+[32m+[m[32mRun the current workspace tests first.[m
+ [m
+[31m-# Prompt 01: Verify the Excel 12 ABI[m
+[32m+[m[32m## Objective[m
+ [m
+[31m-## Goal[m
+[32m+[m[32mMake `excel-api-sys` a faithful, auditable representation of the Excel 12+ ABI[m
+[32m+[m[32mfor Windows x64 MSVC. This milestone is raw ABI only.[m
+ [m
+[31m-Make `excel-api-sys` authoritative for the supported modern ABI.[m
+[32m+[m[32m## Source priority[m
+ [m
+[31m-## Required work[m
+[32m+[m[32m1. official checked-in `XLCALL.H`;[m
+[32m+[m[32m2. official SDK source/docs;[m
+[32m+[m[32m3. Microsoft public docs;[m
+[32m+[m[32m4. the uploaded book for interpretation;[m
+[32m+[m[32m5. Excel-DNA only as a secondary cross-check.[m
+ [m
+[31m-Verify:[m
+[32m+[m[32m## Implement and verify[m
+ [m
+[31m-- `XLOPER12` union and 32-bit `xltype`;[m
+[31m-- `XLREF12`;[m
+[31m-- variable-length `XLMREF12`;[m
+[31m-- `FP12`;[m
+[31m-- `xltypeBigData`;[m
+[31m-- row/column/integer/error widths;[m
+[31m-- `Excel12`, `Excel12v`, and lifecycle signatures;[m
+[31m-- type and ownership bit constants;[m
+[31m-- C API return codes;[m
+[31m-- `xlFree` function ID;[m
+[31m-- registration type-text codes for:[m
+[31m-  - reference-preserving general XLOPER12;[m
+[31m-  - value-only general XLOPER12;[m
+[31m-  - counted wide string;[m
+[31m-  - null-terminated wide string;[m
+[31m-  - thread-safe, macro-sheet, volatile, cluster-safe, modify-in-place modifiers.[m
+[32m+[m[32m- primitive aliases: `XCHAR`, Boolean, `RW`, `COL`, `IDSHEET`;[m
+[32m+[m[32m- `XLREF12`, variable-length `XLMREF12`, `FP12`;[m
+[32m+[m[32m- complete `XLOPER12` and every nested union/struct member;[m
+[32m+[m[32m- all `xltype*`, ownership bits, errors, flow values, return codes;[m
+[32m+[m[32m- row, column, and string limits;[m
+[32m+[m[32m- function IDs needed by milestones 01–08;[m
+[32m+[m[32m- registration type-text codes/modifiers needed by milestone 08;[m
+[32m+[m[32m- exact `Excel12`, `Excel12v`, and lifecycle callback signatures.[m
+ [m
+[31m-Add an optional C/Rust ABI-check tool using official headers.[m
+[32m+[m[32mKeep flexible-array C layouts faithful. Do not invent safe abstractions in[m
+[32m+[m[32m`excel-api-sys`.[m
+ [m
+[31m-## Tests[m
+[32m+[m[32m## ABI checker[m
+ [m
+[31m-- size/alignment/offsets;[m
+[31m-- constant values;[m
+[31m-- root/union capacity;[m
+[31m-- no SDK required for normal workspace tests.[m
+[32m+[m[32mExpand `tools/abi-check` to compare C and Rust sizes, alignments, offsets, and[m
+[32m+[m[32mconstants for every supported raw definition. Normal workspace tests must not[m
+[32m+[m[32mrequire the SDK; the standalone checker may require Windows/MSVC/SDK.[m
+ [m
+[31m-## Non-goals[m
+[32m+[m[32m## Restrictions[m
+ [m
+[31m-No safe parsing, conversion, calls, allocation, or registration.[m
+[32m+[m[32m- no `ExcelStr`, `ExcelValueRef`, `ExcelOwnedValue`, or `ExcelReturn`;[m
+[32m+[m[32m- no pointer dereferencing;[m
+[32m+[m[32m- no ownership policy in the raw crate;[m
+[32m+[m[32m- no placeholder union member presented as authoritative;[m
+[32m+[m[32m- document uncertainties instead of guessing.[m
+[32m+[m
+[32m+[m[32m## Validation[m
+[32m+[m
+[32m+[m[32m```text[m
+[32m+[m[32mcargo fmt --all --check[m
+[32m+[m[32mcargo clippy --workspace --all-targets --all-features -- -D warnings[m
+[32m+[m[32mcargo test --workspace --all-features[m
+[32m+[m[32mcargo run --manifest-path tools/abi-check/Cargo.toml[m
+[32m+[m[32m```[m
+ [m
+[31m-## Acceptance[m
+[32m+[m[32m## Acceptance criteria[m
+ [m
+[31m-No placeholder raw definition is presented as verified.[m
+[32m+[m[32m1. supported modern definitions match `XLCALL.H`;[m
+[32m+[m[32m2. `xltypeRef` and `xltypeInt` cannot be confused;[m
+[32m+[m[32m3. complete supported union/layout coverage exists;[m
+[32m+[m[32m4. standalone ABI checker passes on Windows x64 MSVC;[m
+[32m+[m[32m5. ordinary workspace tests pass without SDK dependency;[m
+[32m+[m[32m6. no safe-wrapper implementation has started;[m
+[32m+[m[32m7. remaining unsupported legacy definitions are explicit.[m
+[1mdiff --git a/tools/Excel2013XLLSDK/README.md b/tools/Excel2013XLLSDK/README.md[m
+[1mindex 11b9230..d0681ef 100644[m
+[1m--- a/tools/Excel2013XLLSDK/README.md[m
+[1m+++ b/tools/Excel2013XLLSDK/README.md[m
+[36m@@ -1,39 +1,36 @@[m
+ # Microsoft Excel 2013 XLL SDK[m
+ [m
+[31m-This directory contains the Microsoft Excel 2013 XLL SDK used as the authoritative ABI reference for `excel-api-sys`.[m
+[32m+[m[32mThis directory contains the Microsoft Excel 2013 XLL SDK used as the[m
+[32m+[m[32mauthoritative ABI reference for `excel-api-sys`.[m
+ [m
+ ## Contents[m
+ [m
+[31m-The checked-in SDK layout includes:[m
+[31m-[m
+[31m-- `INCLUDE/XLCALL.H` — Excel C API structures, constants, function identifiers, and registration type codes;[m
+[31m-- `SRC/XLCALL.CPP` — Microsoft callback bridge implementation;[m
+[31m-- `LIB/` — import libraries for supported architectures;[m
+[31m-- `SAMPLES/` — Microsoft example and framework projects;[m
+[32m+[m[32m- `INCLUDE/XLCALL.H` — structures, constants, function identifiers, and[m
+[32m+[m[32m  registration type codes;[m
+[32m+[m[32m- `SRC/XLCALL.CPP` — callback bridge implementation;[m
+[32m+[m[32m- `LIB/` — import libraries;[m
+[32m+[m[32m- `SAMPLES/` — example and framework projects;[m
+ - `DOC/` — SDK documentation;[m
+[31m-- `ExcelSDK_eula.rtf` — the accompanying Microsoft licence terms.[m
+[32m+[m[32m- `ExcelSDK_eula.rtf` — Microsoft licence terms.[m
+ [m
+ ## Provenance[m
+ [m
+[31m-- Product: Microsoft Excel XLL SDK[m
+[31m-- Toolkit/header version: 15.0, as identified by `INCLUDE/XLCALL.H`[m
+[31m-- Intended Excel generation: Excel 2013 / Excel 12+ C API[m
+[32m+[m[32m- Toolkit/header version: 15.0[m
+[32m+[m[32m- Intended API: Excel 2013 / Excel 12+[m
+ - Repository import date: 2026-07[m
+ [m
+[31m-The files should remain unmodified so that ABI comparisons can be made against the original SDK material. Project-specific code belongs in sibling directories such as `tools/abi-check`.[m
+[32m+[m[32mKeep SDK files unmodified. Project code belongs in sibling directories.[m
+ [m
+ ## Licensing[m
+ [m
+[31m-The SDK is Microsoft material and is governed by `ExcelSDK_eula.rtf`. Before distributing releases or mirrors of this repository, confirm that the intended redistribution is permitted by those terms.[m
+[31m-[m
+[31m-If redistribution is not permitted, replace this directory with a setup script, checksums, and local installation instructions, and keep the SDK itself outside version control.[m
+[32m+[m[32mThese files are Microsoft material governed by `ExcelSDK_eula.rtf`. Confirm[m
+[32m+[m[32mredistribution rights before public mirroring or release. If redistribution is[m
+[32m+[m[32mnot permitted, retain setup instructions and checksums but remove the payload.[m
+ [m
+ ## ABI checker[m
+ [m
+[31m-Run the project ABI checker from the repository root:[m
+[31m-[m
+ ```powershell[m
+ cargo run --manifest-path tools/abi-check/Cargo.toml[m
+ ```[m
+ [m
+[31m-The checker uses this directory by default. Set `EXCEL_XLL_SDK_DIR` to use a different local SDK installation.[m
+[32m+[m[32mOverride the SDK root with `EXCEL_XLL_SDK_DIR`.[m
+[1mdiff --git a/tools/abi-check/Cargo.toml b/tools/abi-check/Cargo.toml[m
+[1mindex 40bddcf..5ec4b87 100644[m
+[1m--- a/tools/abi-check/Cargo.toml[m
+[1m+++ b/tools/abi-check/Cargo.toml[m
+[36m@@ -2,10 +2,10 @@[m
+ name = "excel-api-abi-check"[m
+ version = "0.0.0"[m
+ edition = "2024"[m
+[31m-rust-version = "1.85"[m
+ publish = false[m
+ [m
+[31m-[workspace][m
+[32m+[m[32m[dependencies][m
+[32m+[m[32mexcel-api-sys = { path = "../../crates/excel-api-sys" }[m
+ [m
+ [build-dependencies][m
+[31m-cc = "1"[m
+[32m+[m[32mcc = "1.2"[m
