@@ -1,14 +1,12 @@
-# Memory ownership model
-
 ```mermaid
 flowchart LR
-    A[Excel callback input] -->|borrow| B[ExcelValueRef call lifetime]
-    B -->|deep copy| C[ExcelValue]
-    C --> D[ExcelReturnValue]
-    D -->|plan and materialize| E[ExcelReturn RAII]
-    E -->|consume and hand off| F[Raw XLOPER12]
-    F -->|xlAutoFree12| G[ReturnAllocation dropped]
-    H[Excel12v result] --> I[ExcelOwnedValue RAII]
-    I -->|copy| C
-    I -->|verified Excel release| J[Released]
+IN[Excel callback input] --> BORROW[ExcelValueRef]
+BORROW --> OWN[ExcelValue]
+OWN --> PLAN[ReturnPlan]
+PLAN --> RET[ExcelReturn]
+RET --> DLL[DLLFree handoff]
+DLL --> AF[xlAutoFree12]
+API[Excel12v result] --> EXOWN[ExcelOwnedValue]
+EXOWN --> FREE[xlFree]
+EXOWN --> XLF[XLFree transfer]
 ```

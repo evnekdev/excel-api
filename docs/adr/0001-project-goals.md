@@ -1,3 +1,3 @@
-# ADR-0001 Project goals
+# ADR-0001: Project goals
 
-Create a Rust-first ecosystem for native Excel XLL development.
+Build a Rust-native, safe-first XLL framework for Excel 12+.

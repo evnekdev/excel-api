@@ -1,3 +1,4 @@
-# ADR-0004 Registration
+# ADR-0004: Registration model
 
-Begin with explicit registration descriptors and a root `excel_addin!` macro.
+Use typed static descriptors and explicit registry aggregation before
+distributed registration.

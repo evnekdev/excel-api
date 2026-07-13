@@ -1,183 +1,74 @@
-You are working in the `excel-api` repository, a Rust workspace for building
-native Microsoft Excel XLL add-ins through the Excel C API.
+You are implementing one milestone in the `excel-api` Rust workspace.
 
 Before editing:
 
-1. inspect the repository structure and all architecture documents relevant to
-   this task;
-2. read `ARCHITECTURE.md`, `MEMORY_OWNERSHIP_ARCHITECTURE.md`,
-   `MEMORY_OWNERSHIP_ROADMAP.md`, and the ADR files under `docs/adr/`;
-3. inspect the current implementation in `crates/excel-api-sys`,
-   `crates/excel-api`, `crates/excel-api-macros`, and examples;
-4. run the current test suite to establish a baseline;
+1. inspect the repository and current branch;
+2. read all architecture files relevant to this milestone;
+3. read ADRs and checklists under `docs/`;
+4. run the current test suite;
 5. do not modify unrelated files.
 
-Global constraints:
+Global rules:
 
-- preserve the crate layering:
-  `excel-api-sys` -> `excel-api` -> user XLL;
-- keep raw ABI definitions in `excel-api-sys`;
-- keep safe ownership policy in `excel-api`;
-- no Rust panic may cross an FFI boundary;
-- no ordinary user-facing API may require manipulation of raw pointers or Excel
-  ownership bits;
-- every unsafe function or block must state and justify its safety invariants;
-- do not guess undocumented Excel ABI details;
-- if an SDK detail cannot be verified from repository sources or authoritative
-  local headers, isolate the uncertainty, document it clearly, and stop short
-  of claiming production correctness;
-- do not introduce COM, Ribbon, RTD, async runtimes, or packaging work in this
-  task;
-- keep the workspace compiling after every logical step;
-- use focused tests that exercise both success and failure paths;
-- avoid broad refactors unless they are required by this task.
+- target Windows x64 MSVC and Excel 12+;
+- keep raw ABI in `excel-api-sys`;
+- keep ownership/conversion/runtime policy in `excel-api`;
+- callback inputs are borrowed and read-only;
+- Excel API results use `ExcelOwnedValue`;
+- XLL returns use `ExcelReturn`;
+- Excel-owned memory is released with `xlFree` or consuming XLFree transfer;
+- XLL-owned return memory uses DLLFree and `xlAutoFree12`;
+- deep-copy pointer-bearing elements into DLL-owned multis;
+- no arrays-of-arrays or arrays containing references as returns;
+- no static mutable return root in thread-safe UDFs;
+- no panic crosses FFI;
+- document every unsafe invariant;
+- stop and document uncertainty rather than guessing.
 
-At completion:
+At completion run:
 
-- run `cargo fmt --all --check`;
-- run `cargo clippy --workspace --all-targets --all-features -- -D warnings`;
-- run `cargo test --workspace --all-features`;
-- report changed files, design decisions, tests run, and remaining uncertainties.
-
-
-# Task: implement borrowed Excel input views
-
-## Objective
-
-Implement a safe, callback-lifetime-bound view over raw `XLOPER12` arguments
-received from Excel.
-
-This task must not allocate for ordinary borrowed inspection and must never free
-callback inputs.
-
-## Prerequisites
-
-Assume prompt 01 has completed and the supported raw ABI subset is verified.
-
-## Required work
-
-### 1. Internal raw wrapper
-
-Introduce an internal type similar to:
-
-```rust
-pub(crate) struct RawExcelValue<'call> {
-    ptr: NonNull<XLOPER12>,
-    _lifetime: PhantomData<&'call XLOPER12>,
-}
+```text
+cargo fmt --all --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-features
 ```
 
-Construction must be internal and unsafe, with documented requirements for:
+Report changed files, test commands, verified behavior, and remaining unknowns.
 
-- non-null pointer;
-- alignment;
-- callback lifetime;
-- tag/union correspondence;
-- ownership domain;
-- valid Excel-provided memory.
+# Prompt 02: Borrowed callback values
 
-### 2. Public borrowed value model
+## Goal
 
-Implement or refine:
+Implement safe callback-lifetime views.
+
+## Required types
 
 ```rust
-pub enum ExcelValueRef<'call> {
-    Number(f64),
-    Boolean(bool),
-    Error(ExcelError),
-    Missing,
-    Empty,
-    Text(ExcelStr<'call>),
-    Array(ExcelArrayView<'call>),
-    Reference(ExcelReference<'call>),
-}
+RawExcelValue<'call>
+ExcelValueRef<'call>
+ExcelStr<'call>
+ExcelArrayView<'call>
+ExcelReference<'call>
 ```
 
-If references are not yet verified, keep them internal or return an explicit
-unsupported-value error rather than guessing.
+## Required behavior
 
-### 3. Centralized tag decoding
+- one audited tag decoder;
+- mask ownership bits before base type;
+- union access only after tag validation;
+- callback values never freed/modified;
+- references remain references;
+- arrays are flat row-major views;
+- no arrays-of-arrays/references accepted as normal array elements;
+- separate parsers for counted XLOPER12 strings, counted direct strings, and
+  null-terminated direct strings;
+- borrowed views not Send/Sync.
 
-Add one internal decoding path that:
+## Tests
 
-- masks ownership bits before matching the base type;
-- rejects contradictory or unsupported flags;
-- accesses only the union field corresponding to the verified tag;
-- never frees callback values;
-- converts malformed or unsupported values into controlled errors.
+All supported tags, malformed tags, missing/nil distinction, strings, dimensions,
+references, lifetime constraints, non-Send/Sync.
 
-No other module should read raw union fields directly.
+## Non-goals
 
-### 4. Borrowed UTF-16 strings
-
-Implement `ExcelStr<'call>`:
-
-- borrow the payload code units without copying;
-- validate the verified length-prefix representation;
-- permit interior NUL code units;
-- expose `as_units`;
-- provide strict `to_string`;
-- optionally provide explicit lossy conversion;
-- reject invalid lengths and malformed UTF-16 safely.
-
-### 5. Borrowed arrays
-
-Implement `ExcelArrayView<'call>`:
-
-- validate signed dimensions before conversion;
-- use checked multiplication;
-- reject null pointers for non-empty arrays;
-- expose rows, columns, length, checked indexing, and iteration;
-- yield element conversion errors rather than constructing invalid references;
-- reject nested arrays initially unless already verified and intentionally
-  supported.
-
-### 6. Threading traits
-
-Ensure borrowed views are not accidentally `Send` or `Sync` by default.
-
-Use a sound marker strategy rather than relying on comments.
-
-### 7. Tests
-
-Add tests for:
-
-- each supported primitive tag;
-- ownership-bit masking;
-- missing and empty distinction;
-- invalid/unsupported tags;
-- null and zero-length string behavior;
-- strict UTF-16 conversion;
-- invalid UTF-16;
-- negative dimensions;
-- multiplication overflow;
-- null array payload;
-- indexing and row-major iteration;
-- nested array rejection;
-- compile-time lifetime behavior where practical.
-
-Consider property tests or fuzz-friendly parser entry points, but do not add a
-heavy framework unless justified.
-
-## Explicit non-goals
-
-Do not implement:
-
-- owned deep-copy arrays beyond what tests require;
-- `ExcelReturn`;
-- `xlAutoFree12`;
-- Excel-owned API result cleanup;
-- async retention;
-- actual exported thunks.
-
-## Acceptance criteria
-
-The task is complete when:
-
-1. raw callback inputs can be parsed through one audited internal path;
-2. borrowed views cannot safely outlive the callback;
-3. borrowed views do not free memory;
-4. strings and flat arrays can be inspected safely;
-5. malformed supported inputs return errors;
-6. borrowed wrappers are not `Send` or `Sync`;
-7. all tests and lints pass.
+No deep copy, Excel calls, return memory, or registration.

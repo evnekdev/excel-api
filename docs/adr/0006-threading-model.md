@@ -1,3 +1,4 @@
-# ADR-0006 Threading
+# ADR-0006: Threading model
 
-Represent worksheet, macro and async contexts as distinct Rust types.
+Use typed execution contexts, no static mutable return roots, and per-call
+return allocation initially.

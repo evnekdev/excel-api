@@ -1,0 +1,98 @@
+!if "$(TYPE)" == ""
+TYPE=DEBUG
+!endif
+
+SDKDIR  =   ..\..
+GENERICDIR=	.
+!if "$(PLATFORM)" == "Win32" || "$(PLATFORM)" == "x86" || "$(PLATFORM)" == ""
+GENERICBUILDDIR = $(GENERICDIR)\$(TYPE)
+PREVDIR = .\..
+TARGETLIBDIR = $(PREVDIR)\$(SDKDIR)\lib
+DLLDEF_FLAGS = -def:$(PREVDIR)\generic.def
+!else
+GENERICBUILDDIR = $(GENERICDIR)\$(PLATFORM)\$(TYPE)
+PREVDIR = .\..\..
+TARGETLIBDIR = $(PREVDIR)\$(SDKDIR)\lib\$(PLATFORM)
+DLLDEF_FLAGS =
+!endif
+TARGETINCDIR = $(SDKDIR)\include
+TARGETSRCDIR = $(SDKDIR)\src
+
+PROJ = GENERIC
+
+COPY=copy /Y
+
+!if "$(RM)" == ""
+RM=-del /f /q
+!endif
+
+!if "$(RMDIR)" == ""
+RMDIR=-rd /S /Q
+!endif
+
+all : TARGET_DELIVER
+
+GENERIC_BINARY   = $(PROJ).xll
+GENERIC_PDB	 = $(GENERICBUILDDIR)\$(PROJ).pdb     
+GENERIC_INCLUDE  = /I"$(GENERICDIR)" /I"$(TARGETINCDIR)" /I"$(TARGETSRCDIR)"
+
+!if "$(TYPE)" == "DEBUG"
+GENERIC_LIBS = msvcrtd.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(TARGETLIBDIR)\Frmwrk32.lib $(TARGETLIBDIR)\xlcall32.lib
+!else
+GENERIC_LIBS = msvcrt.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib $(TARGETLIBDIR)\Frmwrk32.lib $(TARGETLIBDIR)\xlcall32.lib
+!endif
+
+!if "$(TYPE)" == "DEBUG"
+GENERIC_LIB_OPTS = /OUT:$(GENERIC_BINARY)  /subsystem:windows $(DLLDEF_FLAGS) /DEBUG /INCREMENTAL:NO
+!else
+GENERIC_LIB_OPTS = /OUT:$(GENERIC_BINARY)  /subsystem:windows $(DLLDEF_FLAGS) /RELEASE /NODEFAULTLIB:msvcrtd.lib /OPT:NOICF
+!endif
+
+!if "$(TYPE)" == "DEBUG"
+GENERIC_DEFINES  = /D"WIN32" /D"_WINDOWS" /D"_MBCS" /D"_USRDLL" /D"GENERIC_EXPORTS" /D "_DEBUG" 
+!else
+GENERIC_DEFINES  = /D"WIN32" /D"_WINDOWS" /D"_MBCS" /D"_USRDLL" /D"GENERIC_EXPORTS" /D "NDEBUG"
+!endif
+
+GENERIC_OBJ =	"GENERIC.obj" \
+	"GENERIC.res"
+
+.SUFFIXES:	.cpp .c .obj
+
+!if "$(TYPE)" == "DEBUG"
+CPPFLAGS        =/Od /W3 /WX /EHsc /Zi /MDd /Fd"$(GENERIC_PDB)" /Fo"$(GENERICBUILDDIR)\\"
+!else
+CPPFLAGS        =/W3 /WX /EHsc /MD /Fo"$(GENERICBUILDDIR)\\"
+!endif
+
+minclean:
+	$(RM) "$(GENERICBUILDDIR)\*.obj" 1>nul 2>nul
+	$(RM) "$(GENERICBUILDDIR)\*.lib" 1>nul 2>nul
+	$(RM) "$(GENERICBUILDDIR)\*.exp" 1>nul 2>nul
+	$(RM) "$(GENERICBUILDDIR)\*.manifest" 1>nul 2>nul
+	$(RM) "$(GENERICBUILDDIR)\*.res" 1>nul 2>nul
+!if "$(TYPE)" == "DEBUG"
+	$(RM) "$(GENERICBUILDDIR)\*.pdb" 1>nul 2>nul
+!endif
+
+clean: 
+	$(RM) "$(GENERICBUILDDIR)\*.*" 1>nul 2>nul
+	$(RMDIR) $(GENERICBUILDDIR) 1>nul 2>nul
+	
+"$(GENERICBUILDDIR)":
+	if not exist "$(GENERICBUILDDIR)" mkdir "$(GENERICBUILDDIR)"
+
+TARGET_DELIVER: "$(GENERICBUILDDIR)" $(GENERIC_OBJ)
+	cd $(GENERICBUILDDIR)
+	link.exe /DLL /manifest /nologo $(GENERIC_OBJ) $(GENERIC_LIB_OPTS) $(GENERIC_LIBS)
+	mt.exe /nologo /outputresource:"$(GENERIC_BINARY);#2" /manifest "$(GENERIC_BINARY).manifest"
+	
+.cpp.obj:
+	$(CPP) /nologo $(CPPFLAGS) $(GENERIC_INCLUDE) $(GENERIC_DEFINES) /c $<
+
+.c.obj:
+	$(CPP) /nologo $(CPPFLAGS) $(GENERIC_INCLUDE) $(GENERIC_DEFINES) /c $<	
+	
+GENERIC.res: $(GENERICDIR)\GENERIC.rc
+	$(RC) $(RCOPTS) /d "NDEBUG" /Fo"$(GENERICBUILDDIR)\GENERIC.res" $(GENERIC_INCLUDE) GENERIC.rc
+	

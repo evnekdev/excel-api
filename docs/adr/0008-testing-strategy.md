@@ -1,3 +1,4 @@
-# ADR-0008 Testing
+# ADR-0008: Testing strategy
 
-Include ABI, conversion, compile-time and Excel smoke tests.
+Combine ABI, unit, compile-fail, mock backend, real Excel, stress, and fuzz
+tests.

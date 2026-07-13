@@ -1,6 +1,6 @@
 ```mermaid
 graph LR
-A[excel-api-sys]-->B[excel-api]
-B-->C[excel-api-macros]
-C-->D[User XLL]
+SYS[excel-api-sys] --> CORE[excel-api]
+MAC[excel-api-macros] --> USER[User XLL]
+CORE --> USER
 ```

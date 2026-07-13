@@ -1,3 +1,3 @@
-# ADR-0007 Error handling
+# ADR-0007: Error handling
 
-Catch all panics at the FFI boundary and translate failures into Excel errors.
+Catch panics at every export and map failures through explicit layered errors.
