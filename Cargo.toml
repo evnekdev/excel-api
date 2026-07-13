@@ -6,6 +6,7 @@ members = [
     "crates/excel-api-macros",
     "examples/minimal-xll",
 ]
+exclude = ["tools/abi-check"]
 
 [workspace.package]
 version = "0.1.0"
