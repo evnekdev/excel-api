@@ -13,10 +13,10 @@ pub use borrowed::{
     ExcelReferenceAreas, ExcelSingleReference, ExcelStr, ExcelValueRef, RawExcelValue,
 };
 pub use context::{MacroContext, ThreadSafeContext, WorksheetContext};
-pub use convert::{FromExcel, IntoExcel};
-pub use error::{ConversionError, ExcelError};
+pub use convert::{ConversionLimits, FromExcel, IntoExcel};
+pub use error::{ConversionError, ExcelError, OwnedValueError, Utf16ConversionError};
 pub use registration::{AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError};
-pub use value::{ExcelValue, OptionalValue};
+pub use value::{ExcelArray, ExcelArrayColumn, ExcelString, ExcelValue, OptionalValue};
 
 #[cfg(feature = "macros")]
 pub use excel_api_macros::{excel_command, excel_function};
@@ -24,8 +24,8 @@ pub use excel_api_macros::{excel_command, excel_function};
 /// Common imports for XLL authors.
 pub mod prelude {
     pub use crate::{
-        AddInDescriptor, ExcelError, ExcelValue, ExcelValueRef, FromExcel, FunctionFlags,
-        FunctionRegistration, IntoExcel, OptionalValue,
+        AddInDescriptor, ConversionLimits, ExcelArray, ExcelError, ExcelString, ExcelValue,
+        ExcelValueRef, FromExcel, FunctionFlags, FunctionRegistration, IntoExcel, OptionalValue,
     };
 
     #[cfg(feature = "macros")]

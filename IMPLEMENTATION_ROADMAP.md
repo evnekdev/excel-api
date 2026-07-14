@@ -5,7 +5,7 @@
 - M0 workspace and architecture
 - M1 verified Excel 12 ABI
 - M2 borrowed values
-- M3 owned values
+- M3 owned values (implemented)
 - M4 safe return planning
 - M5 stable return allocation
 - M6 DLLFree handoff and AutoFree

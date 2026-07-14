@@ -1,5 +1,16 @@
 # Type Conversion Architecture
 
+## Status
+
+- **Status:** M3 semantic conversion implemented.
+- **Implemented in:** `convert.rs`, with owned storage in `value.rs` and error
+  types in `error.rs`.
+- **Test coverage:** every supported scalar target, strict strings, arrays,
+  missing/empty policy, reference rejection, resource limits, and numeric edge
+  cases.
+- **Remaining limitations:** worksheet coercion, Excel-owned API results,
+  return planning/materialization, and owned references.
+
 ## Two independent conversion layers
 
 ### Excel-selected conversion
@@ -43,9 +54,38 @@ pub trait FromExcel<'call>: Sized {
 }
 
 pub trait IntoExcel {
-    fn into_excel_value(self) -> Result<ExcelReturnValue, ConversionError>;
+    fn into_excel(self) -> Result<ExcelValue, ConversionError>;
 }
 ```
+
+`FromExcel<ExcelValue>` performs a deep copy with conservative default
+`ConversionLimits`. Limit-aware entry points are also available on
+`ExcelValue`, `ExcelString`, and `ExcelArray`.
+
+Default limits are:
+
+- 32,767 UTF-16 code units per string;
+- 65,536 array elements;
+- 16 MiB of conservatively counted destination storage;
+- depth 8 (root is depth zero).
+
+Array accounting includes `size_of::<ExcelValue>()` for every element plus all
+owned UTF-16 payload bytes. Strict UTF-8 conversion budgets three bytes per
+UTF-16 code unit. Checked arithmetic is used throughout, and the full array is
+preflighted before destination allocation.
+
+`xltypeInt` remains `ExcelValue::Integer(i32)`. `f64` accepts number and raw
+integer inputs. Integer targets accept raw integers or finite integral numbers
+within the exact target range; fractional, non-finite, and out-of-range inputs
+have distinct errors. No worksheet-style coercion is implicit.
+
+The existing `IntoExcel` scaffold emits `Integer` for `i16`, `i32`, and `u16`.
+`u32` values within `i32` use `Integer`; larger `u32` values use an exactly
+representable `Number`. This remains semantic planning, not ABI return storage.
+
+`Option<T>` maps missing and empty to `None`. `OptionalValue<T>` and
+`ExcelValue` preserve the distinction. Strict `String` conversion rejects
+unpaired surrogates; `ExcelString` copies code units without Unicode loss.
 
 ## Coercion API
 

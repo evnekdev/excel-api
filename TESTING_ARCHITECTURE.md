@@ -61,6 +61,11 @@ Injectable call table for:
 - large arrays;
 - concurrency.
 
+The borrowed-value suite currently includes a deterministic malformed-xltype
+regression loop, but no dedicated cargo-fuzz target. A coverage-guided Prompt
+02 fuzz target remains deferred testing work; Prompt 03 does not mix that
+harness setup into owned-value implementation.
+
 ## Historical book guidance
 
 The book's sample code is valuable for behavior and pitfalls, but the project
