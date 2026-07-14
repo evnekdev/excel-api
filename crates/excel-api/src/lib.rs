@@ -6,6 +6,7 @@ pub mod convert;
 pub mod error;
 mod excel_call;
 mod excel_owned;
+pub mod metadata;
 pub mod registration;
 mod return_alloc;
 pub mod return_plan;
@@ -31,6 +32,7 @@ pub use excel_owned::{
     ExcelOwnedConversionError, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy,
     ExcelXlFreeTransfer,
 };
+pub use metadata::{CountedUtf16Arg, ExcelReferenceArg, ExcelValueArg, NullTerminatedUtf16Arg};
 pub use registration::{
     AddInDescriptor, ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionRegistration,
     FunctionSignature, RegistrationError,
@@ -50,9 +52,10 @@ pub use excel_api_macros::{excel_command, excel_function};
 /// Common imports for XLL authors.
 pub mod prelude {
     pub use crate::{
-        AddInDescriptor, ConversionLimits, ExcelArray, ExcelError, ExcelReturnArray,
-        ExcelReturnValue, ExcelString, ExcelValue, ExcelValueRef, FromExcel, FunctionFlags,
-        FunctionRegistration, IntoExcel, OptionalValue, ReturnError, ReturnLimits,
+        AddInDescriptor, ConversionLimits, CountedUtf16Arg, ExcelArray, ExcelError,
+        ExcelReferenceArg, ExcelReturnArray, ExcelReturnValue, ExcelString, ExcelValue,
+        ExcelValueArg, ExcelValueRef, FromExcel, FunctionFlags, FunctionRegistration, IntoExcel,
+        NullTerminatedUtf16Arg, OptionalValue, ReturnError, ReturnLimits,
         ReturnMaterializationError, ReturnPlan, ReturnText,
     };
 

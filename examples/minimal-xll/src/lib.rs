@@ -2,9 +2,10 @@ use core::panic::AssertUnwindSafe;
 use std::sync::OnceLock;
 
 use excel_api::{
-    AddInDescriptor, ExcelArgumentType, ExcelArray, ExcelError, ExcelReference, ExcelReturnType,
-    ExcelReturnValue, ExcelString, ExcelValueRef, FromExcel, FunctionFlags, FunctionRegistration,
-    FunctionSignature, OptionalValue, RawExcelValue, Runtime, ThunkError,
+    AddInDescriptor, ExcelArgumentType, ExcelArray, ExcelError, ExcelReference, ExcelReferenceArg,
+    ExcelReturnType, ExcelReturnValue, ExcelString, ExcelValueRef, FromExcel, FunctionFlags,
+    FunctionRegistration, FunctionSignature, OptionalValue, RawExcelValue, Runtime, ThunkError,
+    excel_function,
 };
 use excel_api_sys::{LPXLOPER12, XLOPER12, XLOPER12Value};
 
@@ -18,15 +19,85 @@ const PURE: FunctionFlags = FunctionFlags {
     cluster_safe: false,
 };
 
+#[excel_function(
+    name = "RUST.ADD",
+    category = "Rust",
+    description = "Adds two numbers",
+    thunk = "rust_add",
+    return_type = "xloper12",
+    thread_safe,
+    arguments(x = "First number", y = "Second number")
+)]
 pub fn add(x: f64, y: f64) -> f64 {
     x + y
 }
+
+#[excel_function(
+    name = "RUST.ECHO",
+    category = "Rust",
+    description = "Returns text without changing its UTF-16 code units",
+    thunk = "rust_echo",
+    thread_safe,
+    arguments(value = "Text value")
+)]
 pub fn echo(value: ExcelString) -> ExcelString {
     value
 }
+
+#[excel_function(
+    name = "RUST.ARRAY.ECHO",
+    category = "Rust",
+    description = "Deep-copies a flat value-only mixed array",
+    thunk = "rust_array_echo",
+    thread_safe,
+    arguments(value = "Value-only range or array")
+)]
 pub fn array_echo(value: ExcelArray) -> ExcelArray {
     value
 }
+
+#[excel_function(
+    name = "RUST.REFERENCE.KIND",
+    category = "Rust",
+    description = "Reports the kind of a reference-preserving argument",
+    thunk = "rust_reference_kind",
+    arguments(reference = "Reference or value")
+)]
+pub fn reference_kind(reference: ExcelReferenceArg<'_>) -> ExcelString {
+    let kind = match reference.into_inner() {
+        ExcelValueRef::Reference(ExcelReference::Single(_)) => "SRef",
+        ExcelValueRef::Reference(ExcelReference::Multiple(_)) => "Ref",
+        ExcelValueRef::Array(_) => "multi",
+        ExcelValueRef::Missing(_) => "missing",
+        ExcelValueRef::Nil(_) => "nil",
+        _ => "scalar",
+    };
+    ExcelString::from(kind)
+}
+
+#[excel_function(
+    name = "RUST.OPTION.KIND",
+    category = "Rust",
+    description = "Distinguishes omitted, empty, and supplied values",
+    thunk = "rust_option_kind",
+    thread_safe,
+    arguments(value = "Optional value")
+)]
+pub fn option_kind(value: OptionalValue<excel_api::ExcelValue>) -> ExcelString {
+    ExcelString::from(match value {
+        OptionalValue::Missing => "missing",
+        OptionalValue::Empty => "nil",
+        OptionalValue::Value(_) => "value",
+    })
+}
+
+pub static GENERATED_FUNCTIONS: &[FunctionRegistration] = &[
+    __EXCEL_FUNCTION_METADATA_ADD,
+    __EXCEL_FUNCTION_METADATA_ECHO,
+    __EXCEL_FUNCTION_METADATA_ARRAY_ECHO,
+    __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
+    __EXCEL_FUNCTION_METADATA_OPTION_KIND,
+];
 
 pub static FUNCTIONS: &[FunctionRegistration] = &[
     FunctionRegistration::new(
@@ -407,6 +478,53 @@ mod tests {
             assert_eq!(fixture.return_strategy, "fresh DllOwnedXloper12 handoff");
             assert!(!fixture.error_mapping.is_empty());
         }
+    }
+
+    #[test]
+    fn generated_metadata_exactly_matches_the_handwritten_m8_oracle() {
+        assert_eq!(GENERATED_FUNCTIONS.len(), FUNCTIONS.len());
+        for (generated, handwritten) in GENERATED_FUNCTIONS.iter().zip(FUNCTIONS) {
+            assert_eq!(generated.rust_symbol, handwritten.rust_symbol);
+            assert_eq!(generated.excel_name, handwritten.excel_name);
+            assert_eq!(generated.signature, handwritten.signature);
+            assert_eq!(generated.type_text(), handwritten.type_text());
+            assert_eq!(generated.category, handwritten.category);
+            assert_eq!(generated.description, handwritten.description);
+            assert_eq!(generated.argument_names, handwritten.argument_names);
+            assert_eq!(
+                generated.argument_descriptions,
+                handwritten.argument_descriptions
+            );
+            assert_eq!(generated.flags, handwritten.flags);
+        }
+    }
+
+    #[test]
+    fn generated_metadata_expansion_snapshot_is_stable() {
+        let snapshot = GENERATED_FUNCTIONS
+            .iter()
+            .map(|function| {
+                format!(
+                    "{}|{}|{}|{}|{}|{}|{}|volatile={},thread_safe={},macro_type={},cluster_safe={}",
+                    function.rust_symbol,
+                    function.excel_name,
+                    function.type_text().unwrap(),
+                    function.category.unwrap_or_default(),
+                    function.description.unwrap_or_default(),
+                    function.argument_names.join(","),
+                    function.argument_descriptions.join(","),
+                    function.flags.volatile,
+                    function.flags.thread_safe,
+                    function.flags.macro_type,
+                    function.flags.cluster_safe,
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        assert_eq!(
+            snapshot,
+            include_str!("../tests/snapshots/m8-generated-metadata.snap").trim()
+        );
     }
 
     #[test]

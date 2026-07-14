@@ -1,0 +1,5 @@
+rust_add|RUST.ADD|QBB$|Rust|Adds two numbers|x,y|First number,Second number|volatile=false,thread_safe=true,macro_type=false,cluster_safe=false
+rust_echo|RUST.ECHO|QQ$|Rust|Returns text without changing its UTF-16 code units|value|Text value|volatile=false,thread_safe=true,macro_type=false,cluster_safe=false
+rust_array_echo|RUST.ARRAY.ECHO|QQ$|Rust|Deep-copies a flat value-only mixed array|value|Value-only range or array|volatile=false,thread_safe=true,macro_type=false,cluster_safe=false
+rust_reference_kind|RUST.REFERENCE.KIND|QU|Rust|Reports the kind of a reference-preserving argument|reference|Reference or value|volatile=false,thread_safe=false,macro_type=false,cluster_safe=false
+rust_option_kind|RUST.OPTION.KIND|QQ$|Rust|Distinguishes omitted, empty, and supplied values|value|Optional value|volatile=false,thread_safe=true,macro_type=false,cluster_safe=false
