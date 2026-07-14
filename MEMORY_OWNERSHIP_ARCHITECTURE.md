@@ -1,5 +1,17 @@
 # Memory and Ownership Architecture
 
+## Status
+
+- **Status:** Partially implemented through M3.
+- **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
+  `convert.rs` for owned semantic values and bounded deep copies.
+- **Test coverage:** callback lifetime compile-fail tests, deep-copy
+  independence, owned `Send + Sync + 'static`, arrays, strings, and conversion
+  limits.
+- **Remaining limitations:** Excel-owned API results, return planning,
+  DLL-owned return allocation, ownership-bit handoff, and `xlAutoFree12` remain
+  future milestones.
+
 ## Ownership domains
 
 | Domain | Wrapper | Release |
@@ -22,6 +34,19 @@ Every pointer-bearing callback view carries `'call` and an explicit marker that
 makes it neither `Send` nor `Sync`. The views do not implement `Clone` or
 `Copy`. Safe code can therefore observe callback memory but cannot extend its
 lifetime, move the view to another thread, mutate it, or free it.
+
+## Implemented owned semantic boundary
+
+`ExcelString`, `ExcelArray`, and `ExcelValue` contain only Rust-owned semantic
+data. They carry no callback lifetime and expose no Excel raw pointer. Their
+fields naturally provide `Send` and `Sync`; no unsafe trait implementation is
+used. Deep conversion preflights element, string, aggregate-byte, and depth
+limits before allocating, then copies every pointer-bearing payload.
+
+The owned value model preserves `xltypeInt` as `ExcelValue::Integer(i32)` and
+keeps missing and empty values distinct. References are rejected during deep
+conversion because an owned workbook/sheet identity contract is not yet
+specified.
 
 ## Initial return-root policy
 

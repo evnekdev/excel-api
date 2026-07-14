@@ -1,5 +1,16 @@
 # String Architecture
 
+## Status
+
+- **Status:** Borrowed and owned semantic strings implemented through M3.
+- **Implemented in:** `borrowed.rs` (`ExcelStr`) and `value.rs`
+  (`ExcelString`), with bounded callback-copy conversion in `convert.rs`.
+- **Test coverage:** empty, ASCII, BMP, surrogate pairs, unpaired high and low
+  surrogates, embedded NUL, strict/lossy decoding, UTF-8 encoding, and source
+  independence.
+- **Remaining limitations:** return-buffer materialization, DLLFree handoff,
+  Excel-owned API strings, and modify-in-place/direct dynamic returns.
+
 ## ABI forms
 
 The modern C API exposes multiple wide-string forms.
@@ -34,6 +45,12 @@ String           // owned UTF-8
 
 ABI-specific return storage stays internal.
 
+`ExcelString` stores exactly `Box<[u16]>` payload units. It stores neither an
+Excel length prefix nor a trailing terminator and exposes no mutable units.
+Direct construction from UTF-16 is infallible because arbitrary code units are
+valid semantic data. Callback-copy entry points separately apply configurable
+resource limits before allocation.
+
 The callback-borrowing layer implements three distinct audited parser entry
 points:
 
@@ -53,6 +70,10 @@ or lossy conversion. Counted lengths and null scans are bounded by the Excel 12
 - Lossy conversion is explicit.
 - Counted forms preserve embedded NUL.
 - Null-terminated forms stop at the first NUL.
+
+Strict `ExcelString` to `String` conversion returns
+`Utf16ConversionError`; lossy conversion is available only through the
+explicit `to_string_lossy` method. UTF-8 input is encoded infallibly to UTF-16.
 
 ## Return policy
 
