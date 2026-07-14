@@ -2,12 +2,15 @@
 
 - [x] Ownership domain is explicit.
 - [x] Callback inputs are never freed or modified.
-- [ ] Excel-owned result uses `xlFree` or consuming XLFree transfer.
+- [x] Excel-owned result uses exactly-once `xlFree`; raw XLFree transfer is explicitly deferred.
 - [x] DLL-owned return uses DLLFree and AutoFree.
 - [x] No fallible work after handoff.
 - [x] No pointer targets movable storage.
 - [x] DLL-owned multis deeply own all nested strings.
-- [ ] Excel-created multis are freed only at the top level.
+- [x] Excel-created multis are freed only at the top level.
+- [x] Excel-owned root is Rust-owned stable storage; Excel owns only auxiliary payload.
+- [x] Failed `xlFree` is terminal and never retried by Drop.
+- [x] Excel-owned owner is callback-scoped and neither Send nor Sync.
 - [x] Arrays-of-arrays/references are rejected.
 - [x] Thread-safe function uses no static mutable return root.
 - [x] AutoFree panic boundary contains unwinding; the test-only pre-reclaim panic path leaks nothing.

@@ -16,7 +16,7 @@
   stability, deep string buffers, partial-failure cleanup, root-only DLLFree,
   nested pointer survival through handoff, and exactly-once callback cleanup.
 - **Remaining limitations:** owned references, reference coercion, FP12 safe
-  wrappers and Excel-owned API result arrays.
+  wrappers and XLFree transfer integration.
 
 ## Arrays
 
@@ -40,6 +40,10 @@ Properties:
 - may contain numbers, Booleans, errors, strings, empty values;
 - Excel-created multis are released as one top-level object;
 - never call `xlFree` on individual elements of an Excel-created multi.
+
+M7 enforces this through the backend boundary: it can receive only the boxed
+result root. Array elements are borrowed through `ExcelArrayView`, copied in
+row-major order, and never passed to the release backend individually.
 
 Initial return restrictions:
 

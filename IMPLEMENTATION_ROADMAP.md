@@ -9,7 +9,8 @@
 - M4 safe return planning (implemented)
 - M5 stable return allocation (implemented)
 - M6 DLLFree handoff and AutoFree (implemented)
-- M7 Excel-owned results, xlFree, XLFree transfer
+- M7 Excel-owned results and exactly-once xlFree (implemented); raw XLFree
+  return integration deferred to M8 pending root-lifetime cleanup proof
 - M8 manual registration and first XLL
 
 ## Ergonomics

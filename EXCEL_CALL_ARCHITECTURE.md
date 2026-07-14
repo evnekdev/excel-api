@@ -55,6 +55,16 @@ Illegal calls fail before invoking Excel where possible.
 
 `xlFree` is modeled as a release operation, not a normal value-producing call.
 
+M7 introduces the narrow crate-private `ExcelReleaseBackend`; it accepts the
+stable top-level root and returns an owned `ExcelReleaseError`. It is not a
+general call catalogue and the owner has no global mutable function pointer.
+
+The production adapter is intentionally left to Prompt 08, where a linked and
+callback-scoped `Excel12v` capability can call
+`Excel12v(xlFree, null, 1, [root])`. The root is caller-supplied storage.
+`xlFree` releases auxiliary Excel storage, nulls its contained pointer, and
+leaves the root allocation itself intact.
+
 ## `xlCoerce`
 
 Coercion is explicit and may return allocated memory requiring `xlFree`.

@@ -52,3 +52,13 @@ Context values:
 - are not forgeable publicly;
 - are not retained beyond the callback;
 - carry runtime state needed for call validation.
+
+## M7 release capability
+
+`ExcelOwnedValue<'call>` borrows a release-only backend for `'call`. This is
+the selected capability model: a context-free `'static` destructor is not
+allowed. Microsoft permits C API calls only while Excel has passed control to
+the XLL, forbids them from XLL-created threads and `DllMain`, and makes
+`xlFree` the sole permitted cleanup callback after `xlretAbort` or
+`xlretUncalced`. Prompt 08 will construct the backend from the runtime context
+and keep call pointers linked through every owner drop.

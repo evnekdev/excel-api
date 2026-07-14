@@ -10,8 +10,8 @@
 - **Test coverage:** every supported scalar target, strict strings, arrays,
   missing/empty policy, reference rejection, resource limits, and numeric edge
   cases.
-- **Remaining limitations:** worksheet coercion, Excel-owned API results,
-  return handoff, and owned references.
+- **Remaining limitations:** worksheet coercion, XLFree return integration,
+  and owned references.
 
 ## Two independent conversion layers
 
@@ -118,3 +118,11 @@ WorksheetContext::coerce(...)
 This may call `xlCoerce` and returns an `ExcelOwnedValue`.
 
 Do not hide C API coercion inside every normal Rust conversion.
+
+## Excel-owned result conversion
+
+M7 reuses this same decoder and preflight/materialization path. Borrowing ties
+the view to `&ExcelOwnedValue`; consuming conversion deep-copies first and then
+attempts release even when decoding or conversion fails.
+`ExcelOwnedConversionError` distinguishes conversion-only, release-only, and
+combined failures.

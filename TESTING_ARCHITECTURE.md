@@ -104,3 +104,12 @@ destruction is not promised.
 The book's sample code is valuable for behavior and pitfalls, but the project
 does not copy its ownership flexibility blindly. Tests enforce the stricter
 Rust invariants chosen here.
+
+The M7 mock-backend suite covers explicit release, Drop fallback, no-release
+scalars, bit-masked borrowing, lossless UTF-16 copy, mixed multi copy,
+top-level-only release, malformed conversion, combined conversion/release
+failures, exact Excel codes, invalid context, not-thread-safe and unavailable
+backends, contained backend/conversion panics, DLLFree absence, and 1,000
+exactly-once cycles. The pre-commit transfer token is non-duplicable, performs
+no premature release or ownership-bit mutation, exposes no pointer, and falls
+back to release on Drop. Tests never call a live Excel process.

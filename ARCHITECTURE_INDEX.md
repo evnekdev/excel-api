@@ -4,13 +4,13 @@
 |---|---|---|---|
 | Overall | `ARCHITECTURE.md` | Proposed | M0+ |
 | ABI | `ABI_ARCHITECTURE.md` | Implemented | M1 |
-| Memory | `MEMORY_OWNERSHIP_ARCHITECTURE.md` | Partial (M2-M6 implemented) | M1-M7 |
+| Memory | `MEMORY_OWNERSHIP_ARCHITECTURE.md` | M2-M7 implemented (raw XLFree deferred) | M1-M7 |
 | Strings | `STRING_ARCHITECTURE.md` | Partial (DLLFree returns implemented) | M1-M8 |
 | Conversion | `TYPE_CONVERSION_ARCHITECTURE.md` | M3-M5 implemented | M2-M5 |
 | Arrays/references | `ARRAY_REFERENCE_ARCHITECTURE.md` | Partial (DLLFree return multis implemented) | M2-M8 |
 | Threading | `THREADING_ARCHITECTURE.md` | Partial (thread-independent AutoFree implemented) | M1-M17 |
 | Contexts | `RUNTIME_CONTEXT_ARCHITECTURE.md` | Proposed | M4-M12 |
-| C API calls | `EXCEL_CALL_ARCHITECTURE.md` | Proposed | M7-M12 |
+| C API calls | `EXCEL_CALL_ARCHITECTURE.md` | Partial (M7 release backend) | M7-M12 |
 | Lifecycle | `CALLBACK_LIFECYCLE_ARCHITECTURE.md` | Partial (AutoFree implemented) | M6-M12 |
 | Registration | `REGISTRATION_ARCHITECTURE.md` | Proposed | M8-M10 |
 | Errors | `ERROR_ARCHITECTURE.md` | Partial (M3-M6 return policy implemented) | M2-M13 |
