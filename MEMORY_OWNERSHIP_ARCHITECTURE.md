@@ -2,15 +2,16 @@
 
 ## Status
 
-- **Status:** Partially implemented through M3.
+- **Status:** Partially implemented through M4.
 - **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
-  `convert.rs` for owned semantic values and bounded deep copies.
+  `convert.rs` for owned semantic values and bounded deep copies; and
+  `return_plan.rs` for fully validated logical return plans.
 - **Test coverage:** callback lifetime compile-fail tests, deep-copy
   independence, owned `Send + Sync + 'static`, arrays, strings, and conversion
-  limits.
-- **Remaining limitations:** Excel-owned API results, return planning,
-  DLL-owned return allocation, ownership-bit handoff, and `xlAutoFree12` remain
-  future milestones.
+  limits, plus deterministic return storage accounting and return limits.
+- **Remaining limitations:** Excel-owned API results, DLL-owned return
+  allocation, ownership-bit handoff, and `xlAutoFree12` remain future
+  milestones.
 
 ## Ownership domains
 
@@ -18,6 +19,7 @@
 |---|---|---|
 | Callback input | `ExcelValueRef<'call>` | Excel |
 | Owned semantic data | `ExcelValue` | Rust `Drop` |
+| Logical return plan | `ReturnPlan` | Rust `Drop` |
 | Excel C API result | `ExcelOwnedValue` | `xlFree` or `xlbitXLFree` transfer |
 | XLL return before handoff | `ExcelReturn` | Rust `Drop` |
 | XLL return after handoff | raw `*mut XLOPER12` | `xlAutoFree12` |
@@ -47,6 +49,21 @@ The owned value model preserves `xltypeInt` as `ExcelValue::Integer(i32)` and
 keeps missing and empty values distinct. References are rejected during deep
 conversion because an owned workbook/sheet identity contract is not yet
 specified.
+
+## Implemented logical return boundary
+
+`ExcelReturnValue` distinguishes return intent from general owned semantics.
+Planning consumes it into a `ReturnPlan` containing only owned planned values,
+exact ABI payload totals, and the selected `DllOwnedXloper12` strategy. The
+planner uses safe Rust and creates no `XLOPER12`, pointer, prefixed string
+buffer, ownership bit, or FFI call.
+
+The accounting model counts exactly one future root allocation, one contiguous
+element allocation for a multi, and one counted-string allocation per text
+value. `total_bytes` is the exact sum of the root `XLOPER12`, array-element
+`XLOPER12` storage, and UTF-16 prefix-plus-payload storage for the Prompt 05
+layout. Rust container headers and allocator bookkeeping are deliberately
+excluded and are not claimed as heap cost.
 
 ## Initial return-root policy
 

@@ -66,6 +66,12 @@ regression loop, but no dedicated cargo-fuzz target. A coverage-guided Prompt
 02 fuzz target remains deferred testing work; Prompt 03 does not mix that
 harness setup into owned-value implementation.
 
+The M4 pure-Rust suite covers every scalar/error return, UTF-8 and arbitrary
+UTF-16 planning, Excel/project string boundaries, flat arrays and ordering,
+zero dimensions, ABI dimensions, checked accounting overflow, byte/allocation/
+element/depth limits, deterministic metadata, and natural `Send + Sync +
+'static` behavior. ABI materialization and exactly-once free tests remain M5-M6.
+
 ## Historical book guidance
 
 The book's sample code is valuable for behavior and pitfalls, but the project
