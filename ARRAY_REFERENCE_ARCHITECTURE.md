@@ -2,17 +2,19 @@
 
 ## Status
 
-- **Status:** Borrowed and owned flat arrays plus logical return planning
-  implemented through M4; references remain borrowed only.
+- **Status:** Borrowed and owned flat arrays, logical planning, and stable local
+  return multis implemented through M5; references remain borrowed only.
 - **Implemented in:** `borrowed.rs` (`ExcelArrayView` and reference views),
   `value.rs` (`ExcelArray`), `convert.rs` (bounded deep copy), and
-  `return_plan.rs` (`ExcelReturnArray` and `PlannedArray`).
+  `return_plan.rs` (`ExcelReturnArray` and `PlannedArray`), and
+  `return_alloc.rs` (stable boxed `XLOPER12` element storage).
 - **Test coverage:** shape overflow/mismatch, row-major indexing, rows,
   columns, mixed values, deep-copy independence, element/byte/depth limits,
   nested-array rejection, reference rejection, ABI dimension checks, exact
-  element/string accounting, and zero-dimensional return rejection.
+  element/string accounting, zero-dimensional return rejection, pointer
+  stability, deep string buffers, and partial-failure cleanup.
 - **Remaining limitations:** owned references, reference coercion, FP12 safe
-  wrappers, return-multi materialization, and Excel-owned API result arrays.
+  wrappers, DLLFree handoff, and Excel-owned API result arrays.
 
 ## Arrays
 
@@ -61,6 +63,12 @@ depth, total bytes, and allocations before any ABI storage exists. A successful
 `PlannedArray` preserves row-major order and contains only supported scalar or
 text elements. Prompt 05 will allocate one contiguous `XLOPER12` element block
 and one counted UTF-16 buffer per text element.
+
+M5 implements that layout exactly: one `Box<[XLOPER12]>` with `rows * columns`
+elements in row-major order, plus one final counted UTF-16 box per text element.
+The element box reaches its final address before the root `lparray` pointer is
+constructed. Every element has base type bits only. Rust owner fields, not raw
+element tags, drive local cleanup.
 
 ### Empty return-array policy
 

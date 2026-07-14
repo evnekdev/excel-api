@@ -5,6 +5,7 @@ pub mod context;
 pub mod convert;
 pub mod error;
 pub mod registration;
+mod return_alloc;
 pub mod return_plan;
 pub mod value;
 
@@ -15,8 +16,12 @@ pub use borrowed::{
 };
 pub use context::{MacroContext, ThreadSafeContext, WorksheetContext};
 pub use convert::{ConversionLimits, FromExcel, IntoExcel};
-pub use error::{ConversionError, ExcelError, OwnedValueError, ReturnError, Utf16ConversionError};
+pub use error::{
+    ConversionError, ExcelError, OwnedValueError, ReturnError, ReturnMaterializationError,
+    Utf16ConversionError,
+};
 pub use registration::{AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError};
+pub use return_alloc::ExcelReturn;
 pub use return_plan::{
     ExcelReturnArray, ExcelReturnValue, PlannedArray, PlannedArrayElement, PlannedText,
     PlannedValue, ReturnLimits, ReturnOwnershipStrategy, ReturnPlan, ReturnStorageTotals,
@@ -32,8 +37,8 @@ pub mod prelude {
     pub use crate::{
         AddInDescriptor, ConversionLimits, ExcelArray, ExcelError, ExcelReturnArray,
         ExcelReturnValue, ExcelString, ExcelValue, ExcelValueRef, FromExcel, FunctionFlags,
-        FunctionRegistration, IntoExcel, OptionalValue, ReturnError, ReturnLimits, ReturnPlan,
-        ReturnText,
+        FunctionRegistration, IntoExcel, OptionalValue, ReturnError, ReturnLimits,
+        ReturnMaterializationError, ReturnPlan, ReturnText,
     };
 
     #[cfg(feature = "macros")]

@@ -1,14 +1,15 @@
 # Memory Safety Review
 
-- [ ] Ownership domain is explicit.
-- [ ] Callback inputs are never freed or modified.
+- [x] Ownership domain is explicit.
+- [x] Callback inputs are never freed or modified.
 - [ ] Excel-owned result uses `xlFree` or consuming XLFree transfer.
 - [ ] DLL-owned return uses DLLFree and AutoFree.
 - [ ] No fallible work after handoff.
-- [ ] No pointer targets movable storage.
-- [ ] DLL-owned multis deeply own all nested strings.
+- [x] No pointer targets movable storage.
+- [x] DLL-owned multis deeply own all nested strings.
 - [ ] Excel-created multis are freed only at the top level.
-- [ ] Arrays-of-arrays/references are rejected.
-- [ ] Thread-safe function uses no static mutable return root.
+- [x] Arrays-of-arrays/references are rejected.
+- [x] Thread-safe function uses no static mutable return root.
 - [ ] Panic paths leak nothing.
-- [ ] Debug live count returns to zero.
+- [x] Injected partial-failure paths leak nothing before handoff.
+- [x] Debug live count returns to zero before handoff.

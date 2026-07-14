@@ -72,6 +72,15 @@ zero dimensions, ABI dimensions, checked accounting overflow, byte/allocation/
 element/depth limits, deterministic metadata, and natural `Send + Sync +
 'static` behavior. ABI materialization and exactly-once free tests remain M5-M6.
 
+The M5 suite verifies every scalar tag/member, all Excel errors, counted-string
+prefixes and arbitrary UTF-16, maximum strings, one contiguous row-major multi,
+deep nested string pointers, root/element/string address stability after moves,
+all plan totals, offset-zero root layout, and absence of ownership bits. Test-
+only failure injection covers every construction stage. Atomic live root,
+string, and element-buffer counters return to zero after failures, normal drop,
+and 1,000 repeated construction/drop cycles. Post-handoff exactly-once free
+testing remains M6.
+
 ## Historical book guidance
 
 The book's sample code is valuable for behavior and pitfalls, but the project

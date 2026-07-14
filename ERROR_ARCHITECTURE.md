@@ -2,13 +2,13 @@
 
 ## Status
 
-- **Status:** M3 owned-value/conversion and M4 return-planning errors
-  implemented.
+- **Status:** M3 owned-value/conversion, M4 planning, and M5 materialization
+  errors implemented.
 - **Implemented in:** `error.rs`, with return error production in
-  `return_plan.rs`.
+  `return_plan.rs` and materialization error production in `return_alloc.rs`.
 - **Test coverage:** precise numeric, UTF-16, shape, unsupported-reference,
   element, aggregate-byte, string, and depth failures.
-- **Remaining limitations:** return materialization/handoff, Excel-call,
+- **Remaining limitations:** return handoff/AutoFree, Excel-call,
   registration, lifecycle, and panic-boundary error layers remain future
   milestones.
 
@@ -61,6 +61,11 @@ string/array/byte/allocation/depth limits, invalid or zero-dimensional array
 shapes, ABI dimension overflow, nested arrays, references, unsupported semantic
 variants, and checked byte/allocation overflows. It contains no raw pointers or
 callback lifetimes. Arbitrary UTF-16 is not an error for return planning.
+
+`ReturnMaterializationError` distinguishes plan/storage disagreement, UTF-8
+encoded-length disagreement, counted-buffer disagreement, array-shape
+disagreement, unsupported planned values, fallible backing allocation failure,
+and test-only injected failures. It owns only scalar diagnostic metadata.
 
 ## C API return codes
 

@@ -2,16 +2,17 @@
 
 ## Status
 
-- **Status:** Borrowed, owned, and logical return planning implemented through
-  M4.
+- **Status:** Borrowed, owned, planned, and stable local return strings
+  implemented through M5.
 - **Implemented in:** `borrowed.rs` (`ExcelStr`) and `value.rs`
   (`ExcelString`), bounded callback-copy conversion in `convert.rs`, and
-  `return_plan.rs` (`ReturnText` and `PlannedText`).
+  `return_plan.rs` (`ReturnText` and `PlannedText`), and `return_alloc.rs`
+  (stable counted return buffers).
 - **Test coverage:** empty, ASCII, BMP, surrogate pairs, unpaired high and low
   surrogates, embedded NUL, strict/lossy decoding, UTF-8 encoding, and source
   independence.
-- **Remaining limitations:** counted return-buffer materialization, DLLFree handoff,
-  Excel-owned API strings, and modify-in-place/direct dynamic returns.
+- **Remaining limitations:** DLLFree handoff, Excel-owned API strings, and
+  modify-in-place/direct dynamic returns.
 
 ## ABI forms
 
@@ -92,7 +93,14 @@ M4 planning retains either the original valid UTF-8 `String` or arbitrary
 `ExcelString` UTF-16 payload. UTF-8 planning counts `encode_utf16()` without
 allocating a UTF-16 payload. Each planned text records exact payload units and
 prefix-plus-payload units, enforces Excel's 32,767-unit hard limit and separate
-project limits, and permits embedded NUL. Materialization remains M5.
+project limits, and permits embedded NUL. M5 consumes that metadata directly.
+
+M5 materialization creates exactly `[XCHAR length][payload units]` in a final
+`Box<[XCHAR]>`. It appends no terminator. UTF-8 sources encode directly into the
+payload; UTF-16 sources are copied without transcoding. Planned payload and
+storage lengths are rechecked before a pointer is used. The `xltypeStr` pointer
+targets the prefix at index zero and remains stable for the `ExcelReturn`
+lifetime.
 
 ## Hybrid strings
 

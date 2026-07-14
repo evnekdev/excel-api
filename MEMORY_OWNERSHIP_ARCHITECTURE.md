@@ -2,16 +2,17 @@
 
 ## Status
 
-- **Status:** Partially implemented through M4.
+- **Status:** Partially implemented through M5.
 - **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
   `convert.rs` for owned semantic values and bounded deep copies; and
-  `return_plan.rs` for fully validated logical return plans.
+  `return_plan.rs` for fully validated logical return plans; and
+  `return_alloc.rs` for stable, locally owned ABI return trees.
 - **Test coverage:** callback lifetime compile-fail tests, deep-copy
   independence, owned `Send + Sync + 'static`, arrays, strings, and conversion
-  limits, plus deterministic return storage accounting and return limits.
-- **Remaining limitations:** Excel-owned API results, DLL-owned return
-  allocation, ownership-bit handoff, and `xlAutoFree12` remain future
-  milestones.
+  limits, deterministic return storage accounting, pointer stability,
+  injected partial failures, and exactly-once local cleanup.
+- **Remaining limitations:** Excel-owned API results, ownership-bit handoff,
+  post-handoff reconstruction, and `xlAutoFree12` remain future milestones.
 
 ## Ownership domains
 
@@ -64,6 +65,44 @@ value. `total_bytes` is the exact sum of the root `XLOPER12`, array-element
 `XLOPER12` storage, and UTF-16 prefix-plus-payload storage for the Prompt 05
 layout. Rust container headers and allocator bookkeeping are deliberately
 excluded and are not claimed as heap cost.
+
+## Implemented stable local return allocation
+
+`ReturnPlan::materialize` consumes a validated plan into opaque `ExcelReturn`:
+
+```text
+ExcelReturn
+  -> Box<ReturnAllocation>
+       root: XLOPER12                         // offset zero
+       array_elements: Option<ReturnArrayBuffer>
+         storage: Box<[XLOPER12]>
+       string_buffers: Box<[ReturnUtf16Buffer]>
+         each buffer.storage: Box<[XCHAR]>
+       test-only root tracker
+```
+
+The concrete `ReturnAllocation` is `repr(C)` and tests prove `root` is at byte
+offset zero. The string-buffer owner table is Rust container bookkeeping, not
+ABI backing storage, so it remains outside Prompt 04 byte and allocation-count
+totals. Debug counters track the ABI backing objects defined by that accounting
+model: one root, an optional element block, and each independent string.
+
+Construction consumes text into final boxed counted buffers first, freezes the
+owner table, allocates one final boxed element block, initializes elements with
+stable string pointers, verifies every planned total, constructs the root, and
+finally boxes the root-first owner. No pointer targets the owner object itself;
+moving `ExcelReturn` moves only its `Box` handle. Root, element, and string
+addresses therefore remain unchanged.
+
+Local cleanup follows Rust fields only. It never traverses raw tags or unions.
+Normal error unwinding drops partial string and array storage, and test-only
+atomic counters prove zero live backing objects after every injected failure.
+Backing `Vec` reservations use fallible allocation APIs before conversion to
+boxes. Stable Rust's final small `Box<ReturnAllocation>` allocation retains the
+standard process-OOM behavior.
+
+The materialized tree contains base type bits only. `xlbitDLLFree`, consuming
+handoff, raw reconstruction, and `xlAutoFree12` remain M6.
 
 ## Initial return-root policy
 

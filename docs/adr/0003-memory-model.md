@@ -5,5 +5,6 @@ results, and XLL-owned returns.
 
 ## Status
 
-Accepted. Callback-borrowed and Rust-owned semantic domains are implemented in
-M2-M3. Excel-owned API results and XLL-owned return allocations remain pending.
+Accepted. Callback-borrowed, Rust-owned semantic, logical return-plan, and
+pre-handoff XLL-owned return-allocation domains are implemented through M5.
+Excel-owned API results and post-handoff XLL return ownership remain pending.

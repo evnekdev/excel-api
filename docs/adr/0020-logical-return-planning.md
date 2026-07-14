@@ -37,3 +37,9 @@ Planning is deterministic, fully owned, `Send + Sync`, and safe Rust. It
 creates no raw pointers, ABI values, ownership bits, or FFI calls. Prompt 05
 must materialize exactly the retained plan without changing policy or claiming
 allocator bookkeeping as part of the planned ABI-byte total.
+
+## Implementation update
+
+M5 implements the specified topology. Materialization verifies every total
+before root publication; the Rust-only owner table remains excluded from ABI
+byte and backing-allocation counts as required by this decision.

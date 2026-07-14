@@ -2,14 +2,16 @@
 
 ## Status
 
-- **Status:** M3 semantic conversion and M4 return planning implemented.
+- **Status:** M3 semantic conversion, M4 return planning, and M5 return
+  materialization implemented.
 - **Implemented in:** `convert.rs`, with owned storage in `value.rs`, logical
-  return planning in `return_plan.rs`, and error types in `error.rs`.
+  return planning in `return_plan.rs`, stable ABI storage in `return_alloc.rs`,
+  and error types in `error.rs`.
 - **Test coverage:** every supported scalar target, strict strings, arrays,
   missing/empty policy, reference rejection, resource limits, and numeric edge
   cases.
 - **Remaining limitations:** worksheet coercion, Excel-owned API results,
-  return materialization, and owned references.
+  return handoff, and owned references.
 
 ## Two independent conversion layers
 
@@ -99,6 +101,11 @@ Rust T -> IntoExcel -> ExcelValue -> ExcelReturnValue -> ReturnPlan
 UTF-16 identity. Direct `String`/`&str` conversions to `ExcelReturnValue` retain
 UTF-8 intent. Planning is deterministic and fallible through `ReturnError`;
 ABI allocation is not part of this conversion layer.
+
+M5 adds the separate consuming step `ReturnPlan::materialize`, producing an
+opaque locally owned `ExcelReturn`. It performs no semantic coercion and
+preserves planned array order, scalar variants, and text representation while
+constructing verified raw ABI storage.
 
 ## Coercion API
 
