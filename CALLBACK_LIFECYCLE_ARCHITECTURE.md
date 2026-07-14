@@ -48,10 +48,23 @@ Do not unload call pointers before destructors/releases that need them.
 
 ## `xlAutoFree12`
 
-- allocation-free;
-- panic-contained;
-- no Excel calls in the initial ownership model;
-- reconstruct and drop one DLL-owned return root.
+- the reusable implementation lives in `excel-api` as
+  `unsafe extern "system" fn xl_auto_free12(*mut XLOPER12)`;
+- the actual exact-name `xlAutoFree12` export lives in `minimal-xll` as a thin
+  delegate, avoiding an unconditional global export in the reusable `rlib`;
+- null is a defensive no-op; a valid non-null pointer must be a unique handoff
+  from the same loaded XLL and must be supplied exactly once;
+- the callback is allocation-free on its normal path, panic-contained, and
+  makes no Excel calls or project-lock acquisitions;
+- it reconstructs and drops exactly one offset-zero `ReturnAllocation`, for
+  scalar roots as well as pointer-bearing roots;
+- it cannot safely recover from arbitrary invalid pointers or duplicate
+  callbacks after memory has already been freed;
+- `catch_unwind` contains unwinding panics but cannot catch `panic = "abort"`.
+
+The next lifecycle milestone may generate or relocate the thin export, but it
+must retain the verified `void WINAPI (LPXLOPER12)` ABI and delegate to the same
+core ownership implementation.
 
 ## `DllMain`
 

@@ -2,15 +2,14 @@
 
 ## Status
 
-- **Status:** M3 owned-value/conversion, M4 planning, and M5 materialization
-  errors implemented.
+- **Status:** M3 owned-value/conversion, M4 planning, M5 materialization, and
+  M6 callback panic policy implemented.
 - **Implemented in:** `error.rs`, with return error production in
   `return_plan.rs` and materialization error production in `return_alloc.rs`.
 - **Test coverage:** precise numeric, UTF-16, shape, unsupported-reference,
   element, aggregate-byte, string, and depth failures.
-- **Remaining limitations:** return handoff/AutoFree, Excel-call,
-  registration, lifecycle, and panic-boundary error layers remain future
-  milestones.
+- **Remaining limitations:** Excel-call, registration, and broader lifecycle
+  error layers remain future milestones.
 
 ## Layers
 
@@ -87,3 +86,13 @@ error into an Excel-visible value and diagnostic record.
 ## Destructors
 
 Release failures are diagnostic only; destructors never panic.
+
+M6's safe consuming handoff is infallible. Every debug invariant check occurs
+while the local `Box<ReturnAllocation>` is still owned, so it needs no new
+post-materialization error type and cannot leak on an error path. After
+`Box::into_raw` there is no fallible work.
+
+`xlAutoFree12` has no error return channel. It ignores null, reclaims a valid
+unique handoff, and contains any unwinding panic without formatting the panic
+payload, logging, calling Excel, or rethrowing. Production return destructors
+have no panic points. An aborting panic remains uncatchable by definition.

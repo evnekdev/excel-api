@@ -2,17 +2,20 @@
 
 ## Status
 
-- **Status:** Partially implemented through M5.
+- **Status:** Partially implemented through M6.
 - **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
   `convert.rs` for owned semantic values and bounded deep copies; and
   `return_plan.rs` for fully validated logical return plans; and
-  `return_alloc.rs` for stable, locally owned ABI return trees.
+  `return_alloc.rs` for stable ABI return trees, consuming DLLFree handoff,
+  and exact callback reclamation.
 - **Test coverage:** callback lifetime compile-fail tests, deep-copy
   independence, owned `Send + Sync + 'static`, arrays, strings, and conversion
   limits, deterministic return storage accounting, pointer stability,
-  injected partial failures, and exactly-once local cleanup.
-- **Remaining limitations:** Excel-owned API results, ownership-bit handoff,
-  post-handoff reconstruction, and `xlAutoFree12` remain future milestones.
+  injected partial failures, local cleanup, every supported handed-off root,
+  nested pointer stability, cross-thread cleanup, panic containment, and 1,000
+  repeated handoff/callback cycles.
+- **Remaining limitations:** Excel-owned API results, `xlFree`, and
+  `xlbitXLFree` transfer remain M7.
 
 ## Ownership domains
 
@@ -101,8 +104,47 @@ Backing `Vec` reservations use fallible allocation APIs before conversion to
 boxes. Stable Rust's final small `Box<ReturnAllocation>` allocation retains the
 standard process-OOM behavior.
 
-The materialized tree contains base type bits only. `xlbitDLLFree`, consuming
-handoff, raw reconstruction, and `xlAutoFree12` remain M6.
+The materialized tree contains base type bits only.
+
+## Implemented ownership handoff and callback reclamation
+
+An `ExcelReturn` has three conceptual states:
+
+```text
+Local -- ordinary Drop --> Freed
+Local -- consuming handoff --> HandedOff -- matching xlAutoFree12 --> Freed
+```
+
+`HandedOff -> local Drop`, a second handoff, access after `Freed`, and a second
+callback are forbidden. The safe API makes a second handoff impossible by
+consuming `ExcelReturn`. Once memory has been freed, an arbitrary duplicate
+callback cannot be detected without itself reading freed memory; it is an
+Excel/XLL ownership-contract violation outside safe recovery.
+
+`ExcelReturn::into_raw_for_excel` moves the `Box<ReturnAllocation>` into a
+local, checks debug invariants while that local owner still exists, sets
+`xlbitDLLFree` on `root.xltype`, records test-only handoff tracking, and calls
+`Box::into_raw`. The returned root is the allocation pointer cast to
+`XLOPER12`, not a copied root. There is no allocation, formatting, logging,
+Excel call, or other fallible work after `Box::into_raw`.
+
+Only the root receives `xlbitDLLFree`; `xlbitXLFree` remains clear and all
+nested elements retain base type bits only. Scalar roots are reclaimed just
+like pointer-bearing roots because the top-level `ReturnAllocation` is always
+heap allocated.
+
+The callback's one unsafe reclamation primitive casts the root pointer back to
+`ReturnAllocation` and drops `Box::from_raw` of that exact type. This depends on
+`repr(C)` and `offset_of!(ReturnAllocation, root) == 0`; tests prove both pointer
+identity at handoff and offset zero. It never constructs `Box<XLOPER12>` and
+never traverses raw tags to release nested memory. The allocation must be freed
+by the matching callback in the same loaded XLL binary; the internal layout is
+not a serialization or cross-version ABI.
+
+The reusable `unsafe extern "system"` callback body defensively ignores null
+and contains unwinding panics with `catch_unwind` without logging, calling
+Excel, or rethrowing. Production destructors are infallible. `panic = "abort"`
+cannot be contained and retains its normal abort behavior.
 
 ## Initial return-root policy
 
@@ -144,7 +186,7 @@ Owned -> no-release-required
 
 `xlbitDLLFree` is applied only at final handoff.
 
-`xlAutoFree12` frees:
+`xlAutoFree12` now frees through the reconstructed Rust owner:
 
 - top-level root allocation;
 - string backing storage;
@@ -191,3 +233,7 @@ Optional feature:
 - allocation ID;
 - magic/layout version;
 - state poisoning.
+
+M6 unit tests use atomic, test-only live root/string/array counts, outstanding
+handed-off-root count, and cumulative callback-free count. Production cleanup
+does not depend on tracking or on a pointer registry.

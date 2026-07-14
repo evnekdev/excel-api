@@ -2,19 +2,21 @@
 
 ## Status
 
-- **Status:** Borrowed and owned flat arrays, logical planning, and stable local
-  return multis implemented through M5; references remain borrowed only.
+- **Status:** Borrowed and owned flat arrays, logical planning, and DLLFree
+  return multis implemented through M6; references remain borrowed only.
 - **Implemented in:** `borrowed.rs` (`ExcelArrayView` and reference views),
   `value.rs` (`ExcelArray`), `convert.rs` (bounded deep copy), and
   `return_plan.rs` (`ExcelReturnArray` and `PlannedArray`), and
-  `return_alloc.rs` (stable boxed `XLOPER12` element storage).
+  `return_alloc.rs` (stable boxed `XLOPER12` element storage, consuming
+  handoff, and callback reclamation).
 - **Test coverage:** shape overflow/mismatch, row-major indexing, rows,
   columns, mixed values, deep-copy independence, element/byte/depth limits,
   nested-array rejection, reference rejection, ABI dimension checks, exact
   element/string accounting, zero-dimensional return rejection, pointer
-  stability, deep string buffers, and partial-failure cleanup.
+  stability, deep string buffers, partial-failure cleanup, root-only DLLFree,
+  nested pointer survival through handoff, and exactly-once callback cleanup.
 - **Remaining limitations:** owned references, reference coercion, FP12 safe
-  wrappers, DLLFree handoff, and Excel-owned API result arrays.
+  wrappers and Excel-owned API result arrays.
 
 ## Arrays
 
@@ -69,6 +71,13 @@ elements in row-major order, plus one final counted UTF-16 box per text element.
 The element box reaches its final address before the root `lparray` pointer is
 constructed. Every element has base type bits only. Rust owner fields, not raw
 element tags, drive local cleanup.
+
+M6 consumes the top-level owner, marks only the multi root with
+`xlbitDLLFree`, and leaves every element at base type bits. Element and nested
+string addresses remain stable while Excel owns the raw root. `xlAutoFree12`
+casts that offset-zero root back to the exact `ReturnAllocation`; dropping its
+fields releases the element block and every nested string without walking the
+raw multi.
 
 ### Empty return-array policy
 
