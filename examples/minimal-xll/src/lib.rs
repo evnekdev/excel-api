@@ -1,23 +1,19 @@
-use excel_api::{
-    AddInDescriptor, FunctionFlags, FunctionRegistration, IntoExcel,
-};
+use excel_api::{AddInDescriptor, FunctionFlags, FunctionRegistration, IntoExcel};
 
 pub fn add(x: f64, y: f64) -> f64 {
     x + y
 }
 
-pub static FUNCTIONS: &[FunctionRegistration] = &[
-    FunctionRegistration::new("add", "RUST.ADD")
-        .category("Rust")
-        .description("Adds two numbers")
-        .arguments(&["x", "y"], &["First number", "Second number"])
-        .flags(FunctionFlags {
-            volatile: false,
-            thread_safe: true,
-            macro_type: false,
-            cluster_safe: false,
-        }),
-];
+pub static FUNCTIONS: &[FunctionRegistration] = &[FunctionRegistration::new("add", "RUST.ADD")
+    .category("Rust")
+    .description("Adds two numbers")
+    .arguments(&["x", "y"], &["First number", "Second number"])
+    .flags(FunctionFlags {
+        volatile: false,
+        thread_safe: true,
+        macro_type: false,
+        cluster_safe: false,
+    })];
 
 pub static ADD_IN: AddInDescriptor = AddInDescriptor::new(
     "excel-api minimal example",

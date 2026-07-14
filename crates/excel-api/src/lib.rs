@@ -9,9 +9,7 @@ pub mod value;
 pub use context::{MacroContext, ThreadSafeContext, WorksheetContext};
 pub use convert::{FromExcel, IntoExcel};
 pub use error::{ConversionError, ExcelError};
-pub use registration::{
-    AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError,
-};
+pub use registration::{AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError};
 pub use value::{ExcelValue, ExcelValueRef, OptionalValue};
 
 #[cfg(feature = "macros")]
@@ -20,8 +18,8 @@ pub use excel_api_macros::{excel_command, excel_function};
 /// Common imports for XLL authors.
 pub mod prelude {
     pub use crate::{
-        AddInDescriptor, ExcelError, ExcelValue, ExcelValueRef, FromExcel,
-        FunctionFlags, FunctionRegistration, IntoExcel, OptionalValue,
+        AddInDescriptor, ExcelError, ExcelValue, ExcelValueRef, FromExcel, FunctionFlags,
+        FunctionRegistration, IntoExcel, OptionalValue,
     };
 
     #[cfg(feature = "macros")]
