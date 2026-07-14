@@ -1,0 +1,20 @@
+{
+  "repository": "evnekdev/excel-api",
+  "base_commit_reviewed": "f62002a047101a857c0995aabc2935817fced4bb",
+  "prompts": [
+    "09-m8_5-reference-freeze-and-ci.md",
+    "10-m9a-macro-metadata.md",
+    "11-m9b-generated-thunks.md",
+    "12-m10-macro-diagnostics.md",
+    "13-m11-call-catalog-and-contexts.md",
+    "14-m12-commands-lifecycle.md",
+    "15-m13-diagnostics.md",
+    "16-m14-packaging.md",
+    "17-m15-excel-stress-harness.md",
+    "18-m16-async-udfs.md",
+    "19-m17-main-thread-dispatcher.md",
+    "20-m18-rtd-streaming.md",
+    "21-m19-com-ribbon.md",
+    "22-m20-1_0-review.md"
+  ]
+}
