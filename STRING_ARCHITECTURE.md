@@ -34,6 +34,18 @@ String           // owned UTF-8
 
 ABI-specific return storage stays internal.
 
+The callback-borrowing layer implements three distinct audited parser entry
+points:
+
+- counted `xltypeStr` payloads reached through the `XLOPER12` decoder;
+- counted direct UTF-16 callback arguments;
+- null-terminated direct UTF-16 callback arguments.
+
+All return `ExcelStr<'call>` over the original code units. Parsing allocates
+nothing, preserves embedded NUL and unpaired surrogates, and performs no UTF-8
+or lossy conversion. Counted lengths and null scans are bounded by the Excel 12
+32,767-code-unit limit.
+
 ## Unicode policy
 
 - `ExcelStr` and `ExcelString` preserve arbitrary UTF-16 code units.

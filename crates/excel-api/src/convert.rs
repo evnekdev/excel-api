@@ -49,18 +49,6 @@ impl IntoExcel for bool {
     }
 }
 
-impl<'a> FromExcel<'a> for String {
-    fn from_excel(value: ExcelValueRef<'a>) -> Result<Self, ConversionError> {
-        match value {
-            ExcelValueRef::Text(value) => Ok(value.to_owned()),
-            other => Err(ConversionError::UnexpectedType {
-                expected: "text",
-                actual: other.kind_name(),
-            }),
-        }
-    }
-}
-
 impl IntoExcel for String {
     fn into_excel(self) -> Result<ExcelValue, ConversionError> {
         Ok(ExcelValue::Text(self))
@@ -76,7 +64,7 @@ impl IntoExcel for &str {
 impl<'a, T: FromExcel<'a>> FromExcel<'a> for Option<T> {
     fn from_excel(value: ExcelValueRef<'a>) -> Result<Self, ConversionError> {
         match value {
-            ExcelValueRef::Missing | ExcelValueRef::Empty => Ok(None),
+            ExcelValueRef::Missing(_) | ExcelValueRef::Nil(_) => Ok(None),
             value => T::from_excel(value).map(Some),
         }
     }
@@ -85,8 +73,8 @@ impl<'a, T: FromExcel<'a>> FromExcel<'a> for Option<T> {
 impl<'a, T: FromExcel<'a>> FromExcel<'a> for OptionalValue<T> {
     fn from_excel(value: ExcelValueRef<'a>) -> Result<Self, ConversionError> {
         match value {
-            ExcelValueRef::Missing => Ok(Self::Missing),
-            ExcelValueRef::Empty => Ok(Self::Empty),
+            ExcelValueRef::Missing(_) => Ok(Self::Missing),
+            ExcelValueRef::Nil(_) => Ok(Self::Empty),
             value => T::from_excel(value).map(Self::Value),
         }
     }
@@ -129,10 +117,26 @@ impl_integer_conversion!(i16, i32, u16, u32);
 mod tests {
     use super::*;
 
+    fn decode(raw: &excel_api_sys::XLOPER12) -> ExcelValueRef<'_> {
+        // SAFETY: these fixtures have no pointer-bearing members and live for
+        // the complete borrow returned by the decoder.
+        unsafe { crate::RawExcelValue::from_callback(raw) }
+            .decode()
+            .unwrap()
+    }
+
     #[test]
     fn option_accepts_missing_and_empty() {
-        assert_eq!(Option::<f64>::from_excel(ExcelValueRef::Missing), Ok(None));
-        assert_eq!(Option::<f64>::from_excel(ExcelValueRef::Empty), Ok(None));
+        let missing = excel_api_sys::XLOPER12 {
+            val: excel_api_sys::XLOPER12Value { w: 0 },
+            xltype: excel_api_sys::xltypeMissing,
+        };
+        let nil = excel_api_sys::XLOPER12 {
+            val: excel_api_sys::XLOPER12Value { w: 0 },
+            xltype: excel_api_sys::xltypeNil,
+        };
+        assert_eq!(Option::<f64>::from_excel(decode(&missing)), Ok(None));
+        assert_eq!(Option::<f64>::from_excel(decode(&nil)), Ok(None));
     }
 
     #[test]

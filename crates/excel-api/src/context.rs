@@ -22,6 +22,7 @@ pub struct MacroContext<'call> {
 
 impl WorksheetContext<'_> {
     /// Contexts may only be created by the runtime.
+    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
     pub(crate) const fn new() -> Self {
         Self { _call: PhantomData }
     }
@@ -29,6 +30,7 @@ impl WorksheetContext<'_> {
 
 impl ThreadSafeContext<'_> {
     /// Contexts may only be created by the runtime.
+    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
     pub(crate) const fn new() -> Self {
         Self { _call: PhantomData }
     }
@@ -36,6 +38,7 @@ impl ThreadSafeContext<'_> {
 
 impl MacroContext<'_> {
     /// Contexts may only be created by the runtime.
+    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
     pub(crate) const fn new() -> Self {
         Self { _call: PhantomData }
     }
