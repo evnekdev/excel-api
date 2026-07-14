@@ -5,5 +5,7 @@ simple-string returns.
 
 ## Status
 
-Logical UTF-8/UTF-16 planning is implemented in M4 and stable counted UTF-16
-backing buffers in M5. The `xlbitDLLFree` handoff remains M6.
+Logical UTF-8/UTF-16 planning is implemented in M4, stable counted UTF-16
+backing buffers in M5, and root-only `xlbitDLLFree` handoff with exact
+owner-driven callback reclamation in M6. Nested strings carry base type bits
+only and are never freed by traversing their raw pointers.

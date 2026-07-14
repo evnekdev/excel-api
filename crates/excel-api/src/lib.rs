@@ -21,7 +21,7 @@ pub use error::{
     Utf16ConversionError,
 };
 pub use registration::{AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError};
-pub use return_alloc::ExcelReturn;
+pub use return_alloc::{ExcelReturn, xl_auto_free12};
 pub use return_plan::{
     ExcelReturnArray, ExcelReturnValue, PlannedArray, PlannedArrayElement, PlannedText,
     PlannedValue, ReturnLimits, ReturnOwnershipStrategy, ReturnPlan, ReturnStorageTotals,

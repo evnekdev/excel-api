@@ -27,6 +27,18 @@ Initial strategy:
 
 This is easier to reason about than persistent thread-local return objects.
 
+M6 implements this strategy without thread-local ownership. The handed-off
+allocation contains `Box<[XLOPER12]>`, `Box<[XCHAR]>`, ordinary scalar
+metadata, and test-only atomic tracking. These fields use the process allocator
+and have no thread affinity, locks, COM state, workbook state, or creator-thread
+dependency, so the matching callback may drop them on a thread different from
+construction. A cross-thread reclamation test exercises that contract.
+
+`ExcelReturn` is not given manual `Send` or `Sync` implementations. The
+required boundary is the documented ownership transfer of its unique raw
+pointer to Excel, not a blanket promise that the local wrapper is shareable.
+`xlAutoFree12` makes no Excel calls and acquires no project locks.
+
 ## C API calls
 
 Thread-safe contexts expose only verified thread-safe operations.

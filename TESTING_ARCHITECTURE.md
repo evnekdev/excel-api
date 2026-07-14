@@ -78,8 +78,26 @@ deep nested string pointers, root/element/string address stability after moves,
 all plan totals, offset-zero root layout, and absence of ownership bits. Test-
 only failure injection covers every construction stage. Atomic live root,
 string, and element-buffer counters return to zero after failures, normal drop,
-and 1,000 repeated construction/drop cycles. Post-handoff exactly-once free
-testing remains M6.
+and 1,000 repeated construction/drop cycles.
+
+The M6 suite verifies consuming handoff for numbers, integers, Booleans, every
+Excel error, missing, empty, text, and mixed multis. It proves root/allocation
+pointer identity, offset-zero layout, unchanged base types and nested pointers,
+root-only DLLFree, absence of XLFree, base-only nested tags, embedded NUL,
+unpaired surrogates, maximum strings, scalar heap-root cleanup, movement before
+handoff, cross-thread callback cleanup, null tolerance, and exact callback ABI
+typing. Test-only atomics distinguish live backing storage, outstanding
+handed-off roots, and cumulative callback frees across 1,000 handoff/callback
+cycles.
+
+Compile-fail docs prove that handoff consumes `ExcelReturn`, so the same owner
+cannot be handed off twice, and that callback reclamation requires `unsafe`.
+Tests deliberately do not call the callback twice on one pointer because that
+would be use-after-free, not a recoverable behavior test. A test-only panic
+hook before reclamation verifies that panic does not cross the extern wrapper
+and that the still-valid allocation is then reclaimed. Production destruction
+is designed not to panic; recovery from a panic during arbitrary partial
+destruction is not promised.
 
 ## Historical book guidance
 

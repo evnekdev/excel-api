@@ -38,9 +38,18 @@ pub extern "system" fn xlAutoClose() -> i32 {
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn xlAutoFree12(_value: *mut excel_api_sys::XLOPER12) {
-    // No heap-backed Excel return values exist in this milestone.
+/// # Safety
+///
+/// Excel must pass null or a unique pointer produced by
+/// `ExcelReturn::into_raw_for_excel` from this loaded XLL and call this export
+/// exactly once for that pointer.
+pub unsafe extern "system" fn xlAutoFree12(value: *mut excel_api_sys::XLOPER12) {
+    // SAFETY: this export has the same contract and exact WINAPI ABI as the
+    // reusable callback body.
+    unsafe { excel_api::xl_auto_free12(value) };
 }
+
+const _: excel_api_sys::XlAutoFree12Fn = xlAutoFree12;
 
 #[cfg(test)]
 mod tests {
@@ -55,5 +64,18 @@ mod tests {
     #[test]
     fn add_converts_to_an_excel_value() {
         assert!(add(2.0, 3.0).into_excel().is_ok());
+    }
+
+    #[test]
+    fn exported_auto_free_delegates_to_the_core_owner_cleanup() {
+        let pointer = excel_api::ExcelReturnValue::from("owned by XLL")
+            .plan()
+            .unwrap()
+            .materialize()
+            .unwrap()
+            .into_raw_for_excel();
+        // SAFETY: this is the unique fresh handoff pointer and this test calls
+        // the exported callback exactly once.
+        unsafe { xlAutoFree12(pointer) };
     }
 }

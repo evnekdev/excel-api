@@ -2,17 +2,17 @@
 
 ## Status
 
-- **Status:** Borrowed, owned, planned, and stable local return strings
-  implemented through M5.
+- **Status:** Borrowed, owned, planned, and DLLFree return strings implemented
+  through M6.
 - **Implemented in:** `borrowed.rs` (`ExcelStr`) and `value.rs`
   (`ExcelString`), bounded callback-copy conversion in `convert.rs`, and
   `return_plan.rs` (`ReturnText` and `PlannedText`), and `return_alloc.rs`
-  (stable counted return buffers).
+  (stable counted return buffers, consuming handoff, and callback cleanup).
 - **Test coverage:** empty, ASCII, BMP, surrogate pairs, unpaired high and low
   surrogates, embedded NUL, strict/lossy decoding, UTF-8 encoding, and source
   independence.
-- **Remaining limitations:** DLLFree handoff, Excel-owned API strings, and
-  modify-in-place/direct dynamic returns.
+- **Remaining limitations:** Excel-owned API strings and modify-in-place/direct
+  dynamic returns.
 
 ## ABI forms
 
@@ -101,6 +101,13 @@ payload; UTF-16 sources are copied without transcoding. Planned payload and
 storage lengths are rechecked before a pointer is used. The `xltypeStr` pointer
 targets the prefix at index zero and remains stable for the `ExcelReturn`
 lifetime.
+
+M6 handoff sets `xlbitDLLFree` only on the root `XLOPER12`. A root string and
+strings nested in a multi retain the same counted-buffer pointers through
+handoff; nested string elements never carry ownership bits. The matching
+callback reconstructs the root-first `ReturnAllocation` and lets its boxed
+string-owner fields drop exactly once. It does not inspect string prefixes to
+decide what or how to free.
 
 ## Hybrid strings
 

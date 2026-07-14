@@ -8,7 +8,7 @@
 - M3 owned values (implemented)
 - M4 safe return planning (implemented)
 - M5 stable return allocation (implemented)
-- M6 DLLFree handoff and AutoFree
+- M6 DLLFree handoff and AutoFree (implemented)
 - M7 Excel-owned results, xlFree, XLFree transfer
 - M8 manual registration and first XLL
 

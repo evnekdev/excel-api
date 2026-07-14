@@ -1,14 +1,16 @@
-//! Stable, locally owned Excel return storage.
+//! Stable Excel return storage and its consuming handoff to Excel.
 //!
-//! Materialization is the only place that creates return-side raw ABI values.
-//! It does not set ownership bits, transfer ownership, call Excel, or expose a
-//! consuming raw-pointer API.
+//! Materialization creates a locally owned ABI tree with base type bits only.
+//! [`ExcelReturn::into_raw_for_excel`] consumes that local owner, marks only
+//! the root with `xlbitDLLFree`, and transfers the allocation to Excel. The
+//! matching [`xl_auto_free12`] callback reconstructs and drops the exact
+//! root-first Rust allocation.
 
 use core::mem::size_of;
 
 use excel_api_sys::{
-    XCHAR, XLOPER12, XLOPER12Array, XLOPER12Value, xltypeBool, xltypeErr, xltypeInt, xltypeMissing,
-    xltypeMulti, xltypeNil, xltypeNum, xltypeStr,
+    XCHAR, XLOPER12, XLOPER12Array, XLOPER12Value, XLTYPE_MASK, xlbitDLLFree, xlbitXLFree,
+    xltypeBool, xltypeErr, xltypeInt, xltypeMissing, xltypeMulti, xltypeNil, xltypeNum, xltypeStr,
 };
 
 use crate::{
@@ -18,8 +20,10 @@ use crate::{
 
 /// Opaque local owner of one stable Excel ABI return tree.
 ///
-/// Dropping this value before handoff releases the root and every nested
-/// backing allocation through ordinary Rust field drops.
+/// Dropping this value while it is local releases the root and every nested
+/// backing allocation through ordinary Rust field drops. Consuming handoff
+/// leaves no Rust owner behind; Excel must then invoke the matching callback
+/// exactly once.
 ///
 /// The root is deliberately read-only:
 ///
@@ -30,12 +34,20 @@ use crate::{
 /// }
 /// ```
 ///
-/// Prompt 05 exposes no consuming handoff API:
+/// Handoff consumes the owner, so safe code cannot hand it off twice:
 ///
 /// ```compile_fail
-/// use excel_api::ExcelReturn;
-/// fn cannot_handoff(value: ExcelReturn) {
-///     let _ = value.into_raw_for_excel();
+/// fn cannot_handoff_twice(value: excel_api::ExcelReturn) {
+///     let _first = value.into_raw_for_excel();
+///     let _second = value.into_raw_for_excel();
+/// }
+/// ```
+///
+/// Raw reclamation is not a safe ownership constructor:
+///
+/// ```compile_fail
+/// fn cannot_reclaim_safely(pointer: *mut excel_api_sys::XLOPER12) {
+///     excel_api::xl_auto_free12(pointer);
 /// }
 /// ```
 pub struct ExcelReturn {
@@ -50,6 +62,112 @@ impl ExcelReturn {
     /// Read-only access to the stable root for inspection and future handoff.
     pub fn as_xloper(&self) -> &XLOPER12 {
         &self.allocation.root
+    }
+
+    /// Consumes this local owner and transfers its complete allocation to Excel.
+    ///
+    /// The returned pointer is the root at byte offset zero of the same
+    /// `ReturnAllocation`; it is not a copy. Only the root receives
+    /// `xlbitDLLFree`. Every nested value retains base type bits only and its
+    /// storage remains owned by the leaked top-level allocation until the
+    /// matching [`xl_auto_free12`] call.
+    pub fn into_raw_for_excel(self) -> *mut XLOPER12 {
+        let mut allocation = self.allocation;
+        let original_type = allocation.root.xltype;
+        let base_type = original_type & XLTYPE_MASK;
+
+        // Prompt 05 materialization establishes these invariants. Keep every
+        // potentially panicking check while the Box still has a local owner.
+        debug_assert_eq!(original_type & xlbitDLLFree, 0);
+        debug_assert_eq!(original_type & xlbitXLFree, 0);
+        debug_assert_eq!(original_type, base_type);
+        debug_assert!(is_supported_root_type(base_type));
+
+        allocation.root.xltype = original_type | xlbitDLLFree;
+
+        #[cfg(test)]
+        HANDED_OFF_ROOTS.fetch_add(1, core::sync::atomic::Ordering::SeqCst);
+
+        let allocation_pointer = allocation.as_mut() as *mut ReturnAllocation;
+        let root_pointer = &mut allocation.root as *mut XLOPER12;
+        debug_assert_eq!(root_pointer.cast::<ReturnAllocation>(), allocation_pointer);
+
+        let _allocation_pointer = Box::into_raw(allocation);
+        root_pointer
+    }
+}
+
+const fn is_supported_root_type(xltype: u32) -> bool {
+    xltype == xltypeNum
+        || xltype == xltypeInt
+        || xltype == xltypeBool
+        || xltype == xltypeErr
+        || xltype == xltypeMissing
+        || xltype == xltypeNil
+        || xltype == xltypeStr
+        || xltype == xltypeMulti
+}
+
+/// Reusable implementation of the Excel 12 DLL-owned return cleanup callback.
+///
+/// A final XLL should export an exact `xlAutoFree12` symbol with the SDK's
+/// `WINAPI` calling convention and delegate directly to this function. Null is
+/// accepted as a defensive no-op, although Excel is not expected to supply it
+/// during correct operation. Panics are contained and discarded; no panic can
+/// unwind through this FFI boundary when unwinding is enabled. A build using
+/// `panic = "abort"` still aborts, because aborting panics cannot be caught.
+///
+/// # Safety
+///
+/// A non-null `pointer` must be the pointer returned exactly once by
+/// [`ExcelReturn::into_raw_for_excel`] from this same loaded binary, must not
+/// have been reclaimed already, and must no longer be accessed by Excel after
+/// this callback begins. Arbitrary non-null pointers and duplicate callbacks
+/// cannot be validated safely and violate the Excel/XLL ownership contract.
+pub unsafe extern "system" fn xl_auto_free12(pointer: *mut XLOPER12) {
+    if pointer.is_null() {
+        return;
+    }
+
+    #[cfg(test)]
+    contain_callback_panic(|| {
+        if PANIC_BEFORE_RECLAIM.swap(false, core::sync::atomic::Ordering::SeqCst) {
+            panic!("injected callback-boundary panic");
+        }
+    });
+
+    contain_callback_panic(|| {
+        // SAFETY: upheld by this callback's non-null handed-off-pointer
+        // contract. This closure is invoked exactly once for this call.
+        unsafe { reclaim_excel_return(pointer) }
+    });
+}
+
+fn contain_callback_panic(action: impl FnOnce()) {
+    let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(action));
+}
+
+/// Reconstructs the exact root-first owner and drops the complete return tree.
+///
+/// # Safety
+///
+/// `pointer` must be non-null, must have been returned exactly once by
+/// `ExcelReturn::into_raw_for_excel`, must not have been reclaimed before, and
+/// must point at a `ReturnAllocation` with the current binary's compatible
+/// layout and offset-zero root. Excel must perform no further access after
+/// entering the callback.
+unsafe fn reclaim_excel_return(pointer: *mut XLOPER12) {
+    let allocation = pointer.cast::<ReturnAllocation>();
+    // SAFETY: the caller guarantees this is the unique pointer produced by
+    // Box::into_raw for this exact ReturnAllocation. Dropping its Rust fields
+    // releases all nested storage without inspecting raw ABI tags.
+    drop(unsafe { Box::from_raw(allocation) });
+
+    #[cfg(test)]
+    {
+        let previous = HANDED_OFF_ROOTS.fetch_sub(1, core::sync::atomic::Ordering::SeqCst);
+        assert!(previous > 0, "callback reclaimed a non-handed-off root");
+        CALLBACK_FREES.fetch_add(1, core::sync::atomic::Ordering::SeqCst);
     }
 }
 
@@ -652,6 +770,13 @@ static LIVE_ROOTS: AtomicUsize = AtomicUsize::new(0);
 static LIVE_STRING_BUFFERS: AtomicUsize = AtomicUsize::new(0);
 #[cfg(test)]
 static LIVE_ARRAY_BUFFERS: AtomicUsize = AtomicUsize::new(0);
+#[cfg(test)]
+static HANDED_OFF_ROOTS: AtomicUsize = AtomicUsize::new(0);
+#[cfg(test)]
+static CALLBACK_FREES: AtomicUsize = AtomicUsize::new(0);
+#[cfg(test)]
+static PANIC_BEFORE_RECLAIM: core::sync::atomic::AtomicBool =
+    core::sync::atomic::AtomicBool::new(false);
 
 #[cfg(test)]
 struct RootTracker;
@@ -696,6 +821,20 @@ mod tests {
             LIVE_STRING_BUFFERS.load(Ordering::SeqCst),
             LIVE_ARRAY_BUFFERS.load(Ordering::SeqCst),
         )
+    }
+
+    fn handoff_counts() -> (usize, usize) {
+        use core::sync::atomic::Ordering;
+
+        (
+            HANDED_OFF_ROOTS.load(Ordering::SeqCst),
+            CALLBACK_FREES.load(Ordering::SeqCst),
+        )
+    }
+
+    fn assert_no_live_or_handed_off_allocations() {
+        assert_eq!(live_counts(), (0, 0, 0));
+        assert_eq!(handoff_counts().0, 0);
     }
 
     fn assert_no_ownership_bits(value: &XLOPER12) {
@@ -769,6 +908,67 @@ mod tests {
         // SAFETY: the asserted base tag selects `val.str`; only its pointer
         // value is copied and no pointee is accessed here.
         unsafe { value.val.str }
+    }
+
+    fn string_pointer_with_flags(value: &XLOPER12) -> *mut XCHAR {
+        assert_eq!(value.xltype & XLTYPE_MASK, xltypeStr);
+        // SAFETY: the masked base tag selects `val.str`; only the pointer is
+        // copied while the handed-off allocation remains alive.
+        unsafe { value.val.str }
+    }
+
+    fn array_pointer_with_flags(value: &XLOPER12) -> *mut XLOPER12 {
+        assert_eq!(value.xltype & XLTYPE_MASK, xltypeMulti);
+        // SAFETY: the masked base tag selects `val.array`; only its pointer is
+        // copied while the handed-off allocation remains alive.
+        unsafe { value.val.array.lparray }
+    }
+
+    unsafe fn raw_counted_storage(value: &XLOPER12) -> &[XCHAR] {
+        assert_eq!(value.xltype & XLTYPE_MASK, xltypeStr);
+        // SAFETY: the caller keeps the handed-off ReturnAllocation alive, and
+        // this module created a nonempty counted buffer whose prefix gives its
+        // exact initialized extent.
+        unsafe {
+            let pointer = value.val.str;
+            let payload = usize::from(pointer.read());
+            slice::from_raw_parts(pointer, payload + 1)
+        }
+    }
+
+    unsafe fn raw_array_elements(value: &XLOPER12) -> &[XLOPER12] {
+        assert_eq!(value.xltype & XLTYPE_MASK, xltypeMulti);
+        // SAFETY: the caller keeps the handed-off ReturnAllocation alive. The
+        // materialized dimensions are positive and their product is the exact
+        // initialized length of the boxed element block.
+        unsafe {
+            let array = value.val.array;
+            let count =
+                usize::try_from(array.rows).unwrap() * usize::try_from(array.columns).unwrap();
+            slice::from_raw_parts(array.lparray, count)
+        }
+    }
+
+    fn handoff_and_reclaim(returned: ExcelReturn) {
+        let base_type = returned.as_xloper().xltype;
+        let root_address = returned.as_xloper() as *const XLOPER12 as *mut XLOPER12;
+        let callback_frees_before = handoff_counts().1;
+
+        let pointer = returned.into_raw_for_excel();
+        assert_eq!(pointer, root_address);
+        // SAFETY: `pointer` has just been handed off and remains live until the
+        // one callback invocation below.
+        let root = unsafe { &*pointer };
+        assert_eq!(root.xltype & XLTYPE_MASK, base_type);
+        assert_ne!(root.xltype & xlbitDLLFree, 0);
+        assert_eq!(root.xltype & xlbitXLFree, 0);
+        assert_eq!(handoff_counts(), (1, callback_frees_before));
+
+        // SAFETY: this is the unique pointer just produced above and this is
+        // its sole callback reclamation.
+        unsafe { xl_auto_free12(pointer) };
+        assert_no_live_or_handed_off_allocations();
+        assert_eq!(handoff_counts().1, callback_frees_before + 1);
     }
 
     fn move_return(value: ExcelReturn) -> ExcelReturn {
@@ -1123,6 +1323,7 @@ mod tests {
     #[test]
     fn local_drop_and_repeated_construction_release_exactly_once() {
         let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
         let returned = mixed_array_plan().materialize().unwrap();
         assert_eq!(live_counts(), (1, 2, 1));
         drop(returned);
@@ -1134,5 +1335,199 @@ mod tests {
             drop(returned);
             assert_eq!(live_counts(), (0, 0, 0));
         }
+        assert_eq!(handoff_counts().0, 0);
+        assert_eq!(handoff_counts().1, callback_frees_before);
+    }
+
+    #[test]
+    fn panic_before_handoff_keeps_raii_cleanup_local() {
+        let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
+        let result = std::panic::catch_unwind(|| {
+            let _returned = mixed_array_plan().materialize().unwrap();
+            panic!("injected panic before handoff");
+        });
+        assert!(result.is_err());
+        assert_no_live_or_handed_off_allocations();
+        assert_eq!(handoff_counts().1, callback_frees_before);
+    }
+
+    #[test]
+    fn handoff_and_callback_cover_every_scalar_root_and_error() {
+        let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
+        let mut values = vec![
+            ExcelReturnValue::Number(2.5),
+            ExcelReturnValue::Integer(-42),
+            ExcelReturnValue::Boolean(false),
+            ExcelReturnValue::Boolean(true),
+            ExcelReturnValue::Missing,
+            ExcelReturnValue::Empty,
+        ];
+        values.extend(
+            [
+                ExcelError::Null,
+                ExcelError::Div0,
+                ExcelError::Value,
+                ExcelError::Ref,
+                ExcelError::Name,
+                ExcelError::Num,
+                ExcelError::Na,
+                ExcelError::GettingData,
+            ]
+            .map(ExcelReturnValue::Error),
+        );
+
+        for value in values {
+            handoff_and_reclaim(materialize(value));
+        }
+        assert_eq!(handoff_counts().1, callback_frees_before + 14);
+    }
+
+    #[test]
+    fn handoff_preserves_counted_string_pointers_and_arbitrary_utf16() {
+        let _guard = lock();
+        let maximum = excel_api_sys::EXCEL12_MAX_STRING_CODE_UNITS;
+        for payload in [
+            vec![b'A' as u16, 0, b'B' as u16],
+            vec![0xD800, 0xDC00],
+            vec![0xD800],
+            vec![0xDC00],
+            vec![0xD800; maximum],
+        ] {
+            let returned = materialize(ExcelReturnValue::Text(ReturnText::Utf16(
+                ExcelString::from_utf16_units(payload.clone()),
+            )));
+            let root_address = returned.as_xloper() as *const XLOPER12 as *mut XLOPER12;
+            let string_address = string_pointer(returned.as_xloper());
+            let callback_frees_before = handoff_counts().1;
+
+            let pointer = returned.into_raw_for_excel();
+            assert_eq!(pointer, root_address);
+            // SAFETY: this pointer and its nested string remain owned by the
+            // handed-off allocation until the callback below.
+            let root = unsafe { &*pointer };
+            assert_eq!(root.xltype & XLTYPE_MASK, xltypeStr);
+            assert_ne!(root.xltype & xlbitDLLFree, 0);
+            assert_eq!(root.xltype & xlbitXLFree, 0);
+            // SAFETY: same live handed-off allocation contract.
+            let storage = unsafe { raw_counted_storage(root) };
+            assert_eq!(string_pointer_with_flags(root), string_address);
+            assert_eq!(usize::from(storage[0]), payload.len());
+            assert_eq!(&storage[1..], payload);
+
+            // SAFETY: unique, live handoff pointer; called exactly once.
+            unsafe { xl_auto_free12(pointer) };
+            assert_no_live_or_handed_off_allocations();
+            assert_eq!(handoff_counts().1, callback_frees_before + 1);
+        }
+    }
+
+    #[test]
+    fn handoff_preserves_multi_storage_and_marks_only_the_root() {
+        let _guard = lock();
+        let returned = mixed_array_plan().materialize().unwrap();
+        let root_address = returned.as_xloper() as *const XLOPER12 as *mut XLOPER12;
+        let element_address = array_pointer(returned.as_xloper());
+        let nested_string_addresses = {
+            let elements = array_elements(&returned);
+            [string_pointer(&elements[6]), string_pointer(&elements[7])]
+        };
+        let callback_frees_before = handoff_counts().1;
+
+        let pointer = move_return(returned).into_raw_for_excel();
+        assert_eq!(pointer, root_address);
+        // SAFETY: the handed-off root remains live until the callback below.
+        let root = unsafe { &*pointer };
+        assert_eq!(root.xltype & XLTYPE_MASK, xltypeMulti);
+        assert_ne!(root.xltype & xlbitDLLFree, 0);
+        assert_eq!(root.xltype & xlbitXLFree, 0);
+        assert_eq!(array_pointer_with_flags(root), element_address);
+        // SAFETY: the handed-off element block remains live with its root.
+        let elements = unsafe { raw_array_elements(root) };
+        assert_eq!(elements.as_ptr(), element_address);
+        assert_eq!(elements.len(), 8);
+        assert_eq!(number(&elements[0]), 1.5);
+        assert_eq!(integer(&elements[1]), -2);
+        assert_eq!(boolean(&elements[2]), 1);
+        assert_eq!(error_code(&elements[3]), excel_api_sys::xlerrRef);
+        assert_eq!(elements[4].xltype, xltypeMissing);
+        assert_eq!(elements[5].xltype, xltypeNil);
+        assert_eq!(string_pointer(&elements[6]), nested_string_addresses[0]);
+        assert_eq!(string_pointer(&elements[7]), nested_string_addresses[1]);
+        // SAFETY: nested counted buffers share the live top-level owner.
+        let first_nested_string = unsafe { raw_counted_storage(&elements[6]) };
+        // SAFETY: nested counted buffers share the live top-level owner.
+        let second_nested_string = unsafe { raw_counted_storage(&elements[7]) };
+        assert_eq!(first_nested_string, &[3, 65, 0, 66]);
+        assert_eq!(second_nested_string, &[1, 0xD800]);
+        for element in elements {
+            assert_no_ownership_bits(element);
+        }
+
+        // SAFETY: unique, live handoff pointer; called exactly once.
+        unsafe { xl_auto_free12(pointer) };
+        assert_no_live_or_handed_off_allocations();
+        assert_eq!(handoff_counts().1, callback_frees_before + 1);
+    }
+
+    #[test]
+    fn repeated_handoff_callback_cycles_reclaim_exactly_once() {
+        let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
+        for _ in 0..1_000 {
+            handoff_and_reclaim(mixed_array_plan().materialize().unwrap());
+        }
+        assert_eq!(handoff_counts().1, callback_frees_before + 1_000);
+    }
+
+    #[test]
+    fn callback_is_null_tolerant_and_abi_exact() {
+        let _guard = lock();
+        let callback: excel_api_sys::XlAutoFree12Fn = xl_auto_free12;
+        let before = handoff_counts();
+        // SAFETY: null is explicitly accepted as a defensive no-op.
+        unsafe { callback(core::ptr::null_mut()) };
+        assert_eq!(handoff_counts(), before);
+        assert_no_live_or_handed_off_allocations();
+    }
+
+    #[test]
+    fn callback_contains_test_panic_and_still_reclaims_valid_handoff() {
+        let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
+        let pointer = materialize(ExcelReturnValue::from("panic-safe")).into_raw_for_excel();
+        PANIC_BEFORE_RECLAIM.store(true, core::sync::atomic::Ordering::SeqCst);
+
+        let result = std::panic::catch_unwind(|| {
+            // SAFETY: unique, live handoff pointer; called exactly once.
+            unsafe { xl_auto_free12(pointer) };
+        });
+        assert!(result.is_ok(), "panic escaped the extern callback boundary");
+        assert_no_live_or_handed_off_allocations();
+        assert_eq!(handoff_counts().1, callback_frees_before + 1);
+    }
+
+    #[test]
+    fn handed_off_allocation_can_be_reclaimed_on_another_thread() {
+        let _guard = lock();
+        let callback_frees_before = handoff_counts().1;
+        let pointer = mixed_array_plan()
+            .materialize()
+            .unwrap()
+            .into_raw_for_excel();
+        let address = pointer as usize;
+
+        std::thread::spawn(move || {
+            let pointer = address as *mut XLOPER12;
+            // SAFETY: ownership of this unique handed-off pointer is moved
+            // into this thread, which performs its sole callback reclamation.
+            unsafe { xl_auto_free12(pointer) };
+        })
+        .join()
+        .unwrap();
+
+        assert_no_live_or_handed_off_allocations();
+        assert_eq!(handoff_counts().1, callback_frees_before + 1);
     }
 }
