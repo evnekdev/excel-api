@@ -54,6 +54,12 @@ specific documented mechanism permits it.
 
 Worker threads receive owned Rust data only.
 
+M7's `ExcelOwnedValue<'call>` is deliberately neither `Send` nor `Sync`. Its
+boxed root is stable, but the ability to call back into Excel is scoped to the
+originating callback. Microsoft documents `xlFree` as thread-safe during MTR;
+that does not make calls from arbitrary XLL-created threads legal. Convert to
+ordinary `ExcelValue` before worker-thread use.
+
 ## Shutdown
 
 Lifecycle shutdown must account for:

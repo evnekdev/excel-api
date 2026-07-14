@@ -96,3 +96,9 @@ post-materialization error type and cannot leak on an error path. After
 unique handoff, and contains any unwinding panic without formatting the panic
 payload, logging, calling Excel, or rethrowing. Production return destructors
 have no panic points. An aborting panic remains uncatchable by definition.
+
+M7 adds `ExcelReleaseError` and `ExcelOwnedConversionError` independently of
+return materialization. Release errors preserve the exact Excel return code or
+distinguish invalid context, not-thread-safe, unavailable backend, and a
+contained backend panic. One attempted call consumes the obligation regardless
+of its result; Drop never formats, retries, or panics.

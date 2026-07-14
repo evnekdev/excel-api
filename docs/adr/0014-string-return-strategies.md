@@ -9,3 +9,7 @@ Logical UTF-8/UTF-16 planning is implemented in M4, stable counted UTF-16
 backing buffers in M5, and root-only `xlbitDLLFree` handoff with exact
 owner-driven callback reclamation in M6. Nested strings carry base type bits
 only and are never freed by traversing their raw pointers.
+
+Excel-created result strings now have the separate M7 path: borrow/copy through
+`ExcelOwnedValue` and release with `xlFree`. Raw XLFree return transfer remains
+deferred with ADR-0011 and does not alter DLLFree return allocation.

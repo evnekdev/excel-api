@@ -2,20 +2,22 @@
 
 ## Status
 
-- **Status:** Partially implemented through M6.
+- **Status:** M7 Excel-owned RAII implemented; raw XLFree return integration is deferred.
 - **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
   `convert.rs` for owned semantic values and bounded deep copies; and
   `return_plan.rs` for fully validated logical return plans; and
   `return_alloc.rs` for stable ABI return trees, consuming DLLFree handoff,
-  and exact callback reclamation.
+  and exact callback reclamation; and `excel_owned.rs` for callback-scoped
+  Excel result ownership and exactly-once release.
 - **Test coverage:** callback lifetime compile-fail tests, deep-copy
   independence, owned `Send + Sync + 'static`, arrays, strings, and conversion
   limits, deterministic return storage accounting, pointer stability,
   injected partial failures, local cleanup, every supported handed-off root,
   nested pointer stability, cross-thread cleanup, panic containment, and 1,000
   repeated handoff/callback cycles.
-- **Remaining limitations:** Excel-owned API results, `xlFree`, and
-  `xlbitXLFree` transfer remain M7.
+- **Remaining limitations:** Prompt 08 must connect the internal release
+  backend to a lifecycle-guarded `Excel12v` entry point. Raw `xlbitXLFree`
+  return integration remains deferred because root reclamation is not proved.
 
 ## Ownership domains
 
@@ -168,6 +170,37 @@ does not require TLS lifetime management.
 
 Only values returned by Excel API calls may be released with `xlFree`.
 
+M7 implements `ExcelOwnedValue<'call>` with a boxed root and a borrowed release
+backend capability. Rust owns and eventually drops the root box; Excel owns
+only auxiliary storage reachable from that root. The callback lifetime and a
+raw-pointer marker keep the owner in the legal callback and make it neither
+`Send` nor `Sync`.
+
+The call-result constructor is crate-private and unsafe. The future call layer
+must supply `XlFreeRequired` for results whose call/type metadata says Excel
+allocated auxiliary storage and `NoReleaseRequired` otherwise. Microsoft
+requires release for `xltypeStr`, `xltypeMulti`, and `xltypeRef`, and says it is
+safe to pass any C-API result root to `xlFree`; Excel does not set
+`xlbitXLFree` on ordinary call results. Big-data call metadata remains a Prompt
+08 catalogue responsibility because the general `xlFree` reference does not
+list `xltypeBigData` among its required types.
+
+The implemented state machine is:
+
+```text
+Active -- explicit release / consuming copy / Drop --> Attempted
+```
+
+`Attempted` is terminal even when Excel reports failure. Retrying would be
+unsafe because a failure code does not prove that no payload was released.
+Explicit release returns the exact backend error. Drop contains backend panics,
+ignores the diagnostic result, and never retries or panics. A consuming deep
+copy composes conversion and release failures without losing either.
+
+For an Excel-created multi the central decoder borrows every element, the
+conversion layer deep-copies every supported element and UTF-16 payload, and
+the backend receives only the top-level root.
+
 `ExcelOwnedValue` tracks one of these states:
 
 ```text
@@ -181,6 +214,21 @@ Owned -> no-release-required
 - after the C API call creates the value;
 - after the value is no longer passed to other C API calls;
 - immediately before return to Excel.
+
+Microsoft says Excel frees auxiliary memory after copying the returned value,
+but its example uses a static root and warns that the root must not be
+overwritten while another thread is still using it. `xlFree` explicitly does
+not destroy the root, and there is no callback for reclaiming an XLL-allocated
+root carrying only `xlbitXLFree`. Therefore M7 exposes only a pre-commit owned
+transfer token: it consumes the owner without releasing, retains the boxed root
+and fallback release capability, sets no ownership bit, and exposes no pointer.
+Both the required root lifetime and a leak-free committed-root cleanup strategy
+must be integrated and proved in Prompt 08. Combining `xlbitXLFree` and
+`xlbitDLLFree` is also deferred because Microsoft does not document that pair.
+
+Official sources: [Memory Management in Excel](https://learn.microsoft.com/en-us/office/client-developer/excel/memory-management-in-excel),
+[xlFree](https://learn.microsoft.com/en-us/office/client-developer/excel/xlfree),
+and [Excel4/Excel12](https://learn.microsoft.com/en-us/office/client-developer/excel/excel4-excel12).
 
 ## XLL-owned returns
 

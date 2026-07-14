@@ -11,8 +11,8 @@
 - **Test coverage:** empty, ASCII, BMP, surrogate pairs, unpaired high and low
   surrogates, embedded NUL, strict/lossy decoding, UTF-8 encoding, and source
   independence.
-- **Remaining limitations:** Excel-owned API strings and modify-in-place/direct
-  dynamic returns.
+- **Remaining limitations:** modify-in-place/direct dynamic returns and raw
+  XLFree return integration.
 
 ## ABI forms
 
@@ -124,3 +124,8 @@ An internal buffer may optionally reserve a trailing NUL, but:
 
 Borrowed multis yield `ExcelStr` without allocation. Owned arrays deep-copy text
 to `ExcelString`. DLL-owned return multis own every string payload.
+
+M7 also borrows Excel-created result strings through the same decoder.
+`ExcelOwnedValue::into_owned_value` copies UTF-16 code units directly into
+`ExcelString` (including embedded NUL and unpaired surrogates), then attempts
+one top-level `xlFree` release.

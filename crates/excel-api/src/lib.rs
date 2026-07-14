@@ -4,6 +4,7 @@ pub mod borrowed;
 pub mod context;
 pub mod convert;
 pub mod error;
+mod excel_owned;
 pub mod registration;
 mod return_alloc;
 pub mod return_plan;
@@ -19,6 +20,10 @@ pub use convert::{ConversionLimits, FromExcel, IntoExcel};
 pub use error::{
     ConversionError, ExcelError, OwnedValueError, ReturnError, ReturnMaterializationError,
     Utf16ConversionError,
+};
+pub use excel_owned::{
+    ExcelOwnedConversionError, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy,
+    ExcelXlFreeTransfer,
 };
 pub use registration::{AddInDescriptor, FunctionFlags, FunctionRegistration, RegistrationError};
 pub use return_alloc::{ExcelReturn, xl_auto_free12};
