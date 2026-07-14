@@ -3,7 +3,7 @@
 | Area | Document | Status | Milestones |
 |---|---|---|---|
 | Overall | `ARCHITECTURE.md` | Proposed | M0+ |
-| ABI | `ABI_ARCHITECTURE.md` | Proposed | M1 |
+| ABI | `ABI_ARCHITECTURE.md` | Implemented | M1 |
 | Memory | `MEMORY_OWNERSHIP_ARCHITECTURE.md` | Proposed | M1-M7 |
 | Strings | `STRING_ARCHITECTURE.md` | Proposed | M1-M8 |
 | Conversion | `TYPE_CONVERSION_ARCHITECTURE.md` | Proposed | M2-M5 |
