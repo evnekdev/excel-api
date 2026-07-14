@@ -452,6 +452,10 @@ const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = rust_echo;
 mod tests {
     use super::*;
 
+    fn normalize_snapshot_newlines(snapshot: &str) -> String {
+        snapshot.lines().collect::<Vec<_>>().join("\n")
+    }
+
     #[test]
     fn descriptors_have_exact_signatures_and_flags() {
         assert_eq!(ADD_IN.validate(), Ok(()));
@@ -523,7 +527,17 @@ mod tests {
             .join("\n");
         assert_eq!(
             snapshot,
-            include_str!("../tests/snapshots/m8-generated-metadata.snap").trim()
+            normalize_snapshot_newlines(include_str!(
+                "../tests/snapshots/m8-generated-metadata.snap"
+            ))
+        );
+    }
+
+    #[test]
+    fn metadata_snapshot_accepts_windows_and_unix_newlines() {
+        assert_eq!(
+            normalize_snapshot_newlines("first\nsecond\n"),
+            normalize_snapshot_newlines("first\r\nsecond\r\n")
         );
     }
 
