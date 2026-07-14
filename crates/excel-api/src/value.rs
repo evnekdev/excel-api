@@ -93,6 +93,21 @@ pub enum ExcelValue {
     Array(ExcelArray),
 }
 
+impl ExcelValue {
+    pub const fn kind_name(&self) -> &'static str {
+        match self {
+            Self::Number(_) => "number",
+            Self::Integer(_) => "integer",
+            Self::Boolean(_) => "boolean",
+            Self::Error(_) => "error",
+            Self::Missing => "missing",
+            Self::Empty => "empty",
+            Self::Text(_) => "text",
+            Self::Array(_) => "array",
+        }
+    }
+}
+
 /// Owned immutable rectangular array in row-major order.
 #[derive(Clone, Debug, PartialEq)]
 pub struct ExcelArray {

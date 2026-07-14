@@ -19,3 +19,5 @@
 - [x] Callback reconstructs `Box<ReturnAllocation>`, never `Box<XLOPER12>`.
 - [x] Root is offset zero and only the root carries DLLFree.
 - [x] Duplicate callback is documented as an unrecoverable ownership-contract violation.
+- [x] Production lifecycle results use the callback-scoped xlFree backend before unlink.
+- [x] Raw XLFree transfer remains deferred; live M8 returns deep-copy to DLLFree.

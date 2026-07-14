@@ -75,3 +75,14 @@ Linking/resolution happens during idempotent initialization, not static
 construction and not before `xlAutoOpen`.
 
 Unlinking occurs only after objects that might call Excel have been destroyed.
+## M8 implementation
+
+The production backend mirrors SDK `XLCALL.CPP`: it resolves `MdCallBack12`
+from the host executable and accepts `SetExcel12EntryPt`. An atomic stores the
+linked entry; safe public code cannot call arbitrary function integers.
+
+The initial typed catalogue contains `xlGetName`, `xlfRegister`, `xlfSetName`,
+`xlfUnregister`, and `xlFree`, including context, result-root, argument-count,
+thread-safety, and release metadata. Exact C API return-code bits are retained
+in `ExcelReturnCode`. `xlGetName` and lifecycle results are represented by
+`ExcelOwnedValue` and receive one top-level `xlFree` attempt.

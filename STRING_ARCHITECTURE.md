@@ -129,3 +129,11 @@ M7 also borrows Excel-created result strings through the same decoder.
 `ExcelOwnedValue::into_owned_value` copies UTF-16 code units directly into
 `ExcelString` (including embedded NUL and unpaired surrogates), then attempts
 one top-level `xlFree` release.
+## M8 integration
+
+Registration arguments use stable owned counted UTF-16 buffers. `RUST.ECHO`
+accepts a `Q` XLOPER12 and returns a deep-copied DLLFree counted string,
+preserving arbitrary UTF-16 code units including embedded NUL. Dynamic direct
+simple-string returns remain prohibited. Direct `C%` and `D%` parsers exist,
+but their example probes are deferred until after live validation of the
+minimum slice.

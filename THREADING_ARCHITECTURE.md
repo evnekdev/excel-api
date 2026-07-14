@@ -78,3 +78,10 @@ Prefer:
 - atomics for counters/state;
 - scoped locks;
 - no lock in `xlAutoFree12` if avoidable.
+## M8 classifications
+
+`RUST.ADD`, `RUST.ECHO`, `RUST.ARRAY.ECHO`, and `RUST.OPTION.KIND` are pure and
+registered `$`; each produces fresh per-call DLLFree storage. The
+reference-preserving probe is deliberately not `$`. Registration runs only in
+lifecycle context. Panic and catastrophic static scalar fallbacks are
+immutable, pointer-free, and contain no ownership bit.

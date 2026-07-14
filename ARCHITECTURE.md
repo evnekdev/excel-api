@@ -114,3 +114,12 @@ Business logic must remain independent from Excel.
 The initial implementation targets Excel 12+ only. Legacy Excel4/xloper support
 is a possible future compatibility crate or feature, not a constraint on the
 first safe API.
+
+## M8 manual vertical slice
+
+The first runtime implementation connects Excel12 callbacks to typed lifecycle
+capabilities, typed registration, manual thunks, return planning, DLLFree
+handoff, and production `xlFree`. Its state machine and callback backend live
+in `excel-api`; the example owns only a `OnceLock<Runtime>` and thin exports.
+No runtime mutex is held while Excel executes. Automated load, calculation,
+MTR, unload, and reload passed in real 64-bit Excel; interactive UI checks remain.

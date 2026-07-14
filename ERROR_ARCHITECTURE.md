@@ -102,3 +102,12 @@ return materialization. Release errors preserve the exact Excel return code or
 distinguish invalid context, not-thread-safe, unavailable backend, and a
 contained backend panic. One attempted call consumes the obligation regardless
 of its result; Drop never formats, retries, or panics.
+## M8 implementation
+
+`ExcelCallError`, `RegistrationError`, `LifecycleError`, and `ThunkError` own
+their diagnostics and retain exact Excel return codes. Every export contains
+unwinding panics. Normal thunk errors materialize DLLFree Excel errors; if
+planning/materialization cannot allocate, the fallback is an immutable static
+scalar error root with no pointer and no ownership bit. Input maps to #VALUE!,
+references to #REF!, numeric range/domain to #NUM!, allocation/unavailable to
+#N/A, and panic to #VALUE!.

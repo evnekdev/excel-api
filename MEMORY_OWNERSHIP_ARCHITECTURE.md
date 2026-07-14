@@ -2,7 +2,7 @@
 
 ## Status
 
-- **Status:** M7 Excel-owned RAII implemented; raw XLFree return integration is deferred.
+- **Status:** M8 production Excel-owned RAII integration implemented; raw XLFree return integration remains deferred.
 - **Implemented in:** `borrowed.rs` for callback views; `value.rs` and
   `convert.rs` for owned semantic values and bounded deep copies; and
   `return_plan.rs` for fully validated logical return plans; and
@@ -15,9 +15,15 @@
   injected partial failures, local cleanup, every supported handed-off root,
   nested pointer stability, cross-thread cleanup, panic containment, and 1,000
   repeated handoff/callback cycles.
-- **Remaining limitations:** Prompt 08 must connect the internal release
-  backend to a lifecycle-guarded `Excel12v` entry point. Raw `xlbitXLFree`
-  return integration remains deferred because root reclamation is not proved.
+- **Remaining limitations:** Automated live Excel validation passed; interactive
+  UI cases remain. Raw
+  `xlbitXLFree` return integration remains deferred because per-call root
+  reclamation is not proved and Microsoft does not document combining it with
+  DLLFree.
+
+M8's `CallCapability` implements the release backend with exactly
+`Excel12v(xlFree, null, 1, [&mut root])`. Lifecycle call owners are dropped or
+consumed before the runtime can unlink the callback entry point.
 
 ## Ownership domains
 

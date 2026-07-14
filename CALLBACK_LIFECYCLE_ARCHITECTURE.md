@@ -69,3 +69,11 @@ core ownership implementation.
 ## `DllMain`
 
 No Excel C API calls. Avoid nontrivial initialization under loader lock.
+## M8 implementation
+
+`Runtime` implements `Uninitialized`, `Initializing`, `Initialized`, and
+`Closing`. Duplicate open/add calls are idempotent, partial registration rolls
+back in reverse order, close is idempotent, and failed close retains failed IDs
+with the backend linked for retry. No lock is held over Excel12v. Thin,
+panic-contained exports implement `xlAutoOpen`, `xlAutoClose`, `xlAutoAdd`,
+`xlAutoRemove`, `xlAddInManagerInfo12`, and `xlAutoFree12`.

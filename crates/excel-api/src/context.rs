@@ -1,58 +1,81 @@
 use core::marker::PhantomData;
 
-/// Token for an ordinary worksheet-function invocation.
+use crate::excel_call::CallCapability;
+
 #[derive(Debug)]
 pub struct WorksheetContext<'call> {
+    #[allow(
+        dead_code,
+        reason = "worksheet-safe calls are added to this capability whitelist incrementally"
+    )]
+    capability: &'call CallCapability<'call>,
     _call: PhantomData<&'call mut &'call ()>,
 }
 
-/// Token for a function registered as thread-safe.
-///
-/// This type intentionally exposes no general Excel C API access.
 #[derive(Debug)]
 pub struct ThreadSafeContext<'call> {
+    #[allow(
+        dead_code,
+        reason = "xlFree is consumed internally by Excel-owned result RAII"
+    )]
+    capability: &'call CallCapability<'call>,
     _call: PhantomData<&'call mut &'call ()>,
 }
 
-/// Token for main-thread macro/command execution.
+#[derive(Debug)]
+pub struct LifecycleContext<'call> {
+    capability: &'call CallCapability<'call>,
+    _call: PhantomData<&'call mut &'call ()>,
+}
+
 #[derive(Debug)]
 pub struct MacroContext<'call> {
+    #[allow(dead_code, reason = "macro operations are outside the M8 catalogue")]
+    capability: &'call CallCapability<'call>,
     _call: PhantomData<&'call mut &'call ()>,
 }
 
-impl WorksheetContext<'_> {
-    /// Contexts may only be created by the runtime.
-    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
-    pub(crate) const fn new() -> Self {
-        Self { _call: PhantomData }
-    }
+macro_rules! context_impl {
+    ($type:ident) => {
+        impl<'call> $type<'call> {
+            #[allow(
+                dead_code,
+                reason = "constructed as each callback class gains operations"
+            )]
+            pub(crate) const fn new(capability: &'call CallCapability<'call>) -> Self {
+                Self {
+                    capability,
+                    _call: PhantomData,
+                }
+            }
+
+            #[allow(dead_code, reason = "consumed as each callback class gains operations")]
+            pub(crate) const fn capability(&self) -> &'call CallCapability<'call> {
+                self.capability
+            }
+        }
+    };
 }
 
-impl ThreadSafeContext<'_> {
-    /// Contexts may only be created by the runtime.
-    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
-    pub(crate) const fn new() -> Self {
-        Self { _call: PhantomData }
-    }
-}
-
-impl MacroContext<'_> {
-    /// Contexts may only be created by the runtime.
-    #[allow(dead_code, reason = "the callback runtime is a later milestone")]
-    pub(crate) const fn new() -> Self {
-        Self { _call: PhantomData }
-    }
-}
+context_impl!(WorksheetContext);
+context_impl!(ThreadSafeContext);
+context_impl!(LifecycleContext);
+context_impl!(MacroContext);
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::excel_call::test_support::UnavailableBackend;
 
     #[test]
-    fn context_tokens_are_zero_sized() {
-        assert_eq!(core::mem::size_of::<WorksheetContext<'_>>(), 0);
-        let _ = WorksheetContext::new();
-        let _ = ThreadSafeContext::new();
-        let _ = MacroContext::new();
+    fn contexts_carry_a_real_borrowed_capability() {
+        let backend = UnavailableBackend;
+        let capability = CallCapability::new(&backend);
+        let worksheet = WorksheetContext::new(&capability);
+        let thread_safe = ThreadSafeContext::new(&capability);
+        let lifecycle = LifecycleContext::new(&capability);
+        assert!(core::ptr::eq(worksheet.capability(), &capability));
+        assert!(core::ptr::eq(thread_safe.capability(), &capability));
+        assert!(core::ptr::eq(lifecycle.capability(), &capability));
     }
 }
