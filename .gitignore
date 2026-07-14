@@ -1,1 +1,3 @@
 /target
+/tools/abi-check/target
+/tools/abi-check/Cargo.lock

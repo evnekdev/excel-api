@@ -1,5 +1,8 @@
 # ABI Architecture
 
+Status: Implemented for the Windows x86_64 MSVC Excel 12+ definitions scoped
+by Prompt 01. The standalone checker verifies them against the checked-in SDK.
+
 ## Supported target
 
 Initial target:

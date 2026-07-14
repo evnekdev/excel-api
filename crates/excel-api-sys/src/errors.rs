@@ -2,12 +2,12 @@
 #[repr(i32)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum XlError {
-    Null = 0,
-    Div0 = 7,
-    Value = 15,
-    Ref = 23,
-    Name = 29,
-    Num = 36,
-    Na = 42,
-    GettingData = 43,
+    Null = crate::xlerrNull,
+    Div0 = crate::xlerrDiv0,
+    Value = crate::xlerrValue,
+    Ref = crate::xlerrRef,
+    Name = crate::xlerrName,
+    Num = crate::xlerrNum,
+    Na = crate::xlerrNA,
+    GettingData = crate::xlerrGettingData,
 }
