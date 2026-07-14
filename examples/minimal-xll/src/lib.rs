@@ -81,6 +81,93 @@ pub static ADD_IN: AddInDescriptor = AddInDescriptor::new(
     FUNCTIONS,
 );
 
+/// Normative metadata for the handwritten M8 implementation.
+///
+/// M9 macro output must match these fixtures until an approved successor
+/// oracle replaces them.  They intentionally describe the observable Excel
+/// contract rather than providing a second registration implementation.
+#[cfg(test)]
+struct ManualFunctionFixture {
+    rust_symbol: &'static str,
+    excel_name: &'static str,
+    type_text: &'static str,
+    argument_names: &'static [&'static str],
+    argument_descriptions: &'static [&'static str],
+    flags: FunctionFlags,
+    return_strategy: &'static str,
+    error_mapping: &'static str,
+}
+
+#[cfg(test)]
+const MANUAL_FUNCTION_FIXTURES: &[ManualFunctionFixture] = &[
+    ManualFunctionFixture {
+        rust_symbol: "rust_add",
+        excel_name: "RUST.ADD",
+        type_text: "QBB$",
+        argument_names: &["x", "y"],
+        argument_descriptions: &["First number", "Second number"],
+        flags: PURE,
+        return_strategy: "fresh DllOwnedXloper12 handoff",
+        error_mapping: "panic/#VALUE!",
+    },
+    ManualFunctionFixture {
+        rust_symbol: "rust_echo",
+        excel_name: "RUST.ECHO",
+        type_text: "QQ$",
+        argument_names: &["value"],
+        argument_descriptions: &["Text value"],
+        flags: PURE,
+        return_strategy: "fresh DllOwnedXloper12 handoff",
+        error_mapping: "decode/conversion/#VALUE!, panic/#VALUE!",
+    },
+    ManualFunctionFixture {
+        rust_symbol: "rust_array_echo",
+        excel_name: "RUST.ARRAY.ECHO",
+        type_text: "QQ$",
+        argument_names: &["value"],
+        argument_descriptions: &["Value-only range or array"],
+        flags: PURE,
+        return_strategy: "fresh DllOwnedXloper12 handoff",
+        error_mapping: "reference/#REF!, numeric/#NUM!, allocation/#N/A, other/#VALUE!",
+    },
+    ManualFunctionFixture {
+        rust_symbol: "rust_reference_kind",
+        excel_name: "RUST.REFERENCE.KIND",
+        type_text: "QU",
+        argument_names: &["reference"],
+        argument_descriptions: &["Reference or value"],
+        flags: FunctionFlags {
+            volatile: false,
+            thread_safe: false,
+            macro_type: false,
+            cluster_safe: false,
+        },
+        return_strategy: "fresh DllOwnedXloper12 handoff",
+        error_mapping: "decode/#VALUE!, panic/#VALUE!",
+    },
+    ManualFunctionFixture {
+        rust_symbol: "rust_option_kind",
+        excel_name: "RUST.OPTION.KIND",
+        type_text: "QQ$",
+        argument_names: &["value"],
+        argument_descriptions: &["Optional value"],
+        flags: PURE,
+        return_strategy: "fresh DllOwnedXloper12 handoff",
+        error_mapping: "decode/conversion/#VALUE!, panic/#VALUE!",
+    },
+];
+
+#[cfg(test)]
+const LIFECYCLE_EXPORT_FIXTURES: &[&str] = &[
+    "xlAutoOpen",
+    "xlAutoClose",
+    "xlAutoAdd",
+    "xlAutoRemove",
+    "xlAddInManagerInfo12",
+    "xlAutoFree12",
+    "SetExcel12EntryPt",
+];
+
 fn runtime() -> &'static Runtime {
     static RUNTIME: OnceLock<Runtime> = OnceLock::new();
     RUNTIME.get_or_init(Runtime::production)
@@ -302,6 +389,62 @@ mod tests {
             .map(|function| function.type_text().unwrap())
             .collect();
         assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$"]);
+    }
+
+    #[test]
+    fn handwritten_registration_matches_the_m8_oracle() {
+        assert_eq!(FUNCTIONS.len(), MANUAL_FUNCTION_FIXTURES.len());
+        for (function, fixture) in FUNCTIONS.iter().zip(MANUAL_FUNCTION_FIXTURES) {
+            assert_eq!(function.rust_symbol, fixture.rust_symbol);
+            assert_eq!(function.excel_name, fixture.excel_name);
+            assert_eq!(function.type_text().as_deref(), Ok(fixture.type_text));
+            assert_eq!(function.argument_names, fixture.argument_names);
+            assert_eq!(
+                function.argument_descriptions,
+                fixture.argument_descriptions
+            );
+            assert_eq!(function.flags, fixture.flags);
+            assert_eq!(fixture.return_strategy, "fresh DllOwnedXloper12 handoff");
+            assert!(!fixture.error_mapping.is_empty());
+        }
+    }
+
+    #[test]
+    fn lifecycle_and_thunk_exports_match_the_m8_oracle() {
+        assert_eq!(LIFECYCLE_EXPORT_FIXTURES.len(), 7);
+        // The typed const assertions above prove the callback ABIs. CI checks
+        // the final PE export table because unit tests cannot inspect it.
+        assert!(LIFECYCLE_EXPORT_FIXTURES.contains(&"xlAutoFree12"));
+        assert!(LIFECYCLE_EXPORT_FIXTURES.contains(&"SetExcel12EntryPt"));
+    }
+
+    #[test]
+    fn thunk_error_mapping_matches_the_m8_oracle() {
+        assert_eq!(error_for(&ThunkError::NullArgument), ExcelError::Value);
+        assert_eq!(
+            error_for(&ThunkError::Conversion(
+                excel_api::ConversionError::UnsupportedReference
+            )),
+            ExcelError::Ref
+        );
+        assert_eq!(
+            error_for(&ThunkError::Conversion(
+                excel_api::ConversionError::NonFiniteNumber
+            )),
+            ExcelError::Num
+        );
+        assert_eq!(
+            error_for(&ThunkError::ReturnPlanning(
+                excel_api::ReturnError::ReferenceUnsupported
+            )),
+            ExcelError::Ref
+        );
+        assert_eq!(
+            error_for(&ThunkError::Materialization(
+                excel_api::ReturnMaterializationError::AllocationFailure { storage: "fixture" }
+            )),
+            ExcelError::Na
+        );
     }
 
     #[test]

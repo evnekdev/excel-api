@@ -58,3 +58,14 @@ Add-ins > Go > Browse.
 - Interactive cases still pending: visible Function Wizard inspection,
   Add-in Manager deactivate/remove UI, and an embedded-NUL input (ordinary
   formula text cannot express it directly).
+
+## M8.5 reference-freeze update
+
+The automated record above remains the live-Excel evidence for the frozen M8
+oracle. Function Wizard and Add-in Manager are still pending visible UI
+inspection. The documented direct probes are `RUST.ADD`, Unicode
+`RUST.ECHO`, `RUST.ARRAY.ECHO`, `RUST.REFERENCE.KIND`, and
+`RUST.OPTION.KIND`; their automated results are recorded above. An embedded
+NUL remains pending because ordinary Excel formula text cannot supply one.
+CI deliberately validates the build and export table only; it does not attempt
+to automate a live Excel UI session.

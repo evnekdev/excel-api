@@ -4,7 +4,7 @@
 |---|---|---|---|
 | Overall | `ARCHITECTURE.md` | Proposed | M0+ |
 | ABI | `ABI_ARCHITECTURE.md` | Implemented | M1 |
-| Memory | `MEMORY_OWNERSHIP_ARCHITECTURE.md` | M2-M7 implemented (raw XLFree deferred) | M1-M7 |
+| Memory | `MEMORY_OWNERSHIP_ARCHITECTURE.md` | M2-M8 implemented (raw XLFree return transfer intentionally deferred) | M1-M8 |
 | Strings | `STRING_ARCHITECTURE.md` | Partial (DLLFree returns implemented) | M1-M8 |
 | Conversion | `TYPE_CONVERSION_ARCHITECTURE.md` | M3-M5 implemented | M2-M5 |
 | Arrays/references | `ARRAY_REFERENCE_ARCHITECTURE.md` | Partial (DLLFree return multis implemented) | M2-M8 |
