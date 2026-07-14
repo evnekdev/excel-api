@@ -65,6 +65,15 @@ Support:
 
 Use an explicit add-in descriptor/list before introducing linker-section or
 inventory-based distributed registration.
+
+## M9A metadata generation
+
+`#[excel_function]` now generates one deterministic hidden typed descriptor
+while preserving the annotated Rust function. Attribute text supplies Excel
+name, category, description, future thunk symbol, flags, and complete argument
+help. The Rust signature supplies the closed argument/result families; an
+explicit return registration override is available for the frozen M8 `Q`
+return oracle. No thunk, export, callback code, or unsafe code is generated.
 ## M8 implementation
 
 `FunctionSignature` is the source of truth. It distinguishes scalar `B/A/J`,
