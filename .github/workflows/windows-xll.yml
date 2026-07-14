@@ -1,0 +1,35 @@
+name: Windows XLL
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - name: Tests
+        run: cargo test --workspace --all-features
+      - name: Doctests
+        run: cargo test --workspace --doc
+      - name: ABI checker
+        run: cargo run --manifest-path tools/abi-check/Cargo.toml
+      - name: Build release XLL
+        shell: pwsh
+        run: pwsh -File scripts/build-minimal-xll.ps1 -Profile release
+      - name: Inspect XLL exports
+        shell: pwsh
+        run: pwsh -File scripts/inspect-minimal-xll-exports.ps1
+      - name: Upload XLL and export report
+        uses: actions/upload-artifact@v4
+        with:
+          name: minimal-xll-windows-x64
+          path: |
+            target/release/minimal_xll.xll
+            target/release/minimal_xll.exports.txt
