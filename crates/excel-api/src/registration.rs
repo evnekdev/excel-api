@@ -1,6 +1,67 @@
 use core::fmt;
 
-/// Registration behavior flags.
+use excel_api_sys::{
+    XLL_MODIFIER_CLUSTER_SAFE, XLL_MODIFIER_MACRO_SHEET, XLL_MODIFIER_THREAD_SAFE,
+    XLL_MODIFIER_VOLATILE, XLL_TYPE_BOOL, XLL_TYPE_DOUBLE, XLL_TYPE_I32, XLL_TYPE_XCHAR_COUNTED,
+    XLL_TYPE_XCHAR_NULL_TERMINATED, XLL_TYPE_XLOPER12_REFERENCE, XLL_TYPE_XLOPER12_VALUE,
+};
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ExcelArgumentType {
+    Number,
+    Boolean,
+    Integer,
+    GeneralValue,
+    GeneralReference,
+    CountedUtf16,
+    NullTerminatedUtf16,
+}
+
+impl ExcelArgumentType {
+    const fn code(self) -> &'static str {
+        match self {
+            Self::Number => XLL_TYPE_DOUBLE,
+            Self::Boolean => XLL_TYPE_BOOL,
+            Self::Integer => XLL_TYPE_I32,
+            Self::GeneralValue => XLL_TYPE_XLOPER12_VALUE,
+            Self::GeneralReference => XLL_TYPE_XLOPER12_REFERENCE,
+            Self::CountedUtf16 => XLL_TYPE_XCHAR_COUNTED,
+            Self::NullTerminatedUtf16 => XLL_TYPE_XCHAR_NULL_TERMINATED,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ExcelReturnType {
+    Number,
+    Boolean,
+    Integer,
+    Xloper12,
+}
+
+impl ExcelReturnType {
+    const fn code(self) -> &'static str {
+        match self {
+            Self::Number => XLL_TYPE_DOUBLE,
+            Self::Boolean => XLL_TYPE_BOOL,
+            Self::Integer => XLL_TYPE_I32,
+            Self::Xloper12 => XLL_TYPE_XLOPER12_VALUE,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct FunctionSignature {
+    pub result: ExcelReturnType,
+    pub arguments: &'static [ExcelArgumentType],
+}
+
+impl FunctionSignature {
+    pub const fn new(result: ExcelReturnType, arguments: &'static [ExcelArgumentType]) -> Self {
+        Self { result, arguments }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct FunctionFlags {
     pub volatile: bool,
@@ -9,11 +70,11 @@ pub struct FunctionFlags {
     pub cluster_safe: bool,
 }
 
-/// Static description of one worksheet function.
 #[derive(Clone, Copy, Debug)]
 pub struct FunctionRegistration {
     pub rust_symbol: &'static str,
     pub excel_name: &'static str,
+    pub signature: FunctionSignature,
     pub category: Option<&'static str>,
     pub description: Option<&'static str>,
     pub argument_names: &'static [&'static str],
@@ -22,10 +83,15 @@ pub struct FunctionRegistration {
 }
 
 impl FunctionRegistration {
-    pub const fn new(rust_symbol: &'static str, excel_name: &'static str) -> Self {
+    pub const fn new(
+        rust_symbol: &'static str,
+        excel_name: &'static str,
+        signature: FunctionSignature,
+    ) -> Self {
         Self {
             rust_symbol,
             excel_name,
+            signature,
             category: None,
             description: None,
             argument_names: &[],
@@ -64,6 +130,29 @@ impl FunctionRegistration {
         self
     }
 
+    pub fn type_text(&self) -> Result<String, RegistrationError> {
+        self.validate()?;
+        let mut text = String::from(self.signature.result.code());
+        for argument in self.signature.arguments {
+            text.push_str(argument.code());
+        }
+        // Microsoft specifies modifiers after the parameter codes. This
+        // canonical order makes descriptors deterministic.
+        if self.flags.volatile {
+            text.push(XLL_MODIFIER_VOLATILE);
+        }
+        if self.flags.macro_type {
+            text.push(XLL_MODIFIER_MACRO_SHEET);
+        }
+        if self.flags.thread_safe {
+            text.push(XLL_MODIFIER_THREAD_SAFE);
+        }
+        if self.flags.cluster_safe {
+            text.push(XLL_MODIFIER_CLUSTER_SAFE);
+        }
+        Ok(text)
+    }
+
     pub fn validate(&self) -> Result<(), RegistrationError> {
         if self.rust_symbol.is_empty() {
             return Err(RegistrationError::EmptyRustSymbol);
@@ -71,17 +160,19 @@ impl FunctionRegistration {
         if self.excel_name.is_empty() {
             return Err(RegistrationError::EmptyExcelName);
         }
+        if self.signature.arguments.len() != self.argument_names.len() {
+            return Err(RegistrationError::SignatureArgumentLengthMismatch);
+        }
         if self.argument_names.len() != self.argument_descriptions.len() {
             return Err(RegistrationError::ArgumentMetadataLengthMismatch);
         }
-        if self.flags.thread_safe && self.flags.macro_type {
+        if self.flags.macro_type && (self.flags.thread_safe || self.flags.cluster_safe) {
             return Err(RegistrationError::IncompatibleFlags);
         }
         Ok(())
     }
 }
 
-/// Static descriptor for one complete add-in.
 #[derive(Clone, Copy, Debug)]
 pub struct AddInDescriptor {
     pub name: &'static str,
@@ -106,11 +197,9 @@ impl AddInDescriptor {
         if self.name.is_empty() {
             return Err(RegistrationError::EmptyAddInName);
         }
-
         for function in self.functions {
             function.validate()?;
         }
-
         Ok(())
     }
 }
@@ -120,8 +209,10 @@ pub enum RegistrationError {
     EmptyAddInName,
     EmptyRustSymbol,
     EmptyExcelName,
+    SignatureArgumentLengthMismatch,
     ArgumentMetadataLengthMismatch,
     IncompatibleFlags,
+    StringTooLong,
 }
 
 impl fmt::Display for RegistrationError {
@@ -130,12 +221,16 @@ impl fmt::Display for RegistrationError {
             Self::EmptyAddInName => "add-in name must not be empty",
             Self::EmptyRustSymbol => "Rust symbol must not be empty",
             Self::EmptyExcelName => "Excel function name must not be empty",
+            Self::SignatureArgumentLengthMismatch => {
+                "signature and argument metadata lengths differ"
+            }
             Self::ArgumentMetadataLengthMismatch => {
                 "argument names and descriptions must have the same length"
             }
             Self::IncompatibleFlags => {
-                "a function cannot initially be both thread-safe and macro-type"
+                "a function cannot be both thread-safe and macro-sheet equivalent"
             }
+            Self::StringTooLong => "registration text exceeds Excel's counted-string limit",
         })
     }
 }
@@ -146,13 +241,70 @@ impl std::error::Error for RegistrationError {}
 mod tests {
     use super::*;
 
+    const TWO_NUMBERS: &[ExcelArgumentType] =
+        &[ExcelArgumentType::Number, ExcelArgumentType::Number];
+
     #[test]
-    fn rejects_mismatched_argument_metadata() {
-        let function = FunctionRegistration::new("add", "RUST.ADD")
-            .arguments(&["x", "y"], &["First argument"]);
+    fn exact_type_text_is_generated_from_the_signature() {
+        let function = FunctionRegistration::new(
+            "rust_add",
+            "RUST.ADD",
+            FunctionSignature::new(ExcelReturnType::Xloper12, TWO_NUMBERS),
+        )
+        .arguments(&["x", "y"], &["x", "y"])
+        .flags(FunctionFlags {
+            volatile: true,
+            thread_safe: true,
+            macro_type: false,
+            cluster_safe: true,
+        });
+        assert_eq!(function.type_text().as_deref(), Ok("QBB!$&"));
+    }
+
+    #[test]
+    fn q_and_u_and_direct_wide_strings_remain_distinct() {
+        const ARGS: &[ExcelArgumentType] = &[
+            ExcelArgumentType::GeneralValue,
+            ExcelArgumentType::GeneralReference,
+            ExcelArgumentType::CountedUtf16,
+            ExcelArgumentType::NullTerminatedUtf16,
+        ];
+        let function = FunctionRegistration::new(
+            "probe",
+            "PROBE",
+            FunctionSignature::new(ExcelReturnType::Xloper12, ARGS),
+        )
+        .arguments(&["q", "u", "d", "c"], &["", "", "", ""]);
+        assert_eq!(function.type_text().as_deref(), Ok("QQUD%C%"));
+    }
+
+    #[test]
+    fn incompatible_flags_and_mismatched_metadata_are_rejected() {
+        let mismatch = FunctionRegistration::new(
+            "add",
+            "RUST.ADD",
+            FunctionSignature::new(ExcelReturnType::Number, TWO_NUMBERS),
+        )
+        .arguments(&["x"], &["x"]);
         assert_eq!(
-            function.validate(),
-            Err(RegistrationError::ArgumentMetadataLengthMismatch)
+            mismatch.validate(),
+            Err(RegistrationError::SignatureArgumentLengthMismatch)
+        );
+
+        let incompatible = FunctionRegistration::new(
+            "f",
+            "F",
+            FunctionSignature::new(ExcelReturnType::Number, &[]),
+        )
+        .flags(FunctionFlags {
+            volatile: false,
+            thread_safe: true,
+            macro_type: true,
+            cluster_safe: false,
+        });
+        assert_eq!(
+            incompatible.validate(),
+            Err(RegistrationError::IncompatibleFlags)
         );
     }
 }

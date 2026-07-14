@@ -10,9 +10,17 @@ integrations.
 
 ## Current status
 
-The project is in the architecture and ABI-research stage. The first target is
-a minimal 64-bit Rust XLL that Excel can load and that registers a scalar
-worksheet function through the Excel C API.
+Milestone 8's manual Windows x64 XLL implementation and automated live Excel
+smoke test are complete; a few interactive UI cases remain. The runtime resolves the SDK-defined `MdCallBack12`
+entry point, registers five manual worksheet thunks, uses callback-scoped
+Excel-owned result RAII for lifecycle calls, and returns dynamic values through
+per-call DLLFree storage. See [the smoke-test record](docs/manual-tests/m8-excel-smoke-test.md).
+
+Build the loadable artifact with:
+
+```powershell
+pwsh -File scripts/build-minimal-xll.ps1 -Profile release
+```
 
 ## Architecture references
 

@@ -383,6 +383,33 @@ impl fmt::Display for ReturnMaterializationError {
 
 impl std::error::Error for ReturnMaterializationError {}
 
+#[derive(Debug)]
+pub enum ThunkError {
+    NullArgument,
+    Decode(DecodeError),
+    Conversion(ConversionError),
+    ReturnPlanning(ReturnError),
+    Materialization(ReturnMaterializationError),
+}
+
+impl fmt::Display for ThunkError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::NullArgument => formatter.write_str("Excel supplied a null argument pointer"),
+            Self::Decode(error) => write!(formatter, "Excel argument decoding failed: {error}"),
+            Self::Conversion(error) => {
+                write!(formatter, "Excel argument conversion failed: {error}")
+            }
+            Self::ReturnPlanning(error) => write!(formatter, "return planning failed: {error}"),
+            Self::Materialization(error) => {
+                write!(formatter, "return materialization failed: {error}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for ThunkError {}
+
 impl fmt::Display for DecodeError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(formatter, "{self:?}")

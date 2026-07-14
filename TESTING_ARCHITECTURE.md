@@ -113,3 +113,12 @@ backends, contained backend/conversion panics, DLLFree absence, and 1,000
 exactly-once cycles. The pre-commit transfer token is non-duplicable, performs
 no premature release or ownership-bit mutation, exposes no pointer, and falls
 back to release on Drop. Tests never call a live Excel process.
+## M8 coverage
+
+The mock Excel12v backend records calls, type text, IDs, reverse-order
+unregistration, top-level `xlFree`, partial failure, retry, duplicate open, and
+idempotent close. Thunk tests cover per-call roots, null conversion failure,
+and panic fallback. The real 64-bit Excel procedure and pending result record
+are in `docs/manual-tests/m8-excel-smoke-test.md`. The COM harness passed two
+fresh real 64-bit Excel processes with MTR enabled; visible Function Wizard,
+Add-in Manager UI, and embedded-NUL UI cases remain manual.

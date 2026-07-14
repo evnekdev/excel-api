@@ -62,3 +62,10 @@ the XLL, forbids them from XLL-created threads and `DllMain`, and makes
 `xlFree` the sole permitted cleanup callback after `xlretAbort` or
 `xlretUncalced`. Prompt 08 will construct the backend from the runtime context
 and keep call pointers linked through every owner drop.
+## M8 implementation
+
+`WorksheetContext`, `ThreadSafeContext`, and `LifecycleContext` contain an
+unforgeable callback-lifetime borrow of `CallCapability`. Only the lifecycle
+context currently exposes calls (`xlGetName`, register, unregister); worksheet
+contexts remain intentionally narrow, and thread-safe contexts do not expose
+command or macro-sheet operations. `xlFree` is an internal release capability.

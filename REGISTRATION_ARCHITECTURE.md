@@ -65,3 +65,17 @@ Support:
 
 Use an explicit add-in descriptor/list before introducing linker-section or
 inventory-based distributed registration.
+## M8 implementation
+
+`FunctionSignature` is the source of truth. It distinguishes scalar `B/A/J`,
+value-only `Q`, reference-preserving `U`, counted `D%`, and NUL-terminated
+`C%`. Return type, arguments, then canonical `!`, `#`, `$`, `&` modifiers form
+the type text; macro-sheet plus thread-safe is rejected.
+
+Registration owns every counted UTF-16 argument buffer and raw root until the
+synchronous call returns. The fields are module, procedure, type text, Excel
+name, comma-separated argument names, macro type, category, shortcut, help
+topic, function description, and argument descriptions. Successful IDs are
+stored in runtime state; failure rolls them back in reverse order. Close first
+deletes each `pxFunctionText` hidden name through one-argument `xlfSetName`, as
+required by Microsoft, then unregisters its stored ID.

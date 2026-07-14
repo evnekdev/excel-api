@@ -170,3 +170,10 @@ Reference APIs must distinguish:
 - current workbook/sheet/cell being calculated.
 
 The library must avoid APIs whose names blur this distinction.
+## M8 integration
+
+`RUST.ARRAY.ECHO` uses `Q` and deep-copies flat scalar/text/error cells to a
+fresh DLLFree multi; nested arrays and references are rejected.
+`RUST.REFERENCE.KIND` uses `U` and reports SRef, Ref, multi, scalar, missing,
+or nil without coercion, dereference, or UI-active-state calls. A broader
+current-versus-active demonstration is deferred.
