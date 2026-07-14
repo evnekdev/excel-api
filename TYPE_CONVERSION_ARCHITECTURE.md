@@ -2,14 +2,14 @@
 
 ## Status
 
-- **Status:** M3 semantic conversion implemented.
-- **Implemented in:** `convert.rs`, with owned storage in `value.rs` and error
-  types in `error.rs`.
+- **Status:** M3 semantic conversion and M4 return planning implemented.
+- **Implemented in:** `convert.rs`, with owned storage in `value.rs`, logical
+  return planning in `return_plan.rs`, and error types in `error.rs`.
 - **Test coverage:** every supported scalar target, strict strings, arrays,
   missing/empty policy, reference rejection, resource limits, and numeric edge
   cases.
 - **Remaining limitations:** worksheet coercion, Excel-owned API results,
-  return planning/materialization, and owned references.
+  return materialization, and owned references.
 
 ## Two independent conversion layers
 
@@ -86,6 +86,19 @@ representable `Number`. This remains semantic planning, not ABI return storage.
 `Option<T>` maps missing and empty to `None`. `OptionalValue<T>` and
 `ExcelValue` preserve the distinction. Strict `String` conversion rejects
 unpaired surrogates; `ExcelString` copies code units without Unicode loss.
+
+## Return planning conversion
+
+The implemented return path is:
+
+```text
+Rust T -> IntoExcel -> ExcelValue -> ExcelReturnValue -> ReturnPlan
+```
+
+`From<ExcelValue>` preserves integer, missing/empty, array order, and arbitrary
+UTF-16 identity. Direct `String`/`&str` conversions to `ExcelReturnValue` retain
+UTF-8 intent. Planning is deterministic and fallible through `ReturnError`;
+ABI allocation is not part of this conversion layer.
 
 ## Coercion API
 

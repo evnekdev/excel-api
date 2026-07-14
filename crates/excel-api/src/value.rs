@@ -178,6 +178,10 @@ impl ExcelArray {
     pub fn iter(&self) -> slice::Iter<'_, ExcelValue> {
         self.values.iter()
     }
+
+    pub(crate) fn into_parts(self) -> (usize, usize, Box<[ExcelValue]>) {
+        (self.rows, self.columns, self.values)
+    }
 }
 
 /// Checked iterator over one column of an owned rectangular array.

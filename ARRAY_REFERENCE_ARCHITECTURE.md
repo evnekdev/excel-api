@@ -2,15 +2,17 @@
 
 ## Status
 
-- **Status:** Borrowed and owned flat arrays implemented through M3;
-  references remain borrowed only.
+- **Status:** Borrowed and owned flat arrays plus logical return planning
+  implemented through M4; references remain borrowed only.
 - **Implemented in:** `borrowed.rs` (`ExcelArrayView` and reference views),
-  `value.rs` (`ExcelArray`), and `convert.rs` (bounded deep copy).
+  `value.rs` (`ExcelArray`), `convert.rs` (bounded deep copy), and
+  `return_plan.rs` (`ExcelReturnArray` and `PlannedArray`).
 - **Test coverage:** shape overflow/mismatch, row-major indexing, rows,
   columns, mixed values, deep-copy independence, element/byte/depth limits,
-  nested-array rejection, and reference rejection.
+  nested-array rejection, reference rejection, ABI dimension checks, exact
+  element/string accounting, and zero-dimensional return rejection.
 - **Remaining limitations:** owned references, reference coercion, FP12 safe
-  wrappers, return multis, and Excel-owned API result arrays.
+  wrappers, return-multi materialization, and Excel-owned API result arrays.
 
 ## Arrays
 
@@ -52,6 +54,22 @@ audited `XLOPER12` decoder and allocate nothing.
 constructor checks multiplication and exact element count and rejects nested
 arrays. It provides immutable checked indexing, row slices, column iterators,
 and row-major iteration.
+
+`ExcelReturnArray` is the separate fully owned logical return form. Planning
+checks shape, Excel 12 row/column bounds, a conservative project element limit,
+depth, total bytes, and allocations before any ABI storage exists. A successful
+`PlannedArray` preserves row-major order and contains only supported scalar or
+text elements. Prompt 05 will allocate one contiguous `XLOPER12` element block
+and one counted UTF-16 buffer per text element.
+
+### Empty return-array policy
+
+A zero row or zero column `xltypeMulti` is rejected as
+`ReturnError::EmptyArrayUnsupported`. Callback multis already require positive
+dimensions, and a zero-element pointer contract would complicate safe
+materialization without representing anything that `ExcelValue::Empty` cannot
+express more clearly. `ExcelArray` remains able to represent 0x0 semantic data;
+the restriction applies at the Excel return boundary.
 
 The borrowed view intentionally validates every element eagerly and decodes an
 element again when accessed. Prompt 03 preserves that correctness-first trade-

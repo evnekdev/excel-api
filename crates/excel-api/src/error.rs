@@ -186,6 +186,129 @@ impl From<OwnedValueError> for ConversionError {
     }
 }
 
+/// Failure to describe a future ABI-compatible Excel return.
+///
+/// Return errors contain only owned scalar metadata. They never contain raw
+/// pointers, callback lifetimes, or partially allocated return storage.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReturnError {
+    StringTooLongForExcel {
+        actual: usize,
+        maximum: usize,
+    },
+    StringLimitExceeded {
+        actual: usize,
+        maximum: usize,
+    },
+    InvalidArrayShape {
+        rows: usize,
+        columns: usize,
+        elements: usize,
+    },
+    EmptyArrayUnsupported,
+    ArrayDimensionExceedsAbi {
+        rows: usize,
+        columns: usize,
+    },
+    ArrayElementCountOverflow {
+        rows: usize,
+        columns: usize,
+    },
+    ArrayElementLimitExceeded {
+        actual: usize,
+        maximum: usize,
+    },
+    NestedArrayUnsupported,
+    ReferenceUnsupported,
+    UnsupportedSemanticVariant {
+        variant: &'static str,
+    },
+    TotalByteOverflow,
+    TotalByteLimitExceeded {
+        required: usize,
+        maximum: usize,
+    },
+    AllocationCountOverflow,
+    AllocationCountLimitExceeded {
+        required: usize,
+        maximum: usize,
+    },
+    PlanningDepthExceeded {
+        depth: usize,
+        maximum: usize,
+    },
+}
+
+impl fmt::Display for ReturnError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::StringTooLongForExcel { actual, maximum } => write!(
+                formatter,
+                "return string has {actual} UTF-16 code units; Excel supports at most {maximum}"
+            ),
+            Self::StringLimitExceeded { actual, maximum } => write!(
+                formatter,
+                "return string has {actual} UTF-16 code units; project limit is {maximum}"
+            ),
+            Self::InvalidArrayShape {
+                rows,
+                columns,
+                elements,
+            } => write!(
+                formatter,
+                "return array shape {rows} x {columns} does not match {elements} elements"
+            ),
+            Self::EmptyArrayUnsupported => formatter.write_str(
+                "zero-dimensional xltypeMulti returns are unsupported; return Empty instead",
+            ),
+            Self::ArrayDimensionExceedsAbi { rows, columns } => write!(
+                formatter,
+                "return array dimensions {rows} x {columns} exceed the Excel 12 ABI limits"
+            ),
+            Self::ArrayElementCountOverflow { rows, columns } => write!(
+                formatter,
+                "return array element count {rows} x {columns} overflows usize"
+            ),
+            Self::ArrayElementLimitExceeded { actual, maximum } => write!(
+                formatter,
+                "return array has {actual} elements; project limit is {maximum}"
+            ),
+            Self::NestedArrayUnsupported => {
+                formatter.write_str("nested Excel return arrays are unsupported")
+            }
+            Self::ReferenceUnsupported => {
+                formatter.write_str("Excel references are unsupported return values")
+            }
+            Self::UnsupportedSemanticVariant { variant } => {
+                write!(
+                    formatter,
+                    "semantic variant {variant} is unsupported for returns"
+                )
+            }
+            Self::TotalByteOverflow => {
+                formatter.write_str("return storage byte accounting overflowed usize")
+            }
+            Self::TotalByteLimitExceeded { required, maximum } => write!(
+                formatter,
+                "return requires {required} ABI storage bytes; project limit is {maximum}"
+            ),
+            Self::AllocationCountOverflow => {
+                formatter.write_str("return allocation-count accounting overflowed usize")
+            }
+            Self::AllocationCountLimitExceeded { required, maximum } => write!(
+                formatter,
+                "return requires {required} allocations; project limit is {maximum}"
+            ),
+            Self::PlanningDepthExceeded { depth, maximum } => write!(
+                formatter,
+                "return planning depth {depth} exceeds project limit {maximum}"
+            ),
+        }
+    }
+}
+
+impl std::error::Error for ReturnError {}
+
 impl fmt::Display for DecodeError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(formatter, "{self:?}")

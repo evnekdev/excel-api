@@ -2,13 +2,15 @@
 
 ## Status
 
-- **Status:** Borrowed and owned semantic strings implemented through M3.
+- **Status:** Borrowed, owned, and logical return planning implemented through
+  M4.
 - **Implemented in:** `borrowed.rs` (`ExcelStr`) and `value.rs`
-  (`ExcelString`), with bounded callback-copy conversion in `convert.rs`.
+  (`ExcelString`), bounded callback-copy conversion in `convert.rs`, and
+  `return_plan.rs` (`ReturnText` and `PlannedText`).
 - **Test coverage:** empty, ASCII, BMP, surrogate pairs, unpaired high and low
   surrogates, embedded NUL, strict/lossy decoding, UTF-8 encoding, and source
   independence.
-- **Remaining limitations:** return-buffer materialization, DLLFree handoff,
+- **Remaining limitations:** counted return-buffer materialization, DLLFree handoff,
   Excel-owned API strings, and modify-in-place/direct dynamic returns.
 
 ## ABI forms
@@ -85,6 +87,12 @@ XLOPER12 xltypeStr | xlbitDLLFree
 
 Direct dynamic simple-string returns are not supported initially because they
 lack the general `xlAutoFree12` ownership callback.
+
+M4 planning retains either the original valid UTF-8 `String` or arbitrary
+`ExcelString` UTF-16 payload. UTF-8 planning counts `encode_utf16()` without
+allocating a UTF-16 payload. Each planned text records exact payload units and
+prefix-plus-payload units, enforces Excel's 32,767-unit hard limit and separate
+project limits, and permits embedded NUL. Materialization remains M5.
 
 ## Hybrid strings
 
