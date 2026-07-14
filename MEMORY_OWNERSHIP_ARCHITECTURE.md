@@ -10,6 +10,19 @@
 | XLL return before handoff | `ExcelReturn` | Rust `Drop` |
 | XLL return after handoff | raw `*mut XLOPER12` | `xlAutoFree12` |
 
+## Implemented callback-borrowing boundary
+
+`RawExcelValue<'call>` is the sole unsafe entry point from a callback-owned
+`XLOPER12` into the safe value layer. Its safety contract requires the root and
+all reachable SDK storage to remain readable, immutable, and valid for
+`'call`. One decoder masks `xlbitXLFree` and `xlbitDLLFree`, validates the base
+tag before every union read, and produces `ExcelValueRef<'call>`.
+
+Every pointer-bearing callback view carries `'call` and an explicit marker that
+makes it neither `Send` nor `Sync`. The views do not implement `Clone` or
+`Copy`. Safe code can therefore observe callback memory but cannot extend its
+lifetime, move the view to another thread, mutate it, or free it.
+
 ## Initial return-root policy
 
 Use one fresh heap-owned root per call.

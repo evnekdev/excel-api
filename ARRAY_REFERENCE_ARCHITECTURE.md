@@ -29,6 +29,13 @@ Initial return restrictions:
 - no arrays containing references;
 - flat rectangular arrays only.
 
+The callback-borrowing implementation applies the same flatness restriction to
+borrowed multis. `ExcelArrayView<'call>` validates positive SDK-bounded
+dimensions, checked row-major element count, a non-null element pointer, and
+every element tag before it is exposed. Nested multis and reference elements
+are rejected. Indexing and row/column iterators borrow elements through the one
+audited `XLOPER12` decoder and allocate nothing.
+
 ## Registration effect
 
 Reference-preserving general arguments may yield:
@@ -70,6 +77,13 @@ ReferenceArea
 ```
 
 Reference values remain distinct from arrays.
+
+`ExcelReference<'call>` preserves the ABI distinction with separate
+`ExcelSingleReference<'call>` (`xltypeSRef`) and
+`ExcelMultiReference<'call>` (`xltypeRef`) variants. The single-reference count,
+multi-reference pointer/count, sheet ID, and each rectangular area are
+validated and observed directly; the borrowing layer performs no coercion or
+worksheet lookup.
 
 ## Coercion
 

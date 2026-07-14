@@ -1,4 +1,4 @@
-use excel_api::{AddInDescriptor, FunctionFlags, FunctionRegistration, IntoExcel};
+use excel_api::{AddInDescriptor, FunctionFlags, FunctionRegistration};
 
 pub fn add(x: f64, y: f64) -> f64 {
     x + y
@@ -45,6 +45,7 @@ pub extern "system" fn xlAutoFree12(_value: *mut excel_api_sys::XLOPER12) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use excel_api::IntoExcel;
 
     #[test]
     fn example_descriptor_is_valid() {

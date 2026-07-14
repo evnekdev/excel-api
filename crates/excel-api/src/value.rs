@@ -1,19 +1,5 @@
 use crate::ExcelError;
 
-/// Borrowed value received from Excel.
-///
-/// Borrowed string and array variants will be introduced after the raw ABI has
-/// been validated against the Excel SDK.
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ExcelValueRef<'a> {
-    Number(f64),
-    Boolean(bool),
-    Error(ExcelError),
-    Missing,
-    Empty,
-    Text(&'a str),
-}
-
 /// Ordinary owned Rust representation of an Excel value.
 #[derive(Clone, Debug, PartialEq)]
 pub enum ExcelValue {
@@ -75,19 +61,6 @@ pub enum OptionalValue<T> {
     Missing,
     Empty,
     Value(T),
-}
-
-impl ExcelValueRef<'_> {
-    pub const fn kind_name(self) -> &'static str {
-        match self {
-            Self::Number(_) => "number",
-            Self::Boolean(_) => "boolean",
-            Self::Error(_) => "error",
-            Self::Missing => "missing",
-            Self::Empty => "empty",
-            Self::Text(_) => "text",
-        }
-    }
 }
 
 #[cfg(test)]
