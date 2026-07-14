@@ -5,6 +5,7 @@ handoff, and exactly-once `xlAutoFree12`.
 
 ## Status
 
-Partially implemented in M4 as planning only. `ReturnPlan` selects the future
-DLL-owned strategy and counts the root and all backing objects, but creates no
-`ReturnAllocation`, raw pointer, ownership bit, handoff, or free callback.
+Partially implemented through M5. `ReturnPlan` selects the future DLL-owned
+strategy and M5 materializes an offset-zero root plus stable locally owned
+string and array backing storage. No ownership bit, consuming handoff, raw
+reconstruction, or free callback is implemented yet.

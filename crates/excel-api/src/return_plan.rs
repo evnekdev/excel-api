@@ -227,9 +227,9 @@ pub struct ReturnStorageTotals {
 /// Immutable, fully validated description of a future return allocation.
 #[derive(Clone, Debug, PartialEq)]
 pub struct ReturnPlan {
-    root: PlannedValue,
-    totals: ReturnStorageTotals,
-    strategy: ReturnOwnershipStrategy,
+    pub(crate) root: PlannedValue,
+    pub(crate) totals: ReturnStorageTotals,
+    pub(crate) strategy: ReturnOwnershipStrategy,
 }
 
 impl ReturnPlan {
@@ -262,9 +262,9 @@ pub enum PlannedValue {
 /// Original text plus its exact future counted-string sizes.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct PlannedText {
-    source: ReturnText,
-    payload_code_units: usize,
-    storage_code_units: usize,
+    pub(crate) source: ReturnText,
+    pub(crate) payload_code_units: usize,
+    pub(crate) storage_code_units: usize,
 }
 
 impl PlannedText {
@@ -284,9 +284,9 @@ impl PlannedText {
 /// Validated flat array metadata and elements in row-major order.
 #[derive(Clone, Debug, PartialEq)]
 pub struct PlannedArray {
-    rows: usize,
-    columns: usize,
-    elements: Box<[PlannedArrayElement]>,
+    pub(crate) rows: usize,
+    pub(crate) columns: usize,
+    pub(crate) elements: Box<[PlannedArrayElement]>,
 }
 
 impl PlannedArray {

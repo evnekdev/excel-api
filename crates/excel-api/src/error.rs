@@ -309,6 +309,80 @@ impl fmt::Display for ReturnError {
 
 impl std::error::Error for ReturnError {}
 
+/// Failure while turning a validated return plan into stable ABI storage.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReturnMaterializationError {
+    PlanStorageInvariantMismatch {
+        field: &'static str,
+        planned: usize,
+        actual: usize,
+    },
+    Utf8EncodedLengthMismatch {
+        planned: usize,
+        actual: usize,
+    },
+    StringBufferLengthMismatch {
+        planned: usize,
+        actual: usize,
+    },
+    ArrayShapeMismatch {
+        rows: usize,
+        columns: usize,
+        elements: usize,
+    },
+    UnsupportedPlannedValue {
+        variant: &'static str,
+    },
+    AllocationFailure {
+        storage: &'static str,
+    },
+    InjectedTestFailure {
+        stage: &'static str,
+    },
+}
+
+impl fmt::Display for ReturnMaterializationError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::PlanStorageInvariantMismatch {
+                field,
+                planned,
+                actual,
+            } => write!(
+                formatter,
+                "return plan {field} is {planned}, but materialized storage requires {actual}"
+            ),
+            Self::Utf8EncodedLengthMismatch { planned, actual } => write!(
+                formatter,
+                "planned UTF-8 text requires {planned} UTF-16 units, but encoding produced {actual}"
+            ),
+            Self::StringBufferLengthMismatch { planned, actual } => write!(
+                formatter,
+                "planned counted string requires {planned} units, but materialization produced {actual}"
+            ),
+            Self::ArrayShapeMismatch {
+                rows,
+                columns,
+                elements,
+            } => write!(
+                formatter,
+                "planned return array shape {rows} x {columns} does not match {elements} elements"
+            ),
+            Self::UnsupportedPlannedValue { variant } => {
+                write!(formatter, "planned value {variant} cannot be materialized")
+            }
+            Self::AllocationFailure { storage } => {
+                write!(formatter, "could not allocate {storage} return storage")
+            }
+            Self::InjectedTestFailure { stage } => {
+                write!(formatter, "test injected a failure at {stage}")
+            }
+        }
+    }
+}
+
+impl std::error::Error for ReturnMaterializationError {}
+
 impl fmt::Display for DecodeError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(formatter, "{self:?}")

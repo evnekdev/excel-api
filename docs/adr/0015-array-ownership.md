@@ -8,5 +8,6 @@ arrays-of-arrays/references initially.
 Partially implemented through M4. M3 provides semantic `ExcelArray`: immutable boxed
 row-major elements, exact checked shape, deep-copied strings, and no nested
 arrays or references. M4 validates logical flat return arrays and accounts for
-one future contiguous element block plus independent text buffers. DLL-owned
-return-multi allocation remains pending.
+one future contiguous element block plus independent text buffers. M5
+materializes that storage with stable pointers and local RAII cleanup. DLLFree
+handoff remains pending.
