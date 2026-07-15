@@ -1,0 +1,73 @@
+error: a scalar return_type override must match the Rust result; use `xloper12` for a general Excel return
+ --> tests/ui/fail/attributes.rs:4:79
+  |
+4 | #[excel_function(name = "BAD.OVERRIDE", thunk = "bad_override", return_type = "boolean")]
+  |                                                                               ^^^^^^^^^
+
+error: `cluster_safe` functions cannot accept `ExcelReferenceArg` (U); use a value-only `ExcelValueArg` (Q) or remove `cluster_safe`
+ --> tests/ui/fail/attributes.rs:8:4
+  |
+8 | fn unjustified_cluster(reference: ExcelReferenceArg<'_>) -> f64 { let _ = reference; 0.0 }
+  |    ^^^^^^^^^^^^^^^^^^^
+
+error: `ThreadSafeContext` requires the `thread_safe` flag
+  --> tests/ui/fail/attributes.rs:11:4
+   |
+11 | fn missing_thread_flag(_context: &ThreadSafeContext<'_>) -> f64 { 0.0 }
+   |    ^^^^^^^^^^^^^^^^^^^
+
+error: thread-safe functions must inject `ThreadSafeContext`, not `WorksheetContext`
+  --> tests/ui/fail/attributes.rs:14:4
+   |
+14 | fn broad_context(_context: &WorksheetContext<'_>) -> f64 { 0.0 }
+   |    ^^^^^^^^^^^^^
+
+error: `MacroContext` requires the `macro_type` flag
+  --> tests/ui/fail/attributes.rs:17:4
+   |
+17 | fn missing_macro_flag(_context: &MacroContext<'_>) -> f64 { 0.0 }
+   |    ^^^^^^^^^^^^^^^^^^
+
+error: macro-sheet functions cannot be thread-safe or cluster-safe
+  --> tests/ui/fail/attributes.rs:20:4
+   |
+20 | fn incompatible_flags() -> f64 { 0.0 }
+   |    ^^^^^^^^^^^^^^^^^^
+
+error: unsupported Result error; use ExcelError, ConversionError, ReturnError, ReturnMaterializationError, or ThunkError
+  --> tests/ui/fail/attributes.rs:23:39
+   |
+23 | fn unsupported_error() -> Result<f64, String> { Err(String::new()) }
+   |                                       ^^^^^^
+
+error: unsupported `excel_function` attribute option
+  --> tests/ui/fail/attributes.rs:25:67
+   |
+25 | #[excel_function(name = "BAD.ATTRIBUTE", thunk = "bad_attribute", unknown)]
+   |                                                                   ^^^^^^^
+
+error: missing `arguments(value = "help")` entry
+  --> tests/ui/fail/attributes.rs:29:22
+   |
+29 | fn metadata_mismatch(value: f64) -> f64 { value }
+   |                      ^^^^^
+
+error: thunk must be a non-empty ASCII x64 export identifier
+  --> tests/ui/fail/attributes.rs:31:47
+   |
+31 | #[excel_function(name = "BAD.EXPORT", thunk = "not-an-export")]
+   |                                               ^^^^^^^^^^^^^^^
+
+error: duplicate attribute option
+  --> tests/ui/fail/attributes.rs:34:42
+   |
+34 | #[excel_function(name = "BAD.DUPLICATE", name = "BAD.DUPLICATE2", thunk = "bad_duplicate")]
+   |                                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `ExcelError`, `ExcelReferenceArg`, `MacroContext`, `ThreadSafeContext`, and `WorksheetContext`
+ --> tests/ui/fail/attributes.rs:1:17
+  |
+1 | use excel_api::{ExcelError, ExcelReferenceArg, MacroContext, ThreadSafeContext, WorksheetContext};
+  |                 ^^^^^^^^^^  ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default

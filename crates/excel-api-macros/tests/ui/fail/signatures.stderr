@@ -1,0 +1,61 @@
+error: type is not supported by the closed Excel metadata mapping
+ --> tests/ui/fail/signatures.rs:5:29
+  |
+5 | fn unsupported_input(value: Vec<u8>) -> f64 { let _ = value; 0.0 }
+  |                             ^^^^^^^
+
+error: borrowed returns are not supported
+ --> tests/ui/fail/signatures.rs:8:25
+  |
+8 | fn borrowed_return() -> &'static str { "no" }
+  |                         ^^^^^^^^^^^^
+
+error: generic functions are not supported
+  --> tests/ui/fail/signatures.rs:11:1
+   |
+11 | fn generic<T>() -> f64 { 0.0 }
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: methods are not supported
+  --> tests/ui/fail/signatures.rs:16:5
+   |
+16 |     fn method(&self) -> f64 { 0.0 }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: async functions are not supported
+  --> tests/ui/fail/signatures.rs:20:1
+   |
+20 | async fn asynchronous() -> f64 { 0.0 }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: variadic functions are not supported
+  --> tests/ui/fail/signatures.rs:23:1
+   |
+23 | unsafe extern "C" fn variadic(_: i32, _: ...) -> f64 { 0.0 }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ambiguous `ExcelValueRef` input; use `ExcelValueArg` (Q) or `ExcelReferenceArg` (U)
+  --> tests/ui/fail/signatures.rs:26:21
+   |
+26 | fn ambiguous(value: ExcelValueRef<'_>) -> f64 { let _ = value; 0.0 }
+   |                     ^^^^^^^^^^^^^^^^^
+
+error: direct UTF-16 arguments cannot be optional
+  --> tests/ui/fail/signatures.rs:29:34
+   |
+29 | fn optional_direct_string(value: Option<CountedUtf16Arg<'_>>) -> f64 { let _ = value; 0.0 }
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: direct dynamic-string returns are not supported
+  --> tests/ui/fail/signatures.rs:32:23
+   |
+32 | fn direct_return() -> ExcelStr<'static> { unreachable!() }
+   |                       ^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `CountedUtf16Arg`, `ExcelStr`, and `ExcelValueRef`
+ --> tests/ui/fail/signatures.rs:1:17
+  |
+1 | use excel_api::{CountedUtf16Arg, ExcelStr, ExcelValueRef};
+  |                 ^^^^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
