@@ -7,3 +7,6 @@
 - [x] Abort/uncalculated/not-thread-safe release errors are preserved.
 - [x] C API result is released on every owned path.
 - [x] Call is not made before runtime linking or after unlinking.
+- [x] `xlAbort` is documented as cancellation polling, not calculation state;
+  preserve/clear modes, Boolean result, MTR restriction, and no-release policy
+  are explicit.

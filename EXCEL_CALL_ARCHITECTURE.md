@@ -65,9 +65,32 @@ callback-scoped `Excel12v` capability can call
 `xlFree` releases auxiliary Excel storage, nulls its contained pointer, and
 leaves the root allocation itself intact.
 
-## `xlCoerce`
+## M11 typed catalogue
 
-Coercion is explicit and may return allocated memory requiring `xlFree`.
+`xlCoerce` is explicit: it accepts a callback-owned source and an explicit
+target root type, and returns a separate `ExcelOwnedValue` requiring `xlFree`.
+`xlfCaller` is available only from worksheet and macro contexts and returns an
+owned result. `xlSheetId` with no argument is named `active_sheet_id` because
+the documented result is the active/front sheet; `xlSheetNm` with an external
+reference whose sheet ID is zero is separately named `current_sheet_name`.
+Sheet-name and caller roots retain their documented `xlFree` obligation.
+
+## M11 research boundary: cancellation is not calculation state
+
+`xlAbort` is the selected cancellation-polling call. It returns an immediate
+`xltypeBool`: zero arguments, or an explicit TRUE, preserve a pending break;
+an explicit FALSE clears it. The Boolean reports only an Esc/CANCEL break
+request. It is not Excel calculation progress or application state, and it
+does not create an Excel-owned result or an `xlFree` obligation.
+
+Microsoft documents `Application.CalculationState` as a VBA/COM property. No
+authoritative `Excel12`/`Excel12v` callback ID and full contract has been
+identified for Done/Calculating/Pending, so the C API catalogue intentionally
+does not expose `calculation_state`, `is_calculating`, or a placeholder enum.
+`xlretUncalced` remains a return code meaning a requested dependency was not
+yet calculated; it is not a query result. Revisit only with an authoritative
+Microsoft C API ID, selector/arguments, result ownership, and callback-context
+contract.
 
 ## Runtime linking
 

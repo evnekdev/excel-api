@@ -69,3 +69,9 @@ unforgeable callback-lifetime borrow of `CallCapability`. Only the lifecycle
 context currently exposes calls (`xlGetName`, register, unregister); worksheet
 contexts remain intentionally narrow, and thread-safe contexts do not expose
 command or macro-sheet operations. `xlFree` is an internal release capability.
+
+M11 adds verified `xlCoerce`, sheet helpers, and `xlAbort` to the appropriate
+worksheet, thread-safe, and macro callback capabilities. `xlfCaller` is kept
+out of `ThreadSafeContext`; it is available only to worksheet and macro
+callbacks. The cancellation clear/preserve choice is explicit and must not be
+described as a calculation-state API. Lifecycle capabilities do not expose it.
