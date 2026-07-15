@@ -8,12 +8,12 @@ only by also being a registered COM class server, with the class factory,
 ProgID/CLSID, Automation types, apartment behavior, reference counting, and
 deployment obligations that entails.
 
-The first compatibility prototype should therefore be a **separate
-in-process COM RTD server DLL**, not the XLL and not a new dependency of the
-core crates. This is a prototype target, not production approval. The current
-host cannot create a plain workbook, and Microsoft does not specify which
-physical thread Excel uses for every RTD call or authorize Excel12/Excel12v in
-an RTD callback. No COM prototype or public RTD API is added in M18.
+M18.1 implements the first compatibility prototype as a **separate in-process
+COM RTD server DLL**, not the XLL and not a new dependency of the core crates.
+This remains a prototype, not production approval. The current host cannot
+create a plain workbook, and Microsoft does not specify which physical thread
+Excel uses for every RTD call or authorize Excel12/Excel12v in an RTD callback.
+No public RTD API is added.
 
 RTD is not approved as an M17 dispatcher wake adapter. `UpdateNotify` asks
 Excel to collect RTD topic values through `RefreshData`; neither callback is a
@@ -123,33 +123,38 @@ security settings.
 
 ## Crate and feature boundary
 
-No M18 code changes the current workspace dependencies. The proposed future
-layout is:
+The implemented prototype layout is:
 
 ```text
 excel-api             # unchanged Excel C API core; no COM dependency
 excel-api-sys         # unchanged XLCALL ABI only
 excel-api-macros      # unchanged XLL proc generation
-excel-api-rtd         # Windows-only RTD state, owned values, COM policy
-excel-api-rtd-sys     # only if generated/raw IRtdServer bindings require it
-examples/minimal-rtd-server
+examples/minimal-rtd-server # unpublished cdylib plus platform-neutral model
 ```
 
-`excel-api-rtd` is a separate optional package, not a default feature of
-`excel-api`. Its public surface is deferred. Windows COM bindings and link
-dependencies remain behind `cfg(windows)`, with the first supported target
-being x86_64-pc-windows-msvc. A 32-bit in-process artifact would require a
-separate matching build; an out-of-process server can cross process bitness
-through COM marshaling.
+The `windows`/`windows-core` dependencies are target-specific dependencies of
+that package only. Its COM implementation is behind `cfg(windows)` and its
+state model remains buildable elsewhere. The first supported target is
+x86_64-pc-windows-msvc. A reusable `excel-api-rtd` crate and public surface are
+deferred until compatibility approval. A 32-bit in-process artifact would
+require a separate matching build; an out-of-process server can cross process
+bitness through COM marshaling.
 
 ## Prototype and approval gates
 
-The minimal prototype is intentionally deferred. Before code is justified,
-the project needs a working supported 64-bit Excel host and must pin the exact
-type-library ABI, Automation return ownership, apartment/thread observations,
-registration rollback, and policy behavior. The prototype will contain one
-server, one or two topics, one bounded/coalescing producer, `UpdateNotify`,
-`RefreshData`, disconnect, and termination, with no Excel12/Excel12v calls.
+The prototype pins the installed Office 1.9 raw dual-interface ABI, implements
+one bounded `COUNTER` catalogue (64 Excel topic IDs, 32 values per refresh),
+uses latest-value coalescing and one outstanding notification intent, marshals
+the callback through the GIT, and returns fresh `VT_VARIANT` SAFEARRAYs with
+Automation ownership. It exports only `DllGetClassObject` and
+`DllCanUnloadNow`, and calls neither Excel12 nor Excel12v.
+
+The exact state transitions are `Created -> Started -> Active -> Stopping ->
+Terminated`; failed producer startup rolls back to `Created`. A topic is
+connected, becomes dirty as its owned counter advances, is marked delivered by
+a successful refresh, and is retired by disconnect or server termination.
+`DllCanUnloadNow` is `S_OK` only when object, server lock, active server,
+producer, GIT-cookie, and committed notification counts are all zero.
 
 Production approval requires the complete matrix in
 `docs/manual-tests/m18-rtd-validation.md`. Unit tests can prove state,
