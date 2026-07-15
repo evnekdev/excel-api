@@ -114,6 +114,7 @@ impl CallbackScope<'_> {
 /// Run generated thunk work inside one callback lifetime and call capability.
 #[doc(hidden)]
 pub fn with_callback<R>(body: impl for<'call> FnOnce(&'call CallbackScope<'call>) -> R) -> R {
+    let _callback = crate::dispatcher::enter_callback();
     let backend = production_backend();
     let scope = CallbackScope {
         capability: CallCapability::new(backend.as_ref()),

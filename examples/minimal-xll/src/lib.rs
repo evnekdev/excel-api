@@ -1,13 +1,14 @@
 use std::sync::{Arc, OnceLock};
 
+mod dispatch_demo;
 #[cfg(feature = "xlcontime-research")]
 mod ontime_experiment;
 
 use excel_api::{
-    AddInDescriptor, AsyncCancellationToken, ExcelArray, ExcelError, ExcelReference,
-    ExcelReferenceArg, ExcelReturnValue, ExcelString, ExcelValueRef, FunctionRegistration,
-    LifecycleOutcome, MacroContext, OptionalValue, Runtime, RuntimePhase, ThreadPoolExecutor,
-    excel_command, excel_function,
+    AddInDescriptor, AsyncCancellationToken, DispatchConfig, ExcelArray, ExcelError,
+    ExcelReference, ExcelReferenceArg, ExcelReturnValue, ExcelString, ExcelValueRef,
+    FunctionRegistration, LifecycleOutcome, MacroContext, OptionalValue, Runtime, RuntimePhase,
+    ThreadPoolExecutor, excel_command, excel_function,
 };
 #[cfg(test)]
 use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
@@ -116,6 +117,16 @@ pub fn async_double(value: f64, cancel: AsyncCancellationToken) -> Result<f64, E
     }
 }
 
+#[excel_function(
+    name = "RUST.DISPATCH.STATUS",
+    category = "Rust",
+    description = "Reports bounded cooperative-dispatch demonstration status",
+    thunk = "rust_dispatch_status"
+)]
+pub fn dispatch_status() -> ExcelString {
+    dispatch_demo::status()
+}
+
 /// Internal status surface used by the xlcOnTime compatibility harness.
 #[cfg(feature = "xlcontime-research")]
 #[excel_function(
@@ -136,6 +147,30 @@ pub fn ontime_status() -> ExcelString {
 )]
 pub fn ping_command(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
     Ok(())
+}
+
+#[excel_command(
+    name = "RUST.DISPATCH.ENQUEUE",
+    description = "Enqueues one owned probe from a finite Rust background thread",
+    thunk = "rust_dispatch_enqueue"
+)]
+pub fn dispatch_enqueue(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    dispatch_demo::enqueue_from_finished_background_thread()
+}
+
+#[excel_command(
+    name = "RUST.DISPATCH.PUMP",
+    description = "Drains one bounded cooperative-dispatch batch; it is never invoked automatically",
+    thunk = "rust_dispatch_pump"
+)]
+pub fn dispatch_pump(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    let report = context.drain_dispatcher();
+    dispatch_demo::record_pump(report.processed);
+    if report.failed == 0 {
+        Ok(())
+    } else {
+        Err(ExcelError::Value)
+    }
 }
 
 #[cfg(feature = "xlcontime-research")]
@@ -185,12 +220,15 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
     __EXCEL_FUNCTION_METADATA_ASYNC_DOUBLE,
+    __EXCEL_FUNCTION_METADATA_DISPATCH_STATUS,
     #[cfg(feature = "xlcontime-research")]
     __EXCEL_FUNCTION_METADATA_ONTIME_STATUS,
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[
     __EXCEL_COMMAND_METADATA_PING_COMMAND,
+    __EXCEL_COMMAND_METADATA_DISPATCH_ENQUEUE,
+    __EXCEL_COMMAND_METADATA_DISPATCH_PUMP,
     #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_SCHEDULE,
     #[cfg(feature = "xlcontime-research")]
@@ -352,6 +390,7 @@ fn install_executor_for_open_generation() {
     if runtime().phase() == RuntimePhase::Uninitialized {
         let executor = ThreadPoolExecutor::new(2, 64).expect("constant executor bounds are valid");
         let _ = excel_api::install_async_executor(Arc::new(executor), 64);
+        let _ = excel_api::install_dispatcher(DispatchConfig::default());
     }
 }
 
@@ -403,6 +442,7 @@ fn close_runtime() -> i32 {
             return 0;
         }
     }
+    dispatch_demo::reset();
     runtime().close().map(|_| 1).unwrap_or(0)
 }
 
@@ -465,9 +505,12 @@ const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
 const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
 const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
 const _: unsafe extern "system" fn(f64, LPXLOPER12) = __excel_function_thunk_async_double;
+const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_dispatch_status;
 #[cfg(feature = "xlcontime-research")]
 const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_ontime_status;
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_dispatch_enqueue;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_dispatch_pump;
 #[cfg(feature = "xlcontime-research")]
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_schedule;
 #[cfg(feature = "xlcontime-research")]
@@ -517,13 +560,13 @@ mod tests {
             .map(|function| function.type_text().unwrap())
             .collect();
         #[cfg(not(feature = "xlcontime-research"))]
-        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$"]);
-        #[cfg(feature = "xlcontime-research")]
         assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$", "Q"]);
-        #[cfg(not(feature = "xlcontime-research"))]
-        assert_eq!(COMMANDS.len(), 1);
         #[cfg(feature = "xlcontime-research")]
-        assert_eq!(COMMANDS.len(), 5);
+        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$", "Q", "Q"]);
+        #[cfg(not(feature = "xlcontime-research"))]
+        assert_eq!(COMMANDS.len(), 3);
+        #[cfg(feature = "xlcontime-research")]
+        assert_eq!(COMMANDS.len(), 7);
         assert!(COMMANDS.iter().all(|command| command.type_text() == "I"));
     }
 
@@ -534,6 +577,16 @@ mod tests {
             FUNCTIONS
                 .iter()
                 .all(|function| !function.excel_name.starts_with("RUST.ONTIME."))
+        );
+        assert!(
+            FUNCTIONS
+                .iter()
+                .any(|function| function.excel_name == "RUST.DISPATCH.STATUS")
+        );
+        assert!(
+            COMMANDS
+                .iter()
+                .any(|command| command.excel_name == "RUST.DISPATCH.PUMP")
         );
         assert!(
             COMMANDS
