@@ -160,9 +160,13 @@ Excel's main thread, and an observed thread ID would not establish legal
 Excel12/Excel12v use. The proposed RTD server therefore creates no Excel C API
 context and makes no XLL backend call.
 
-Producer threads exchange only bounded, owned topic values. A raw
-`IRTDUpdateEvent` pointer never crosses apartments; a future notifier must use
-a COM proxy obtained through standard marshaling or the Global Interface
-Table. Shutdown stops and joins producers, prevents new notifications, drains
-already-committed notification calls, revokes callback access, and releases
-COM references before termination.
+The M18.1 producer exchanges only bounded, owned topic values. The
+`IRTDUpdateEvent` supplied in `ServerStart` is stored in the Global Interface
+Table; the MTA producer retrieves and releases a marshaled proxy. A raw pointer
+never crosses apartments. The producer calls only `UpdateNotify`, outside the
+state lock, and never calls Excel12/Excel12v. Diagnostics record each COM
+method's thread and safely query apartment type without inferring main-thread
+or C API capability. Shutdown commits `Stopping`, suppresses new notification
+claims, joins the producer, then revokes the GIT cookie and enters
+`Terminated`; conservative unload accounting remains nonzero if revocation
+cannot be proved.

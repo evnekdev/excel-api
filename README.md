@@ -37,12 +37,14 @@ notification remains open. The isolated `xlcOnTime` research decision remains
 inconclusive and is not used by the production dispatcher. Automated coverage
 passes, while live pump validation remains blocked by the current host's plain
 workbook-creation failure.
-M18 establishes that supported RTD streaming is a separate COM `IRtdServer`
-subsystem, not an Excel C API feature or a verified M17 callback capability.
-The future compatibility prototype targets a separate Windows in-process COM
-DLL so the default core crates and XLL keep their existing dependencies and
-unload model. Prototype and production approval remain blocked on a working
-Excel workbook host and the recorded activation/threading/lifecycle matrix.
+M18.1 implements the first RTD compatibility prototype as a separate,
+unpublished Windows in-process COM DLL. Its installed Office 1.9 type-library
+ABI, class factory, bounded `COUNTER` topic, GIT-marshaled `UpdateNotify`,
+Automation payload ownership, and reversible per-user registration are covered
+by deterministic tests and inspection scripts. It calls no Excel C API and
+provides no M17 wake capability. Status: **M18 prototype implemented; live
+compatibility validation blocked/pending** because the current host still
+cannot create a plain workbook. This is not production RTD approval.
 
 Build the loadable artifact with:
 
@@ -85,6 +87,7 @@ crates/
   excel-api-macros/
 examples/
   minimal-xll/
+  minimal-rtd-server/  # unpublished Windows-only COM compatibility prototype
 docs/
   adr/
   checklists/

@@ -10,14 +10,14 @@ and governed by COM apartments, reference counting, marshaling, and server
 unload rules. These obligations are independent of XLL registration and the
 Excel C API callback table.
 
-## Required future server surface
+## M18.1 prototype server surface
 
-A separate in-process prototype DLL must export the normal COM class-server
+A separate in-process prototype DLL exports the normal COM class-server
 entry points, including `DllGetClassObject` and `DllCanUnloadNow`, and implement
 `IUnknown`, `IClassFactory`, and Excel's Automation-compatible `IRtdServer`
-interface with the verified IID/type-library contract. Optional registration
-entry points must be reversible and must never silently change machine-wide
-policy.
+interface with the verified IID/type-library contract. Registration is handled
+by reversible PowerShell scripts rather than optional DLL exports or build-time
+mutation.
 
 The initial registration plan is per-user ProgID/CLSID registration under the
 user classes hive. A packaged installer may later offer per-machine
@@ -31,7 +31,7 @@ the future isolation/cross-bitness alternative.
 
 ## Threading and marshaling
 
-The prototype will begin with `ThreadingModel=Apartment`, subject to live
+The prototype registers `ThreadingModel=Apartment`, subject to live
 compatibility results. This is not a claim that RTD callbacks arrive on
 Excel's main thread. COM chooses/delivers the call according to the caller and
 registered apartment model.
@@ -43,9 +43,21 @@ standard COM marshaling or the Global Interface Table and releases it in the
 correct apartment. Owned producer values cross threads through a bounded Rust
 channel; neither XLOPER12 nor borrowed Automation data crosses threads.
 
-No project lock is held while calling `UpdateNotify` or returning from an
-`IRtdServer` method. All FFI methods contain panics and translate failures to
-documented HRESULT/RTD results once those exact mappings are verified.
+The callback supplied to `ServerStart` is registered in the COM Global
+Interface Table in the caller's apartment. The producer initializes MTA and
+obtains its own proxy from the GIT; no raw interface pointer crosses threads.
+Shutdown joins the producer before revoking the cookie. No project lock is held
+while calling `UpdateNotify`. Every exported/vtable boundary contains panics
+and maps invalid pointers, invalid state, allocation failure, unsupported
+interfaces, and internal failure to explicit HRESULTs.
+
+The raw ABI source is the locally registered Excel type library
+`{00020813-0000-0000-C000-000000000046}` version 1.9, LCID 0, audited with
+`LoadTypeLibEx`/`ITypeInfo`. Its hidden dual-interface vtables pin the
+`IRtdServer` and `IRTDUpdateEvent` IIDs, inherited `IDispatch` slots, method
+order, `stdcall` convention, widths, and parameter directions. Details and the
+reproducible audit output are in
+`docs/research/m18-1-excel-rtd-typelib-abi.md`.
 
 ## Dual-binary rule
 

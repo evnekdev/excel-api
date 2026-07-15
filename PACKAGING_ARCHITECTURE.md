@@ -20,7 +20,7 @@ Use `dumpbin /exports` to verify lifecycle and worksheet symbols.
 
 ## M18 RTD packaging boundary
 
-The selected future RTD prototype is a separate 64-bit in-process COM DLL with
+The M18.1 RTD prototype is a separate 64-bit in-process COM DLL with
 its own ProgID/CLSID, class factory exports, signing identity, registration,
 and rollback. It is not copied to `.xll`, does not share XLL exports, and does
 not add COM dependencies to the default workspace packages.
@@ -30,3 +30,13 @@ is the first non-elevated compatibility path; per-machine registration belongs
 to an explicit installer. Registration-free COM is not assumed because the
 activation manifest belongs to the Excel host. An out-of-process server remains
 a future crash-isolation/cross-bitness alternative.
+
+`scripts/build-minimal-rtd.ps1` builds the unpublished
+`excel-api-minimal-rtd` package as
+`target/release/excel_api_minimal_rtd.dll`. Export inspection requires exactly
+`DllGetClassObject` and `DllCanUnloadNow` and rejects XLL lifecycle/backend
+symbols. The minimal XLL remains a different artifact with its unchanged 18
+production exports. Registration is never a build side effect: the dedicated
+register/inspect/unregister scripts modify only the two prototype roots under
+`HKCU\Software\Classes` and record `ThreadingModel=Apartment` as a hypothesis
+for live compatibility testing.

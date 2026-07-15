@@ -2,8 +2,8 @@
 
 ## Status
 
-Proposed for compatibility prototyping; production and live validation are
-blocked.
+Accepted provisionally for compatibility prototyping. The M18.1 prototype is
+implemented; production and live compatibility validation remain blocked.
 
 ## Context
 
@@ -34,12 +34,19 @@ Treat `UpdateNotify` and `RefreshData` only as RTD data-delivery operations.
 They do not create any project Excel C API context and cannot drain the M17
 dispatcher. Issue #30 therefore remains open.
 
-Defer the minimal prototype until a working host and a reviewed raw contract
-can verify the Office type-library ABI, Automation ownership, apartment/thread
-behavior, reversible registration, policy, and termination. The prototype,
-when authorized, is limited to one or two topics, a bounded/coalesced owned
-producer, notification, refresh, disconnect, and termination. It makes no
-Excel C API calls.
+Implement the minimal prototype as the unpublished Windows-only
+`examples/minimal-rtd-server` package. Its source of truth is the installed
+Excel type library version 1.9 reflected through `ITypeLib`/`ITypeInfo`, with
+compile-time width/vtable checks. It is limited to the bounded `COUNTER` topic,
+a finite/coalescing producer, GIT-marshaled notification, refresh, disconnect,
+heartbeat, and termination. It makes no Excel C API calls.
+
+The prototype uses stable non-production identifiers
+`ExcelApi.MinimalRtd` and
+`{DC738FE5-30EE-40E8-A8C2-3D16F217C52D}`. Registration is explicit,
+per-user, idempotent, and reversible. `Apartment` is a test hypothesis, not a
+production threading decision. The available host still prevents formula and
+lifecycle validation by failing plain `Workbooks.Add`.
 
 ## Consequences
 
@@ -52,6 +59,8 @@ Excel C API calls.
 - Production selection remains conditional on a real Excel lifecycle and
   security matrix.
 - The cooperative M17 dispatcher gains no autonomous progress mechanism.
+- Outcome for M17 is **A: no evidence of general C API capability**. Issue #30
+  remains open.
 
 ## Revisit conditions
 

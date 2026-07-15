@@ -240,16 +240,20 @@ after Running commitment and remove operation storage. Tests prove controlled
 failure, exact retirement, zero pending/running counts, nonblocking shutdown,
 reopen, repeated-path underflow protection, and callback-depth guard cleanup.
 
-## M18 RTD research coverage
+## M18.1 RTD prototype coverage
 
-M18 adds no unsafe COM bindings or prototype because the current host cannot
-create a plain workbook and the exact current activation/thread/lifecycle
-matrix is not established. Automated repository validation therefore proves
-only that the architecture-only change preserves the existing XLL surface.
+The unpublished prototype has deterministic tests for the installed Office
+ABI constants/vtable sizes, COM identity and reference counts, class factory,
+server locking/unload counters, legal state transitions, bounded topic
+ownership, duplicate/equivalent subscribers, disconnect/reconnect,
+notification coalescing and refresh races, termination suppression, BSTR
+round-trips, exact two-dimensional SAFEARRAY layout, zero updates, and repeated
+Automation construct/clear loops. The installed type-library audit, exact COM
+export check, and reversible HKCU registration round-trip are separate scripts.
 
-The required working-host plan is recorded in
-`docs/manual-tests/m18-rtd-validation.md`. A future prototype must separately
-test COM ABI and reference ownership, bounded/coalesced topic state, callback
-marshaling, disconnect/termination races, registration rollback, multiple
-topics/subscribers, reconnect, security policy, and memory/handle trends. No
-unit test or observed main-thread ID can authorize Excel12/Excel12v from RTD.
+These tests do not prove Excel activation, current callback ordering, apartment
+delivery, formula updates, policy compatibility, or process unload. The
+dedicated harness first requires plain `Workbooks.Add`; failure is recorded as
+host-blocked before any RTD claim. The working-host matrix remains in
+`docs/manual-tests/m18-rtd-validation.md`. No test or observed thread ID
+authorizes Excel12/Excel12v from RTD.
