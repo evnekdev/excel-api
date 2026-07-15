@@ -94,3 +94,12 @@ entry is atomic, the per-call capability is borrowed, and no runtime mutex is
 held while the ordinary function executes. Generated returns retain no context
 or callback borrow. Direct scalar failures and panics return zero/false; Q
 failures use immutable pointer-free Excel error roots.
+
+## M11 cancellation polling
+
+`xlAbort` is a verified C API-only call and may be polled from the documented
+worksheet, thread-safe, and macro callback capabilities. Microsoft documents
+the caveat that a thread-safe UDF cannot clear a break condition; callers use
+an explicit preserve/clear mode and receive the exact Excel return code if it
+is rejected. This reports a user break request only, never application
+calculation progress or state.

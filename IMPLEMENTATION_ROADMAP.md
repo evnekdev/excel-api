@@ -21,7 +21,7 @@
 - M9B generated ABI thunks (implemented; automated parity/build/export checks
   and two-process live 64-bit Excel rerun passed)
 - M10 compile-time diagnostics (implemented)
-- M11 execution contexts and call catalog
+- M11 execution contexts and call catalog (implemented; calculation-state query deferred pending an authoritative C API contract)
 - M12 commands/lifecycle completeness
 
 ## Production
