@@ -23,6 +23,16 @@ pub struct ThreadSafeContext<'call> {
 }
 
 #[derive(Debug)]
+/// Lifecycle callbacks cannot poll user cancellation: `xlAbort` is exposed
+/// only to the verified worksheet, thread-safe, and macro contexts.
+///
+/// ```compile_fail
+/// use excel_api::LifecycleContext;
+///
+/// fn cannot_poll(context: &LifecycleContext<'_>) {
+///     let _ = context.is_cancellation_requested();
+/// }
+/// ```
 pub struct LifecycleContext<'call> {
     capability: &'call CallCapability<'call>,
     _call: PhantomData<&'call mut &'call ()>,
