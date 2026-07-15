@@ -6,8 +6,8 @@ use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::{format_ident, quote};
 use syn::{
-    Expr, FnArg, GenericArgument, ItemFn, Lit, LitStr, Meta, MetaNameValue, Pat, PathArguments,
-    ReturnType, Token, Type, parse_macro_input, punctuated::Punctuated,
+    Expr, FnArg, GenericArgument, Ident, ItemFn, Lit, LitStr, Meta, MetaNameValue, Pat,
+    PathArguments, ReturnType, Token, Type, parse_macro_input, punctuated::Punctuated,
 };
 
 #[derive(Default)]
@@ -50,11 +50,23 @@ enum ContextKind {
     Macro,
 }
 
-/// Generate deterministic worksheet-function registration metadata.
+enum InvocationArgument {
+    Excel(Ident),
+    Context,
+}
+
+struct ThunkArgument {
+    ident: Ident,
+    ty: Type,
+    kind: ArgumentKind,
+}
+
+/// Generate deterministic worksheet-function registration metadata and an ABI thunk.
 ///
-/// This milestone deliberately preserves the annotated Rust function and does
-/// not generate an exported ABI thunk. The generated constant is named
-/// `__EXCEL_FUNCTION_METADATA_<FUNCTION_NAME_IN_UPPERCASE>`.
+/// The ordinary function is preserved. The generated metadata constant is
+/// named `__EXCEL_FUNCTION_METADATA_<FUNCTION_NAME_IN_UPPERCASE>` and the
+/// Rust-visible thunk item is named
+/// `__excel_function_thunk_<function_name_in_lowercase>`.
 #[proc_macro_attribute]
 pub fn excel_function(attribute: TokenStream, item: TokenStream) -> TokenStream {
     let attributes = parse_macro_input!(
@@ -86,8 +98,11 @@ fn expand_excel_function(
             "missing required future `thunk = \"...\"` symbol association",
         )
     })?;
+    validate_export_name(&thunk)?;
 
     let mut excel_arguments = Vec::new();
+    let mut thunk_arguments = Vec::new();
+    let mut invocation_arguments = Vec::new();
     let mut argument_names = Vec::new();
     let mut argument_help = Vec::new();
     let mut context = None;
@@ -116,10 +131,12 @@ fn expand_excel_function(
                     "only one injected context is supported",
                 ));
             }
+            invocation_arguments.push(InvocationArgument::Context);
             continue;
         }
 
-        excel_arguments.push(map_argument_type(&argument.ty)?);
+        let kind = map_argument_type(&argument.ty)?;
+        excel_arguments.push(kind);
         let name = pattern.ident.to_string();
         let help = attributes.arguments.get(&name).ok_or_else(|| {
             syn::Error::new(
@@ -129,6 +146,12 @@ fn expand_excel_function(
         })?;
         argument_names.push(LitStr::new(&name, pattern.ident.span()));
         argument_help.push(help.clone());
+        thunk_arguments.push(ThunkArgument {
+            ident: pattern.ident.clone(),
+            ty: (*argument.ty).clone(),
+            kind,
+        });
+        invocation_arguments.push(InvocationArgument::Excel(pattern.ident.clone()));
     }
 
     if attributes.arguments.len() != argument_names.len() {
@@ -164,7 +187,16 @@ fn expand_excel_function(
 
     let inferred_result = map_result_type(&function.sig.output)?;
     let result = match attributes.return_type {
-        Some(value) => parse_result_override(&value)?,
+        Some(value) => {
+            let result = parse_result_override(&value)?;
+            if result != inferred_result && result != ResultKind::Xloper12 {
+                return Err(syn::Error::new_spanned(
+                    value,
+                    "a scalar return_type override must match the Rust result; use `xloper12` for a general Excel return",
+                ));
+            }
+            result
+        }
         None => inferred_result,
     };
 
@@ -174,8 +206,13 @@ fn expand_excel_function(
         function_ident.to_string().to_uppercase(),
         span = function_ident.span()
     );
-    let result = result_tokens(result);
-    let arguments = excel_arguments.into_iter().map(argument_tokens);
+    let thunk_ident = format_ident!(
+        "__excel_function_thunk_{}",
+        function_ident.to_string().to_lowercase(),
+        span = function_ident.span()
+    );
+    let result_metadata = result_tokens(result);
+    let arguments = excel_arguments.iter().copied().map(argument_tokens);
     let category = attributes
         .category
         .map(|value| quote!(.category(#value)))
@@ -188,9 +225,72 @@ fn expand_excel_function(
     let thread_safe = attributes.thread_safe;
     let macro_type = attributes.macro_type;
     let cluster_safe = attributes.cluster_safe;
+    let raw_arguments = thunk_arguments.iter().map(raw_argument_tokens);
+    let conversions = thunk_arguments.iter().map(conversion_tokens);
+    let invoke_arguments = invocation_arguments.iter().map(|argument| match argument {
+        InvocationArgument::Excel(ident) => quote!(#ident),
+        InvocationArgument::Context => quote!(__excel_context),
+    });
+    let invoke = quote!(#function_ident(#(#invoke_arguments),*));
+    let invoke = match context {
+        Some(ContextKind::Worksheet) => {
+            quote!(__excel_scope.with_worksheet_context(|__excel_context| #invoke))
+        }
+        Some(ContextKind::ThreadSafe) => {
+            quote!(__excel_scope.with_thread_safe_context(|__excel_context| #invoke))
+        }
+        Some(ContextKind::Macro) => {
+            quote!(__excel_scope.with_macro_context(|__excel_context| #invoke))
+        }
+        None => invoke,
+    };
+    let unwrap_result = if result_error_type(&function.sig.output).is_some() {
+        quote! {
+            let __excel_result = __excel_result
+                .map_err(::excel_api::thunk::function_error)?;
+        }
+    } else {
+        proc_macro2::TokenStream::new()
+    };
+    let converted_result = match result {
+        ResultKind::Number => quote!(Ok(__excel_result)),
+        ResultKind::Boolean => quote!(Ok(if __excel_result { 1_i16 } else { 0_i16 })),
+        ResultKind::Integer => quote!(Ok(i32::from(__excel_result))),
+        ResultKind::Xloper12 => quote!(::excel_api::thunk::IntoThunkReturn::into_thunk_return(
+            __excel_result
+        )),
+    };
+    let thunk_body = quote! {
+        ::excel_api::thunk::with_callback(|__excel_scope| {
+            #(#conversions)*
+            let __excel_result = #invoke;
+            #unwrap_result
+            #converted_result
+        })
+    };
+    let thunk_return = match result {
+        ResultKind::Number => quote!(f64),
+        ResultKind::Boolean => quote!(i16),
+        ResultKind::Integer => quote!(i32),
+        ResultKind::Xloper12 => quote!(::excel_api::thunk::RawXloper12),
+    };
+    let thunk_execution = match result {
+        ResultKind::Number => quote!(::excel_api::thunk::scalar_thunk(0.0_f64, || #thunk_body)),
+        ResultKind::Boolean => quote!(::excel_api::thunk::scalar_thunk(0_i16, || #thunk_body)),
+        ResultKind::Integer => quote!(::excel_api::thunk::scalar_thunk(0_i32, || #thunk_body)),
+        ResultKind::Xloper12 => quote!(::excel_api::thunk::xloper12_thunk(|| #thunk_body)),
+    };
 
     Ok(quote! {
         #function
+
+        #[doc(hidden)]
+        #[doc = "# Safety"]
+        #[doc = "Pointer arguments must be the live callback-owned values described by the generated registration signature."]
+        #[unsafe(export_name = #thunk)]
+        pub unsafe extern "system" fn #thunk_ident(#(#raw_arguments),*) -> #thunk_return {
+            #thunk_execution
+        }
 
         #[doc(hidden)]
         #[allow(non_upper_case_globals)]
@@ -198,7 +298,7 @@ fn expand_excel_function(
             ::excel_api::FunctionRegistration::new(
                 #thunk,
                 #excel_name,
-                ::excel_api::FunctionSignature::new(#result, &[#(#arguments),*]),
+                ::excel_api::FunctionSignature::new(#result_metadata, &[#(#arguments),*]),
             )
             #category
             #description
@@ -210,6 +310,49 @@ fn expand_excel_function(
                 cluster_safe: #cluster_safe,
             });
     })
+}
+
+fn raw_argument_tokens(argument: &ThunkArgument) -> proc_macro2::TokenStream {
+    let ident = &argument.ident;
+    let ty = match argument.kind {
+        ArgumentKind::Number => quote!(f64),
+        ArgumentKind::Boolean => quote!(i16),
+        ArgumentKind::Integer => quote!(i32),
+        ArgumentKind::GeneralValue | ArgumentKind::GeneralReference => {
+            quote!(::excel_api::thunk::RawXloper12)
+        }
+        ArgumentKind::CountedUtf16 | ArgumentKind::NullTerminatedUtf16 => {
+            quote!(*mut ::excel_api::thunk::RawXchar)
+        }
+    };
+    quote!(#ident: #ty)
+}
+
+fn conversion_tokens(argument: &ThunkArgument) -> proc_macro2::TokenStream {
+    let ident = &argument.ident;
+    let ty = &argument.ty;
+    match argument.kind {
+        ArgumentKind::Number => quote!(let #ident: #ty = #ident;),
+        ArgumentKind::Boolean => quote!(let #ident: #ty = #ident != 0;),
+        ArgumentKind::Integer => quote! {
+            let #ident: #ty = ::excel_api::thunk::from_excel(
+                ::excel_api::ExcelValueRef::Integer(#ident)
+            )?;
+        },
+        ArgumentKind::GeneralValue | ArgumentKind::GeneralReference => quote! {
+            // SAFETY: forwarded from the generated exported thunk contract.
+            let #ident = unsafe { __excel_scope.decode(#ident) }?;
+            let #ident: #ty = ::excel_api::thunk::from_excel(#ident)?;
+        },
+        ArgumentKind::CountedUtf16 => quote! {
+            // SAFETY: forwarded from the generated exported thunk contract.
+            let #ident: #ty = unsafe { __excel_scope.counted_utf16(#ident) }?;
+        },
+        ArgumentKind::NullTerminatedUtf16 => quote! {
+            // SAFETY: forwarded from the generated exported thunk contract.
+            let #ident: #ty = unsafe { __excel_scope.null_terminated_utf16(#ident) }?;
+        },
+    }
 }
 
 fn parse_attributes(raw: Punctuated<Meta, Token![,]>) -> syn::Result<FunctionAttributes> {
@@ -301,6 +444,23 @@ fn string_value(value: &MetaNameValue) -> syn::Result<LitStr> {
         &value.value,
         "expected a string literal",
     ))
+}
+
+fn validate_export_name(value: &LitStr) -> syn::Result<()> {
+    let name = value.value();
+    let mut characters = name.chars();
+    let valid_start = characters
+        .next()
+        .is_some_and(|character| character == '_' || character.is_ascii_alphabetic());
+    if !valid_start
+        || !characters.all(|character| character == '_' || character.is_ascii_alphanumeric())
+    {
+        return Err(syn::Error::new_spanned(
+            value,
+            "thunk must be a non-empty ASCII x64 export identifier",
+        ));
+    }
+    Ok(())
 }
 
 fn validate_function_shape(function: &ItemFn) -> syn::Result<()> {
@@ -412,6 +572,19 @@ fn map_result_type(output: &ReturnType) -> syn::Result<ResultKind> {
         ));
     };
     map_result_type_inner(ty)
+}
+
+fn result_error_type(output: &ReturnType) -> Option<&Type> {
+    let ReturnType::Type(_, ty) = output else {
+        return None;
+    };
+    let Type::Path(path) = ty.as_ref() else {
+        return None;
+    };
+    let segment = path.path.segments.last()?;
+    (segment.ident == "Result")
+        .then(|| two_type_arguments(segment, ty).ok().map(|(_, error)| error))
+        .flatten()
 }
 
 fn map_result_type_inner(ty: &Type) -> syn::Result<ResultKind> {
@@ -651,7 +824,33 @@ mod tests {
     }
 
     #[test]
-    fn deterministic_metadata_name_and_no_thunk_are_generated() {
+    fn rejects_invalid_exports_and_incompatible_scalar_overrides() {
+        let function: ItemFn = parse_quote!(
+            fn value() -> f64 {
+                1.0
+            }
+        );
+        let invalid_export: Punctuated<Meta, Token![,]> =
+            parse_quote!(name = "VALUE", thunk = "not-an-export");
+        assert!(
+            expand_excel_function(invalid_export, function.clone())
+                .unwrap_err()
+                .to_string()
+                .contains("ASCII x64 export")
+        );
+
+        let invalid_override: Punctuated<Meta, Token![,]> =
+            parse_quote!(name = "VALUE", thunk = "value", return_type = "boolean");
+        assert!(
+            expand_excel_function(invalid_override, function)
+                .unwrap_err()
+                .to_string()
+                .contains("must match")
+        );
+    }
+
+    #[test]
+    fn deterministic_metadata_and_exact_xloper12_thunk_are_generated() {
         let function: ItemFn = parse_quote!(
             fn add(x: f64, y: f64) -> f64 {
                 x + y
@@ -670,9 +869,38 @@ mod tests {
             .unwrap()
             .to_string();
         assert!(expanded.contains("__EXCEL_FUNCTION_METADATA_ADD"));
+        assert!(expanded.contains("__excel_function_thunk_add"));
         assert!(expanded.contains("FunctionRegistration"));
-        assert!(!expanded.contains("no_mangle"));
-        assert!(!expanded.contains("extern \"system\""));
-        assert!(!expanded.contains("unsafe"));
+        assert!(expanded.contains("export_name = \"rust_add\""));
+        assert!(expanded.contains("unsafe extern \"system\""));
+        assert!(expanded.contains("f64 , y : f64"));
+        assert!(expanded.contains("thunk :: RawXloper12"));
+        assert!(expanded.contains("thunk :: xloper12_thunk"));
+        assert!(expanded.contains("thunk :: with_callback"));
+    }
+
+    #[test]
+    fn scalar_and_pointer_abi_signatures_come_from_the_registration_model() {
+        let function: ItemFn = parse_quote!(
+            fn probe(flag: bool, integer: i16, value: ExcelValueArg<'_>) -> bool {
+                let _ = (integer, value);
+                flag
+            }
+        );
+        let attributes: Punctuated<Meta, Token![,]> = parse_quote!(
+            name = "PROBE",
+            thunk = "probe_export",
+            arguments(flag = "flag", integer = "integer", value = "value")
+        );
+        let expanded = expand_excel_function(attributes, function)
+            .unwrap()
+            .to_string();
+        assert!(expanded.contains("flag : i16"));
+        assert!(expanded.contains("integer : i32"));
+        assert!(expanded.contains("value : :: excel_api :: thunk :: RawXloper12"));
+        assert!(expanded.contains("-> i16"));
+        assert!(expanded.contains("ExcelArgumentType :: Boolean"));
+        assert!(expanded.contains("ExcelArgumentType :: Integer"));
+        assert!(expanded.contains("ExcelArgumentType :: GeneralValue"));
     }
 }

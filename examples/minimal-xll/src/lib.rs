@@ -1,17 +1,20 @@
-use core::panic::AssertUnwindSafe;
 use std::sync::OnceLock;
 
 use excel_api::{
-    AddInDescriptor, ExcelArgumentType, ExcelArray, ExcelError, ExcelReference, ExcelReferenceArg,
-    ExcelReturnType, ExcelReturnValue, ExcelString, ExcelValueRef, FromExcel, FunctionFlags,
-    FunctionRegistration, FunctionSignature, OptionalValue, RawExcelValue, Runtime, ThunkError,
-    excel_function,
+    AddInDescriptor, ExcelArray, ExcelError, ExcelReference, ExcelReferenceArg, ExcelReturnValue,
+    ExcelString, ExcelValueRef, FunctionRegistration, OptionalValue, Runtime, excel_function,
 };
-use excel_api_sys::{LPXLOPER12, XLOPER12, XLOPER12Value};
+#[cfg(test)]
+use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
+use excel_api_sys::LPXLOPER12;
 
+#[cfg(test)]
 const ADD_ARGS: &[ExcelArgumentType] = &[ExcelArgumentType::Number, ExcelArgumentType::Number];
+#[cfg(test)]
 const GENERAL_ARG: &[ExcelArgumentType] = &[ExcelArgumentType::GeneralValue];
+#[cfg(test)]
 const REFERENCE_ARG: &[ExcelArgumentType] = &[ExcelArgumentType::GeneralReference];
+#[cfg(test)]
 const PURE: FunctionFlags = FunctionFlags {
     volatile: false,
     thread_safe: true,
@@ -91,7 +94,7 @@ pub fn option_kind(value: OptionalValue<excel_api::ExcelValue>) -> ExcelString {
     })
 }
 
-pub static GENERATED_FUNCTIONS: &[FunctionRegistration] = &[
+pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_ADD,
     __EXCEL_FUNCTION_METADATA_ECHO,
     __EXCEL_FUNCTION_METADATA_ARRAY_ECHO,
@@ -99,7 +102,8 @@ pub static GENERATED_FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
 ];
 
-pub static FUNCTIONS: &[FunctionRegistration] = &[
+#[cfg(test)]
+pub static HANDWRITTEN_FUNCTIONS: &[FunctionRegistration] = &[
     FunctionRegistration::new(
         "rust_add",
         "RUST.ADD",
@@ -148,7 +152,7 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
 
 pub static ADD_IN: AddInDescriptor = AddInDescriptor::new(
     "excel-api minimal XLL",
-    "Manual Rust Excel12 XLL vertical slice",
+    "Macro-generated Rust Excel12 XLL vertical slice",
     FUNCTIONS,
 );
 
@@ -244,148 +248,6 @@ fn runtime() -> &'static Runtime {
     RUNTIME.get_or_init(Runtime::production)
 }
 
-#[repr(transparent)]
-struct StaticScalar(XLOPER12);
-// SAFETY: these roots contain only immutable scalar error data and no pointer.
-unsafe impl Sync for StaticScalar {}
-static VALUE_ERROR: StaticScalar = StaticScalar(XLOPER12 {
-    val: XLOPER12Value {
-        err: excel_api_sys::xlerrValue,
-    },
-    xltype: excel_api_sys::xltypeErr,
-});
-static REF_ERROR: StaticScalar = StaticScalar(XLOPER12 {
-    val: XLOPER12Value {
-        err: excel_api_sys::xlerrRef,
-    },
-    xltype: excel_api_sys::xltypeErr,
-});
-static NUM_ERROR: StaticScalar = StaticScalar(XLOPER12 {
-    val: XLOPER12Value {
-        err: excel_api_sys::xlerrNum,
-    },
-    xltype: excel_api_sys::xltypeErr,
-});
-static NA_ERROR: StaticScalar = StaticScalar(XLOPER12 {
-    val: XLOPER12Value {
-        err: excel_api_sys::xlerrNA,
-    },
-    xltype: excel_api_sys::xltypeErr,
-});
-
-fn static_error(error: ExcelError) -> LPXLOPER12 {
-    let root = match error {
-        ExcelError::Ref => &REF_ERROR.0,
-        ExcelError::Num => &NUM_ERROR.0,
-        ExcelError::Na => &NA_ERROR.0,
-        _ => &VALUE_ERROR.0,
-    };
-    root as *const XLOPER12 as LPXLOPER12
-}
-
-fn error_for(error: &ThunkError) -> ExcelError {
-    match error {
-        ThunkError::Conversion(excel_api::ConversionError::UnsupportedReference) => ExcelError::Ref,
-        ThunkError::Conversion(
-            excel_api::ConversionError::NonFiniteNumber
-            | excel_api::ConversionError::NonIntegralNumber
-            | excel_api::ConversionError::IntegerOutOfRange,
-        ) => ExcelError::Num,
-        ThunkError::ReturnPlanning(excel_api::ReturnError::ReferenceUnsupported) => ExcelError::Ref,
-        ThunkError::Materialization(excel_api::ReturnMaterializationError::AllocationFailure {
-            ..
-        }) => ExcelError::Na,
-        _ => ExcelError::Value,
-    }
-}
-
-fn return_value(value: ExcelReturnValue) -> Result<LPXLOPER12, ThunkError> {
-    let plan = value.plan().map_err(ThunkError::ReturnPlanning)?;
-    let allocation = plan.materialize().map_err(ThunkError::Materialization)?;
-    Ok(allocation.into_raw_for_excel())
-}
-
-fn thunk(body: impl FnOnce() -> Result<ExcelReturnValue, ThunkError>) -> LPXLOPER12 {
-    match std::panic::catch_unwind(AssertUnwindSafe(|| body().and_then(return_value))) {
-        Ok(Ok(pointer)) => pointer,
-        Ok(Err(error)) => static_error(error_for(&error)),
-        Err(_) => static_error(ExcelError::Value),
-    }
-}
-
-unsafe fn decode<'call>(raw: LPXLOPER12) -> Result<ExcelValueRef<'call>, ThunkError> {
-    // SAFETY: required by this helper's callback argument contract.
-    let raw = unsafe { raw.as_ref() }.ok_or(ThunkError::NullArgument)?;
-    // SAFETY: the exported thunk's ABI contract keeps the callback argument tree live and immutable.
-    unsafe { RawExcelValue::from_callback(raw) }
-        .decode()
-        .map_err(ThunkError::Decode)
-}
-
-#[unsafe(no_mangle)]
-pub extern "system" fn rust_add(x: f64, y: f64) -> LPXLOPER12 {
-    thunk(|| Ok(ExcelReturnValue::Number(add(x, y))))
-}
-
-#[unsafe(no_mangle)]
-/// # Safety
-/// `value` must be a readable callback-owned XLOPER12 tree for the call.
-pub unsafe extern "system" fn rust_echo(value: LPXLOPER12) -> LPXLOPER12 {
-    thunk(|| {
-        // SAFETY: forwarded from the exported thunk contract.
-        let borrowed = unsafe { decode(value) }?;
-        let value = ExcelString::from_excel(borrowed).map_err(ThunkError::Conversion)?;
-        Ok(ExcelReturnValue::from(echo(value)))
-    })
-}
-
-#[unsafe(no_mangle)]
-/// # Safety
-/// `value` must be a readable callback-owned value-only XLOPER12 tree for the call.
-pub unsafe extern "system" fn rust_array_echo(value: LPXLOPER12) -> LPXLOPER12 {
-    thunk(|| {
-        // SAFETY: forwarded from the exported thunk contract.
-        let borrowed = unsafe { decode(value) }?;
-        let value = ExcelArray::from_excel(borrowed).map_err(ThunkError::Conversion)?;
-        Ok(ExcelReturnValue::from(array_echo(value)))
-    })
-}
-
-#[unsafe(no_mangle)]
-/// # Safety
-/// `value` must be a readable callback-owned reference-preserving XLOPER12 tree for the call.
-pub unsafe extern "system" fn rust_reference_kind(value: LPXLOPER12) -> LPXLOPER12 {
-    thunk(|| {
-        // SAFETY: forwarded from the exported thunk contract.
-        let kind = match unsafe { decode(value) }? {
-            ExcelValueRef::Reference(ExcelReference::Single(_)) => "SRef",
-            ExcelValueRef::Reference(ExcelReference::Multiple(_)) => "Ref",
-            ExcelValueRef::Array(_) => "multi",
-            ExcelValueRef::Missing(_) => "missing",
-            ExcelValueRef::Nil(_) => "nil",
-            _ => "scalar",
-        };
-        Ok(ExcelReturnValue::from(kind))
-    })
-}
-
-#[unsafe(no_mangle)]
-/// # Safety
-/// `value` must be a readable callback-owned XLOPER12 tree for the call.
-pub unsafe extern "system" fn rust_option_kind(value: LPXLOPER12) -> LPXLOPER12 {
-    thunk(|| {
-        // SAFETY: forwarded from the exported thunk contract.
-        let decoded = unsafe { decode(value) }?;
-        let optional = OptionalValue::<excel_api::ExcelValue>::from_excel(decoded)
-            .map_err(ThunkError::Conversion)?;
-        Ok(ExcelReturnValue::from(match optional {
-            OptionalValue::Missing => "missing",
-            OptionalValue::Empty => "nil",
-            OptionalValue::Value(_) => "value",
-        }))
-    })
-}
-
 #[unsafe(no_mangle)]
 pub extern "system" fn xlAutoOpen() -> i32 {
     std::panic::catch_unwind(|| runtime().initialize(&ADD_IN).map(|_| 1).unwrap_or(0)).unwrap_or(0)
@@ -410,18 +272,20 @@ pub extern "system" fn xlAutoRemove() -> i32 {
 /// # Safety
 /// `action` must be a readable callback-owned numeric XLOPER12 for the call.
 pub unsafe extern "system" fn xlAddInManagerInfo12(action: LPXLOPER12) -> LPXLOPER12 {
-    thunk(|| {
-        // SAFETY: forwarded from the exported callback contract.
-        let action = unsafe { decode(action) }?;
-        let supported = matches!(
-            action,
-            ExcelValueRef::Integer(1) | ExcelValueRef::Number(1.0)
-        );
-        if supported {
-            Ok(ExcelReturnValue::from(ADD_IN.name))
-        } else {
-            Ok(ExcelReturnValue::Error(ExcelError::Value))
-        }
+    excel_api::thunk::xloper12_thunk(|| {
+        excel_api::thunk::with_callback(|scope| {
+            // SAFETY: forwarded from the exported callback contract.
+            let action = unsafe { scope.decode(action) }?;
+            let supported = matches!(
+                action,
+                ExcelValueRef::Integer(1) | ExcelValueRef::Number(1.0)
+            );
+            if supported {
+                Ok(ExcelReturnValue::from(ADD_IN.name))
+            } else {
+                Ok(ExcelReturnValue::Error(ExcelError::Value))
+            }
+        })
     })
 }
 
@@ -445,15 +309,39 @@ const _: excel_api_sys::XlAutoRemoveFn = xlAutoRemove;
 const _: excel_api_sys::XlAddInManagerInfo12Fn = xlAddInManagerInfo12;
 const _: excel_api_sys::XlAutoFree12Fn = xlAutoFree12;
 const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
-const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = rust_add;
-const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = rust_echo;
+const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
+const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use excel_api_sys::{
+        XLOPER12, XLOPER12Array, XLOPER12SRef, XLOPER12Value, XLREF12, XLTYPE_MASK, xlbitDLLFree,
+        xlbitXLFree, xltypeBool, xltypeMissing, xltypeMulti, xltypeNum, xltypeSRef, xltypeStr,
+    };
 
     fn normalize_snapshot_newlines(snapshot: &str) -> String {
         snapshot.lines().collect::<Vec<_>>().join("\n")
+    }
+
+    unsafe fn returned_text(pointer: LPXLOPER12) -> Vec<u16> {
+        // SAFETY: the caller supplies a live generated xltypeStr handoff.
+        let root = unsafe { &*pointer };
+        assert_eq!(root.xltype & XLTYPE_MASK, xltypeStr);
+        // SAFETY: the active union member follows from the validated tag.
+        let text = unsafe { root.val.str };
+        // SAFETY: a materialized counted string always has a readable prefix.
+        let len = usize::from(unsafe { *text });
+        // SAFETY: the counted buffer owns exactly prefix plus payload.
+        unsafe { core::slice::from_raw_parts(text.add(1), len) }.to_vec()
+    }
+
+    unsafe fn assert_generated_handoff(pointer: LPXLOPER12, expected_type: u32) {
+        // SAFETY: the caller supplies a live generated handoff.
+        let xltype = unsafe { (*pointer).xltype };
+        assert_eq!(xltype & XLTYPE_MASK, expected_type);
+        assert_ne!(xltype & xlbitDLLFree, 0);
+        assert_eq!(xltype & xlbitXLFree, 0);
     }
 
     #[test]
@@ -469,7 +357,7 @@ mod tests {
     #[test]
     fn handwritten_registration_matches_the_m8_oracle() {
         assert_eq!(FUNCTIONS.len(), MANUAL_FUNCTION_FIXTURES.len());
-        for (function, fixture) in FUNCTIONS.iter().zip(MANUAL_FUNCTION_FIXTURES) {
+        for (function, fixture) in HANDWRITTEN_FUNCTIONS.iter().zip(MANUAL_FUNCTION_FIXTURES) {
             assert_eq!(function.rust_symbol, fixture.rust_symbol);
             assert_eq!(function.excel_name, fixture.excel_name);
             assert_eq!(function.type_text().as_deref(), Ok(fixture.type_text));
@@ -486,8 +374,8 @@ mod tests {
 
     #[test]
     fn generated_metadata_exactly_matches_the_handwritten_m8_oracle() {
-        assert_eq!(GENERATED_FUNCTIONS.len(), FUNCTIONS.len());
-        for (generated, handwritten) in GENERATED_FUNCTIONS.iter().zip(FUNCTIONS) {
+        assert_eq!(FUNCTIONS.len(), HANDWRITTEN_FUNCTIONS.len());
+        for (generated, handwritten) in FUNCTIONS.iter().zip(HANDWRITTEN_FUNCTIONS) {
             assert_eq!(generated.rust_symbol, handwritten.rust_symbol);
             assert_eq!(generated.excel_name, handwritten.excel_name);
             assert_eq!(generated.signature, handwritten.signature);
@@ -505,7 +393,7 @@ mod tests {
 
     #[test]
     fn generated_metadata_expansion_snapshot_is_stable() {
-        let snapshot = GENERATED_FUNCTIONS
+        let snapshot = FUNCTIONS
             .iter()
             .map(|function| {
                 format!(
@@ -552,27 +440,30 @@ mod tests {
 
     #[test]
     fn thunk_error_mapping_matches_the_m8_oracle() {
-        assert_eq!(error_for(&ThunkError::NullArgument), ExcelError::Value);
         assert_eq!(
-            error_for(&ThunkError::Conversion(
+            excel_api::thunk::error_for(&excel_api::ThunkError::NullArgument),
+            ExcelError::Value
+        );
+        assert_eq!(
+            excel_api::thunk::error_for(&excel_api::ThunkError::Conversion(
                 excel_api::ConversionError::UnsupportedReference
             )),
             ExcelError::Ref
         );
         assert_eq!(
-            error_for(&ThunkError::Conversion(
+            excel_api::thunk::error_for(&excel_api::ThunkError::Conversion(
                 excel_api::ConversionError::NonFiniteNumber
             )),
             ExcelError::Num
         );
         assert_eq!(
-            error_for(&ThunkError::ReturnPlanning(
+            excel_api::thunk::error_for(&excel_api::ThunkError::ReturnPlanning(
                 excel_api::ReturnError::ReferenceUnsupported
             )),
             ExcelError::Ref
         );
         assert_eq!(
-            error_for(&ThunkError::Materialization(
+            excel_api::thunk::error_for(&excel_api::ThunkError::Materialization(
                 excel_api::ReturnMaterializationError::AllocationFailure { storage: "fixture" }
             )),
             ExcelError::Na
@@ -581,8 +472,10 @@ mod tests {
 
     #[test]
     fn add_thunk_returns_per_call_dllfree_storage() {
-        let first = rust_add(2.0, 3.0);
-        let second = rust_add(4.0, 5.0);
+        // SAFETY: the scalar inputs satisfy the generated ABI contract.
+        let first = unsafe { __excel_function_thunk_add(2.0, 3.0) };
+        // SAFETY: the scalar inputs satisfy the generated ABI contract.
+        let second = unsafe { __excel_function_thunk_add(4.0, 5.0) };
         assert_ne!(first, second);
         // SAFETY: each is a distinct fresh handoff and is reclaimed once.
         unsafe {
@@ -592,9 +485,114 @@ mod tests {
     }
 
     #[test]
+    fn generated_thunks_match_m8_values_tags_q_u_and_ownership() {
+        // SAFETY: scalar arguments match the generated B/B ABI.
+        let add = unsafe { __excel_function_thunk_add(2.0, 3.0) };
+        // SAFETY: `add` is a live generated handoff.
+        unsafe { assert_generated_handoff(add, xltypeNum) };
+        // SAFETY: the numeric tag selects the numeric union member.
+        assert_eq!(unsafe { (*add).val.num }, 5.0);
+        // SAFETY: reclaim the unique handoff exactly once.
+        unsafe { xlAutoFree12(add) };
+
+        let mut counted = [3_u16, b'A' as u16, 0, b'B' as u16];
+        let mut text = XLOPER12 {
+            val: XLOPER12Value {
+                str: counted.as_mut_ptr(),
+            },
+            xltype: xltypeStr,
+        };
+        // SAFETY: `text` and its counted backing remain live for the call.
+        let echo = unsafe { __excel_function_thunk_echo(&mut text) };
+        // SAFETY: `echo` is a live generated handoff.
+        unsafe { assert_generated_handoff(echo, xltypeStr) };
+        // SAFETY: the returned tag and storage were just validated.
+        assert_eq!(unsafe { returned_text(echo) }, &counted[1..]);
+        // SAFETY: reclaim the unique handoff exactly once.
+        unsafe { xlAutoFree12(echo) };
+
+        let mut elements = [
+            XLOPER12 {
+                val: XLOPER12Value { num: 2.5 },
+                xltype: xltypeNum,
+            },
+            XLOPER12 {
+                val: XLOPER12Value { xbool: 1 },
+                xltype: xltypeBool,
+            },
+        ];
+        let mut array = XLOPER12 {
+            val: XLOPER12Value {
+                array: XLOPER12Array {
+                    lparray: elements.as_mut_ptr(),
+                    rows: 1,
+                    columns: 2,
+                },
+            },
+            xltype: xltypeMulti,
+        };
+        // SAFETY: `array` is a valid flat Q callback tree for the call.
+        let echoed_array = unsafe { __excel_function_thunk_array_echo(&mut array) };
+        // SAFETY: `echoed_array` is a live generated handoff.
+        unsafe { assert_generated_handoff(echoed_array, xltypeMulti) };
+        // SAFETY: the multi tag selects a materialized two-element array.
+        let returned_array = unsafe { (*echoed_array).val.array };
+        assert_eq!((returned_array.rows, returned_array.columns), (1, 2));
+        // SAFETY: the returned multi owns two initialized elements.
+        let returned_elements = unsafe { core::slice::from_raw_parts(returned_array.lparray, 2) };
+        assert_eq!(returned_elements[0].xltype, xltypeNum);
+        assert_eq!(returned_elements[1].xltype, xltypeBool);
+        // SAFETY: tags select the corresponding union members.
+        assert_eq!(unsafe { returned_elements[0].val.num }, 2.5);
+        // SAFETY: the Boolean tag selects the Boolean union member.
+        assert_eq!(unsafe { returned_elements[1].val.xbool }, 1);
+        // SAFETY: reclaim the unique handoff exactly once.
+        unsafe { xlAutoFree12(echoed_array) };
+
+        let mut reference = XLOPER12 {
+            val: XLOPER12Value {
+                sref: XLOPER12SRef {
+                    count: 1,
+                    reference: XLREF12 {
+                        rwFirst: 0,
+                        rwLast: 1,
+                        colFirst: 0,
+                        colLast: 1,
+                    },
+                },
+            },
+            xltype: xltypeSRef,
+        };
+        // SAFETY: `reference` is a valid U callback value for the call.
+        let kind = unsafe { __excel_function_thunk_reference_kind(&mut reference) };
+        // SAFETY: the generated U thunk returned a live text handoff.
+        let kind_text = unsafe { returned_text(kind) };
+        assert_eq!(kind_text, "SRef".encode_utf16().collect::<Vec<_>>());
+        // SAFETY: reclaim the unique handoff exactly once.
+        unsafe { xlAutoFree12(kind) };
+
+        let mut missing = XLOPER12 {
+            val: XLOPER12Value { w: 0 },
+            xltype: xltypeMissing,
+        };
+        // SAFETY: `missing` is a valid Q callback value for the call.
+        let optional = unsafe { __excel_function_thunk_option_kind(&mut missing) };
+        // SAFETY: the generated optional thunk returned a live text handoff.
+        let optional_text = unsafe { returned_text(optional) };
+        assert_eq!(optional_text, "missing".encode_utf16().collect::<Vec<_>>());
+        // SAFETY: reclaim the unique handoff exactly once.
+        unsafe { xlAutoFree12(optional) };
+
+        assert_eq!(FUNCTIONS[2].signature.arguments, GENERAL_ARG);
+        assert_eq!(FUNCTIONS[3].signature.arguments, REFERENCE_ARG);
+    }
+
+    #[test]
     fn panics_are_mapped_to_an_immutable_scalar_error() {
-        let pointer = thunk(|| -> Result<ExcelReturnValue, ThunkError> { panic!("test panic") });
-        assert_eq!(pointer, static_error(ExcelError::Value));
+        let pointer = excel_api::thunk::xloper12_thunk(
+            || -> Result<ExcelReturnValue, excel_api::ThunkError> { panic!("test panic") },
+        );
+        assert_eq!(pointer, excel_api::thunk::static_error(ExcelError::Value));
         // Static fallback roots carry no ownership bit and must not be passed to AutoFree.
         // SAFETY: the static fallback pointer is permanently live.
         assert_eq!(unsafe { (*pointer).xltype }, excel_api_sys::xltypeErr);
@@ -603,7 +601,7 @@ mod tests {
     #[test]
     fn null_input_is_a_controlled_value_error() {
         // SAFETY: null is intentionally supplied to exercise defensive validation.
-        let pointer = unsafe { rust_echo(core::ptr::null_mut()) };
-        assert_eq!(pointer, static_error(ExcelError::Value));
+        let pointer = unsafe { __excel_function_thunk_echo(core::ptr::null_mut()) };
+        assert_eq!(pointer, excel_api::thunk::static_error(ExcelError::Value));
     }
 }
