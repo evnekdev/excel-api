@@ -4,12 +4,15 @@ param(
     [string]$OutputDirectory = 'target/rtd-validation',
     [int]$ObservationSeconds = 4,
     [int]$ProcessTimeoutSeconds = 90,
+    [ValidateSet('Rust', 'Control')]
+    [string]$Server = 'Rust',
     [string]$RunDirectory,
     [switch]$Worker,
     [switch]$ValidateOnly
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'minimal-rtd-validation-helpers.ps1')
 if ($ObservationSeconds -lt 2 -or $ObservationSeconds -gt 60) {
     throw 'ObservationSeconds must be between 2 and 60'
 }
@@ -26,20 +29,65 @@ $run = if ([string]::IsNullOrWhiteSpace($RunDirectory)) {
 $diagnostics = Join-Path $run 'server-events.jsonl'
 $summaryPath = Join-Path $run 'summary.json'
 $coordinationPath = Join-Path $run 'owned-process.json'
+$isControl = $Server -eq 'Control'
+$progId = if ($isControl) { 'ExcelApi.ControlRtd' } else { 'ExcelApi.MinimalRtd' }
+$clsid = if ($isControl) { '{F370A35B-7251-49E7-9FB2-3D6655FD1778}' } else { '{DC738FE5-30EE-40E8-A8C2-3D16F217C52D}' }
+$diagnosticVariable = if ($isControl) { 'EXCEL_API_CONTROL_RTD_DIAGNOSTICS' } else { 'EXCEL_API_MINIMAL_RTD_DIAGNOSTICS' }
 $settings = [ordered]@{
-    prog_id = 'ExcelApi.MinimalRtd'
-    clsid = '{DC738FE5-30EE-40E8-A8C2-3D16F217C52D}'
+    server = $Server
+    prog_id = $progId
+    clsid = $clsid
     dll = $dll
     observation_seconds = $ObservationSeconds
-    formula = '=RTD("ExcelApi.MinimalRtd","","COUNTER")'
+    formula = "=RTD(`"$progId`",,`"COUNTER`")"
+    formula_matrix = @(Get-MinimalRtdFormulaMatrix -ProgId $progId)
+}
+
+function Quote-ProcessArgument([string]$Value) { '"' + ($Value -replace '(\\*)"', '$1$1\"' -replace '(\\+)$', '$1$1') + '"' }
+function Start-RtdWorker([string]$Shell, [string[]]$Arguments, [string]$WorkingDirectory) {
+    $start = New-Object Diagnostics.ProcessStartInfo
+    $start.FileName = $Shell
+    $start.WorkingDirectory = $WorkingDirectory
+    $start.Arguments = ($Arguments | ForEach-Object { Quote-ProcessArgument $_ }) -join ' '
+    $start.UseShellExecute = $false
+    $start.RedirectStandardOutput = $true
+    $start.RedirectStandardError = $true
+    $start.CreateNoWindow = $true
+    # Preserve the inherited environment block without enumerating its
+    # case-insensitive PATH/Path aliases.
+    $process = New-Object Diagnostics.Process
+    $process.StartInfo = $start
+    if (-not $process.Start()) { throw 'failed to start direct RTD worker' }
+    [pscustomobject]@{ process=$process; output=$process.StandardOutput.ReadToEndAsync(); error=$process.StandardError.ReadToEndAsync() }
 }
 if ($ValidateOnly) {
-    powershell -File scripts/register-minimal-rtd.ps1 -Path $dll -ValidateOnly | Out-Null
+    if ($isControl) { powershell -File scripts/register-minimal-rtd-control.ps1 -Path $dll -ValidateOnly | Out-Null }
+    else { powershell -File scripts/register-minimal-rtd.ps1 -Path $dll -ValidateOnly | Out-Null }
+    powershell -File scripts/test-minimal-rtd-validation-helpers.ps1 | Out-Null
     [PSCustomObject]@{ status = 'validated-no-excel'; settings = $settings } | ConvertTo-Json -Depth 4
     return
 }
 
 if (-not $Worker) {
+    $stale = @()
+    if (Test-Path -LiteralPath $root) {
+        foreach ($ownedFile in Get-ChildItem -LiteralPath $root -Filter 'owned-process.json' -File -Recurse -ErrorAction SilentlyContinue) {
+            try {
+                $prior = Get-Content -LiteralPath $ownedFile.FullName -Raw | ConvertFrom-Json
+                $ownedProcess = Get-Process -Id ([int]$prior.excel_pid) -ErrorAction SilentlyContinue
+                if ($null -ne $ownedProcess) {
+                    $stale += [pscustomobject]@{ pid=$ownedProcess.Id; relationship='recorded-owned-excel'; record=$ownedFile.FullName; start_time_utc=try{$ownedProcess.StartTime.ToUniversalTime().ToString('o')}catch{'access-denied'} }
+                }
+                foreach ($child in @(Get-CimInstance Win32_Process -Filter "ParentProcessId=$([int]$prior.excel_pid)" -ErrorAction SilentlyContinue)) {
+                    $stale += [pscustomobject]@{ pid=[int]$child.ProcessId; parent_pid=[int]$child.ParentProcessId; relationship='verified-direct-descendant'; image_path=[string]$child.ExecutablePath; command_line=if($child.CommandLine){[string]$child.CommandLine}else{'unavailable'}; record=$ownedFile.FullName }
+                }
+            } catch { }
+        }
+    }
+    if ($stale.Count -ne 0) {
+        [pscustomobject]@{ status='blocked'; classification='stale-owned-test-processes'; cleanup='manual-admin-or-reboot-required'; stale_processes=$stale } | ConvertTo-Json -Depth 6
+        return
+    }
     New-Item -ItemType Directory -Path $run -Force | Out-Null
     $stdout = Join-Path $run 'worker.stdout.txt'
     $stderr = Join-Path $run 'worker.stderr.txt'
@@ -48,11 +96,11 @@ if (-not $Worker) {
         '-DllPath', $dll, '-OutputDirectory', $OutputDirectory,
         '-ObservationSeconds', $ObservationSeconds,
         '-ProcessTimeoutSeconds', $ProcessTimeoutSeconds,
+        '-Server', $Server,
         '-RunDirectory', $run
     )
-    $process = Start-Process -FilePath powershell.exe -ArgumentList $arguments `
-        -WindowStyle Hidden -RedirectStandardOutput $stdout `
-        -RedirectStandardError $stderr -PassThru
+    $worker = Start-RtdWorker (Get-Process -Id $PID).Path $arguments (Resolve-Path '.').Path
+    $process = $worker.process
     if (-not $process.WaitForExit($ProcessTimeoutSeconds * 1000)) {
         $owned = $null
         if (Test-Path -LiteralPath $coordinationPath) {
@@ -76,7 +124,14 @@ if (-not $Worker) {
             $children = @(Get-CimInstance Win32_Process -Filter "ParentProcessId=$($owned.excel_pid)" -ErrorAction SilentlyContinue |
                 Where-Object { $_.Name -eq 'EXCEL.EXE' })
             foreach ($child in $children) {
-                $childResult = [ordered]@{ pid = [int]$child.ProcessId; result = 'not-terminated' }
+                $childResult = [ordered]@{
+                    pid = [int]$child.ProcessId
+                    parent_pid = [int]$child.ParentProcessId
+                    image_path = [string]$child.ExecutablePath
+                    start_time = [string]$child.CreationDate
+                    command_line = if ($child.CommandLine) { [string]$child.CommandLine } else { 'unavailable' }
+                    result = 'not-terminated'
+                }
                 try {
                     Stop-Process -Id $child.ProcessId -Force -ErrorAction Stop
                     $childResult.result = 'verified-direct-child-terminated'
@@ -86,7 +141,8 @@ if (-not $Worker) {
                 $excelCleanup.direct_excel_children += $childResult
             }
         }
-        powershell -File scripts/unregister-minimal-rtd.ps1 | Out-Null
+        if ($isControl) { powershell -File scripts/unregister-minimal-rtd-control.ps1 | Out-Null }
+        else { powershell -File scripts/unregister-minimal-rtd.ps1 | Out-Null }
         $timeoutSummary = [ordered]@{
             status = 'blocked'
             classification = 'host-blocked-plain-workbooks-add-timeout'
@@ -101,6 +157,8 @@ if (-not $Worker) {
         Write-Output "summary=$summaryPath"
         return
     }
+    $worker.output.Result | Set-Content -LiteralPath $stdout
+    $worker.error.Result | Set-Content -LiteralPath $stderr
     if (Test-Path -LiteralPath $stdout) { Get-Content -LiteralPath $stdout }
     $process.Refresh()
     if ($process.ExitCode -ne 0 -and (Test-Path -LiteralPath $stderr)) {
@@ -124,15 +182,18 @@ $summary = [ordered]@{
     duplicate_value = $null
     reconnect_value = $null
     diagnostics = $null
+    activation_stage = 'dll_not_loaded'
+    module_evidence = $null
+    formula_results = @()
     cleanup = [ordered]@{ workbook_closed = $false; excel_quit = $false; process_exited = $false; unregistered = $false }
 }
 $excel = $null
 $workbook = $null
 $excelPid = 0
 $registered = $false
-$oldDiagnostic = [Environment]::GetEnvironmentVariable('EXCEL_API_MINIMAL_RTD_DIAGNOSTICS', 'Process')
+$oldDiagnostic = [Environment]::GetEnvironmentVariable($diagnosticVariable, 'Process')
 try {
-    [Environment]::SetEnvironmentVariable('EXCEL_API_MINIMAL_RTD_DIAGNOSTICS', $diagnostics, 'Process')
+    [Environment]::SetEnvironmentVariable($diagnosticVariable, $diagnostics, 'Process')
     $excel = New-Object -ComObject Excel.Application
     $excel.Visible = $false
     $excel.DisplayAlerts = $false
@@ -179,20 +240,39 @@ namespace RtdValidation {
         return
     }
 
-    powershell -File scripts/register-minimal-rtd.ps1 -Path $dll | Out-Null
-    powershell -File scripts/inspect-minimal-rtd-registration.ps1 -ExpectedPath $dll | Out-Null
+    if ($isControl) {
+        powershell -File scripts/register-minimal-rtd-control.ps1 -Path $dll | Out-Null
+    } else {
+        powershell -File scripts/register-minimal-rtd.ps1 -Path $dll | Out-Null
+        powershell -File scripts/inspect-minimal-rtd-registration.ps1 -ExpectedPath $dll | Out-Null
+    }
     $registered = $true
     $summary.registration = 'valid-per-user'
 
     $sheet = $workbook.Worksheets.Item(1)
-    $sheet.Range('A1').Formula = $settings.formula
-    $sheet.Range('A2').Formula = $settings.formula
+    $listSeparator = [string]$excel.International(5)
+    $formulaMatrix = @(Get-MinimalRtdFormulaMatrix -ProgId $progId -ListSeparator $listSeparator)
+    for ($index = 0; $index -lt $formulaMatrix.Count; $index++) {
+        $cell = $sheet.Cells.Item($index + 1, 1)
+        $entry = $formulaMatrix[$index]
+        if ($entry.property -eq 'FormulaLocal') { $cell.FormulaLocal = $entry.formula } else { $cell.Formula = $entry.formula }
+        $summary.formula_results += [ordered]@{ name=$entry.name; requested=$entry.formula; property=$entry.property; formula=[string]$cell.Formula; formula_local=[string]$cell.FormulaLocal; value=$null }
+    }
+    $sheet.Range('A6').Formula = $settings.formula
     Start-Sleep -Seconds $ObservationSeconds
+    for ($index = 0; $index -lt $formulaMatrix.Count; $index++) { $summary.formula_results[$index].value = $sheet.Cells.Item($index + 1, 1).Value2 }
     $summary.initial_value = $sheet.Range('A1').Value2
-    $summary.duplicate_value = $sheet.Range('A2').Value2
+    $summary.duplicate_value = $sheet.Range('A6').Value2
+    try {
+        $ownedExcel = Get-Process -Id $excelPid -ErrorAction Stop
+        $moduleMatch = @($ownedExcel.Modules | Where-Object { [string]::Equals($_.FileName, $dll, [StringComparison]::OrdinalIgnoreCase) })
+        $summary.module_evidence = [ordered]@{ status='available'; exact_dll_loaded=($moduleMatch.Count -gt 0); matches=@($moduleMatch | ForEach-Object { [ordered]@{module=$_.ModuleName; path=$_.FileName} }) }
+    } catch {
+        $summary.module_evidence = [ordered]@{ status='access-denied'; exact_dll_loaded=$false; error=[string]$_.Exception.Message }
+    }
     Start-Sleep -Seconds $ObservationSeconds
     $summary.updated_value = $sheet.Range('A1').Value2
-    $sheet.Range('A1:A2').ClearContents()
+    $sheet.Range('A1:A6').ClearContents()
     Start-Sleep -Seconds 1
     $sheet.Range('A1').Formula = $settings.formula
     Start-Sleep -Seconds $ObservationSeconds
@@ -225,11 +305,13 @@ namespace RtdValidation {
     }
     if ($registered) {
         try {
-            powershell -File scripts/unregister-minimal-rtd.ps1 | Out-Null
+            if ($isControl) { powershell -File scripts/unregister-minimal-rtd-control.ps1 | Out-Null }
+            else { powershell -File scripts/unregister-minimal-rtd.ps1 | Out-Null }
             $summary.cleanup.unregistered = $true
         } catch {}
     }
-    [Environment]::SetEnvironmentVariable('EXCEL_API_MINIMAL_RTD_DIAGNOSTICS', $oldDiagnostic, 'Process')
+    [Environment]::SetEnvironmentVariable($diagnosticVariable, $oldDiagnostic, 'Process')
+    $events = @()
     if (Test-Path -LiteralPath $diagnostics) {
         $events = @(Get-Content -LiteralPath $diagnostics | ForEach-Object { $_ | ConvertFrom-Json })
         $summary.diagnostics = [ordered]@{
@@ -239,6 +321,8 @@ namespace RtdValidation {
             apartments = @($events.apartment | Sort-Object -Unique)
         }
     }
+    if ($null -eq $summary.module_evidence) { $summary.module_evidence = [ordered]@{ status='not-observed'; exact_dll_loaded=$false } }
+    $summary.activation_stage = Get-MinimalRtdActivationStage -DllLoaded ([bool]$summary.module_evidence.exact_dll_loaded) -Events $events
     $summary.completed_utc = [datetime]::UtcNow.ToString('o')
     $summary | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $summaryPath
     Write-Output ($summary | ConvertTo-Json -Depth 8)
