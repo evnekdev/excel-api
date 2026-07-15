@@ -21,6 +21,7 @@ Uninitialized
  -> Initialized
  -> Closing
  -> Closed/Uninitialized
+ -> CleanupRequired (only when Excel cleanup fails)
 ```
 
 Initialization must be idempotent.
@@ -79,8 +80,8 @@ core ownership implementation.
 No Excel C API calls. Avoid nontrivial initialization under loader lock.
 ## M8 implementation
 
-`Runtime` implements `Uninitialized`, `Initializing`, `Initialized`, and
-`Closing`. Duplicate open/add calls are idempotent, partial registration rolls
+`Runtime` implements `Uninitialized`, `Initializing`, `Initialized`,
+`Closing`, and `CleanupRequired`. Duplicate open/add calls are idempotent, partial registration rolls
 back in reverse order, close is idempotent, and failed close retains failed IDs
 with the backend linked for retry. No lock is held over Excel12v. Thin,
 panic-contained exports implement `xlAutoOpen`, `xlAutoClose`, `xlAutoAdd`,
@@ -111,3 +112,19 @@ completion owns its return allocation locally during the synchronous
 `xlAsyncReturn` call; it never transfers that allocation to `xlAutoFree12`.
 Atomic request state and a controller epoch enforce at-most-once completion
 and reject cancellation, duplicate completion, and post-close work.
+
+Event-registration lifetime is longer than one open/close generation.
+Microsoft's verified documentation defines `xlEventRegister` and the two event
+meanings but no removal operation or repeated-registration semantics. The
+production `Runtime`, which is process-static for one loaded XLL binary,
+records each successful event registration and never duplicates it on reopen.
+If one registration fails, only the missing event is retried. With no active
+controller, both exported procedures are safe no-ops.
+
+Each successful open consumes a fresh executor/controller generation. Close
+removes and disables it, permanently shuts its executor, and joins accepted
+jobs before unregister or backend unlink. If Excel cleanup fails, the runtime
+reports `CleanupRequired`; async scheduling stays disabled, initialize is
+rejected, and retry-close uses the retained registration IDs. A successful
+retry returns to `Uninitialized`, after which the XLL must install a fresh
+executor for reopen.

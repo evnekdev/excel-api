@@ -61,10 +61,16 @@ move only `Send + 'static` values, an opaque copied Excel handle, and an
 `AsyncCancellationToken` to the installed executor. No worksheet, lifecycle,
 macro, COM, or general C API capability crosses the thread boundary.
 
-The optional standard-library executor has a bounded queue and fixed worker
-count. Applications may install another `AsyncExecutor`, but its `shutdown`
-must reject new work and join/drain all jobs before returning. The runtime
-disables completion and advances its epoch before invoking that shutdown.
+The optional standard-library executor has a bounded queue, fixed worker count,
+and permanent `New -> Running -> ShuttingDown -> Closed` state. Its acceptance
+and shutdown boundary share one lock. Closed executors cannot restart, partial
+worker startup is joined, and no lock is held while worker threads are joined.
+
+Applications may install another `AsyncExecutor`, one per XLL open generation.
+`execute` must accept exactly once or return the unexecuted job. `shutdown`
+must establish an irreversible rejection boundary, be idempotent, join/drain
+all accepted jobs, and never detach XLL code past unload. The runtime does not
+invoke shutdown from an executor job.
 
 M7's `ExcelOwnedValue<'call>` is deliberately neither `Send` nor `Sync`. Its
 boxed root is stable, but the ability to call back into Excel is scoped to the
@@ -82,10 +88,14 @@ Lifecycle shutdown must account for:
 - late cleanup calls;
 - cancelled close sequences.
 
-M16 close first disables async completion, cancels scheduled requests, and
+M16 close removes and disables the active controller generation, cancels
+scheduled/running requests, and
 calls the executor's blocking shutdown contract. It unregisters functions and
 unlinks the Excel callback only after no accepted executor job can execute XLL
-code. A stale epoch or inactive controller suppresses late `xlAsyncReturn`.
+code. Queued cancellation skips the user body. A stale generation or inactive
+controller suppresses late `xlAsyncReturn`. Failed Excel cleanup enters
+`CleanupRequired` with async scheduling still disabled and the backend linked
+only for retry.
 
 ## Shared state
 

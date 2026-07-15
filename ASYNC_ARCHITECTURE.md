@@ -2,8 +2,8 @@
 
 ## Status
 
-M16 implementation in progress. The automated contract can be completed on
-ordinary CI; real-Excel cancellation, recalculation, and unload validation is
+M16 implementation and lifecycle-race hardening are complete in automated
+tests. Real-Excel cancellation, recalculation, and unload validation is still
 required before this design is stable.
 
 M16 started by explicit maintainer direction while the M15 live-smoke gate is
@@ -27,6 +27,13 @@ ended follows cancellation and permits calculation-scoped resource cleanup.
 The event procedures are parameterless exported procedures. No general Excel
 callback capability is made available to either event handlers or workers.
 
+Microsoft documents registration, but the verified sources document neither an
+event-removal function nor repeated-registration replacement semantics.
+Consequently each event is registered at most once per loaded production
+`Runtime`; successful individual registrations survive a later initialization
+failure, missing registrations are retried, and callbacks are safe no-ops when
+there is no active generation.
+
 ## Ownership boundary
 
 `AsyncHandle` copies only the opaque `xltypeBigData` handle fields supplied by
@@ -46,19 +53,27 @@ returns. `xlAutoFree12` is never involved in an async result.
 
 ## State machine and shutdown
 
-Each request has one atomic state:
+Each request has one atomic execution state and one idempotent retirement bit:
 
 ```text
-Scheduled -> Completing -> Completed
-    |             |
-    +----------> Canceled
+Scheduled -> Running -> Completing -> Completed
+    |            |             |
+    |            +-> CancelRequested -> Canceled
+    +--------------------------------> Canceled
 ```
 
-Only a successful compare-and-exchange from `Scheduled` to `Completing` may
-call `xlAsyncReturn`. Cancellation or shutdown changes `Scheduled` to
-`Canceled`. A controller epoch and active flag reject stale work after close
-and after a later reopen. The controller disables completion before lifecycle
-unregistration and before the Excel callback backend is unlinked.
+The worker checks the active generation and wins `Scheduled -> Running` before
+calling user code. Thus cancellation while queued retires the request without
+calling the function body. Only `Running -> Completing` may call
+`xlAsyncReturn`; a cancellation that wins first becomes `CancelRequested` and
+suppresses an ignored result. Retirement atomically removes the registry entry
+and decrements capacity at most once on every terminal path.
+
+An open consumes a fresh controller and executor generation. Shutdown removes
+the active generation before draining it. Scheduling clones a stable `Arc`, so
+stale jobs retain only their old controller. The old controller is inactive
+and its executor permanently closed before runtime unlink. A new `xlAutoOpen`
+must install a new executor.
 
 Calculation cancellation marks every current request canceled. Calculation
 ended removes terminal request records. XLL close performs the same stop gate,
@@ -69,15 +84,37 @@ bounded so unload cannot wait indefinitely.
 ## Executor boundary and bounds
 
 The crate defines an `AsyncExecutor` adapter accepting boxed `Send + 'static`
-jobs. It does not depend on or initialize Tokio, async-std, or another runtime.
-An XLL installs one executor explicitly and configures a maximum number of
-in-flight requests. Capacity is reserved before submitting a job and released
-on every completion, cancellation, panic, or executor rejection path.
+jobs. A rejection returns ownership of the closure, proving that it was not
+run. `shutdown` is an irreversible rejection boundary and must wait until all
+accepted closures can no longer execute XLL code. It is idempotent and must not
+detach work. Third-party adapters use one executor per open generation.
+
+The built-in executor is `New -> Running -> ShuttingDown -> Closed`. `execute`
+and the shutdown transition share one mutex, so queue acceptance and permanent
+closure are linearizable. Shutdown drops the sole sender and joins every
+worker without holding an executor/controller/global lock. Partial worker
+startup closes the queue, joins workers already created, and leaves the
+executor permanently closed. Queue-full, closed, and worker-start failures are
+distinct.
+
+Controller admission reserves capacity and registers the request, then takes a
+second short commit check under the lifecycle mutex while the executor records
+acceptance. Shutdown uses that same mutex. A request paused between registration
+and submission is rejected if shutdown wins; an accepted request precedes the
+shutdown boundary and is canceled and joined. Workers cannot pass their start
+check until the commit mutex is released, and no gate is held while user code,
+Excel, or a join runs. Executors must enqueue rather than synchronously run or
+wait for a submitted closure inside `execute`.
 
 Worker panics are contained before the FFI completion boundary and mapped to
 Excel `#VALUE!` when completion is still legal. Submission failure and capacity
 exhaustion are observable diagnostics; the initial void thunk cannot return an
 ordinary worksheet error synchronously.
+
+If Excel unregistration fails during close, the runtime enters
+`CleanupRequired`: async work remains disabled, the backend stays linked only
+for cleanup, initialize is rejected, and retry-close is permitted. It never
+reports `Initialized` with a drained async generation.
 
 ## Validation status
 
@@ -87,9 +124,14 @@ cancellation, stale epochs, shutdown, panic containment, and bounded
 submission. Real Excel still must cover recalc, cancellation, close/unload,
 and late-result suppression before M16 is stable.
 
+ThreadSanitizer is not available for the Windows/MSVC target used by this
+repository. Deterministic barriers/channels cover the critical boundaries;
+the project does not claim TSan or Loom validation.
+
 ## Authoritative sources
 
 - [Asynchronous user-defined functions](https://learn.microsoft.com/en-us/office/client-developer/excel/asynchronous-user-defined-functions)
 - [xlAsyncReturn](https://learn.microsoft.com/en-us/office/client-developer/excel/xlasyncreturn)
 - [xlEventRegister](https://learn.microsoft.com/en-us/office/client-developer/excel/xleventregister)
+- [Handling Events](https://learn.microsoft.com/en-us/office/client-developer/excel/handling-events)
 - [xlfRegister (Form 1)](https://learn.microsoft.com/en-au/office/client-developer/excel/xlfregister-form-1)

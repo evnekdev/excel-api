@@ -25,7 +25,9 @@ Its implementation is complete, but live validation is blocked on the current
 machine by plain Excel COM workbook creation failing before the XLL is loaded.
 M16 now implements bounded native asynchronous UDF scheduling, generated
 `>...X` thunks, cancellation events, at-most-once `xlAsyncReturn`, and
-shutdown-safe executor draining. Automated coverage passes; real Excel
+permanent per-open executor generations with shutdown-safe draining. Queued
+cancellation skips user code, event handlers are registered once per loaded
+binary, and failed close cleanup is represented explicitly. Automated coverage passes; real Excel
 cancellation/recalculation/unload validation remains pending, and does not
 change the blocked M15 live-smoke status.
 
