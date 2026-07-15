@@ -66,6 +66,10 @@ struct State {
     generation: u64,
     main_thread_id: u64,
     schedule_attempts: u64,
+    bootstrap_attempted: bool,
+    bootstrap_succeeded: Option<bool>,
+    bootstrap_failure: Option<String>,
+    unsafe_to_unload: bool,
     pending: Vec<Pending>,
     events: VecDeque<Event>,
 }
@@ -119,7 +123,7 @@ fn enable_marker_path() -> std::path::PathBuf {
     harness_directory().join(ENABLE_MARKER)
 }
 
-fn harness_enabled_for_this_process() -> bool {
+pub fn enabled_for_current_process() -> bool {
     std::fs::read_to_string(enable_marker_path())
         .ok()
         .and_then(|value| value.trim().parse::<u32>().ok())
@@ -184,7 +188,7 @@ fn record_call(
             result,
         },
     );
-    if harness_enabled_for_this_process() {
+    if enabled_for_current_process() {
         let _ = dump();
     }
     accepted
@@ -197,6 +201,10 @@ pub fn activate() {
     state.generation = generation;
     state.main_thread_id = current_thread_id();
     state.schedule_attempts = 0;
+    state.bootstrap_attempted = false;
+    state.bootstrap_succeeded = None;
+    state.bootstrap_failure = None;
+    state.unsafe_to_unload = false;
     state.pending.clear();
     state.events.clear();
     CALLBACK_COUNT.store(0, Ordering::Release);
@@ -219,14 +227,54 @@ pub fn activate() {
     );
 }
 
+fn finish_bootstrap(success: bool, failure: Option<String>, unsafe_to_unload: bool) {
+    let generation = {
+        let mut state = lock_state();
+        state.bootstrap_attempted = true;
+        state.bootstrap_succeeded = Some(success);
+        state.bootstrap_failure = failure.clone();
+        state.unsafe_to_unload |= unsafe_to_unload;
+        state.generation
+    };
+    push_event(
+        lock_state(),
+        Event {
+            order: bounded_increment(&NEXT_ORDER),
+            kind: "bootstrap-result",
+            generation,
+            thread_id: current_thread_id(),
+            timestamp_ms: timestamp_ms(),
+            serial: None,
+            form: None,
+            raw_code: None,
+            result: if success {
+                "success".into()
+            } else {
+                format!("failure:{}", failure.unwrap_or_else(|| "unknown".into()))
+            },
+        },
+    );
+    let _ = dump();
+}
+
+pub fn record_bootstrap_bridge_failure(error: &str) {
+    finish_bootstrap(
+        false,
+        Some(format!("lifecycle-context-bridge:{error}")),
+        false,
+    );
+}
+
 pub fn bootstrap(context: &LifecycleContext<'_>) -> bool {
-    if !harness_enabled_for_this_process() {
+    if !enabled_for_current_process() {
         return true;
     }
+    lock_state().bootstrap_attempted = true;
     let generation = lock_state().generation;
     let now = match context.experimental_excel_serial_now() {
         Ok(value) => value,
         Err(error) => {
+            let failure = format!("xlfNow:{error}");
             let _ = record_call(
                 "bootstrap-now",
                 generation,
@@ -234,7 +282,7 @@ pub fn bootstrap(context: &LifecycleContext<'_>) -> bool {
                 None,
                 Err::<ExperimentalOnTimeOutcome, _>(error),
             );
-            let _ = dump();
+            finish_bootstrap(false, Some(failure), false);
             return false;
         }
     };
@@ -320,10 +368,19 @@ pub fn bootstrap(context: &LifecycleContext<'_>) -> bool {
         });
     }
     lock_state().schedule_attempts = 2;
-    if harness_enabled_for_this_process() {
-        let _ = dump();
+    let success =
+        first_accepted && second_accepted && cancel_accepted && repeated_rejected && rescheduled;
+    if success {
+        finish_bootstrap(true, None, false);
+    } else {
+        let canceled = shutdown(context);
+        finish_bootstrap(
+            false,
+            Some("schedule-or-cancellation-contract-mismatch".into()),
+            !canceled,
+        );
     }
-    first_accepted && second_accepted && cancel_accepted && repeated_rejected && rescheduled
+    success
 }
 
 pub fn schedule(context: &MacroContext<'_>) -> Result<(), ExcelError> {
@@ -467,8 +524,29 @@ pub fn shutdown(context: &LifecycleContext<'_>) -> bool {
         }
     }
     let success = failed.is_empty();
-    lock_state().pending.extend(failed);
-    if harness_enabled_for_this_process() {
+    {
+        let mut state = lock_state();
+        state.unsafe_to_unload |= !success;
+        state.pending.extend(failed);
+    }
+    if !success {
+        let generation = lock_state().generation;
+        push_event(
+            lock_state(),
+            Event {
+                order: bounded_increment(&NEXT_ORDER),
+                kind: "cancellation-failed",
+                generation,
+                thread_id: current_thread_id(),
+                timestamp_ms: timestamp_ms(),
+                serial: None,
+                form: None,
+                raw_code: None,
+                result: "unsafe-to-unload".into(),
+            },
+        );
+    }
+    if enabled_for_current_process() {
         let _ = dump();
     }
     success
@@ -490,22 +568,39 @@ pub fn status() -> ExcelString {
                 event.serial.map_or_else(|| "null".into(), |value| value.to_string()),
                 event.form.map_or_else(|| "null".into(), |value| format!("\"{}\"", value.label())),
                 event.raw_code.map_or_else(|| "null".into(), |value| value.to_string()),
-                event.result.replace('"', "'")
+                json_string(&event.result)
             )
         })
         .collect::<Vec<_>>()
         .join(",");
     ExcelString::from(format!(
-        "{{\"active\":{},\"generation\":{},\"process_id\":{},\"main_thread_id\":{},\"callback_count\":{},\"stale_callback_count\":{},\"pending_count\":{},\"events\":[{}]}}",
+        "{{\"active\":{},\"generation\":{},\"process_id\":{},\"main_thread_id\":{},\"bootstrap_attempted\":{},\"bootstrap_succeeded\":{},\"bootstrap_failure\":{},\"unsafe_to_unload\":{},\"callback_count\":{},\"stale_callback_count\":{},\"pending_count\":{},\"events\":[{}]}}",
         state.active,
         state.generation,
         std::process::id(),
         state.main_thread_id,
+        state.bootstrap_attempted,
+        state
+            .bootstrap_succeeded
+            .map_or_else(|| "null".into(), |value| value.to_string()),
+        state.bootstrap_failure.as_ref().map_or_else(
+            || "null".into(),
+            |value| format!("\"{}\"", json_string(value))
+        ),
+        state.unsafe_to_unload,
         CALLBACK_COUNT.load(Ordering::Acquire),
         STALE_CALLBACK_COUNT.load(Ordering::Acquire),
         state.pending.len(),
         events
     ))
+}
+
+fn json_string(value: &str) -> String {
+    value
+        .replace('\\', "\\\\")
+        .replace('"', "\\\"")
+        .replace('\n', "\\n")
+        .replace('\r', "\\r")
 }
 
 pub fn dump() -> Result<(), ExcelError> {
@@ -545,6 +640,9 @@ mod tests {
         assert_eq!(lock_state().events.len(), MAX_EVENTS);
         let status = status().to_string().unwrap();
         assert!(status.starts_with("{\"active\":true"));
+        assert!(status.contains("\"bootstrap_attempted\":false"));
+        assert!(status.contains("\"bootstrap_succeeded\":null"));
+        assert!(status.contains("\"unsafe_to_unload\":false"));
         assert!(status.contains("\"events\":["));
     }
 }

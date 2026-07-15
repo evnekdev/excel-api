@@ -85,10 +85,12 @@ No controller capability crosses generations: scheduling clones one stable
 fresh executor/controller. Neither the generation holder nor the controller
 lifecycle mutex is held while calling Excel, running user code, or joining.
 
-The M17 spike temporarily exposes hidden, explicitly experimental `xlfNow` and
-`xlcOnTime` methods on `MacroContext`; its isolated bootstrap and close probes
-also use a hidden lifecycle entry while the backend is linked. This does not
-promote arbitrary XLM commands or `xlcOnTime` into the stable lifecycle
-capability. The registered callback must demonstrate a real `MacroContext`
-operation and generation match during live validation before any production
-context decision is made.
+Only the non-default `xlcontime-research` feature exposes doc-hidden,
+experimental `xlfNow` and `xlcOnTime` methods on `MacroContext`. The default
+crate has no such methods or descriptors. Its bootstrap and close probes use an
+`unsafe`, feature-gated lifecycle bridge whose caller must already be inside a
+genuine synchronous Excel lifecycle callback on that callback thread; a linked
+backend is insufficient. This does not promote arbitrary XLM commands or
+`xlcOnTime` into the stable lifecycle capability. The registered callback must
+demonstrate a real `MacroContext` operation and generation match during live
+validation before any production context decision is made.

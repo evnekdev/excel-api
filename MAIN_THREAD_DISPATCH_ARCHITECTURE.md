@@ -42,25 +42,41 @@ Excel12v. It records both the raw C API return code and the immediate Boolean,
 Excel-error, or unexpected result tag. Immediate scalar/error results create no
 `ExcelOwnedValue` and no `xlFree` obligation.
 
-The minimal XLL registers `RUST.ONTIME.SCHEDULE`,
-`RUST.ONTIME.CALLBACK`, `RUST.ONTIME.CANCEL`, and bounded diagnostic helpers.
+Only an explicit `xlcontime-research` build of the example XLL registers
+`RUST.ONTIME.SCHEDULE`, `RUST.ONTIME.CALLBACK`, `RUST.ONTIME.CANCEL`, and the
+bounded diagnostic helpers. The default minimal XLL retains its pre-spike
+registration and export surface. The typed descriptors, context methods,
+bootstrap, status-file I/O, and research exports are all feature-gated and are
+not approved production catalogue entries.
+
 The callback receives `MacroContext`, checks the active runtime generation,
 records process/thread/order/time information, and performs a harmless
-preserving `xlAbort` poll. It is not connected to an M17 queue.
+preserving `xlAbort` poll. It is not connected to an M17 queue. The research
+lifecycle bridge is `unsafe`: its caller must actually be executing inside a
+genuine Excel-issued lifecycle callback on that callback thread. Backend linkage
+alone cannot manufacture this proof.
 
 ## Experimental lifecycle rule
 
 Pending entries retain the exact scheduled serial, command, form, and runtime
 generation. Test-mode bootstrap is enabled only by a coordination marker whose
-PID matches the current Excel process. Close marks the generation inactive,
-attempts cancellation while the backend remains linked, and only then permits
-command unregistration and unlink. A failed cancellation makes the sample
-close callback fail rather than intentionally proceeding with an unproved
-pending callback.
+PID matches the current Excel process. With no marker, ordinary XLL open is
+unchanged and no experiment runs. With a marker, the diagnostic artifact
+records bootstrap attempted/succeeded/failure and unload-hazard state. Because
+ordinary runtime initialization has already succeeded, `xlAutoOpen` returns
+success even if research bootstrap fails; the harness must read the artifact
+and must not infer research success from `RegisterXLL` or `xlAutoOpen`.
+
+Close marks the generation inactive and attempts cancellation while the backend
+remains linked. Failed cancellation is detected and ordinary runtime cleanup is
+declined. Returning 0 from `xlAutoClose` is **not** known to prevent Excel from
+unloading the DLL, so a pending callback remains an unload hazard. The isolated
+harness cancels before unload; if that cannot be proved, it records an
+unsafe/inconclusive result and terminates only its exact owned Excel process.
 
 This lifecycle behavior is an implementation to validate, not evidence that
-Excel honors cancellation. Production approval requires a live proof that no
-pending callback can enter unloaded code.
+Excel honors cancellation or that an `xlAutoClose` return value controls DLL
+unloading. The harness must never deliberately rely on that behavior.
 
 ## Production acceptance gate
 

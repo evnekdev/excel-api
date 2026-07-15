@@ -1,19 +1,24 @@
 [CmdletBinding()]
 param(
     [string]$Path = "target/release/minimal_xll.xll",
-    [string]$ReportPath = "target/release/minimal_xll.exports.txt"
+    [string]$ReportPath = "target/release/minimal_xll.exports.txt",
+    [switch]$XlcOnTimeResearch
 )
 
 $ErrorActionPreference = 'Stop'
 $required = @(
     'rust_add', 'rust_echo', 'rust_array_echo', 'rust_reference_kind',
     'rust_option_kind', 'rust_async_double', 'excel_api_calculation_canceled',
-    'excel_api_calculation_ended', 'rust_ping_command', 'rust_ontime_status',
-    'rust_ontime_schedule', 'rust_ontime_callback', 'rust_ontime_cancel',
-    'rust_ontime_dump',
-    'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
+    'excel_api_calculation_ended', 'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
     'xlAutoRemove', 'xlAddInManagerInfo12', 'xlAutoFree12', 'SetExcel12EntryPt'
 )
+$research = @(
+    'rust_ontime_status', 'rust_ontime_schedule', 'rust_ontime_callback',
+    'rust_ontime_cancel', 'rust_ontime_dump'
+)
+if ($XlcOnTimeResearch) {
+    $required += @('rust_ping_command') + $research
+}
 
 if (-not (Test-Path -LiteralPath $Path)) {
     throw "XLL does not exist: $Path"
@@ -58,6 +63,13 @@ $report | Set-Content -LiteralPath $ReportPath
 foreach ($symbol in $required) {
     if ($report -notmatch "(?m)\b$([regex]::Escape($symbol))\b") {
         throw "required export is missing: $symbol"
+    }
+}
+if (-not $XlcOnTimeResearch) {
+    foreach ($symbol in $research) {
+        if ($report -match "(?m)\b$([regex]::Escape($symbol))\b") {
+            throw "research-only export is present in the default XLL: $symbol"
+        }
     }
 }
 Write-Output "PASS: all $($required.Count) required exports are present."

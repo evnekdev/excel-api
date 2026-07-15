@@ -174,6 +174,7 @@ pub const XL_COERCE: ExcelCallDescriptor = ExcelCallDescriptor {
 };
 
 /// Experimental M17 research call used only to obtain Excel's own serial clock.
+#[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
 pub const XLF_NOW: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlfNow",
@@ -187,6 +188,7 @@ pub const XLF_NOW: ExcelCallDescriptor = ExcelCallDescriptor {
 };
 
 /// Experimental M17 compatibility probe. This is not a production dispatcher API.
+#[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
 pub const XLC_ON_TIME: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlcOnTime",
@@ -222,6 +224,7 @@ pub enum CoerceTarget {
 }
 
 /// Immediate result root observed from the experimental `xlcOnTime` call.
+#[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ExperimentalOnTimeValue {
@@ -231,6 +234,7 @@ pub enum ExperimentalOnTimeValue {
 }
 
 /// Preserves both the raw Excel12v return code and the immediate result root.
+#[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ExperimentalOnTimeOutcome {
@@ -238,6 +242,7 @@ pub struct ExperimentalOnTimeOutcome {
     pub value: ExperimentalOnTimeValue,
 }
 
+#[cfg(feature = "xlcontime-research")]
 impl ExperimentalOnTimeOutcome {
     pub const fn accepted(self) -> bool {
         self.return_code.is_success()
@@ -577,6 +582,7 @@ impl<'call> CallCapability<'call> {
         Ok(unsafe { root.val.xbool != 0 })
     }
 
+    #[cfg(feature = "xlcontime-research")]
     fn experimental_excel_serial_now(
         &'call self,
         permission: CallPermission,
@@ -607,6 +613,7 @@ impl<'call> CallCapability<'call> {
         }
     }
 
+    #[cfg(feature = "xlcontime-research")]
     fn experimental_on_time(
         &'call self,
         permission: CallPermission,
@@ -1150,6 +1157,7 @@ coerce_context!(crate::WorksheetContext<'call>, CallPermission::Worksheet);
 coerce_context!(crate::ThreadSafeContext<'call>, CallPermission::ThreadSafe);
 coerce_context!(crate::MacroContext<'call>, CallPermission::Macro);
 
+#[cfg(feature = "xlcontime-research")]
 impl crate::MacroContext<'_> {
     /// Experimental: returns the current date/time in Excel's own serial representation.
     #[doc(hidden)]
@@ -1203,6 +1211,7 @@ impl crate::MacroContext<'_> {
     }
 }
 
+#[cfg(feature = "xlcontime-research")]
 impl crate::LifecycleContext<'_> {
     /// Experimental lifecycle-time clock probe used only by the isolated harness.
     #[doc(hidden)]
@@ -1291,6 +1300,7 @@ mod tests {
     use super::*;
     use std::sync::Mutex;
 
+    #[cfg(feature = "xlcontime-research")]
     #[derive(Clone, Debug, PartialEq)]
     struct OnTimeTrace {
         function: i32,
@@ -1300,6 +1310,7 @@ mod tests {
         boolean: Option<i32>,
     }
 
+    #[cfg(feature = "xlcontime-research")]
     struct OnTimeBackend {
         calls: Mutex<Vec<OnTimeTrace>>,
         code: Mutex<i32>,
@@ -1307,6 +1318,7 @@ mod tests {
         result_value: Mutex<i32>,
     }
 
+    #[cfg(feature = "xlcontime-research")]
     impl Default for OnTimeBackend {
         fn default() -> Self {
             Self {
@@ -1318,6 +1330,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "xlcontime-research")]
     impl ExcelCallBackend for OnTimeBackend {
         fn link(&self) -> Result<(), ExcelCallError> {
             Ok(())
@@ -1539,6 +1552,7 @@ mod tests {
         assert!(!caller_is_thread_safe);
     }
 
+    #[cfg(feature = "xlcontime-research")]
     #[test]
     fn experimental_on_time_forms_preserve_exact_ids_roots_and_arguments() {
         assert_eq!(XLF_NOW.function, 74);
@@ -1603,6 +1617,7 @@ mod tests {
         );
     }
 
+    #[cfg(feature = "xlcontime-research")]
     #[test]
     fn experimental_on_time_preserves_raw_code_error_root_and_context_boundary() {
         let backend = OnTimeBackend::default();

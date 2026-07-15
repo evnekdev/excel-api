@@ -23,6 +23,8 @@ cargo test --workspace --doc
 cargo run --manifest-path tools/abi-check/Cargo.toml
 powershell -File scripts/build-minimal-xll.ps1 -Profile release
 powershell -File scripts/inspect-minimal-xll-exports.ps1
+powershell -File scripts/build-minimal-xll.ps1 -Profile release -XlcOnTimeResearch
+powershell -File scripts/inspect-minimal-xll-exports.ps1 -Path target/release/minimal_xll_ontime_research.xll -ReportPath target/release/minimal_xll_ontime_research.exports.txt -XlcOnTimeResearch
 powershell -File scripts/excel-ontime-validation.ps1 -ValidateOnly
 powershell -File scripts/excel-ontime-validation.ps1
 ```
@@ -31,7 +33,10 @@ powershell -File scripts/excel-ontime-validation.ps1
 
 - Checked-in ABI: `xlfNow = 74`; `xlcOnTime = 32916 = 0x8094`.
 - ABI checker: 145 checks passed.
-- Release XLL: built successfully; all 21 required exports were present.
+- The original run built one combined release XLL and found all 21 expected
+  exports. Review correction now restores the default pre-spike export and
+  registration surface and places the five research exports in an explicitly
+  feature-built research XLL.
 - Pure wrapper tests: 2-, 3-, and 4-argument tags/counts, exact command text,
   Boolean/error decoding, raw C API code preservation, and no `xlFree` passed.
 - Plain COM `Workbooks.Add`: failed before XLL registration with the known host
@@ -46,6 +51,12 @@ powershell -File scripts/excel-ontime-validation.ps1
   on the later process check. This is not unload/cancellation evidence.
 - Timed callback, main-thread context, cancellation, latest-time, close/unload,
   recalculation, and user-experience results: not obtained.
+
+The blocked run did not prove bootstrap, cancellation, or unload safety.
+Returning 0 from `xlAutoClose` is not known to prevent DLL unload. Future runs
+must read the explicit bootstrap result, cancel all pending callbacks before
+unload, and terminate the exact isolated Excel PID if cancellation cannot be
+proved. They must not deliberately test unload with a known pending callback.
 
 Classification: **inconclusive; live validation blocked by the Excel host**.
 

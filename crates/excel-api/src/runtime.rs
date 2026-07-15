@@ -172,11 +172,27 @@ impl Runtime {
             .collect()
     }
 
-    /// Runs an M17 compatibility-spike operation while the callback backend is
-    /// still linked. This does not make lifecycle use of an XLM command a
-    /// stable or generally supported capability.
+    /// Runs an M17 compatibility-spike operation with a lifecycle capability.
+    ///
+    /// This bridge is compiled only for the isolated xlcOnTime research XLL.
+    /// It does not make lifecycle use of an XLM command a stable or generally
+    /// supported capability.
+    ///
+    /// # Safety
+    ///
+    /// The caller must be synchronously executing on the callback thread in a
+    /// genuine Excel-issued lifecycle callback. A linked backend alone is not
+    /// evidence that this precondition holds.
+    ///
+    /// Safe code cannot invoke this bridge:
+    ///
+    /// ```compile_fail
+    /// let runtime = excel_api::Runtime::production();
+    /// runtime.experimental_with_lifecycle_context(|_| ());
+    /// ```
+    #[cfg(feature = "xlcontime-research")]
     #[doc(hidden)]
-    pub fn experimental_with_lifecycle_context<R>(
+    pub unsafe fn experimental_with_lifecycle_context<R>(
         &self,
         body: impl FnOnce(&LifecycleContext<'_>) -> R,
     ) -> Result<R, ExcelCallError> {

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [switch]$ValidateOnly,
-    [string]$XllPath = "target/release/minimal_xll.xll",
+    [string]$XllPath = "target/release/minimal_xll_ontime_research.xll",
     [string]$OutputDirectory = "target/ontime-validation"
 )
 
@@ -16,8 +16,15 @@ function Assert-SourceContract {
         throw 'checked-in XLCALL.H does not contain the expected xlfNow definition'
     }
     $source = Get-Content -LiteralPath 'examples/minimal-xll/src/lib.rs' -Raw
-    foreach ($name in @('RUST.ONTIME.SCHEDULE', 'RUST.ONTIME.CALLBACK', 'RUST.ONTIME.CANCEL', 'RUST.ONTIME.STATUS')) {
+    foreach ($name in @('RUST.ONTIME.SCHEDULE', 'RUST.ONTIME.CALLBACK', 'RUST.ONTIME.CANCEL', 'RUST.ONTIME.STATUS', 'RUST.ONTIME.DUMP')) {
         if ($source -notmatch [regex]::Escape($name)) { throw "missing experimental registration: $name" }
+    }
+    $manifest = Get-Content -LiteralPath 'examples/minimal-xll/Cargo.toml' -Raw
+    if ($manifest -notmatch 'xlcontime-research\s*=') {
+        throw 'research XLL feature is not declared'
+    }
+    if ($source -notmatch '#\[cfg\(feature = "xlcontime-research"\)\]') {
+        throw 'research registrations are not feature-gated'
     }
     Write-Output 'PASS: xlcOnTime validation sources and checked-in constants are present.'
 }
@@ -25,6 +32,8 @@ function Assert-SourceContract {
 Assert-SourceContract
 if ($ValidateOnly) { exit 0 }
 
+& powershell -File scripts/build-minimal-xll.ps1 -Profile release -XlcOnTimeResearch
+if ($LASTEXITCODE -ne 0) { throw "research XLL build failed with exit code $LASTEXITCODE" }
 $resolvedXll = (Resolve-Path -LiteralPath $XllPath).Path
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
@@ -51,6 +60,20 @@ function Read-OnTimeStatus([string]$StatusPath) {
     return $raw | ConvertFrom-Json
 }
 
+function Stop-OwnedExcelProcess([Diagnostics.Process]$OwnedProcess) {
+    $current = Get-Process -Id $OwnedProcess.Id -ErrorAction SilentlyContinue
+    if ($null -eq $current) { return $true }
+    if ($current.ProcessName -ne 'EXCEL') {
+        throw "refusing to stop PID $($OwnedProcess.Id): process is not EXCEL.EXE"
+    }
+    if ($current.StartTime.ToUniversalTime() -ne $OwnedProcess.StartTime.ToUniversalTime()) {
+        throw "refusing to stop PID $($OwnedProcess.Id): start time changed"
+    }
+    Stop-Process -Id $OwnedProcess.Id -Force
+    Wait-Process -Id $OwnedProcess.Id -Timeout 20 -ErrorAction SilentlyContinue
+    return -not [bool](Get-Process -Id $OwnedProcess.Id -ErrorAction SilentlyContinue)
+}
+
 function Read-XlmSecurity {
     $paths = @(
         'HKCU:\Software\Policies\Microsoft\Office\16.0\Excel\Security',
@@ -72,16 +95,20 @@ function Read-XlmSecurity {
 
 $excel = $null
 $ownedProcess = $null
+$terminateOwnedProcess = $false
 $summary = [ordered]@{
     classification = 'failed'
     startedUtc = (Get-Date).ToUniversalTime().ToString('o')
-    command = "powershell -File scripts/excel-ontime-validation.ps1 -XllPath $XllPath"
+    command = "powershell -File scripts/excel-ontime-validation.ps1"
     xll = $resolvedXll
     security = Read-XlmSecurity
     excel = $null
     plainWorkbookAdd = $null
     postXllWorkbookAdd = $null
     registerXll = $false
+    bootstrapAttempted = $false
+    bootstrapSucceeded = $false
+    unsafeToUnload = $false
     commandInvocation = 'not-attempted'
     twoArgumentSchedule = $false
     latestTimeSchedule = $false
@@ -90,7 +117,8 @@ $summary = [ordered]@{
     macroContextCallSucceeded = $false
     cancelBeforeExecution = $false
     repeatedCancelRejected = $false
-    closeWithPending = $false
+    cancellationBeforeUnload = $false
+    cleanupAction = 'not-attempted'
     processExited = $false
     status = $null
     pendingManualMatrix = @(
@@ -157,6 +185,16 @@ try {
     }
 
     $initial = Read-OnTimeStatus $statusPath
+    $summary.bootstrapAttempted = [bool]$initial.bootstrap_attempted
+    $summary.bootstrapSucceeded = [bool]$initial.bootstrap_succeeded
+    $summary.unsafeToUnload = [bool]$initial.unsafe_to_unload
+    if (-not $summary.bootstrapAttempted) {
+        throw 'research marker was present but bootstrap did not report an attempt'
+    }
+    if (-not $summary.bootstrapSucceeded) {
+        $terminateOwnedProcess = $summary.unsafeToUnload -or ([int]$initial.pending_count -gt 0)
+        throw "research bootstrap failed: $($initial.bootstrap_failure)"
+    }
     $summary.excel.mainThreadId = [uint64]$initial.main_thread_id
     $summary.twoArgumentSchedule = [bool]($initial.events | Where-Object { $_.kind -eq 'schedule' -and $_.form -eq 'two' -and $_.raw_code -eq 0 -and $_.result -eq 'bool:true' })
     $summary.latestTimeSchedule = [bool]($initial.events | Where-Object { $_.kind -eq 'schedule' -and $_.form -eq 'latest' -and $_.raw_code -eq 0 -and $_.result -eq 'bool:true' })
@@ -180,13 +218,29 @@ try {
     $summary.macroContextCallSucceeded = [bool]($callbackEvents.Count -ge 2 -and @($callbackEvents | Where-Object { $_.result -notlike 'macro-context-xlAbort:*' }).Count -eq 0)
 
     $summary.status = Read-OnTimeStatus $statusPath
+    try {
+        while ([int]$summary.status.pending_count -gt 0) {
+            [void]$excel.Run('RUST.ONTIME.CANCEL')
+            [void]$excel.Run('RUST.ONTIME.DUMP')
+            $summary.status = Read-OnTimeStatus $statusPath
+        }
+        $summary.cancellationBeforeUnload = $true
+    } catch {
+        $summary.errors += "cancellation before unload failed: $($_.Exception.Message)"
+        if (Test-Path -LiteralPath $statusPath) {
+            $summary.status = Read-OnTimeStatus $statusPath
+        }
+        $terminateOwnedProcess = ([int]$summary.status.pending_count -gt 0) -or [bool]$summary.status.unsafe_to_unload
+        throw 'pending callbacks could not be proved canceled; isolated Excel will be terminated'
+    }
     $excel.Quit()
+    $summary.cleanupAction = 'Excel.Quit after pending count reached zero'
     [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($excel)
     $excel = $null
     Start-Sleep -Milliseconds 250
     if (Test-Path -LiteralPath $statusPath) {
         $summary.status = Read-OnTimeStatus $statusPath
-        $summary.closeWithPending = [bool]($summary.status.events | Where-Object { $_.kind -eq 'close-cancel' -and $_.raw_code -eq 0 -and $_.result -eq 'bool:true' })
+        $summary.unsafeToUnload = [bool]$summary.status.unsafe_to_unload
     }
     try {
         Wait-Process -Id $ownedExcelPid -Timeout 20 -ErrorAction Stop
@@ -197,6 +251,8 @@ try {
 
     $required = @(
         $summary.registerXll,
+        $summary.bootstrapAttempted,
+        $summary.bootstrapSucceeded,
         $summary.twoArgumentSchedule,
         $summary.latestTimeSchedule,
         ($summary.callbacksObserved -ge 2),
@@ -204,7 +260,7 @@ try {
         $summary.macroContextCallSucceeded,
         $summary.cancelBeforeExecution,
         $summary.repeatedCancelRejected,
-        $summary.closeWithPending,
+        $summary.cancellationBeforeUnload,
         $summary.processExited
     )
     if ($required -notcontains $false) {
@@ -214,13 +270,28 @@ try {
     $summary.errors += $_.Exception.ToString()
 } finally {
     if ($null -ne $excel) {
-        try { $excel.Quit() } catch {}
+        if (-not $terminateOwnedProcess) {
+            try {
+                $excel.Quit()
+                $summary.cleanupAction = 'Excel.Quit'
+            } catch {}
+        }
         [void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($excel)
+        $excel = $null
     }
     [GC]::Collect()
     [GC]::WaitForPendingFinalizers()
     if ($null -ne $ownedProcess) {
-        try { Wait-Process -Id $ownedProcess.Id -Timeout 15 -ErrorAction SilentlyContinue } catch {}
+        if ($terminateOwnedProcess) {
+            try {
+                $summary.processExited = Stop-OwnedExcelProcess $ownedProcess
+                $summary.cleanupAction = 'terminated exact owned Excel PID after unsafe/inconclusive cancellation'
+            } catch {
+                $summary.errors += $_.Exception.ToString()
+            }
+        } else {
+            try { Wait-Process -Id $ownedProcess.Id -Timeout 15 -ErrorAction SilentlyContinue } catch {}
+        }
         $summary.processExited = -not [bool](Get-Process -Id $ownedProcess.Id -ErrorAction SilentlyContinue)
     }
     if ($summary.classification -eq 'failed' -and
@@ -228,6 +299,9 @@ try {
         $summary.plainWorkbookAdd -like 'failed:*' -and
         $null -eq $summary.status) {
         $summary.classification = 'blocked-host'
+    }
+    if ($summary.registerXll -and -not $summary.bootstrapSucceeded) {
+        $summary.classification = if ($terminateOwnedProcess) { 'unsafe-inconclusive' } else { 'bootstrap-failed' }
     }
     $summary.completedUtc = (Get-Date).ToUniversalTime().ToString('o')
     $summary | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $summaryPath -Encoding UTF8

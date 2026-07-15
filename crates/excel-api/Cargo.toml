@@ -10,6 +10,7 @@ rust-version.workspace = true
 [features]
 default = ["macros"]
 macros = ["dep:excel-api-macros"]
+xlcontime-research = []
 
 [dependencies]
 excel-api-sys = { path = "../excel-api-sys", version = "0.1.0" }

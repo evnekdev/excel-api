@@ -9,6 +9,10 @@ rust-version.workspace = true
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+default = []
+xlcontime-research = ["excel-api/xlcontime-research"]
+
 [dependencies]
 excel-api = { path = "../../crates/excel-api" }
 excel-api-sys = { path = "../../crates/excel-api-sys" }
