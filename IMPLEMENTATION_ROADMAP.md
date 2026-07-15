@@ -32,7 +32,9 @@
 
 ## Advanced
 
-- M16 async UDFs
+- M16 async UDFs (implementation and automated race/ABI tests complete; real
+  Excel cancellation/recalculation/unload validation pending; started by
+  explicit maintainer direction while the M15 live-smoke gate remains blocked)
 - M17 main-thread dispatcher
 - M18 RTD
 - M19 COM/Ribbon
