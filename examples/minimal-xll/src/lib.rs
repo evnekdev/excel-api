@@ -3,7 +3,8 @@ use std::sync::{Arc, OnceLock};
 use excel_api::{
     AddInDescriptor, AsyncCancellationToken, ExcelArray, ExcelError, ExcelReference,
     ExcelReferenceArg, ExcelReturnValue, ExcelString, ExcelValueRef, FunctionRegistration,
-    MacroContext, OptionalValue, Runtime, ThreadPoolExecutor, excel_command, excel_function,
+    MacroContext, OptionalValue, Runtime, RuntimePhase, ThreadPoolExecutor, excel_command,
+    excel_function,
 };
 #[cfg(test)]
 use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
@@ -277,16 +278,23 @@ const LIFECYCLE_EXPORT_FIXTURES: &[&str] = &[
 
 fn runtime() -> &'static Runtime {
     static RUNTIME: OnceLock<Runtime> = OnceLock::new();
-    RUNTIME.get_or_init(|| {
+    RUNTIME.get_or_init(Runtime::production)
+}
+
+fn install_executor_for_open_generation() {
+    if runtime().phase() == RuntimePhase::Uninitialized {
         let executor = ThreadPoolExecutor::new(2, 64).expect("constant executor bounds are valid");
         let _ = excel_api::install_async_executor(Arc::new(executor), 64);
-        Runtime::production()
-    })
+    }
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn xlAutoOpen() -> i32 {
-    std::panic::catch_unwind(|| runtime().initialize(&ADD_IN).map(|_| 1).unwrap_or(0)).unwrap_or(0)
+    std::panic::catch_unwind(|| {
+        install_executor_for_open_generation();
+        runtime().initialize(&ADD_IN).map(|_| 1).unwrap_or(0)
+    })
+    .unwrap_or(0)
 }
 
 #[unsafe(no_mangle)]

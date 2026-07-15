@@ -18,8 +18,8 @@ pub mod thunk;
 pub mod value;
 
 pub use async_udf::{
-    AsyncCancellationToken, AsyncCompletionError, AsyncExecutor, AsyncSubmitError,
-    ThreadPoolExecutor, calculation_canceled, calculation_ended,
+    AsyncCancellationToken, AsyncCompletionError, AsyncExecuteError, AsyncExecutor, AsyncJob,
+    AsyncSubmitError, ThreadPoolExecutor, calculation_canceled, calculation_ended,
 };
 pub use borrowed::{
     DecodeError, ExcelArrayColumns, ExcelArrayElements, ExcelArrayRows, ExcelArrayView,
@@ -58,7 +58,11 @@ pub use return_plan::{
 };
 pub use runtime::{LifecycleError, LifecycleOutcome, Runtime, RuntimeDiagnostics, RuntimePhase};
 
-/// Installs the executor used by generated asynchronous UDF thunks.
+/// Installs the executor for the next generated asynchronous-UDF open generation.
+///
+/// A successful async close permanently shuts that executor down. The XLL must
+/// install a fresh executor before reopening; an active or already-pending
+/// generation returns the supplied executor unchanged.
 pub fn install_async_executor(
     executor: std::sync::Arc<dyn AsyncExecutor>,
     maximum_in_flight: usize,
