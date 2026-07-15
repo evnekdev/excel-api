@@ -23,6 +23,11 @@ M15 adds the opt-in [isolated Excel stress harness](docs/excel-stress-harness.md
 for repeatable smoke and soak validation on self-hosted 64-bit Excel runners.
 Its implementation is complete, but live validation is blocked on the current
 machine by plain Excel COM workbook creation failing before the XLL is loaded.
+M16 now implements bounded native asynchronous UDF scheduling, generated
+`>...X` thunks, cancellation events, at-most-once `xlAsyncReturn`, and
+shutdown-safe executor draining. Automated coverage passes; real Excel
+cancellation/recalculation/unload validation remains pending, and does not
+change the blocked M15 live-smoke status.
 
 Build the loadable artifact with:
 
@@ -46,6 +51,7 @@ pwsh -File scripts/build-minimal-xll.ps1 -Profile release
 - [Registration architecture](REGISTRATION_ARCHITECTURE.md)
 - [Error architecture](ERROR_ARCHITECTURE.md)
 - [Testing architecture](TESTING_ARCHITECTURE.md)
+- [Asynchronous UDF architecture](ASYNC_ARCHITECTURE.md)
 - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)
 - [Codex development prompts](prompts-dev/README.md)
