@@ -135,3 +135,11 @@ panic containment, error mapping, return planning/materialization, and final
 DLLFree handoff. The minimal XLL now registers and exports the generated five-
 function surface while retaining the M8 handwritten descriptors as test-only
 oracle fixtures.
+
+## M10 macro conformance
+
+Macro validation is enforced before Excel runs through checked compile-pass
+and compile-fail fixtures. Diagnostics preserve the closed M9 mapping and
+identify invalid signatures, attributes, contexts, flags, and generated-item
+collisions at their useful source spans. This milestone adds no runtime FFI,
+ownership, callback, or threading behavior.

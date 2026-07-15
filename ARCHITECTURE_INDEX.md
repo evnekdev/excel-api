@@ -12,10 +12,10 @@
 | Contexts | `RUNTIME_CONTEXT_ARCHITECTURE.md` | M8 callback capabilities implemented | M4-M12 |
 | C API calls | `EXCEL_CALL_ARCHITECTURE.md` | M8 narrow production catalogue implemented | M7-M12 |
 | Lifecycle | `CALLBACK_LIFECYCLE_ARCHITECTURE.md` | M8 implemented; automated live Excel passed | M6-M12 |
-| Registration | `REGISTRATION_ARCHITECTURE.md` | M8 manual oracle and M9 generated metadata/thunks implemented | M8-M10 |
+| Registration | `REGISTRATION_ARCHITECTURE.md` | M8 manual oracle, M9 generation, and M10 diagnostic conformance implemented | M8-M10 |
 | Errors | `ERROR_ARCHITECTURE.md` | Partial (M3-M6 return policy implemented) | M2-M13 |
 | Testing | `TESTING_ARCHITECTURE.md` | Partial (M1-M6 coverage implemented) | All |
-| Macros | `PROC_MACRO_ARCHITECTURE.md` | M9A metadata and M9B worksheet thunks implemented | M9-M10 |
+| Macros | `PROC_MACRO_ARCHITECTURE.md` | M9 generation and M10 compile-time conformance implemented | M9-M10 |
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Minimal M8 XLL build implemented | M14 |
 | Async | `ASYNC_ARCHITECTURE.md` | Planned | M16 |
 | Dispatcher | `MAIN_THREAD_DISPATCH_ARCHITECTURE.md` | Planned | M17 |

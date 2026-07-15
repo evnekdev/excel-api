@@ -3,7 +3,8 @@
 ## Status
 
 M9A metadata generation and M9B worksheet-function ABI thunks are implemented.
-M10 retains diagnostic refinement and generated-symbol compatibility review.
+M10 compile-time diagnostic conformance is implemented. Generated-symbol
+compatibility review remains an API/semver concern.
 
 ## Stable M9A attribute syntax
 
@@ -75,6 +76,27 @@ type text and the exported signature cannot diverge.
 The function name makes both Rust item names deterministic and collision-
 resistant within a module. Rust detects generated-item collisions; the linker
 detects duplicate exact export names.
+
+## Diagnostics and generated-symbol semver
+
+The macro rejects unsupported shapes and mappings while the annotated source is
+still being compiled. `trybuild` fixtures pin useful spans and replacement
+guidance for unsupported types, borrowed and direct-string returns, Q/U
+ambiguity, flags, contexts, attributes, metadata, exports, and supported
+`Result` errors. Compile-pass fixtures cover every currently supported family.
+Microsoft permits cluster-safe functions without the thread-safe marker, so the
+macro does not infer that relationship. It does reject the documented
+cluster-incompatible `U` reference family and macro-sheet combination; the
+remaining behavioral cluster-safety promise cannot be proved from a signature.
+
+The generated metadata and thunk Rust identifiers are intentionally part of the
+macro expansion contract: renaming an annotated Rust function, or changing its
+case, can rename/collide with `__EXCEL_FUNCTION_METADATA_<UPPERCASE>` and
+`__excel_function_thunk_<lowercase>`. Consumers must not link to these
+doc-hidden identifiers; changing their spelling is not a stable public API.
+Conversely, `thunk = "..."` controls the actual XLL export and is a semver-
+relevant ABI contract. Duplicate exact exports are rejected by the linker; the
+compile suite also catches deterministic generated Rust-item collisions.
 
 ## ABI and callback pipeline
 
