@@ -45,6 +45,8 @@ const EVENT_FAILED: i32 = 8;
 const EVENT_SHUTDOWN: i32 = 9;
 const EVENT_INCOMPATIBLE_SKIPPED: i32 = 10;
 const EVENT_NESTED_SUPPRESSED: i32 = 11;
+const EVENT_INTERNAL_INVARIANT: i32 = 12;
+const MAXIMUM_CONDVAR_WAIT_SLICE: Duration = Duration::from_secs(24 * 60 * 60);
 
 /// Bounds for one cooperative dispatcher generation.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -159,6 +161,7 @@ pub enum DispatchExecutionError {
     },
     Excel(ExcelCallError),
     Panicked,
+    InternalInvariant,
 }
 
 impl fmt::Display for DispatchExecutionError {
@@ -172,6 +175,9 @@ impl fmt::Display for DispatchExecutionError {
             }
             Self::Excel(error) => write!(formatter, "dispatcher Excel call failed: {error}"),
             Self::Panicked => formatter.write_str("dispatcher operation panicked"),
+            Self::InternalInvariant => {
+                formatter.write_str("dispatcher internal execution invariant failed")
+            }
         }
     }
 }
@@ -279,6 +285,8 @@ struct Request {
     ready: Condvar,
     deadline: Option<Instant>,
     owner: Weak<DispatchController>,
+    #[cfg(test)]
+    wait_returns: AtomicU64,
 }
 
 impl Request {
@@ -358,22 +366,71 @@ impl DispatchTicket {
         if callback_depth() > 0 {
             return Err(DispatchCompletionError::WaitFromCallback);
         }
+        // An already-due queued request wins before this wait establishes its
+        // caller deadline.
         self.request.expire_if_due();
-        let completion = self.request.lock_completion();
-        if let Some(result) = completion.result.clone() {
-            return result;
+        let wait_started = Instant::now();
+        let caller_deadline = wait_started.checked_add(timeout);
+        loop {
+            let completion = self.request.lock_completion();
+            if let Some(result) = completion.result.clone() {
+                return result;
+            }
+
+            let now = Instant::now();
+            let queued_deadline = (self.request.state.load(Ordering::Acquire) == QUEUED)
+                .then_some(self.request.deadline)
+                .flatten();
+            let caller_due = caller_deadline.is_some_and(|deadline| now >= deadline);
+            let request_due = queued_deadline.is_some_and(|deadline| now >= deadline);
+
+            // If an oversleep crosses both deadlines, preserve which deadline
+            // was earlier rather than allowing the later request expiry to
+            // overwrite a caller timeout that had already won.
+            if caller_due
+                && queued_deadline.is_none_or(|request_deadline| {
+                    caller_deadline.is_some_and(|caller| caller < request_deadline)
+                })
+            {
+                return Err(DispatchCompletionError::WaitTimeout);
+            }
+            if request_due {
+                drop(completion);
+                self.request.expire_if_due();
+                continue;
+            }
+            let caller_remaining = caller_deadline.map_or_else(
+                || timeout.saturating_sub(wait_started.elapsed()),
+                |deadline| deadline.saturating_duration_since(now),
+            );
+            if caller_remaining.is_zero() {
+                return Err(DispatchCompletionError::WaitTimeout);
+            }
+
+            // Expiry can win only while Queued. Once selection commits, the
+            // original queue deadline no longer limits an active wait.
+            let request_remaining =
+                queued_deadline.map(|deadline| deadline.saturating_duration_since(now));
+            let wait_for = request_remaining
+                .map_or(caller_remaining, |remaining| {
+                    remaining.min(caller_remaining)
+                })
+                .min(MAXIMUM_CONDVAR_WAIT_SLICE);
+            if wait_for.is_zero() {
+                drop(completion);
+                self.request.expire_if_due();
+                continue;
+            }
+
+            let (completion, _) = self
+                .request
+                .ready
+                .wait_timeout(completion, wait_for)
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            #[cfg(test)]
+            self.request.wait_returns.fetch_add(1, Ordering::Relaxed);
+            drop(completion);
         }
-        let (completion, _wait) = self
-            .request
-            .ready
-            .wait_timeout_while(completion, timeout, |completion| {
-                completion.result.is_none()
-            })
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        completion
-            .result
-            .clone()
-            .unwrap_or(Err(DispatchCompletionError::WaitTimeout))
     }
 
     pub fn cancel(&self) -> DispatchCancelOutcome {
@@ -458,6 +515,10 @@ struct DispatchController {
     diagnostics: Counters,
     #[cfg(test)]
     before_start: Mutex<Option<Arc<TestPause>>>,
+    #[cfg(test)]
+    panic_after_start: AtomicBool,
+    #[cfg(test)]
+    clear_operation_after_start: AtomicBool,
 }
 
 impl DispatchController {
@@ -476,6 +537,10 @@ impl DispatchController {
             diagnostics: Counters::default(),
             #[cfg(test)]
             before_start: Mutex::new(None),
+            #[cfg(test)]
+            panic_after_start: AtomicBool::new(false),
+            #[cfg(test)]
+            clear_operation_after_start: AtomicBool::new(false),
         })
     }
 
@@ -514,8 +579,10 @@ impl DispatchController {
             deadline: self
                 .config
                 .default_timeout
-                .map(|timeout| Instant::now() + timeout),
+                .and_then(|timeout| Instant::now().checked_add(timeout)),
             owner: Arc::downgrade(self),
+            #[cfg(test)]
+            wait_returns: AtomicU64::new(0),
         });
         state.pending.push_back(request.clone());
         state.registry.insert(id, request.clone());
@@ -644,14 +711,14 @@ impl DispatchController {
         (selected, incompatible, expired)
     }
 
-    fn try_start(&self, request: &Request) -> bool {
+    fn try_start(self: &Arc<Self>, request: Arc<Request>) -> Option<RunningRequestGuard> {
         let mut state = self.lock_state();
         let registered = state
             .registry
             .get(&request.id)
-            .is_some_and(|entry| core::ptr::eq(Arc::as_ptr(entry), request));
+            .is_some_and(|entry| core::ptr::eq(Arc::as_ptr(entry), Arc::as_ptr(&request)));
         if !state.active || !registered || request.generation != self.generation {
-            return false;
+            return None;
         }
         if request
             .state
@@ -659,9 +726,13 @@ impl DispatchController {
             .is_ok()
         {
             state.running += 1;
-            true
+            Some(RunningRequestGuard {
+                controller: self.clone(),
+                request,
+                finished: false,
+            })
         } else {
-            false
+            None
         }
     }
 
@@ -670,6 +741,9 @@ impl DispatchController {
         request: &Request,
         result: Result<DispatchResult, DispatchExecutionError>,
     ) {
+        if request.retired.swap(true, Ordering::AcqRel) {
+            return;
+        }
         let (state_code, completion) = match result {
             Ok(result) => (COMPLETED, Ok(result)),
             Err(error) => (FAILED, Err(DispatchCompletionError::Operation(error))),
@@ -685,13 +759,15 @@ impl DispatchController {
             emit_request(event, correlation(self.generation, request.id));
         }
         let mut state = self.lock_state();
-        #[cfg(test)]
-        debug_assert!(state.running > 0, "dispatcher running accounting underflow");
         if state.running > 0 {
             state.running -= 1;
+        } else {
+            emit_request(
+                EVENT_INTERNAL_INVARIANT,
+                correlation(self.generation, request.id),
+            );
         }
         self.retire_locked(&mut state, request.id, request as *const Request);
-        request.retired.store(true, Ordering::Release);
         if state.running == 0 {
             self.idle.notify_all();
         }
@@ -760,6 +836,7 @@ impl DispatchController {
                 }
                 return;
             }
+            self.expire_locked(&mut state);
             state.active = false;
             state.pending.clear();
             state.registry.values().cloned().collect::<Vec<_>>()
@@ -828,6 +905,46 @@ impl DispatchController {
                 .load(Ordering::Relaxed),
             nested_suppressed: self.diagnostics.nested_suppressed.load(Ordering::Relaxed),
         }
+    }
+}
+
+/// Owns exact-once accounting from the Selected-to-Running commitment until
+/// terminal publication and retirement.
+struct RunningRequestGuard {
+    controller: Arc<DispatchController>,
+    request: Arc<Request>,
+    finished: bool,
+}
+
+impl RunningRequestGuard {
+    fn take_operation(&self) -> Option<DispatchOperation> {
+        self.request
+            .operation
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .take()
+    }
+
+    fn finish(mut self, result: Result<DispatchResult, DispatchExecutionError>) {
+        self.controller.finish_running(&self.request, result);
+        self.finished = true;
+    }
+}
+
+impl Drop for RunningRequestGuard {
+    fn drop(&mut self) {
+        if self.finished {
+            return;
+        }
+        let _ = self
+            .request
+            .operation
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .take();
+        self.controller
+            .finish_running(&self.request, Err(DispatchExecutionError::Panicked));
+        self.finished = true;
     }
 }
 
@@ -1036,16 +1153,36 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
             pause.reached.wait();
             pause.release.wait();
         }
-        if !generation.controller.try_start(request) {
+        let Some(running) = generation.controller.try_start(request.clone()) else {
             generation.controller.shutdown_selected(request);
             continue;
+        };
+        #[cfg(test)]
+        if generation
+            .controller
+            .panic_after_start
+            .swap(false, Ordering::AcqRel)
+        {
+            panic!("injected panic after dispatcher Running commitment");
         }
-        let operation = request
-            .operation
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .take()
-            .expect("selected dispatch request owns one operation");
+        #[cfg(test)]
+        if generation
+            .controller
+            .clear_operation_after_start
+            .swap(false, Ordering::AcqRel)
+        {
+            let _ = running.take_operation();
+        }
+        let Some(operation) = running.take_operation() else {
+            emit_request(
+                EVENT_INTERNAL_INVARIANT,
+                correlation(request.generation, request.id),
+            );
+            running.finish(Err(DispatchExecutionError::InternalInvariant));
+            report.failed += 1;
+            report.processed += 1;
+            continue;
+        };
         generation
             .controller
             .diagnostics
@@ -1057,7 +1194,7 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
         if result.is_err() {
             report.failed += 1;
         }
-        generation.controller.finish_running(request, result);
+        running.finish(result);
         report.processed += 1;
     }
     report
@@ -1270,6 +1407,12 @@ mod tests {
         );
     }
 
+    fn clone_ticket(ticket: &DispatchTicket) -> DispatchTicket {
+        DispatchTicket {
+            request: ticket.request.clone(),
+        }
+    }
+
     #[test]
     fn compatibility_table_is_explicit_and_not_a_main_thread_ordering() {
         let _serial = TEST_SERIAL.lock().unwrap();
@@ -1406,6 +1549,164 @@ mod tests {
             Err(DispatchCompletionError::WaitTimeout)
         );
         assert_eq!(queued.try_result(), None);
+
+        reset_generations_for_test();
+        assert_eq!(
+            install_production_config(DispatchConfig {
+                default_timeout: Some(Duration::ZERO),
+                ..DispatchConfig::default()
+            }),
+            Ok(())
+        );
+        assert!(activate());
+        let expired_during_shutdown = enqueue(value(3)).unwrap();
+        shutdown();
+        assert_eq!(
+            expired_during_shutdown.try_result(),
+            Some(Err(DispatchCompletionError::Expired))
+        );
+    }
+
+    #[test]
+    fn wait_observes_request_deadline_before_longer_caller_timeout() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, generation) = start(DispatchConfig {
+            default_timeout: Some(Duration::from_millis(40)),
+            ..DispatchConfig::default()
+        });
+        let ticket = enqueue(value(1)).unwrap();
+        let started = Instant::now();
+        assert_eq!(
+            ticket.wait_timeout(Duration::from_secs(2)),
+            Err(DispatchCompletionError::Expired)
+        );
+        assert!(started.elapsed() >= Duration::from_millis(20));
+        assert!(started.elapsed() < Duration::from_secs(1));
+        assert_eq!(generation.diagnostics().pending, 0);
+    }
+
+    #[test]
+    fn caller_timeout_does_not_expire_a_longer_lived_request() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, generation) = start(DispatchConfig {
+            default_timeout: Some(Duration::from_secs(2)),
+            ..DispatchConfig::default()
+        });
+        let ticket = enqueue(value(1)).unwrap();
+        assert_eq!(
+            ticket.wait_timeout(Duration::from_millis(20)),
+            Err(DispatchCompletionError::WaitTimeout)
+        );
+        assert_eq!(ticket.try_result(), None);
+        assert_eq!(generation.diagnostics().pending, 1);
+    }
+
+    #[test]
+    fn wait_returns_completion_cancellation_and_shutdown_results() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _) = start(DispatchConfig::default());
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+
+        let completed = enqueue(value(7)).unwrap();
+        let completed_wait = clone_ticket(&completed);
+        let (ready_tx, ready_rx) = mpsc::channel();
+        let waiter = std::thread::spawn(move || {
+            ready_tx.send(()).unwrap();
+            completed_wait.wait_timeout(Duration::from_secs(2))
+        });
+        ready_rx.recv().unwrap();
+        MacroContext::new(&capability).drain_dispatcher();
+        assert_eq!(
+            waiter.join().unwrap(),
+            Ok(DispatchResult::OwnedValue(ExcelValue::Integer(7)))
+        );
+
+        let canceled = enqueue(value(8)).unwrap();
+        let canceled_wait = clone_ticket(&canceled);
+        let waiter = std::thread::spawn(move || canceled_wait.wait_timeout(Duration::from_secs(2)));
+        assert_eq!(canceled.cancel(), DispatchCancelOutcome::Canceled);
+        assert_eq!(
+            waiter.join().unwrap(),
+            Err(DispatchCompletionError::Canceled)
+        );
+
+        let stopped = enqueue(value(9)).unwrap();
+        let stopped_wait = clone_ticket(&stopped);
+        let waiter = std::thread::spawn(move || stopped_wait.wait_timeout(Duration::from_secs(2)));
+        shutdown();
+        assert_eq!(
+            waiter.join().unwrap(),
+            Err(DispatchCompletionError::DispatcherShutdown)
+        );
+    }
+
+    #[test]
+    fn spurious_notifications_do_not_complete_a_wait() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _) = start(DispatchConfig::default());
+        let ticket = enqueue(value(1)).unwrap();
+        let waiter_ticket = clone_ticket(&ticket);
+        let request = ticket.request.clone();
+        let waiter = std::thread::spawn(move || waiter_ticket.wait_timeout(Duration::from_secs(2)));
+        while request.wait_returns.load(Ordering::Acquire) == 0 {
+            request.ready.notify_all();
+            std::thread::yield_now();
+        }
+        assert_eq!(ticket.try_result(), None);
+        assert_eq!(ticket.cancel(), DispatchCancelOutcome::Canceled);
+        assert_eq!(
+            waiter.join().unwrap(),
+            Err(DispatchCompletionError::Canceled)
+        );
+    }
+
+    #[test]
+    fn waiting_after_expiry_is_immediate_and_selected_or_running_work_does_not_expire() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _generation) = start(DispatchConfig {
+            default_timeout: Some(Duration::ZERO),
+            ..DispatchConfig::default()
+        });
+        let expired = enqueue(value(1)).unwrap();
+        assert_eq!(
+            expired.wait_timeout(Duration::from_secs(1)),
+            Err(DispatchCompletionError::Expired)
+        );
+
+        reset_generations_for_test();
+        assert_eq!(
+            install_production_config(DispatchConfig {
+                default_timeout: Some(Duration::from_millis(5)),
+                ..DispatchConfig::default()
+            }),
+            Ok(())
+        );
+        assert!(activate());
+        let generation = current_generation().unwrap();
+        let selected_ticket = enqueue(value(2)).unwrap();
+        let (_selected, _, _) = generation.controller.select(DispatchCallbackKind::Macro);
+        assert_eq!(
+            selected_ticket.wait_timeout(Duration::from_millis(20)),
+            Err(DispatchCompletionError::WaitTimeout)
+        );
+        assert_eq!(selected_ticket.try_result(), None);
+        assert_eq!(selected_ticket.cancel(), DispatchCancelOutcome::Canceled);
+
+        let running_ticket = enqueue(value(3)).unwrap();
+        let (selected, _, _) = generation.controller.select(DispatchCallbackKind::Macro);
+        let running = generation
+            .controller
+            .try_start(selected[0].clone())
+            .unwrap();
+        assert_eq!(
+            running_ticket.wait_timeout(Duration::from_millis(20)),
+            Err(DispatchCompletionError::WaitTimeout)
+        );
+        assert_eq!(running_ticket.try_result(), None);
+        running.finish(Ok(DispatchResult::OwnedValue(ExcelValue::Integer(3))));
+        assert_owned(&running_ticket, 3);
+        assert_eq!(generation.diagnostics().running, 0);
     }
 
     #[test]
@@ -1437,12 +1738,12 @@ mod tests {
         let (_guard, generation) = start(DispatchConfig::default());
         let ticket = enqueue(value(4)).unwrap();
         let (selected, _, _) = generation.controller.select(DispatchCallbackKind::Macro);
-        assert!(generation.controller.try_start(&selected[0]));
+        let running = generation
+            .controller
+            .try_start(selected[0].clone())
+            .unwrap();
         assert_eq!(ticket.cancel(), DispatchCancelOutcome::TooLate);
-        generation.controller.finish_running(
-            &selected[0],
-            Ok(DispatchResult::OwnedValue(ExcelValue::Integer(4))),
-        );
+        running.finish(Ok(DispatchResult::OwnedValue(ExcelValue::Integer(4))));
         assert_owned(&ticket, 4);
         assert_eq!(generation.diagnostics().running, 0);
     }
@@ -1503,6 +1804,89 @@ mod tests {
         let later = enqueue(value(3)).unwrap();
         assert_eq!(macro_context.drain_dispatcher().processed, 1);
         assert_owned(&later, 3);
+    }
+
+    #[test]
+    fn running_guard_retires_repeated_pre_execution_panics_without_underflow() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, generation) = start(DispatchConfig::default());
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        let macro_context = MacroContext::new(&capability);
+
+        for expected_failures in 1..=3 {
+            let ticket = enqueue(value(expected_failures)).unwrap();
+            generation
+                .controller
+                .panic_after_start
+                .store(true, Ordering::Release);
+            assert!(
+                std::panic::catch_unwind(AssertUnwindSafe(|| { macro_context.drain_dispatcher() }))
+                    .is_err()
+            );
+            assert_eq!(
+                ticket.try_result(),
+                Some(Err(DispatchCompletionError::Operation(
+                    DispatchExecutionError::Panicked
+                )))
+            );
+            let diagnostics = generation.diagnostics();
+            assert_eq!(diagnostics.running, 0);
+            assert_eq!(diagnostics.pending, 0);
+            assert_eq!(diagnostics.failed, expected_failures as u64);
+            assert_eq!(callback_depth(), 0);
+            assert!(ticket.request.operation.lock().unwrap().is_none());
+            assert!(generation.controller.lock_state().registry.is_empty());
+        }
+
+        let later = enqueue(value(4)).unwrap();
+        assert_eq!(macro_context.drain_dispatcher().processed, 1);
+        assert_owned(&later, 4);
+
+        let (done_tx, done_rx) = mpsc::channel();
+        let closer = std::thread::spawn(move || {
+            shutdown();
+            done_tx.send(()).unwrap();
+        });
+        done_rx.recv_timeout(Duration::from_secs(2)).unwrap();
+        closer.join().unwrap();
+        assert_eq!(install_production_config(DispatchConfig::default()), Ok(()));
+        assert!(activate());
+        let reopened = enqueue(value(5)).unwrap();
+        MacroContext::new(&capability).drain_dispatcher();
+        assert_owned(&reopened, 5);
+    }
+
+    #[test]
+    fn missing_running_operation_is_a_controlled_failure_and_shutdown_remains_live() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, generation) = start(DispatchConfig::default());
+        let ticket = enqueue(value(1)).unwrap();
+        generation
+            .controller
+            .clear_operation_after_start
+            .store(true, Ordering::Release);
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        let report = MacroContext::new(&capability).drain_dispatcher();
+        assert_eq!((report.processed, report.failed), (1, 1));
+        assert_eq!(
+            ticket.try_result(),
+            Some(Err(DispatchCompletionError::Operation(
+                DispatchExecutionError::InternalInvariant
+            )))
+        );
+        let diagnostics = generation.diagnostics();
+        assert_eq!((diagnostics.pending, diagnostics.running), (0, 0));
+        assert!(generation.controller.lock_state().registry.is_empty());
+
+        let (done_tx, done_rx) = mpsc::channel();
+        let closer = std::thread::spawn(move || {
+            shutdown();
+            done_tx.send(()).unwrap();
+        });
+        done_rx.recv_timeout(Duration::from_secs(2)).unwrap();
+        closer.join().unwrap();
     }
 
     #[test]
