@@ -5,6 +5,7 @@ members = [
     "crates/excel-api",
     "crates/excel-api-macros",
     "examples/minimal-xll",
+    "examples/minimal-rtd-server",
 ]
 exclude = ["tools/abi-check"]
 
