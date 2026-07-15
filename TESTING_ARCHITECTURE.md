@@ -132,3 +132,15 @@ scalar and Q panic boundaries. The minimal XLL parity suite covers all five M8
 functions, values, root/nested tags, Q/U registration, fresh DLLFree-only
 roots, and exact AutoFree. The release PE contains exactly the frozen 12 named
 exports.
+
+## M10 macro conformance coverage
+
+`excel-api-macros/tests/trybuild.rs` runs compile-pass fixtures across every
+supported argument, result, context, and flag family. Its checked diagnostic
+snapshots reject unsupported inputs and outputs, borrowed/direct-string forms,
+generics, methods/receivers, async/variadic functions, ambiguous Q/U,
+incompatible flags and contexts, unjustified cluster safety, invalid or
+duplicate attributes, metadata mismatch, invalid exports, unsupported Result
+errors, and deterministic generated-symbol collisions. Unit expansion checks
+continue to assert that the same closed kind model emits matching metadata and
+raw thunk ABI tokens.

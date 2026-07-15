@@ -11,9 +11,10 @@ integrations.
 ## Current status
 
 Milestone 8's Windows x64 XLL implementation and automated live Excel smoke
-test are complete. M9A generates typed registration metadata, and M9B now
+test are complete. M9A generates typed registration metadata, M9B now
 generates the five worksheet-function ABI thunks from that same closed type
-model. The runtime resolves the SDK-defined `MdCallBack12` entry point, uses
+model, and M10 pins compile-time macro conformance diagnostics with `trybuild`.
+The runtime resolves the SDK-defined `MdCallBack12` entry point, uses
 callback-scoped Excel-owned result RAII for lifecycle calls, and returns
 dynamic values through fresh per-call DLLFree storage. The generated-thunk XLL
 passed the same two-process 64-bit Excel load, calculation, MTR, unload, and
