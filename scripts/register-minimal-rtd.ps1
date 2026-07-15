@@ -5,6 +5,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'minimal-rtd-validation-helpers.ps1')
 $dll = (Resolve-Path -LiteralPath $Path).Path
 if ([IO.Path]::GetExtension($dll) -ne '.dll') { throw 'RTD server path must name a DLL' }
 
@@ -22,6 +23,23 @@ $changes = @(
 if ($ValidateOnly) {
     [PSCustomObject]@{ status = 'validated-no-write'; dll = $dll; prog_id = $progId; clsid = $clsid; keys = $changes } | ConvertTo-Json -Depth 3
     return
+}
+
+$conflicts = @()
+foreach ($scope in @('HKCU:\Software\Classes', 'HKLM:\Software\Classes', 'Registry::HKEY_LOCAL_MACHINE\Software\Classes\Wow6432Node')) {
+    $existingServer = Get-Item -LiteralPath "$scope\CLSID\$clsid\InprocServer32" -ErrorAction SilentlyContinue
+    $existingProg = Get-Item -LiteralPath "$scope\CLSID\$clsid\ProgID" -ErrorAction SilentlyContinue
+    if ($null -ne $existingServer -or $null -ne $existingProg) {
+        $registeredPath = if ($null -ne $existingServer) { [string]$existingServer.GetValue('') } else { $null }
+        $registeredProgId = if ($null -ne $existingProg) { [string]$existingProg.GetValue('') } else { $null }
+        if (Test-MinimalRtdRegistrationConflict -RegisteredPath $registeredPath -ExpectedPath $dll -RegisteredProgId $registeredProgId -ExpectedProgId $progId) {
+            $conflicts += [pscustomobject]@{ scope=$scope; server_path=$registeredPath; prog_id=$registeredProgId }
+        }
+    }
+}
+if ($conflicts.Count -ne 0) {
+    $conflicts | ConvertTo-Json -Depth 3 | Write-Output
+    throw 'conflicting existing RTD registration detected; no registry key was modified'
 }
 
 if ($PSCmdlet.ShouldProcess($progId, 'register per-user COM RTD server')) {
