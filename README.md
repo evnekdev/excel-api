@@ -42,6 +42,10 @@ callback-borrowed values, return ownership, registration/macros, typed
 contexts/calls, functions/commands/lifecycle, diagnostics, packaging, stress
 infrastructure, async UDFs, and cooperative dispatch. See the
 [support matrix](SUPPORT_MATRIX.md).
+M20 is auditing that boundary for release readiness. The current conclusion is
+**ready after the listed blockers**, not yet ready to publish; see the
+[core 1.0 audit](docs/release/core-1.0-readiness-audit.md) and
+[release checklist](docs/release/core-1.0-release-checklist.md).
 
 RTD/streaming, general COM/Ribbon, task panes, autonomous notification, and
 the `xlcOnTime` probe are optional post-1.0 work. The M18 prototype remains in
@@ -80,6 +84,8 @@ pwsh -File scripts/build-minimal-xll.ps1 -Profile release
 - [Core 1.0 support matrix](SUPPORT_MATRIX.md)
 - [Optional integrations roadmap](OPTIONAL_INTEGRATIONS_ROADMAP.md)
 - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)
+- [Core 1.0 readiness audit](docs/release/core-1.0-readiness-audit.md)
+- [Core 1.0 release checklist](docs/release/core-1.0-release-checklist.md)
 - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)
 - [Codex development prompts](prompts-dev/README.md)
 

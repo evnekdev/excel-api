@@ -2,6 +2,10 @@
 
 Date: 2026-07-15
 
+This scope-freeze record is superseded by the broader
+[`core 1.0 readiness audit`](../release/core-1.0-readiness-audit.md). Its
+original dry-run evidence remains below for traceability.
+
 The initial publish candidate set is `excel-api-sys`, `excel-api-macros`, and
 `excel-api`. No prototype, example, RTD control server, or research helper is a
 publish candidate.

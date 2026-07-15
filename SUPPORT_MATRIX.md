@@ -17,7 +17,6 @@ packages and are never included in ordinary XLL packaging.
 
 Issue #30 tracks only optional autonomous notification research. Issue #37
 tracks optional RTD validation and production-design prerequisites. Neither is
-a core 1.0 blocker. The remaining core release-process blocker is recorded in
-[`docs/research/m20-core-package-gates.md`](docs/research/m20-core-package-gates.md):
-the `excel-api` dry run cannot resolve unpublished `excel-api-macros` v0.1.0
-from crates.io until publish ordering is rehearsed.
+a core 1.0 blocker. Core release blockers are maintained in the
+[`M20 readiness audit`](docs/release/core-1.0-readiness-audit.md); optional
+integrations are not on that list.

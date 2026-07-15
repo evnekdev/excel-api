@@ -1,6 +1,7 @@
 # Packaging Architecture
 
-Status: minimal M8 build implemented; full M14 packaging remains planned.
+Status: reproducible M14 XLL packaging implemented; M20 crate-publication
+rehearsal and release evidence remain open.
 
 Responsibilities:
 
@@ -51,3 +52,8 @@ For core 1.0, Cargo default members are `excel-api-sys`, `excel-api`,
 workspace member for compatibility testing but is `publish = false`; the C#
 control server and research scripts are not Cargo packages. The three core
 package manifests have no COM dependency.
+
+Each core crate package carries crates.io metadata, a package-specific README,
+and both Apache-2.0 and MIT license texts. Package contents and staged dry-run
+results are release gates in
+[`docs/release/core-1.0-release-checklist.md`](docs/release/core-1.0-release-checklist.md).
