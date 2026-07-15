@@ -2,10 +2,10 @@
 //!
 //! These wrappers remove the otherwise ambiguous choice between Excel's `Q`
 //! value-only and `U` reference-preserving registration forms. They carry no
-//! ABI or ownership behavior; the M9B thunk milestone will construct them from
-//! callback-scoped values.
+//! independent ownership authority; M9B thunks construct them only from values
+//! tied to the generated callback scope.
 
-use crate::{ExcelStr, ExcelValueRef};
+use crate::{ConversionError, ExcelStr, ExcelValueRef, FromExcel};
 
 /// A callback value registered with Excel's value-only `Q` type.
 #[derive(Debug)]
@@ -21,6 +21,12 @@ impl<'call> ExcelValueArg<'call> {
     }
 }
 
+impl<'call> FromExcel<'call> for ExcelValueArg<'call> {
+    fn from_excel(value: ExcelValueRef<'call>) -> Result<Self, ConversionError> {
+        Ok(Self::new(value))
+    }
+}
+
 /// A callback value registered with Excel's reference-preserving `U` type.
 #[derive(Debug)]
 pub struct ExcelReferenceArg<'call>(ExcelValueRef<'call>);
@@ -32,6 +38,12 @@ impl<'call> ExcelReferenceArg<'call> {
 
     pub fn into_inner(self) -> ExcelValueRef<'call> {
         self.0
+    }
+}
+
+impl<'call> FromExcel<'call> for ExcelReferenceArg<'call> {
+    fn from_excel(value: ExcelValueRef<'call>) -> Result<Self, ConversionError> {
+        Ok(Self::new(value))
     }
 }
 

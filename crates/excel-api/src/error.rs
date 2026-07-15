@@ -388,6 +388,7 @@ pub enum ThunkError {
     NullArgument,
     Decode(DecodeError),
     Conversion(ConversionError),
+    Function(ExcelError),
     ReturnPlanning(ReturnError),
     Materialization(ReturnMaterializationError),
 }
@@ -400,6 +401,7 @@ impl fmt::Display for ThunkError {
             Self::Conversion(error) => {
                 write!(formatter, "Excel argument conversion failed: {error}")
             }
+            Self::Function(error) => write!(formatter, "worksheet function returned {error:?}"),
             Self::ReturnPlanning(error) => write!(formatter, "return planning failed: {error}"),
             Self::Materialization(error) => {
                 write!(formatter, "return materialization failed: {error}")

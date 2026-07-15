@@ -1,7 +1,7 @@
 //! Idempotent XLL lifecycle runtime.
 
 use core::fmt;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, OnceLock};
 
 use crate::excel_call::{CallCapability, ExcelCallBackend, ExcelCallError, SdkExcel12vBackend};
 use crate::{AddInDescriptor, ExcelString, LifecycleContext};
@@ -105,7 +105,7 @@ impl fmt::Debug for Runtime {
 
 impl Runtime {
     pub fn production() -> Self {
-        let backend = Arc::new(SdkExcel12vBackend::new());
+        let backend = production_backend();
         Self {
             backend: backend.clone(),
             sdk_backend: Some(backend),
@@ -282,6 +282,13 @@ impl Runtime {
             Err(LifecycleError::CloseFailed { errors })
         }
     }
+}
+
+pub(crate) fn production_backend() -> Arc<SdkExcel12vBackend> {
+    static BACKEND: OnceLock<Arc<SdkExcel12vBackend>> = OnceLock::new();
+    BACKEND
+        .get_or_init(|| Arc::new(SdkExcel12vBackend::new()))
+        .clone()
 }
 
 impl Default for Runtime {

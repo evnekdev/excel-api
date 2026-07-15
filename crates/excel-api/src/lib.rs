@@ -11,6 +11,8 @@ pub mod registration;
 mod return_alloc;
 pub mod return_plan;
 pub mod runtime;
+#[doc(hidden)]
+pub mod thunk;
 pub mod value;
 
 pub use borrowed::{
