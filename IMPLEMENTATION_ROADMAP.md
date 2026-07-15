@@ -18,7 +18,8 @@
 ## Ergonomics
 
 - M9A procedural macro metadata (implemented)
-- M9B generated ABI thunks
+- M9B generated ABI thunks (implemented; automated parity/build/export checks
+  and two-process live 64-bit Excel rerun passed)
 - M10 compile-time diagnostics
 - M11 execution contexts and call catalog
 - M12 commands/lifecycle completeness

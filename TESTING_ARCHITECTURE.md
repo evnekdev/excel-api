@@ -122,3 +122,13 @@ and panic fallback. The real 64-bit Excel procedure and pending result record
 are in `docs/manual-tests/m8-excel-smoke-test.md`. The COM harness passed two
 fresh real 64-bit Excel processes with MTR enabled; visible Function Wizard,
 Add-in Manager UI, and embedded-NUL UI cases remain manual.
+
+## M9B coverage
+
+Macro tests prove B/A/J/Q/U/C%/D% raw signatures derive from the same kinds as
+registration metadata, exact export naming, scalar override rejection, Q/U
+decoding, direct UTF-16 parsing, context injection, `Result` mapping, and both
+scalar and Q panic boundaries. The minimal XLL parity suite covers all five M8
+functions, values, root/nested tags, Q/U registration, fresh DLLFree-only
+roots, and exact AutoFree. The release PE contains exactly the frozen 12 named
+exports.

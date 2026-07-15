@@ -111,3 +111,11 @@ planning/materialization cannot allocate, the fallback is an immutable static
 scalar error root with no pointer and no ownership bit. Input maps to #VALUE!,
 references to #REF!, numeric range/domain to #NUM!, allocation/unavailable to
 #N/A, and panic to #VALUE!.
+
+## M9B generated thunk policy
+
+The shared thunk helper preserves all eight `ExcelError` codes through
+immutable scalar roots and applies the M8 conversion/planning/materialization
+mapping. Q-returning panics map to #VALUE! without allocation. Direct B/A/J
+ABIs cannot carry Excel errors, so conversion failure, `Result::Err`, and panic
+return the documented zero/false scalar fallback.

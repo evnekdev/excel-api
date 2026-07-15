@@ -123,3 +123,15 @@ handoff, and production `xlFree`. Its state machine and callback backend live
 in `excel-api`; the example owns only a `OnceLock<Runtime>` and thin exports.
 No runtime mutex is held while Excel executes. Automated load, calculation,
 MTR, unload, and reload passed in real 64-bit Excel; interactive UI checks remain.
+
+## M9 generated worksheet thunks
+
+`#[excel_function]` uses one closed macro type model to generate both typed
+registration metadata and the exact x64 `extern "system"` export signature.
+Generated exports enter an `excel-api` callback scope that owns the unsafe
+borrow boundary and a capability tied to the shared production callback
+backend. Runtime helpers perform decoding, conversion, context injection,
+panic containment, error mapping, return planning/materialization, and final
+DLLFree handoff. The minimal XLL now registers and exports the generated five-
+function surface while retaining the M8 handwritten descriptors as test-only
+oracle fixtures.

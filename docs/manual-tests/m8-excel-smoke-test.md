@@ -69,3 +69,31 @@ inspection. The documented direct probes are `RUST.ADD`, Unicode
 NUL remains pending because ordinary Excel formula text cannot supply one.
 CI deliberately validates the build and export table only; it does not attempt
 to automate a live Excel UI session.
+
+## M9B generated-thunk rerun
+
+The same automated smoke script was rerun against the M9B release XLL after
+the five handwritten worksheet thunks were replaced by generated exports.
+
+Command:
+
+```powershell
+powershell -File scripts/smoke-minimal-xll.ps1 -XllPath target/release/minimal_xll.xll
+```
+
+Result: **passed in two fresh Excel processes**.
+
+- Excel version/build: `16.0`, build `20131`.
+- Architecture: `Windows (64-bit) NT 10.00`.
+- MTR: enabled with 28 calculation threads in both passes.
+- Add: `5`.
+- Unicode echo: exact in both passes.
+- Reference kind: `SRef`.
+- Omitted option: `missing`.
+- Mixed array spill: number `1`, text `text`, Boolean `TRUE`, error `#N/A`.
+- Repeated calculation: 500 formulas, last value `501`.
+- Reload: the second fresh process registered, calculated, and exited cleanly.
+
+The visible Function Wizard, Add-in Manager deactivate/remove UI flow, and an
+embedded-NUL formula input remain pending interactive checks; ordinary formula
+text still cannot express the embedded NUL case directly.
