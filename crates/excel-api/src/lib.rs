@@ -27,8 +27,9 @@ pub use error::{
     ThunkError, Utf16ConversionError,
 };
 pub use excel_call::{
-    CallPermission, ExcelCallDescriptor, ExcelCallError, ExcelReturnCode, ResultRoot,
-    SdkExcel12vBackend, XL_FREE, XL_GET_NAME, XLF_REGISTER, XLF_SET_NAME, XLF_UNREGISTER,
+    AbortCheckMode, CallPermission, CoerceTarget, ExcelCallDescriptor, ExcelCallError,
+    ExcelReturnCode, ResultRoot, SdkExcel12vBackend, XL_ABORT, XL_COERCE, XL_FREE, XL_GET_NAME,
+    XL_SHEET_ID, XL_SHEET_NM, XLF_CALLER, XLF_REGISTER, XLF_SET_NAME, XLF_UNREGISTER,
 };
 pub use excel_owned::{
     ExcelOwnedConversionError, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy,

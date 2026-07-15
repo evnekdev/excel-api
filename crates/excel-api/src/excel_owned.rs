@@ -197,6 +197,12 @@ impl<'call> ExcelOwnedValue<'call> {
         unsafe { RawExcelValue::from_callback(self.root.as_ref()) }.decode()
     }
 
+    /// Borrows the stable result root for a typed, crate-internal follow-up
+    /// C API call. It cannot escape the callback owner.
+    pub(crate) fn raw_root(&self) -> &XLOPER12 {
+        self.root.as_ref()
+    }
+
     /// Deep-copies without consuming or releasing this result.
     pub fn to_owned_value(&self, limits: &ConversionLimits) -> Result<ExcelValue, ConversionError> {
         ExcelValue::from_borrowed_with_limits(self.as_value_ref()?, limits)
