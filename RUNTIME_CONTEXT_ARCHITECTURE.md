@@ -80,3 +80,7 @@ M16 does not make a background Excel context. `AsyncCancellationToken` is a
 cooperative request-state view with no callback backend and no C API methods.
 The private async controller owns the only `xlAsyncReturn` path, while
 `LifecycleContext` privately registers the two calculation event procedures.
+No controller capability crosses generations: scheduling clones one stable
+`Arc`, shutdown removes that generation before joining, and reopen consumes a
+fresh executor/controller. Neither the generation holder nor the controller
+lifecycle mutex is held while calling Excel, running user code, or joining.
