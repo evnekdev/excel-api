@@ -2,7 +2,8 @@ use std::sync::OnceLock;
 
 use excel_api::{
     AddInDescriptor, ExcelArray, ExcelError, ExcelReference, ExcelReferenceArg, ExcelReturnValue,
-    ExcelString, ExcelValueRef, FunctionRegistration, OptionalValue, Runtime, excel_function,
+    ExcelString, ExcelValueRef, FunctionRegistration, MacroContext, OptionalValue, Runtime,
+    excel_command, excel_function,
 };
 #[cfg(test)]
 use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
@@ -94,6 +95,16 @@ pub fn option_kind(value: OptionalValue<excel_api::ExcelValue>) -> ExcelString {
     })
 }
 
+/// Minimal no-argument command used to verify the documented command ABI.
+#[excel_command(
+    name = "RUST.PING.COMMAND",
+    description = "Verifies Rust XLL command registration and callback dispatch",
+    thunk = "rust_ping_command"
+)]
+pub fn ping_command(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    Ok(())
+}
+
 pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_ADD,
     __EXCEL_FUNCTION_METADATA_ECHO,
@@ -101,6 +112,8 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
 ];
+
+pub static COMMANDS: &[excel_api::CommandRegistration] = &[__EXCEL_COMMAND_METADATA_PING_COMMAND];
 
 #[cfg(test)]
 pub static HANDWRITTEN_FUNCTIONS: &[FunctionRegistration] = &[
@@ -154,7 +167,8 @@ pub static ADD_IN: AddInDescriptor = AddInDescriptor::new(
     "excel-api minimal XLL",
     "Macro-generated Rust Excel12 XLL vertical slice",
     FUNCTIONS,
-);
+)
+.commands(COMMANDS);
 
 /// Normative metadata for the handwritten M8 implementation.
 ///
@@ -265,7 +279,7 @@ pub extern "system" fn xlAutoAdd() -> i32 {
 
 #[unsafe(no_mangle)]
 pub extern "system" fn xlAutoRemove() -> i32 {
-    1
+    std::panic::catch_unwind(|| runtime().close().map(|_| 1).unwrap_or(0)).unwrap_or(0)
 }
 
 #[unsafe(no_mangle)]
@@ -311,6 +325,7 @@ const _: excel_api_sys::XlAutoFree12Fn = xlAutoFree12;
 const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
 const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
 const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
 
 #[cfg(test)]
 mod tests {
@@ -352,6 +367,8 @@ mod tests {
             .map(|function| function.type_text().unwrap())
             .collect();
         assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$"]);
+        assert_eq!(COMMANDS.len(), 1);
+        assert_eq!(COMMANDS[0].type_text(), "I");
     }
 
     #[test]
@@ -482,6 +499,11 @@ mod tests {
             xlAutoFree12(first);
             xlAutoFree12(second);
         }
+    }
+
+    #[test]
+    fn generated_command_has_the_documented_short_success_abi() {
+        assert_eq!(__excel_command_thunk_ping_command(), 1);
     }
 
     #[test]

@@ -6,6 +6,19 @@ use std::sync::{Arc, Mutex, OnceLock};
 use crate::excel_call::{CallCapability, ExcelCallBackend, ExcelCallError, SdkExcel12vBackend};
 use crate::{AddInDescriptor, ExcelString, LifecycleContext};
 
+#[derive(Clone, Copy)]
+struct RegisteredEntry {
+    id: f64,
+    name: &'static str,
+    kind: RegistrationKind,
+}
+
+#[derive(Clone, Copy, Eq, PartialEq)]
+enum RegistrationKind {
+    Worksheet,
+    Command,
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum RuntimePhase {
     Uninitialized,
@@ -72,8 +85,8 @@ impl From<ExcelCallError> for LifecycleError {
 struct RuntimeState {
     phase: RuntimePhase,
     module: Option<ExcelString>,
-    registration_ids: Vec<f64>,
-    registration_names: Vec<&'static str>,
+    worksheet_registrations: Vec<RegisteredEntry>,
+    command_registrations: Vec<RegisteredEntry>,
     diagnostics: RuntimeDiagnostics,
 }
 
@@ -82,8 +95,8 @@ impl Default for RuntimeState {
         Self {
             phase: RuntimePhase::Uninitialized,
             module: None,
-            registration_ids: Vec::new(),
-            registration_names: Vec::new(),
+            worksheet_registrations: Vec::new(),
+            command_registrations: Vec::new(),
             diagnostics: RuntimeDiagnostics::default(),
         }
     }
@@ -141,7 +154,11 @@ impl Runtime {
         self.lock().diagnostics.clone()
     }
     pub fn registration_ids(&self) -> Vec<f64> {
-        self.lock().registration_ids.clone()
+        self.lock()
+            .worksheet_registrations
+            .iter()
+            .map(|entry| entry.id)
+            .collect()
     }
 
     pub fn initialize(&self, add_in: &AddInDescriptor) -> Result<LifecycleOutcome, LifecycleError> {
@@ -199,19 +216,88 @@ impl Runtime {
                         self.backend.unlink();
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
-                        state.registration_ids.clear();
-                        state.registration_names.clear();
+                        state.worksheet_registrations.clear();
+                        state.command_registrations.clear();
                     } else {
                         // Keep the backend and conservative cleanup metadata
                         // alive; a later close can retry anything Excel may
                         // still consider registered.
                         state.phase = RuntimePhase::Initialized;
                         state.module = Some(module);
-                        state.registration_names = add_in.functions[..registered.len()]
+                        state.worksheet_registrations = add_in.functions[..registered.len()]
                             .iter()
-                            .map(|function| function.excel_name)
+                            .zip(registered.iter().copied())
+                            .map(|(function, id)| RegisteredEntry {
+                                id,
+                                name: function.excel_name,
+                                kind: RegistrationKind::Worksheet,
+                            })
                             .collect();
-                        state.registration_ids = registered;
+                        state.command_registrations.clear();
+                    }
+                    return Err(LifecycleError::RegistrationRollback { primary, cleanup });
+                }
+            }
+        }
+
+        let mut command_registered = Vec::with_capacity(add_in.commands.len());
+        for command in add_in.commands {
+            match context.register_command(&module, command) {
+                Ok(id) => command_registered.push(id),
+                Err(primary) => {
+                    let mut cleanup = Vec::new();
+                    for (index, id) in command_registered.iter().copied().enumerate().rev() {
+                        if let Err(error) =
+                            context.delete_defined_name(add_in.commands[index].excel_name)
+                        {
+                            cleanup.push(error);
+                        }
+                        if let Err(error) = context.unregister(id) {
+                            cleanup.push(error);
+                        }
+                    }
+                    for (index, id) in registered.iter().copied().enumerate().rev() {
+                        if let Err(error) =
+                            context.delete_defined_name(add_in.functions[index].excel_name)
+                        {
+                            cleanup.push(error);
+                        }
+                        if let Err(error) = context.unregister(id) {
+                            cleanup.push(error);
+                        }
+                    }
+                    let mut state = self.lock();
+                    state.diagnostics.rollback_attempts +=
+                        command_registered.len() + registered.len();
+                    if cleanup.is_empty() {
+                        self.backend.unlink();
+                        state.phase = RuntimePhase::Uninitialized;
+                        state.module = None;
+                        state.worksheet_registrations.clear();
+                        state.command_registrations.clear();
+                    } else {
+                        state.phase = RuntimePhase::Initialized;
+                        state.module = Some(module);
+                        state.worksheet_registrations = registered
+                            .iter()
+                            .copied()
+                            .zip(add_in.functions.iter())
+                            .map(|(id, function)| RegisteredEntry {
+                                id,
+                                name: function.excel_name,
+                                kind: RegistrationKind::Worksheet,
+                            })
+                            .collect();
+                        state.command_registrations = command_registered
+                            .iter()
+                            .copied()
+                            .zip(add_in.commands.iter())
+                            .map(|(id, command)| RegisteredEntry {
+                                id,
+                                name: command.excel_name,
+                                kind: RegistrationKind::Command,
+                            })
+                            .collect();
                     }
                     return Err(LifecycleError::RegistrationRollback { primary, cleanup });
                 }
@@ -221,12 +307,26 @@ impl Runtime {
         let mut state = self.lock();
         state.phase = RuntimePhase::Initialized;
         state.module = Some(module);
-        state.diagnostics.registrations += registered.len();
-        state.registration_ids = registered;
-        state.registration_names = add_in
-            .functions
+        state.diagnostics.registrations += registered.len() + command_registered.len();
+        state.worksheet_registrations = registered
             .iter()
-            .map(|function| function.excel_name)
+            .copied()
+            .zip(add_in.functions.iter())
+            .map(|(id, function)| RegisteredEntry {
+                id,
+                name: function.excel_name,
+                kind: RegistrationKind::Worksheet,
+            })
+            .collect();
+        state.command_registrations = command_registered
+            .iter()
+            .copied()
+            .zip(add_in.commands.iter())
+            .map(|(id, command)| RegisteredEntry {
+                id,
+                name: command.excel_name,
+                kind: RegistrationKind::Command,
+            })
             .collect();
         state.diagnostics.successful_initializations += 1;
         Ok(LifecycleOutcome::Completed)
@@ -240,12 +340,9 @@ impl Runtime {
                 RuntimePhase::Uninitialized => return Ok(LifecycleOutcome::AlreadyInState),
                 RuntimePhase::Initialized => {
                     state.phase = RuntimePhase::Closing;
-                    state
-                        .registration_ids
-                        .iter()
-                        .copied()
-                        .zip(state.registration_names.iter().copied())
-                        .collect::<Vec<_>>()
+                    let mut entries = state.command_registrations.clone();
+                    entries.extend(state.worksheet_registrations.iter().copied());
+                    entries
                 }
                 phase => return Err(LifecycleError::Busy(phase)),
             }
@@ -255,12 +352,12 @@ impl Runtime {
         let context = LifecycleContext::new(&capability);
         let mut failed = Vec::new();
         let mut errors = Vec::new();
-        for (id, name) in registrations.iter().rev().copied() {
+        for RegisteredEntry { id, name, kind } in registrations.iter().rev().copied() {
             let result = context
                 .delete_defined_name(name)
                 .and_then(|()| context.unregister(id));
             if let Err(error) = result {
-                failed.push((id, name));
+                failed.push(RegisteredEntry { id, name, kind });
                 errors.push(error);
             }
         }
@@ -270,15 +367,22 @@ impl Runtime {
             self.backend.unlink();
             state.phase = RuntimePhase::Uninitialized;
             state.module = None;
-            state.registration_ids.clear();
-            state.registration_names.clear();
+            state.worksheet_registrations.clear();
+            state.command_registrations.clear();
             state.diagnostics.successful_closes += 1;
             Ok(LifecycleOutcome::Completed)
         } else {
             failed.reverse();
             state.phase = RuntimePhase::Initialized;
-            state.registration_ids = failed.iter().map(|(id, _)| *id).collect();
-            state.registration_names = failed.iter().map(|(_, name)| *name).collect();
+            state.worksheet_registrations = failed
+                .iter()
+                .copied()
+                .filter(|entry| entry.kind == RegistrationKind::Worksheet)
+                .collect();
+            state.command_registrations = failed
+                .into_iter()
+                .filter(|entry| entry.kind == RegistrationKind::Command)
+                .collect();
             Err(LifecycleError::CloseFailed { errors })
         }
     }

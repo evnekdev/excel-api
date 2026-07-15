@@ -83,3 +83,13 @@ handwritten. `Runtime::production` and generated callback scopes share one SDK
 callback backend per loaded binary so contexts observe the entry installed by
 `xlAutoOpen`/`SetExcel12EntryPt`; lifecycle state and registration IDs remain
 owned by the XLL's `Runtime`.
+
+## M12 lifecycle decision
+
+`xlAutoAdd` ensures initialization and `xlAutoRemove` performs the same
+idempotent close path as `xlAutoClose`; both exports contain panics. Add-in
+Manager information remains a pure metadata query. `xlAutoRegister12` is
+intentionally not exported: the explicit descriptor registry always provides
+complete type text, and Microsoft warns that registering without it recurses.
+The optional callback can be reconsidered only if a documented on-demand
+registration use case requires it.

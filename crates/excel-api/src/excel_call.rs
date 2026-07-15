@@ -10,8 +10,8 @@ use excel_api_sys::{LPXLOPER12, XLOPER12, XLOPER12Value};
 
 use crate::excel_owned::ExcelReleaseBackend;
 use crate::{
-    ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy, ExcelString, FunctionRegistration,
-    LifecycleContext, RegistrationError,
+    CommandRegistration, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy, ExcelString,
+    FunctionRegistration, LifecycleContext, RegistrationError,
 };
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -604,6 +604,50 @@ impl CallArguments {
         Ok(Self { strings, roots })
     }
 
+    fn command_registration(
+        module: &ExcelString,
+        registration: &CommandRegistration,
+    ) -> Result<Self, ExcelCallError> {
+        registration
+            .validate()
+            .map_err(ExcelCallError::Registration)?;
+        let module_text = String::from_utf16(module.as_utf16()).map_err(|_| {
+            ExcelCallError::ResultConversion("module name is not valid UTF-16".into())
+        })?;
+        let values = vec![
+            module_text,
+            registration.rust_symbol.into(),
+            registration.type_text().into(),
+            registration.excel_name.into(),
+            String::new(),
+            registration.shortcut.unwrap_or("").into(),
+            String::new(),
+            registration.description.unwrap_or("").into(),
+        ];
+        let mut strings = Vec::with_capacity(values.len());
+        for value in values {
+            strings.push(counted(&value).map_err(ExcelCallError::Registration)?);
+        }
+        let mut roots: Vec<XLOPER12> = strings
+            .iter_mut()
+            .map(|value| XLOPER12 {
+                val: XLOPER12Value {
+                    str: value.as_mut_ptr(),
+                },
+                xltype: excel_api_sys::xltypeStr,
+            })
+            .collect();
+        // `pxMacroType = 2` is the documented command registration form.
+        roots.insert(
+            5,
+            XLOPER12 {
+                val: XLOPER12Value { num: 2.0 },
+                xltype: excel_api_sys::xltypeNum,
+            },
+        );
+        Ok(Self { strings, roots })
+    }
+
     fn pointers(&mut self) -> Vec<LPXLOPER12> {
         let _keep_alive = &self.strings;
         self.roots
@@ -663,6 +707,30 @@ impl LifecycleContext<'_> {
             other => Err(ExcelCallError::MalformedResult {
                 function: XLF_REGISTER.name,
                 expected: "finite registration ID",
+                actual: other.kind_name(),
+            }),
+        }
+    }
+
+    pub(crate) fn register_command(
+        &self,
+        module: &ExcelString,
+        registration: &CommandRegistration,
+    ) -> Result<f64, ExcelCallError> {
+        let mut storage = CallArguments::command_registration(module, registration)?;
+        let mut arguments = storage.pointers();
+        let owner = self
+            .capability()
+            .call(CallPermission::Lifecycle, XLF_REGISTER, &mut arguments)?
+            .expect("descriptor requires a result");
+        let value = owner
+            .into_owned_value(&crate::ConversionLimits::default())
+            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))?;
+        match value {
+            crate::ExcelValue::Number(id) if id.is_finite() => Ok(id),
+            other => Err(ExcelCallError::MalformedResult {
+                function: XLF_REGISTER.name,
+                expected: "finite command registration ID",
                 actual: other.kind_name(),
             }),
         }

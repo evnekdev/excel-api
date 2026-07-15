@@ -37,8 +37,8 @@ pub use excel_owned::{
 };
 pub use metadata::{CountedUtf16Arg, ExcelReferenceArg, ExcelValueArg, NullTerminatedUtf16Arg};
 pub use registration::{
-    AddInDescriptor, ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionRegistration,
-    FunctionSignature, RegistrationError,
+    AddInDescriptor, CommandRegistration, ExcelArgumentType, ExcelReturnType, FunctionFlags,
+    FunctionRegistration, FunctionSignature, RegistrationError,
 };
 pub use return_alloc::{ExcelReturn, xl_auto_free12};
 pub use return_plan::{
@@ -55,8 +55,8 @@ pub use excel_api_macros::{excel_command, excel_function};
 /// Common imports for XLL authors.
 pub mod prelude {
     pub use crate::{
-        AddInDescriptor, ConversionLimits, CountedUtf16Arg, ExcelArray, ExcelError,
-        ExcelReferenceArg, ExcelReturnArray, ExcelReturnValue, ExcelString, ExcelValue,
+        AddInDescriptor, CommandRegistration, ConversionLimits, CountedUtf16Arg, ExcelArray,
+        ExcelError, ExcelReferenceArg, ExcelReturnArray, ExcelReturnValue, ExcelString, ExcelValue,
         ExcelValueArg, ExcelValueRef, FromExcel, FunctionFlags, FunctionRegistration, IntoExcel,
         NullTerminatedUtf16Arg, OptionalValue, ReturnError, ReturnLimits,
         ReturnMaterializationError, ReturnPlan, ReturnText,
