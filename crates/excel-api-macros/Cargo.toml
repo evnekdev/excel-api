@@ -1,6 +1,10 @@
 [package]
 name = "excel-api-macros"
 description = "Procedural macros for excel-api"
+documentation = "https://docs.rs/excel-api-macros"
+readme = "README.md"
+keywords = ["excel", "xll", "procedural-macro", "ffi", "office"]
+categories = ["development-tools::procedural-macro-helpers"]
 version.workspace = true
 edition.workspace = true
 license.workspace = true

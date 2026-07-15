@@ -1,6 +1,10 @@
 [package]
 name = "excel-api"
 description = "Safe Rust abstractions for native Microsoft Excel XLL add-ins"
+documentation = "https://docs.rs/excel-api"
+readme = "README.md"
+keywords = ["excel", "xll", "ffi", "office", "add-in"]
+categories = ["api-bindings", "development-tools::ffi"]
 version.workspace = true
 edition.workspace = true
 license.workspace = true

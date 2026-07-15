@@ -55,7 +55,7 @@ impl fmt::Display for ExcelReleaseError {
 impl std::error::Error for ExcelReleaseError {}
 
 /// The result of a consuming deep copy followed by the mandatory release.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ExcelOwnedConversionError {
     Conversion(ConversionError),
     Release(ExcelReleaseError),

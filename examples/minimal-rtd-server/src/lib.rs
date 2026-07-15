@@ -3,6 +3,7 @@
 //! This package is unpublished and intentionally separate from the XLL crates.
 
 #![cfg_attr(not(windows), allow(dead_code))]
+#![allow(unknown_lints)]
 // MSVC warns that the two conventional COM exports could be PRIVATE in an
 // import-library definition; the DLL intentionally exports them publicly.
 #![allow(linker_messages)]

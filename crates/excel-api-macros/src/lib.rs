@@ -536,10 +536,10 @@ fn set_flag(slot: &mut bool, path: syn::Path) -> syn::Result<()> {
 }
 
 fn string_value(value: &MetaNameValue) -> syn::Result<LitStr> {
-    if let Expr::Lit(expression) = &value.value
-        && let Lit::Str(string) = &expression.lit
-    {
-        return Ok(string.clone());
+    if let Expr::Lit(expression) = &value.value {
+        if let Lit::Str(string) = &expression.lit {
+            return Ok(string.clone());
+        }
     }
     Err(syn::Error::new_spanned(
         &value.value,
@@ -610,10 +610,10 @@ fn validate_function_shape(function: &ItemFn) -> syn::Result<()> {
 }
 
 fn context_kind(ty: &Type) -> Option<ContextKind> {
-    if let Type::Path(path) = ty
-        && path.path.segments.last()?.ident == "AsyncCancellationToken"
-    {
-        return Some(ContextKind::Async);
+    if let Type::Path(path) = ty {
+        if path.path.segments.last()?.ident == "AsyncCancellationToken" {
+            return Some(ContextKind::Async);
+        }
     }
     let Type::Reference(reference) = ty else {
         return None;

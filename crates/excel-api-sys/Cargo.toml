@@ -1,6 +1,10 @@
 [package]
 name = "excel-api-sys"
 description = "Raw Microsoft Excel C API ABI definitions for Rust"
+documentation = "https://docs.rs/excel-api-sys"
+readme = "README.md"
+keywords = ["excel", "xll", "ffi", "office", "abi"]
+categories = ["external-ffi-bindings"]
 version.workspace = true
 edition.workspace = true
 license.workspace = true

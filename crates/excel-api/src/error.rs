@@ -83,7 +83,7 @@ impl std::error::Error for OwnedValueError {}
 
 /// Failure while converting between callback-borrowed and owned semantic
 /// values.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ConversionError {
     UnexpectedType {
         expected: &'static str,

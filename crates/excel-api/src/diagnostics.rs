@@ -98,10 +98,10 @@ pub fn emit(mut event: DiagnosticEvent) {
         let index = WRITTEN.fetch_add(1, Ordering::Relaxed) % CAPACITY;
         ring[index] = Some(event);
     }
-    if let Ok(sink) = USER_SINK.try_lock()
-        && let Some(sink) = *sink
-    {
-        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| sink.record(event)));
+    if let Ok(sink) = USER_SINK.try_lock() {
+        if let Some(sink) = *sink {
+            let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| sink.record(event)));
+        }
     }
     EMITTING.store(false, Ordering::Release);
 }

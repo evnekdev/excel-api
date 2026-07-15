@@ -58,6 +58,22 @@ impl fmt::Debug for AsyncExecuteError {
     }
 }
 
+impl fmt::Display for AsyncExecuteError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            formatter,
+            "asynchronous executor rejected a job: {}",
+            self.error
+        )
+    }
+}
+
+impl std::error::Error for AsyncExecuteError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        Some(&self.error)
+    }
+}
+
 /// Runtime-neutral submission surface installed by an XLL application.
 ///
 /// Each executor belongs to exactly one runtime generation. `execute` must
@@ -303,6 +319,33 @@ pub enum AsyncCompletionError {
         code: ExcelReturnCode,
         accepted: Option<bool>,
     },
+}
+
+impl fmt::Display for AsyncCompletionError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Canceled => formatter.write_str("asynchronous request was canceled"),
+            Self::AlreadyCompleted => formatter.write_str("asynchronous request already completed"),
+            Self::RuntimeClosing => formatter.write_str("asynchronous runtime is closing"),
+            Self::Return(error) => write!(formatter, "asynchronous return failed: {error}"),
+            Self::Excel { code, accepted } => {
+                write!(formatter, "xlAsyncReturn failed with {code}")?;
+                if let Some(accepted) = accepted {
+                    write!(formatter, " (accepted={accepted})")?;
+                }
+                Ok(())
+            }
+        }
+    }
+}
+
+impl std::error::Error for AsyncCompletionError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Return(error) => Some(error),
+            _ => None,
+        }
+    }
 }
 
 /// Cooperative cancellation signal available to asynchronous function bodies.
@@ -809,13 +852,13 @@ pub(crate) fn reset_generations_for_test() {
     }
 }
 
-pub fn calculation_canceled() {
+pub(crate) fn calculation_canceled() {
     if let Some(controller) = active_controller() {
         controller.cancel_all();
     }
 }
 
-pub fn calculation_ended() {
+pub(crate) fn calculation_ended() {
     if let Some(controller) = active_controller() {
         controller.calculation_ended();
     }
@@ -997,6 +1040,26 @@ mod tests {
 
     fn number(value: f64) -> ExcelReturnValue {
         ExcelReturnValue::Number(value)
+    }
+
+    #[test]
+    fn public_async_errors_have_structured_error_contracts() {
+        fn assert_error<T: std::error::Error>() {}
+        assert_error::<AsyncExecuteError>();
+        assert_error::<AsyncSubmitError>();
+        assert_error::<AsyncCompletionError>();
+
+        let execute = AsyncExecuteError::new(AsyncSubmitError::ExecutorClosed, Box::new(|| {}));
+        assert!(execute.to_string().contains("generation is closed"));
+        assert!(std::error::Error::source(&execute).is_some());
+
+        let completion = AsyncCompletionError::Return(ThunkError::NullArgument);
+        assert!(
+            completion
+                .to_string()
+                .contains("asynchronous return failed")
+        );
+        assert!(std::error::Error::source(&completion).is_some());
     }
 
     fn controller(

@@ -320,9 +320,10 @@ impl Request {
         if self
             .deadline
             .is_some_and(|deadline| Instant::now() >= deadline)
-            && let Some(owner) = self.owner.upgrade()
         {
-            owner.expire(self);
+            if let Some(owner) = self.owner.upgrade() {
+                owner.expire(self);
+            }
         }
     }
 }

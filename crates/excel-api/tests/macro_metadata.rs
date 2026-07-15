@@ -1,3 +1,5 @@
+#![cfg(feature = "macros")]
+
 use excel_api::{
     CountedUtf16Arg, ExcelError, ExcelReferenceArg, ExcelString, ExcelValue, ExcelValueArg,
     NullTerminatedUtf16Arg, OptionalValue, ThreadSafeContext, excel_function,
