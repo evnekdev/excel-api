@@ -145,3 +145,11 @@ reports `CleanupRequired`; async scheduling stays disabled, initialize is
 rejected, and retry-close uses the retained registration IDs. A successful
 retry returns to `Uninitialized`, after which the XLL must install a fresh
 executor for reopen.
+# M17 dispatcher lifecycle
+
+A successful open activates one fresh dispatcher generation. Close removes it
+from global access and commits shutdown before unregistering or unlinking.
+Queued and selected work is retired with `DispatcherShutdown`; already-running
+work is synchronous in its current callback and must finish before cleanup
+continues. If unregister fails, `CleanupRequired` retains the backend but the
+dispatcher stays disabled; retry cleanup never revives the old generation.

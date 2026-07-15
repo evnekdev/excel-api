@@ -94,3 +94,11 @@ backend is insufficient. This does not promote arbitrary XLM commands or
 `xlcOnTime` into the stable lifecycle capability. The registered callback must
 demonstrate a real `MacroContext` operation and generation match during live
 validation before any production context decision is made.
+# M17 dispatcher capability boundary
+
+Dispatcher drains require an actual `ThreadSafeContext`, `WorksheetContext`,
+`MacroContext`, or `LifecycleContext`; no context-free drain exists. The
+compatibility table is exact rather than hierarchical: context-neutral work is
+allowed everywhere, while each Excel-calling requirement runs only under the
+identically typed context. The initial Excel-calling operation is the Macro-only
+preserving `xlAbort` cancellation poll.

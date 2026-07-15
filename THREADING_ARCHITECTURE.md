@@ -136,3 +136,12 @@ the caveat that a thread-safe UDF cannot clear a break condition; callers use
 an explicit preserve/clear mode and receive the exact Excel return code if it
 is rejected. This reports a user break request only, never application
 calculation progress or state.
+# M17 cooperative dispatch
+
+Background producers may enqueue owned dispatcher operations and use owned
+tickets, but they never receive an Excel context and never call Excel. Excel
+work occurs only in a later typed callback drain. A callback-depth guard rejects
+ticket waits from callback scopes and suppresses recursive drain attempts.
+Queue/controller locks are released before user-independent operation execution
+or Excel calls. Shutdown waits for synchronously running operations before the
+backend may be unlinked.

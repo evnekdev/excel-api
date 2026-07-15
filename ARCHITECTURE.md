@@ -143,3 +143,10 @@ and compile-fail fixtures. Diagnostics preserve the closed M9 mapping and
 identify invalid signatures, attributes, contexts, flags, and generated-item
 collisions at their useful source spans. This milestone adds no runtime FFI,
 ownership, callback, or threading behavior.
+# M17 cooperative dispatch boundary
+
+The main-thread dispatcher is callback-drained and notification-source
+agnostic. Owned requests may be queued from worker threads, but enqueueing does
+not wake Excel. Only a genuine typed Excel callback may drain compatible sealed
+operations; the initial live/manual entry point is `RUST.DISPATCH.PUMP`.
+Autonomous notification remains deferred.
