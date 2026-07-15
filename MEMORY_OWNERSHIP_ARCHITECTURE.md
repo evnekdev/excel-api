@@ -25,6 +25,12 @@ M8's `CallCapability` implements the release backend with exactly
 `Excel12v(xlFree, null, 1, [&mut root])`. Lifecycle call owners are dropped or
 consumed before the runtime can unlink the callback entry point.
 
+M9B-generated thunks reuse these domains without adding a new owner. Their
+callback-scope token borrows Q/U and direct UTF-16 inputs, conversion produces
+owned Rust values, and successful Q returns follow the existing plan,
+materialize, consuming DLLFree handoff, and matching AutoFree path. Generated
+code performs no allocation or ownership-bit policy itself.
+
 ## Ownership domains
 
 | Domain | Wrapper | Release |

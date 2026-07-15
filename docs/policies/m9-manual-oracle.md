@@ -26,3 +26,12 @@ supersedes this policy:
 The oracle does not bless raw `xlbitXLFree` return transfer. That behavior is
 intentionally deferred because the unique root lifetime has no documented
 per-call reclaim callback.
+
+## M9B parity result
+
+The minimal XLL now uses generated worksheet thunks in production. Test-only
+handwritten descriptors and behavioral fixtures remain as the oracle. Tests
+cover all five symbols, exact type text, scalar/text/array/reference/optional
+values, error and panic fallbacks, root and nested tags, Q/U distinction,
+fresh DLLFree-only roots, and exact AutoFree reclamation. Windows release PE
+inspection reports exactly the same 12 exports as the frozen M8 artifact.

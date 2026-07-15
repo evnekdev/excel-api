@@ -74,6 +74,21 @@ name, category, description, future thunk symbol, flags, and complete argument
 help. The Rust signature supplies the closed argument/result families; an
 explicit return registration override is available for the frozen M8 `Q`
 return oracle. No thunk, export, callback code, or unsafe code is generated.
+
+## M9B generated thunks
+
+The macro's closed argument/result kinds now drive both the registration
+families and raw ABI signature. `A` uses a 16-bit signed Boolean, `B` uses
+`f64`, `J` uses `i32`, `C%`/`D%` use UTF-16 pointers, and `Q`/`U` use
+`XLOPER12*`, matching Microsoft's xlfRegister type table. The `thunk` literal
+must be a non-empty ASCII x64 export identifier and is emitted exactly with
+`export_name`; a duplicate export fails at link time.
+
+The minimal XLL's production descriptor list now consists of generated
+metadata. Test-only handwritten descriptors remain the frozen registration
+oracle, and PE inspection proves the final DLL contains exactly the same 12
+named exports as M8.
+
 ## M8 implementation
 
 `FunctionSignature` is the source of truth. It distinguishes scalar `B/A/J`,

@@ -85,3 +85,12 @@ registered `$`; each produces fresh per-call DLLFree storage. The
 reference-preserving probe is deliberately not `$`. Registration runs only in
 lifecycle context. Panic and catastrophic static scalar fallbacks are
 immutable, pointer-free, and contain no ownership bit.
+
+## M9B generated callback contexts
+
+Generated thunks create callback-scoped context capabilities from the same
+process-local production backend used by lifecycle `Runtime`. The backend
+entry is atomic, the per-call capability is borrowed, and no runtime mutex is
+held while the ordinary function executes. Generated returns retain no context
+or callback borrow. Direct scalar failures and panics return zero/false; Q
+failures use immutable pointer-free Excel error roots.

@@ -77,3 +77,9 @@ back in reverse order, close is idempotent, and failed close retains failed IDs
 with the backend linked for retry. No lock is held over Excel12v. Thin,
 panic-contained exports implement `xlAutoOpen`, `xlAutoClose`, `xlAutoAdd`,
 `xlAutoRemove`, `xlAddInManagerInfo12`, and `xlAutoFree12`.
+
+M9B changes only worksheet-function exports. Lifecycle exports remain thin and
+handwritten. `Runtime::production` and generated callback scopes share one SDK
+callback backend per loaded binary so contexts observe the entry installed by
+`xlAutoOpen`/`SetExcel12EntryPt`; lifecycle state and registration IDs remain
+owned by the XLL's `Runtime`.
