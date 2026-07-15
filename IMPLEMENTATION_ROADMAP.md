@@ -46,6 +46,11 @@
   custom task panes are not required for core 1.0.
 - M20 core 1.0 stabilization review — next.
 
+Current M20 release-process blocker: `excel-api`'s registry-aware publish
+dry-run cannot resolve unpublished `excel-api-macros` v0.1.0. Resolve and
+rehearse the core crate publish order during M20; this is unrelated to optional
+RTD/COM/Ribbon work.
+
 Optional work is tracked separately in
 [`OPTIONAL_INTEGRATIONS_ROADMAP.md`](OPTIONAL_INTEGRATIONS_ROADMAP.md): E1 RTD
 clean-host comparison, E2 RTD production API design, E3 Ribbon metadata/UI,
