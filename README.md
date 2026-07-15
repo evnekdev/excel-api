@@ -37,16 +37,18 @@ notification remains open. The isolated `xlcOnTime` research decision remains
 inconclusive and is not used by the production dispatcher. Automated coverage
 passes, while live pump validation remains blocked by the current host's plain
 workbook-creation failure.
-M18.1 implements the first RTD compatibility prototype as a separate,
-unpublished Windows in-process COM DLL. Its installed Office 1.9 type-library
-ABI, class factory, bounded `COUNTER` topic, GIT-marshaled `UpdateNotify`,
-Automation payload ownership, and reversible per-user registration are covered
-by deterministic tests and inspection scripts. It calls no Excel C API and
-provides no M17 wake capability. M18.2 adds retryable GIT cleanup, panic-safe
-producer accounting, an activation ladder, and a Microsoft-PIA control server.
-Status: **M18 prototype implemented; Excel activation unresolved** because a
-stale inaccessible descendant of an earlier owned Excel test prevents a clean
-comparison. This is not production RTD approval.
+The initial stable release is the native Excel 12/XLL core: ABI, owned and
+callback-borrowed values, return ownership, registration/macros, typed
+contexts/calls, functions/commands/lifecycle, diagnostics, packaging, stress
+infrastructure, async UDFs, and cooperative dispatch. See the
+[support matrix](SUPPORT_MATRIX.md).
+
+RTD/streaming, general COM/Ribbon, task panes, autonomous notification, and
+the `xlcOnTime` probe are optional post-1.0 work. The M18 prototype remains in
+the repository as an experimental, Windows-only, unpublished component; it is
+not production-supported or part of normal XLL packaging. It has a verified
+Office 1.9 ABI audit and direct COM activation, but Excel-formula activation is
+unresolved. See [RTD tracking issue #37](https://github.com/evnekdev/excel-api/issues/37).
 
 Build the loadable artifact with:
 
@@ -74,6 +76,9 @@ pwsh -File scripts/build-minimal-xll.ps1 -Profile release
 - [Main-thread dispatch architecture](MAIN_THREAD_DISPATCH_ARCHITECTURE.md)
 - [RTD streaming architecture](RTD_STREAMING_ARCHITECTURE.md)
 - [COM architecture boundary](COM_ARCHITECTURE.md)
+- [Ribbon UI architecture](RIBBON_UI_ARCHITECTURE.md)
+- [Core 1.0 support matrix](SUPPORT_MATRIX.md)
+- [Optional integrations roadmap](OPTIONAL_INTEGRATIONS_ROADMAP.md)
 - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)
 - [Codex development prompts](prompts-dev/README.md)
@@ -89,7 +94,7 @@ crates/
   excel-api-macros/
 examples/
   minimal-xll/
-  minimal-rtd-server/  # unpublished Windows-only COM compatibility prototype
+  minimal-rtd-server/  # experimental Windows-only, unpublished RTD prototype
 docs/
   adr/
   checklists/

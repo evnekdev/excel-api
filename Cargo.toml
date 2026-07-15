@@ -7,6 +7,12 @@ members = [
     "examples/minimal-xll",
     "examples/minimal-rtd-server",
 ]
+default-members = [
+    "crates/excel-api-sys",
+    "crates/excel-api",
+    "crates/excel-api-macros",
+    "examples/minimal-xll",
+]
 exclude = ["tools/abi-check"]
 
 [workspace.package]

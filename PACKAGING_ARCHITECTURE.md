@@ -18,7 +18,7 @@ Responsibilities:
 exports avoid x86 decoration and a `.def` file is not required for this slice.
 Use `dumpbin /exports` to verify lifecycle and worksheet symbols.
 
-## M18 RTD packaging boundary
+## Optional RTD packaging boundary
 
 The M18.1 RTD prototype is a separate 64-bit in-process COM DLL with
 its own ProgID/CLSID, class factory exports, signing identity, registration,
@@ -40,3 +40,14 @@ production exports. Registration is never a build side effect: the dedicated
 register/inspect/unregister scripts modify only the two prototype roots under
 `HKCU\Software\Classes` and record `ThreadingModel=Apartment` as a hypothesis
 for live compatibility testing.
+
+The RTD prototype, test control server, registration scripts, and research
+helpers are excluded from core package publication and ordinary XLL packaging.
+They are never built, registered, or installed as a side effect of normal core
+build/test/package workflows.
+
+For core 1.0, Cargo default members are `excel-api-sys`, `excel-api`,
+`excel-api-macros`, and `minimal-xll`. The RTD prototype remains an explicit
+workspace member for compatibility testing but is `publish = false`; the C#
+control server and research scripts are not Cargo packages. The three core
+package manifests have no COM dependency.

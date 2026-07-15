@@ -8,7 +8,7 @@
 | Strings | `STRING_ARCHITECTURE.md` | Partial (DLLFree returns implemented) | M1-M8 |
 | Conversion | `TYPE_CONVERSION_ARCHITECTURE.md` | M3-M5 implemented | M2-M5 |
 | Arrays/references | `ARRAY_REFERENCE_ARCHITECTURE.md` | Partial (DLLFree return multis implemented) | M2-M8 |
-| Threading | `THREADING_ARCHITECTURE.md` | Partial (XLL through M17 implemented; M18 RTD COM boundary researched) | M1-M18 |
+| Threading | `THREADING_ARCHITECTURE.md` | Core through M17 implemented; live async/dispatcher validation pending | M1-M17 |
 | Contexts | `RUNTIME_CONTEXT_ARCHITECTURE.md` | M8 callback capabilities implemented | M4-M12 |
 | C API calls | `EXCEL_CALL_ARCHITECTURE.md` | M8 narrow production catalogue implemented | M7-M12 |
 | Lifecycle | `CALLBACK_LIFECYCLE_ARCHITECTURE.md` | M8 implemented; automated live Excel passed | M6-M12 |
@@ -19,8 +19,9 @@
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Minimal M8 XLL build implemented | M14 |
 | Async | `ASYNC_ARCHITECTURE.md` | M16 implementation in progress; live validation pending | M16 |
 | Dispatcher | `MAIN_THREAD_DISPATCH_ARCHITECTURE.md` | Cooperative M17 implemented; live validation and autonomous wake pending | M17 |
-| RTD | `RTD_STREAMING_ARCHITECTURE.md` | M18 architecture selected; prototype/live validation blocked | M18 |
-| COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | RTD COM boundary researched; general COM/Ribbon planned | M18-M19+ |
+| RTD | `RTD_STREAMING_ARCHITECTURE.md` | Experimental Windows-only prototype; optional post-1.0 | Optional E1-E2 |
+| COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | Deferred optional integrations | Optional E3-E4 |
+| Support/release | `SUPPORT_MATRIX.md`, `OPTIONAL_INTEGRATIONS_ROADMAP.md` | Core 1.0 boundary defined | M20 / E1-E5 |
 
 ## Dependency order
 
@@ -31,8 +32,17 @@ ABI
  -> threading/contexts/calls
  -> lifecycle/registration
  -> macros
- -> async/RTD/COM
+ -> async/cooperative dispatch
+ -> M20 core stabilization
+
+Optional after core 1.0: RTD/COM/Ribbon/notification adapters
 ```
+
+## Release boundary
+
+Core 1.0 excludes optional RTD, COM/Ribbon, custom task panes, autonomous
+notification, and `xlcOnTime` research. See ADR-0033 and
+`SUPPORT_MATRIX.md`; those integrations remain separate post-1.0 decisions.
 
 ## Freeze policy
 

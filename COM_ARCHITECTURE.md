@@ -1,16 +1,17 @@
-# COM Architecture Boundary
+# Optional COM Architecture Boundary
 
 ## Current scope
 
-M18 establishes only the COM boundary needed to evaluate RTD. It does not add
-general COM, Ribbon, or Office object-model support to `excel-api`.
+COM integration is optional post-1.0 work. M18 establishes only the prototype
+boundary needed to evaluate RTD; it does not add general COM, Ribbon, or Office
+object-model support to `excel-api`, and none of those subsystems block M20.
 
 A COM RTD server is activated by ProgID/CLSID, created through a class factory,
 and governed by COM apartments, reference counting, marshaling, and server
 unload rules. These obligations are independent of XLL registration and the
 Excel C API callback table.
 
-## M18.1 prototype server surface
+## Experimental M18 prototype server surface
 
 A separate in-process prototype DLL exports the normal COM class-server
 entry points, including `DllGetClassObject` and `DllCanUnloadNow`, and implement
@@ -81,6 +82,11 @@ machine paths.
 
 The project will not modify Excel Trusted Locations, organization-wide COM
 policy, or macro/XLM settings to make a prototype pass.
+
+General Automation, Ribbon, custom task panes, and production COM deployment
+are deferred. The only retained COM artifact is the unpublished Windows-only
+RTD compatibility prototype; it is excluded from core crate publication and
+ordinary XLL packaging.
 
 ## M18.2 activation and cleanup refinement
 

@@ -242,7 +242,7 @@ reopen, repeated-path underflow protection, and callback-depth guard cleanup.
 
 ## M18.1 RTD prototype coverage
 
-The unpublished prototype has deterministic tests for the installed Office
+The experimental, Windows-only, unpublished prototype has deterministic tests for the installed Office
 ABI constants/vtable sizes, COM identity and reference counts, class factory,
 server locking/unload counters, legal state transitions, bounded topic
 ownership, duplicate/equivalent subscribers, disconnect/reconnect,
@@ -271,3 +271,8 @@ records the Rust class-factory/IDispatch sequence. A separate .NET Framework
 control is compiled from the installed Microsoft Office PIA. The Excel harness
 will compare both only after stale-owned-process preflight passes; the current
 host fails that preflight, so compatibility remains unresolved.
+
+RTD validation is optional post-1.0 work and is not a core release blocker. It
+remains in explicit `cargo test --workspace --all-features` coverage where the
+platform permits, but it is not a default workspace member and ordinary core
+build/test/package flows do not register or package it.
