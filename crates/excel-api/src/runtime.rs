@@ -4,7 +4,7 @@ use core::fmt;
 use std::sync::{Arc, Mutex, OnceLock};
 
 use crate::excel_call::{CallCapability, ExcelCallBackend, ExcelCallError, SdkExcel12vBackend};
-use crate::{AddInDescriptor, ExcelString, LifecycleContext};
+use crate::{AddInDescriptor, AsyncSubmitError, ExcelString, LifecycleContext};
 
 #[derive(Clone, Copy)]
 struct RegisteredEntry {
@@ -25,6 +25,9 @@ pub enum RuntimePhase {
     Initializing,
     Initialized,
     Closing,
+    /// Excel registrations remain and close must be retried. Async scheduling
+    /// is disabled and the callback backend remains linked for cleanup only.
+    CleanupRequired,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
@@ -48,6 +51,7 @@ pub enum LifecycleOutcome {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum LifecycleError {
     Busy(RuntimePhase),
+    Async(AsyncSubmitError),
     Excel(ExcelCallError),
     RegistrationRollback {
         primary: ExcelCallError,
@@ -62,6 +66,7 @@ impl fmt::Display for LifecycleError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Busy(phase) => write!(f, "runtime is busy in {phase:?}"),
+            Self::Async(error) => write!(f, "asynchronous runtime activation failed: {error}"),
             Self::Excel(error) => write!(f, "lifecycle Excel call failed: {error}"),
             Self::RegistrationRollback { primary, cleanup } => write!(
                 f,
@@ -88,6 +93,9 @@ struct RuntimeState {
     worksheet_registrations: Vec<RegisteredEntry>,
     command_registrations: Vec<RegisteredEntry>,
     diagnostics: RuntimeDiagnostics,
+    calculation_canceled_registered: bool,
+    calculation_ended_registered: bool,
+    async_generation_active: bool,
 }
 
 impl Default for RuntimeState {
@@ -98,6 +106,9 @@ impl Default for RuntimeState {
             worksheet_registrations: Vec::new(),
             command_registrations: Vec::new(),
             diagnostics: RuntimeDiagnostics::default(),
+            calculation_canceled_registered: false,
+            calculation_ended_registered: false,
+            async_generation_active: false,
         }
     }
 }
@@ -178,44 +189,46 @@ impl Runtime {
             }
         }
 
+        let has_async = add_in
+            .functions
+            .iter()
+            .any(|function| function.is_asynchronous());
         if let Err(error) = self.backend.link() {
             self.lock().phase = RuntimePhase::Uninitialized;
             return Err(error.into());
         }
-        crate::async_udf::activate();
+        if has_async {
+            if let Err(error) = crate::async_udf::activate(self.backend.clone()) {
+                self.backend.unlink();
+                self.lock().phase = RuntimePhase::Uninitialized;
+                return Err(LifecycleError::Async(error));
+            }
+            self.lock().async_generation_active = true;
+        }
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);
         let module = match context.get_module_name() {
             Ok(module) => module,
             Err(error) => {
-                crate::async_udf::shutdown();
+                if has_async {
+                    crate::async_udf::shutdown();
+                }
                 self.backend.unlink();
-                self.lock().phase = RuntimePhase::Uninitialized;
+                let mut state = self.lock();
+                state.phase = RuntimePhase::Uninitialized;
+                state.async_generation_active = false;
                 return Err(error.into());
             }
         };
 
-        if add_in
-            .functions
-            .iter()
-            .any(|function| function.is_asynchronous())
-        {
-            let events = context
-                .register_event(
-                    "excel_api_calculation_canceled",
-                    excel_api_sys::xleventCalculationCanceled,
-                )
-                .and_then(|_| {
-                    context.register_event(
-                        "excel_api_calculation_ended",
-                        excel_api_sys::xleventCalculationEnded,
-                    )
-                });
-            if let Err(error) = events {
+        if has_async {
+            if let Err(error) = self.ensure_async_events(&context) {
                 crate::async_udf::shutdown();
                 self.backend.unlink();
-                self.lock().phase = RuntimePhase::Uninitialized;
+                let mut state = self.lock();
+                state.phase = RuntimePhase::Uninitialized;
+                state.async_generation_active = false;
                 return Err(error.into());
             }
         }
@@ -236,11 +249,16 @@ impl Runtime {
                             cleanup.push(error);
                         }
                     }
+                    if has_async {
+                        crate::async_udf::shutdown();
+                    }
+                    if cleanup.is_empty() {
+                        self.backend.unlink();
+                    }
                     let mut state = self.lock();
                     state.diagnostics.rollback_attempts += registered.len();
+                    state.async_generation_active = false;
                     if cleanup.is_empty() {
-                        crate::async_udf::shutdown();
-                        self.backend.unlink();
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
                         state.worksheet_registrations.clear();
@@ -249,7 +267,7 @@ impl Runtime {
                         // Keep the backend and conservative cleanup metadata
                         // alive; a later close can retry anything Excel may
                         // still consider registered.
-                        state.phase = RuntimePhase::Initialized;
+                        state.phase = RuntimePhase::CleanupRequired;
                         state.module = Some(module);
                         state.worksheet_registrations = add_in.functions[..registered.len()]
                             .iter()
@@ -293,18 +311,23 @@ impl Runtime {
                             cleanup.push(error);
                         }
                     }
+                    if has_async {
+                        crate::async_udf::shutdown();
+                    }
+                    if cleanup.is_empty() {
+                        self.backend.unlink();
+                    }
                     let mut state = self.lock();
                     state.diagnostics.rollback_attempts +=
                         command_registered.len() + registered.len();
+                    state.async_generation_active = false;
                     if cleanup.is_empty() {
-                        crate::async_udf::shutdown();
-                        self.backend.unlink();
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
                         state.worksheet_registrations.clear();
                         state.command_registrations.clear();
                     } else {
-                        state.phase = RuntimePhase::Initialized;
+                        state.phase = RuntimePhase::CleanupRequired;
                         state.module = Some(module);
                         state.worksheet_registrations = registered
                             .iter()
@@ -360,8 +383,33 @@ impl Runtime {
         Ok(LifecycleOutcome::Completed)
     }
 
+    fn ensure_async_events(&self, context: &LifecycleContext<'_>) -> Result<(), ExcelCallError> {
+        let (canceled, ended) = {
+            let state = self.lock();
+            (
+                state.calculation_canceled_registered,
+                state.calculation_ended_registered,
+            )
+        };
+        if !canceled {
+            context.register_event(
+                "excel_api_calculation_canceled",
+                excel_api_sys::xleventCalculationCanceled,
+            )?;
+            self.lock().calculation_canceled_registered = true;
+        }
+        if !ended {
+            context.register_event(
+                "excel_api_calculation_ended",
+                excel_api_sys::xleventCalculationEnded,
+            )?;
+            self.lock().calculation_ended_registered = true;
+        }
+        Ok(())
+    }
+
     pub fn close(&self) -> Result<LifecycleOutcome, LifecycleError> {
-        let registrations = {
+        let (registrations, drain_async) = {
             let mut state = self.lock();
             state.diagnostics.close_attempts += 1;
             match state.phase {
@@ -370,7 +418,15 @@ impl Runtime {
                     state.phase = RuntimePhase::Closing;
                     let mut entries = state.command_registrations.clone();
                     entries.extend(state.worksheet_registrations.iter().copied());
-                    entries
+                    let drain_async = state.async_generation_active;
+                    state.async_generation_active = false;
+                    (entries, drain_async)
+                }
+                RuntimePhase::CleanupRequired => {
+                    state.phase = RuntimePhase::Closing;
+                    let mut entries = state.command_registrations.clone();
+                    entries.extend(state.worksheet_registrations.iter().copied());
+                    (entries, false)
                 }
                 phase => return Err(LifecycleError::Busy(phase)),
             }
@@ -378,17 +434,19 @@ impl Runtime {
 
         // Disable and drain asynchronous work before registrations or the
         // Excel callback entry point can disappear.
-        crate::async_udf::shutdown();
+        if drain_async {
+            crate::async_udf::shutdown();
+        }
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);
         let mut failed = Vec::new();
         let mut errors = Vec::new();
         for RegisteredEntry { id, name, kind } in registrations.iter().rev().copied() {
-            let result = context
-                .delete_defined_name(name)
-                .and_then(|()| context.unregister(id));
-            if let Err(error) = result {
+            if let Err(error) = context.delete_defined_name(name) {
+                errors.push(error);
+            }
+            if let Err(error) = context.unregister(id) {
                 failed.push(RegisteredEntry { id, name, kind });
                 errors.push(error);
             }
@@ -405,7 +463,7 @@ impl Runtime {
             Ok(LifecycleOutcome::Completed)
         } else {
             failed.reverse();
-            state.phase = RuntimePhase::Initialized;
+            state.phase = RuntimePhase::CleanupRequired;
             state.worksheet_registrations = failed
                 .iter()
                 .copied()
@@ -452,7 +510,12 @@ mod tests {
         allocations: HashMap<usize, Box<[u16]>>,
         next_id: f64,
         fail_registration: Option<usize>,
+        fail_unregistration: usize,
+        fail_event: Option<usize>,
         register_count: usize,
+        event_count: usize,
+        event_ids: Vec<i32>,
+        unregister_linked: Vec<bool>,
         free_calls: usize,
     }
 
@@ -526,6 +589,12 @@ mod tests {
                     };
                 }
             } else if function == excel_api_sys::xlfUnregister {
+                let linked = state.linked;
+                state.unregister_linked.push(linked);
+                if state.fail_unregistration > 0 {
+                    state.fail_unregistration -= 1;
+                    return excel_api_sys::xlretFailed;
+                }
                 // SAFETY: unregister supplies one number root.
                 let id = unsafe { (**arguments).val.num };
                 state.unregistered.push(id);
@@ -542,6 +611,23 @@ mod tests {
                     *result = XLOPER12 {
                         val: XLOPER12Value { xbool: 1 },
                         xltype: excel_api_sys::xltypeBool,
+                    };
+                }
+            } else if function == excel_api_sys::xlEventRegister {
+                state.event_count += 1;
+                if state.fail_event == Some(state.event_count) {
+                    return excel_api_sys::xlretFailed;
+                }
+                // SAFETY: event registration supplies a string followed by an integer.
+                let event = unsafe { (**arguments.add(1)).val.w };
+                state.event_ids.push(event);
+                // SAFETY: the runtime supplies a live result root.
+                unsafe {
+                    *result = XLOPER12 {
+                        val: XLOPER12Value {
+                            w: state.event_count as i32,
+                        },
+                        xltype: excel_api_sys::xltypeInt,
                     };
                 }
             } else if function == excel_api_sys::xlFree {
@@ -584,6 +670,37 @@ mod tests {
     ];
     static ADD_IN: AddInDescriptor = AddInDescriptor::new("test", "test", FUNCTIONS);
 
+    const ASYNC_ARGS: &[ExcelArgumentType] =
+        &[ExcelArgumentType::Number, ExcelArgumentType::AsyncHandle];
+    static ASYNC_FUNCTIONS: &[FunctionRegistration] = &[FunctionRegistration::new(
+        "async_one",
+        "ASYNC.ONE",
+        FunctionSignature::new(ExcelReturnType::AsyncVoid, ASYNC_ARGS),
+    )
+    .arguments(&["value"], &["Value"])
+    .flags(FunctionFlags {
+        volatile: false,
+        thread_safe: true,
+        macro_type: false,
+        cluster_safe: false,
+    })];
+    static ASYNC_ADD_IN: AddInDescriptor =
+        AddInDescriptor::new("async test", "async test", ASYNC_FUNCTIONS);
+
+    fn install_test_executor() {
+        crate::async_udf::reset_generations_for_test();
+        let executor = crate::ThreadPoolExecutor::new(1, 4).unwrap();
+        assert!(crate::install_async_executor(Arc::new(executor), 4).is_ok());
+    }
+
+    fn async_test_guard() -> std::sync::MutexGuard<'static, ()> {
+        static GUARD: OnceLock<Mutex<()>> = OnceLock::new();
+        GUARD
+            .get_or_init(|| Mutex::new(()))
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+    }
+
     #[test]
     fn duplicate_sequences_register_once_and_close_is_idempotent() {
         let backend = Arc::new(MockBackend::default());
@@ -599,6 +716,8 @@ mod tests {
         let state = backend.state.lock().unwrap();
         assert_eq!(state.type_texts, ["Q", "Q$"]);
         assert_eq!(state.unregistered, [2.0, 1.0]);
+        assert_eq!(state.unregister_linked, [true, true]);
+        assert!(!state.linked);
         assert!(state.allocations.is_empty());
         assert_eq!(state.free_calls, 7); // xlGetName, registrations, name deletion, unregisters.
     }
@@ -627,5 +746,114 @@ mod tests {
             Err(LifecycleError::Excel(ExcelCallError::BackendUnavailable))
         );
         assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+    }
+
+    #[test]
+    fn async_events_register_once_across_close_and_reopen() {
+        let _guard = async_test_guard();
+        install_test_executor();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        let executor = crate::ThreadPoolExecutor::new(1, 4).unwrap();
+        assert!(crate::install_async_executor(Arc::new(executor), 4).is_ok());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        let state = backend.state.lock().unwrap();
+        assert_eq!(state.event_count, 2);
+        assert_eq!(
+            state.event_ids,
+            [
+                excel_api_sys::xleventCalculationCanceled,
+                excel_api_sys::xleventCalculationEnded,
+            ]
+        );
+        crate::async_udf::reset_generations_for_test();
+    }
+
+    #[test]
+    fn failed_second_event_registration_retries_only_missing_event() {
+        let _guard = async_test_guard();
+        install_test_executor();
+        let backend = Arc::new(MockBackend::default());
+        backend.state.lock().unwrap().fail_event = Some(2);
+        let runtime = Runtime::with_backend(backend.clone());
+        assert!(matches!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Err(LifecycleError::Excel(_))
+        ));
+        assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+        backend.state.lock().unwrap().fail_event = None;
+        let executor = crate::ThreadPoolExecutor::new(1, 4).unwrap();
+        assert!(crate::install_async_executor(Arc::new(executor), 4).is_ok());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(backend.state.lock().unwrap().event_count, 3);
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        crate::async_udf::reset_generations_for_test();
+    }
+
+    #[test]
+    fn close_failure_is_cleanup_required_and_retry_can_reopen() {
+        let _guard = async_test_guard();
+        install_test_executor();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        backend.state.lock().unwrap().fail_unregistration = 1;
+        assert!(matches!(
+            runtime.close(),
+            Err(LifecycleError::CloseFailed { .. })
+        ));
+        assert_eq!(runtime.phase(), RuntimePhase::CleanupRequired);
+        assert!(matches!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Err(LifecycleError::Busy(RuntimePhase::CleanupRequired))
+        ));
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+        let executor = crate::ThreadPoolExecutor::new(1, 4).unwrap();
+        assert!(crate::install_async_executor(Arc::new(executor), 4).is_ok());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        crate::async_udf::reset_generations_for_test();
+    }
+
+    #[test]
+    fn initialization_failure_after_events_shuts_generation_and_reuses_events() {
+        let _guard = async_test_guard();
+        install_test_executor();
+        let backend = Arc::new(MockBackend::failing_registration(1));
+        let runtime = Runtime::with_backend(backend.clone());
+        assert!(matches!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Err(LifecycleError::RegistrationRollback { .. })
+        ));
+        assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+        backend.state.lock().unwrap().fail_registration = None;
+        let executor = crate::ThreadPoolExecutor::new(1, 4).unwrap();
+        assert!(crate::install_async_executor(Arc::new(executor), 4).is_ok());
+        assert_eq!(
+            runtime.initialize(&ASYNC_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(backend.state.lock().unwrap().event_count, 2);
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        crate::async_udf::reset_generations_for_test();
     }
 }
