@@ -48,6 +48,72 @@ static CALLBACK_COOKIES: AtomicU32 = AtomicU32::new(0);
 static NOTIFICATION_CALLS: AtomicU32 = AtomicU32::new(0);
 static NEXT_GENERATION: AtomicU64 = AtomicU64::new(1);
 
+fn resource_counters() -> diagnostics::ResourceCounters {
+    diagnostics::ResourceCounters {
+        objects: ACTIVE_OBJECTS.load(Ordering::Acquire),
+        class_locks: SERVER_LOCKS.load(Ordering::Acquire),
+        servers: ACTIVE_SERVERS.load(Ordering::Acquire),
+        producers: ACTIVE_PRODUCERS.load(Ordering::Acquire),
+        callback_cookies: CALLBACK_COOKIES.load(Ordering::Acquire),
+        notification_calls: NOTIFICATION_CALLS.load(Ordering::Acquire),
+    }
+}
+
+fn resources_allow_unload(counters: diagnostics::ResourceCounters) -> bool {
+    counters == diagnostics::ResourceCounters::default()
+}
+
+#[cfg(test)]
+mod resource_counter_tests {
+    use super::{diagnostics::ResourceCounters, resources_allow_unload};
+
+    #[test]
+    fn unload_requires_every_resource_counter_to_be_zero() {
+        assert!(resources_allow_unload(ResourceCounters::default()));
+
+        for counters in [
+            ResourceCounters {
+                objects: 1,
+                ..Default::default()
+            },
+            ResourceCounters {
+                class_locks: 1,
+                ..Default::default()
+            },
+            ResourceCounters {
+                servers: 1,
+                ..Default::default()
+            },
+            ResourceCounters {
+                producers: 1,
+                ..Default::default()
+            },
+            ResourceCounters {
+                callback_cookies: 1,
+                ..Default::default()
+            },
+            ResourceCounters {
+                notification_calls: 1,
+                ..Default::default()
+            },
+        ] {
+            assert!(!resources_allow_unload(counters));
+        }
+    }
+}
+
+fn record(method: &str, phase: ServerPhase, result: i32, detail: &str) {
+    diagnostics::record(method, phase, result, resource_counters(), detail);
+}
+
+fn guid_detail(label: &str, guid: *const GUID) -> String {
+    if guid.is_null() {
+        format!("{label}:null")
+    } else {
+        format!("{label}:{:032x}", unsafe { (*guid).to_u128() })
+    }
+}
+
 struct Shared {
     model: Mutex<ServerModel>,
     wake: Condvar,
@@ -74,13 +140,30 @@ struct FactoryObject {
     refs: AtomicU32,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum CallbackRegistration {
+    NoCallback,
+    Registered(u32),
+    Revoking(u32),
+    RevocationFailed(u32),
+    Revoked,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ProducerExit {
+    CompletedFiniteTicks,
+    StoppedNormally,
+    Failed(HRESULT),
+    Panicked,
+}
+
 #[repr(C)]
 struct RtdObject {
     vtable: *const IRtdServer_Vtbl,
     refs: AtomicU32,
     shared: Arc<Shared>,
-    producer: Mutex<Option<JoinHandle<()>>>,
-    callback_cookie: AtomicU32,
+    producer: Mutex<Option<JoinHandle<ProducerExit>>>,
+    callback: Mutex<CallbackRegistration>,
     active_started: AtomicBool,
 }
 
@@ -92,13 +175,65 @@ impl RtdObject {
             refs: AtomicU32::new(1),
             shared: Arc::new(Shared::new()),
             producer: Mutex::new(None),
-            callback_cookie: AtomicU32::new(0),
+            callback: Mutex::new(CallbackRegistration::NoCallback),
             active_started: AtomicBool::new(false),
         })
     }
 
     fn phase(&self) -> ServerPhase {
         self.shared.lock().phase()
+    }
+
+    fn install_callback(&self, cookie: u32) {
+        *self
+            .callback
+            .lock()
+            .unwrap_or_else(|error| error.into_inner()) = CallbackRegistration::Registered(cookie);
+        CALLBACK_COOKIES.fetch_add(1, Ordering::AcqRel);
+    }
+
+    fn revoke_callback_with(
+        &self,
+        revoke: impl FnOnce(u32) -> Result<(), HRESULT>,
+    ) -> Result<bool, HRESULT> {
+        let cookie = {
+            let mut callback = self
+                .callback
+                .lock()
+                .unwrap_or_else(|error| error.into_inner());
+            match *callback {
+                CallbackRegistration::Registered(cookie)
+                | CallbackRegistration::RevocationFailed(cookie) => {
+                    *callback = CallbackRegistration::Revoking(cookie);
+                    cookie
+                }
+                CallbackRegistration::NoCallback | CallbackRegistration::Revoked => {
+                    return Ok(false);
+                }
+                CallbackRegistration::Revoking(_) => return Err(E_UNEXPECTED),
+            }
+        };
+        let result = revoke(cookie);
+        let mut callback = self
+            .callback
+            .lock()
+            .unwrap_or_else(|error| error.into_inner());
+        match result {
+            Ok(()) => {
+                *callback = CallbackRegistration::Revoked;
+                CALLBACK_COOKIES.fetch_sub(1, Ordering::AcqRel);
+                self.shared.lock().finish_callback_revocation();
+                Ok(true)
+            }
+            Err(code) => {
+                *callback = CallbackRegistration::RevocationFailed(cookie);
+                Err(code)
+            }
+        }
+    }
+
+    fn revoke_callback(&self) -> Result<bool, HRESULT> {
+        self.revoke_callback_with(revoke_callback)
     }
 
     fn start(&self, callback: *mut c_void) -> HRESULT {
@@ -119,8 +254,7 @@ impl RtdObject {
                 return code;
             }
         };
-        self.callback_cookie.store(cookie, Ordering::Release);
-        CALLBACK_COOKIES.fetch_add(1, Ordering::AcqRel);
+        self.install_callback(cookie);
 
         let (ready_tx, ready_rx) = std::sync::mpsc::sync_channel(1);
         let shared = Arc::clone(&self.shared);
@@ -130,13 +264,15 @@ impl RtdObject {
         let handle = match spawn {
             Ok(handle) => handle,
             Err(_) => {
-                let revoke = revoke_callback(cookie);
-                self.callback_cookie.store(0, Ordering::Release);
+                let revoke = self.revoke_callback();
                 if revoke.is_ok() {
-                    CALLBACK_COOKIES.fetch_sub(1, Ordering::AcqRel);
+                    self.shared.lock().rollback_start();
+                } else {
+                    let mut model = self.shared.lock();
+                    model.begin_stop();
+                    model.finish_stop(false);
                 }
-                self.shared.lock().rollback_start();
-                return revoke.map_or_else(|code| code, |()| E_OUTOFMEMORY);
+                return revoke.map_or_else(|code| code, |_| E_OUTOFMEMORY);
             }
         };
         let ready = ready_rx.recv_timeout(Duration::from_secs(5));
@@ -146,15 +282,11 @@ impl RtdObject {
                 model.begin_stop();
             }
             self.shared.wake.notify_all();
-            let _ = handle.join();
-            let revoke = revoke_callback(cookie);
-            self.callback_cookie.store(0, Ordering::Release);
-            if revoke.is_ok() {
-                CALLBACK_COOKIES.fetch_sub(1, Ordering::AcqRel);
-            }
+            let join = join_producer(handle);
+            let revoke = self.revoke_callback();
             let mut model = self.shared.lock();
-            model.rollback_failed_start();
-            return E_FAIL;
+            model.rollback_failed_start(revoke.is_ok());
+            return revoke.map_or_else(|code| code, |_| join.err().unwrap_or(E_FAIL));
         }
         *self
             .producer
@@ -166,40 +298,41 @@ impl RtdObject {
     }
 
     fn terminate(&self) -> HRESULT {
-        let should_stop = self.shared.lock().begin_stop();
-        if !should_stop {
-            return S_OK;
+        self.terminate_with(revoke_callback)
+    }
+
+    fn terminate_with(&self, revoke: impl Fn(u32) -> Result<(), HRESULT> + Copy) -> HRESULT {
+        match self.phase() {
+            ServerPhase::CallbackRevocationPending => {
+                return self
+                    .revoke_callback_with(revoke)
+                    .map_or_else(|code| code, |_| S_OK);
+            }
+            ServerPhase::Terminated => return S_OK,
+            ServerPhase::Stopping => return E_UNEXPECTED,
+            ServerPhase::Created | ServerPhase::Started | ServerPhase::Active => {}
         }
+        self.shared.lock().begin_stop();
         self.shared.wake.notify_all();
         let handle = self
             .producer
             .lock()
             .unwrap_or_else(|error| error.into_inner())
             .take();
-        if let Some(handle) = handle {
-            let _ = handle.join();
-        }
-
-        let cookie = self.callback_cookie.swap(0, Ordering::AcqRel);
-        let revoke = if cookie == 0 {
-            Ok(())
-        } else {
-            revoke_callback(cookie)
-        };
-        if cookie != 0 && revoke.is_ok() {
-            CALLBACK_COOKIES.fetch_sub(1, Ordering::AcqRel);
-        }
-        self.shared.lock().finish_stop();
+        let join = handle.map_or(Ok(ProducerExit::StoppedNormally), join_producer);
+        let revoke = self.revoke_callback_with(revoke);
+        self.shared.lock().finish_stop(revoke.is_ok());
         if self.active_started.swap(false, Ordering::AcqRel) {
             ACTIVE_SERVERS.fetch_sub(1, Ordering::AcqRel);
         }
-        revoke.map_or_else(|code| code, |()| S_OK)
+        revoke.map_or_else(|code| code, |_| join.map_or_else(|code| code, |_| S_OK))
     }
 }
 
 impl Drop for RtdObject {
     fn drop(&mut self) {
         let _ = self.terminate();
+        let _ = self.revoke_callback();
         ACTIVE_OBJECTS.fetch_sub(1, Ordering::AcqRel);
     }
 }
@@ -254,40 +387,115 @@ impl NotificationSink for IRtdUpdateEvent {
     }
 }
 
-fn publish_and_notify(shared: &Shared, callback: &impl NotificationSink) -> bool {
+fn publish_and_notify(shared: &Shared, callback: &impl NotificationSink) -> Result<bool, HRESULT> {
     let mut model = shared.lock();
     let notify = model.publish_counter_tick();
     let phase = model.phase();
     drop(model);
     if !notify {
-        return false;
+        return Ok(false);
     }
-    NOTIFICATION_CALLS.fetch_add(1, Ordering::AcqRel);
-    diagnostics::record("UpdateNotify_begin", phase, 0);
+    let notification = NotificationCallGuard::begin(phase);
     let result = callback.update_notify();
-    NOTIFICATION_CALLS.fetch_sub(1, Ordering::AcqRel);
     let code = result.as_ref().map_or_else(|error| error.0, |()| 0);
-    diagnostics::record("UpdateNotify_end", phase, code);
-    if result.is_err() {
-        shared.lock().notification_failed();
+    notification.finish(code);
+    match result {
+        Ok(()) => Ok(true),
+        Err(code) => {
+            shared.lock().notification_failed();
+            Err(code)
+        }
     }
-    true
+}
+
+struct NotificationCallGuard {
+    phase: ServerPhase,
+    result: i32,
+}
+
+impl NotificationCallGuard {
+    fn begin(phase: ServerPhase) -> Self {
+        NOTIFICATION_CALLS.fetch_add(1, Ordering::AcqRel);
+        record("UpdateNotify_begin", phase, 0, "callback");
+        Self {
+            phase,
+            result: E_UNEXPECTED.0,
+        }
+    }
+
+    fn finish(mut self, result: i32) {
+        self.result = result;
+    }
+}
+
+impl Drop for NotificationCallGuard {
+    fn drop(&mut self) {
+        NOTIFICATION_CALLS.fetch_sub(1, Ordering::AcqRel);
+        record("UpdateNotify_end", self.phase, self.result, "callback");
+    }
+}
+
+struct ProducerLifetime {
+    shared: Arc<Shared>,
+    outcome: ProducerExit,
+}
+
+impl ProducerLifetime {
+    fn begin(shared: Arc<Shared>) -> Self {
+        ACTIVE_PRODUCERS.fetch_add(1, Ordering::AcqRel);
+        record("ProducerStarted", shared.lock().phase(), 0, "worker");
+        Self {
+            shared,
+            outcome: ProducerExit::Panicked,
+        }
+    }
+
+    fn finish(mut self, outcome: ProducerExit) -> ProducerExit {
+        self.outcome = outcome;
+        outcome
+    }
+}
+
+impl Drop for ProducerLifetime {
+    fn drop(&mut self) {
+        let (method, result) = match self.outcome {
+            ProducerExit::CompletedFiniteTicks => ("ProducerCompleted", 0),
+            ProducerExit::StoppedNormally => ("ProducerStopped", 0),
+            ProducerExit::Failed(code) => ("ProducerFailed", code.0),
+            ProducerExit::Panicked => ("ProducerPanicked", E_UNEXPECTED.0),
+        };
+        ACTIVE_PRODUCERS.fetch_sub(1, Ordering::AcqRel);
+        record(method, self.shared.lock().phase(), result, "worker");
+    }
+}
+
+fn run_producer_guarded(
+    shared: Arc<Shared>,
+    body: impl FnOnce() -> Result<ProducerExit, HRESULT>,
+) -> ProducerExit {
+    let lifetime = ProducerLifetime::begin(shared);
+    let outcome = match catch_unwind(AssertUnwindSafe(body)) {
+        Ok(Ok(outcome)) => outcome,
+        Ok(Err(code)) => ProducerExit::Failed(code),
+        Err(_) => ProducerExit::Panicked,
+    };
+    lifetime.finish(outcome)
 }
 
 fn producer_main(
     shared: Arc<Shared>,
     cookie: u32,
     ready: std::sync::mpsc::SyncSender<Result<(), HRESULT>>,
-) {
-    ACTIVE_PRODUCERS.fetch_add(1, Ordering::AcqRel);
-    let run = || -> Result<(), HRESULT> {
+) -> ProducerExit {
+    let ready_from_body = ready.clone();
+    let outcome = run_producer_guarded(Arc::clone(&shared), || {
         let _apartment = ComApartment::initialize_mta()?;
         let git = create_git()?;
         let mut raw = null_mut();
         unsafe { git.GetInterfaceFromGlobal(cookie, &super::abi::IID_IRTD_UPDATE_EVENT, &mut raw) }
             .map_err(|error| error.code())?;
         let callback = unsafe { IRtdUpdateEvent::from_raw(raw) };
-        let _ = ready.send(Ok(()));
+        let _ = ready_from_body.send(Ok(()));
         for _ in 0..PRODUCER_TICKS {
             let guard = shared.lock();
             let (guard, _) = shared
@@ -296,20 +504,42 @@ fn producer_main(
                 .unwrap_or_else(|error| error.into_inner());
             if matches!(
                 guard.phase(),
-                ServerPhase::Stopping | ServerPhase::Terminated
+                ServerPhase::Stopping
+                    | ServerPhase::CallbackRevocationPending
+                    | ServerPhase::Terminated
             ) {
-                break;
+                return Ok(ProducerExit::StoppedNormally);
             }
             drop(guard);
-            publish_and_notify(&shared, &callback);
+            publish_and_notify(&shared, &callback)?;
         }
-        Ok(())
-    };
-    let result = run();
-    if result.is_err() {
-        let _ = ready.send(result);
+        Ok(ProducerExit::CompletedFiniteTicks)
+    });
+    match outcome {
+        ProducerExit::Failed(code) => {
+            let _ = ready.send(Err(code));
+        }
+        ProducerExit::Panicked => {
+            let _ = ready.send(Err(E_UNEXPECTED));
+        }
+        ProducerExit::CompletedFiniteTicks | ProducerExit::StoppedNormally => {}
     }
-    ACTIVE_PRODUCERS.fetch_sub(1, Ordering::AcqRel);
+    outcome
+}
+
+fn join_producer(handle: JoinHandle<ProducerExit>) -> Result<ProducerExit, HRESULT> {
+    match handle.join() {
+        Ok(outcome) => Ok(outcome),
+        Err(_) => {
+            record(
+                "ProducerJoinPanicked",
+                ServerPhase::Stopping,
+                E_UNEXPECTED.0,
+                "join",
+            );
+            Err(E_UNEXPECTED)
+        }
+    }
 }
 
 struct RefreshGuard<'a> {
@@ -387,10 +617,16 @@ unsafe extern "system" fn factory_query_interface(
     iid: *const GUID,
     output: *mut *mut c_void,
 ) -> HRESULT {
+    record(
+        "FactoryQueryInterface_enter",
+        ServerPhase::Created,
+        0,
+        &guid_detail("iid", iid),
+    );
     if !output.is_null() {
         unsafe { output.write(null_mut()) };
     }
-    catch_hresult(|| {
+    let code = catch_hresult(|| {
         if this.is_null() || iid.is_null() || output.is_null() {
             return E_POINTER;
         }
@@ -402,10 +638,18 @@ unsafe extern "system" fn factory_query_interface(
         add_reference(&object.refs);
         unsafe { output.write(this) };
         S_OK
-    })
+    });
+    record(
+        "FactoryQueryInterface_exit",
+        ServerPhase::Created,
+        code.0,
+        &guid_detail("iid", iid),
+    );
+    code
 }
 
 unsafe extern "system" fn factory_add_ref(this: *mut c_void) -> u32 {
+    record("FactoryAddRef_enter", ServerPhase::Created, 0, "IUnknown");
     catch_unwind(AssertUnwindSafe(|| {
         if this.is_null() {
             0
@@ -417,6 +661,7 @@ unsafe extern "system" fn factory_add_ref(this: *mut c_void) -> u32 {
 }
 
 unsafe extern "system" fn factory_release(this: *mut c_void) -> u32 {
+    record("FactoryRelease_enter", ServerPhase::Created, 0, "IUnknown");
     catch_unwind(AssertUnwindSafe(|| {
         if this.is_null() {
             return 0;
@@ -441,10 +686,16 @@ unsafe extern "system" fn factory_create_instance(
     iid: *const GUID,
     output: *mut *mut c_void,
 ) -> HRESULT {
+    record(
+        "CreateInstance_enter",
+        ServerPhase::Created,
+        0,
+        &guid_detail("iid", iid),
+    );
     if !output.is_null() {
         unsafe { output.write(null_mut()) };
     }
-    catch_hresult(|| {
+    let code = catch_hresult(|| {
         if iid.is_null() || output.is_null() {
             return E_POINTER;
         }
@@ -455,10 +706,18 @@ unsafe extern "system" fn factory_create_instance(
         let result = unsafe { rtd_query_interface(raw, iid, output) };
         unsafe { rtd_release(raw) };
         result
-    })
+    });
+    record(
+        "CreateInstance_exit",
+        ServerPhase::Created,
+        code.0,
+        &guid_detail("iid", iid),
+    );
+    code
 }
 
 unsafe extern "system" fn factory_lock_server(this: *mut c_void, lock: BOOL) -> HRESULT {
+    record("LockServer_enter", ServerPhase::Created, 0, "IClassFactory");
     if this.is_null() {
         return E_POINTER;
     }
@@ -482,10 +741,16 @@ unsafe extern "system" fn rtd_query_interface(
     iid: *const GUID,
     output: *mut *mut c_void,
 ) -> HRESULT {
+    record(
+        "RtdQueryInterface_enter",
+        ServerPhase::Created,
+        0,
+        &guid_detail("iid", iid),
+    );
     if !output.is_null() {
         unsafe { output.write(null_mut()) };
     }
-    catch_hresult(|| {
+    let code = catch_hresult(|| {
         if this.is_null() || iid.is_null() || output.is_null() {
             return E_POINTER;
         }
@@ -497,10 +762,18 @@ unsafe extern "system" fn rtd_query_interface(
         add_reference(&object.refs);
         unsafe { output.write(this) };
         S_OK
-    })
+    });
+    record(
+        "RtdQueryInterface_exit",
+        ServerPhase::Created,
+        code.0,
+        &guid_detail("iid", iid),
+    );
+    code
 }
 
 unsafe extern "system" fn rtd_add_ref(this: *mut c_void) -> u32 {
+    record("RtdAddRef_enter", ServerPhase::Created, 0, "IUnknown");
     catch_unwind(AssertUnwindSafe(|| {
         if this.is_null() {
             0
@@ -512,6 +785,7 @@ unsafe extern "system" fn rtd_add_ref(this: *mut c_void) -> u32 {
 }
 
 unsafe extern "system" fn rtd_release(this: *mut c_void) -> u32 {
+    record("RtdRelease_enter", ServerPhase::Created, 0, "IUnknown");
     catch_unwind(AssertUnwindSafe(|| {
         if this.is_null() {
             return 0;
@@ -533,12 +807,25 @@ unsafe extern "system" fn dispatch_get_type_info_count(
     _this: *mut c_void,
     count: *mut u32,
 ) -> HRESULT {
-    if count.is_null() {
+    record(
+        "GetTypeInfoCount_enter",
+        ServerPhase::Created,
+        0,
+        "IDispatch",
+    );
+    let code = if count.is_null() {
         E_POINTER
     } else {
         unsafe { count.write(1) };
         S_OK
-    }
+    };
+    record(
+        "GetTypeInfoCount_exit",
+        ServerPhase::Created,
+        code.0,
+        "IDispatch",
+    );
+    code
 }
 
 unsafe extern "system" fn dispatch_get_type_info(
@@ -547,10 +834,11 @@ unsafe extern "system" fn dispatch_get_type_info(
     _lcid: u32,
     output: *mut *mut c_void,
 ) -> HRESULT {
+    record("GetTypeInfo_enter", ServerPhase::Created, 0, "IDispatch");
     if !output.is_null() {
         unsafe { output.write(null_mut()) };
     }
-    catch_hresult(|| {
+    let code = catch_hresult(|| {
         if output.is_null() {
             return E_POINTER;
         }
@@ -564,7 +852,14 @@ unsafe extern "system" fn dispatch_get_type_info(
             }
             Err(code) => code,
         }
-    })
+    });
+    record(
+        "GetTypeInfo_exit",
+        ServerPhase::Created,
+        code.0,
+        "IDispatch",
+    );
+    code
 }
 
 unsafe extern "system" fn dispatch_get_ids_of_names(
@@ -575,7 +870,8 @@ unsafe extern "system" fn dispatch_get_ids_of_names(
     _lcid: u32,
     dispids: *mut i32,
 ) -> HRESULT {
-    catch_hresult(|| {
+    record("GetIDsOfNames_enter", ServerPhase::Created, 0, "IDispatch");
+    let code = catch_hresult(|| {
         if iid.is_null() || names.is_null() || dispids.is_null() {
             return E_POINTER;
         }
@@ -587,7 +883,14 @@ unsafe extern "system" fn dispatch_get_ids_of_names(
                 .map_or_else(|error| error.code(), |()| S_OK),
             Err(code) => code,
         }
-    })
+    });
+    record(
+        "GetIDsOfNames_exit",
+        ServerPhase::Created,
+        code.0,
+        "IDispatch",
+    );
+    code
 }
 
 unsafe extern "system" fn dispatch_invoke(
@@ -601,7 +904,8 @@ unsafe extern "system" fn dispatch_invoke(
     exception: *mut EXCEPINFO,
     arg_error: *mut u32,
 ) -> HRESULT {
-    catch_hresult(|| {
+    record("Invoke_enter", ServerPhase::Created, 0, "IDispatch");
+    let code = catch_hresult(|| {
         if this.is_null() || iid.is_null() || params.is_null() {
             return E_POINTER;
         }
@@ -624,7 +928,9 @@ unsafe extern "system" fn dispatch_invoke(
             .map_or_else(|error| error.code(), |()| S_OK),
             Err(code) => code,
         }
-    })
+    });
+    record("Invoke_exit", ServerPhase::Created, code.0, "IDispatch");
+    code
 }
 
 unsafe extern "system" fn rtd_server_start(
@@ -632,6 +938,7 @@ unsafe extern "system" fn rtd_server_start(
     callback: *mut c_void,
     result: *mut i32,
 ) -> HRESULT {
+    record("ServerStart_enter", ServerPhase::Created, 0, "IRtdServer");
     if !result.is_null() {
         unsafe { result.write(0) };
     }
@@ -648,7 +955,7 @@ unsafe extern "system" fn rtd_server_start(
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("ServerStart", object.phase(), code.0);
+        record("ServerStart_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
@@ -660,6 +967,7 @@ unsafe extern "system" fn rtd_connect_data(
     get_new_values: *mut VARIANT_BOOL,
     output: *mut VARIANT,
 ) -> HRESULT {
+    record("ConnectData_enter", ServerPhase::Created, 0, "IRtdServer");
     if !get_new_values.is_null() {
         unsafe { get_new_values.write(VARIANT_BOOL(0)) };
     }
@@ -689,7 +997,7 @@ unsafe extern "system" fn rtd_connect_data(
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("ConnectData", object.phase(), code.0);
+        record("ConnectData_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
@@ -699,6 +1007,7 @@ unsafe extern "system" fn rtd_refresh_data(
     topic_count: *mut i32,
     output: *mut *mut SAFEARRAY,
 ) -> HRESULT {
+    record("RefreshData_enter", ServerPhase::Created, 0, "IRtdServer");
     if !topic_count.is_null() {
         unsafe { topic_count.write(0) };
     }
@@ -731,12 +1040,18 @@ unsafe extern "system" fn rtd_refresh_data(
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("RefreshData", object.phase(), code.0);
+        record("RefreshData_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
 
 unsafe extern "system" fn rtd_disconnect_data(this: *mut c_void, topic_id: i32) -> HRESULT {
+    record(
+        "DisconnectData_enter",
+        ServerPhase::Created,
+        0,
+        "IRtdServer",
+    );
     let code = catch_hresult(|| {
         if this.is_null() {
             return E_POINTER;
@@ -750,12 +1065,13 @@ unsafe extern "system" fn rtd_disconnect_data(this: *mut c_void, topic_id: i32) 
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("DisconnectData", object.phase(), code.0);
+        record("DisconnectData_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
 
 unsafe extern "system" fn rtd_heartbeat(this: *mut c_void, result: *mut i32) -> HRESULT {
+    record("Heartbeat_enter", ServerPhase::Created, 0, "IRtdServer");
     if !result.is_null() {
         unsafe { result.write(0) };
     }
@@ -769,12 +1085,18 @@ unsafe extern "system" fn rtd_heartbeat(this: *mut c_void, result: *mut i32) -> 
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("Heartbeat", object.phase(), code.0);
+        record("Heartbeat_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
 
 unsafe extern "system" fn rtd_server_terminate(this: *mut c_void) -> HRESULT {
+    record(
+        "ServerTerminate_enter",
+        ServerPhase::Created,
+        0,
+        "IRtdServer",
+    );
     let code = catch_hresult(|| {
         if this.is_null() {
             E_POINTER
@@ -784,7 +1106,7 @@ unsafe extern "system" fn rtd_server_terminate(this: *mut c_void) -> HRESULT {
     });
     if !this.is_null() {
         let object = unsafe { &*(this.cast::<RtdObject>()) };
-        diagnostics::record("ServerTerminate", object.phase(), code.0);
+        record("ServerTerminate_exit", object.phase(), code.0, "IRtdServer");
     }
     code
 }
@@ -825,10 +1147,16 @@ pub unsafe extern "system" fn DllGetClassObject(
     iid: *const GUID,
     output: *mut *mut c_void,
 ) -> HRESULT {
+    let detail = format!(
+        "{} {}",
+        guid_detail("clsid", clsid),
+        guid_detail("iid", iid)
+    );
+    record("DllGetClassObject_enter", ServerPhase::Created, 0, &detail);
     if !output.is_null() {
         unsafe { output.write(null_mut()) };
     }
-    catch_hresult(|| {
+    let code = catch_hresult(|| {
         if clsid.is_null() || iid.is_null() || output.is_null() {
             return E_POINTER;
         }
@@ -844,23 +1172,44 @@ pub unsafe extern "system" fn DllGetClassObject(
         let result = unsafe { factory_query_interface(raw, iid, output) };
         unsafe { factory_release(raw) };
         result
-    })
+    });
+    record(
+        "DllGetClassObject_exit",
+        ServerPhase::Created,
+        code.0,
+        &detail,
+    );
+    code
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn DllCanUnloadNow() -> HRESULT {
-    let unloadable = ACTIVE_OBJECTS.load(Ordering::Acquire) == 0
-        && SERVER_LOCKS.load(Ordering::Acquire) == 0
-        && ACTIVE_SERVERS.load(Ordering::Acquire) == 0
-        && ACTIVE_PRODUCERS.load(Ordering::Acquire) == 0
-        && CALLBACK_COOKIES.load(Ordering::Acquire) == 0
-        && NOTIFICATION_CALLS.load(Ordering::Acquire) == 0;
-    if unloadable { S_OK } else { S_FALSE }
+    record("DllCanUnloadNow_enter", ServerPhase::Created, 0, "export");
+    let code = if resources_allow_unload(resource_counters()) {
+        S_OK
+    } else {
+        S_FALSE
+    };
+    record(
+        "DllCanUnloadNow_exit",
+        ServerPhase::Created,
+        code.0,
+        "export",
+    );
+    code
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    static GLOBAL_STATE_TEST: Mutex<()> = Mutex::new(());
+
+    fn global_state_test() -> std::sync::MutexGuard<'static, ()> {
+        GLOBAL_STATE_TEST
+            .lock()
+            .unwrap_or_else(|error| error.into_inner())
+    }
 
     struct MockNotification<'a> {
         shared: &'a Shared,
@@ -891,6 +1240,7 @@ mod tests {
 
     #[test]
     fn class_factory_identity_aggregation_and_unload_are_exact() {
+        let _guard = global_state_test();
         assert_eq!(DllCanUnloadNow(), S_OK);
         let factory = unsafe { class_factory() };
         assert_eq!(DllCanUnloadNow(), S_FALSE);
@@ -919,6 +1269,7 @@ mod tests {
 
     #[test]
     fn lock_server_controls_unload_and_underflow_is_rejected() {
+        let _guard = global_state_test();
         let factory = unsafe { class_factory() };
         assert_eq!(unsafe { factory_lock_server(factory, BOOL(1)) }, S_OK);
         assert_eq!(DllCanUnloadNow(), S_FALSE);
@@ -937,6 +1288,7 @@ mod tests {
 
     #[test]
     fn heartbeat_and_terminate_are_controlled_without_start() {
+        let _guard = global_state_test();
         let raw = Box::into_raw(RtdObject::new()).cast::<c_void>();
         let mut heartbeat = -1;
         assert_eq!(unsafe { rtd_heartbeat(raw, &mut heartbeat) }, S_OK);
@@ -949,6 +1301,7 @@ mod tests {
 
     #[test]
     fn notification_is_lock_free_retryable_and_suppressed_after_stop() {
+        let _guard = global_state_test();
         let shared = Shared::new();
         {
             let mut model = shared.lock();
@@ -962,18 +1315,97 @@ mod tests {
             calls: AtomicU32::new(0),
             fail: AtomicBool::new(true),
         };
-        assert!(publish_and_notify(&shared, &callback));
+        assert_eq!(publish_and_notify(&shared, &callback), Err(E_FAIL));
         callback.fail.store(false, Ordering::Release);
-        assert!(publish_and_notify(&shared, &callback));
+        assert_eq!(publish_and_notify(&shared, &callback), Ok(true));
         assert_eq!(callback.calls.load(Ordering::Acquire), 2);
         assert!(shared.lock().begin_stop());
-        assert!(!publish_and_notify(&shared, &callback));
+        assert_eq!(publish_and_notify(&shared, &callback), Ok(false));
         assert_eq!(callback.calls.load(Ordering::Acquire), 2);
-        shared.lock().finish_stop();
+        shared.lock().finish_stop(true);
+    }
+
+    #[test]
+    fn notification_panic_releases_committed_call_accounting() {
+        let _guard = global_state_test();
+        struct PanickingNotification;
+        impl NotificationSink for PanickingNotification {
+            fn update_notify(&self) -> Result<(), HRESULT> {
+                panic!("injected notification panic")
+            }
+        }
+        let shared = Shared::new();
+        {
+            let mut model = shared.lock();
+            model.start().unwrap();
+            model
+                .connect(1, vec!["COUNTER".encode_utf16().collect()])
+                .unwrap();
+        }
+        let before = NOTIFICATION_CALLS.load(Ordering::Acquire);
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                publish_and_notify(&shared, &PanickingNotification)
+            }))
+            .is_err()
+        );
+        assert_eq!(NOTIFICATION_CALLS.load(Ordering::Acquire), before);
+    }
+
+    #[test]
+    fn producer_panic_is_contained_and_accounting_is_released() {
+        let _guard = global_state_test();
+        let before = ACTIVE_PRODUCERS.load(Ordering::Acquire);
+        let outcome = run_producer_guarded(Arc::new(Shared::new()), || {
+            panic!("injected producer panic")
+        });
+        assert_eq!(outcome, ProducerExit::Panicked);
+        assert_eq!(ACTIVE_PRODUCERS.load(Ordering::Acquire), before);
+    }
+
+    #[test]
+    fn join_panic_becomes_controlled_internal_failure() {
+        let _guard = global_state_test();
+        let handle: JoinHandle<ProducerExit> = thread::spawn(|| panic!("injected join panic"));
+        assert_eq!(join_producer(handle), Err(E_UNEXPECTED));
+    }
+
+    #[test]
+    fn failed_git_revoke_is_retained_and_retried_once() {
+        let _guard = global_state_test();
+        let before = CALLBACK_COOKIES.load(Ordering::Acquire);
+        let object = RtdObject::new();
+        object.install_callback(77);
+        assert_eq!(CALLBACK_COOKIES.load(Ordering::Acquire), before + 1);
+        assert_eq!(object.terminate_with(|_| Err(E_FAIL)), E_FAIL);
+        assert_eq!(object.phase(), ServerPhase::CallbackRevocationPending);
+        assert_eq!(
+            *object
+                .callback
+                .lock()
+                .unwrap_or_else(|error| error.into_inner()),
+            CallbackRegistration::RevocationFailed(77)
+        );
+        assert_eq!(CALLBACK_COOKIES.load(Ordering::Acquire), before + 1);
+        assert_eq!(
+            object.terminate_with(|cookie| {
+                assert_eq!(cookie, 77);
+                Ok(())
+            }),
+            S_OK
+        );
+        assert_eq!(object.phase(), ServerPhase::Terminated);
+        assert_eq!(CALLBACK_COOKIES.load(Ordering::Acquire), before);
+        assert_eq!(
+            object.terminate_with(|_| panic!("must not revoke twice")),
+            S_OK
+        );
+        drop(object);
     }
 
     #[test]
     fn class_lookup_and_null_outputs_fail_explicitly() {
+        let _guard = global_state_test();
         let other = GUID::from_u128(1);
         let mut output = null_mut();
         assert_eq!(

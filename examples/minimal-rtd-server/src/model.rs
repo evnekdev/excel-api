@@ -9,6 +9,7 @@ pub(crate) enum ServerPhase {
     Started,
     Active,
     Stopping,
+    CallbackRevocationPending,
     Terminated,
 }
 
@@ -78,7 +79,9 @@ impl ServerModel {
                 Ok(())
             }
             ServerPhase::Started | ServerPhase::Active => Err(ModelError::AlreadyStarted),
-            ServerPhase::Stopping | ServerPhase::Terminated => Err(ModelError::InvalidState),
+            ServerPhase::Stopping
+            | ServerPhase::CallbackRevocationPending
+            | ServerPhase::Terminated => Err(ModelError::InvalidState),
         }
     }
 
@@ -90,9 +93,13 @@ impl ServerModel {
         }
     }
 
-    pub(crate) fn rollback_failed_start(&mut self) {
+    pub(crate) fn rollback_failed_start(&mut self, callback_revoked: bool) {
         if self.phase == ServerPhase::Stopping && self.topics.is_empty() {
-            self.phase = ServerPhase::Created;
+            self.phase = if callback_revoked {
+                ServerPhase::Created
+            } else {
+                ServerPhase::CallbackRevocationPending
+            };
             self.notification_pending = false;
             self.refresh_running = false;
         }
@@ -220,15 +227,27 @@ impl ServerModel {
                 self.notification_pending = false;
                 true
             }
-            ServerPhase::Stopping | ServerPhase::Terminated => false,
+            ServerPhase::Stopping
+            | ServerPhase::CallbackRevocationPending
+            | ServerPhase::Terminated => false,
         }
     }
 
-    pub(crate) fn finish_stop(&mut self) {
+    pub(crate) fn finish_stop(&mut self, callback_revoked: bool) {
         self.topics.clear();
         self.notification_pending = false;
         self.refresh_running = false;
-        self.phase = ServerPhase::Terminated;
+        self.phase = if callback_revoked {
+            ServerPhase::Terminated
+        } else {
+            ServerPhase::CallbackRevocationPending
+        };
+    }
+
+    pub(crate) fn finish_callback_revocation(&mut self) {
+        if self.phase == ServerPhase::CallbackRevocationPending {
+            self.phase = ServerPhase::Terminated;
+        }
     }
 
     pub(crate) fn heartbeat(&self) -> i32 {
@@ -277,7 +296,7 @@ mod tests {
         assert_eq!(model.phase(), ServerPhase::Started);
         assert!(model.begin_stop());
         assert_eq!(model.heartbeat(), 0);
-        model.finish_stop();
+        model.finish_stop(true);
         assert_eq!(model.phase(), ServerPhase::Terminated);
         assert!(!model.begin_stop());
     }
@@ -354,7 +373,7 @@ mod tests {
         model.connect(1, counter()).unwrap();
         model.begin_stop();
         assert!(!model.publish_counter_tick());
-        model.finish_stop();
+        model.finish_stop(true);
         assert_eq!(model.topic_count(), 0);
         assert_eq!(model.connect(2, counter()), Err(ModelError::InvalidState));
     }
@@ -376,8 +395,21 @@ mod tests {
         let mut model = ServerModel::new(1);
         model.start().unwrap();
         assert!(model.begin_stop());
-        model.rollback_failed_start();
+        model.rollback_failed_start(true);
         assert_eq!(model.phase(), ServerPhase::Created);
         assert_eq!(model.heartbeat(), 0);
+    }
+
+    #[test]
+    fn unresolved_callback_revocation_blocks_termination_state() {
+        let mut model = ServerModel::new(1);
+        model.start().unwrap();
+        assert!(model.begin_stop());
+        model.finish_stop(false);
+        assert_eq!(model.phase(), ServerPhase::CallbackRevocationPending);
+        assert_eq!(model.heartbeat(), 0);
+        assert_eq!(model.connect(1, counter()), Err(ModelError::InvalidState));
+        model.finish_callback_revocation();
+        assert_eq!(model.phase(), ServerPhase::Terminated);
     }
 }
