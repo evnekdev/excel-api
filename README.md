@@ -37,6 +37,12 @@ notification remains open. The isolated `xlcOnTime` research decision remains
 inconclusive and is not used by the production dispatcher. Automated coverage
 passes, while live pump validation remains blocked by the current host's plain
 workbook-creation failure.
+M18 establishes that supported RTD streaming is a separate COM `IRtdServer`
+subsystem, not an Excel C API feature or a verified M17 callback capability.
+The future compatibility prototype targets a separate Windows in-process COM
+DLL so the default core crates and XLL keep their existing dependencies and
+unload model. Prototype and production approval remain blocked on a working
+Excel workbook host and the recorded activation/threading/lifecycle matrix.
 
 Build the loadable artifact with:
 
@@ -62,6 +68,8 @@ pwsh -File scripts/build-minimal-xll.ps1 -Profile release
 - [Testing architecture](TESTING_ARCHITECTURE.md)
 - [Asynchronous UDF architecture](ASYNC_ARCHITECTURE.md)
 - [Main-thread dispatch architecture](MAIN_THREAD_DISPATCH_ARCHITECTURE.md)
+- [RTD streaming architecture](RTD_STREAMING_ARCHITECTURE.md)
+- [COM architecture boundary](COM_ARCHITECTURE.md)
 - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)
 - [Codex development prompts](prompts-dev/README.md)

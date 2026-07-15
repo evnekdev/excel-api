@@ -145,3 +145,15 @@ unloading. The harness must never deliberately rely on that behavior.
   acceptable.
 
 Until then, no production dispatcher may use this mechanism autonomously.
+
+## M18 RTD relationship
+
+M18 found no authoritative contract that turns an RTD COM method into an Excel
+C API callback. `IRTDUpdateEvent::UpdateNotify` asks Excel to call
+`IRtdServer::RefreshData` for streaming topic values; it does not establish
+`MacroContext` or any other dispatcher capability. The proposed RTD subsystem
+therefore cannot drain M17 work, and issue #30 remains open.
+
+The dispatcher queue remains notification-source agnostic. A future adapter
+still requires separate authoritative proof that Excel issues a callback with
+the exact typed capability required by each selected operation.
