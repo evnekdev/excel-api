@@ -34,11 +34,26 @@ the queue lock, then executed after unlocking. New work enqueued during a drain
 waits for a later callback. A thread-local RAII depth guard suppresses nested
 drains and rejects ticket waits from callback scopes.
 
+Request expiry is cooperative queue maintenance, not an autonomous timer.
+Expired queued requests are collected during enqueue, drain, ticket poll/wait,
+or shutdown. An active ticket wait sleeps until the earlier of its caller
+timeout and the request deadline, recalculates after every wake, and commits
+expiry only if the request is still `Queued`. Once selection or execution has
+committed, the former queue deadline cannot expire that request. Detached
+tickets create no timer thread; bounded capacity remains the memory bound.
+
 Tickets own only Rust state and may be polled, timeout-waited off callback
 threads, or canceled. Dropping a ticket detaches it; the controller retains and
 retires the request. Cancellation wins until the Selected-to-Running
 commitment. One idempotent retirement path publishes a terminal result,
 releases registry capacity, and signals waiters at most once.
+
+The `Selected -> Running` transition creates a `RunningRequestGuard`. Normal
+execution explicitly finishes it. Unwinding or any other exit before explicit
+completion publishes `Panicked`, clears remaining operation storage,
+decrements running, notifies shutdown waiters, and retires exactly once. A
+missing operation after Running commitment is reported as the controlled
+`InternalInvariant` execution error rather than panicking.
 
 M17 has not selected an autonomous wake mechanism. A research-only
 `xlcOnTime` compatibility probe exists, but the decision is **inconclusive**

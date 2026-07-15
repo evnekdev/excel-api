@@ -145,3 +145,9 @@ ticket waits from callback scopes and suppresses recursive drain attempts.
 Queue/controller locks are released before user-independent operation execution
 or Excel calls. Shutdown waits for synchronously running operations before the
 backend may be unlinked.
+
+Ticket waits use a spurious-wakeup-safe loop and observe the earlier applicable
+caller/request deadline without a timer thread. Request expiry applies only
+while `Queued`. Every Running request is owned by an RAII guard that releases
+running accounting and signals shutdown waiters even when execution unwinds or
+an internal invariant fails.

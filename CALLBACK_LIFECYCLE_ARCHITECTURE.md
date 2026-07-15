@@ -153,3 +153,9 @@ Queued and selected work is retired with `DispatcherShutdown`; already-running
 work is synchronous in its current callback and must finish before cleanup
 continues. If unregister fails, `CleanupRequired` retains the backend but the
 dispatcher stays disabled; retry cleanup never revives the old generation.
+
+Running accounting is guarded from the moment `Selected -> Running` commits.
+The guard publishes a controlled terminal failure, clears operation storage,
+retires, decrements running, and wakes close even if execution unwinds. Close
+therefore cannot remain blocked solely because an operation panicked or was
+unexpectedly absent after commitment.

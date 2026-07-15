@@ -23,11 +23,20 @@ preserves FIFO order within a requirement class. Locks are released before
 operation execution or Excel calls. Nested drain attempts are suppressed by a
 panic-safe callback-depth guard.
 
+Request expiry is cooperative and applies only while `Queued`; enqueue, drain,
+poll/wait, and shutdown collect due work. No timer maintains detached requests.
+An active waiter accurately observes the earlier caller timeout or queued
+request deadline through its own timed condition-variable loop.
+
 Tickets detach on drop. Cancellation is effective before execution commitment;
 terminal publication and registry retirement are exact-once. Shutdown removes
 the generation, rejects enqueue, retires queued and selected work, waits for
 already-running synchronous work, and permits unlink only afterward. A failed
 unregister leaves the runtime in `CleanupRequired` with dispatch disabled.
+Each Running commitment creates an RAII guard responsible for exact-once
+terminal publication, operation clearing, running-count release, shutdown
+notification, and retirement. Missing operation storage becomes a controlled
+internal-invariant failure rather than a panic.
 
 ## Consequences
 
