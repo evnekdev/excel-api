@@ -98,6 +98,22 @@ Linking/resolution happens during idempotent initialization, not static
 construction and not before `xlAutoOpen`.
 
 Unlinking occurs only after objects that might call Excel have been destroyed.
+
+## M17 xlcOnTime compatibility boundary
+
+The raw SDK layer now mirrors checked-in `xlfNow = 74` and
+`xlcOnTime = 148 | xlCommand = 32916`. The safe crate exposes only hidden,
+experimental methods for the historical two-argument schedule, schedule with
+latest time, and four-argument cancellation forms. They preserve the raw
+Excel12v return code and immediate Boolean/error/other tag; counted command
+text and every argument root remain live for the call, and no immediate scalar
+result receives an `xlFree` owner.
+
+This is not a general XLM command escape hatch. Current Microsoft material does
+not document the complete modern `xlcOnTime` contract, so lifecycle legality,
+security, cancellation, and unload reliability remain live research questions.
+The experimental descriptor must not be treated as production catalogue
+approval.
 ## M8 implementation
 
 The production backend mirrors SDK `XLCALL.CPP`: it resolves `MdCallBack12`

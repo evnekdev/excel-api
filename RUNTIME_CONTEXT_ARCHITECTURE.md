@@ -84,3 +84,11 @@ No controller capability crosses generations: scheduling clones one stable
 `Arc`, shutdown removes that generation before joining, and reopen consumes a
 fresh executor/controller. Neither the generation holder nor the controller
 lifecycle mutex is held while calling Excel, running user code, or joining.
+
+The M17 spike temporarily exposes hidden, explicitly experimental `xlfNow` and
+`xlcOnTime` methods on `MacroContext`; its isolated bootstrap and close probes
+also use a hidden lifecycle entry while the backend is linked. This does not
+promote arbitrary XLM commands or `xlcOnTime` into the stable lifecycle
+capability. The registered callback must demonstrate a real `MacroContext`
+operation and generation match during live validation before any production
+context decision is made.

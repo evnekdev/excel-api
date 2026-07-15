@@ -30,6 +30,11 @@ cancellation skips user code, event handlers are registered once per loaded
 binary, and failed close cleanup is represented explicitly. Automated coverage passes; real Excel
 cancellation/recalculation/unload validation remains pending, and does not
 change the blocked M15 live-smoke status.
+M17 has not started. A research-only `xlcOnTime` compatibility spike confirms
+the checked-in IDs and typed argument roots, but the modern operational
+decision is inconclusive: the current Excel host still cannot create a plain
+workbook and could not invoke the registered probe commands. The experimental
+call is not connected to a dispatcher queue.
 
 Build the loadable artifact with:
 
@@ -54,6 +59,7 @@ pwsh -File scripts/build-minimal-xll.ps1 -Profile release
 - [Error architecture](ERROR_ARCHITECTURE.md)
 - [Testing architecture](TESTING_ARCHITECTURE.md)
 - [Asynchronous UDF architecture](ASYNC_ARCHITECTURE.md)
+- [Main-thread dispatch architecture](MAIN_THREAD_DISPATCH_ARCHITECTURE.md)
 - [Implementation roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Excel-DNA capability map](EXCELDNA_CAPABILITY_MAP.md)
 - [Codex development prompts](prompts-dev/README.md)
