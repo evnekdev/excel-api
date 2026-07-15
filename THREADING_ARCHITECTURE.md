@@ -151,3 +151,18 @@ caller/request deadline without a timer thread. Request expiry applies only
 while `Queued`. Every Running request is owned by an RAII guard that releases
 running accounting and signals shutdown waiters even when execution unwinds or
 an internal invariant fails.
+
+# M18 RTD COM boundary
+
+RTD methods are COM calls governed by the server's registered apartment model
+and COM marshaling. Microsoft does not promise that every method runs on
+Excel's main thread, and an observed thread ID would not establish legal
+Excel12/Excel12v use. The proposed RTD server therefore creates no Excel C API
+context and makes no XLL backend call.
+
+Producer threads exchange only bounded, owned topic values. A raw
+`IRTDUpdateEvent` pointer never crosses apartments; a future notifier must use
+a COM proxy obtained through standard marshaling or the Global Interface
+Table. Shutdown stops and joins producers, prevents new notifications, drains
+already-committed notification calls, revokes callback access, and releases
+COM references before termination.

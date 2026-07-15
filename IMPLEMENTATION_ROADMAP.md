@@ -39,6 +39,9 @@
 - M17 main-thread dispatcher (cooperative callback-drained implementation
   complete with deterministic automated tests; live pump validation blocked;
   enqueue does not wake Excel and no production autonomous wake is approved)
-- M18 RTD
+- M18 RTD (architecture research complete: separate in-process COM RTD DLL
+  selected for a future compatibility prototype; no Excel C API or M17 wake
+  capability established; prototype and live validation blocked on a working
+  workbook host)
 - M19 COM/Ribbon
 - M20 1.0 review

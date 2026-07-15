@@ -239,3 +239,17 @@ selection or Running commitment. Fault-injection hooks deterministically panic
 after Running commitment and remove operation storage. Tests prove controlled
 failure, exact retirement, zero pending/running counts, nonblocking shutdown,
 reopen, repeated-path underflow protection, and callback-depth guard cleanup.
+
+## M18 RTD research coverage
+
+M18 adds no unsafe COM bindings or prototype because the current host cannot
+create a plain workbook and the exact current activation/thread/lifecycle
+matrix is not established. Automated repository validation therefore proves
+only that the architecture-only change preserves the existing XLL surface.
+
+The required working-host plan is recorded in
+`docs/manual-tests/m18-rtd-validation.md`. A future prototype must separately
+test COM ABI and reference ownership, bounded/coalesced topic state, callback
+marshaling, disconnect/termination races, registration rollback, multiple
+topics/subscribers, reconnect, security policy, and memory/handle trends. No
+unit test or observed main-thread ID can authorize Excel12/Excel12v from RTD.

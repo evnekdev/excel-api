@@ -17,3 +17,16 @@ Responsibilities:
 `target/<profile>/minimal_xll.dll` to `minimal_xll.xll`. Rust's unmangled x64
 exports avoid x86 decoration and a `.def` file is not required for this slice.
 Use `dumpbin /exports` to verify lifecycle and worksheet symbols.
+
+## M18 RTD packaging boundary
+
+The selected future RTD prototype is a separate 64-bit in-process COM DLL with
+its own ProgID/CLSID, class factory exports, signing identity, registration,
+and rollback. It is not copied to `.xll`, does not share XLL exports, and does
+not add COM dependencies to the default workspace packages.
+
+An in-process server must match Excel's process bitness. Per-user registration
+is the first non-elevated compatibility path; per-machine registration belongs
+to an explicit installer. Registration-free COM is not assumed because the
+activation manifest belongs to the Excel host. An out-of-process server remains
+a future crash-isolation/cross-bitness alternative.
