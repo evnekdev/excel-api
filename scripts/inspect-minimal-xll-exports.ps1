@@ -7,7 +7,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $required = @(
     'rust_add', 'rust_echo', 'rust_array_echo', 'rust_reference_kind',
-    'rust_option_kind', 'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
+    'rust_option_kind', 'rust_async_double', 'excel_api_calculation_canceled',
+    'excel_api_calculation_ended', 'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
     'xlAutoRemove', 'xlAddInManagerInfo12', 'xlAutoFree12', 'SetExcel12EntryPt'
 )
 
@@ -56,4 +57,4 @@ foreach ($symbol in $required) {
         throw "required export is missing: $symbol"
     }
 }
-Write-Output "PASS: all $($required.Count) required M8 exports are present."
+Write-Output "PASS: all $($required.Count) required exports are present."

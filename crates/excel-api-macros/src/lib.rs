@@ -21,6 +21,7 @@ struct FunctionAttributes {
     thread_safe: bool,
     macro_type: bool,
     cluster_safe: bool,
+    asynchronous: bool,
     arguments: BTreeMap<String, LitStr>,
 }
 
@@ -48,6 +49,7 @@ enum ContextKind {
     Worksheet,
     ThreadSafe,
     Macro,
+    Async,
 }
 
 enum InvocationArgument {
@@ -136,6 +138,12 @@ fn expand_excel_function(
         }
 
         let kind = map_argument_type(&argument.ty)?;
+        if attributes.asynchronous && !async_argument_is_owned(&argument.ty, kind) {
+            return Err(syn::Error::new_spanned(
+                &argument.ty,
+                "asynchronous functions accept only owned, `Send + 'static` inputs; references and callback-borrowed wrappers cannot escape",
+            ));
+        }
         excel_arguments.push(kind);
         let name = pattern.ident.to_string();
         let help = attributes.arguments.get(&name).ok_or_else(|| {
@@ -178,6 +186,18 @@ fn expand_excel_function(
             "`MacroContext` requires the `macro_type` flag",
         ));
     }
+    if attributes.asynchronous && context.is_some() && context != Some(ContextKind::Async) {
+        return Err(syn::Error::new(
+            function.sig.ident.span(),
+            "asynchronous functions can inject only `AsyncCancellationToken`, not an Excel callback context",
+        ));
+    }
+    if !attributes.asynchronous && matches!(context, Some(ContextKind::Async)) {
+        return Err(syn::Error::new(
+            function.sig.ident.span(),
+            "`AsyncCancellationToken` requires the `asynchronous` flag",
+        ));
+    }
     if attributes.macro_type && (attributes.thread_safe || attributes.cluster_safe) {
         return Err(syn::Error::new(
             function.sig.ident.span(),
@@ -194,7 +214,19 @@ fn expand_excel_function(
             "`cluster_safe` functions cannot accept `ExcelReferenceArg` (U); use a value-only `ExcelValueArg` (Q) or remove `cluster_safe`",
         ));
     }
+    if attributes.asynchronous && (attributes.cluster_safe || attributes.macro_type) {
+        return Err(syn::Error::new(
+            function.sig.ident.span(),
+            "asynchronous functions cannot be cluster-safe or macro-sheet equivalent",
+        ));
+    }
 
+    if attributes.asynchronous && attributes.return_type.is_some() {
+        return Err(syn::Error::new(
+            function.sig.ident.span(),
+            "asynchronous functions always register a void return; remove `return_type`",
+        ));
+    }
     let inferred_result = map_result_type(&function.sig.output)?;
     let result = match attributes.return_type {
         Some(value) => {
@@ -221,8 +253,20 @@ fn expand_excel_function(
         function_ident.to_string().to_lowercase(),
         span = function_ident.span()
     );
-    let result_metadata = result_tokens(result);
-    let arguments = excel_arguments.iter().copied().map(argument_tokens);
+    let asynchronous = attributes.asynchronous;
+    let result_metadata = if asynchronous {
+        quote!(::excel_api::ExcelReturnType::AsyncVoid)
+    } else {
+        result_tokens(result)
+    };
+    let mut arguments: Vec<_> = excel_arguments
+        .iter()
+        .copied()
+        .map(argument_tokens)
+        .collect();
+    if asynchronous {
+        arguments.push(quote!(::excel_api::ExcelArgumentType::AsyncHandle));
+    }
     let category = attributes
         .category
         .map(|value| quote!(.category(#value)))
@@ -235,8 +279,12 @@ fn expand_excel_function(
     let thread_safe = attributes.thread_safe;
     let macro_type = attributes.macro_type;
     let cluster_safe = attributes.cluster_safe;
-    let raw_arguments = thunk_arguments.iter().map(raw_argument_tokens);
-    let conversions = thunk_arguments.iter().map(conversion_tokens);
+    let mut raw_arguments: Vec<_> = thunk_arguments.iter().map(raw_argument_tokens).collect();
+    if asynchronous {
+        raw_arguments.push(quote!(__excel_async_handle: ::excel_api::thunk::RawXloper12));
+    }
+    let conversions: Vec<_> = thunk_arguments.iter().map(conversion_tokens).collect();
+    let async_conversions = conversions.clone();
     let invoke_arguments = invocation_arguments.iter().map(|argument| match argument {
         InvocationArgument::Excel(ident) => quote!(#ident),
         InvocationArgument::Context => quote!(__excel_context),
@@ -252,6 +300,7 @@ fn expand_excel_function(
         Some(ContextKind::Macro) => {
             quote!(__excel_scope.with_macro_context(|__excel_context| #invoke))
         }
+        Some(ContextKind::Async) => invoke,
         None => invoke,
     };
     let unwrap_result = if result_error_type(&function.sig.output).is_some() {
@@ -262,13 +311,19 @@ fn expand_excel_function(
     } else {
         proc_macro2::TokenStream::new()
     };
-    let converted_result = match result {
-        ResultKind::Number => quote!(Ok(__excel_result)),
-        ResultKind::Boolean => quote!(Ok(if __excel_result { 1_i16 } else { 0_i16 })),
-        ResultKind::Integer => quote!(Ok(i32::from(__excel_result))),
-        ResultKind::Xloper12 => quote!(::excel_api::thunk::IntoThunkReturn::into_thunk_return(
+    let converted_result = if asynchronous {
+        quote!(::excel_api::thunk::IntoThunkReturn::into_thunk_return(
             __excel_result
-        )),
+        ))
+    } else {
+        match result {
+            ResultKind::Number => quote!(Ok(__excel_result)),
+            ResultKind::Boolean => quote!(Ok(if __excel_result { 1_i16 } else { 0_i16 })),
+            ResultKind::Integer => quote!(Ok(i32::from(__excel_result))),
+            ResultKind::Xloper12 => quote!(::excel_api::thunk::IntoThunkReturn::into_thunk_return(
+                __excel_result
+            )),
+        }
     };
     let thunk_body = quote! {
         ::excel_api::thunk::with_callback(|__excel_scope| {
@@ -278,17 +333,50 @@ fn expand_excel_function(
             #converted_result
         })
     };
-    let thunk_return = match result {
-        ResultKind::Number => quote!(f64),
-        ResultKind::Boolean => quote!(i16),
-        ResultKind::Integer => quote!(i32),
-        ResultKind::Xloper12 => quote!(::excel_api::thunk::RawXloper12),
+    let thunk_return = if asynchronous {
+        quote!(())
+    } else {
+        match result {
+            ResultKind::Number => quote!(f64),
+            ResultKind::Boolean => quote!(i16),
+            ResultKind::Integer => quote!(i32),
+            ResultKind::Xloper12 => quote!(::excel_api::thunk::RawXloper12),
+        }
     };
-    let thunk_execution = match result {
-        ResultKind::Number => quote!(::excel_api::thunk::scalar_thunk(0.0_f64, || #thunk_body)),
-        ResultKind::Boolean => quote!(::excel_api::thunk::scalar_thunk(0_i16, || #thunk_body)),
-        ResultKind::Integer => quote!(::excel_api::thunk::scalar_thunk(0_i32, || #thunk_body)),
-        ResultKind::Xloper12 => quote!(::excel_api::thunk::xloper12_thunk(|| #thunk_body)),
+    let thunk_execution = if asynchronous {
+        let async_invoke_arguments = invocation_arguments.iter().map(|argument| match argument {
+            InvocationArgument::Excel(ident) => quote!(#ident),
+            InvocationArgument::Context => quote!(__excel_cancel),
+        });
+        let async_invoke = quote!(#function_ident(#(#async_invoke_arguments),*));
+        let async_unwrap = if result_error_type(&function.sig.output).is_some() {
+            quote! {
+                let __excel_result = __excel_result
+                    .map_err(::excel_api::thunk::function_error)?;
+            }
+        } else {
+            proc_macro2::TokenStream::new()
+        };
+        quote! {
+            ::excel_api::thunk::async_thunk(__excel_async_handle, || {
+                ::excel_api::thunk::with_callback(|__excel_scope| {
+                    #(#async_conversions)*
+                    let __excel_task: ::excel_api::thunk::AsyncTask = Box::new(move |__excel_cancel| {
+                        let __excel_result = #async_invoke;
+                        #async_unwrap
+                        ::excel_api::thunk::IntoThunkReturn::into_thunk_return(__excel_result)
+                    });
+                    Ok(__excel_task)
+                })
+            })
+        }
+    } else {
+        match result {
+            ResultKind::Number => quote!(::excel_api::thunk::scalar_thunk(0.0_f64, || #thunk_body)),
+            ResultKind::Boolean => quote!(::excel_api::thunk::scalar_thunk(0_i16, || #thunk_body)),
+            ResultKind::Integer => quote!(::excel_api::thunk::scalar_thunk(0_i32, || #thunk_body)),
+            ResultKind::Xloper12 => quote!(::excel_api::thunk::xloper12_thunk(|| #thunk_body)),
+        }
     };
 
     Ok(quote! {
@@ -393,6 +481,9 @@ fn parse_attributes(raw: Punctuated<Meta, Token![,]>) -> syn::Result<FunctionAtt
             }
             Meta::Path(path) if path.is_ident("cluster_safe") => {
                 set_flag(&mut parsed.cluster_safe, path)?;
+            }
+            Meta::Path(path) if path.is_ident("asynchronous") => {
+                set_flag(&mut parsed.asynchronous, path)?;
             }
             Meta::List(list) if list.path.is_ident("arguments") => {
                 let values =
@@ -519,6 +610,11 @@ fn validate_function_shape(function: &ItemFn) -> syn::Result<()> {
 }
 
 fn context_kind(ty: &Type) -> Option<ContextKind> {
+    if let Type::Path(path) = ty
+        && path.path.segments.last()?.ident == "AsyncCancellationToken"
+    {
+        return Some(ContextKind::Async);
+    }
     let Type::Reference(reference) = ty else {
         return None;
     };
@@ -534,6 +630,33 @@ fn context_kind(ty: &Type) -> Option<ContextKind> {
         "MacroContext" => Some(ContextKind::Macro),
         _ => None,
     }
+}
+
+fn async_argument_is_owned(ty: &Type, kind: ArgumentKind) -> bool {
+    if matches!(
+        kind,
+        ArgumentKind::GeneralReference
+            | ArgumentKind::CountedUtf16
+            | ArgumentKind::NullTerminatedUtf16
+    ) {
+        return false;
+    }
+    let Type::Path(path) = ty else {
+        return false;
+    };
+    let Some(segment) = path.path.segments.last() else {
+        return false;
+    };
+    if segment.ident == "ExcelValueArg" {
+        return false;
+    }
+    if segment.ident == "Option" || segment.ident == "OptionalValue" {
+        return one_type_argument(segment, ty).ok().is_some_and(|inner_ty| {
+            map_argument_type(inner_ty)
+                .is_ok_and(|inner_kind| async_argument_is_owned(inner_ty, inner_kind))
+        });
+    }
+    true
 }
 
 fn map_argument_type(ty: &Type) -> syn::Result<ArgumentKind> {
@@ -1036,5 +1159,49 @@ mod tests {
         assert!(expanded.contains("ExcelArgumentType :: Boolean"));
         assert!(expanded.contains("ExcelArgumentType :: Integer"));
         assert!(expanded.contains("ExcelArgumentType :: GeneralValue"));
+    }
+
+    #[test]
+    fn asynchronous_thunk_is_void_owned_and_handle_terminated() {
+        let function: ItemFn = parse_quote!(
+            fn delayed(value: ExcelString, cancel: AsyncCancellationToken) -> ExcelString {
+                let _ = cancel;
+                value
+            }
+        );
+        let attributes: Punctuated<Meta, Token![,]> = parse_quote!(
+            name = "ASYNC.DELAYED",
+            thunk = "async_delayed",
+            asynchronous,
+            thread_safe,
+            arguments(value = "value")
+        );
+        let expanded = expand_excel_function(attributes, function)
+            .unwrap()
+            .to_string();
+        assert!(expanded.contains("ExcelReturnType :: AsyncVoid"));
+        assert!(expanded.contains("ExcelArgumentType :: AsyncHandle"));
+        assert!(expanded.contains("async_thunk"));
+        assert!(expanded.contains("AsyncTask"));
+        assert!(expanded.contains("-> ()"));
+
+        let borrowed: ItemFn = parse_quote!(
+            fn bad(value: ExcelValueArg<'_>) -> ExcelString {
+                let _ = value;
+                ExcelString::from("bad")
+            }
+        );
+        let attributes: Punctuated<Meta, Token![,]> = parse_quote!(
+            name = "ASYNC.BAD",
+            thunk = "async_bad",
+            asynchronous,
+            arguments(value = "value")
+        );
+        assert!(
+            expand_excel_function(attributes, borrowed)
+                .unwrap_err()
+                .to_string()
+                .contains("only owned")
+        );
     }
 }

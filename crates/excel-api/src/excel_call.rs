@@ -91,6 +91,16 @@ pub const XL_FREE: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 1,
     maximum_arguments: 255,
 };
+pub const XL_EVENT_REGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlEventRegister",
+    function: excel_api_sys::xlEventRegister,
+    permissions: &[CallPermission::Lifecycle],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::NoReleaseRequired,
+    thread_safe: false,
+    minimum_arguments: 2,
+    maximum_arguments: 2,
+};
 /// Polls the Excel cancellation/break request. This is not a calculation-state query.
 pub const XL_ABORT: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlAbort",
@@ -268,7 +278,7 @@ impl fmt::Display for ExcelCallError {
 }
 impl std::error::Error for ExcelCallError {}
 
-pub trait ExcelCallBackend: Send + Sync {
+pub(crate) trait ExcelCallBackend: Send + Sync {
     fn link(&self) -> Result<(), ExcelCallError>;
     fn unlink(&self);
     fn is_linked(&self) -> bool;
@@ -676,9 +686,58 @@ impl CallArguments {
         }];
         Ok(Self { strings, roots })
     }
+
+    fn event(procedure: &str, event: i32) -> Result<Self, ExcelCallError> {
+        let mut strings = vec![counted(procedure).map_err(ExcelCallError::Registration)?];
+        let roots = vec![
+            XLOPER12 {
+                val: XLOPER12Value {
+                    str: strings[0].as_mut_ptr(),
+                },
+                xltype: excel_api_sys::xltypeStr,
+            },
+            XLOPER12 {
+                val: XLOPER12Value { w: event },
+                xltype: excel_api_sys::xltypeInt,
+            },
+        ];
+        Ok(Self { strings, roots })
+    }
 }
 
 impl LifecycleContext<'_> {
+    pub(crate) fn register_event(
+        &self,
+        procedure: &str,
+        event: i32,
+    ) -> Result<i32, ExcelCallError> {
+        let mut storage = CallArguments::event(procedure, event)?;
+        let mut arguments = storage.pointers();
+        let owner = self
+            .capability()
+            .call(CallPermission::Lifecycle, XL_EVENT_REGISTER, &mut arguments)?
+            .expect("descriptor requires a result");
+        let root = owner.raw_root();
+        if root.xltype & excel_api_sys::XLTYPE_MASK != excel_api_sys::xltypeInt {
+            return Err(ExcelCallError::MalformedResult {
+                function: XL_EVENT_REGISTER.name,
+                expected: "positive integer event registration ID",
+                actual: "non-integer result",
+            });
+        }
+        // SAFETY: guarded by the integer tag.
+        let id = unsafe { root.val.w };
+        if id > 0 {
+            Ok(id)
+        } else {
+            Err(ExcelCallError::MalformedResult {
+                function: XL_EVENT_REGISTER.name,
+                expected: "positive integer event registration ID",
+                actual: "non-positive integer",
+            })
+        }
+    }
+
     pub(crate) fn get_module_name(&self) -> Result<ExcelString, ExcelCallError> {
         let mut arguments = [];
         let owner = self

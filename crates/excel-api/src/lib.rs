@@ -1,5 +1,6 @@
 #![doc = "Safe building blocks for Rust-native Microsoft Excel XLL add-ins."]
 
+pub mod async_udf;
 pub mod borrowed;
 pub mod context;
 pub mod convert;
@@ -16,6 +17,10 @@ pub mod runtime;
 pub mod thunk;
 pub mod value;
 
+pub use async_udf::{
+    AsyncCancellationToken, AsyncCompletionError, AsyncExecutor, AsyncSubmitError,
+    ThreadPoolExecutor, calculation_canceled, calculation_ended,
+};
 pub use borrowed::{
     DecodeError, ExcelArrayColumns, ExcelArrayElements, ExcelArrayRows, ExcelArrayView,
     ExcelMissing, ExcelMultiReference, ExcelNil, ExcelReference, ExcelReferenceArea,
@@ -32,8 +37,9 @@ pub use error::{
 };
 pub use excel_call::{
     AbortCheckMode, CallPermission, CoerceTarget, ExcelCallDescriptor, ExcelCallError,
-    ExcelReturnCode, ResultRoot, SdkExcel12vBackend, XL_ABORT, XL_COERCE, XL_FREE, XL_GET_NAME,
-    XL_SHEET_ID, XL_SHEET_NM, XLF_CALLER, XLF_REGISTER, XLF_SET_NAME, XLF_UNREGISTER,
+    ExcelReturnCode, ResultRoot, SdkExcel12vBackend, XL_ABORT, XL_COERCE, XL_EVENT_REGISTER,
+    XL_FREE, XL_GET_NAME, XL_SHEET_ID, XL_SHEET_NM, XLF_CALLER, XLF_REGISTER, XLF_SET_NAME,
+    XLF_UNREGISTER,
 };
 pub use excel_owned::{
     ExcelOwnedConversionError, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy,
@@ -51,6 +57,14 @@ pub use return_plan::{
     ReturnText,
 };
 pub use runtime::{LifecycleError, LifecycleOutcome, Runtime, RuntimeDiagnostics, RuntimePhase};
+
+/// Installs the executor used by generated asynchronous UDF thunks.
+pub fn install_async_executor(
+    executor: std::sync::Arc<dyn AsyncExecutor>,
+    maximum_in_flight: usize,
+) -> Result<(), std::sync::Arc<dyn AsyncExecutor>> {
+    async_udf::install_production_executor(executor, maximum_in_flight)
+}
 pub use value::{ExcelArray, ExcelArrayColumn, ExcelString, ExcelValue, OptionalValue};
 
 #[cfg(feature = "macros")]
