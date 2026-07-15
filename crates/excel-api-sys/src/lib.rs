@@ -24,9 +24,9 @@
 //! 64-bit Excel; 32-bit layouts and non-Windows Excel hosts are unsupported.
 //!
 //! ```no_run
-//! use excel_api_sys::{Xloper12, xltypeNum};
+//! use excel_api_sys::{XLOPER12, XLOPER12Value, xltypeNum};
 //!
-//! let value = Xloper12 { xltype: xltypeNum, val: excel_api_sys::Xloper12Val { num: 42.0 } };
+//! let value = XLOPER12 { xltype: xltypeNum, val: XLOPER12Value { num: 42.0 } };
 //! assert_eq!(value.xltype, xltypeNum);
 //! ```
 #![allow(non_camel_case_types, non_snake_case, non_upper_case_globals)]
