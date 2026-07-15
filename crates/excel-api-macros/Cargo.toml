@@ -15,5 +15,9 @@ proc-macro2 = "1"
 quote = "1"
 syn = { version = "2", features = ["full"] }
 
+[dev-dependencies]
+excel-api = { path = "../excel-api", default-features = false }
+trybuild = "1"
+
 [lints]
 workspace = true

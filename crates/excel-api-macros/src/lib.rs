@@ -184,6 +184,16 @@ fn expand_excel_function(
             "macro-sheet functions cannot be thread-safe or cluster-safe",
         ));
     }
+    if attributes.cluster_safe
+        && excel_arguments
+            .iter()
+            .any(|kind| matches!(kind, ArgumentKind::GeneralReference))
+    {
+        return Err(syn::Error::new(
+            function.sig.ident.span(),
+            "`cluster_safe` functions cannot accept `ExcelReferenceArg` (U); use a value-only `ExcelValueArg` (Q) or remove `cluster_safe`",
+        ));
+    }
 
     let inferred_result = map_result_type(&function.sig.output)?;
     let result = match attributes.return_type {
@@ -496,7 +506,7 @@ fn validate_function_shape(function: &ItemFn) -> syn::Result<()> {
     if signature.abi.is_some() {
         return Err(syn::Error::new_spanned(
             signature,
-            "ABI functions are not supported; M9A does not generate thunks",
+            "ABI functions are not supported; use an ordinary Rust function and let `#[excel_function]` generate the Excel thunk",
         ));
     }
     if !signature.generics.params.is_empty() || signature.generics.where_clause.is_some() {
