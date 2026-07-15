@@ -34,7 +34,8 @@ M17 has not started. A research-only `xlcOnTime` compatibility spike confirms
 the checked-in IDs and typed argument roots, but the modern operational
 decision is inconclusive: the current Excel host still cannot create a plain
 workbook and could not invoke the registered probe commands. The experimental
-call is not connected to a dispatcher queue.
+call is not connected to a dispatcher queue and is absent from the default
+minimal-XLL build; it requires the explicit `xlcontime-research` feature.
 
 Build the loadable artifact with:
 

@@ -8,8 +8,8 @@
 - async completion workers;
 - future dispatcher thread interactions.
 
-The experimental M17 `xlcOnTime` probe is initiated only from Excel callback
-contexts and never calls Excel from a background thread. Its registered
+The non-default, feature-gated M17 `xlcOnTime` probe is initiated only from
+Excel callback contexts and never calls Excel from a background thread. Its registered
 callback records the Windows thread ID and also performs a verified
 MacroContext `xlAbort` poll; thread identity alone is not considered proof of
 legal context. No dispatcher worker or queue is implemented by the spike.

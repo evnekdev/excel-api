@@ -39,6 +39,20 @@ pub struct LifecycleContext<'call> {
 }
 
 #[derive(Debug)]
+#[cfg_attr(
+    not(feature = "xlcontime-research"),
+    doc = r#"
+The ordinary build exposes no xlcOnTime scheduling operation:
+
+```compile_fail
+use excel_api::MacroContext;
+
+fn no_production_ontime(context: &MacroContext<'_>) {
+    let _ = context.experimental_schedule_on_time(45_000.0, "COMMAND");
+}
+```
+"#
+)]
 pub struct MacroContext<'call> {
     #[allow(dead_code, reason = "macro operations are outside the M8 catalogue")]
     capability: &'call CallCapability<'call>,

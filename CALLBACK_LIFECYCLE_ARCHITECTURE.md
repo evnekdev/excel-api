@@ -81,16 +81,20 @@ No Excel C API calls. Avoid nontrivial initialization under loader lock.
 
 ## Experimental xlcOnTime close ordering
 
-The M17 research XLL tracks exact scheduled serials and runtime generations.
-Its close path marks the experiment inactive, attempts cancellation while the
-backend is still linked, and refuses the sample close path if any pending call
-cannot be canceled. Only a successful experimental cancellation pass proceeds
-to command unregistration and backend unlink. A stale-generation callback is a
-no-op.
+Only the explicitly feature-built M17 research XLL tracks exact scheduled
+serials and runtime generations. Its close path marks the experiment inactive,
+attempts cancellation while the backend is still linked, and declines ordinary
+runtime cleanup if any pending call cannot be canceled. Only a successful
+experimental cancellation pass proceeds to command unregistration and backend
+unlink. A stale-generation callback is a no-op.
 
 This ordering is the invariant under test; it is not proof that current Excel
-honors cancellation. Production autonomous scheduling remains prohibited until
-the close/unload/reload matrix passes on a working host.
+honors cancellation. There is no authoritative basis for claiming that return
+0 from `xlAutoClose` prevents DLL unload. Failed cancellation can therefore
+leave an unload hazard, and the isolated harness must terminate its exact owned
+Excel process instead of deliberately unloading. Production autonomous
+scheduling remains prohibited until the close/unload/reload matrix passes on a
+working host.
 ## M8 implementation
 
 `Runtime` implements `Uninitialized`, `Initializing`, `Initialized`,

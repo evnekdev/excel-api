@@ -37,10 +37,13 @@ pub use error::{
 };
 pub use excel_call::{
     AbortCheckMode, CallPermission, CoerceTarget, ExcelCallDescriptor, ExcelCallError,
-    ExcelReturnCode, ExperimentalOnTimeOutcome, ExperimentalOnTimeValue, ResultRoot,
-    SdkExcel12vBackend, XL_ABORT, XL_COERCE, XL_EVENT_REGISTER, XL_FREE, XL_GET_NAME, XL_SHEET_ID,
-    XL_SHEET_NM, XLC_ON_TIME, XLF_CALLER, XLF_NOW, XLF_REGISTER, XLF_SET_NAME, XLF_UNREGISTER,
+    ExcelReturnCode, ResultRoot, SdkExcel12vBackend, XL_ABORT, XL_COERCE, XL_EVENT_REGISTER,
+    XL_FREE, XL_GET_NAME, XL_SHEET_ID, XL_SHEET_NM, XLF_CALLER, XLF_REGISTER, XLF_SET_NAME,
+    XLF_UNREGISTER,
 };
+#[cfg(feature = "xlcontime-research")]
+#[doc(hidden)]
+pub use excel_call::{ExperimentalOnTimeOutcome, ExperimentalOnTimeValue, XLC_ON_TIME, XLF_NOW};
 pub use excel_owned::{
     ExcelOwnedConversionError, ExcelOwnedValue, ExcelReleaseError, ExcelReleasePolicy,
     ExcelXlFreeTransfer,

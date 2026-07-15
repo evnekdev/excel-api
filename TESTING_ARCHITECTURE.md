@@ -186,18 +186,27 @@ raw thunk ABI tokens.
 
 ## M17 xlcOnTime compatibility spike
 
-Pure tests assert the checked-in `xlfNow`/`xlcOnTime` IDs, exact 2/3/4 argument
+The default minimal-XLL tests and PE inspection assert that no `RUST.ONTIME.*`
+registration or research export is present. Compile-fail API examples prove
+that the ordinary build has no scheduling method and that even the research
+lifecycle bridge cannot be called by safe code. Separate all-feature tests
+assert the checked-in `xlfNow`/`xlcOnTime` IDs, exact 2/3/4 argument
 counts and tags, counted command text, missing-plus-FALSE cancellation form,
 Boolean/error decoding, raw return-code preservation, context rejection,
 bounded diagnostics, and absence of `xlFree` for immediate results. The ABI
-checker compares both new constants against `XLCALL.H`; the release PE check
-requires all experimental command/status exports.
+checker compares both new constants against `XLCALL.H`; a separate research PE
+check requires all experimental command/status exports.
 
-`scripts/excel-ontime-validation.ps1` owns one Excel COM process and enables
+`scripts/excel-ontime-validation.ps1` explicitly builds the research feature,
+owns one Excel COM process, and enables
 bootstrap only through a coordination marker containing that exact PID. It
 records Excel build/architecture, plain and post-XLL workbook creation,
 schedule/cancel/callback diagnostics, main-thread and MacroContext evidence,
-close-time cancellation, and process exit. Security, recalculation, modal/edit,
+bootstrap outcome, cancellation before unload, and process exit. It does not
+infer bootstrap success from `RegisterXLL`. If pending cancellation fails, it
+records an unsafe/inconclusive result and terminates only the PID/start-time
+matched Excel process; it does not rely on `xlAutoClose` to prevent unload.
+Security, recalculation, modal/edit,
 copy/paste/undo, latency, and unload/reload cases remain a manual matrix.
 
 The 2026-07-15 host could not create a plain workbook and did not enter the XLL

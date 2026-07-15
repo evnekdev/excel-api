@@ -1,5 +1,6 @@
 use std::sync::{Arc, OnceLock};
 
+#[cfg(feature = "xlcontime-research")]
 mod ontime_experiment;
 
 use excel_api::{
@@ -116,6 +117,7 @@ pub fn async_double(value: f64, cancel: AsyncCancellationToken) -> Result<f64, E
 }
 
 /// Internal status surface used by the xlcOnTime compatibility harness.
+#[cfg(feature = "xlcontime-research")]
 #[excel_function(
     name = "RUST.ONTIME.STATUS",
     category = "Rust Experimental",
@@ -136,6 +138,7 @@ pub fn ping_command(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
     Ok(())
 }
 
+#[cfg(feature = "xlcontime-research")]
 #[excel_command(
     name = "RUST.ONTIME.SCHEDULE",
     description = "Schedules the experimental registered xlcOnTime callback",
@@ -145,6 +148,7 @@ pub fn ontime_schedule(context: &MacroContext<'_>) -> Result<(), ExcelError> {
     ontime_experiment::schedule(context)
 }
 
+#[cfg(feature = "xlcontime-research")]
 #[excel_command(
     name = "RUST.ONTIME.CALLBACK",
     description = "Experimental callback invoked by Excel through xlcOnTime",
@@ -154,6 +158,7 @@ pub fn ontime_callback(context: &MacroContext<'_>) -> Result<(), ExcelError> {
     ontime_experiment::callback(context)
 }
 
+#[cfg(feature = "xlcontime-research")]
 #[excel_command(
     name = "RUST.ONTIME.CANCEL",
     description = "Cancels one pending experimental xlcOnTime callback",
@@ -163,6 +168,7 @@ pub fn ontime_cancel(context: &MacroContext<'_>) -> Result<(), ExcelError> {
     ontime_experiment::cancel_one(context)
 }
 
+#[cfg(feature = "xlcontime-research")]
 #[excel_command(
     name = "RUST.ONTIME.DUMP",
     description = "Writes bounded experimental diagnostics to the harness file",
@@ -179,14 +185,19 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
     __EXCEL_FUNCTION_METADATA_ASYNC_DOUBLE,
+    #[cfg(feature = "xlcontime-research")]
     __EXCEL_FUNCTION_METADATA_ONTIME_STATUS,
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[
     __EXCEL_COMMAND_METADATA_PING_COMMAND,
+    #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_SCHEDULE,
+    #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_CALLBACK,
+    #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_CANCEL,
+    #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_DUMP,
 ];
 
@@ -350,8 +361,22 @@ pub extern "system" fn xlAutoOpen() -> i32 {
         install_executor_for_open_generation();
         match runtime().initialize(&ADD_IN) {
             Ok(LifecycleOutcome::Completed) => {
-                ontime_experiment::activate();
-                let _ = runtime().experimental_with_lifecycle_context(ontime_experiment::bootstrap);
+                #[cfg(feature = "xlcontime-research")]
+                if ontime_experiment::enabled_for_current_process() {
+                    ontime_experiment::activate();
+                    // SAFETY: xlAutoOpen is synchronously executing as the
+                    // genuine Excel-issued lifecycle callback on its callback
+                    // thread. The bridge is unavailable outside this feature.
+                    let bootstrap = unsafe {
+                        runtime().experimental_with_lifecycle_context(ontime_experiment::bootstrap)
+                    };
+                    if let Err(error) = bootstrap {
+                        ontime_experiment::record_bootstrap_bridge_failure(&error.to_string());
+                    }
+                    // Ordinary runtime initialization succeeded. Research
+                    // bootstrap status is reported through the diagnostic
+                    // artifact, never inferred from this return value alone.
+                }
                 1
             }
             Ok(LifecycleOutcome::AlreadyInState) => 1,
@@ -365,11 +390,18 @@ fn close_runtime() -> i32 {
     if runtime().phase() == RuntimePhase::Uninitialized {
         return runtime().close().map(|_| 1).unwrap_or(0);
     }
-    let canceled = runtime()
-        .experimental_with_lifecycle_context(ontime_experiment::shutdown)
-        .unwrap_or(false);
-    if !canceled {
-        return 0;
+    #[cfg(feature = "xlcontime-research")]
+    if ontime_experiment::enabled_for_current_process() {
+        // SAFETY: close_runtime is called synchronously only by the exported
+        // Excel lifecycle callbacks below, on Excel's callback thread.
+        let canceled =
+            unsafe { runtime().experimental_with_lifecycle_context(ontime_experiment::shutdown) }
+                .unwrap_or(false);
+        if !canceled {
+            // Declining ordinary cleanup records the hazard, but returning 0
+            // is not claimed to prevent Excel from unloading this DLL.
+            return 0;
+        }
     }
     runtime().close().map(|_| 1).unwrap_or(0)
 }
@@ -433,11 +465,16 @@ const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
 const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
 const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
 const _: unsafe extern "system" fn(f64, LPXLOPER12) = __excel_function_thunk_async_double;
+#[cfg(feature = "xlcontime-research")]
 const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_ontime_status;
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
+#[cfg(feature = "xlcontime-research")]
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_schedule;
+#[cfg(feature = "xlcontime-research")]
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_callback;
+#[cfg(feature = "xlcontime-research")]
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_cancel;
+#[cfg(feature = "xlcontime-research")]
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_dump;
 
 #[cfg(test)]
@@ -479,9 +516,55 @@ mod tests {
             .iter()
             .map(|function| function.type_text().unwrap())
             .collect();
+        #[cfg(not(feature = "xlcontime-research"))]
+        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$"]);
+        #[cfg(feature = "xlcontime-research")]
         assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$", "Q"]);
+        #[cfg(not(feature = "xlcontime-research"))]
+        assert_eq!(COMMANDS.len(), 1);
+        #[cfg(feature = "xlcontime-research")]
         assert_eq!(COMMANDS.len(), 5);
         assert!(COMMANDS.iter().all(|command| command.type_text() == "I"));
+    }
+
+    #[cfg(not(feature = "xlcontime-research"))]
+    #[test]
+    fn default_registration_surface_contains_no_ontime_research_procedure() {
+        assert!(
+            FUNCTIONS
+                .iter()
+                .all(|function| !function.excel_name.starts_with("RUST.ONTIME."))
+        );
+        assert!(
+            COMMANDS
+                .iter()
+                .all(|command| !command.excel_name.starts_with("RUST.ONTIME."))
+        );
+    }
+
+    #[cfg(feature = "xlcontime-research")]
+    #[test]
+    fn research_registration_surface_is_explicit_and_bounded() {
+        let functions = FUNCTIONS
+            .iter()
+            .filter(|function| function.excel_name.starts_with("RUST.ONTIME."))
+            .map(|function| function.excel_name)
+            .collect::<Vec<_>>();
+        let commands = COMMANDS
+            .iter()
+            .filter(|command| command.excel_name.starts_with("RUST.ONTIME."))
+            .map(|command| command.excel_name)
+            .collect::<Vec<_>>();
+        assert_eq!(functions, ["RUST.ONTIME.STATUS"]);
+        assert_eq!(
+            commands,
+            [
+                "RUST.ONTIME.SCHEDULE",
+                "RUST.ONTIME.CALLBACK",
+                "RUST.ONTIME.CANCEL",
+                "RUST.ONTIME.DUMP",
+            ]
+        );
     }
 
     #[test]
