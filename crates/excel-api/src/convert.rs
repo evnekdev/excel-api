@@ -11,13 +11,18 @@ use crate::{
 /// 65,536 elements and 16 MiB of conservatively counted destination storage.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ConversionLimits {
+    /// Maximum UTF-16 code units copied for one string.
     pub max_string_code_units: usize,
+    /// Maximum elements copied from one rectangular array.
     pub max_array_elements: usize,
+    /// Maximum conservatively counted destination bytes.
     pub max_aggregate_bytes: usize,
+    /// Maximum supported conversion nesting depth.
     pub max_depth: usize,
 }
 
 impl ConversionLimits {
+    /// Conservative conversion bounds used by [`Default`].
     pub const DEFAULT: Self = Self {
         max_string_code_units: excel_api_sys::EXCEL12_MAX_STRING_CODE_UNITS,
         max_array_elements: 65_536,
@@ -35,6 +40,9 @@ impl Default for ConversionLimits {
 /// Convert one borrowed Excel input into a Rust value without invoking Excel
 /// coercion rules.
 pub trait FromExcel<'call>: Sized {
+    /// Converts a callback-borrowed value without invoking Excel coercion.
+    ///
+    /// Implementations must not retain callback-scoped pointers in `Self`.
     fn from_excel(value: ExcelValueRef<'call>) -> Result<Self, ConversionError>;
 }
 
@@ -43,6 +51,7 @@ pub trait FromExcel<'call>: Sized {
 /// A later memory layer will transform this value into an ABI-compatible
 /// return allocation.
 pub trait IntoExcel {
+    /// Produces an owned semantic Excel value suitable for later return planning.
     fn into_excel(self) -> Result<ExcelValue, ConversionError>;
 }
 

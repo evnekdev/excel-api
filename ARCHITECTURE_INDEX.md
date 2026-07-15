@@ -1,5 +1,10 @@
 # Architecture Index
 
+For user-facing crate documentation and examples, start with the
+[user guide](docs/guide/README.md). This index remains a maintainer-oriented
+architecture map; RTD, COM/Ribbon UI, task panes, `xlcOnTime`, and autonomous
+notification are optional or experimental, not core 1.0 prerequisites.
+
 | Area | Document | Status | Milestones |
 |---|---|---|---|
 | Overall | `ARCHITECTURE.md` | Core architecture implemented; release audit active | M0-M20 |

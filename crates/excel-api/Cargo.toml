@@ -12,9 +12,20 @@ repository.workspace = true
 rust-version.workspace = true
 
 [features]
+# Enables the procedural attributes re-exported by this crate. This is the
+# default stable authoring experience.
 default = ["macros"]
+# Re-exports `excel_function` and `excel_command` from `excel-api-macros`.
 macros = ["dep:excel-api-macros"]
+# Experimental, internal-only compatibility research for `xlcOnTime`.
+# It is not an autonomous dispatcher mechanism and is not production support.
 xlcontime-research = []
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc"]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 excel-api-sys = { path = "../excel-api-sys", version = "0.1.0" }

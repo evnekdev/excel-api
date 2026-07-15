@@ -2,6 +2,10 @@ use core::marker::PhantomData;
 
 use crate::excel_call::CallCapability;
 
+/// Capability token for a genuine worksheet-function callback.
+///
+/// It borrows the callback capability and cannot be constructed by ordinary
+/// safe code. It does not imply that every Excel call is legal.
 #[derive(Debug)]
 pub struct WorksheetContext<'call> {
     #[allow(
@@ -12,6 +16,9 @@ pub struct WorksheetContext<'call> {
     _call: PhantomData<&'call mut &'call ()>,
 }
 
+/// Capability token for a genuine multi-thread-safe worksheet callback.
+///
+/// Only calls explicitly documented as thread-safe may use this context.
 #[derive(Debug)]
 pub struct ThreadSafeContext<'call> {
     #[allow(
@@ -38,6 +45,9 @@ pub struct LifecycleContext<'call> {
     _call: PhantomData<&'call mut &'call ()>,
 }
 
+/// Capability token for a genuine macro/command callback.
+///
+/// It is callback-borrowed and must not be retained or sent to another thread.
 #[derive(Debug)]
 #[cfg_attr(
     not(feature = "xlcontime-research"),

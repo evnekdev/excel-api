@@ -26,14 +26,17 @@ impl ExcelString {
         Self::from_utf16_units(value.encode_utf16().collect::<Vec<_>>())
     }
 
+    /// Returns the exact owned UTF-16 code units, including embedded NULs.
     pub fn as_utf16(&self) -> &[u16] {
         &self.units
     }
 
+    /// Returns the number of UTF-16 code units, not Unicode scalar values.
     pub const fn len_utf16(&self) -> usize {
         self.units.len()
     }
 
+    /// Reports whether the string has no UTF-16 payload units.
     pub const fn is_empty(&self) -> bool {
         self.units.is_empty()
     }
@@ -83,17 +86,26 @@ impl TryFrom<&ExcelString> for String {
 /// is specified.
 #[derive(Clone, Debug, PartialEq)]
 pub enum ExcelValue {
+    /// An IEEE-754 worksheet number.
     Number(f64),
+    /// An Excel integer represented as an `i32`.
     Integer(i32),
+    /// An Excel Boolean.
     Boolean(bool),
+    /// A controlled Excel worksheet error.
     Error(ExcelError),
+    /// An omitted Excel argument.
     Missing,
+    /// An empty Excel value.
     Empty,
+    /// Owned UTF-16 text.
     Text(ExcelString),
+    /// An owned rectangular array.
     Array(ExcelArray),
 }
 
 impl ExcelValue {
+    /// Returns the stable diagnostic name of this semantic variant.
     pub const fn kind_name(&self) -> &'static str {
         match self {
             Self::Number(_) => "number",
@@ -117,6 +129,10 @@ pub struct ExcelArray {
 }
 
 impl ExcelArray {
+    /// Creates a rectangular row-major array.
+    ///
+    /// Returns an error when `rows * columns` overflows, the element count does
+    /// not match the shape, or an element is itself an array.
     pub fn new(
         rows: usize,
         columns: usize,
@@ -147,26 +163,32 @@ impl ExcelArray {
         })
     }
 
+    /// Returns the number of rows.
     pub const fn rows(&self) -> usize {
         self.rows
     }
 
+    /// Returns the number of columns.
     pub const fn columns(&self) -> usize {
         self.columns
     }
 
+    /// Returns the total row-major element count.
     pub const fn len(&self) -> usize {
         self.values.len()
     }
 
+    /// Reports whether the array contains no elements.
     pub const fn is_empty(&self) -> bool {
         self.values.is_empty()
     }
 
+    /// Returns all values in row-major order.
     pub fn values(&self) -> &[ExcelValue] {
         &self.values
     }
 
+    /// Returns the value at a zero-based row and column, if in bounds.
     pub fn get(&self, row: usize, column: usize) -> Option<&ExcelValue> {
         if row >= self.rows || column >= self.columns {
             return None;
@@ -174,6 +196,7 @@ impl ExcelArray {
         self.values.get(row * self.columns + column)
     }
 
+    /// Returns one zero-based row as a contiguous row-major slice.
     pub fn row(&self, row: usize) -> Option<&[ExcelValue]> {
         if row >= self.rows {
             return None;
@@ -182,6 +205,7 @@ impl ExcelArray {
         self.values.get(start..start + self.columns)
     }
 
+    /// Returns an iterator over one zero-based column, if in bounds.
     pub fn column(&self, column: usize) -> Option<ExcelArrayColumn<'_>> {
         (column < self.columns).then_some(ExcelArrayColumn {
             array: self,
@@ -190,6 +214,7 @@ impl ExcelArray {
         })
     }
 
+    /// Iterates all values in row-major order.
     pub fn iter(&self) -> slice::Iter<'_, ExcelValue> {
         self.values.iter()
     }
@@ -229,8 +254,11 @@ impl ExactSizeIterator for ExcelArrayColumn<'_> {}
 /// arguments from blank cells.
 #[derive(Clone, Debug, PartialEq)]
 pub enum OptionalValue<T> {
+    /// An omitted argument.
     Missing,
+    /// An empty Excel value.
     Empty,
+    /// A present converted value.
     Value(T),
 }
 

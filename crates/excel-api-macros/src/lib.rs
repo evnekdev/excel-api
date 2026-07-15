@@ -1,4 +1,18 @@
-#![doc = "Procedural macro entry points for `excel-api`."]
+#![warn(missing_docs)]
+#![doc = include_str!("../README.md")]
+//!
+//! # Excel authoring attributes
+//!
+//! This crate supplies the attributes re-exported by `excel-api`'s default
+//! `macros` feature. They retain the annotated Rust function, generate a fixed
+//! registration descriptor, and emit a panic-contained Excel ABI thunk with the
+//! requested exported name. They accept a deliberately closed signature model;
+//! unsupported types and incompatible context/flag combinations are rejected at
+//! compile time.
+//!
+//! See the repository [macro reference](https://github.com/evnekdev/excel-api/blob/master/docs/guide/macro-reference.md)
+//! for the complete syntax, mapping tables, and compile-fail examples. The
+//! `trybuild` suite is the normative regression test for diagnostic text.
 
 use std::collections::BTreeMap;
 
