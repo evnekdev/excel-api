@@ -109,8 +109,11 @@ pub fn snapshot() -> Vec<DiagnosticEvent> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    static TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
     #[test]
     fn saturation_is_bounded_and_preserves_excel_codes() {
+        let _serial = TEST_LOCK.lock().unwrap();
         for code in 0..(CAPACITY as i32 + 4) {
             emit(DiagnosticEvent::new(
                 DiagnosticCode::ExcelCall,
@@ -137,6 +140,7 @@ mod tests {
 
     #[test]
     fn sink_panic_and_reentrancy_do_not_escape() {
+        let _serial = TEST_LOCK.lock().unwrap();
         set_user_sink(Some(&PANICKING));
         emit(DiagnosticEvent::new(
             DiagnosticCode::ThunkFailure,

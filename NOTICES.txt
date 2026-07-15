@@ -1,0 +1,5 @@
+excel-api packaging notice
+
+This package contains the compiled excel-api minimal XLL. It does not
+redistribute the checked-in Microsoft Excel 2013 XLL SDK; that SDK is used only
+as build/reference provenance and remains subject to its own license terms.

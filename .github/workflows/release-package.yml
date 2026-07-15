@@ -1,0 +1,28 @@
+name: Release package validation
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  validate-package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Validate semver tag
+        shell: pwsh
+        run: |
+          $tag = '${{ github.ref_name }}'.TrimStart('v')
+          $version = (Select-String -Path Cargo.toml -Pattern '^version\s*=\s*"([^"]+)"').Matches[0].Groups[1].Value
+          if ($tag -ne $version) { throw "tag v$tag does not match workspace version $version" }
+      - name: Build unsigned package
+        shell: pwsh
+        run: pwsh -NoProfile -File scripts/package-minimal-xll.ps1 -Version $env:GITHUB_REF_NAME.TrimStart('v')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-xll-package
+          path: dist/
+
+# Signing and publishing are intentionally absent. A protected workflow with
+# externally supplied certificate credentials must be explicitly approved.
