@@ -764,12 +764,24 @@ mod tests {
             .unwrap_or_else(std::sync::PoisonError::into_inner)
     }
 
-    fn runtime_test_guard() -> std::sync::MutexGuard<'static, ()> {
+    struct RuntimeTestGuard {
+        _runtime: std::sync::MutexGuard<'static, ()>,
+        _dispatcher: std::sync::MutexGuard<'static, ()>,
+    }
+
+    fn runtime_test_guard() -> RuntimeTestGuard {
         static GUARD: OnceLock<Mutex<()>> = OnceLock::new();
-        GUARD
+        let runtime = GUARD
             .get_or_init(|| Mutex::new(()))
             .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        let dispatcher = crate::dispatcher::TEST_SERIAL
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        RuntimeTestGuard {
+            _runtime: runtime,
+            _dispatcher: dispatcher,
+        }
     }
 
     #[test]
@@ -938,7 +950,6 @@ mod tests {
     #[test]
     fn dispatcher_shutdown_precedes_cleanup_required_and_backend_unlink() {
         let _runtime = runtime_test_guard();
-        let _guard = crate::dispatcher::TEST_SERIAL.lock().unwrap();
         crate::dispatcher::reset_generations_for_test();
         assert_eq!(
             crate::install_dispatcher(crate::DispatchConfig::default()),
