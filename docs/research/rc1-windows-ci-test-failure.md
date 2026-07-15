@@ -44,4 +44,7 @@ or timeout adjustment was added.
 
 Production runtime behavior, ownership, ABI, feature boundaries, and the
 minimal XLL export surface are unchanged. The repair PR's Windows XLL workflow
-is the final release-gate evidence and is recorded here after it completes.
+run `29414822477` passed: MSRV and every validate step completed successfully,
+including `Tests`, no-default-features tests, doctests, warning-denied published
+Rustdoc, ABI checks, release XLL build, exact export inspection, and artifact
+upload. The export inspection retained exactly 18 required production exports.
