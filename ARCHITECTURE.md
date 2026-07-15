@@ -151,16 +151,17 @@ not wake Excel. Only a genuine typed Excel callback may drain compatible sealed
 operations; the initial live/manual entry point is `RUST.DISPATCH.PUMP`.
 Autonomous notification remains deferred.
 
-# M18 RTD/COM boundary
+# Optional RTD/COM boundary (post-1.0)
 
-Supported RTD streaming is a COM `IRtdServer` subsystem. It is not implemented
-through Excel12/Excel12v, and the documented COM methods confer no project
-Excel C API context. The future compatibility prototype belongs in a separate
-Windows-only RTD package and in-process COM server DLL; the default XLL and
-core crates acquire no COM dependency.
+RTD streaming is a separate COM `IRtdServer` subsystem, not a core 1.0
+capability. It is not implemented through Excel12/Excel12v, and documented COM
+methods confer no project Excel C API context. The retained compatibility
+prototype is Windows-only, experimental, unpublished, and excluded from
+default XLL packaging. The default XLL and published core crates acquire no COM
+dependency.
 
 `IRTDUpdateEvent::UpdateNotify` is only a request for Excel to collect RTD
 topic values through `RefreshData`. It is not an approved M17 dispatcher wake,
-so issue #30 and cooperative-only dispatch remain unchanged. Production RTD is
-deferred until the real Excel activation, threading, topic, close, policy, and
-unload matrix passes.
+so issue #30 and cooperative-only dispatch remain unchanged. Production RTD,
+general COM, Ribbon, task panes, and autonomous notification are optional
+post-1.0 work. They do not block M20 core stabilization.

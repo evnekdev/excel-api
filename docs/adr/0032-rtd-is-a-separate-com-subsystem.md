@@ -2,9 +2,10 @@
 
 ## Status
 
-Accepted provisionally for compatibility prototyping. The M18.2 status is
-**M18 prototype implemented; Excel activation unresolved**. Production RTD is
-not approved.
+Accepted provisionally for compatibility prototyping. Under ADR-0033, M18 is
+parked as optional post-1.0 research. The status is **M18 prototype
+implemented; Excel activation unresolved**. Production RTD is not approved and
+does not block core 1.0 review.
 
 ## Context
 
@@ -52,6 +53,8 @@ and lifecycle validation because a prior owned-test descendant remains.
 ## Consequences
 
 - M18 is an architecture/compatibility milestone, not an RTD framework.
+- The prototype is experimental, Windows-only, unpublished, unsupported for
+  production, and excluded from default packaging.
 - Failed GIT revocation retains its exact cookie, remains retryable through
   repeated termination, and blocks unload until successful.
 - Producer, join, and committed-notification panic paths are contained and

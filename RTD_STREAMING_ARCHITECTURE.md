@@ -1,5 +1,12 @@
 # RTD Streaming Architecture
 
+## Optional post-1.0 experiment
+
+RTD is not required for the initial stable `excel-api` 1.0 release. The
+prototype is retained for research and is explicitly **experimental,
+Windows-only, unpublished, unsupported for production, and excluded from
+default packaging**. It is tracked in issue #37; no RTD question blocks M20.
+
 ## M18 research decision
 
 Excel's supported Real-Time Data integration is the COM `IRtdServer`
@@ -19,6 +26,13 @@ M18.2 retains that boundary. Its status is **M18 prototype implemented; Excel
 activation unresolved**. Direct COM activation reaches the class factory,
 object creation, dual-interface dispatch, heartbeat, and termination, but a
 clean Excel formula comparison is blocked by a stale owned-test descendant.
+
+Verified scope is limited to the exact Office 1.9 ABI audit, COM class factory,
+Automation dispatch, direct COM activation/heartbeat, deterministic internal
+tests, and reversible per-user registration. It is not verified through Excel
+formulas: `ServerStart`, `ConnectData`, `UpdateNotify`/`RefreshData`, workbook
+lifecycle, `ServerTerminate` under Excel, module unload, and policy/signing
+compatibility all remain unverified.
 
 RTD is not approved as an M17 dispatcher wake adapter. `UpdateNotify` asks
 Excel to collect RTD topic values through `RefreshData`; neither callback is a

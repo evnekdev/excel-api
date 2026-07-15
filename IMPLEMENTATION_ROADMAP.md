@@ -30,7 +30,7 @@
 - M14 packaging (implemented)
 - M15 Excel integration/stress harness (implementation complete; live validation blocked)
 
-## Advanced
+## Advanced core capabilities
 
 - M16 async UDFs (implementation and lifecycle-race hardening complete with
   deterministic automated race/ABI tests; real Excel
@@ -39,10 +39,14 @@
 - M17 main-thread dispatcher (cooperative callback-drained implementation
   complete with deterministic automated tests; live pump validation blocked;
   enqueue does not wake Excel and no production autonomous wake is approved)
-- M18 RTD (separate in-process COM compatibility prototype implemented with a
-  verified installed Office 1.9 ABI, bounded/coalesced topics, GIT marshaling,
-  Automation ownership, retryable GIT cleanup, and activation diagnostics;
-  Excel activation unresolved and no production framework, Excel C API, or
-  M17 wake capability approved)
-- M19 COM/Ribbon
-- M20 1.0 review
+- M18 experimental RTD investigation — parked. The retained prototype is
+  Windows-only, unpublished, excluded from default packaging, and has no
+  verified Excel-formula lifecycle. It is not a core 1.0 blocker.
+- M19 optional COM/Ribbon — deferred. General COM automation, Ribbon UI, and
+  custom task panes are not required for core 1.0.
+- M20 core 1.0 stabilization review — next.
+
+Optional work is tracked separately in
+[`OPTIONAL_INTEGRATIONS_ROADMAP.md`](OPTIONAL_INTEGRATIONS_ROADMAP.md): E1 RTD
+clean-host comparison, E2 RTD production API design, E3 Ribbon metadata/UI,
+E4 custom task panes/general COM, and E5 autonomous notification adapters.
