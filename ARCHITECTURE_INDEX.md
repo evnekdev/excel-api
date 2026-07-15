@@ -14,7 +14,7 @@
 | Lifecycle | `CALLBACK_LIFECYCLE_ARCHITECTURE.md` | M8 implemented; automated live Excel passed | M6-M12 |
 | Registration | `REGISTRATION_ARCHITECTURE.md` | M8 manual oracle, M9 generation, and M10 diagnostic conformance implemented | M8-M10 |
 | Errors | `ERROR_ARCHITECTURE.md` | Partial (M3-M6 return policy implemented) | M2-M13 |
-| Testing | `TESTING_ARCHITECTURE.md` | Partial (M1-M6 coverage implemented) | All |
+| Testing | `TESTING_ARCHITECTURE.md` | Partial (automated real-Excel smoke/soak harness implemented) | All |
 | Macros | `PROC_MACRO_ARCHITECTURE.md` | M9 generation and M10 compile-time conformance implemented | M9-M10 |
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Minimal M8 XLL build implemented | M14 |
 | Async | `ASYNC_ARCHITECTURE.md` | Planned | M16 |
