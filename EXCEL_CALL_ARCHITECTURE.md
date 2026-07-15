@@ -135,3 +135,10 @@ decodes Excel's Boolean acceptance result and preserves the exact C API return
 code, including `xlretInvAsynchronousContext`. No `xlFree` or DLLFree transfer
 is involved. `xlEventRegister` is lifecycle-only and accepts the documented
 procedure-name string plus calculation event integer.
+# M17 dispatcher call boundary
+
+The dispatcher does not add arbitrary Excel function IDs. Its only initial
+Excel-calling operation reuses the verified Macro-context preserving `xlAbort`
+catalogue entry and preserves exact return-code and scalar-result handling.
+Owned echo work calls no Excel API. `xlcOnTime` and `xlfNow` remain isolated
+research descriptors and are not production dispatcher calls.

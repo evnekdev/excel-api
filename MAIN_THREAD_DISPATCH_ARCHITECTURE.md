@@ -2,6 +2,44 @@
 
 ## Current decision
 
+M17 is implemented as a bounded, cooperative, callback-drained dispatcher.
+**Enqueueing a request does not wake Excel.** Progress requires a later genuine
+Excel-issued callback, initially the explicit `RUST.DISPATCH.PUMP` command.
+There is no timer, hidden window, `PostMessage`, COM, RTD, or production
+`xlcOnTime` wake source.
+
+The dispatcher is deliberately independent of notification. A future verified
+adapter may cause Excel to issue a callback, but it does not change request
+ownership, tickets, capability matching, execution, retirement, or shutdown.
+
+## Cooperative dispatcher contract
+
+Each successful runtime-open cycle installs a fresh replaceable controller
+generation. Producers retain a stable generation handle; stale handles reject
+enqueue and can never target a later generation. Close removes global access,
+commits shutdown under the controller lock, retires queued/selected requests,
+waits for synchronous running work, unregisters, then unlinks the backend.
+
+The sealed operation catalogue initially contains owned `EchoOwned` and a
+Macro-only preserving `xlAbort` cancellation poll. It accepts no arbitrary
+context closure. Compatibility is explicit: context-neutral work may run in
+any typed drain; thread-safe, worksheet, macro, and lifecycle requirements run
+only in the identically typed callback. Lifecycle close performs retirement,
+not an ordinary drain.
+
+Configuration bounds pending requests, batch size, optional request lifetime,
+and optional drain duration. Selection scans FIFO order without letting an
+incompatible head block compatible work. A selected request is removed under
+the queue lock, then executed after unlocking. New work enqueued during a drain
+waits for a later callback. A thread-local RAII depth guard suppresses nested
+drains and rejects ticket waits from callback scopes.
+
+Tickets own only Rust state and may be polled, timeout-waited off callback
+threads, or canceled. Dropping a ticket detaches it; the controller retains and
+retires the request. Cancellation wins until the Selected-to-Running
+commitment. One idempotent retirement path publishes a terminal result,
+releases registry capacity, and signals waiters at most once.
+
 M17 has not selected an autonomous wake mechanism. A research-only
 `xlcOnTime` compatibility probe exists, but the decision is **inconclusive**
 until its complete contract, security behavior, cancellation, and unload
@@ -91,4 +129,4 @@ unloading. The harness must never deliberately rely on that behavior.
 - editing, modal UI, calculation, copy/paste, undo, latency, and idle CPU are
   acceptable.
 
-Until then, M17 must not use this mechanism autonomously.
+Until then, no production dispatcher may use this mechanism autonomously.

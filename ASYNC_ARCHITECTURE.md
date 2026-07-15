@@ -135,3 +135,9 @@ the project does not claim TSan or Loom validation.
 - [xlEventRegister](https://learn.microsoft.com/en-us/office/client-developer/excel/xleventregister)
 - [Handling Events](https://learn.microsoft.com/en-us/office/client-developer/excel/handling-events)
 - [xlfRegister (Form 1)](https://learn.microsoft.com/en-au/office/client-developer/excel/xlfregister-form-1)
+# Relationship to M17 dispatch
+
+The M17 cooperative dispatcher has its own replaceable controller generation,
+queue, tickets, and shutdown gate. It does not share async handles or the M16
+executor/controller and does not use `xlAsyncReturn`. Both systems follow the
+same rule that their generation is removed and drained before backend unlink.

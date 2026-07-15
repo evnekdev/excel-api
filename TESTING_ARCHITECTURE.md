@@ -213,3 +213,21 @@ The 2026-07-15 host could not create a plain workbook and did not enter the XLL
 test bootstrap after `RegisterXLL`; COM and XLM command invocation were also
 unavailable without a workbook. Therefore the live result is inconclusive and
 must not be counted as `xlcOnTime` validation.
+
+## M17 cooperative dispatcher coverage
+
+Deterministic unit tests cover empty/FIFO/bounded selection, capacity
+rejection, compatible work behind an incompatible head, expiration, detached
+ticket drop, cancellation at queued/selected/running boundaries, exact-once
+retirement, shutdown races, stale generations, reopen, bounded waiting, and
+panic-safe nested-drain suppression. Typed-context tests pin the explicit
+compatibility matrix and the Macro-only preserving `xlAbort` descriptor,
+argument count, Boolean decode, no `xlFree`, and raw return-code preservation.
+
+Runtime integration tests prove generation removal before cleanup, dispatch
+remaining disabled in `CleanupRequired`, retry close, and backend unlink only
+after active synchronous work has ended. Default minimal-XLL registration and
+PE inspection require `RUST.DISPATCH.PUMP` while continuing to reject all
+`RUST.ONTIME.*` production exports. Manual live steps are recorded in
+`docs/manual-tests/m17-cooperative-dispatcher.md`; they remain pending because
+the available host cannot create a plain workbook.

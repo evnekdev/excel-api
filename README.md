@@ -30,12 +30,13 @@ cancellation skips user code, event handlers are registered once per loaded
 binary, and failed close cleanup is represented explicitly. Automated coverage passes; real Excel
 cancellation/recalculation/unload validation remains pending, and does not
 change the blocked M15 live-smoke status.
-M17 has not started. A research-only `xlcOnTime` compatibility spike confirms
-the checked-in IDs and typed argument roots, but the modern operational
-decision is inconclusive: the current Excel host still cannot create a plain
-workbook and could not invoke the registered probe commands. The experimental
-call is not connected to a dispatcher queue and is absent from the default
-minimal-XLL build; it requires the explicit `xlcontime-research` feature.
+M17 implements a bounded cooperative dispatcher with owned tickets, sealed
+operations, per-open generations, capability-typed drains, and the explicit
+`RUST.DISPATCH.PUMP` command. Enqueueing does not wake Excel; autonomous
+notification remains open. The isolated `xlcOnTime` research decision remains
+inconclusive and is not used by the production dispatcher. Automated coverage
+passes, while live pump validation remains blocked by the current host's plain
+workbook-creation failure.
 
 Build the loadable artifact with:
 
