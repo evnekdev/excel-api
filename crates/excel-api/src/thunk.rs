@@ -188,8 +188,22 @@ pub fn function_error(error: impl IntoThunkError) -> ThunkError {
 pub fn xloper12_thunk(body: impl FnOnce() -> Result<ExcelReturnValue, ThunkError>) -> LPXLOPER12 {
     match std::panic::catch_unwind(AssertUnwindSafe(|| body().and_then(return_value))) {
         Ok(Ok(pointer)) => pointer,
-        Ok(Err(error)) => static_error(error_for(&error)),
-        Err(_) => static_error(ExcelError::Value),
+        Ok(Err(error)) => {
+            crate::diagnostics::emit(crate::DiagnosticEvent::new(
+                crate::DiagnosticCode::ThunkFailure,
+                crate::DiagnosticSeverity::Error,
+                0,
+            ));
+            static_error(error_for(&error))
+        }
+        Err(_) => {
+            crate::diagnostics::emit(crate::DiagnosticEvent::new(
+                crate::DiagnosticCode::ThunkFailure,
+                crate::DiagnosticSeverity::Error,
+                0,
+            ));
+            static_error(ExcelError::Value)
+        }
     }
 }
 
@@ -202,7 +216,14 @@ pub fn xloper12_thunk(body: impl FnOnce() -> Result<ExcelReturnValue, ThunkError
 pub fn scalar_thunk<T: Copy>(fallback: T, body: impl FnOnce() -> Result<T, ThunkError>) -> T {
     match std::panic::catch_unwind(AssertUnwindSafe(body)) {
         Ok(Ok(value)) => value,
-        Ok(Err(_)) | Err(_) => fallback,
+        Ok(Err(_)) | Err(_) => {
+            crate::diagnostics::emit(crate::DiagnosticEvent::new(
+                crate::DiagnosticCode::ThunkFailure,
+                crate::DiagnosticSeverity::Error,
+                0,
+            ));
+            fallback
+        }
     }
 }
 

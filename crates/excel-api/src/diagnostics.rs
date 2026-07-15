@@ -1,0 +1,149 @@
+//! Bounded, non-panicking diagnostics for supportability-critical paths.
+//!
+//! Emission never calls Excel, allocates, formats, or invokes user code while
+//! another diagnostic is being emitted. Drop and `xlAutoFree12` deliberately
+//! do not emit events.
+
+use core::sync::atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering};
+
+/// Stable machine-readable diagnostic code. Formatting belongs to consumers.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(u16)]
+pub enum DiagnosticCode {
+    Runtime = 1,
+    Registration = 2,
+    ExcelCall = 3,
+    ThunkFailure = 4,
+    ReturnFailure = 5,
+    ReleaseFailure = 6,
+    OwnershipInvariant = 7,
+    SinkPanic = 8,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(u8)]
+pub enum DiagnosticSeverity {
+    Debug,
+    Info,
+    Warn,
+    Error,
+}
+
+/// Pointer-free fixed-size event. `excel_code` preserves raw Excel status.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct DiagnosticEvent {
+    pub sequence: u64,
+    pub correlation_id: u64,
+    pub code: DiagnosticCode,
+    pub severity: DiagnosticSeverity,
+    pub excel_code: i32,
+}
+
+impl DiagnosticEvent {
+    pub const fn new(code: DiagnosticCode, severity: DiagnosticSeverity, excel_code: i32) -> Self {
+        Self {
+            sequence: 0,
+            correlation_id: 0,
+            code,
+            severity,
+            excel_code,
+        }
+    }
+}
+
+const CAPACITY: usize = 64;
+static NEXT: AtomicU64 = AtomicU64::new(1);
+static WRITTEN: AtomicUsize = AtomicUsize::new(0);
+static EMITTING: AtomicBool = AtomicBool::new(false);
+static RING: std::sync::Mutex<[Option<DiagnosticEvent>; CAPACITY]> =
+    std::sync::Mutex::new([None; CAPACITY]);
+static USER_SINK: std::sync::Mutex<Option<&'static dyn DiagnosticSink>> =
+    std::sync::Mutex::new(None);
+
+/// Optional consumer for ordinary process diagnostics.
+///
+/// Implementations must not call Excel, block indefinitely, allocate in a
+/// guarded callback path, or call [`emit`] recursively. Panics are contained
+/// and the triggering event remains in the ring.
+pub trait DiagnosticSink: Send + Sync {
+    fn record(&self, event: DiagnosticEvent);
+}
+
+/// Install or remove the optional process-wide user sink before callbacks.
+/// A concurrently emitting callback is never blocked: it simply skips a sink
+/// whose configuration lock is unavailable.
+pub fn set_user_sink(sink: Option<&'static dyn DiagnosticSink>) {
+    if let Ok(mut slot) = USER_SINK.try_lock() {
+        *slot = sink;
+    }
+}
+
+/// Emit into the bounded process-local ring. Reentrant and poisoned paths drop
+/// the event rather than block, recurse, panic, allocate, or call Excel.
+pub fn emit(mut event: DiagnosticEvent) {
+    if EMITTING.swap(true, Ordering::Acquire) {
+        return;
+    }
+    event.sequence = NEXT.fetch_add(1, Ordering::Relaxed);
+    event.correlation_id = event.sequence;
+    if let Ok(mut ring) = RING.try_lock() {
+        let index = WRITTEN.fetch_add(1, Ordering::Relaxed) % CAPACITY;
+        ring[index] = Some(event);
+    }
+    if let Ok(sink) = USER_SINK.try_lock()
+        && let Some(sink) = *sink
+    {
+        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| sink.record(event)));
+    }
+    EMITTING.store(false, Ordering::Release);
+}
+
+/// Snapshot is intentionally for ordinary support tooling, never callbacks.
+pub fn snapshot() -> Vec<DiagnosticEvent> {
+    RING.lock()
+        .ok()
+        .map(|ring| ring.iter().flatten().copied().collect())
+        .unwrap_or_default()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn saturation_is_bounded_and_preserves_excel_codes() {
+        for code in 0..(CAPACITY as i32 + 4) {
+            emit(DiagnosticEvent::new(
+                DiagnosticCode::ExcelCall,
+                DiagnosticSeverity::Error,
+                code,
+            ));
+        }
+        let events = snapshot();
+        assert!(events.len() <= CAPACITY);
+        assert!(
+            events
+                .iter()
+                .any(|event| event.excel_code == CAPACITY as i32 + 3)
+        );
+    }
+
+    struct PanickingSink;
+    impl DiagnosticSink for PanickingSink {
+        fn record(&self, _: DiagnosticEvent) {
+            panic!("test sink panic");
+        }
+    }
+    static PANICKING: PanickingSink = PanickingSink;
+
+    #[test]
+    fn sink_panic_and_reentrancy_do_not_escape() {
+        set_user_sink(Some(&PANICKING));
+        emit(DiagnosticEvent::new(
+            DiagnosticCode::ThunkFailure,
+            DiagnosticSeverity::Error,
+            17,
+        ));
+        set_user_sink(None);
+        assert!(snapshot().iter().any(|event| event.excel_code == 17));
+    }
+}

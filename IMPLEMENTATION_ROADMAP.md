@@ -26,7 +26,7 @@
 
 ## Production
 
-- M13 diagnostics
+- M13 diagnostics (implemented; real Excel observability validation pending)
 - M14 packaging
 - M15 Excel integration/stress harness
 

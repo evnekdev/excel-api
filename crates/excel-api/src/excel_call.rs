@@ -433,6 +433,11 @@ impl<'call> CallCapability<'call> {
         };
         let code = ExcelReturnCode(raw);
         if !code.is_success() {
+            crate::diagnostics::emit(crate::DiagnosticEvent::new(
+                crate::DiagnosticCode::ExcelCall,
+                crate::DiagnosticSeverity::Error,
+                code.0,
+            ));
             return Err(ExcelCallError::ExcelFailure {
                 function: descriptor.name,
                 code,
@@ -487,6 +492,11 @@ impl<'call> CallCapability<'call> {
         };
         let code = ExcelReturnCode(raw);
         if !code.is_success() {
+            crate::diagnostics::emit(crate::DiagnosticEvent::new(
+                crate::DiagnosticCode::ExcelCall,
+                crate::DiagnosticSeverity::Error,
+                code.0,
+            ));
             return Err(ExcelCallError::ExcelFailure {
                 function: XL_ABORT.name,
                 code,

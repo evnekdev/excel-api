@@ -3,6 +3,7 @@
 pub mod borrowed;
 pub mod context;
 pub mod convert;
+pub mod diagnostics;
 pub mod error;
 mod excel_call;
 mod excel_owned;
@@ -22,6 +23,9 @@ pub use borrowed::{
 };
 pub use context::{LifecycleContext, MacroContext, ThreadSafeContext, WorksheetContext};
 pub use convert::{ConversionLimits, FromExcel, IntoExcel};
+pub use diagnostics::{
+    DiagnosticCode, DiagnosticEvent, DiagnosticSeverity, DiagnosticSink, set_user_sink,
+};
 pub use error::{
     ConversionError, ExcelError, OwnedValueError, ReturnError, ReturnMaterializationError,
     ThunkError, Utf16ConversionError,
