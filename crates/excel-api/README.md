@@ -19,7 +19,6 @@ use excel_api::prelude::*;
 )]
 fn add(left: f64, right: f64) -> f64 { left + right }
 
-# #[cfg(not(feature = "macros"))]
 # fn main() {}
 ```
 
