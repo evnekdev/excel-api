@@ -204,8 +204,8 @@ pub const XLC_ON_TIME: ExcelCallDescriptor = ExcelCallDescriptor {
 /// Controls whether an `xlAbort` poll retains or clears a pending break.
 ///
 /// `PreservePendingBreak` is represented by an omitted argument in
-/// [`WorksheetContext::is_cancellation_requested`], or by an explicit TRUE in
-/// [`WorksheetContext::is_cancellation_requested_with`]. `ClearPendingBreak`
+/// [`crate::WorksheetContext::is_cancellation_requested`], or by an explicit
+/// TRUE in [`crate::WorksheetContext::is_cancellation_requested_with`]. `ClearPendingBreak`
 /// is explicit FALSE. The returned Boolean reports a user break request only;
 /// it never reports Excel's general calculation progress or state.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -299,7 +299,10 @@ pub enum ExcelCallError {
         expected: &'static str,
         actual: &'static str,
     },
-    ResultConversion(String),
+    InvalidModuleNameUtf16,
+    InvalidExcelSerialTime,
+    ResultConversion(crate::ExcelOwnedConversionError),
+    ResultRelease(crate::ExcelReleaseError),
     Registration(RegistrationError),
 }
 
@@ -324,14 +327,24 @@ impl fmt::Display for ExcelCallError {
                 expected,
                 actual,
             } => write!(f, "{function} returned {actual}, expected {expected}"),
-            Self::ResultConversion(message) => {
-                write!(f, "Excel result conversion failed: {message}")
-            }
+            Self::InvalidModuleNameUtf16 => f.write_str("module name is not valid UTF-16"),
+            Self::InvalidExcelSerialTime => f.write_str("Excel serial date/time must be finite"),
+            Self::ResultConversion(error) => write!(f, "{error}"),
+            Self::ResultRelease(error) => write!(f, "{error}"),
             Self::Registration(error) => write!(f, "registration descriptor is invalid: {error}"),
         }
     }
 }
-impl std::error::Error for ExcelCallError {}
+impl std::error::Error for ExcelCallError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::ResultConversion(error) => Some(error),
+            Self::ResultRelease(error) => Some(error),
+            Self::Registration(error) => Some(error),
+            _ => None,
+        }
+    }
+}
 
 pub(crate) trait ExcelCallBackend: Send + Sync {
     fn link(&self) -> Result<(), ExcelCallError>;
@@ -629,9 +642,7 @@ impl<'call> CallCapability<'call> {
             });
         }
         if !earliest.is_finite() || latest.is_some_and(|value| !value.is_finite()) {
-            return Err(ExcelCallError::ResultConversion(
-                "xlcOnTime requires finite Excel serial values".into(),
-            ));
+            return Err(ExcelCallError::InvalidExcelSerialTime);
         }
         let mut command_storage = counted(command).map_err(ExcelCallError::Registration)?;
         let mut earliest_root = XLOPER12 {
@@ -753,9 +764,8 @@ impl CallArguments {
         registration
             .validate()
             .map_err(ExcelCallError::Registration)?;
-        let module_text = String::from_utf16(module.as_utf16()).map_err(|_| {
-            ExcelCallError::ResultConversion("module name is not valid UTF-16".into())
-        })?;
+        let module_text = String::from_utf16(module.as_utf16())
+            .map_err(|_| ExcelCallError::InvalidModuleNameUtf16)?;
         let type_text = registration
             .type_text()
             .map_err(ExcelCallError::Registration)?;
@@ -807,9 +817,8 @@ impl CallArguments {
         registration
             .validate()
             .map_err(ExcelCallError::Registration)?;
-        let module_text = String::from_utf16(module.as_utf16()).map_err(|_| {
-            ExcelCallError::ResultConversion("module name is not valid UTF-16".into())
-        })?;
+        let module_text = String::from_utf16(module.as_utf16())
+            .map_err(|_| ExcelCallError::InvalidModuleNameUtf16)?;
         let values = vec![
             module_text,
             registration.rust_symbol.into(),
@@ -922,7 +931,7 @@ impl LifecycleContext<'_> {
             .expect("descriptor requires a result");
         let value = owner
             .into_owned_value(&crate::ConversionLimits::default())
-            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))?;
+            .map_err(ExcelCallError::ResultConversion)?;
         match value {
             crate::ExcelValue::Text(text) => Ok(text),
             other => Err(ExcelCallError::MalformedResult {
@@ -946,7 +955,7 @@ impl LifecycleContext<'_> {
             .expect("descriptor requires a result");
         let value = owner
             .into_owned_value(&crate::ConversionLimits::default())
-            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))?;
+            .map_err(ExcelCallError::ResultConversion)?;
         match value {
             crate::ExcelValue::Number(id) if id.is_finite() => Ok(id),
             other => Err(ExcelCallError::MalformedResult {
@@ -970,7 +979,7 @@ impl LifecycleContext<'_> {
             .expect("descriptor requires a result");
         let value = owner
             .into_owned_value(&crate::ConversionLimits::default())
-            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))?;
+            .map_err(ExcelCallError::ResultConversion)?;
         match value {
             crate::ExcelValue::Number(id) if id.is_finite() => Ok(id),
             other => Err(ExcelCallError::MalformedResult {
@@ -993,9 +1002,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_UNREGISTER, &mut arguments)?
             .expect("descriptor requires a result");
-        owner
-            .release()
-            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))
+        owner.release().map_err(ExcelCallError::ResultRelease)
     }
 
     pub(crate) fn delete_defined_name(&self, name: &str) -> Result<(), ExcelCallError> {
@@ -1005,9 +1012,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_SET_NAME, &mut arguments)?
             .expect("descriptor requires a result");
-        owner
-            .release()
-            .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))
+        owner.release().map_err(ExcelCallError::ResultRelease)
     }
 }
 
@@ -1055,7 +1060,7 @@ macro_rules! sheet_context {
                     .expect("descriptor requires a result");
                 let value = owner
                     .into_owned_value(&crate::ConversionLimits::default())
-                    .map_err(|error| ExcelCallError::ResultConversion(error.to_string()))?;
+                    .map_err(ExcelCallError::ResultConversion)?;
                 match value {
                     crate::ExcelValue::Text(name) => Ok(name),
                     other => Err(ExcelCallError::MalformedResult {

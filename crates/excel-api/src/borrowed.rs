@@ -43,7 +43,7 @@ use crate::ExcelError;
 type CallbackMarker<'call> = PhantomData<(&'call XLOPER12, *mut ())>;
 
 /// Why a raw callback value could not be represented as a safe borrowed view.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DecodeError {
     MalformedType(u32),
     UnsupportedType(u32),

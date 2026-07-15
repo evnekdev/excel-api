@@ -20,7 +20,7 @@ pub mod value;
 
 pub use async_udf::{
     AsyncCancellationToken, AsyncCompletionError, AsyncExecuteError, AsyncExecutor, AsyncJob,
-    AsyncSubmitError, ThreadPoolExecutor, calculation_canceled, calculation_ended,
+    AsyncSubmitError, ThreadPoolExecutor,
 };
 pub use borrowed::{
     DecodeError, ExcelArrayColumns, ExcelArrayElements, ExcelArrayRows, ExcelArrayView,

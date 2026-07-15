@@ -5,6 +5,14 @@ on:
   pull_request:
 
 jobs:
+  msrv:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - name: Check declared MSRV
+        run: cargo check --workspace --all-targets --all-features
+
   validate:
     runs-on: windows-latest
     steps:
@@ -16,8 +24,14 @@ jobs:
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Tests
         run: cargo test --workspace --all-features
+      - name: Core without default macros
+        run: cargo test -p excel-api --no-default-features
       - name: Doctests
         run: cargo test --workspace --doc
+      - name: Public documentation links
+        env:
+          RUSTDOCFLAGS: -D rustdoc::broken-intra-doc-links
+        run: cargo doc -p excel-api-sys -p excel-api -p excel-api-macros --all-features --no-deps
       - name: ABI checker
         run: cargo run --manifest-path tools/abi-check/Cargo.toml
       - name: Build release XLL
