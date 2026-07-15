@@ -25,7 +25,10 @@ pub enum ExcelReleasePolicy {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ExcelReleaseError {
     /// Excel returned its exact (possibly bit-combined) C API failure code.
-    ExcelCallFailure { code: i32 },
+    ExcelCallFailure {
+        /// Exact raw Excel C API return code.
+        code: i32,
+    },
     /// The callback capability does not permit a call into Excel.
     InvalidContext,
     /// The operation was rejected in a multithreaded-calculation context.
@@ -57,10 +60,15 @@ impl std::error::Error for ExcelReleaseError {}
 /// The result of a consuming deep copy followed by the mandatory release.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ExcelOwnedConversionError {
+    /// The deep copy failed, but the required release succeeded.
     Conversion(ConversionError),
+    /// The deep copy succeeded, but the required release reported failure.
     Release(ExcelReleaseError),
+    /// Both the deep copy and the exactly-once release reported failure.
     ConversionAndRelease {
+        /// Copy failure observed before release.
         conversion: ConversionError,
+        /// Release failure observed after the copy attempt.
         release: ExcelReleaseError,
     },
 }

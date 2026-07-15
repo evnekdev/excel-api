@@ -1,5 +1,12 @@
 # Lifecycle
 
+```rust,no_run
+use excel_api::{AddInDescriptor, Runtime};
+
+fn open(runtime: &Runtime, add_in: &AddInDescriptor) { let _ = runtime.initialize(add_in); }
+fn close(runtime: &Runtime) { let _ = runtime.close(); }
+```
+
 `Runtime` coordinates registration and teardown. Initialize from a genuine XLL
 open callback, provide the exact Excel callback entry point, and close before
 unload. Registration is rollback-aware; close failures are represented rather

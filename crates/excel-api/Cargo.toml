@@ -24,7 +24,9 @@ xlcontime-research = []
 [package.metadata.docs.rs]
 default-target = "x86_64-pc-windows-msvc"
 targets = ["x86_64-pc-windows-msvc"]
-all-features = true
+# Published docs cover the stable authoring surface; the internal
+# `xlcontime-research` probe is deliberately not a docs.rs feature.
+features = ["macros"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]

@@ -19,45 +19,71 @@ enum RegistrationKind {
     Command,
 }
 
+/// Observable state of one XLL runtime lifecycle generation.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum RuntimePhase {
+    /// No Excel callback backend is linked and no registrations are tracked.
     Uninitialized,
+    /// Initialization owns the transition and is registering functions.
     Initializing,
+    /// Registrations and the current runtime generation are active.
     Initialized,
+    /// Close owns the transition and is retiring active resources.
     Closing,
     /// Excel registrations remain and close must be retried. Async scheduling
     /// is disabled and the callback backend remains linked for cleanup only.
     CleanupRequired,
 }
 
+/// Counters retained by [`Runtime`] for lifecycle diagnostics.
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct RuntimeDiagnostics {
+    /// Number of calls to [`Runtime::initialize`].
     pub initialization_attempts: usize,
+    /// Initialization transitions that completed successfully.
     pub successful_initializations: usize,
+    /// Idempotent initialize calls while already initialized.
     pub duplicate_initializations: usize,
+    /// Number of calls to [`Runtime::close`].
     pub close_attempts: usize,
+    /// Close transitions that unlinked the backend.
     pub successful_closes: usize,
+    /// Total successfully registered functions and commands.
     pub registrations: usize,
+    /// Number of attempted Excel unregister calls.
     pub unregister_attempts: usize,
+    /// Number of rollback unregister attempts after initialization failure.
     pub rollback_attempts: usize,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Outcome for an idempotent lifecycle operation.
 pub enum LifecycleOutcome {
+    /// This call completed the requested lifecycle transition.
     Completed,
+    /// The runtime was already at the requested stable state.
     AlreadyInState,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+/// A lifecycle transition could not be completed safely.
 pub enum LifecycleError {
+    /// Another lifecycle transition owns the runtime in this phase.
     Busy(RuntimePhase),
+    /// Async generation activation failed.
     Async(AsyncSubmitError),
+    /// A typed Excel lifecycle call failed.
     Excel(ExcelCallError),
+    /// Registration failed and one or more compensating calls also failed.
     RegistrationRollback {
+        /// Original registration failure.
         primary: ExcelCallError,
+        /// Failed compensating delete-name or unregister calls.
         cleanup: Vec<ExcelCallError>,
     },
+    /// Closing could not unregister all remaining registrations.
     CloseFailed {
+        /// Exact errors retained for a later cleanup retry.
         errors: Vec<ExcelCallError>,
     },
 }
@@ -115,6 +141,10 @@ impl Default for RuntimeState {
     }
 }
 
+/// Coordinates Excel linking, registration, and orderly XLL close.
+///
+/// A runtime is process-local application state, not a callback context. Its
+/// transition methods must be called through genuine Excel lifecycle thunks.
 pub struct Runtime {
     backend: Arc<dyn ExcelCallBackend>,
     sdk_backend: Option<Arc<SdkExcel12vBackend>>,
@@ -130,6 +160,10 @@ impl fmt::Debug for Runtime {
 }
 
 impl Runtime {
+    /// Creates the process-local runtime using the production Excel12v backend.
+    ///
+    /// The backend remains unlinked until [`Self::initialize`] runs from a
+    /// genuine lifecycle callback.
     pub fn production() -> Self {
         let backend = production_backend();
         Self {
@@ -148,6 +182,10 @@ impl Runtime {
         }
     }
 
+    /// Installs Excel's `Excel12v` callback entry point in the SDK backend.
+    ///
+    /// Generated lifecycle thunks call this before initialization; passing an
+    /// entry point does not itself link the backend or make arbitrary calls legal.
     pub fn set_excel12_entry_point(&self, callback: excel_api_sys::Excel12EntryPtFn) {
         if let Some(backend) = &self.sdk_backend {
             backend.set_entry_point(callback);
@@ -160,12 +198,18 @@ impl Runtime {
             .unwrap_or_else(std::sync::PoisonError::into_inner)
     }
 
+    /// Returns the current lifecycle phase.
     pub fn phase(&self) -> RuntimePhase {
         self.lock().phase
     }
+    /// Returns a copied snapshot of process-local lifecycle counters.
     pub fn diagnostics(&self) -> RuntimeDiagnostics {
         self.lock().diagnostics.clone()
     }
+    /// Returns worksheet-function registration identifiers currently tracked.
+    ///
+    /// The IDs are meaningful only while the current runtime generation remains
+    /// active and must not be used to issue raw unregister calls directly.
     pub fn registration_ids(&self) -> Vec<f64> {
         self.lock()
             .worksheet_registrations
@@ -206,6 +250,11 @@ impl Runtime {
         Ok(body(&context))
     }
 
+    /// Links Excel, installs a fresh generation, and registers `add_in`.
+    ///
+    /// Call only from an Excel-issued open/lifecycle callback. On partial
+    /// registration failure this performs bounded rollback; a rollback failure
+    /// leaves [`RuntimePhase::CleanupRequired`] so [`Self::close`] can retry.
     pub fn initialize(&self, add_in: &AddInDescriptor) -> Result<LifecycleOutcome, LifecycleError> {
         let _callback = crate::dispatcher::enter_callback();
         add_in
@@ -461,6 +510,11 @@ impl Runtime {
         Ok(())
     }
 
+    /// Retires dispatcher and async generations, unregisters, then unlinks Excel.
+    ///
+    /// This must run from a genuine lifecycle callback. Failed unregister calls
+    /// retain conservative cleanup state and return [`LifecycleError::CloseFailed`];
+    /// retrying `close` never reactivates old generations.
     pub fn close(&self) -> Result<LifecycleOutcome, LifecycleError> {
         let _callback = crate::dispatcher::enter_callback();
         let (registrations, drain_async, drain_dispatcher) = {

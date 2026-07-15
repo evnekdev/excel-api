@@ -1,5 +1,14 @@
 # Optional, missing, empty, and nil
 
+```rust
+use excel_api::{ExcelValue, OptionalValue};
+
+let omitted: OptionalValue<f64> = OptionalValue::Missing;
+let empty = ExcelValue::Empty;
+assert!(matches!(omitted, OptionalValue::Missing));
+assert!(matches!(empty, ExcelValue::Empty));
+```
+
 These are distinct Excel concepts:
 
 | Form | Meaning |

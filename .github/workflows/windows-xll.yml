@@ -28,10 +28,10 @@ jobs:
         run: cargo test -p excel-api --no-default-features
       - name: Doctests
         run: cargo test --workspace --doc
-      - name: Public documentation links
+      - name: Published core Rustdoc
         env:
-          RUSTDOCFLAGS: -D rustdoc::broken-intra-doc-links
-        run: cargo doc -p excel-api-sys -p excel-api -p excel-api-macros --all-features --no-deps
+          RUSTDOCFLAGS: -D warnings
+        run: cargo doc -p excel-api-sys -p excel-api -p excel-api-macros --features macros --no-deps
       - name: ABI checker
         run: cargo run --manifest-path tools/abi-check/Cargo.toml
       - name: Build release XLL

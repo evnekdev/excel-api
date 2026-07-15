@@ -5,13 +5,21 @@ use crate::DecodeError;
 /// Safe representation of worksheet errors.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ExcelError {
+    /// `#NULL!`: an invalid intersection.
     Null,
+    /// `#DIV/0!`: division by zero.
     Div0,
+    /// `#VALUE!`: an invalid value or argument type.
     Value,
+    /// `#REF!`: an invalid worksheet reference.
     Ref,
+    /// `#NAME?`: an unrecognized name.
     Name,
+    /// `#NUM!`: an invalid numeric result.
     Num,
+    /// `#N/A`: data is unavailable.
     Na,
+    /// `#GETTING_DATA`: an asynchronous data source is still pending.
     GettingData,
 }
 
@@ -46,15 +54,23 @@ impl std::error::Error for Utf16ConversionError {}
 /// Failure to construct an owned semantic value directly.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum OwnedValueError {
+    /// Multiplying the requested dimensions overflowed `usize`.
     ArrayShapeOverflow {
+        /// Requested row count.
         rows: usize,
+        /// Requested column count.
         columns: usize,
     },
+    /// The supplied flat element count does not match the dimensions.
     InvalidArrayShape {
+        /// Requested row count.
         rows: usize,
+        /// Requested column count.
         columns: usize,
+        /// Provided flat element count.
         elements: usize,
     },
+    /// An owned array attempted to contain another array.
     NestedArrayUnsupported,
 }
 
@@ -85,33 +101,56 @@ impl std::error::Error for OwnedValueError {}
 /// values.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ConversionError {
+    /// The source kind does not match the requested conversion.
     UnexpectedType {
+        /// Human-readable requested kind.
         expected: &'static str,
+        /// Human-readable source kind.
         actual: &'static str,
     },
+    /// A callback reference requires an explicit reference-preserving path.
     UnsupportedReference,
+    /// A UTF-16 payload contained an unpaired surrogate.
     InvalidUtf16,
+    /// A floating-point input was NaN or infinite.
     NonFiniteNumber,
+    /// A floating-point input had a fractional component.
     NonIntegralNumber,
+    /// An integral value did not fit the requested integer type.
     IntegerOutOfRange,
+    /// The source array dimensions and elements were inconsistent.
     InvalidArrayShape,
+    /// Text exceeded the configured conversion limit.
     StringLimitExceeded {
+        /// Observed UTF-16 code-unit count.
         actual: usize,
+        /// Configured maximum.
         maximum: usize,
     },
+    /// An array exceeded the configured element limit.
     ArrayElementLimitExceeded {
+        /// Observed element count.
         actual: usize,
+        /// Configured maximum.
         maximum: usize,
     },
+    /// Conversion would exceed its aggregate owned-allocation budget.
     AggregateByteLimitExceeded {
+        /// Minimum required bytes.
         required: usize,
+        /// Configured maximum bytes.
         maximum: usize,
     },
+    /// Nested Excel arrays have no supported semantic representation.
     NestedArrayUnsupported,
+    /// Recursive conversion exceeded its configured depth.
     ConversionDepthExceeded {
+        /// Observed conversion depth.
         depth: usize,
+        /// Configured maximum depth.
         maximum: usize,
     },
+    /// A callback view became malformed while being decoded.
     BorrowedValueDecode(DecodeError),
 }
 
@@ -192,49 +231,84 @@ impl From<OwnedValueError> for ConversionError {
 /// pointers, callback lifetimes, or partially allocated return storage.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ReturnError {
+    /// Text exceeds Excel's representable counted-string limit.
     StringTooLongForExcel {
+        /// Requested UTF-16 code units.
         actual: usize,
+        /// Excel's maximum UTF-16 code units.
         maximum: usize,
     },
+    /// Text exceeds the library's configured return limit.
     StringLimitExceeded {
+        /// Requested UTF-16 code units.
         actual: usize,
+        /// Configured maximum.
         maximum: usize,
     },
+    /// Flat elements do not match the requested return dimensions.
     InvalidArrayShape {
+        /// Requested rows.
         rows: usize,
+        /// Requested columns.
         columns: usize,
+        /// Provided element count.
         elements: usize,
     },
+    /// Empty multidimensional ABI returns are not representable.
     EmptyArrayUnsupported,
+    /// A dimension exceeds the Excel 12 ABI width or bounds.
     ArrayDimensionExceedsAbi {
+        /// Requested rows.
         rows: usize,
+        /// Requested columns.
         columns: usize,
     },
+    /// Multiplying return dimensions overflowed `usize`.
     ArrayElementCountOverflow {
+        /// Requested rows.
         rows: usize,
+        /// Requested columns.
         columns: usize,
     },
+    /// A return array exceeds its configured element budget.
     ArrayElementLimitExceeded {
+        /// Requested element count.
         actual: usize,
+        /// Configured maximum.
         maximum: usize,
     },
+    /// Nested arrays cannot be materialized as Excel 12 return storage.
     NestedArrayUnsupported,
+    /// Semantic references are not valid return values in this framework.
     ReferenceUnsupported,
+    /// A semantic value variant has no supported return representation.
     UnsupportedSemanticVariant {
+        /// Stable semantic variant name.
         variant: &'static str,
     },
+    /// Total return-storage byte accounting overflowed.
     TotalByteOverflow,
+    /// The return plan exceeds its aggregate allocation budget.
     TotalByteLimitExceeded {
+        /// Minimum required bytes.
         required: usize,
+        /// Configured maximum bytes.
         maximum: usize,
     },
+    /// Return allocation-count accounting overflowed.
     AllocationCountOverflow,
+    /// The plan requires too many separate allocations.
     AllocationCountLimitExceeded {
+        /// Required allocation count.
         required: usize,
+        /// Configured maximum.
         maximum: usize,
     },
+    /// Recursive return planning exceeded its configured depth.
     PlanningDepthExceeded {
+        /// Observed planning depth.
         depth: usize,
+        /// Configured maximum depth.
         maximum: usize,
     },
 }
@@ -312,31 +386,51 @@ impl std::error::Error for ReturnError {}
 /// Failure while turning a validated return plan into stable ABI storage.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ReturnMaterializationError {
+    /// Materialized storage contradicted an already validated plan field.
     PlanStorageInvariantMismatch {
+        /// Invariant field name.
         field: &'static str,
+        /// Planned amount.
         planned: usize,
+        /// Actual materialized amount.
         actual: usize,
     },
+    /// UTF-8 to UTF-16 encoding did not match the planned length.
     Utf8EncodedLengthMismatch {
+        /// Planned UTF-16 units.
         planned: usize,
+        /// Actual UTF-16 units.
         actual: usize,
     },
+    /// A counted-string buffer length disagreed with its plan.
     StringBufferLengthMismatch {
+        /// Planned units.
         planned: usize,
+        /// Actual units.
         actual: usize,
     },
+    /// Array data contradicted the shape selected during planning.
     ArrayShapeMismatch {
+        /// Planned rows.
         rows: usize,
+        /// Planned columns.
         columns: usize,
+        /// Actual element count.
         elements: usize,
     },
+    /// A planned semantic variant cannot be emitted as ABI storage.
     UnsupportedPlannedValue {
+        /// Stable planned variant name.
         variant: &'static str,
     },
+    /// A required stable return allocation failed.
     AllocationFailure {
+        /// Name of the storage allocation.
         storage: &'static str,
     },
+    /// A test-only injected materialization failure.
     InjectedTestFailure {
+        /// Test-injected stage name.
         stage: &'static str,
     },
 }
@@ -384,12 +478,19 @@ impl fmt::Display for ReturnMaterializationError {
 impl std::error::Error for ReturnMaterializationError {}
 
 #[derive(Debug)]
+/// Failure contained by a generated Excel callback thunk.
 pub enum ThunkError {
+    /// Excel supplied a null argument root where a value was required.
     NullArgument,
+    /// The callback-borrowed argument could not be decoded safely.
     Decode(DecodeError),
+    /// A decoded argument could not become the requested Rust input.
     Conversion(ConversionError),
+    /// User function code deliberately returned a worksheet error.
     Function(ExcelError),
+    /// Pointer-free return planning failed.
     ReturnPlanning(ReturnError),
+    /// Stable ABI return storage could not be materialized.
     Materialization(ReturnMaterializationError),
 }
 

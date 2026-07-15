@@ -1,5 +1,10 @@
 # Packaging
 
+```powershell
+powershell -File scripts/build-minimal-xll.ps1 -Profile release
+powershell -File scripts/inspect-minimal-xll-exports.ps1
+```
+
 Build the sample release XLL on Windows with:
 
 ```powershell

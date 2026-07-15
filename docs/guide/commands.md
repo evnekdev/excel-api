@@ -1,5 +1,12 @@
 # Commands
 
+```rust,no_run
+use excel_api::prelude::*;
+
+#[excel_command(name = "RUST.HELLO", thunk = "rust_hello")]
+fn hello(_context: MacroContext<'_>) {}
+```
+
 Commands are macro-sheet callbacks, not worksheet functions. Define a command
 with one `&MacroContext` parameter and return `()` or a supported
 `Result<(), E>`.

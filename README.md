@@ -64,7 +64,10 @@ them to owned semantic values before retaining or sending data to a worker.
 Dynamic results are planned before being materialized into DLL-owned storage;
 `xlAutoFree12` releases that storage. Excel C API results use their own `xlFree`
 RAII path. Typed contexts encode callback capability—not merely a thread ID—and
-worker threads must never call Excel.
+arbitrary Excel C API calls from worker threads are forbidden. The preview
+async-UDF subsystem has only the narrowly documented `xlAsyncReturn`
+completion exception; it does not create a general Excel callback context.
+Dispatcher operations still require a genuine compatible Excel-issued callback.
 
 ## Build and package
 

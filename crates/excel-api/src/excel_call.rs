@@ -15,32 +15,49 @@ use crate::{
 };
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Capability required by one typed Excel C API descriptor.
 pub enum CallPermission {
+    /// Genuine open/close lifecycle callback.
     Lifecycle,
+    /// Ordinary worksheet-function callback.
     Worksheet,
+    /// MTR-safe worksheet-function callback.
     ThreadSafe,
+    /// Registered macro command callback.
     Macro,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Whether Excel must supply a result root for a call.
 pub enum ResultRoot {
+    /// The call has no result root.
     None,
+    /// The call writes one `XLOPER12` result root.
     Required,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Verified contract metadata for one narrowly exposed Excel C API call.
 pub struct ExcelCallDescriptor {
+    /// SDK operation name.
     pub name: &'static str,
+    /// Exact Excel12v function identifier.
     pub function: i32,
     /// Callback capabilities from which this call is documented as legal.
     pub permissions: &'static [CallPermission],
+    /// Whether the call writes a result root.
     pub result: ResultRoot,
+    /// Exactly-once release policy for an Excel-owned result.
     pub release: ExcelReleasePolicy,
+    /// Whether Microsoft documents this operation as MTR-safe.
     pub thread_safe: bool,
+    /// Minimum accepted argument count.
     pub minimum_arguments: usize,
+    /// Maximum accepted argument count.
     pub maximum_arguments: usize,
 }
 
+/// Descriptor for lifecycle-only `xlGetName`.
 pub const XL_GET_NAME: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlGetName",
     function: excel_api_sys::xlGetName,
@@ -51,6 +68,7 @@ pub const XL_GET_NAME: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 0,
     maximum_arguments: 0,
 };
+/// Descriptor for lifecycle-only `xlfRegister`.
 pub const XLF_REGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlfRegister",
     function: excel_api_sys::xlfRegister,
@@ -61,6 +79,7 @@ pub const XLF_REGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 10,
     maximum_arguments: 255,
 };
+/// Descriptor for lifecycle-only `xlfUnregister`.
 pub const XLF_UNREGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlfUnregister",
     function: excel_api_sys::xlfUnregister,
@@ -71,6 +90,7 @@ pub const XLF_UNREGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 1,
     maximum_arguments: 1,
 };
+/// Descriptor for lifecycle-only `xlfSetName`.
 pub const XLF_SET_NAME: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlfSetName",
     function: excel_api_sys::xlfSetName,
@@ -81,6 +101,7 @@ pub const XLF_SET_NAME: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 1,
     maximum_arguments: 2,
 };
+/// Descriptor for the Excel-owned-result cleanup operation `xlFree`.
 pub const XL_FREE: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlFree",
     function: excel_api_sys::xlFree,
@@ -91,6 +112,7 @@ pub const XL_FREE: ExcelCallDescriptor = ExcelCallDescriptor {
     minimum_arguments: 1,
     maximum_arguments: 255,
 };
+/// Descriptor for lifecycle-only event registration.
 pub const XL_EVENT_REGISTER: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlEventRegister",
     function: excel_api_sys::xlEventRegister,
@@ -210,16 +232,22 @@ pub const XLC_ON_TIME: ExcelCallDescriptor = ExcelCallDescriptor {
 /// it never reports Excel's general calculation progress or state.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum AbortCheckMode {
+    /// Preserve a pending user break request by omitting the argument or passing TRUE.
     PreservePendingBreak,
+    /// Clear a pending user break request by passing FALSE.
     ClearPendingBreak,
 }
 
 /// The Excel root type requested from [`XL_COERCE`].
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum CoerceTarget {
+    /// Coerce to an Excel number.
     Number,
+    /// Coerce to an Excel text result.
     Text,
+    /// Coerce to an Excel Boolean.
     Boolean,
+    /// Coerce to an Excel error root.
     Error,
 }
 
@@ -261,13 +289,16 @@ impl CoerceTarget {
     }
 }
 
+/// Exact Excel C API return code, including any documented bit flags.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ExcelReturnCode(pub i32);
 
 impl ExcelReturnCode {
+    /// Returns whether this is exactly `xlretSuccess`.
     pub const fn is_success(self) -> bool {
         self.0 == excel_api_sys::xlretSuccess
     }
+    /// Returns whether this bit-combined code includes `flag`.
     pub const fn has(self, flag: i32) -> bool {
         self.0 & flag != 0
     }
@@ -280,29 +311,49 @@ impl fmt::Display for ExcelReturnCode {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+/// Failure of descriptor validation, typed invocation, or result handling.
 pub enum ExcelCallError {
+    /// No linked Excel12v callback entry point is available.
     BackendUnavailable,
+    /// The descriptor does not permit the supplied argument count.
     InvalidArgumentCount {
+        /// Descriptor operation name.
         function: &'static str,
+        /// Supplied count.
         count: usize,
     },
+    /// The actual typed context lacks this operation's capability.
     IllegalContext {
+        /// Descriptor operation name.
         function: &'static str,
+        /// Capability represented by the attempted context.
         context: CallPermission,
     },
+    /// Excel returned an exact non-success result code.
     ExcelFailure {
+        /// Descriptor operation name.
         function: &'static str,
+        /// Exact raw result code.
         code: ExcelReturnCode,
     },
+    /// A result root's tag did not match the documented contract.
     MalformedResult {
+        /// Descriptor operation name.
         function: &'static str,
+        /// Documented result kind.
         expected: &'static str,
+        /// Observed result kind.
         actual: &'static str,
     },
+    /// Excel supplied a module name with invalid UTF-16.
     InvalidModuleNameUtf16,
+    /// An experimental Excel serial time was non-finite.
     InvalidExcelSerialTime,
+    /// Deep copying an Excel-owned result failed.
     ResultConversion(crate::ExcelOwnedConversionError),
+    /// Releasing an Excel-owned result failed.
     ResultRelease(crate::ExcelReleaseError),
+    /// A registration descriptor was invalid.
     Registration(RegistrationError),
 }
 
@@ -365,6 +416,7 @@ pub(crate) trait ExcelCallBackend: Send + Sync {
 }
 
 #[derive(Default)]
+/// Production backend that resolves and invokes Excel's `Excel12v` entry point.
 pub struct SdkExcel12vBackend {
     entry: AtomicUsize,
 }
@@ -378,12 +430,14 @@ impl fmt::Debug for SdkExcel12vBackend {
 }
 
 impl SdkExcel12vBackend {
+    /// Creates an unlinked backend with no cached host entry point.
     pub const fn new() -> Self {
         Self {
             entry: AtomicUsize::new(0),
         }
     }
 
+    /// Caches an Excel12v entry point if no entry point is cached yet.
     pub fn set_entry_point(&self, entry: excel_api_sys::Excel12EntryPtFn) {
         if self.entry.load(Ordering::Acquire) == 0 {
             self.entry.store(entry as usize, Ordering::Release);

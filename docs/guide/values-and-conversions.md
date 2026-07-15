@@ -1,5 +1,12 @@
 # Values and conversions
 
+```rust
+use excel_api::{ExcelValue, IntoExcel};
+
+let value: ExcelValue = 7_i32.into_excel();
+assert!(matches!(value, ExcelValue::Integer(7)));
+```
+
 `ExcelValueRef<'call>` is a callback-borrowed view of one `XLOPER12`. It cannot
 escape the callback lifetime. `ExcelValue` is an owned semantic value with no
 pointers into Excel-owned storage and may be moved to ordinary Rust code.

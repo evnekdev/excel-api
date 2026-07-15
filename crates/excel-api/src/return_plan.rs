@@ -15,7 +15,9 @@ const XCHAR_BYTES: usize = size_of::<excel_api_sys::XCHAR>();
 /// Owned text source whose representation choice is retained by the plan.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ReturnText {
+    /// UTF-8 text to encode as a counted UTF-16 Excel string during materialization.
     Utf8(String),
+    /// Exact owned UTF-16 code units to preserve during materialization.
     Utf16(ExcelString),
 }
 
@@ -40,21 +42,31 @@ impl From<ExcelString> for ReturnText {
 /// Fully owned logical value offered to the return planner.
 #[derive(Clone, Debug, PartialEq)]
 pub enum ExcelReturnValue {
+    /// A floating-point scalar return.
     Number(f64),
+    /// A 32-bit integer scalar return.
     Integer(i32),
+    /// A Boolean scalar return.
     Boolean(bool),
+    /// A controlled worksheet error return.
     Error(ExcelError),
+    /// Excel's omitted/missing return value.
     Missing,
+    /// Excel's distinct empty (`xltypeNil`) return value.
     Empty,
+    /// Owned text returned as a counted Excel string.
     Text(ReturnText),
+    /// Owned rectangular dynamic-array return data.
     Array(ExcelReturnArray),
 }
 
 impl ExcelReturnValue {
+    /// Validates this value using the default bounded return limits.
     pub fn plan(self) -> Result<ReturnPlan, ReturnError> {
         self.plan_with_limits(&ReturnLimits::default())
     }
 
+    /// Validates this value into pointer-free planning data using `limits`.
     pub fn plan_with_limits(self, limits: &ReturnLimits) -> Result<ReturnPlan, ReturnError> {
         Planner::new(limits).plan(self)
     }
@@ -132,6 +144,7 @@ pub struct ExcelReturnArray {
 }
 
 impl ExcelReturnArray {
+    /// Creates a flat row-major array after validating `rows * columns`.
     pub fn new(
         rows: usize,
         columns: usize,
@@ -155,22 +168,27 @@ impl ExcelReturnArray {
         })
     }
 
+    /// Returns the row count.
     pub const fn rows(&self) -> usize {
         self.rows
     }
 
+    /// Returns the column count.
     pub const fn columns(&self) -> usize {
         self.columns
     }
 
+    /// Returns the flat row-major element count.
     pub const fn len(&self) -> usize {
         self.values.len()
     }
 
+    /// Returns whether this array contains no elements.
     pub const fn is_empty(&self) -> bool {
         self.values.is_empty()
     }
 
+    /// Returns the owned values in flat row-major order.
     pub fn values(&self) -> &[ExcelReturnValue] {
         &self.values
     }
@@ -179,14 +197,20 @@ impl ExcelReturnArray {
 /// Independent project limits for constructing ordinary Rust-created returns.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ReturnLimits {
+    /// Maximum UTF-16 code units in one returned string.
     pub max_string_code_units: usize,
+    /// Maximum elements in one returned array.
     pub max_array_elements: usize,
+    /// Maximum ABI storage bytes described by one plan.
     pub max_total_bytes: usize,
+    /// Maximum separate backing allocations described by one plan.
     pub max_allocations: usize,
+    /// Maximum recursive planning depth.
     pub max_depth: usize,
 }
 
 impl ReturnLimits {
+    /// Conservative limits used by [`Default`].
     pub const DEFAULT: Self = Self {
         max_string_code_units: excel_api_sys::EXCEL12_MAX_STRING_CODE_UNITS,
         max_array_elements: 65_536,
@@ -205,6 +229,7 @@ impl Default for ReturnLimits {
 /// Future ownership mechanism selected for the planned return.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ReturnOwnershipStrategy {
+    /// Rust owns stable storage until it transfers the root to Excel with `xlbitDLLFree`.
     DllOwnedXloper12,
 }
 
@@ -215,12 +240,19 @@ pub enum ReturnOwnershipStrategy {
 /// bookkeeping, which are allocator-dependent and are not claimed as heap cost.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ReturnStorageTotals {
+    /// Bytes for the root `XLOPER12`.
     pub root_bytes: usize,
+    /// Bytes for `xltypeMulti` element roots.
     pub array_element_bytes: usize,
+    /// Total string payload UTF-16 code units.
     pub string_payload_code_units: usize,
+    /// Total counted-string allocation code units, including prefixes.
     pub string_storage_code_units: usize,
+    /// Bytes occupied by all counted-string allocations.
     pub string_storage_bytes: usize,
+    /// Sum of ABI storage, excluding Rust allocator bookkeeping.
     pub total_bytes: usize,
+    /// Number of backing allocations selected by the plan.
     pub allocation_count: usize,
 }
 
@@ -233,14 +265,17 @@ pub struct ReturnPlan {
 }
 
 impl ReturnPlan {
+    /// Returns the validated logical root; no raw ABI pointer exists yet.
     pub const fn root(&self) -> &PlannedValue {
         &self.root
     }
 
+    /// Returns exact ABI storage accounting for later materialization.
     pub const fn totals(&self) -> &ReturnStorageTotals {
         &self.totals
     }
 
+    /// Returns the ownership transfer strategy selected by this plan.
     pub const fn strategy(&self) -> ReturnOwnershipStrategy {
         self.strategy
     }
@@ -249,13 +284,21 @@ impl ReturnPlan {
 /// Validated logical root retained by a [`ReturnPlan`].
 #[derive(Clone, Debug, PartialEq)]
 pub enum PlannedValue {
+    /// Planned floating-point scalar.
     Number(f64),
+    /// Planned 32-bit integer scalar.
     Integer(i32),
+    /// Planned Boolean scalar.
     Boolean(bool),
+    /// Planned controlled worksheet error.
     Error(ExcelError),
+    /// Planned missing value.
     Missing,
+    /// Planned empty value.
     Empty,
+    /// Planned counted-string data.
     Text(PlannedText),
+    /// Planned rectangular array data.
     Array(PlannedArray),
 }
 
@@ -268,14 +311,17 @@ pub struct PlannedText {
 }
 
 impl PlannedText {
+    /// Returns the original owned text source.
     pub const fn source(&self) -> &ReturnText {
         &self.source
     }
 
+    /// Returns the planned UTF-16 payload length excluding the count prefix.
     pub const fn payload_code_units(&self) -> usize {
         self.payload_code_units
     }
 
+    /// Returns the planned allocation length including the count prefix.
     pub const fn storage_code_units(&self) -> usize {
         self.storage_code_units
     }
@@ -290,22 +336,27 @@ pub struct PlannedArray {
 }
 
 impl PlannedArray {
+    /// Returns the planned row count.
     pub const fn rows(&self) -> usize {
         self.rows
     }
 
+    /// Returns the planned column count.
     pub const fn columns(&self) -> usize {
         self.columns
     }
 
+    /// Returns the planned element count.
     pub const fn len(&self) -> usize {
         self.elements.len()
     }
 
+    /// Returns whether the planned array has no elements.
     pub const fn is_empty(&self) -> bool {
         self.elements.is_empty()
     }
 
+    /// Returns planned elements in flat row-major order.
     pub fn elements(&self) -> &[PlannedArrayElement] {
         &self.elements
     }
@@ -314,12 +365,19 @@ impl PlannedArray {
 /// Supported non-array value within a planned `xltypeMulti`.
 #[derive(Clone, Debug, PartialEq)]
 pub enum PlannedArrayElement {
+    /// Planned floating-point element.
     Number(f64),
+    /// Planned integer element.
     Integer(i32),
+    /// Planned Boolean element.
     Boolean(bool),
+    /// Planned worksheet-error element.
     Error(ExcelError),
+    /// Planned missing element.
     Missing,
+    /// Planned empty element.
     Empty,
+    /// Planned counted-string element.
     Text(PlannedText),
 }
 

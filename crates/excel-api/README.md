@@ -12,11 +12,15 @@ typed contexts restrict Excel calls to documented callback capabilities.
 ```rust,no_run
 use excel_api::prelude::*;
 
+#[cfg(feature = "macros")]
 #[excel_function(
     name = "RUST.ADD", thunk = "rust_add",
     arguments(left = "First addend.", right = "Second addend.")
 )]
 fn add(left: f64, right: f64) -> f64 { left + right }
+
+# #[cfg(not(feature = "macros"))]
+# fn main() {}
 ```
 
 The default `macros` feature re-exports `excel_function` and `excel_command`.
