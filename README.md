@@ -19,6 +19,8 @@ callback-scoped Excel-owned result RAII for lifecycle calls, and returns
 dynamic values through fresh per-call DLLFree storage. The generated-thunk XLL
 passed the same two-process 64-bit Excel load, calculation, MTR, unload, and
 reload smoke; details are in [the smoke-test record](docs/manual-tests/m8-excel-smoke-test.md).
+M15 adds the opt-in [isolated Excel stress harness](docs/excel-stress-harness.md)
+for repeatable smoke and soak validation on self-hosted 64-bit Excel runners.
 
 Build the loadable artifact with:
 

@@ -123,6 +123,19 @@ are in `docs/manual-tests/m8-excel-smoke-test.md`. The COM harness passed two
 fresh real 64-bit Excel processes with MTR enabled; visible Function Wizard,
 Add-in Manager UI, and embedded-NUL UI cases remain manual.
 
+## M15 real-Excel stress coverage
+
+`scripts/excel-stress-harness.ps1` separates a two-cycle smoke run from a
+25-cycle/50,000-rebuild soak run. A parent PowerShell process starts a fresh
+worker and Excel COM process for each cycle, applies a hard timeout, and limits
+forced cleanup to Excel processes started in that cycle. Artifacts retain
+workbook outputs, worker exit status/logs, timings, process handle and memory
+snapshots, Excel version/build/MTR settings, and readable Windows crash-event
+evidence. It covers all sample functions and command, scalars, direct UTF-16
+strings, Q arrays, U references, missing/blank values, error values, controlled
+fallbacks, MTR, and unload/reload. The sample has no public panic test hook;
+Rust thunk tests remain the authoritative panic-fallback coverage.
+
 ## M9B coverage
 
 Macro tests prove B/A/J/Q/U/C%/D% raw signatures derive from the same kinds as
