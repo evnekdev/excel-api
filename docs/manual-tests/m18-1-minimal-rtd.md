@@ -2,8 +2,7 @@
 
 Date: 2026-07-15
 
-Status: **M18 prototype implemented; live compatibility validation
-blocked/pending**.
+Status: **M18 prototype implemented; Excel activation unresolved**.
 
 ## Automated and deployment evidence
 
@@ -53,6 +52,14 @@ The successful direct COM activation narrows the unresolved failure to Excel
 RTD activation/policy/registration compatibility rather than the base class
 factory. It does not prove formula behavior, topic callbacks, `UpdateNotify`,
 `RefreshData`, disconnect, termination, or unload under Excel.
+
+M18.2 repeated direct activation with boundary JSONL evidence: the Rust DLL
+reached `DllGetClassObject`, `CreateInstance`, IDispatch type-info/name/invoke,
+`Heartbeat`, and `ServerTerminate`. The Microsoft-PIA control activated and
+returned heartbeat 1. The clean Excel comparison was refused because PID 19616
+is a verified direct descendant of prior owned Excel PID 7060, while its image
+and start details are inaccessible. The harness did not terminate it and
+requires administrator-assisted cleanup or reboot before retrying.
 
 ## Remaining working-host matrix
 

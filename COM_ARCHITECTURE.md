@@ -81,3 +81,16 @@ machine paths.
 
 The project will not modify Excel Trusted Locations, organization-wide COM
 policy, or macro/XLM settings to make a prototype pass.
+
+## M18.2 activation and cleanup refinement
+
+The callback cookie is not cleared until `RevokeInterfaceFromGlobal` succeeds.
+Failure enters `CallbackRevocationPending`; repeated `ServerTerminate` retries
+the same cookie and `DllCanUnloadNow` remains `S_FALSE`. Producer joins are
+inspected, and a panicked join is controlled `E_UNEXPECTED`, not a discarded
+error. Producer and committed-notification counters are RAII-owned.
+
+Activation diagnostics record class-factory and dual-interface negotiation
+without pointer values. Registration inspection covers HKCU, HKLM, and merged
+HKCR in both 64-bit and 32-bit views. Conflicts are reported rather than
+overwritten in machine scope.

@@ -2,8 +2,9 @@
 
 ## Status
 
-Accepted provisionally for compatibility prototyping. The M18.1 prototype is
-implemented; production and live compatibility validation remain blocked.
+Accepted provisionally for compatibility prototyping. The M18.2 status is
+**M18 prototype implemented; Excel activation unresolved**. Production RTD is
+not approved.
 
 ## Context
 
@@ -14,9 +15,9 @@ RTD callback is an Excel C API callback. Microsoft exposes RTD through the
 Variant-shaped data exchange, but does not grant Excel12/Excel12v legality or
 promise a physical callback thread.
 
-The available Excel host still fails plain `Workbooks.Add` before an add-in or
-RTD server is loaded. It cannot establish formula connection, refresh,
-disconnect, termination, policy, or unload behavior.
+The available host is not currently a clean validation host: a verified direct
+descendant of an earlier owned Excel process remains inaccessible. The harness
+refuses to start another comparison until it is removed.
 
 ## Decision
 
@@ -45,12 +46,18 @@ The prototype uses stable non-production identifiers
 `ExcelApi.MinimalRtd` and
 `{DC738FE5-30EE-40E8-A8C2-3D16F217C52D}`. Registration is explicit,
 per-user, idempotent, and reversible. `Apartment` is a test hypothesis, not a
-production threading decision. The available host still prevents formula and
-lifecycle validation by failing plain `Workbooks.Add`.
+production threading decision. The available host still prevents clean formula
+and lifecycle validation because a prior owned-test descendant remains.
 
 ## Consequences
 
 - M18 is an architecture/compatibility milestone, not an RTD framework.
+- Failed GIT revocation retains its exact cookie, remains retryable through
+  repeated termination, and blocks unload until successful.
+- Producer, join, and committed-notification panic paths are contained and
+  recorded with exact resource accounting.
+- Activation is classified from module and export/vtable evidence. A test-only
+  Microsoft-PIA control server is not a product dependency.
 - An ordinary XLL cannot advertise RTD support without implementing and
   registering a COM server.
 - XLL and RTD ownership, callbacks, signing, registration, and unload remain

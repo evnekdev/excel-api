@@ -15,6 +15,11 @@ create a plain workbook, and Microsoft does not specify which physical thread
 Excel uses for every RTD call or authorize Excel12/Excel12v in an RTD callback.
 No public RTD API is added.
 
+M18.2 retains that boundary. Its status is **M18 prototype implemented; Excel
+activation unresolved**. Direct COM activation reaches the class factory,
+object creation, dual-interface dispatch, heartbeat, and termination, but a
+clean Excel formula comparison is blocked by a stale owned-test descendant.
+
 RTD is not approved as an M17 dispatcher wake adapter. `UpdateNotify` asks
 Excel to collect RTD topic values through `RefreshData`; neither callback is a
 verified Excel C API capability. No RTD path may construct `ThreadSafeContext`,
@@ -73,6 +78,8 @@ stateDiagram-v2
     Active --> Active: connect / coalesced update / refresh
     Started --> Stopping: ServerTerminate
     Active --> Stopping: ServerTerminate or fatal startup rollback
+    Stopping --> CallbackRevocationPending: GIT revoke failed
+    CallbackRevocationPending --> Terminated: later GIT revoke succeeds
     Stopping --> Terminated: producer stopped, notification calls drained, COM references released
     Terminated --> [*]
 ```
@@ -99,6 +106,30 @@ notification call, revokes marshaled callback access, disconnects topics, and
 releases COM references before `Terminated`. A disconnected topic cannot be
 recreated by a late producer message. Worker threads never call the Excel C
 API.
+
+The GIT cookie state is `NoCallback`, `Registered(cookie)`,
+`Revoking(cookie)`, `RevocationFailed(cookie)`, or `Revoked`. Failure retains
+the exact cookie. Repeated termination retries it, while `Drop` makes one final
+non-panicking attempt. Persistent failure leaves the cookie count nonzero and
+`DllCanUnloadNow` returns `S_FALSE`; the prototype does not claim release.
+Producer and committed-notification counters are RAII-owned, including panic
+paths. Microsoft's GIT documentation specifies `S_OK` and `E_INVALIDARG` for
+revoke; no undocumented failure is treated as proof that retry is unnecessary.
+
+## M18.2 activation ladder
+
+Bounded JSONL records each export and vtable boundary before meaningful work.
+Combined with exact module inspection, the harness classifies
+`dll_not_loaded`, `dll_loaded_no_class_factory`, `class_factory_reached`,
+`object_created`, `server_start_reached`, `topic_connected`, or
+`refresh_observed`. Records contain process/thread/apartment, method,
+CLSID/IID text where relevant, HRESULT, timestamp, and resource counters, never
+interface pointers.
+
+The separate test-only `ExcelApi.ControlRtd` .NET Framework server is compiled
+against the installed Microsoft Office Excel PIA. It distinguishes host
+RTD-policy/formula failures from Rust activation defects and is neither a Rust
+dependency nor a production artifact.
 
 ## Architecture options
 
