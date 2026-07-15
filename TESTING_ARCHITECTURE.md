@@ -231,3 +231,11 @@ PE inspection require `RUST.DISPATCH.PUMP` while continuing to reject all
 `RUST.ONTIME.*` production exports. Manual live steps are recorded in
 `docs/manual-tests/m17-cooperative-dispatcher.md`; they remain pending because
 the available host cannot create a plain workbook.
+
+The M17 hardening suite additionally verifies that active waits select the
+earlier caller/request deadline, tolerate spurious notifications, return
+completion/cancellation/shutdown exactly, and do not apply queued expiry after
+selection or Running commitment. Fault-injection hooks deterministically panic
+after Running commitment and remove operation storage. Tests prove controlled
+failure, exact retirement, zero pending/running counts, nonblocking shutdown,
+reopen, repeated-path underflow protection, and callback-depth guard cleanup.
