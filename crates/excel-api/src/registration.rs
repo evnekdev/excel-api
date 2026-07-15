@@ -82,6 +82,53 @@ pub struct FunctionRegistration {
     pub flags: FunctionFlags,
 }
 
+/// Registration metadata for an XLL command, which is deliberately distinct
+/// from a worksheet-function descriptor.
+#[derive(Clone, Copy, Debug)]
+pub struct CommandRegistration {
+    pub rust_symbol: &'static str,
+    pub excel_name: &'static str,
+    pub description: Option<&'static str>,
+    pub shortcut: Option<&'static str>,
+}
+
+impl CommandRegistration {
+    pub const fn new(rust_symbol: &'static str, excel_name: &'static str) -> Self {
+        Self {
+            rust_symbol,
+            excel_name,
+            description: None,
+            shortcut: None,
+        }
+    }
+
+    pub const fn description(mut self, description: &'static str) -> Self {
+        self.description = Some(description);
+        self
+    }
+
+    pub const fn shortcut(mut self, shortcut: &'static str) -> Self {
+        self.shortcut = Some(shortcut);
+        self
+    }
+
+    /// `I` is the documented 16-bit command return ABI; commands have no
+    /// Excel-visible arguments and use macro type 2 during registration.
+    pub const fn type_text(&self) -> &'static str {
+        "I"
+    }
+
+    pub fn validate(&self) -> Result<(), RegistrationError> {
+        if self.rust_symbol.is_empty() {
+            return Err(RegistrationError::EmptyRustSymbol);
+        }
+        if self.excel_name.is_empty() {
+            return Err(RegistrationError::EmptyExcelName);
+        }
+        Ok(())
+    }
+}
+
 impl FunctionRegistration {
     pub const fn new(
         rust_symbol: &'static str,
@@ -178,6 +225,7 @@ pub struct AddInDescriptor {
     pub name: &'static str,
     pub description: &'static str,
     pub functions: &'static [FunctionRegistration],
+    pub commands: &'static [CommandRegistration],
 }
 
 impl AddInDescriptor {
@@ -190,7 +238,13 @@ impl AddInDescriptor {
             name,
             description,
             functions,
+            commands: &[],
         }
+    }
+
+    pub const fn commands(mut self, commands: &'static [CommandRegistration]) -> Self {
+        self.commands = commands;
+        self
     }
 
     pub fn validate(&self) -> Result<(), RegistrationError> {
@@ -199,6 +253,9 @@ impl AddInDescriptor {
         }
         for function in self.functions {
             function.validate()?;
+        }
+        for command in self.commands {
+            command.validate()?;
         }
         Ok(())
     }

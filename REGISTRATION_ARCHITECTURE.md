@@ -51,6 +51,13 @@ Store registration IDs for later unregistration.
 Commands use separate descriptor/registration semantics and are not worksheet
 functions with a flag.
 
+M12 models `CommandRegistration` separately from `FunctionRegistration`.
+`#[excel_command]` accepts only a `&MacroContext`, produces a no-argument
+`short WINAPI` export, and records the verified `I` return ABI with
+`pxMacroType = 2`. A command returns 1 on success and 0 for an ordinary error
+or panic. Function and command registration IDs remain separate and rollback
+in reverse registration order.
+
 ## Function Wizard
 
 Support:

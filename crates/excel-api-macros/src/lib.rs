@@ -738,7 +738,131 @@ fn result_tokens(kind: ResultKind) -> proc_macro2::TokenStream {
 /// Command metadata and thunks remain deferred to M12.
 #[proc_macro_attribute]
 pub fn excel_command(_attribute: TokenStream, item: TokenStream) -> TokenStream {
-    item
+    let attributes = parse_macro_input!(
+        _attribute with Punctuated::<Meta, Token![,]>::parse_terminated
+    );
+    let command = parse_macro_input!(item as ItemFn);
+    match expand_excel_command(attributes, command) {
+        Ok(tokens) => tokens.into(),
+        Err(error) => error.into_compile_error().into(),
+    }
+}
+
+fn expand_excel_command(
+    raw_attributes: Punctuated<Meta, Token![,]>,
+    command: ItemFn,
+) -> syn::Result<proc_macro2::TokenStream> {
+    let attributes = parse_attributes(raw_attributes)?;
+    validate_function_shape(&command)?;
+    if attributes.category.is_some()
+        || attributes.return_type.is_some()
+        || attributes.volatile
+        || attributes.thread_safe
+        || attributes.macro_type
+        || attributes.cluster_safe
+        || !attributes.arguments.is_empty()
+    {
+        return Err(syn::Error::new_spanned(
+            &command.sig,
+            "commands accept only name, thunk, and description metadata",
+        ));
+    }
+    let excel_name = attributes.name.ok_or_else(|| {
+        syn::Error::new(
+            command.sig.ident.span(),
+            "missing required `name = \"...\"`",
+        )
+    })?;
+    let thunk = attributes.thunk.ok_or_else(|| {
+        syn::Error::new(
+            command.sig.ident.span(),
+            "missing required `thunk = \"...\"`",
+        )
+    })?;
+    validate_export_name(&thunk)?;
+    if command.sig.inputs.len() != 1
+        || !matches!(command.sig.inputs.first(), Some(FnArg::Typed(argument)) if context_kind(&argument.ty) == Some(ContextKind::Macro))
+    {
+        return Err(syn::Error::new_spanned(
+            &command.sig.inputs,
+            "commands must take exactly one `&MacroContext` argument",
+        ));
+    }
+    let result_error = match &command.sig.output {
+        ReturnType::Default => None,
+        ReturnType::Type(_, ty) if matches!(ty.as_ref(), Type::Tuple(tuple) if tuple.elems.is_empty()) => {
+            None
+        }
+        ReturnType::Type(_, ty) => {
+            let Type::Path(path) = ty.as_ref() else {
+                return Err(syn::Error::new_spanned(
+                    ty,
+                    "commands must return `()` or `Result<(), E>`",
+                ));
+            };
+            let segment = path
+                .path
+                .segments
+                .last()
+                .ok_or_else(|| unsupported_type(ty))?;
+            let (success, error) = two_type_arguments(segment, ty)?;
+            if segment.ident != "Result"
+                || !matches!(success, Type::Tuple(tuple) if tuple.elems.is_empty())
+            {
+                return Err(syn::Error::new_spanned(
+                    ty,
+                    "commands must return `()` or `Result<(), E>`",
+                ));
+            }
+            validate_result_error(error)?;
+            Some(error)
+        }
+    };
+    let function_ident = &command.sig.ident;
+    let metadata_ident = format_ident!(
+        "__EXCEL_COMMAND_METADATA_{}",
+        function_ident.to_string().to_uppercase(),
+        span = function_ident.span()
+    );
+    let thunk_ident = format_ident!(
+        "__excel_command_thunk_{}",
+        function_ident.to_string().to_lowercase(),
+        span = function_ident.span()
+    );
+    let description = attributes
+        .description
+        .map(|value| quote!(.description(#value)))
+        .unwrap_or_default();
+    let invoke = if result_error.is_some() {
+        quote! {
+            #function_ident(__excel_context)
+                .map_err(::excel_api::thunk::function_error)?;
+        }
+    } else {
+        quote!(#function_ident(__excel_context);)
+    };
+    Ok(quote! {
+        #command
+
+        #[doc(hidden)]
+        #[unsafe(export_name = #thunk)]
+        pub extern "system" fn #thunk_ident() -> i16 {
+            ::excel_api::thunk::scalar_thunk(0_i16, || {
+                ::excel_api::thunk::with_callback(|__excel_scope| {
+                    __excel_scope.with_macro_context(|__excel_context| {
+                        #invoke
+                        Ok(1_i16)
+                    })
+                })
+            })
+        }
+
+        #[doc(hidden)]
+        #[allow(non_upper_case_globals)]
+        pub const #metadata_ident: ::excel_api::CommandRegistration =
+            ::excel_api::CommandRegistration::new(#thunk, #excel_name)
+                #description;
+    })
 }
 
 #[cfg(test)]
