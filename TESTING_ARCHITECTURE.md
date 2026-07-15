@@ -144,6 +144,24 @@ Excel-only event filtering, sample aggregation, schema fields, and preflight
 classification. The current live runner fails plain `Workbooks.Add()` before
 XLL registration, so M15 remains implementation-complete but live-blocked.
 
+## M16 asynchronous UDF coverage
+
+Registration tests require the exact `>` return plus one `X` handle and reject
+stray handles and cluster-safe async functions. Macro expansion tests prove
+that generated thunks return void, append the hidden handle, deep-copy only
+owned input families, inject only `AsyncCancellationToken`, and reject
+callback-borrowed/reference/direct-string inputs.
+
+Controller tests use a deterministic queued executor and mock Excel backend to
+verify opaque handle copying, exact two-argument `xlAsyncReturn`, Boolean
+acceptance decoding, preservation of `xlretInvAsynchronousContext`, no
+`xlbitDLLFree` handoff, capacity/rejection paths, cancellation, shutdown, and a
+concurrent at-most-once completion race. The release XLL export test includes
+the async function and both event procedures. The stress harness probes a real
+async result when its Excel host can create workbooks. Real Excel cancellation,
+recalculation, and unload validation remains pending because the M15 host gate
+is still blocked.
+
 ## M9B coverage
 
 Macro tests prove B/A/J/Q/U/C%/D% raw signatures derive from the same kinds as
@@ -159,7 +177,7 @@ exports.
 `excel-api-macros/tests/trybuild.rs` runs compile-pass fixtures across every
 supported argument, result, context, and flag family. Its checked diagnostic
 snapshots reject unsupported inputs and outputs, borrowed/direct-string forms,
-generics, methods/receivers, async/variadic functions, ambiguous Q/U,
+generics, methods/receivers, Rust `async fn`/variadic functions, ambiguous Q/U,
 incompatible flags and contexts, unjustified cluster safety, invalid or
 duplicate attributes, metadata mismatch, invalid exports, unsupported Result
 errors, and deterministic generated-symbol collisions. Unit expansion checks

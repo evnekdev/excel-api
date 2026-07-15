@@ -107,6 +107,7 @@ compile suite also catches deterministic generated Rust-item collisions.
 | `J` | `i32` |
 | `Q`, `U` | `*mut XLOPER12` |
 | `D%`, `C%` | `*mut XCHAR` |
+| async `X` | final `*mut XLOPER12` handle; void return |
 
 All pointer thunks are unsafe `extern "system"` exports. Generated bodies are
 thin: they enter `excel_api::thunk::with_callback`, borrow Q/U and direct
@@ -124,9 +125,17 @@ The callback scope creates `WorksheetContext`, `ThreadSafeContext`, or
 `MacroContext` with the shared production callback backend and prevents a
 supported result from carrying callback borrows out of the invocation.
 
+With the explicit `asynchronous` flag, the annotated ordinary Rust function
+remains synchronous Rust code but executes on the installed executor. The
+generated entry thunk deep-copies owned inputs, copies the opaque handle, and
+returns void. It rejects `ExcelValueArg`, `ExcelReferenceArg`, direct UTF-16
+views, and Excel callback contexts; only an owned `AsyncCancellationToken` may
+be injected. Rust `async fn` remains unsupported so the crate does not select
+or require a futures runtime.
+
 ## Rejections
 
-The macro rejects generics, methods, async functions, unsafe/ABI functions,
+The macro rejects generics, methods, Rust `async fn`, unsafe/ABI functions,
 variadics, destructuring patterns, `impl Trait`, unsupported types, ambiguous
 Q/U inputs, borrowed returns, unsupported `Result` errors, and direct dynamic
 string returns. M9B additionally rejects invalid export identifiers and

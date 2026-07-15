@@ -109,3 +109,13 @@ The initial typed catalogue contains `xlGetName`, `xlfRegister`, `xlfSetName`,
 thread-safety, and release metadata. Exact C API return-code bits are retained
 in `ExcelReturnCode`. `xlGetName` and lifecycle results are represented by
 `ExcelOwnedValue` and receive one top-level `xlFree` attempt.
+
+## M16 narrow background callback
+
+`xlAsyncReturn` is not added to general worksheet/context capabilities. The
+async controller alone can call it with exactly two roots: a reconstructed
+opaque `xltypeBigData` handle and a locally owned result. The controller
+decodes Excel's Boolean acceptance result and preserves the exact C API return
+code, including `xlretInvAsynchronousContext`. No `xlFree` or DLLFree transfer
+is involved. `xlEventRegister` is lifecycle-only and accepts the documented
+procedure-name string plus calculation event integer.

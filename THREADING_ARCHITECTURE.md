@@ -5,7 +5,8 @@
 - Excel UI/main thread;
 - Excel multi-threaded recalculation workers;
 - XLL-created worker threads;
-- future async completion/dispatcher thread interactions.
+- async completion workers;
+- future dispatcher thread interactions.
 
 ## Thread-safe UDF rules
 
@@ -54,6 +55,17 @@ specific documented mechanism permits it.
 
 Worker threads receive owned Rust data only.
 
+M16 makes `xlAsyncReturn` the sole exception to the general background-call
+ban. Generated async thunks deep-copy supported inputs before returning and
+move only `Send + 'static` values, an opaque copied Excel handle, and an
+`AsyncCancellationToken` to the installed executor. No worksheet, lifecycle,
+macro, COM, or general C API capability crosses the thread boundary.
+
+The optional standard-library executor has a bounded queue and fixed worker
+count. Applications may install another `AsyncExecutor`, but its `shutdown`
+must reject new work and join/drain all jobs before returning. The runtime
+disables completion and advances its epoch before invoking that shutdown.
+
 M7's `ExcelOwnedValue<'call>` is deliberately neither `Send` nor `Sync`. Its
 boxed root is stable, but the ability to call back into Excel is scoped to the
 originating callback. Microsoft documents `xlFree` as thread-safe during MTR;
@@ -69,6 +81,11 @@ Lifecycle shutdown must account for:
 - Excel closing/cancelling;
 - late cleanup calls;
 - cancelled close sequences.
+
+M16 close first disables async completion, cancels scheduled requests, and
+calls the executor's blocking shutdown contract. It unregisters functions and
+unlinks the Excel callback only after no accepted executor job can execute XLL
+code. A stale epoch or inactive controller suppresses late `xlAsyncReturn`.
 
 ## Shared state
 

@@ -75,3 +75,8 @@ worksheet, thread-safe, and macro callback capabilities. `xlfCaller` is kept
 out of `ThreadSafeContext`; it is available only to worksheet and macro
 callbacks. The cancellation clear/preserve choice is explicit and must not be
 described as a calculation-state API. Lifecycle capabilities do not expose it.
+
+M16 does not make a background Excel context. `AsyncCancellationToken` is a
+cooperative request-state view with no callback backend and no C API methods.
+The private async controller owns the only `xlAsyncReturn` path, while
+`LifecycleContext` privately registers the two calculation event procedures.

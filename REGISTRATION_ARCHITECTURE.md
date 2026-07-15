@@ -110,3 +110,11 @@ topic, function description, and argument descriptions. Successful IDs are
 stored in runtime state; failure rolls them back in reverse order. Close first
 deletes each `pxFunctionText` hidden name through one-argument `xlfSetName`, as
 required by Microsoft, then unregisters its stored ID.
+
+## M16 asynchronous registration
+
+`ExcelReturnType::AsyncVoid` emits the documented leading `>` and
+`ExcelArgumentType::AsyncHandle` emits `X`. Validation requires the pair with
+exactly one handle, excludes the hidden handle from Function Wizard argument
+metadata, and rejects cluster-safe async registration. The sample's
+`RUST.ASYNC.DOUBLE` is exactly `>BX$`.

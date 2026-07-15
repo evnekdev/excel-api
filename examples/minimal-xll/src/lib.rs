@@ -1,9 +1,9 @@
-use std::sync::OnceLock;
+use std::sync::{Arc, OnceLock};
 
 use excel_api::{
-    AddInDescriptor, ExcelArray, ExcelError, ExcelReference, ExcelReferenceArg, ExcelReturnValue,
-    ExcelString, ExcelValueRef, FunctionRegistration, MacroContext, OptionalValue, Runtime,
-    excel_command, excel_function,
+    AddInDescriptor, AsyncCancellationToken, ExcelArray, ExcelError, ExcelReference,
+    ExcelReferenceArg, ExcelReturnValue, ExcelString, ExcelValueRef, FunctionRegistration,
+    MacroContext, OptionalValue, Runtime, ThreadPoolExecutor, excel_command, excel_function,
 };
 #[cfg(test)]
 use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
@@ -95,6 +95,23 @@ pub fn option_kind(value: OptionalValue<excel_api::ExcelValue>) -> ExcelString {
     })
 }
 
+#[excel_function(
+    name = "RUST.ASYNC.DOUBLE",
+    category = "Rust",
+    description = "Doubles a number on the bounded async executor",
+    thunk = "rust_async_double",
+    asynchronous,
+    thread_safe,
+    arguments(value = "Number to double")
+)]
+pub fn async_double(value: f64, cancel: AsyncCancellationToken) -> Result<f64, ExcelError> {
+    if cancel.is_cancellation_requested() {
+        Err(ExcelError::Na)
+    } else {
+        Ok(value * 2.0)
+    }
+}
+
 /// Minimal no-argument command used to verify the documented command ABI.
 #[excel_command(
     name = "RUST.PING.COMMAND",
@@ -111,6 +128,7 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_ARRAY_ECHO,
     __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
+    __EXCEL_FUNCTION_METADATA_ASYNC_DOUBLE,
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[__EXCEL_COMMAND_METADATA_PING_COMMAND];
@@ -259,7 +277,11 @@ const LIFECYCLE_EXPORT_FIXTURES: &[&str] = &[
 
 fn runtime() -> &'static Runtime {
     static RUNTIME: OnceLock<Runtime> = OnceLock::new();
-    RUNTIME.get_or_init(Runtime::production)
+    RUNTIME.get_or_init(|| {
+        let executor = ThreadPoolExecutor::new(2, 64).expect("constant executor bounds are valid");
+        let _ = excel_api::install_async_executor(Arc::new(executor), 64);
+        Runtime::production()
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -325,6 +347,7 @@ const _: excel_api_sys::XlAutoFree12Fn = xlAutoFree12;
 const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
 const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
 const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
+const _: unsafe extern "system" fn(f64, LPXLOPER12) = __excel_function_thunk_async_double;
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
 
 #[cfg(test)]
@@ -366,14 +389,14 @@ mod tests {
             .iter()
             .map(|function| function.type_text().unwrap())
             .collect();
-        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$"]);
+        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$"]);
         assert_eq!(COMMANDS.len(), 1);
         assert_eq!(COMMANDS[0].type_text(), "I");
     }
 
     #[test]
     fn handwritten_registration_matches_the_m8_oracle() {
-        assert_eq!(FUNCTIONS.len(), MANUAL_FUNCTION_FIXTURES.len());
+        assert!(FUNCTIONS.len() >= MANUAL_FUNCTION_FIXTURES.len());
         for (function, fixture) in HANDWRITTEN_FUNCTIONS.iter().zip(MANUAL_FUNCTION_FIXTURES) {
             assert_eq!(function.rust_symbol, fixture.rust_symbol);
             assert_eq!(function.excel_name, fixture.excel_name);
@@ -391,7 +414,7 @@ mod tests {
 
     #[test]
     fn generated_metadata_exactly_matches_the_handwritten_m8_oracle() {
-        assert_eq!(FUNCTIONS.len(), HANDWRITTEN_FUNCTIONS.len());
+        assert!(FUNCTIONS.len() >= HANDWRITTEN_FUNCTIONS.len());
         for (generated, handwritten) in FUNCTIONS.iter().zip(HANDWRITTEN_FUNCTIONS) {
             assert_eq!(generated.rust_symbol, handwritten.rust_symbol);
             assert_eq!(generated.excel_name, handwritten.excel_name);
@@ -412,6 +435,7 @@ mod tests {
     fn generated_metadata_expansion_snapshot_is_stable() {
         let snapshot = FUNCTIONS
             .iter()
+            .take(HANDWRITTEN_FUNCTIONS.len())
             .map(|function| {
                 format!(
                     "{}|{}|{}|{}|{}|{}|{}|volatile={},thread_safe={},macro_type={},cluster_safe={}",
@@ -435,6 +459,19 @@ mod tests {
             normalize_snapshot_newlines(include_str!(
                 "../tests/snapshots/m8-generated-metadata.snap"
             ))
+        );
+    }
+
+    #[test]
+    fn async_metadata_uses_exact_void_handle_registration() {
+        let registration = &FUNCTIONS[5];
+        assert!(registration.is_asynchronous());
+        assert_eq!(registration.type_text().as_deref(), Ok(">BX$"));
+        assert_eq!(registration.argument_names, ["value"]);
+        assert_eq!(registration.signature.arguments.len(), 2);
+        assert_eq!(
+            registration.signature.arguments[1],
+            ExcelArgumentType::AsyncHandle
         );
     }
 

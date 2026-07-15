@@ -2,8 +2,9 @@ use core::fmt;
 
 use excel_api_sys::{
     XLL_MODIFIER_CLUSTER_SAFE, XLL_MODIFIER_MACRO_SHEET, XLL_MODIFIER_THREAD_SAFE,
-    XLL_MODIFIER_VOLATILE, XLL_TYPE_BOOL, XLL_TYPE_DOUBLE, XLL_TYPE_I32, XLL_TYPE_XCHAR_COUNTED,
-    XLL_TYPE_XCHAR_NULL_TERMINATED, XLL_TYPE_XLOPER12_REFERENCE, XLL_TYPE_XLOPER12_VALUE,
+    XLL_MODIFIER_VOLATILE, XLL_TYPE_ASYNC_HANDLE, XLL_TYPE_ASYNC_VOID, XLL_TYPE_BOOL,
+    XLL_TYPE_DOUBLE, XLL_TYPE_I32, XLL_TYPE_XCHAR_COUNTED, XLL_TYPE_XCHAR_NULL_TERMINATED,
+    XLL_TYPE_XLOPER12_REFERENCE, XLL_TYPE_XLOPER12_VALUE,
 };
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -15,6 +16,7 @@ pub enum ExcelArgumentType {
     GeneralReference,
     CountedUtf16,
     NullTerminatedUtf16,
+    AsyncHandle,
 }
 
 impl ExcelArgumentType {
@@ -27,6 +29,7 @@ impl ExcelArgumentType {
             Self::GeneralReference => XLL_TYPE_XLOPER12_REFERENCE,
             Self::CountedUtf16 => XLL_TYPE_XCHAR_COUNTED,
             Self::NullTerminatedUtf16 => XLL_TYPE_XCHAR_NULL_TERMINATED,
+            Self::AsyncHandle => XLL_TYPE_ASYNC_HANDLE,
         }
     }
 }
@@ -37,6 +40,7 @@ pub enum ExcelReturnType {
     Boolean,
     Integer,
     Xloper12,
+    AsyncVoid,
 }
 
 impl ExcelReturnType {
@@ -46,6 +50,7 @@ impl ExcelReturnType {
             Self::Boolean => XLL_TYPE_BOOL,
             Self::Integer => XLL_TYPE_I32,
             Self::Xloper12 => XLL_TYPE_XLOPER12_VALUE,
+            Self::AsyncVoid => XLL_TYPE_ASYNC_VOID,
         }
     }
 }
@@ -130,6 +135,10 @@ impl CommandRegistration {
 }
 
 impl FunctionRegistration {
+    pub const fn is_asynchronous(&self) -> bool {
+        matches!(self.signature.result, ExcelReturnType::AsyncVoid)
+    }
+
     pub const fn new(
         rust_symbol: &'static str,
         excel_name: &'static str,
@@ -207,7 +216,14 @@ impl FunctionRegistration {
         if self.excel_name.is_empty() {
             return Err(RegistrationError::EmptyExcelName);
         }
-        if self.signature.arguments.len() != self.argument_names.len() {
+        let async_handles = self
+            .signature
+            .arguments
+            .iter()
+            .filter(|argument| **argument == ExcelArgumentType::AsyncHandle)
+            .count();
+        let visible_arguments = self.signature.arguments.len() - async_handles;
+        if visible_arguments != self.argument_names.len() {
             return Err(RegistrationError::SignatureArgumentLengthMismatch);
         }
         if self.argument_names.len() != self.argument_descriptions.len() {
@@ -215,6 +231,10 @@ impl FunctionRegistration {
         }
         if self.flags.macro_type && (self.flags.thread_safe || self.flags.cluster_safe) {
             return Err(RegistrationError::IncompatibleFlags);
+        }
+        let asynchronous = self.signature.result == ExcelReturnType::AsyncVoid;
+        if asynchronous != (async_handles == 1) || (asynchronous && self.flags.cluster_safe) {
+            return Err(RegistrationError::InvalidAsyncSignature);
         }
         Ok(())
     }
@@ -269,6 +289,7 @@ pub enum RegistrationError {
     SignatureArgumentLengthMismatch,
     ArgumentMetadataLengthMismatch,
     IncompatibleFlags,
+    InvalidAsyncSignature,
     StringTooLong,
 }
 
@@ -286,6 +307,9 @@ impl fmt::Display for RegistrationError {
             }
             Self::IncompatibleFlags => {
                 "a function cannot be both thread-safe and macro-sheet equivalent"
+            }
+            Self::InvalidAsyncSignature => {
+                "an asynchronous function requires `>` plus exactly one `X` argument and cannot be cluster-safe"
             }
             Self::StringTooLong => "registration text exceeds Excel's counted-string limit",
         })
@@ -362,6 +386,45 @@ mod tests {
         assert_eq!(
             incompatible.validate(),
             Err(RegistrationError::IncompatibleFlags)
+        );
+    }
+
+    #[test]
+    fn async_registration_requires_exact_void_handle_pair() {
+        let valid = FunctionRegistration::new(
+            "async_probe",
+            "ASYNC.PROBE",
+            FunctionSignature::new(
+                ExcelReturnType::AsyncVoid,
+                &[ExcelArgumentType::Number, ExcelArgumentType::AsyncHandle],
+            ),
+        )
+        .arguments(&["value"], &["value"])
+        .flags(FunctionFlags {
+            thread_safe: true,
+            ..FunctionFlags::default()
+        });
+        assert_eq!(valid.type_text().as_deref(), Ok(">BX$"));
+
+        let missing = FunctionRegistration::new(
+            "bad",
+            "BAD",
+            FunctionSignature::new(ExcelReturnType::AsyncVoid, &[ExcelArgumentType::Number]),
+        )
+        .arguments(&["value"], &["value"]);
+        assert_eq!(
+            missing.validate(),
+            Err(RegistrationError::InvalidAsyncSignature)
+        );
+
+        let stray = FunctionRegistration::new(
+            "bad",
+            "BAD",
+            FunctionSignature::new(ExcelReturnType::Number, &[ExcelArgumentType::AsyncHandle]),
+        );
+        assert_eq!(
+            stray.validate(),
+            Err(RegistrationError::InvalidAsyncSignature)
         );
     }
 }

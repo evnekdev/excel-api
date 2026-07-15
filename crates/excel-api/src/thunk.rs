@@ -22,6 +22,13 @@ pub type RawXloper12 = LPXLOPER12;
 #[doc(hidden)]
 pub type RawXchar = XCHAR;
 
+#[doc(hidden)]
+pub type AsyncTask = Box<
+    dyn FnOnce(crate::AsyncCancellationToken) -> Result<ExcelReturnValue, ThunkError>
+        + Send
+        + 'static,
+>;
+
 /// One unforgeable scope for values borrowed during an Excel callback.
 ///
 /// Macro-generated thunks obtain this value only through [`with_callback`].
@@ -224,6 +231,29 @@ pub fn scalar_thunk<T: Copy>(fallback: T, body: impl FnOnce() -> Result<T, Thunk
             ));
             fallback
         }
+    }
+}
+
+/// Prepare and submit one generated asynchronous thunk without unwinding
+/// through Excel's void ABI boundary.
+#[doc(hidden)]
+pub unsafe fn async_thunk(
+    handle: RawXloper12,
+    prepare: impl FnOnce() -> Result<AsyncTask, ThunkError>,
+) {
+    let task = match std::panic::catch_unwind(AssertUnwindSafe(prepare)) {
+        Ok(Ok(task)) => task,
+        Ok(Err(error)) => Box::new(move |_| Ok(ExcelReturnValue::Error(error_for(&error)))),
+        Err(_) => Box::new(|_| Ok(ExcelReturnValue::Error(ExcelError::Value))),
+    };
+    // SAFETY: the generated exported thunk forwards Excel's live X handle;
+    // schedule copies its opaque fields before this function returns.
+    if unsafe { crate::async_udf::schedule(handle, task) }.is_err() {
+        crate::diagnostics::emit(crate::DiagnosticEvent::new(
+            crate::DiagnosticCode::ThunkFailure,
+            crate::DiagnosticSeverity::Error,
+            excel_api_sys::xlretInvAsynchronousContext,
+        ));
     }
 }
 

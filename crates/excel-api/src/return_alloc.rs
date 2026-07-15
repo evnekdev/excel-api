@@ -64,6 +64,11 @@ impl ExcelReturn {
         &self.allocation.root
     }
 
+    /// Mutable root access confined to a synchronous `xlAsyncReturn` call.
+    pub(crate) fn as_xloper_mut_for_callback(&mut self) -> &mut XLOPER12 {
+        &mut self.allocation.root
+    }
+
     /// Consumes this local owner and transfers its complete allocation to Excel.
     ///
     /// The returned pointer is the root at byte offset zero of the same

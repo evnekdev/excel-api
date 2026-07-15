@@ -201,6 +201,7 @@ function Invoke-Worker([string]$ArtifactDirectory, [System.Collections.IDictiona
         $sheet.Range('A3').Value2 = $unicode; $sheet.Range('A4').Formula2 = '=RUST.ECHO(A3)'
         $sheet.Range('A5').Formula2 = '=RUST.REFERENCE.KIND(A1:B1)'; $sheet.Range('A6').Formula2 = '=RUST.OPTION.KIND()'
         $sheet.Range('A7').Formula2 = '=RUST.OPTION.KIND(H1)'; $sheet.Range('A8').Formula2 = '=RUST.ECHO(1)'
+        $sheet.Range('A9').Formula2 = '=RUST.ASYNC.DOUBLE(21)'
         $sheet.Range('B1').Value2 = 'text'; $sheet.Range('B2').Value2 = $true; $sheet.Range('B3').Formula2 = '=NA()'
         $sheet.Range('D1').Formula2 = '=RUST.ARRAY.ECHO(A1:B3)'
         $sheet.Range('F1').Formula2 = '=RUST.ADD(ROW(),1)'; $sheet.Range("F1:F$($Settings.formula_rows)").FillDown()
@@ -213,12 +214,17 @@ function Invoke-Worker([string]$ArtifactDirectory, [System.Collections.IDictiona
             $excel.CalculateFullRebuild()
             if ($i -eq 1 -or $i -eq $Settings.recalculations -or $i % $sampleEvery -eq 0) { $result.process_samples += Get-ProcessSample $identity "recalculation-$i" }
         }
+        $asyncDeadline = [DateTime]::UtcNow.AddSeconds(30)
+        while ([DateTime]::UtcNow -lt $asyncDeadline -and $sheet.Range('A9').Value2 -ne 42) {
+            Start-Sleep -Milliseconds 25
+        }
         Assert-Equal $sheet.Range('A1').Value2 5 'RUST.ADD scalar'
         Assert-Equal $sheet.Range('A2').Value2 $unicode 'RUST.ECHO direct formula string'; Assert-Equal $sheet.Range('A4').Value2 $unicode 'RUST.ECHO cell string'
         if ($sheet.Range('A5').Value2 -notin @('SRef', 'Ref')) { throw 'RUST.REFERENCE.KIND did not receive a reference' }
         Assert-Equal $sheet.Range('A6').Value2 'missing' 'RUST.OPTION.KIND omitted argument'
         if ($sheet.Range('A7').Value2 -notin @('nil', 'value')) { throw 'RUST.OPTION.KIND blank argument was not nil or value' }
         Assert-Error $sheet.Range('A8').Value2 'RUST.ECHO controlled fallback'
+        Assert-Equal $sheet.Range('A9').Value2 42 'RUST.ASYNC.DOUBLE completion'
         Assert-Equal $sheet.Range('D1').Value2 5 'array number'; Assert-Equal $sheet.Range('E1').Value2 'text' 'array text'
         Assert-Equal $sheet.Range('D2').Value2 $unicode 'array UTF-16'; Assert-Equal $sheet.Range('E2').Value2 $true 'array Boolean'
         Assert-Error $sheet.Range('D3').Value2 'array error'; Assert-Equal $sheet.Range("F$($Settings.formula_rows)").Value2 ($Settings.formula_rows + 1) 'MTR last formula'
@@ -227,6 +233,7 @@ function Invoke-Worker([string]$ArtifactDirectory, [System.Collections.IDictiona
             scalar = $sheet.Range('A1').Value2; unicode_formula = $sheet.Range('A2').Value2; unicode_cell = $sheet.Range('A4').Value2
             u_reference = $sheet.Range('A5').Value2; missing = $sheet.Range('A6').Value2; nil_or_value = $sheet.Range('A7').Value2
             controlled_error = $sheet.Range('A8').Text; array_error = $sheet.Range('D3').Text
+            async_double = $sheet.Range('A9').Value2
             mtr_last = $sheet.Range("F$($Settings.formula_rows)").Value2; command_invoked = 'RUST.PING.COMMAND'
         }
         $stage = 'save workbook'; $book.SaveAs((Join-Path $ArtifactDirectory "cycle-$Cycle.xlsx"))

@@ -182,17 +182,43 @@ impl Runtime {
             self.lock().phase = RuntimePhase::Uninitialized;
             return Err(error.into());
         }
+        crate::async_udf::activate();
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);
         let module = match context.get_module_name() {
             Ok(module) => module,
             Err(error) => {
+                crate::async_udf::shutdown();
                 self.backend.unlink();
                 self.lock().phase = RuntimePhase::Uninitialized;
                 return Err(error.into());
             }
         };
+
+        if add_in
+            .functions
+            .iter()
+            .any(|function| function.is_asynchronous())
+        {
+            let events = context
+                .register_event(
+                    "excel_api_calculation_canceled",
+                    excel_api_sys::xleventCalculationCanceled,
+                )
+                .and_then(|_| {
+                    context.register_event(
+                        "excel_api_calculation_ended",
+                        excel_api_sys::xleventCalculationEnded,
+                    )
+                });
+            if let Err(error) = events {
+                crate::async_udf::shutdown();
+                self.backend.unlink();
+                self.lock().phase = RuntimePhase::Uninitialized;
+                return Err(error.into());
+            }
+        }
 
         let mut registered = Vec::with_capacity(add_in.functions.len());
         for function in add_in.functions {
@@ -213,6 +239,7 @@ impl Runtime {
                     let mut state = self.lock();
                     state.diagnostics.rollback_attempts += registered.len();
                     if cleanup.is_empty() {
+                        crate::async_udf::shutdown();
                         self.backend.unlink();
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
@@ -270,6 +297,7 @@ impl Runtime {
                     state.diagnostics.rollback_attempts +=
                         command_registered.len() + registered.len();
                     if cleanup.is_empty() {
+                        crate::async_udf::shutdown();
                         self.backend.unlink();
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
@@ -347,6 +375,10 @@ impl Runtime {
                 phase => return Err(LifecycleError::Busy(phase)),
             }
         };
+
+        // Disable and drain asynchronous work before registrations or the
+        // Excel callback entry point can disappear.
+        crate::async_udf::shutdown();
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);

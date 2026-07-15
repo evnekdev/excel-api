@@ -17,7 +17,7 @@
 | Testing | `TESTING_ARCHITECTURE.md` | Partial (automated real-Excel smoke/soak harness implemented) | All |
 | Macros | `PROC_MACRO_ARCHITECTURE.md` | M9 generation and M10 compile-time conformance implemented | M9-M10 |
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Minimal M8 XLL build implemented | M14 |
-| Async | `ASYNC_ARCHITECTURE.md` | Planned | M16 |
+| Async | `ASYNC_ARCHITECTURE.md` | M16 implementation in progress; live validation pending | M16 |
 | Dispatcher | `MAIN_THREAD_DISPATCH_ARCHITECTURE.md` | Planned | M17 |
 | RTD | `RTD_STREAMING_ARCHITECTURE.md` | Planned | M18 |
 | COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | Planned | M19+ |

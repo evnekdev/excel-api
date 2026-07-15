@@ -639,6 +639,8 @@ fn main() {
         XLL_TYPE_XCHAR_NULL_TERMINATED,
         "C%"
     );
+    check!("async handle registration code", XLL_TYPE_ASYNC_HANDLE, "X");
+    check!("async void registration code", XLL_TYPE_ASYNC_VOID, ">");
     check!("thread-safe modifier", XLL_MODIFIER_THREAD_SAFE, '$');
     check!("macro-sheet modifier", XLL_MODIFIER_MACRO_SHEET, '#');
     check!("volatile modifier", XLL_MODIFIER_VOLATILE, '!');

@@ -122,6 +122,8 @@ pub const XLL_TYPE_XLOPER12_VALUE: &str = "Q";
 /// Reference-preserving `XLOPER12`.
 pub const XLL_TYPE_XLOPER12_REFERENCE: &str = "U";
 pub const XLL_TYPE_ASYNC_HANDLE: &str = "X";
+/// Void return required for asynchronous UDF registration.
+pub const XLL_TYPE_ASYNC_VOID: &str = ">";
 
 // Legacy registration codes are exposed only to make the P/Q and R/U
 // distinction explicit. Legacy XLOPER structures and Excel4 are unsupported.

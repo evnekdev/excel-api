@@ -9,6 +9,9 @@
 - `xlAddInManagerInfo12`;
 - optional `xlAutoRegister12`;
 - `xlAutoFree12`.
+- parameterless `excel_api_calculation_canceled` and
+  `excel_api_calculation_ended` procedures registered through
+  `xlEventRegister` when async functions are present.
 
 ## Initialization state machine
 
@@ -45,6 +48,11 @@ Responsibilities:
 - unlink Excel call interface last.
 
 Do not unload call pointers before destructors/releases that need them.
+
+M16 disables and drains the async controller before registration cleanup.
+`CalculationCanceled` cooperatively cancels scheduled requests;
+`CalculationEnded` removes terminal calculation-scoped records. These event
+procedures are panic-contained and make no Excel callbacks.
 
 ## `xlAutoFree12`
 
@@ -93,3 +101,13 @@ intentionally not exported: the explicit descriptor registry always provides
 complete type text, and Microsoft warns that registering without it recurses.
 The optional callback can be reconsidered only if a documented on-demand
 registration use case requires it.
+
+## M16 asynchronous lifecycle
+
+Initialization registers both Microsoft-defined calculation events before
+publishing async worksheet registrations. A generated async entry thunk
+returns void after copying its handle and all supported inputs. Worker
+completion owns its return allocation locally during the synchronous
+`xlAsyncReturn` call; it never transfers that allocation to `xlAutoFree12`.
+Atomic request state and a controller epoch enforce at-most-once completion
+and reject cancellation, duplicate completion, and post-close work.
