@@ -78,6 +78,13 @@ Preserve return-code distinctions such as:
 
 Do not collapse all C API failures into `#VALUE!`.
 
+## M13 diagnostics
+
+M13 adds pointer-free bounded events with stable code, severity, correlation ID,
+and exact Excel return-code fields. Emission uses a fixed-size ring and a
+reentrancy guard; it never calls Excel, formats text, or runs from Drop or
+`xlAutoFree12`. An optional user sink is best-effort and panic-contained.
+
 ## Result<T, E>
 
 `IntoExcel` support for `Result<T, E>` requires an explicit trait that maps the
