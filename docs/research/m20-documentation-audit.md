@@ -24,11 +24,19 @@ Ribbon, task-pane, `xlcOnTime`, or autonomous-notification work is supported.
 
 Baseline before this change had 175 missing Rustdoc items in `excel-api-sys` and
 541 in `excel-api` when checked with `cargo rustdoc -- -W missing-docs`.
-The raw ABI crate now builds with `-D missing-docs`; the high-level crate has a
-reduced but still material undocumented public surface. The repository's normal
-Rustdoc build succeeded before this lint was introduced, so a warning-free
-Rustdoc release gate cannot be claimed until the high-level member documentation
-is completed.
+The raw ABI crate now builds with `-D missing-docs`; the high-level crate has
+**501** remaining missing-documentation diagnostics after this first pass. The
+normal Rustdoc build succeeds with those warnings, but both warning-denied
+Rustdoc and clippy correctly fail. A warning-free Rustdoc release gate cannot
+be claimed until the high-level member documentation is completed.
+
+`cargo package` successfully built and verified the `excel-api-sys` and
+`excel-api-macros` archives, which were unpacked and inspected: both contain
+their README, dual licences, source Rustdoc, and (for macros) compile-fail
+fixtures, with no local machine paths or prototype files. `excel-api` package
+creation and `cargo publish --dry-run` are blocked because `excel-api-macros`
+version `0.1.0` is not yet present on crates.io; this is the existing publish
+ordering blocker, not a packaging-content failure.
 
 ## Release checklist
 
