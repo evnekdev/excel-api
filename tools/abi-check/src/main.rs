@@ -137,6 +137,8 @@ fn main() {
         fn excel_sdk_xlsheetid() -> i32;
         fn excel_sdk_xlsheetnm() -> i32;
         fn excel_sdk_xlabort() -> i32;
+        fn excel_sdk_xlfnow() -> i32;
+        fn excel_sdk_xlcontime() -> i32;
         fn excel_sdk_xlgetname() -> i32;
         fn excel_sdk_xlasyncreturn() -> i32;
         fn excel_sdk_xleventregister() -> i32;
@@ -575,6 +577,8 @@ fn main() {
         check!("xlSheetId", xlSheetId, excel_sdk_xlsheetid());
         check!("xlSheetNm", xlSheetNm, excel_sdk_xlsheetnm());
         check!("xlAbort", xlAbort, excel_sdk_xlabort());
+        check!("xlfNow", xlfNow, excel_sdk_xlfnow());
+        check!("xlcOnTime", xlcOnTime, excel_sdk_xlcontime());
         check!("xlGetName", xlGetName, excel_sdk_xlgetname());
         check!("xlAsyncReturn", xlAsyncReturn, excel_sdk_xlasyncreturn());
         check!(

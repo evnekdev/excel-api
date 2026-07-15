@@ -173,6 +173,32 @@ pub const XL_COERCE: ExcelCallDescriptor = ExcelCallDescriptor {
     maximum_arguments: 2,
 };
 
+/// Experimental M17 research call used only to obtain Excel's own serial clock.
+#[doc(hidden)]
+pub const XLF_NOW: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlfNow",
+    function: excel_api_sys::xlfNow,
+    permissions: &[CallPermission::Lifecycle, CallPermission::Macro],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::NoReleaseRequired,
+    thread_safe: false,
+    minimum_arguments: 0,
+    maximum_arguments: 0,
+};
+
+/// Experimental M17 compatibility probe. This is not a production dispatcher API.
+#[doc(hidden)]
+pub const XLC_ON_TIME: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlcOnTime",
+    function: excel_api_sys::xlcOnTime,
+    permissions: &[CallPermission::Lifecycle, CallPermission::Macro],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::NoReleaseRequired,
+    thread_safe: false,
+    minimum_arguments: 2,
+    maximum_arguments: 4,
+};
+
 /// Controls whether an `xlAbort` poll retains or clears a pending break.
 ///
 /// `PreservePendingBreak` is represented by an omitted argument in
@@ -193,6 +219,30 @@ pub enum CoerceTarget {
     Text,
     Boolean,
     Error,
+}
+
+/// Immediate result root observed from the experimental `xlcOnTime` call.
+#[doc(hidden)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum ExperimentalOnTimeValue {
+    Boolean(bool),
+    ExcelError(i32),
+    Other(u32),
+}
+
+/// Preserves both the raw Excel12v return code and the immediate result root.
+#[doc(hidden)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ExperimentalOnTimeOutcome {
+    pub return_code: ExcelReturnCode,
+    pub value: ExperimentalOnTimeValue,
+}
+
+impl ExperimentalOnTimeOutcome {
+    pub const fn accepted(self) -> bool {
+        self.return_code.is_success()
+            && matches!(self.value, ExperimentalOnTimeValue::Boolean(true))
+    }
 }
 
 impl CoerceTarget {
@@ -525,6 +575,125 @@ impl<'call> CallCapability<'call> {
         // SAFETY: the successful call's descriptor requires an immediate
         // `xltypeBool` result, which initializes this union member.
         Ok(unsafe { root.val.xbool != 0 })
+    }
+
+    fn experimental_excel_serial_now(
+        &'call self,
+        permission: CallPermission,
+    ) -> Result<f64, ExcelCallError> {
+        let mut arguments = [];
+        let owner = self
+            .call(permission, XLF_NOW, &mut arguments)?
+            .expect("descriptor requires a result");
+        let root = owner.raw_root();
+        if root.xltype & excel_api_sys::XLTYPE_MASK != excel_api_sys::xltypeNum {
+            return Err(ExcelCallError::MalformedResult {
+                function: XLF_NOW.name,
+                expected: "Excel serial date/time number",
+                actual: "non-number result",
+            });
+        }
+        // SAFETY: the base tag was checked above and the immediate scalar has
+        // no Excel-owned auxiliary allocation.
+        let serial = unsafe { root.val.num };
+        if serial.is_finite() {
+            Ok(serial)
+        } else {
+            Err(ExcelCallError::MalformedResult {
+                function: XLF_NOW.name,
+                expected: "finite Excel serial date/time number",
+                actual: "non-finite number",
+            })
+        }
+    }
+
+    fn experimental_on_time(
+        &'call self,
+        permission: CallPermission,
+        earliest: f64,
+        command: &str,
+        latest: Option<f64>,
+        cancel: bool,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        if !XLC_ON_TIME.permissions.contains(&permission) {
+            return Err(ExcelCallError::IllegalContext {
+                function: XLC_ON_TIME.name,
+                context: permission,
+            });
+        }
+        if !earliest.is_finite() || latest.is_some_and(|value| !value.is_finite()) {
+            return Err(ExcelCallError::ResultConversion(
+                "xlcOnTime requires finite Excel serial values".into(),
+            ));
+        }
+        let mut command_storage = counted(command).map_err(ExcelCallError::Registration)?;
+        let mut earliest_root = XLOPER12 {
+            val: XLOPER12Value { num: earliest },
+            xltype: excel_api_sys::xltypeNum,
+        };
+        let mut command_root = XLOPER12 {
+            val: XLOPER12Value {
+                str: command_storage.as_mut_ptr(),
+            },
+            xltype: excel_api_sys::xltypeStr,
+        };
+        let mut latest_root = XLOPER12 {
+            val: XLOPER12Value {
+                num: latest.unwrap_or_default(),
+            },
+            xltype: if latest.is_some() {
+                excel_api_sys::xltypeNum
+            } else {
+                excel_api_sys::xltypeMissing
+            },
+        };
+        let mut cancel_root = XLOPER12 {
+            val: XLOPER12Value { xbool: 0 },
+            xltype: excel_api_sys::xltypeBool,
+        };
+        let mut arguments = vec![
+            &mut earliest_root as LPXLOPER12,
+            &mut command_root as LPXLOPER12,
+        ];
+        if cancel {
+            arguments.push(&mut latest_root);
+            arguments.push(&mut cancel_root);
+        } else if latest.is_some() {
+            arguments.push(&mut latest_root);
+        }
+        if !self.backend.is_linked() {
+            return Err(ExcelCallError::BackendUnavailable);
+        }
+        let mut root = XLOPER12 {
+            val: XLOPER12Value { w: 0 },
+            xltype: excel_api_sys::xltypeNil,
+        };
+        // SAFETY: every scalar/string root and the counted string backing it
+        // remain stable and live through this synchronous Excel12v call.
+        let raw = unsafe {
+            self.backend.excel12v_raw(
+                XLC_ON_TIME.function,
+                &mut root,
+                arguments.len() as c_int,
+                arguments.as_mut_ptr(),
+            )
+        };
+        let base = root.xltype & excel_api_sys::XLTYPE_MASK;
+        let value = match base {
+            excel_api_sys::xltypeBool => {
+                // SAFETY: the checked Boolean tag selects this union member.
+                ExperimentalOnTimeValue::Boolean(unsafe { root.val.xbool } != 0)
+            }
+            excel_api_sys::xltypeErr => {
+                // SAFETY: the checked error tag selects this union member.
+                ExperimentalOnTimeValue::ExcelError(unsafe { root.val.err })
+            }
+            other => ExperimentalOnTimeValue::Other(other),
+        };
+        Ok(ExperimentalOnTimeOutcome {
+            return_code: ExcelReturnCode(raw),
+            value,
+        })
     }
 }
 
@@ -981,6 +1150,118 @@ coerce_context!(crate::WorksheetContext<'call>, CallPermission::Worksheet);
 coerce_context!(crate::ThreadSafeContext<'call>, CallPermission::ThreadSafe);
 coerce_context!(crate::MacroContext<'call>, CallPermission::Macro);
 
+impl crate::MacroContext<'_> {
+    /// Experimental: returns the current date/time in Excel's own serial representation.
+    #[doc(hidden)]
+    pub fn experimental_excel_serial_now(&self) -> Result<f64, ExcelCallError> {
+        self.capability()
+            .experimental_excel_serial_now(CallPermission::Macro)
+    }
+
+    /// Experimental two-argument `xlcOnTime` scheduling probe.
+    #[doc(hidden)]
+    pub fn experimental_schedule_on_time(
+        &self,
+        earliest: f64,
+        command: &str,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability().experimental_on_time(
+            CallPermission::Macro,
+            earliest,
+            command,
+            None,
+            false,
+        )
+    }
+
+    /// Experimental three-argument scheduling probe with a latest time.
+    #[doc(hidden)]
+    pub fn experimental_schedule_on_time_with_latest(
+        &self,
+        earliest: f64,
+        command: &str,
+        latest: f64,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability().experimental_on_time(
+            CallPermission::Macro,
+            earliest,
+            command,
+            Some(latest),
+            false,
+        )
+    }
+
+    /// Experimental four-argument cancellation probe (`missing`, `FALSE`).
+    #[doc(hidden)]
+    pub fn experimental_cancel_on_time(
+        &self,
+        earliest: f64,
+        command: &str,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability()
+            .experimental_on_time(CallPermission::Macro, earliest, command, None, true)
+    }
+}
+
+impl crate::LifecycleContext<'_> {
+    /// Experimental lifecycle-time clock probe used only by the isolated harness.
+    #[doc(hidden)]
+    pub fn experimental_excel_serial_now(&self) -> Result<f64, ExcelCallError> {
+        self.capability()
+            .experimental_excel_serial_now(CallPermission::Lifecycle)
+    }
+
+    /// Experimental lifecycle-time two-argument scheduling probe.
+    #[doc(hidden)]
+    pub fn experimental_schedule_on_time(
+        &self,
+        earliest: f64,
+        command: &str,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability().experimental_on_time(
+            CallPermission::Lifecycle,
+            earliest,
+            command,
+            None,
+            false,
+        )
+    }
+
+    /// Experimental lifecycle-time scheduling probe with a latest time.
+    #[doc(hidden)]
+    pub fn experimental_schedule_on_time_with_latest(
+        &self,
+        earliest: f64,
+        command: &str,
+        latest: f64,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability().experimental_on_time(
+            CallPermission::Lifecycle,
+            earliest,
+            command,
+            Some(latest),
+            false,
+        )
+    }
+
+    /// Experimental close-time cancellation probe. Its modern legality is a
+    /// live-validation question and is not a stable lifecycle capability.
+    #[doc(hidden)]
+    pub fn experimental_cancel_on_time(
+        &self,
+        earliest: f64,
+        command: &str,
+    ) -> Result<ExperimentalOnTimeOutcome, ExcelCallError> {
+        self.capability().experimental_on_time(
+            CallPermission::Lifecycle,
+            earliest,
+            command,
+            None,
+            true,
+        )
+    }
+}
+
 #[cfg(test)]
 pub(crate) mod test_support {
     use super::*;
@@ -1009,6 +1290,117 @@ pub(crate) mod test_support {
 mod tests {
     use super::*;
     use std::sync::Mutex;
+
+    #[derive(Clone, Debug, PartialEq)]
+    struct OnTimeTrace {
+        function: i32,
+        tags: Vec<u32>,
+        numbers: Vec<f64>,
+        text: Option<String>,
+        boolean: Option<i32>,
+    }
+
+    struct OnTimeBackend {
+        calls: Mutex<Vec<OnTimeTrace>>,
+        code: Mutex<i32>,
+        result_tag: Mutex<u32>,
+        result_value: Mutex<i32>,
+    }
+
+    impl Default for OnTimeBackend {
+        fn default() -> Self {
+            Self {
+                calls: Mutex::new(Vec::new()),
+                code: Mutex::new(excel_api_sys::xlretSuccess),
+                result_tag: Mutex::new(excel_api_sys::xltypeBool),
+                result_value: Mutex::new(1),
+            }
+        }
+    }
+
+    impl ExcelCallBackend for OnTimeBackend {
+        fn link(&self) -> Result<(), ExcelCallError> {
+            Ok(())
+        }
+        fn unlink(&self) {}
+        fn is_linked(&self) -> bool {
+            true
+        }
+        unsafe fn excel12v_raw(
+            &self,
+            function: i32,
+            result: *mut XLOPER12,
+            count: c_int,
+            arguments: *mut LPXLOPER12,
+        ) -> i32 {
+            if function == excel_api_sys::xlfNow {
+                self.calls.lock().unwrap().push(OnTimeTrace {
+                    function,
+                    tags: Vec::new(),
+                    numbers: Vec::new(),
+                    text: None,
+                    boolean: None,
+                });
+                // SAFETY: the typed xlfNow wrapper supplies a live result root.
+                unsafe {
+                    (*result).val = XLOPER12Value { num: 45_678.25 };
+                    (*result).xltype = excel_api_sys::xltypeNum;
+                }
+                return *self.code.lock().unwrap();
+            }
+            // SAFETY: the typed wrapper supplies exactly `count` live pointers.
+            let arguments = unsafe { core::slice::from_raw_parts(arguments, count as usize) };
+            let mut tags = Vec::with_capacity(arguments.len());
+            let mut numbers = Vec::new();
+            let mut text = None;
+            let mut boolean = None;
+            for argument in arguments {
+                // SAFETY: guaranteed by the typed wrapper contract above.
+                let argument = unsafe { &**argument };
+                tags.push(argument.xltype);
+                match argument.xltype & excel_api_sys::XLTYPE_MASK {
+                    excel_api_sys::xltypeNum => {
+                        // SAFETY: the numeric tag selects this member.
+                        numbers.push(unsafe { argument.val.num });
+                    }
+                    excel_api_sys::xltypeStr => {
+                        // SAFETY: the counted string pointer is live for this call.
+                        let pointer = unsafe { argument.val.str };
+                        // SAFETY: counted strings contain a readable length prefix.
+                        let length = usize::from(unsafe { *pointer });
+                        // SAFETY: the backing contains prefix plus `length` units.
+                        let units = unsafe { core::slice::from_raw_parts(pointer.add(1), length) };
+                        text = Some(String::from_utf16(units).unwrap());
+                    }
+                    excel_api_sys::xltypeBool => {
+                        // SAFETY: the Boolean tag selects this member.
+                        boolean = Some(unsafe { argument.val.xbool });
+                    }
+                    _ => {}
+                }
+            }
+            self.calls.lock().unwrap().push(OnTimeTrace {
+                function,
+                tags,
+                numbers,
+                text,
+                boolean,
+            });
+            let tag = *self.result_tag.lock().unwrap();
+            let value = *self.result_value.lock().unwrap();
+            // SAFETY: the typed wrapper supplies a live result root and this
+            // mock initializes the union member selected by `tag`.
+            unsafe {
+                (*result).xltype = tag;
+                (*result).val = if tag == excel_api_sys::xltypeErr {
+                    XLOPER12Value { err: value }
+                } else {
+                    XLOPER12Value { xbool: value }
+                };
+            }
+            *self.code.lock().unwrap()
+        }
+    }
 
     #[derive(Default)]
     struct AbortBackend {
@@ -1145,5 +1537,104 @@ mod tests {
         );
         let caller_is_thread_safe = XLF_CALLER.thread_safe;
         assert!(!caller_is_thread_safe);
+    }
+
+    #[test]
+    fn experimental_on_time_forms_preserve_exact_ids_roots_and_arguments() {
+        assert_eq!(XLF_NOW.function, 74);
+        assert_eq!(XLC_ON_TIME.function, 32_916);
+        assert_eq!(XLC_ON_TIME.function, 0x8094);
+        assert_eq!(XLC_ON_TIME.minimum_arguments, 2);
+        assert_eq!(XLC_ON_TIME.maximum_arguments, 4);
+        assert_eq!(XLC_ON_TIME.release, ExcelReleasePolicy::NoReleaseRequired);
+
+        let backend = OnTimeBackend::default();
+        let capability = CallCapability::new(&backend);
+        let macro_context = crate::MacroContext::new(&capability);
+        assert_eq!(
+            macro_context.experimental_excel_serial_now().unwrap(),
+            45_678.25
+        );
+        let two = macro_context
+            .experimental_schedule_on_time(45_678.5, "RUST.ONTIME.CALLBACK")
+            .unwrap();
+        assert!(two.accepted());
+        let three = macro_context
+            .experimental_schedule_on_time_with_latest(45_678.6, "RUST.ONTIME.CALLBACK", 45_678.7)
+            .unwrap();
+        assert!(three.accepted());
+        let four = macro_context
+            .experimental_cancel_on_time(45_678.5, "RUST.ONTIME.CALLBACK")
+            .unwrap();
+        assert!(four.accepted());
+
+        let calls = backend.calls.lock().unwrap();
+        assert_eq!(calls[0].function, excel_api_sys::xlfNow);
+        assert_eq!(calls[1].function, excel_api_sys::xlcOnTime);
+        assert_eq!(
+            calls[1].tags,
+            [excel_api_sys::xltypeNum, excel_api_sys::xltypeStr]
+        );
+        assert_eq!(calls[1].numbers, [45_678.5]);
+        assert_eq!(calls[1].text.as_deref(), Some("RUST.ONTIME.CALLBACK"));
+        assert_eq!(
+            calls[2].tags,
+            [
+                excel_api_sys::xltypeNum,
+                excel_api_sys::xltypeStr,
+                excel_api_sys::xltypeNum,
+            ]
+        );
+        assert_eq!(calls[2].numbers, [45_678.6, 45_678.7]);
+        assert_eq!(
+            calls[3].tags,
+            [
+                excel_api_sys::xltypeNum,
+                excel_api_sys::xltypeStr,
+                excel_api_sys::xltypeMissing,
+                excel_api_sys::xltypeBool,
+            ]
+        );
+        assert_eq!(calls[3].boolean, Some(0));
+        assert!(
+            !calls
+                .iter()
+                .any(|call| call.function == excel_api_sys::xlFree)
+        );
+    }
+
+    #[test]
+    fn experimental_on_time_preserves_raw_code_error_root_and_context_boundary() {
+        let backend = OnTimeBackend::default();
+        *backend.code.lock().unwrap() = excel_api_sys::xlretAbort | excel_api_sys::xlretUncalced;
+        *backend.result_tag.lock().unwrap() = excel_api_sys::xltypeErr;
+        *backend.result_value.lock().unwrap() = excel_api_sys::xlerrValue;
+        let capability = CallCapability::new(&backend);
+        let outcome = crate::MacroContext::new(&capability)
+            .experimental_cancel_on_time(45_678.5, "RUST.ONTIME.CALLBACK")
+            .unwrap();
+        assert_eq!(
+            outcome,
+            ExperimentalOnTimeOutcome {
+                return_code: ExcelReturnCode(
+                    excel_api_sys::xlretAbort | excel_api_sys::xlretUncalced
+                ),
+                value: ExperimentalOnTimeValue::ExcelError(excel_api_sys::xlerrValue),
+            }
+        );
+        assert!(!outcome.accepted());
+        assert_eq!(
+            capability.experimental_on_time(
+                CallPermission::Worksheet,
+                45_678.5,
+                "RUST.ONTIME.CALLBACK",
+                None,
+                false,
+            ),
+            Err(ExcelCallError::IllegalContext {
+                function: "xlcOnTime",
+                context: CallPermission::Worksheet,
+            })
+        );
     }
 }

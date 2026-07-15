@@ -172,6 +172,22 @@ impl Runtime {
             .collect()
     }
 
+    /// Runs an M17 compatibility-spike operation while the callback backend is
+    /// still linked. This does not make lifecycle use of an XLM command a
+    /// stable or generally supported capability.
+    #[doc(hidden)]
+    pub fn experimental_with_lifecycle_context<R>(
+        &self,
+        body: impl FnOnce(&LifecycleContext<'_>) -> R,
+    ) -> Result<R, ExcelCallError> {
+        if !self.backend.is_linked() {
+            return Err(ExcelCallError::BackendUnavailable);
+        }
+        let capability = CallCapability::new(self.backend.as_ref());
+        let context = LifecycleContext::new(&capability);
+        Ok(body(&context))
+    }
+
     pub fn initialize(&self, add_in: &AddInDescriptor) -> Result<LifecycleOutcome, LifecycleError> {
         add_in
             .validate()

@@ -85,12 +85,19 @@ pub const xlRunningOnCluster: i32 = 18 | xlSpecial;
 pub const xlGetInstPtr: i32 = 19 | xlSpecial;
 
 // Worksheet/XLM function numbers required through manual registration.
+/// Current date/time as an Excel serial value (`XLCALL.H`: `xlfNow = 74`).
+pub const xlfNow: i32 = 74;
 pub const xlfSetName: i32 = 88;
 pub const xlfCaller: i32 = 89;
 pub const xlfRegister: i32 = 149;
 pub const xlfUnregister: i32 = 201;
 pub const xlfRegisterId: i32 = 267;
 pub const xlUDF: i32 = 255;
+
+/// Historical XLM `ON.TIME` command (`XLCALL.H`: `148 | xlCommand`).
+///
+/// This raw constant does not by itself establish a modern supported contract.
+pub const xlcOnTime: i32 = 148 | xlCommand;
 
 // Excel 12 capacity limits. Rows and columns are counts; MAX_ROW/MAX_COLUMN
 // are zero-based indices.
@@ -185,6 +192,13 @@ mod tests {
         assert_eq!(XLL_TYPE_XLOPER12_VALUE, "Q");
         assert_eq!(XLL_TYPE_XLOPER12_REFERENCE, "U");
         assert_ne!(XLL_TYPE_XLOPER12_VALUE, XLL_TYPE_XLOPER12_REFERENCE);
+    }
+
+    #[test]
+    fn on_time_and_now_match_checked_in_xlcall_header() {
+        assert_eq!(xlfNow, 74);
+        assert_eq!(xlcOnTime, 32_916);
+        assert_eq!(xlcOnTime, 0x8094);
     }
 
     #[test]
