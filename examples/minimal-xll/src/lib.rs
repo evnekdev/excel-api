@@ -1,10 +1,12 @@
 use std::sync::{Arc, OnceLock};
 
+mod ontime_experiment;
+
 use excel_api::{
     AddInDescriptor, AsyncCancellationToken, ExcelArray, ExcelError, ExcelReference,
     ExcelReferenceArg, ExcelReturnValue, ExcelString, ExcelValueRef, FunctionRegistration,
-    MacroContext, OptionalValue, Runtime, RuntimePhase, ThreadPoolExecutor, excel_command,
-    excel_function,
+    LifecycleOutcome, MacroContext, OptionalValue, Runtime, RuntimePhase, ThreadPoolExecutor,
+    excel_command, excel_function,
 };
 #[cfg(test)]
 use excel_api::{ExcelArgumentType, ExcelReturnType, FunctionFlags, FunctionSignature};
@@ -113,6 +115,17 @@ pub fn async_double(value: f64, cancel: AsyncCancellationToken) -> Result<f64, E
     }
 }
 
+/// Internal status surface used by the xlcOnTime compatibility harness.
+#[excel_function(
+    name = "RUST.ONTIME.STATUS",
+    category = "Rust Experimental",
+    description = "Returns bounded xlcOnTime compatibility diagnostics",
+    thunk = "rust_ontime_status"
+)]
+pub fn ontime_status() -> ExcelString {
+    ontime_experiment::status()
+}
+
 /// Minimal no-argument command used to verify the documented command ABI.
 #[excel_command(
     name = "RUST.PING.COMMAND",
@@ -123,6 +136,42 @@ pub fn ping_command(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
     Ok(())
 }
 
+#[excel_command(
+    name = "RUST.ONTIME.SCHEDULE",
+    description = "Schedules the experimental registered xlcOnTime callback",
+    thunk = "rust_ontime_schedule"
+)]
+pub fn ontime_schedule(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    ontime_experiment::schedule(context)
+}
+
+#[excel_command(
+    name = "RUST.ONTIME.CALLBACK",
+    description = "Experimental callback invoked by Excel through xlcOnTime",
+    thunk = "rust_ontime_callback"
+)]
+pub fn ontime_callback(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    ontime_experiment::callback(context)
+}
+
+#[excel_command(
+    name = "RUST.ONTIME.CANCEL",
+    description = "Cancels one pending experimental xlcOnTime callback",
+    thunk = "rust_ontime_cancel"
+)]
+pub fn ontime_cancel(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    ontime_experiment::cancel_one(context)
+}
+
+#[excel_command(
+    name = "RUST.ONTIME.DUMP",
+    description = "Writes bounded experimental diagnostics to the harness file",
+    thunk = "rust_ontime_dump"
+)]
+pub fn ontime_dump(_context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    ontime_experiment::dump()
+}
+
 pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_ADD,
     __EXCEL_FUNCTION_METADATA_ECHO,
@@ -130,9 +179,16 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_REFERENCE_KIND,
     __EXCEL_FUNCTION_METADATA_OPTION_KIND,
     __EXCEL_FUNCTION_METADATA_ASYNC_DOUBLE,
+    __EXCEL_FUNCTION_METADATA_ONTIME_STATUS,
 ];
 
-pub static COMMANDS: &[excel_api::CommandRegistration] = &[__EXCEL_COMMAND_METADATA_PING_COMMAND];
+pub static COMMANDS: &[excel_api::CommandRegistration] = &[
+    __EXCEL_COMMAND_METADATA_PING_COMMAND,
+    __EXCEL_COMMAND_METADATA_ONTIME_SCHEDULE,
+    __EXCEL_COMMAND_METADATA_ONTIME_CALLBACK,
+    __EXCEL_COMMAND_METADATA_ONTIME_CANCEL,
+    __EXCEL_COMMAND_METADATA_ONTIME_DUMP,
+];
 
 #[cfg(test)]
 pub static HANDWRITTEN_FUNCTIONS: &[FunctionRegistration] = &[
@@ -292,14 +348,35 @@ fn install_executor_for_open_generation() {
 pub extern "system" fn xlAutoOpen() -> i32 {
     std::panic::catch_unwind(|| {
         install_executor_for_open_generation();
-        runtime().initialize(&ADD_IN).map(|_| 1).unwrap_or(0)
+        match runtime().initialize(&ADD_IN) {
+            Ok(LifecycleOutcome::Completed) => {
+                ontime_experiment::activate();
+                let _ = runtime().experimental_with_lifecycle_context(ontime_experiment::bootstrap);
+                1
+            }
+            Ok(LifecycleOutcome::AlreadyInState) => 1,
+            Err(_) => 0,
+        }
     })
     .unwrap_or(0)
 }
 
+fn close_runtime() -> i32 {
+    if runtime().phase() == RuntimePhase::Uninitialized {
+        return runtime().close().map(|_| 1).unwrap_or(0);
+    }
+    let canceled = runtime()
+        .experimental_with_lifecycle_context(ontime_experiment::shutdown)
+        .unwrap_or(false);
+    if !canceled {
+        return 0;
+    }
+    runtime().close().map(|_| 1).unwrap_or(0)
+}
+
 #[unsafe(no_mangle)]
 pub extern "system" fn xlAutoClose() -> i32 {
-    std::panic::catch_unwind(|| runtime().close().map(|_| 1).unwrap_or(0)).unwrap_or(0)
+    std::panic::catch_unwind(close_runtime).unwrap_or(0)
 }
 
 #[unsafe(no_mangle)]
@@ -309,7 +386,7 @@ pub extern "system" fn xlAutoAdd() -> i32 {
 
 #[unsafe(no_mangle)]
 pub extern "system" fn xlAutoRemove() -> i32 {
-    std::panic::catch_unwind(|| runtime().close().map(|_| 1).unwrap_or(0)).unwrap_or(0)
+    std::panic::catch_unwind(close_runtime).unwrap_or(0)
 }
 
 #[unsafe(no_mangle)]
@@ -356,7 +433,12 @@ const _: excel_api_sys::SetExcel12EntryPtFn = SetExcel12EntryPt;
 const _: unsafe extern "system" fn(f64, f64) -> LPXLOPER12 = __excel_function_thunk_add;
 const _: unsafe extern "system" fn(LPXLOPER12) -> LPXLOPER12 = __excel_function_thunk_echo;
 const _: unsafe extern "system" fn(f64, LPXLOPER12) = __excel_function_thunk_async_double;
+const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_ontime_status;
 const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_schedule;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_callback;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_cancel;
+const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_dump;
 
 #[cfg(test)]
 mod tests {
@@ -397,9 +479,9 @@ mod tests {
             .iter()
             .map(|function| function.type_text().unwrap())
             .collect();
-        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$"]);
-        assert_eq!(COMMANDS.len(), 1);
-        assert_eq!(COMMANDS[0].type_text(), "I");
+        assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$", "Q"]);
+        assert_eq!(COMMANDS.len(), 5);
+        assert!(COMMANDS.iter().all(|command| command.type_text() == "I"));
     }
 
     #[test]

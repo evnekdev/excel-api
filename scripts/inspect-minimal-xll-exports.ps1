@@ -8,7 +8,10 @@ $ErrorActionPreference = 'Stop'
 $required = @(
     'rust_add', 'rust_echo', 'rust_array_echo', 'rust_reference_kind',
     'rust_option_kind', 'rust_async_double', 'excel_api_calculation_canceled',
-    'excel_api_calculation_ended', 'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
+    'excel_api_calculation_ended', 'rust_ping_command', 'rust_ontime_status',
+    'rust_ontime_schedule', 'rust_ontime_callback', 'rust_ontime_cancel',
+    'rust_ontime_dump',
+    'xlAutoOpen', 'xlAutoClose', 'xlAutoAdd',
     'xlAutoRemove', 'xlAddInManagerInfo12', 'xlAutoFree12', 'SetExcel12EntryPt'
 )
 
