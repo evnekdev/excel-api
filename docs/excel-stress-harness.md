@@ -1,60 +1,90 @@
 # M15 real-Excel stress harness
 
-`scripts/excel-stress-harness.ps1` runs the minimal XLL in isolated Excel COM
-processes. It is intentionally opt-in: GitHub-hosted Windows runners do not
-have a supported desktop Excel installation, and no global Excel security
-setting is changed.
+Status: **implementation complete; live validation blocked**. The current
+machine cannot create a plain Excel COM workbook before the XLL is loaded; see
+[the sanitized M15.1 preflight record](manual-tests/m15-1-excel-preflight.md).
 
-Build the release XLL, then run the deterministic PR smoke command on a
-64-bit Excel machine:
+Build the release XLL and run the deterministic 64-bit Excel smoke command:
 
 ```powershell
 powershell -File scripts/build-minimal-xll.ps1 -Profile release
 powershell -File scripts/excel-stress-harness.ps1 -Mode Smoke
 ```
 
-The command creates a timestamped directory below `target/excel-stress/` with
-one workbook, worker log, and JSON record per isolated lifecycle cycle, plus
-`summary.json`. Each worker registers the XLL, evaluates every sample function
-and the command, performs MTR recalculation, unregisters the XLL, closes the
-workbook, and quits Excel. The parent process enforces a hard timeout and only
-terminates Excel processes created after that cycle began.
+Smoke uses two lifecycle cycles, 25 full recalculations per cycle, and a
+180-second per-cycle timeout. Soak uses 25 cycles, 2,000 recalculations per
+cycle (50,000 rebuilds), and a 1,800-second timeout. An explicit
+`-ProcessTimeoutSeconds` overrides either default. The effective timeout is
+recorded in `summary.json`.
 
-For an extended manual/self-hosted run use:
+## Ownership and timeout cleanup
+
+The parent starts one worker PowerShell process directly, with redirected logs
+and the current environment inherited without enumerating `PATH`/`Path`. The
+worker creates `Excel.Application`, reads `Application.Hwnd`, resolves it with
+the audited `GetWindowThreadProcessId` P/Invoke, validates `EXCEL.EXE`, and
+immediately writes this per-cycle identity:
+
+- worker PID;
+- Excel PID and window handle;
+- Excel start time;
+- Excel version/build.
+
+On timeout the parent kills its directly tracked worker. It kills Excel only
+when the coordination file exists and the PID still belongs to `EXCEL.EXE`
+with the recorded start time. If the record is missing, invalid, stale, or the
+PID was reused, no Excel process is killed. The harness never selects processes
+by comparing global before/after Excel process lists.
+
+## Preflight and environment evidence
+
+Run the isolated diagnostic preflight with:
 
 ```powershell
-powershell -File scripts/excel-stress-harness.ps1 -Mode Soak
+powershell -File scripts/excel-stress-harness.ps1 -Preflight
 ```
 
-The default soak run performs 25 process/load/unload cycles and 2,000 full
-recalculations in each cycle (50,000 rebuilds). Override counts only when
-recording them with the artifacts. `-ValidateOnly` checks command construction
-without starting Excel, which is suitable for non-Excel CI.
+It attempts workbook creation first in plain Excel COM and then after
+`RegisterXLL`. It records Excel version/build/bitness, process path/session,
+user and integrity SID, safe/automation switches when readable, default and
+startup paths, TEMP/TMP existence and writeability, disk space, existing
+workbook count, registration outcome, and both workbook outcomes. It changes no
+Excel security setting.
 
-The probes cover scalar values, direct UTF-16 formula and cell strings,
-value-only `Q` arrays, reference-preserving `U` input, missing and blank input,
-Excel error values, a controlled conversion fallback, all registered sample
-functions, and `RUST.PING.COMMAND`. The sample XLL deliberately has no public
-function that panics; the production panic-to-`#VALUE!` invariant is exercised
-by Rust thunk tests, while this harness records the real controlled error path.
-It does not claim to inject a panic into a shipping add-in.
+## Artifacts and trend evidence
 
-The minimal XLL currently has no COM-readable diagnostics snapshot. Each JSON
-record therefore states that status explicitly and captures controlled errors,
-worker exit codes, process/handle/memory snapshots, and Windows crash events as
-the available live diagnostic evidence. A later public diagnostics export can
-be added without changing the parent/worker containment model.
+Each timestamped directory below `target/excel-stress/` contains ownership,
+worker logs, cycle JSON, workbooks when creation succeeds, and `summary.json`.
+The exact owned Excel process is sampled after start, registration and workbook
+setup, periodically during calculation, before unregister/quit, and after exit.
+Samples include working set, private bytes, handles, threads, stage, and time.
+Per-cycle first/last/minimum/maximum/delta summaries are trend evidence only;
+they do not prove that leaks are absent.
+
+Crash evidence is limited to Application Error or Windows Error Reporting
+events whose message names `EXCEL.EXE`, within the cycle window. PID correlation
+is recorded where the event exposes it. Denied event-log access is recorded as
+explicitly unavailable; unrelated application failures are excluded.
+
+The probes cover every sample function and `RUST.PING.COMMAND`, scalar values,
+direct UTF-16 strings, Q arrays, U references, missing/blank input, Excel error
+values, a controlled conversion fallback, MTR, registration, and unload/reload.
+The sample XLL has no public panic endpoint; Rust thunk tests remain the
+authoritative panic-containment evidence.
+
+`-ValidateOnly` runs pure helper assertions without Excel. They cover exact PID
+selection and start-time validation, unrelated-process exclusion, missing
+coordination, cleanup selection, mode defaults, event filtering, process trend
+aggregation, required JSON fields, and preflight classification.
 
 ## Runner matrix
 
-Run the smoke command at least once for every supported self-hosted Windows
-runner image and record the generated `summary.json` in the PR:
-
 | Runner | Required evidence |
 |---|---|
-| Windows x64, Excel Current Channel | version/build, MTR settings, artifacts |
-| Windows x64, Excel Monthly Enterprise Channel | version/build, MTR settings, artifacts |
-| Windows x64, Excel Semi-Annual Enterprise Channel (when supported) | version/build, MTR settings, artifacts |
+| Windows x64, Excel Current Channel | smoke summary with version/build, MTR and process evidence |
+| Windows x64, Excel Monthly Enterprise Channel | smoke summary with version/build, MTR and process evidence |
+| Windows x64, Excel Semi-Annual Enterprise Channel (when supported) | smoke summary with version/build, MTR and process evidence |
 
-Do not weaken macro, Protected View, or trusted-location policy for the test.
-Use a dedicated test account and a locally built, unblocked XLL instead.
+No channel is marked complete yet. Do not weaken macro, Protected View, or
+trusted-location policy. After one smoke pass, status may become “M15
+smoke-validated; soak/channel matrix pending.”

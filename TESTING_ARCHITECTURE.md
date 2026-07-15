@@ -126,15 +126,23 @@ Add-in Manager UI, and embedded-NUL UI cases remain manual.
 ## M15 real-Excel stress coverage
 
 `scripts/excel-stress-harness.ps1` separates a two-cycle smoke run from a
-25-cycle/50,000-rebuild soak run. A parent PowerShell process starts a fresh
-worker and Excel COM process for each cycle, applies a hard timeout, and limits
-forced cleanup to Excel processes started in that cycle. Artifacts retain
+25-cycle/50,000-rebuild soak run. A parent PowerShell process directly tracks a
+fresh worker for each cycle. The worker maps `Application.Hwnd` through
+`GetWindowThreadProcessId`, immediately persists the exact Excel PID and start
+time, and the parent applies a hard timeout only to that verified process pair.
+Artifacts retain
 workbook outputs, worker exit status/logs, timings, process handle and memory
 snapshots, Excel version/build/MTR settings, and readable Windows crash-event
 evidence. It covers all sample functions and command, scalars, direct UTF-16
 strings, Q arrays, U references, missing/blank values, error values, controlled
 fallbacks, MTR, and unload/reload. The sample has no public panic test hook;
 Rust thunk tests remain the authoritative panic-fallback coverage.
+
+Pure PowerShell assertions cover identity/start-time matching, unrelated PID
+exclusion, missing coordination, cleanup selection, mode timeout defaults,
+Excel-only event filtering, sample aggregation, schema fields, and preflight
+classification. The current live runner fails plain `Workbooks.Add()` before
+XLL registration, so M15 remains implementation-complete but live-blocked.
 
 ## M9B coverage
 
