@@ -2,17 +2,37 @@
 
 Safe Rust building blocks for native 64-bit Microsoft Excel XLL add-ins.
 
-The crate provides callback-borrowed and owned Excel values, return planning
-and allocation, registration and procedural-macro integration, typed callback
-contexts and Excel calls, lifecycle management, asynchronous one-shot UDFs,
-and a bounded cooperative dispatcher.
+`excel-api` is the high-level companion to `excel-api-sys`: callback inputs are
+borrowed for exactly their Excel callback lifetime, owned semantic values are
+pointer-free, return planning allocates stable DLL-owned `XLOPER12` storage, and
+typed contexts restrict Excel calls to documented callback capabilities.
 
-The cooperative dispatcher does not wake Excel: queued work runs only when a
-legal Excel-issued callback, such as the explicit pump command, drains it.
-Async UDF and dispatcher lifecycle validation in real Excel remains a release
-gate even though deterministic automated coverage is present.
+## Quick start
 
-RTD, Ribbon, general COM UI, custom task panes, autonomous notification, and
-`xlcOnTime` research are not part of the stable core support promise.
+```rust,no_run
+use excel_api::prelude::*;
+
+#[excel_function(
+    name = "RUST.ADD", thunk = "rust_add",
+    arguments(left = "First addend.", right = "Second addend.")
+)]
+fn add(left: f64, right: f64) -> f64 { left + right }
+```
+
+The default `macros` feature re-exports `excel_function` and `excel_command`.
+`xlcontime-research` is an experimental, doc-hidden compatibility probe; it is
+not a supported autonomous wake mechanism. RTD, COM/Ribbon UI, task panes, and
+autonomous notification are outside the stable core.
+
+Async UDFs and the cooperative dispatcher are preview features: automated
+coverage is present, while their full Excel lifecycle/pump validation remains
+pending. Enqueueing dispatcher work never wakes Excel.
+
+See the [repository user guide](https://github.com/evnekdev/excel-api/tree/master/docs/guide),
+the [minimal XLL example](https://github.com/evnekdev/excel-api/tree/master/examples/minimal-xll),
+and the crate Rustdoc for API-specific ownership and callback restrictions.
+
+Supported target: 64-bit Windows Excel using the Excel 12 C API. 32-bit Excel
+and arbitrary background-thread Excel calls are unsupported.
 
 Licensed under either Apache-2.0 or MIT.

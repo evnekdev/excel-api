@@ -1,21 +1,100 @@
-#![doc = "Safe building blocks for Rust-native Microsoft Excel XLL add-ins."]
+#![warn(missing_docs)]
+#![doc = include_str!("../README.md")]
+//!
+//! # Overview
+//!
+//! `excel-api` is the safe, high-level layer for native 64-bit Microsoft Excel
+//! XLL add-ins. It builds on [`excel_api_sys`] but does not make raw ABI
+//! ownership safe by convention: callback inputs are represented by
+//! callback-borrowed types such as [`ExcelValueRef`], while data that must outlive
+//! a callback is represented by owned semantic types such as [`ExcelValue`] and
+//! [`ExcelString`].
+//!
+//! Prefer the [`prelude`] for ordinary XLL authoring. The
+//! [`excel_function!`][crate::excel_function] and
+//! [`excel_command!`][crate::excel_command] attributes generate registration
+//! metadata and panic-contained ABI thunks when the default `macros` feature is
+//! enabled. Start with the repository's `examples/minimal-xll` example and the
+//! [user guide](https://github.com/evnekdev/excel-api/tree/master/docs/guide).
+//!
+//! # Ownership and callback lifetime
+//!
+//! Excel owns callback arguments and may reclaim them when the callback returns;
+//! they must never be retained. Convert a borrowed value with [`FromExcel`] when
+//! work must outlive the callback. Return values are planned as pointer-free
+//! [`ReturnPlan`]s and materialized into DLL-owned storage through
+//! [`ExcelReturn`], which `xlAutoFree12` later releases. Results returned by an
+//! Excel C API call are represented by [`ExcelOwnedValue`] and are released with
+//! `xlFree` according to their documented policy.
+//!
+//! # Callback capabilities and threads
+//!
+//! Typed contexts are capabilities, not claims about a thread: use
+//! [`WorksheetContext`], [`ThreadSafeContext`], [`MacroContext`], or
+//! [`LifecycleContext`] only when Excel has issued the matching callback. Worker
+//! threads must not call Excel. Async UDFs are **preview**: their worker bodies
+//! own their data and publish through `xlAsyncReturn` only under the documented
+//! lifecycle generation. The cooperative dispatcher is also **preview**: an
+//! enqueue never wakes Excel, and work runs only when a legal callback drains it.
+//!
+//! # Platform and features
+//!
+//! The stable target is 64-bit Windows Excel using the Excel 12 C API. 32-bit
+//! Excel and arbitrary background-thread Excel calls are unsupported. The
+//! default `macros` feature re-exports the authoring attributes. The
+//! `xlcontime-research` feature is experimental, doc-hidden compatibility
+//! research and is not a supported wake mechanism. RTD, general COM, Ribbon,
+//! custom task panes, and autonomous notification are outside this crate's
+//! stable 1.0 scope.
+//!
+//! # Minimal shape
+//!
+//! The code below is an XLL entry point shape, so it is `no_run`: loading and
+//! registration require a real Excel process.
+//!
+//! ```no_run
+//! use excel_api::prelude::*;
+//!
+//! #[excel_function(
+//!     name = "RUST.ADD",
+//!     thunk = "rust_add",
+//!     category = "Rust",
+//!     description = "Adds two numbers.",
+//!     arguments(left = "First addend.", right = "Second addend.")
+//! )]
+//! fn add(left: f64, right: f64) -> f64 {
+//!     left + right
+//! }
+//! ```
 
+/// Preview bounded asynchronous-UDF scheduling and cancellation primitives.
 pub mod async_udf;
+/// Callback-borrowed Excel values that cannot outlive their issuing callback.
 pub mod borrowed;
+/// Typed capability tokens for legal Excel callback contexts.
 pub mod context;
+/// Conversion between callback-borrowed and owned semantic values.
 pub mod convert;
+/// Bounded, panic-contained runtime diagnostics.
 pub mod diagnostics;
+/// Preview cooperative callback-drained dispatcher with no autonomous wake.
 pub mod dispatcher;
+/// Error types returned by safe value, conversion, and return-planning APIs.
 pub mod error;
 mod excel_call;
 mod excel_owned;
+/// Owned metadata arguments used to describe registered functions and commands.
 pub mod metadata;
+/// Manual registration descriptors and signature validation.
 pub mod registration;
 mod return_alloc;
+/// Pointer-free planning of DLL-owned `XLOPER12` return storage.
 pub mod return_plan;
+/// Runtime initialization, registration, close, and cleanup state.
 pub mod runtime;
 #[doc(hidden)]
 pub mod thunk;
+/// Owned semantic Excel values with no callback-scoped pointers.
 pub mod value;
 
 pub use async_udf::{
@@ -94,6 +173,10 @@ pub use value::{ExcelArray, ExcelArrayColumn, ExcelString, ExcelValue, OptionalV
 pub use excel_api_macros::{excel_command, excel_function};
 
 /// Common imports for XLL authors.
+///
+/// This intentionally exports the stable authoring vocabulary only. Contexts,
+/// low-level calls, async scheduling, and dispatch are imported explicitly so
+/// their callback and lifecycle restrictions are visible at the use site.
 pub mod prelude {
     pub use crate::{
         AddInDescriptor, CommandRegistration, ConversionLimits, CountedUtf16Arg, ExcelArray,

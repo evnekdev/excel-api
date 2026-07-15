@@ -23,5 +23,10 @@ syn = { version = "2", features = ["full"] }
 excel-api = { path = "../excel-api", default-features = false }
 trybuild = "1"
 
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc"]
+rustdoc-args = ["--cfg", "docsrs"]
+
 [lints]
 workspace = true
