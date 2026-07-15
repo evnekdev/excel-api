@@ -36,7 +36,9 @@
   deterministic automated race/ABI tests; real Excel
   cancellation/recalculation/unload validation pending; started by
   explicit maintainer direction while the M15 live-smoke gate remains blocked)
-- M17 main-thread dispatcher
+- M17 main-thread dispatcher (not started; `xlcOnTime` compatibility spike is
+  implemented but its live decision is inconclusive because the current Excel
+  host cannot create a plain workbook or invoke the registered test commands)
 - M18 RTD
 - M19 COM/Ribbon
 - M20 1.0 review
