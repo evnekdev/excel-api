@@ -9,7 +9,7 @@ framework. Map concepts, not implementation details:
 | `ExcelReference` | Callback-borrowed `ExcelReferenceArg<'call>` / `ExcelReference<'call>`. |
 | Managed return | Owned semantic value → `ReturnPlan` → DLLFree allocation. |
 | Excel API call | Typed descriptor through a legal callback context. |
-| Async task | Preview bounded async UDF generation; no worker Excel calls. |
+| Async task | Preview bounded async UDF generation; arbitrary worker-thread Excel calls are forbidden. The narrow `xlAsyncReturn` completion exception does not create a general callback context. |
 | UI/RTD integration | Deferred or experimental; not a core replacement promise. |
 
 Do not port managed object-lifetime assumptions directly. Native callback input

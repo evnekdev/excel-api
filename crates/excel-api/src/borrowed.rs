@@ -45,20 +45,40 @@ type CallbackMarker<'call> = PhantomData<(&'call XLOPER12, *mut ())>;
 /// Why a raw callback value could not be represented as a safe borrowed view.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DecodeError {
+    /// The value tag contains unsupported or mutually inconsistent bits.
     MalformedType(u32),
+    /// The value uses a valid Excel tag that this safe view does not represent.
     UnsupportedType(u32),
+    /// The numeric Excel error code has no corresponding [`ExcelError`].
     InvalidError(i32),
+    /// A string-tagged value has a null payload pointer.
     NullStringPointer,
+    /// A string length exceeds Excel's documented UTF-16 limit.
     StringTooLong(usize),
+    /// A direct string lacked a terminator within Excel's bounded limit.
     UnterminatedString,
-    MalformedArrayDimensions { rows: RW, columns: COL },
+    /// Array dimensions were invalid or overflowed.
+    MalformedArrayDimensions {
+        /// Raw Excel row count.
+        rows: RW,
+        /// Raw Excel column count.
+        columns: COL,
+    },
+    /// The validated array extent cannot be represented safely by Rust.
     ArrayTooLarge,
+    /// An array-tagged value has a null element pointer.
     NullArrayPointer,
+    /// An array element attempted to contain another array.
     NestedArray,
+    /// An array element attempted to contain an Excel reference.
     ReferenceInArray,
+    /// An `xltypeSRef` value did not contain exactly one area.
     InvalidSingleReferenceCount(u16),
+    /// A reference-tagged value has a null reference table pointer.
     NullReferencePointer,
+    /// An `xltypeRef` value declared no reference areas.
     EmptyMultiReference,
+    /// A reference area has invalid or out-of-range row or column bounds.
     MalformedReferenceArea,
 }
 
@@ -130,18 +150,28 @@ impl<'call> RawExcelValue<'call> {
 /// ```
 #[derive(Debug)]
 pub enum ExcelValueRef<'call> {
+    /// A binary floating-point scalar.
     Number(f64),
+    /// A callback-borrowed UTF-16 string view.
     Text(ExcelStr<'call>),
+    /// A Boolean scalar.
     Boolean(bool),
+    /// A callback-borrowed worksheet reference.
     Reference(ExcelReference<'call>),
+    /// A controlled Excel worksheet error.
     Error(ExcelError),
+    /// A callback-borrowed two-dimensional array view.
     Array(ExcelArrayView<'call>),
+    /// An omitted argument.
     Missing(ExcelMissing),
+    /// Excel's distinct empty value.
     Nil(ExcelNil),
+    /// Excel's 32-bit integer scalar.
     Integer(i32),
 }
 
 impl ExcelValueRef<'_> {
+    /// Returns a stable, human-readable name for this variant's value kind.
     pub const fn kind_name(&self) -> &'static str {
         match self {
             Self::Number(_) => "number",
@@ -210,10 +240,12 @@ impl<'call> ExcelStr<'call> {
         unsafe { parse_direct_null_terminated(NonNull::from(terminated)) }
     }
 
+    /// Returns the number of UTF-16 code units, not Unicode scalar values.
     pub const fn len(&self) -> usize {
         self.len
     }
 
+    /// Returns whether the borrowed payload contains no UTF-16 code units.
     pub const fn is_empty(&self) -> bool {
         self.len == 0
     }
@@ -266,18 +298,24 @@ pub struct ExcelArrayView<'call> {
 }
 
 impl<'call> ExcelArrayView<'call> {
+    /// Returns `(rows, columns)` for this rectangular callback array.
     pub const fn dimensions(&self) -> (usize, usize) {
         (self.rows, self.columns)
     }
 
+    /// Returns the number of rows.
     pub const fn row_count(&self) -> usize {
         self.rows
     }
 
+    /// Returns the number of columns.
     pub const fn column_count(&self) -> usize {
         self.columns
     }
 
+    /// Decodes one element, or returns `Ok(None)` when the index is outside it.
+    ///
+    /// The returned view borrows the same Excel callback storage as this array.
     pub fn get(
         &self,
         row: usize,
@@ -290,6 +328,7 @@ impl<'call> ExcelArrayView<'call> {
         self.decode_index(index).map(Some)
     }
 
+    /// Iterates decoded elements in `row`, or returns `None` for an invalid row.
     pub fn row(&self, row: usize) -> Option<ExcelArrayElements<'_, 'call>> {
         (row < self.rows).then_some(ExcelArrayElements {
             array: self,
@@ -299,6 +338,7 @@ impl<'call> ExcelArrayView<'call> {
         })
     }
 
+    /// Iterates decoded elements in `column`, or returns `None` for an invalid column.
     pub fn column(&self, column: usize) -> Option<ExcelArrayElements<'_, 'call>> {
         (column < self.columns).then_some(ExcelArrayElements {
             array: self,
@@ -308,6 +348,7 @@ impl<'call> ExcelArrayView<'call> {
         })
     }
 
+    /// Iterates the rows in row-major order.
     pub fn rows(&self) -> ExcelArrayRows<'_, 'call> {
         ExcelArrayRows {
             array: self,
@@ -315,6 +356,7 @@ impl<'call> ExcelArrayView<'call> {
         }
     }
 
+    /// Iterates the columns in column-major order.
     pub fn columns(&self) -> ExcelArrayColumns<'_, 'call> {
         ExcelArrayColumns {
             array: self,
@@ -439,7 +481,9 @@ impl ExactSizeIterator for ExcelArrayColumns<'_, '_> {}
 /// ```
 #[derive(Debug)]
 pub enum ExcelReference<'call> {
+    /// One inline current-sheet area.
     Single(ExcelSingleReference<'call>),
+    /// One or more explicit-sheet areas.
     Multiple(ExcelMultiReference<'call>),
 }
 
@@ -450,6 +494,7 @@ pub struct ExcelSingleReference<'call> {
 }
 
 impl<'call> ExcelSingleReference<'call> {
+    /// Returns the sole rectangular area without copying callback storage.
     pub const fn area(&self) -> &ExcelReferenceArea<'call> {
         &self.area
     }
@@ -465,14 +510,17 @@ pub struct ExcelMultiReference<'call> {
 }
 
 impl<'call> ExcelMultiReference<'call> {
+    /// Returns Excel's identifier for the referenced worksheet.
     pub const fn sheet_id(&self) -> IDSHEET {
         self.sheet_id
     }
 
+    /// Returns the number of rectangular areas in this reference.
     pub const fn area_count(&self) -> usize {
         self.area_count
     }
 
+    /// Returns a copied view of the indexed area, if it exists.
     pub fn area(&self, index: usize) -> Option<ExcelReferenceArea<'call>> {
         if index >= self.area_count {
             return None;
@@ -486,6 +534,7 @@ impl<'call> ExcelMultiReference<'call> {
         })
     }
 
+    /// Iterates all referenced areas in Excel's table order.
     pub fn areas(&self) -> ExcelReferenceAreas<'_, 'call> {
         ExcelReferenceAreas {
             reference: self,
@@ -502,18 +551,22 @@ pub struct ExcelReferenceArea<'call> {
 }
 
 impl ExcelReferenceArea<'_> {
+    /// Returns the first included zero-based worksheet row.
     pub fn first_row(&self) -> RW {
         self.read().rwFirst
     }
 
+    /// Returns the last included zero-based worksheet row.
     pub fn last_row(&self) -> RW {
         self.read().rwLast
     }
 
+    /// Returns the first included zero-based worksheet column.
     pub fn first_column(&self) -> COL {
         self.read().colFirst
     }
 
+    /// Returns the last included zero-based worksheet column.
     pub fn last_column(&self) -> COL {
         self.read().colLast
     }

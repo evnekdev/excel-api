@@ -55,6 +55,10 @@ pub struct ExcelReturn {
 }
 
 impl ExcelReturn {
+    /// Materializes pointer-free planning data into one locally owned ABI tree.
+    ///
+    /// The result is still Rust-owned until [`Self::into_raw_for_excel`]
+    /// consumes it; this does not create an Excel-owned `xlFree` result.
     pub fn from_plan(plan: ReturnPlan) -> Result<Self, ReturnMaterializationError> {
         Materializer::new().materialize(plan)
     }
@@ -177,6 +181,10 @@ unsafe fn reclaim_excel_return(pointer: *mut XLOPER12) {
 }
 
 impl ReturnPlan {
+    /// Materializes this pointer-free plan into stable DLL-owned return storage.
+    ///
+    /// Call [`ExcelReturn::into_raw_for_excel`] only at the generated thunk's
+    /// final return boundary so Excel can later invoke `xlAutoFree12` once.
     pub fn materialize(self) -> Result<ExcelReturn, ReturnMaterializationError> {
         ExcelReturn::from_plan(self)
     }

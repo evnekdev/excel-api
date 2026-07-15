@@ -8,14 +8,23 @@ use excel_api_sys::{
 };
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// One Excel registration type code for a generated function parameter.
 pub enum ExcelArgumentType {
+    /// `B`: 64-bit floating-point number.
     Number,
+    /// `A`: Boolean.
     Boolean,
+    /// `J`: 32-bit integer.
     Integer,
+    /// `Q`: value-only `XLOPER12` argument.
     GeneralValue,
+    /// `U`: reference-preserving `XLOPER12` argument.
     GeneralReference,
+    /// `D%`: counted direct UTF-16 argument.
     CountedUtf16,
+    /// `C%`: NUL-terminated direct UTF-16 argument.
     NullTerminatedUtf16,
+    /// `X`: internal asynchronous completion handle.
     AsyncHandle,
 }
 
@@ -35,11 +44,17 @@ impl ExcelArgumentType {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Excel registration type code for a generated function result.
 pub enum ExcelReturnType {
+    /// `B`: 64-bit floating-point number.
     Number,
+    /// `A`: Boolean.
     Boolean,
+    /// `J`: 32-bit integer.
     Integer,
+    /// `Q`: an `XLOPER12` return root.
     Xloper12,
+    /// `>`: asynchronous void result completed through `xlAsyncReturn`.
     AsyncVoid,
 }
 
@@ -56,34 +71,52 @@ impl ExcelReturnType {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Result and argument type metadata used to construct registration type text.
 pub struct FunctionSignature {
+    /// Excel-visible result type.
     pub result: ExcelReturnType,
+    /// Excel-visible and internal argument types in declaration order.
     pub arguments: &'static [ExcelArgumentType],
 }
 
 impl FunctionSignature {
+    /// Creates a static function signature.
     pub const fn new(result: ExcelReturnType, arguments: &'static [ExcelArgumentType]) -> Self {
         Self { result, arguments }
     }
 }
 
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+/// Optional Excel registration modifiers for a worksheet function.
 pub struct FunctionFlags {
+    /// Adds the volatile modifier.
     pub volatile: bool,
+    /// Requests Excel's thread-safe registration modifier.
     pub thread_safe: bool,
+    /// Marks the function as macro-sheet equivalent.
     pub macro_type: bool,
+    /// Requests the cluster-safe modifier when otherwise legal.
     pub cluster_safe: bool,
 }
 
 #[derive(Clone, Copy, Debug)]
+/// Complete static registration metadata for one worksheet function.
 pub struct FunctionRegistration {
+    /// Unmangled Rust-export thunk name.
     pub rust_symbol: &'static str,
+    /// Excel-visible worksheet-function name.
     pub excel_name: &'static str,
+    /// Result and parameter type codes.
     pub signature: FunctionSignature,
+    /// Optional Excel category.
     pub category: Option<&'static str>,
+    /// Optional Excel-visible function description.
     pub description: Option<&'static str>,
+    /// Excel-visible parameter names excluding the internal async handle.
     pub argument_names: &'static [&'static str],
+    /// Excel-visible parameter help, parallel to [`Self::argument_names`].
     pub argument_descriptions: &'static [&'static str],
+    /// Registration modifiers.
     pub flags: FunctionFlags,
 }
 
@@ -91,13 +124,18 @@ pub struct FunctionRegistration {
 /// from a worksheet-function descriptor.
 #[derive(Clone, Copy, Debug)]
 pub struct CommandRegistration {
+    /// Unmangled Rust-export command thunk name.
     pub rust_symbol: &'static str,
+    /// Excel-visible command name.
     pub excel_name: &'static str,
+    /// Optional Excel-visible command description.
     pub description: Option<&'static str>,
+    /// Optional command shortcut text.
     pub shortcut: Option<&'static str>,
 }
 
 impl CommandRegistration {
+    /// Creates command metadata with no optional help or shortcut.
     pub const fn new(rust_symbol: &'static str, excel_name: &'static str) -> Self {
         Self {
             rust_symbol,
@@ -107,11 +145,13 @@ impl CommandRegistration {
         }
     }
 
+    /// Adds Excel-visible command help text.
     pub const fn description(mut self, description: &'static str) -> Self {
         self.description = Some(description);
         self
     }
 
+    /// Adds the Excel shortcut text.
     pub const fn shortcut(mut self, shortcut: &'static str) -> Self {
         self.shortcut = Some(shortcut);
         self
@@ -123,6 +163,7 @@ impl CommandRegistration {
         "I"
     }
 
+    /// Validates command metadata before lifecycle registration.
     pub fn validate(&self) -> Result<(), RegistrationError> {
         if self.rust_symbol.is_empty() {
             return Err(RegistrationError::EmptyRustSymbol);
@@ -135,10 +176,12 @@ impl CommandRegistration {
 }
 
 impl FunctionRegistration {
+    /// Returns whether this descriptor has the verified async `>`/`X` shape.
     pub const fn is_asynchronous(&self) -> bool {
         matches!(self.signature.result, ExcelReturnType::AsyncVoid)
     }
 
+    /// Creates function metadata with no optional category, help, or modifiers.
     pub const fn new(
         rust_symbol: &'static str,
         excel_name: &'static str,
@@ -161,16 +204,19 @@ impl FunctionRegistration {
         }
     }
 
+    /// Adds the Excel category.
     pub const fn category(mut self, category: &'static str) -> Self {
         self.category = Some(category);
         self
     }
 
+    /// Adds Excel-visible function help text.
     pub const fn description(mut self, description: &'static str) -> Self {
         self.description = Some(description);
         self
     }
 
+    /// Adds parameter names and matching Excel-visible help text.
     pub const fn arguments(
         mut self,
         names: &'static [&'static str],
@@ -181,11 +227,13 @@ impl FunctionRegistration {
         self
     }
 
+    /// Sets registration modifiers after validating them with [`Self::validate`].
     pub const fn flags(mut self, flags: FunctionFlags) -> Self {
         self.flags = flags;
         self
     }
 
+    /// Builds canonical Excel registration type text after validation.
     pub fn type_text(&self) -> Result<String, RegistrationError> {
         self.validate()?;
         let mut text = String::from(self.signature.result.code());
@@ -209,6 +257,7 @@ impl FunctionRegistration {
         Ok(text)
     }
 
+    /// Validates names, argument metadata, modifiers, and async shape.
     pub fn validate(&self) -> Result<(), RegistrationError> {
         if self.rust_symbol.is_empty() {
             return Err(RegistrationError::EmptyRustSymbol);
@@ -241,14 +290,20 @@ impl FunctionRegistration {
 }
 
 #[derive(Clone, Copy, Debug)]
+/// Static metadata for one XLL and its generated registrations.
 pub struct AddInDescriptor {
+    /// Excel-visible add-in name.
     pub name: &'static str,
+    /// Excel-visible add-in description.
     pub description: &'static str,
+    /// Worksheet function registrations.
     pub functions: &'static [FunctionRegistration],
+    /// Command registrations.
     pub commands: &'static [CommandRegistration],
 }
 
 impl AddInDescriptor {
+    /// Creates add-in metadata without commands.
     pub const fn new(
         name: &'static str,
         description: &'static str,
@@ -262,11 +317,13 @@ impl AddInDescriptor {
         }
     }
 
+    /// Adds static command metadata to this descriptor.
     pub const fn commands(mut self, commands: &'static [CommandRegistration]) -> Self {
         self.commands = commands;
         self
     }
 
+    /// Validates the add-in and every contained registration descriptor.
     pub fn validate(&self) -> Result<(), RegistrationError> {
         if self.name.is_empty() {
             return Err(RegistrationError::EmptyAddInName);
@@ -282,14 +339,23 @@ impl AddInDescriptor {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Static registration metadata is inconsistent or exceeds Excel limits.
 pub enum RegistrationError {
+    /// The add-in name was empty.
     EmptyAddInName,
+    /// The exported Rust thunk symbol was empty.
     EmptyRustSymbol,
+    /// The Excel-visible name was empty.
     EmptyExcelName,
+    /// Visible signature parameters and supplied names have different lengths.
     SignatureArgumentLengthMismatch,
+    /// Parameter names and descriptions have different lengths.
     ArgumentMetadataLengthMismatch,
+    /// Macro-sheet registration conflicts with thread-safe or cluster-safe flags.
     IncompatibleFlags,
+    /// The `>` result and single `X` handle contract was not satisfied.
     InvalidAsyncSignature,
+    /// Generated registration text exceeds Excel's counted-string limit.
     StringTooLong,
 }
 

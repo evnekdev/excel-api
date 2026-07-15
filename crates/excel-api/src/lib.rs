@@ -55,6 +55,7 @@
 //! ```no_run
 //! use excel_api::prelude::*;
 //!
+//! #[cfg(feature = "macros")]
 //! #[excel_function(
 //!     name = "RUST.ADD",
 //!     thunk = "rust_add",
@@ -65,6 +66,8 @@
 //! fn add(left: f64, right: f64) -> f64 {
 //!     left + right
 //! }
+//! # #[cfg(not(feature = "macros"))]
+//! # fn main() {}
 //! ```
 
 /// Preview bounded asynchronous-UDF scheduling and cancellation primitives.

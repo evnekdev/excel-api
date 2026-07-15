@@ -10,37 +10,57 @@ use core::sync::atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering};
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u16)]
 pub enum DiagnosticCode {
+    /// Runtime initialization, closing, or lifecycle state.
     Runtime = 1,
+    /// Function or command registration work.
     Registration = 2,
+    /// A typed Excel C API invocation.
     ExcelCall = 3,
+    /// A generated callback thunk contained a failure or panic.
     ThunkFailure = 4,
+    /// Return planning or materialization failed.
     ReturnFailure = 5,
+    /// An owned resource could not be released as required.
     ReleaseFailure = 6,
+    /// An internal ownership invariant was detected without panicking.
     OwnershipInvariant = 7,
+    /// A consumer-provided diagnostic sink panicked.
     SinkPanic = 8,
+    /// Cooperative dispatcher admission, drain, or retirement activity.
     Dispatcher = 9,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u8)]
+/// Severity assigned by the producer; no formatting or policy is implied.
 pub enum DiagnosticSeverity {
+    /// Verbose diagnostic information.
     Debug,
+    /// Normal informational evidence.
     Info,
+    /// A recoverable condition needing attention.
     Warn,
+    /// A failed operation or invariant.
     Error,
 }
 
 /// Pointer-free fixed-size event. `excel_code` preserves raw Excel status.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct DiagnosticEvent {
+    /// Monotonic process-local sequence assigned when the event is emitted.
     pub sequence: u64,
+    /// Producer-provided correlation identifier, defaulting to [`Self::sequence`].
     pub correlation_id: u64,
+    /// Stable machine-readable event category.
     pub code: DiagnosticCode,
+    /// Producer-selected severity.
     pub severity: DiagnosticSeverity,
+    /// Exact raw Excel return code when the event relates to an Excel call.
     pub excel_code: i32,
 }
 
 impl DiagnosticEvent {
+    /// Creates an event before emission assigns its sequence number.
     pub const fn new(code: DiagnosticCode, severity: DiagnosticSeverity, excel_code: i32) -> Self {
         Self {
             sequence: 0,
@@ -51,6 +71,7 @@ impl DiagnosticEvent {
         }
     }
 
+    /// Replaces the default correlation identifier for related event streams.
     pub const fn with_correlation(mut self, correlation_id: u64) -> Self {
         self.correlation_id = correlation_id;
         self
@@ -72,6 +93,7 @@ static USER_SINK: std::sync::Mutex<Option<&'static dyn DiagnosticSink>> =
 /// guarded callback path, or call [`emit`] recursively. Panics are contained
 /// and the triggering event remains in the ring.
 pub trait DiagnosticSink: Send + Sync {
+    /// Receives one copied event outside Excel and ownership cleanup paths.
     fn record(&self, event: DiagnosticEvent);
 }
 

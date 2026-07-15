@@ -1,5 +1,10 @@
 # Testing
 
+```powershell
+cargo test --workspace --all-features
+cargo test --workspace --doc
+```
+
 Run deterministic repository checks first:
 
 ```powershell

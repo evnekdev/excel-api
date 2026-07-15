@@ -1,5 +1,13 @@
 # Excel calls and contexts
 
+```rust,no_run
+use excel_api::WorksheetContext;
+
+fn poll(context: &WorksheetContext<'_>) { let _ = context.is_cancellation_requested(); }
+```
+
+The typed context, rather than thread identity, is the capability for this call.
+
 The typed call catalogue is intentionally small. A call descriptor records its
 function ID, argument roots, ownership, legal contexts, return-code policy, and
 threading classification. Call it only through the matching context:

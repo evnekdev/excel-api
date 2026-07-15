@@ -35,14 +35,20 @@ pub struct AsyncExecuteError {
 }
 
 impl AsyncExecuteError {
+    /// Creates a rejection that returns the closure which was never accepted.
+    ///
+    /// The executor must not have invoked `job`; the caller may use
+    /// [`Self::into_parts`] to recover it for another owner or disposal.
     pub fn new(error: AsyncSubmitError, job: AsyncJob) -> Self {
         Self { error, job }
     }
 
+    /// Returns the reason this executor declined the job.
     pub fn error(&self) -> AsyncSubmitError {
         self.error
     }
 
+    /// Splits this rejection into its reason and the still-unexecuted job.
     pub fn into_parts(self) -> (AsyncSubmitError, AsyncJob) {
         (self.error, self.job)
     }
@@ -86,7 +92,16 @@ impl std::error::Error for AsyncExecuteError {
 /// synchronously or wait for the job to finish before returning: controller
 /// admission remains locked until acceptance commits.
 pub trait AsyncExecutor: Send + Sync + 'static {
+    /// Accepts `job` exactly once, or returns it without executing it.
+    ///
+    /// Implementations must establish the acceptance boundary before this
+    /// method returns and must not run the job synchronously.
     fn execute(&self, job: AsyncJob) -> Result<(), AsyncExecuteError>;
+
+    /// Permanently rejects future jobs and waits for accepted jobs to stop.
+    ///
+    /// This is idempotent and is the executor-generation unload boundary: when
+    /// it returns, no accepted closure may still execute XLL code.
     fn shutdown(&self);
 }
 
@@ -113,6 +128,10 @@ pub struct ThreadPoolExecutor {
 }
 
 impl ThreadPoolExecutor {
+    /// Creates a lazily started bounded executor.
+    ///
+    /// Returns `None` when either bound is zero. Once shut down, this executor
+    /// is permanently closed and cannot be restarted.
     pub fn new(workers: usize, queue_bound: usize) -> Option<Self> {
         (workers > 0 && queue_bound > 0).then_some(Self {
             workers,
@@ -281,14 +300,23 @@ impl AsyncExecutor for ThreadPoolExecutor {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Describes why asynchronous submission could not be committed.
 pub enum AsyncSubmitError {
+    /// No executor was installed for the current runtime generation.
     ExecutorUnavailable,
+    /// A third-party executor rejected the job before accepting it.
     ExecutorRejected,
+    /// The executor's own bounded queue has no capacity.
     ExecutorQueueFull,
+    /// The executor generation has crossed its permanent shutdown boundary.
     ExecutorClosed,
+    /// The built-in executor could not start every required worker.
     WorkerStartFailed,
+    /// The controller's configured in-flight request limit was reached.
     CapacityExhausted,
+    /// Runtime shutdown won the submission race.
     RuntimeClosing,
+    /// Excel supplied a malformed or null asynchronous completion handle.
     InvalidHandle,
 }
 
@@ -310,13 +338,21 @@ impl fmt::Display for AsyncSubmitError {
 impl std::error::Error for AsyncSubmitError {}
 
 #[derive(Debug)]
+/// Describes why an accepted asynchronous request could not publish a result.
 pub enum AsyncCompletionError {
+    /// Calculation cancellation retired the request before completion.
     Canceled,
+    /// A second completion attempt targeted an already terminal request.
     AlreadyCompleted,
+    /// The runtime generation is shutting down and will not publish results.
     RuntimeClosing,
+    /// Planning or materializing the return value failed before `xlAsyncReturn`.
     Return(ThunkError),
+    /// `xlAsyncReturn` returned a non-success Excel result.
     Excel {
+        /// Exact Excel C API return code.
         code: ExcelReturnCode,
+        /// Boolean result returned by Excel when it supplied one.
         accepted: Option<bool>,
     },
 }
@@ -355,6 +391,10 @@ pub struct AsyncCancellationToken {
 }
 
 impl AsyncCancellationToken {
+    /// Returns whether the owning request or runtime generation was canceled.
+    ///
+    /// The token is cooperative: a running task must inspect it and return on
+    /// its own. Ignoring it never permits publishing into a retired generation.
     pub fn is_cancellation_requested(&self) -> bool {
         self.request.upgrade().is_none_or(|request| {
             matches!(
@@ -876,6 +916,20 @@ pub extern "system" fn calculation_ended_event() {
     let _ = std::panic::catch_unwind(calculation_ended);
 }
 
+/// Schedules an owned asynchronous result from a generated async thunk.
+///
+/// This entry point is an implementation detail of the procedural macros.
+/// Application code should declare an async worksheet function instead of
+/// calling it directly.
+///
+/// # Safety
+///
+/// `raw_handle` must be a readable `XLOPER12` root supplied by Excel for the
+/// current asynchronous-UDF callback. Its tag must select a valid non-null
+/// async handle, and the handle must not be retained, dereferenced, freed, or
+/// used after Excel retires it. The call must occur only through the generated
+/// thunk's verified callback path; it does not create a general worker-thread
+/// Excel callback capability.
 #[doc(hidden)]
 pub unsafe fn schedule(
     raw_handle: LPXLOPER12,

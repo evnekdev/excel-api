@@ -11,3 +11,16 @@ returns, no accepted job may execute XLL code. Install a fresh executor before
 reopen. Real-Excel validation is still required for cancellation,
 recalculation-replacement, unload, reopen, MTR initiation, and capacity
 rejection.
+
+```rust,no_run
+use excel_api::prelude::*;
+
+#[excel_function(name = "RUST.ASYNC.DOUBLE", thunk = "rust_async_double")]
+fn async_double(value: f64, cancellation: AsyncCancellationToken) -> Result<f64, ExcelError> {
+    if cancellation.is_cancellation_requested() { return Err(ExcelError::Na); }
+    Ok(value * 2.0)
+}
+```
+
+This preview example permits owned background work, but not arbitrary Excel C
+API calls. The runtime alone uses the narrow `xlAsyncReturn` completion exception.

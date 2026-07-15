@@ -51,9 +51,13 @@ const MAXIMUM_CONDVAR_WAIT_SLICE: Duration = Duration::from_secs(24 * 60 * 60);
 /// Bounds for one cooperative dispatcher generation.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct DispatchConfig {
+    /// Maximum queued and selected requests retained by this generation.
     pub maximum_pending: usize,
+    /// Maximum compatible requests one callback drain may select.
     pub maximum_batch_per_drain: usize,
+    /// Optional deadline assigned to requests without an explicit deadline.
     pub default_timeout: Option<Duration>,
+    /// Optional wall-clock budget for one callback drain.
     pub maximum_drain_duration: Option<Duration>,
 }
 
@@ -77,10 +81,15 @@ impl DispatchConfig {
 /// Closed capability requirement recorded by every operation.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum DispatchRequirement {
+    /// Pure owned operation requiring no Excel call or capability.
     ContextNeutral,
+    /// Operation legal only in an MTR-safe worksheet callback.
     ThreadSafeWorksheet,
+    /// Operation legal only in an ordinary worksheet callback.
     Worksheet,
+    /// Operation legal only in a registered macro command callback.
     Macro,
+    /// Operation legal only during open/close lifecycle callbacks.
     Lifecycle,
 }
 
@@ -92,16 +101,21 @@ pub enum DispatchOperation {
     /// Calls verified `xlAbort` with its preserving zero-argument form.
     PollCancellationPreservingBreak,
     #[cfg(test)]
+    /// Test-only nested enqueue operation.
     TestEnqueueNested(ExcelValue),
     #[cfg(test)]
+    /// Test-only nested macro drain operation.
     TestNestedMacroDrain,
     #[cfg(test)]
+    /// Test-only deterministic execution blocker.
     TestBlock,
     #[cfg(test)]
+    /// Test-only panic containment operation.
     TestPanic,
 }
 
 impl DispatchOperation {
+    /// Returns the exact closed capability requirement for this operation.
     pub const fn requirement(&self) -> DispatchRequirement {
         match self {
             Self::EchoOwned(_) => DispatchRequirement::ContextNeutral,
@@ -115,6 +129,7 @@ impl DispatchOperation {
         }
     }
 
+    /// Returns whether executing this operation invokes the typed Excel catalogue.
     pub const fn calls_excel(&self) -> bool {
         match self {
             Self::PollCancellationPreservingBreak => true,
@@ -128,15 +143,22 @@ impl DispatchOperation {
 /// Owned completion values for the initial operation catalogue.
 #[derive(Clone, Debug, PartialEq)]
 pub enum DispatchResult {
+    /// Fully owned semantic value from a context-neutral operation.
     OwnedValue(ExcelValue),
+    /// User break state returned by preserving `xlAbort` polling.
     CancellationRequested(bool),
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// Rejection before a dispatcher request becomes owned by a generation.
 pub enum DispatchEnqueueError {
+    /// No runtime generation is installed.
     NoActiveGeneration,
+    /// The bounded request registry has no capacity.
     QueueFull,
+    /// Shutdown crossed the enqueue linearization point.
     RuntimeClosing,
+    /// A retained generation handle no longer names the active generation.
     StaleGeneration,
 }
 
@@ -153,14 +175,21 @@ impl fmt::Display for DispatchEnqueueError {
 
 impl std::error::Error for DispatchEnqueueError {}
 
+/// Failure after a request has been selected for a compatible callback drain.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DispatchExecutionError {
+    /// A selected operation did not match the draining callback's capability.
     IncompatibleContext {
+        /// Operation's closed capability requirement.
         required: DispatchRequirement,
+        /// Actual Excel-issued callback kind.
         actual: DispatchCallbackKind,
     },
+    /// A legal typed Excel call failed while executing the operation.
     Excel(ExcelCallError),
+    /// User operation code panicked; the dispatcher contained it and retired the request.
     Panicked,
+    /// Internal request state was inconsistent; no panic escaped the callback.
     InternalInvariant,
 }
 
@@ -184,13 +213,20 @@ impl fmt::Display for DispatchExecutionError {
 
 impl std::error::Error for DispatchExecutionError {}
 
+/// Terminal result reported by a dispatcher ticket when no value is available.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DispatchCompletionError {
+    /// Cancellation won while the request was still cancelable.
     Canceled,
+    /// The request expired while still queued.
     Expired,
+    /// Runtime shutdown retired the request before a result was published.
     DispatcherShutdown,
+    /// Execution failed after selection.
     Operation(DispatchExecutionError),
+    /// Blocking waits are forbidden inside an Excel callback.
     WaitFromCallback,
+    /// The caller's own wait deadline elapsed; the request remains owned.
     WaitTimeout,
 }
 
@@ -213,22 +249,35 @@ impl fmt::Display for DispatchCompletionError {
 
 impl std::error::Error for DispatchCompletionError {}
 
+/// Result of a cooperative request-cancellation attempt.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DispatchCancelOutcome {
+    /// Cancellation won before execution commitment.
     Canceled,
+    /// Selection or execution had already committed.
     TooLate,
+    /// A terminal request has no remaining cancellation action.
     AlreadyTerminal,
 }
 
+/// Actual kind of Excel-issued callback that is attempting a drain.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DispatchCallbackKind {
+    /// MTR-safe worksheet callback.
     ThreadSafe,
+    /// Ordinary worksheet-function callback.
     Worksheet,
+    /// Registered macro command callback.
     Macro,
+    /// Open/close lifecycle callback.
     Lifecycle,
 }
 
 impl DispatchCallbackKind {
+    /// Returns whether this callback kind exactly permits `requirement`.
+    ///
+    /// There is intentionally no inferred capability ordering: only the listed
+    /// pairs and context-neutral operations are allowed.
     pub const fn permits(self, requirement: DispatchRequirement) -> bool {
         matches!(
             (self, requirement),
@@ -241,32 +290,55 @@ impl DispatchCallbackKind {
     }
 }
 
+/// Bounded outcome counters for one callback drain attempt.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct DispatchDrainReport {
+    /// Requests selected into this drain's bounded batch.
     pub selected: usize,
+    /// Selected operations that reached an execution attempt.
     pub processed: usize,
+    /// Selected operations that published failure.
     pub failed: usize,
+    /// Queued requests retired because their deadline elapsed.
     pub expired: usize,
+    /// Incompatible requests skipped while seeking compatible work behind them.
     pub incompatible_skipped: usize,
+    /// Whether a nested drain was rejected by the callback-depth guard.
     pub nested_suppressed: bool,
+    /// Whether the configured drain duration stopped batch selection.
     pub duration_limit_reached: bool,
 }
 
+/// Bounded cumulative counters for a dispatcher generation.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct DispatchDiagnostics {
+    /// Generation this snapshot describes.
     pub generation: u64,
+    /// Requests currently queued or selected.
     pub pending: usize,
+    /// Operations currently executing synchronously in a callback.
     pub running: usize,
+    /// Total accepted requests.
     pub accepted: u64,
+    /// Total admission rejections.
     pub rejected: u64,
+    /// Total selected requests.
     pub selected: u64,
+    /// Total attempted executions.
     pub executed: u64,
+    /// Total canceled requests.
     pub canceled: u64,
+    /// Total queued-expired requests.
     pub expired: u64,
+    /// Total successful completions.
     pub completed: u64,
+    /// Total failed executions.
     pub failed: u64,
+    /// Total requests retired by shutdown.
     pub shutdown_retired: u64,
+    /// Total incompatible requests skipped during selection.
     pub incompatible_skipped: u64,
+    /// Total nested drain attempts suppressed by the guard.
     pub nested_suppressed: u64,
 }
 
@@ -347,19 +419,32 @@ impl fmt::Debug for DispatchTicket {
 }
 
 impl DispatchTicket {
+    /// Returns this request's identifier within [`Self::generation`].
     pub fn id(&self) -> u64 {
         self.request.id
     }
 
+    /// Returns the dispatcher generation that owns this request.
+    ///
+    /// IDs can be reused by a later generation, so interpret them together.
     pub fn generation(&self) -> u64 {
         self.request.generation
     }
 
+    /// Returns a copied terminal result if available without blocking.
+    ///
+    /// Polling also cooperatively expires this request if it is still queued.
     pub fn try_result(&self) -> Option<Result<DispatchResult, DispatchCompletionError>> {
         self.request.expire_if_due();
         self.request.lock_completion().result.clone()
     }
 
+    /// Waits until completion, the caller deadline, or a queued request deadline.
+    ///
+    /// The earlier of `timeout` and the request deadline wins while the request
+    /// is queued. A caller timeout does not cancel the request. Waiting from an
+    /// Excel callback is rejected to avoid blocking Excel; ticket drop detaches
+    /// rather than cancels the generation-owned request.
     pub fn wait_timeout(
         &self,
         timeout: Duration,
@@ -434,6 +519,7 @@ impl DispatchTicket {
         }
     }
 
+    /// Attempts cancellation while the request has not committed to execution.
     pub fn cancel(&self) -> DispatchCancelOutcome {
         self.request
             .owner
@@ -461,10 +547,15 @@ impl fmt::Debug for DispatchGeneration {
 }
 
 impl DispatchGeneration {
+    /// Returns this generation's monotonically assigned identifier.
     pub fn id(&self) -> u64 {
         self.controller.generation
     }
 
+    /// Enqueues one closed owned operation in this exact generation.
+    ///
+    /// This never wakes Excel. A stale handle cannot redirect work into a later
+    /// generation, and a queue-full error leaves `operation` with the caller.
     pub fn enqueue(
         &self,
         operation: DispatchOperation,
@@ -480,6 +571,7 @@ impl DispatchGeneration {
         self.controller.enqueue(operation)
     }
 
+    /// Returns a bounded diagnostics snapshot for this generation.
     pub fn diagnostics(&self) -> DispatchDiagnostics {
         self.controller.diagnostics()
     }
@@ -1001,6 +1093,10 @@ pub(crate) fn shutdown() {
     }
 }
 
+/// Returns a stable handle to the currently active dispatcher generation.
+///
+/// The handle becomes stale on runtime close or reopen and cannot enqueue into
+/// a replacement generation.
 pub fn current_generation() -> Option<DispatchGeneration> {
     lock_generations()
         .active
@@ -1015,12 +1111,16 @@ fn active_generation_id() -> Option<u64> {
         .map(|controller| controller.generation)
 }
 
+/// Enqueues one closed operation in the active generation without waking Excel.
+///
+/// Use a genuine compatible callback, such as `RUST.DISPATCH.PUMP`, to drain it.
 pub fn enqueue(operation: DispatchOperation) -> Result<DispatchTicket, DispatchEnqueueError> {
     current_generation()
         .ok_or(DispatchEnqueueError::NoActiveGeneration)?
         .enqueue(operation)
 }
 
+/// Returns diagnostics for the active generation, if one exists.
 pub fn diagnostics() -> Option<DispatchDiagnostics> {
     current_generation().map(|generation| generation.diagnostics())
 }

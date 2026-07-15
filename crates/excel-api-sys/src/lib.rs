@@ -27,7 +27,10 @@
 //! use excel_api_sys::{XLOPER12, XLOPER12Value, xltypeNum};
 //!
 //! let value = XLOPER12 { xltype: xltypeNum, val: XLOPER12Value { num: 42.0 } };
-//! assert_eq!(value.xltype, xltypeNum);
+//! // SAFETY: this local value is tagged as `num`, so reading that selected
+//! // union member is valid. This does not establish Excel callback legality,
+//! // pointer validity, ownership, or worker-thread legality for a real call.
+//! assert_eq!(unsafe { value.val.num }, 42.0);
 //! ```
 #![allow(non_camel_case_types, non_snake_case, non_upper_case_globals)]
 
