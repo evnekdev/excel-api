@@ -96,6 +96,7 @@ struct RuntimeState {
     calculation_canceled_registered: bool,
     calculation_ended_registered: bool,
     async_generation_active: bool,
+    dispatcher_generation_active: bool,
 }
 
 impl Default for RuntimeState {
@@ -109,6 +110,7 @@ impl Default for RuntimeState {
             calculation_canceled_registered: false,
             calculation_ended_registered: false,
             async_generation_active: false,
+            dispatcher_generation_active: false,
         }
     }
 }
@@ -205,6 +207,7 @@ impl Runtime {
     }
 
     pub fn initialize(&self, add_in: &AddInDescriptor) -> Result<LifecycleOutcome, LifecycleError> {
+        let _callback = crate::dispatcher::enter_callback();
         add_in
             .validate()
             .map_err(|error| LifecycleError::Excel(ExcelCallError::Registration(error)))?;
@@ -237,12 +240,17 @@ impl Runtime {
             }
             self.lock().async_generation_active = true;
         }
+        let dispatcher_active = crate::dispatcher::activate();
+        self.lock().dispatcher_generation_active = dispatcher_active;
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);
         let module = match context.get_module_name() {
             Ok(module) => module,
             Err(error) => {
+                if dispatcher_active {
+                    crate::dispatcher::shutdown();
+                }
                 if has_async {
                     crate::async_udf::shutdown();
                 }
@@ -250,17 +258,22 @@ impl Runtime {
                 let mut state = self.lock();
                 state.phase = RuntimePhase::Uninitialized;
                 state.async_generation_active = false;
+                state.dispatcher_generation_active = false;
                 return Err(error.into());
             }
         };
 
         if has_async {
             if let Err(error) = self.ensure_async_events(&context) {
+                if dispatcher_active {
+                    crate::dispatcher::shutdown();
+                }
                 crate::async_udf::shutdown();
                 self.backend.unlink();
                 let mut state = self.lock();
                 state.phase = RuntimePhase::Uninitialized;
                 state.async_generation_active = false;
+                state.dispatcher_generation_active = false;
                 return Err(error.into());
             }
         }
@@ -284,12 +297,16 @@ impl Runtime {
                     if has_async {
                         crate::async_udf::shutdown();
                     }
+                    if dispatcher_active {
+                        crate::dispatcher::shutdown();
+                    }
                     if cleanup.is_empty() {
                         self.backend.unlink();
                     }
                     let mut state = self.lock();
                     state.diagnostics.rollback_attempts += registered.len();
                     state.async_generation_active = false;
+                    state.dispatcher_generation_active = false;
                     if cleanup.is_empty() {
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
@@ -346,6 +363,9 @@ impl Runtime {
                     if has_async {
                         crate::async_udf::shutdown();
                     }
+                    if dispatcher_active {
+                        crate::dispatcher::shutdown();
+                    }
                     if cleanup.is_empty() {
                         self.backend.unlink();
                     }
@@ -353,6 +373,7 @@ impl Runtime {
                     state.diagnostics.rollback_attempts +=
                         command_registered.len() + registered.len();
                     state.async_generation_active = false;
+                    state.dispatcher_generation_active = false;
                     if cleanup.is_empty() {
                         state.phase = RuntimePhase::Uninitialized;
                         state.module = None;
@@ -441,7 +462,8 @@ impl Runtime {
     }
 
     pub fn close(&self) -> Result<LifecycleOutcome, LifecycleError> {
-        let (registrations, drain_async) = {
+        let _callback = crate::dispatcher::enter_callback();
+        let (registrations, drain_async, drain_dispatcher) = {
             let mut state = self.lock();
             state.diagnostics.close_attempts += 1;
             match state.phase {
@@ -451,19 +473,28 @@ impl Runtime {
                     let mut entries = state.command_registrations.clone();
                     entries.extend(state.worksheet_registrations.iter().copied());
                     let drain_async = state.async_generation_active;
+                    let drain_dispatcher = state.dispatcher_generation_active;
                     state.async_generation_active = false;
-                    (entries, drain_async)
+                    state.dispatcher_generation_active = false;
+                    (entries, drain_async, drain_dispatcher)
                 }
                 RuntimePhase::CleanupRequired => {
                     state.phase = RuntimePhase::Closing;
                     let mut entries = state.command_registrations.clone();
                     entries.extend(state.worksheet_registrations.iter().copied());
-                    (entries, false)
+                    (entries, false, false)
                 }
                 phase => return Err(LifecycleError::Busy(phase)),
             }
         };
 
+        // Remove and synchronously retire cooperative dispatch before any
+        // registration or callback entry point can disappear. Shutdown waits
+        // only for work already executing in a real callback; it never waits
+        // for a future pump.
+        if drain_dispatcher {
+            crate::dispatcher::shutdown();
+        }
         // Disable and drain asynchronous work before registrations or the
         // Excel callback entry point can disappear.
         if drain_async {
@@ -733,8 +764,17 @@ mod tests {
             .unwrap_or_else(std::sync::PoisonError::into_inner)
     }
 
+    fn runtime_test_guard() -> std::sync::MutexGuard<'static, ()> {
+        static GUARD: OnceLock<Mutex<()>> = OnceLock::new();
+        GUARD
+            .get_or_init(|| Mutex::new(()))
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+    }
+
     #[test]
     fn duplicate_sequences_register_once_and_close_is_idempotent() {
+        let _runtime = runtime_test_guard();
         let backend = Arc::new(MockBackend::default());
         let runtime = Runtime::with_backend(backend.clone());
         assert_eq!(runtime.initialize(&ADD_IN), Ok(LifecycleOutcome::Completed));
@@ -756,6 +796,7 @@ mod tests {
 
     #[test]
     fn partial_registration_rolls_back_and_retry_succeeds() {
+        let _runtime = runtime_test_guard();
         let backend = Arc::new(MockBackend::failing_registration(2));
         let runtime = Runtime::with_backend(backend.clone());
         assert!(matches!(
@@ -770,6 +811,7 @@ mod tests {
 
     #[test]
     fn unavailable_backend_restores_uninitialized_state() {
+        let _runtime = runtime_test_guard();
         let runtime = Runtime::with_backend(Arc::new(
             crate::excel_call::test_support::UnavailableBackend,
         ));
@@ -782,6 +824,7 @@ mod tests {
 
     #[test]
     fn async_events_register_once_across_close_and_reopen() {
+        let _runtime = runtime_test_guard();
         let _guard = async_test_guard();
         install_test_executor();
         let backend = Arc::new(MockBackend::default());
@@ -812,6 +855,7 @@ mod tests {
 
     #[test]
     fn failed_second_event_registration_retries_only_missing_event() {
+        let _runtime = runtime_test_guard();
         let _guard = async_test_guard();
         install_test_executor();
         let backend = Arc::new(MockBackend::default());
@@ -836,6 +880,7 @@ mod tests {
 
     #[test]
     fn close_failure_is_cleanup_required_and_retry_can_reopen() {
+        let _runtime = runtime_test_guard();
         let _guard = async_test_guard();
         install_test_executor();
         let backend = Arc::new(MockBackend::default());
@@ -868,6 +913,7 @@ mod tests {
 
     #[test]
     fn initialization_failure_after_events_shuts_generation_and_reuses_events() {
+        let _runtime = runtime_test_guard();
         let _guard = async_test_guard();
         install_test_executor();
         let backend = Arc::new(MockBackend::failing_registration(1));
@@ -887,5 +933,44 @@ mod tests {
         assert_eq!(backend.state.lock().unwrap().event_count, 2);
         assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
         crate::async_udf::reset_generations_for_test();
+    }
+
+    #[test]
+    fn dispatcher_shutdown_precedes_cleanup_required_and_backend_unlink() {
+        let _runtime = runtime_test_guard();
+        let _guard = crate::dispatcher::TEST_SERIAL.lock().unwrap();
+        crate::dispatcher::reset_generations_for_test();
+        assert_eq!(
+            crate::install_dispatcher(crate::DispatchConfig::default()),
+            Ok(())
+        );
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert_eq!(runtime.initialize(&ADD_IN), Ok(LifecycleOutcome::Completed));
+        let ticket = crate::enqueue_dispatch(crate::DispatchOperation::EchoOwned(
+            crate::ExcelValue::Integer(7),
+        ))
+        .unwrap();
+        backend.state.lock().unwrap().fail_unregistration = 1;
+        assert!(matches!(
+            runtime.close(),
+            Err(LifecycleError::CloseFailed { .. })
+        ));
+        assert_eq!(runtime.phase(), RuntimePhase::CleanupRequired);
+        assert_eq!(
+            ticket.try_result(),
+            Some(Err(crate::DispatchCompletionError::DispatcherShutdown))
+        );
+        assert_eq!(
+            crate::enqueue_dispatch(crate::DispatchOperation::EchoOwned(
+                crate::ExcelValue::Integer(8)
+            ))
+            .unwrap_err(),
+            crate::DispatchEnqueueError::NoActiveGeneration
+        );
+        assert!(backend.state.lock().unwrap().linked);
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        assert!(!backend.state.lock().unwrap().linked);
+        crate::dispatcher::reset_generations_for_test();
     }
 }

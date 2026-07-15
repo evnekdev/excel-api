@@ -18,6 +18,7 @@ pub enum DiagnosticCode {
     ReleaseFailure = 6,
     OwnershipInvariant = 7,
     SinkPanic = 8,
+    Dispatcher = 9,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -48,6 +49,11 @@ impl DiagnosticEvent {
             severity,
             excel_code,
         }
+    }
+
+    pub const fn with_correlation(mut self, correlation_id: u64) -> Self {
+        self.correlation_id = correlation_id;
+        self
     }
 }
 
@@ -85,7 +91,9 @@ pub fn emit(mut event: DiagnosticEvent) {
         return;
     }
     event.sequence = NEXT.fetch_add(1, Ordering::Relaxed);
-    event.correlation_id = event.sequence;
+    if event.correlation_id == 0 {
+        event.correlation_id = event.sequence;
+    }
     if let Ok(mut ring) = RING.try_lock() {
         let index = WRITTEN.fetch_add(1, Ordering::Relaxed) % CAPACITY;
         ring[index] = Some(event);

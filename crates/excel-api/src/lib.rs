@@ -5,6 +5,7 @@ pub mod borrowed;
 pub mod context;
 pub mod convert;
 pub mod diagnostics;
+pub mod dispatcher;
 pub mod error;
 mod excel_call;
 mod excel_owned;
@@ -30,6 +31,13 @@ pub use context::{LifecycleContext, MacroContext, ThreadSafeContext, WorksheetCo
 pub use convert::{ConversionLimits, FromExcel, IntoExcel};
 pub use diagnostics::{
     DiagnosticCode, DiagnosticEvent, DiagnosticSeverity, DiagnosticSink, set_user_sink,
+};
+pub use dispatcher::{
+    DispatchCallbackKind, DispatchCancelOutcome, DispatchCompletionError, DispatchConfig,
+    DispatchDiagnostics, DispatchDrainReport, DispatchEnqueueError, DispatchExecutionError,
+    DispatchGeneration, DispatchOperation, DispatchRequirement, DispatchResult, DispatchTicket,
+    current_generation as current_dispatch_generation, diagnostics as dispatch_diagnostics,
+    enqueue as enqueue_dispatch,
 };
 pub use error::{
     ConversionError, ExcelError, OwnedValueError, ReturnError, ReturnMaterializationError,
@@ -71,6 +79,14 @@ pub fn install_async_executor(
     maximum_in_flight: usize,
 ) -> Result<(), std::sync::Arc<dyn AsyncExecutor>> {
     async_udf::install_production_executor(executor, maximum_in_flight)
+}
+
+/// Installs bounds for the next cooperative-dispatcher runtime generation.
+///
+/// Enqueueing does not wake Excel. A successful close permanently shuts down
+/// the generation; install a fresh configuration before reopening.
+pub fn install_dispatcher(config: DispatchConfig) -> Result<(), DispatchConfig> {
+    dispatcher::install_production_config(config)
 }
 pub use value::{ExcelArray, ExcelArrayColumn, ExcelString, ExcelValue, OptionalValue};
 

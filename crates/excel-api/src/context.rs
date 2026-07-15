@@ -86,6 +86,37 @@ context_impl!(ThreadSafeContext);
 context_impl!(LifecycleContext);
 context_impl!(MacroContext);
 
+impl ThreadSafeContext<'_> {
+    /// Drains one bounded batch containing only thread-safe-compatible or pure work.
+    pub fn drain_dispatcher(&self) -> crate::DispatchDrainReport {
+        crate::dispatcher::drain_thread_safe(self)
+    }
+}
+
+impl WorksheetContext<'_> {
+    /// Drains one bounded batch containing only worksheet-compatible or pure work.
+    pub fn drain_dispatcher(&self) -> crate::DispatchDrainReport {
+        crate::dispatcher::drain_worksheet(self)
+    }
+}
+
+impl MacroContext<'_> {
+    /// Drains one bounded cooperative batch under this genuine macro callback.
+    ///
+    /// Enqueueing a request does not invoke this method or otherwise wake Excel.
+    pub fn drain_dispatcher(&self) -> crate::DispatchDrainReport {
+        crate::dispatcher::drain_macro(self)
+    }
+}
+
+impl LifecycleContext<'_> {
+    /// Drains one bounded batch containing only lifecycle-compatible or pure work.
+    /// Runtime close does not call this; close retires queued work instead.
+    pub fn drain_dispatcher(&self) -> crate::DispatchDrainReport {
+        crate::dispatcher::drain_lifecycle(self)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
