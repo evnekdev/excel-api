@@ -42,9 +42,11 @@ unpublished Windows in-process COM DLL. Its installed Office 1.9 type-library
 ABI, class factory, bounded `COUNTER` topic, GIT-marshaled `UpdateNotify`,
 Automation payload ownership, and reversible per-user registration are covered
 by deterministic tests and inspection scripts. It calls no Excel C API and
-provides no M17 wake capability. Status: **M18 prototype implemented; live
-compatibility validation blocked/pending** because the current host still
-cannot create a plain workbook. This is not production RTD approval.
+provides no M17 wake capability. M18.2 adds retryable GIT cleanup, panic-safe
+producer accounting, an activation ladder, and a Microsoft-PIA control server.
+Status: **M18 prototype implemented; Excel activation unresolved** because a
+stale inaccessible descendant of an earlier owned Excel test prevents a clean
+comparison. This is not production RTD approval.
 
 Build the loadable artifact with:
 

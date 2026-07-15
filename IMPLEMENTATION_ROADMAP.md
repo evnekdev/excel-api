@@ -41,8 +41,8 @@
   enqueue does not wake Excel and no production autonomous wake is approved)
 - M18 RTD (separate in-process COM compatibility prototype implemented with a
   verified installed Office 1.9 ABI, bounded/coalesced topics, GIT marshaling,
-  Automation ownership, and reversible per-user registration; live workbook
-  validation blocked/pending; no production framework, Excel C API, or M17
-  wake capability approved)
+  Automation ownership, retryable GIT cleanup, and activation diagnostics;
+  Excel activation unresolved and no production framework, Excel C API, or
+  M17 wake capability approved)
 - M19 COM/Ribbon
 - M20 1.0 review

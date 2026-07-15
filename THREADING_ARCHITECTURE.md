@@ -170,3 +170,11 @@ or C API capability. Shutdown commits `Stopping`, suppresses new notification
 claims, joins the producer, then revokes the GIT cookie and enters
 `Terminated`; conservative unload accounting remains nonzero if revocation
 cannot be proved.
+
+M18.2 makes those boundaries observable and retryable. Producer execution is
+contained by `catch_unwind` and an RAII lifetime guard; `ServerTerminate`
+inspects its join result. The GIT proxy is dropped in the producer MTA before
+the joined caller begins revocation. Failed revocation retains the exact cookie
+in `CallbackRevocationPending` for a later termination retry and keeps unload
+blocked. Each committed `UpdateNotify` call also has panic-safe RAII accounting.
+No project lock is held across notification, join, or revocation.

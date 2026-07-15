@@ -257,3 +257,17 @@ dedicated harness first requires plain `Workbooks.Add`; failure is recorded as
 host-blocked before any RTD claim. The working-host matrix remains in
 `docs/manual-tests/m18-rtd-validation.md`. No test or observed thread ID
 authorizes Excel12/Excel12v from RTD.
+
+## M18.2 cleanup and activation coverage
+
+Deterministic tests inject producer/notification panics, panicked joins, and
+first-failure/second-success GIT revocation. They assert exact counter release,
+retry without duplicate revoke, pending termination, and unload blocking for
+objects, class locks, servers, producers, callback cookies, and notifications.
+
+PowerShell helper tests cover formula construction, activation-stage
+classification, registry conflicts, and decisions A-E. Direct activation
+records the Rust class-factory/IDispatch sequence. A separate .NET Framework
+control is compiled from the installed Microsoft Office PIA. The Excel harness
+will compare both only after stale-owned-process preflight passes; the current
+host fails that preflight, so compatibility remains unresolved.
