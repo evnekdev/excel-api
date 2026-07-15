@@ -27,10 +27,15 @@ crates/
 
 examples/
   minimal-xll
+  minimal-rtd-server  # experimental, Windows-only, unpublished
 
 tools/
   abi-check
 ```
+
+Only `excel-api-sys`, `excel-api`, and `excel-api-macros` are core publication
+candidates. The RTD prototype remains an explicit compatibility-test workspace
+member but is outside the stable API, default packaging, and release sequence.
 
 ### `excel-api-sys`
 

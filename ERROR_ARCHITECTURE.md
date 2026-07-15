@@ -2,14 +2,14 @@
 
 ## Status
 
-- **Status:** M3 owned-value/conversion, M4 planning, M5 materialization, and
-  M6 callback panic policy implemented.
+- **Status:** Typed core errors through M17 are implemented; M20 audited public
+  trait consistency and removed the remaining stringly Excel-call path.
 - **Implemented in:** `error.rs`, with return error production in
   `return_plan.rs` and materialization error production in `return_alloc.rs`.
 - **Test coverage:** precise numeric, UTF-16, shape, unsupported-reference,
   element, aggregate-byte, string, and depth failures.
-- **Remaining limitations:** Excel-call, registration, and broader lifecycle
-  error layers remain future milestones.
+- **Remaining limitations:** Public item-level documentation must be completed
+  before the stable 1.0 API freeze.
 
 ## Layers
 
@@ -109,6 +109,15 @@ return materialization. Release errors preserve the exact Excel return code or
 distinguish invalid context, not-thread-safe, unavailable backend, and a
 contained backend panic. One attempted call consumes the obligation regardless
 of its result; Drop never formats, retries, or panics.
+
+M20 keeps Excel-call conversion and release failures structured:
+`ExcelCallError` owns `ExcelOwnedConversionError` or `ExcelReleaseError` and
+exposes them through `Error::source`; module-name UTF-16 and experimental
+serial-time validation have dedicated variants. Public async submission,
+executor-rejection, and completion errors implement `Debug`, `Display`, and
+`Error`. `ExcelError` and raw `XlError` remain worksheet value discriminants,
+not Rust operation failures.
+
 ## M8 implementation
 
 `ExcelCallError`, `RegistrationError`, `LifecycleError`, and `ThunkError` own

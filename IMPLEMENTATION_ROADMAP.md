@@ -22,7 +22,7 @@
   and two-process live 64-bit Excel rerun passed)
 - M10 compile-time diagnostics (implemented)
 - M11 execution contexts and call catalog (implemented; calculation-state query deferred pending an authoritative C API contract)
-- M12 commands/lifecycle completeness (in progress)
+- M12 commands/lifecycle completeness (implemented)
 
 ## Production
 
@@ -44,12 +44,14 @@
   verified Excel-formula lifecycle. It is not a core 1.0 blocker.
 - M19 optional COM/Ribbon — deferred. General COM automation, Ribbon UI, and
   custom task panes are not required for core 1.0.
-- M20 core 1.0 stabilization review — next.
+- M20 core 1.0 stabilization review — in progress. The release audit and
+  checklist are recorded under `docs/release/`.
 
-Current M20 release-process blocker: `excel-api`'s registry-aware publish
-dry-run cannot resolve unpublished `excel-api-macros` v0.1.0. Resolve and
-rehearse the core crate publish order during M20; this is unrelated to optional
-RTD/COM/Ribbon work.
+Current core release blockers are listed in
+[`docs/release/core-1.0-readiness-audit.md`](docs/release/core-1.0-readiness-audit.md).
+They concern public documentation, remaining real-Excel lifecycle validation,
+the research-feature publication boundary, and staged registry publication;
+none requires optional RTD/COM/Ribbon implementation.
 
 Optional work is tracked separately in
 [`OPTIONAL_INTEGRATIONS_ROADMAP.md`](OPTIONAL_INTEGRATIONS_ROADMAP.md): E1 RTD
