@@ -1,0 +1,3 @@
+# Native direct results
+
+{"schema_version":1,"path":"native-cpp-direct","mode":1,"activation_hresult":0,"version_hresult":0,"workbooks_hresult":0,"count_hresult":0,"add_hresult":-2147352567,"open_hresult":-2147352567,"quit_hresult":0,"inner_scode":-2146827284,"deferred_fill_in_hresult":0,"result_vt":0,"workbooks_vt":9,"pu_arg_err_raw":0,"workbook_created":0,"workbook_opened":0,"process_exited":1,"lifetime_clone_then_clear":0,"lifetime_retain_then_clear":0,"lifetime_query_interface_then_clear":0,"type_info_count":1,"type_info_hresult":0,"workbooks_query_iunknown_hresult":0,"workbooks_query_idispatch_hresult":0,"raw_paths_recorded":false,"raw_hwnd_recorded":false,"raw_pointer_values_recorded":false}

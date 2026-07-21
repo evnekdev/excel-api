@@ -228,3 +228,8 @@ for the bounded Application/Workbooks/Add spine, or isolate an external Excel
 session-state condition with a controlled raw-Invoke versus generated-wrapper
 comparison. Resume Prompt 05 only after a Rust parity mode reliably creates or
 opens a workbook and the minimal Range smoke test succeeds.
+
+Prompt 05E performed that bounded ABI comparison. It preserves this parity
+record, finds that the minimal high-level reproduction succeeds on both tested
+windows-rs releases, and leaves the production local/`0x0400` sequence as the
+next bounded repair; see [the native ABI differential](05e-native-abi-differential.md).

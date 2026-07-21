@@ -1,0 +1,6 @@
+{"schema_version":1,"id":"application-version","member":"Excel.Application.Version","dispid":392,"flags":2,"lcid":"mode-defined","args":0}
+{"schema_version":1,"id":"application-workbooks","member":"Excel.Application.Workbooks","dispid":572,"flags":2,"lcid":"mode-defined","args":0}
+{"schema_version":1,"id":"workbooks-count","member":"Excel.Workbooks.Count","dispid":118,"flags":2,"lcid":"mode-defined","args":0}
+{"schema_version":1,"id":"workbooks-add","member":"Excel.Workbooks.Add","dispid":181,"flags":1,"lcid":"mode-defined","args":0,"omission":"null rgvarg and null named-DISPID pointer"}
+{"schema_version":1,"id":"workbooks-open","member":"Excel.Workbooks.Open","dispid":1923,"flags":1,"lcid":"mode-defined","args":1,"fixture_path_recorded":false}
+{"schema_version":1,"id":"application-quit","member":"Excel.Application.Quit","dispid":302,"flags":1,"lcid":"mode-defined","args":0}
