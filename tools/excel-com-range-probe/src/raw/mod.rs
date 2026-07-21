@@ -373,6 +373,16 @@ pub fn value_matrix(
                 selected[0].id()
             ))
         }
+        // A bounded, pointer-free reproduction for follow-up research.  It
+        // deliberately does not merge into the Prompt 05H corpus: the caller
+        // is responsible for recording the result under its own evidence ID.
+        "miscellaneous-semantics-transient" => {
+            if case.is_some() {
+                return Err("miscellaneous-semantics-transient does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::miscellaneous_semantics)?;
+            serde_json::to_string(&result).map_err(|error| error.to_string())
+        }
         "edge-cases" => {
             if case.is_some() {
                 return Err("edge-cases does not accept --case".to_owned());
@@ -383,6 +393,15 @@ pub fn value_matrix(
                 "recorded precision, string, mixed-array, and Formula2 observations for {}",
                 selected[0].id()
             ))
+        }
+        // See `miscellaneous-semantics-transient`: keep historical 05H
+        // observations immutable while allowing a fresh 05I reproduction.
+        "edge-cases-transient" => {
+            if case.is_some() {
+                return Err("edge-cases-transient does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::edge_cases)?;
+            serde_json::to_string(&result).map_err(|error| error.to_string())
         }
         "stability-scalar" => {
             if case.is_some() {
@@ -424,8 +443,25 @@ pub fn value_matrix(
             ))
         }
         other => Err(format!(
-            "unsupported value-matrix action {other:?}; expected scalar-value2, scalar-value2-child, scalar-value, scalar-value-child, rectangular-reads, rectangular-writes, miscellaneous-semantics, edge-cases, or stability-scalar"
+            "unsupported value-matrix action {other:?}; expected scalar-value2, scalar-value2-child, scalar-value, scalar-value-child, rectangular-reads, rectangular-writes, miscellaneous-semantics, miscellaneous-semantics-transient, edge-cases, edge-cases-transient, or stability-scalar"
         )),
+    }
+}
+
+/// Runs one Prompt 05I raw differential group without changing the Prompt 05H
+/// corpus.  The caller persists the copied result in the separate 05I tree.
+pub fn differential(mode: &str, family: &str) -> Result<Value, String> {
+    let selected = Mode::parse(mode)?;
+    if selected.len() != 1 {
+        return Err("raw differential requires exactly one of L, S, or X".to_owned());
+    }
+    match family {
+        "mixed" => run_value_group(selected[0], matrix::mixed_array_differential),
+        "date" => run_value_group(selected[0], matrix::date_differential),
+        "shape" => run_value_group(selected[0], matrix::shape_differential),
+        "rectangles" => run_value_group(selected[0], matrix::rectangular_differential),
+        "dynamic" => run_value_group(selected[0], matrix::dynamic_array_differential),
+        _ => Err("raw differential family must be mixed, date, shape, rectangles, or dynamic".to_owned()),
     }
 }
 
