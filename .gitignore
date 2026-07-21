@@ -3,5 +3,4 @@
 /tools/abi-check/Cargo.lock
 /tools/excel-com-kb/target
 /tools/**/target/
-/tools/**/Cargo.lock
 /artifacts
