@@ -120,3 +120,13 @@ binary/control-flow reproduction that preserves the current A0 failure while
 changing one implementation factor at a time. Any future repair must first
 produce successful `Add`, `Open`, and exact `A1.Value2 = 42` smoke rows in all
 required modes.
+
+## Successor recovery result
+
+Prompt 05G preserved this historical delta corpus and extracted the proven
+generic `windows-sys` `IDispatch` path into a separate Range-probe kernel. The
+new backend completed 30/30 fresh owned-process Add/Open/Range-smoke sequences
+across the L, S, and X activation modes. This does not rewrite the historical
+high-level observations above; see
+[the successor report](05g-windows-sys-kernel-and-range-recovery.md) for the
+new evidence and the still-unfinished Value/Value2 matrix.

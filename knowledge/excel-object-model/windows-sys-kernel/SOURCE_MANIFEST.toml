@@ -1,0 +1,5 @@
+schema_version = 1
+name = "excel-com-windows-sys-kernel"
+classification = "research-only"
+backend_default = "raw-windows-sys"
+source = "Prompt 05E lower_level_run generic IDispatch path"

@@ -208,3 +208,13 @@ same isolated probe on a host where an owned `Workbooks.Add` succeeds and exact
 post-`Quit` identity verification can be recorded. Only then classify scalar,
 array, formula, error, write, optional-argument, and control results as
 runtime evidence.
+
+## 24. Recovery backend update
+
+The prerequisite owned-process recovery has now been satisfied by the separate
+Prompt 05G `raw-windows-sys` kernel: 30/30 fresh-process Add/Open/Range-smoke
+sequences succeeded across its three activation modes, with exact numeric
+read-back of `A1.Value2 = 42` and owned-process exit verification. The full
+scalar/rectangle `Value` and `Value2` matrix is still not complete and remains
+explicitly unresolved. The new result and isolated corpus are documented in
+[Prompt 05G](05g-windows-sys-kernel-and-range-recovery.md).
