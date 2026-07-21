@@ -8,6 +8,8 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+mod value_evidence;
+
 const MANIFEST: &str = "schema_version = 1\nname = \"excel-com-windows-sys-kernel\"\nclassification = \"research-only\"\nbackend_default = \"raw-windows-sys\"\nsource = \"Prompt 05E lower_level_run generic IDispatch path\"\n";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -230,10 +232,365 @@ pub fn run(
             write(root, &capture)?;
             Ok("recorded bounded startup-retry policy result".to_owned())
         }
+        "scalar-value2" => {
+            let selected = Mode::parse(mode)?
+                .into_iter()
+                .next()
+                .ok_or("scalar-value2 requires one activation mode")?;
+            let preexisting = excel_process_count()?;
+            if preexisting != 0 {
+                return Err(format!(
+                    "scalar-value2 requires zero pre-existing EXCEL.EXE processes (found {preexisting})"
+                ));
+            }
+            let result = matrix::scalar_value2(selected, None)?;
+            let remaining = excel_process_count()?;
+            if remaining != 0 {
+                return Err(format!(
+                    "scalar-value2 cleanup did not restore EXCEL.EXE count to zero (found {remaining}); no process was terminated"
+                ));
+            }
+            serde_json::to_string(&result).map_err(|error| error.to_string())
+        }
         _ => {
-            Err("kernel action must be single, repeatability, compare, retry, or child".to_owned())
+            Err("kernel action must be single, repeatability, compare, retry, scalar-value2, or child".to_owned())
         }
     }
+}
+
+/// Executes the Prompt 05H value-runtime matrix.  This intentionally bypasses
+/// the Prompt 05G kernel capture initializer so its evidence remains isolated
+/// in `knowledge/excel-object-model/value-safearray-runtime`.
+pub fn value_matrix(
+    root: &Path,
+    mode: &str,
+    action: &str,
+    case: Option<&str>,
+) -> Result<String, String> {
+    let selected = Mode::parse(mode)?;
+    if selected.len() != 1 {
+        return Err("value-matrix requires exactly one of L, S, or X".to_owned());
+    }
+
+    match action {
+        "scalar-value2" => {
+            if case.is_some() {
+                return Err("scalar-value2 parent action does not accept --case".to_owned());
+            }
+            let mut count = 0;
+            for case_id in matrix::scalar_value2_case_ids() {
+                let result = value_matrix_child(root, selected[0], "scalar-value2-child", case_id)?;
+                persist_observations(root, "scalar-value2-observations.jsonl", result, true)?;
+                count += 1;
+            }
+
+            Ok(format!(
+                "recorded {count} fresh-process scalar Value2 observation(s) for {} in {}",
+                selected[0].id(),
+                root.join("scalar-value2-observations.jsonl").display()
+            ))
+        }
+        "scalar-value2-child" => {
+            let case_id = case.ok_or_else(|| "scalar-value2-child requires --case".to_owned())?;
+            let preexisting = excel_process_count()?;
+            if preexisting != 0 {
+                return Err(format!(
+                    "safety gate: expected zero pre-existing EXCEL.EXE processes, found {preexisting}"
+                ));
+            }
+            let result = matrix::scalar_value2(selected[0], Some(case_id))?;
+            let remaining = excel_process_count()?;
+            if remaining != 0 {
+                return Err(format!(
+                    "owned Excel cleanup failed: {remaining} EXCEL.EXE process(es) remain; no process was terminated"
+                ));
+            }
+            serde_json::to_string(&result).map_err(|error| error.to_string())
+        }
+        "scalar-value" => {
+            if case.is_some() {
+                return Err("scalar-value parent action does not accept --case".to_owned());
+            }
+            let mut count = 0;
+            for case_id in matrix::scalar_value_case_ids() {
+                let result = value_matrix_child(root, selected[0], "scalar-value-child", &case_id)?;
+                persist_observations(root, "scalar-value-observations.jsonl", result, true)?;
+                count += 1;
+            }
+            Ok(format!(
+                "recorded {count} fresh-process scalar Value observation(s) for {} in {}",
+                selected[0].id(),
+                root.join("scalar-value-observations.jsonl").display()
+            ))
+        }
+        "scalar-value-child" => {
+            let case_id = case.ok_or_else(|| "scalar-value-child requires --case".to_owned())?;
+            let preexisting = excel_process_count()?;
+            if preexisting != 0 {
+                return Err(format!(
+                    "safety gate: expected zero pre-existing EXCEL.EXE processes, found {preexisting}"
+                ));
+            }
+            let result = matrix::scalar_value(selected[0], Some(case_id))?;
+            let remaining = excel_process_count()?;
+            if remaining != 0 {
+                return Err(format!(
+                    "owned Excel cleanup failed: {remaining} EXCEL.EXE process(es) remain; no process was terminated"
+                ));
+            }
+            serde_json::to_string(&result).map_err(|error| error.to_string())
+        }
+        "rectangular-reads" => {
+            if case.is_some() {
+                return Err("rectangular-reads does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::rectangular_reads)?;
+            persist_observations(root, "rectangular-read-observations.jsonl", result, true)?;
+            Ok(format!(
+                "recorded rectangular Value/Value2 read observations for {}",
+                selected[0].id()
+            ))
+        }
+        "rectangular-writes" => {
+            if case.is_some() {
+                return Err("rectangular-writes does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::rectangular_writes)?;
+            persist_observations(root, "rectangular-write-observations.jsonl", result, true)?;
+            Ok(format!(
+                "recorded rectangular SAFEARRAY write observations for {}",
+                selected[0].id()
+            ))
+        }
+        "miscellaneous-semantics" => {
+            if case.is_some() {
+                return Err("miscellaneous-semantics does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::miscellaneous_semantics)?;
+            persist_categorized_observations(root, result, true)?;
+            Ok(format!(
+                "recorded blank, date/currency, error, and formula observations for {}",
+                selected[0].id()
+            ))
+        }
+        "edge-cases" => {
+            if case.is_some() {
+                return Err("edge-cases does not accept --case".to_owned());
+            }
+            let result = run_value_group(selected[0], matrix::edge_cases)?;
+            persist_categorized_observations(root, result, true)?;
+            Ok(format!(
+                "recorded precision, string, mixed-array, and Formula2 observations for {}",
+                selected[0].id()
+            ))
+        }
+        "stability-scalar" => {
+            if case.is_some() {
+                return Err("stability-scalar does not accept --case".to_owned());
+            }
+            let mut incoming = Vec::new();
+            for (case_id, child_action) in [
+                ("S-V2-09", "scalar-value2-child"),
+                ("S-V2-23", "scalar-value2-child"),
+                ("S-V2-25", "scalar-value2-child"),
+                ("S-V-27", "scalar-value-child"),
+            ] {
+                for iteration in 1..=5 {
+                    let result = value_matrix_child(root, selected[0], child_action, case_id)?;
+                    let observation = result
+                        .get("observations")
+                        .and_then(Value::as_array)
+                        .and_then(|rows| rows.first())
+                        .cloned()
+                        .ok_or_else(|| format!("stability child {case_id} omitted its observation"))?;
+                    incoming.push(json!({
+                        "schema_version":1,
+                        "id":format!("stability.{}.{}.run-{:02}", selected[0].id(), case_id, iteration),
+                        "activation_mode":selected[0].id(),
+                        "case_id":case_id,
+                        "iteration":iteration,
+                        "fresh_process":true,
+                        "result":observation,
+                        "cleanup":result.get("cleanup").cloned().unwrap_or(Value::Null),
+                        "classification":"Runtime-observed",
+                        "raw_pointer_values_recorded":false,
+                    }));
+                }
+            }
+            persist_stability(root, incoming)?;
+            Ok(format!(
+                "recorded 20 fresh-process scalar stability reruns for {}",
+                selected[0].id()
+            ))
+        }
+        other => Err(format!(
+            "unsupported value-matrix action {other:?}; expected scalar-value2, scalar-value2-child, scalar-value, scalar-value-child, rectangular-reads, rectangular-writes, miscellaneous-semantics, edge-cases, or stability-scalar"
+        )),
+    }
+}
+
+/// Regenerates Prompt 05H reports from recorded evidence without opening Excel.
+pub fn refresh_value_matrix(root: &Path) -> Result<(), String> {
+    value_evidence::refresh(root)
+}
+
+/// Checks Prompt 05H JSONL schema shape, persistence rules, and deterministic reports.
+pub fn value_matrix_check(root: &Path) -> Result<(), String> {
+    value_evidence::check(root)
+}
+
+fn run_value_group(
+    mode: Mode,
+    operation: fn(Mode) -> Result<Value, String>,
+) -> Result<Value, String> {
+    let preexisting = excel_process_count()?;
+    if preexisting != 0 {
+        return Err(format!(
+            "safety gate: expected zero pre-existing EXCEL.EXE processes, found {preexisting}"
+        ));
+    }
+    let result = operation(mode)?;
+    let remaining = excel_process_count()?;
+    if remaining != 0 {
+        return Err(format!(
+            "owned Excel cleanup failed: {remaining} EXCEL.EXE process(es) remain; no process was terminated"
+        ));
+    }
+    Ok(result)
+}
+
+fn value_matrix_child(root: &Path, mode: Mode, action: &str, case_id: &str) -> Result<Value, String> {
+    let preexisting = excel_process_count()?;
+    if preexisting != 0 {
+        return Err(format!(
+            "fresh-child gate refused to run {case_id}: pre-existing EXCEL.EXE process count = {preexisting}"
+        ));
+    }
+    let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+    let output = Command::new(executable)
+        .args(["value-matrix", "--root"])
+        .arg(root)
+        .args(["--mode", mode.id(), "--action", action, "--case"])
+        .arg(case_id)
+        .output()
+        .map_err(|error| format!("cannot start fresh value-matrix child {case_id}: {error}"))?;
+    let text = String::from_utf8(output.stdout).map_err(|error| error.to_string())?;
+    if !output.status.success() {
+        return Err(format!(
+            "value-matrix child {case_id} failed: {}",
+            String::from_utf8_lossy(&output.stderr).trim()
+        ));
+    }
+    let result: Value = serde_json::from_str(text.trim()).map_err(|error| {
+        format!("value-matrix child {case_id} emitted invalid JSON: {error}")
+    })?;
+    let remaining = excel_process_count()?;
+    if remaining != 0 {
+        return Err(format!(
+            "value-matrix child {case_id} did not restore EXCEL.EXE count to zero (found {remaining}); no process was terminated"
+        ));
+    }
+    Ok(result)
+}
+
+fn persist_observations(
+    root: &Path,
+    filename: &str,
+    result: Value,
+    fresh_process: bool,
+) -> Result<(), String> {
+    let observations = result
+        .get("observations")
+        .and_then(Value::as_array)
+        .ok_or_else(|| "scalar matrix result omitted observations".to_owned())?;
+    let cleanup = result
+        .get("cleanup")
+        .cloned()
+        .ok_or_else(|| "scalar matrix result omitted cleanup".to_owned())?;
+    let workbooks_add = result
+        .get("workbooks_add")
+        .cloned()
+        .ok_or_else(|| "scalar matrix result omitted Workbooks.Add result".to_owned())?;
+
+    let mut incoming = Vec::with_capacity(observations.len());
+    for observation in observations {
+        let mut row = observation.clone();
+        row["fresh_process"] = Value::Bool(fresh_process);
+        row["run_cleanup"] = cleanup.clone();
+        row["workbooks_add"] = workbooks_add.clone();
+        incoming.push(row);
+    }
+    let path = root.join(filename);
+    let mut rows = if path.is_file() {
+        read_jsonl(&path)?
+    } else {
+        Vec::new()
+    };
+    merge(&mut rows, incoming);
+    let text = jsonl(&rows)?;
+    fs::create_dir_all(root).map_err(|error| format!("cannot create {}: {error}", root.display()))?;
+    fs::write(&path, text).map_err(|error| format!("cannot write {}: {error}", path.display()))
+}
+
+fn persist_categorized_observations(
+    root: &Path,
+    result: Value,
+    fresh_process: bool,
+) -> Result<(), String> {
+    let observations = result
+        .get("observations")
+        .and_then(Value::as_array)
+        .ok_or_else(|| "semantic matrix result omitted observations".to_owned())?;
+    let cleanup = result
+        .get("cleanup")
+        .cloned()
+        .ok_or_else(|| "semantic matrix result omitted cleanup".to_owned())?;
+    let workbooks_add = result
+        .get("workbooks_add")
+        .cloned()
+        .ok_or_else(|| "semantic matrix result omitted Workbooks.Add result".to_owned())?;
+    let filenames = BTreeMap::from([
+        ("blank-null-empty", "blank-null-empty-observations.jsonl"),
+        ("date-currency", "date-currency-observations.jsonl"),
+        ("errors", "error-observations.jsonl"),
+        ("formulas", "formula-observations.jsonl"),
+        ("precision", "precision-observations.jsonl"),
+        ("strings", "string-observations.jsonl"),
+        ("mixed-array", "mixed-array-observations.jsonl"),
+        ("dynamic-array", "dynamic-array-observations.jsonl"),
+    ]);
+    let mut grouped: BTreeMap<&str, Vec<Value>> = BTreeMap::new();
+    for observation in observations {
+        let category = observation
+            .get("category")
+            .and_then(Value::as_str)
+            .ok_or_else(|| "semantic observation omitted category".to_owned())?;
+        let filename = filenames
+            .get(category)
+            .ok_or_else(|| format!("no evidence filename for category {category}"))?;
+        let mut row = observation.clone();
+        row["fresh_process"] = Value::Bool(fresh_process);
+        row["run_cleanup"] = cleanup.clone();
+        row["workbooks_add"] = workbooks_add.clone();
+        grouped.entry(filename).or_default().push(row);
+    }
+    fs::create_dir_all(root).map_err(|error| format!("cannot create {}: {error}", root.display()))?;
+    for (filename, incoming) in grouped {
+        let path = root.join(filename);
+        let mut rows = if path.is_file() { read_jsonl(&path)? } else { Vec::new() };
+        merge(&mut rows, incoming);
+        fs::write(&path, jsonl(&rows)?)
+            .map_err(|error| format!("cannot write {}: {error}", path.display()))?;
+    }
+    Ok(())
+}
+
+fn persist_stability(root: &Path, incoming: Vec<Value>) -> Result<(), String> {
+    let path = root.join("stability-observations.jsonl");
+    let mut rows = if path.is_file() { read_jsonl(&path)? } else { Vec::new() };
+    merge(&mut rows, incoming);
+    fs::create_dir_all(root).map_err(|error| format!("cannot create {}: {error}", root.display()))?;
+    fs::write(&path, jsonl(&rows)?).map_err(|error| format!("cannot write {}: {error}", path.display()))
 }
 
 pub fn check(root: &Path) -> Result<(), String> {
@@ -532,6 +889,29 @@ fn reports(c: &Capture) -> BTreeMap<&'static str, String> {
 }
 
 #[cfg(windows)]
+mod apartment;
+#[cfg(windows)]
+mod bstr;
+#[cfg(windows)]
+mod com_ptr;
+#[cfg(windows)]
+mod dispatch;
+#[cfg(windows)]
+mod excel;
+#[cfg(windows)]
+mod excepinfo;
+#[cfg(windows)]
+mod matrix;
+#[cfg(windows)]
+mod observation;
+#[cfg(windows)]
+mod process;
+#[cfg(windows)]
+mod safearray;
+#[cfg(windows)]
+mod variant;
+
+#[cfg(windows)]
 fn execute(
     backend: &str,
     mode: Mode,
@@ -539,7 +919,7 @@ fn execute(
     knowledge_root: &Path,
 ) -> Result<Value, String> {
     match backend {
-        "raw-windows-sys" => windows::run(mode, fixture),
+        "raw-windows-sys" => excel::run(mode, fixture),
         "high-level-windows" => super::high_level_kernel_control(
             knowledge_root,
             Some(fixture),
@@ -559,7 +939,12 @@ fn execute(
 }
 
 #[cfg(windows)]
-mod windows {
+fn hex(status: i32) -> String {
+    format!("0x{status:08X}")
+}
+
+#[cfg(any())]
+mod pre_refactor_windows_snapshot {
     use super::{json, Mode, Value};
     use std::ffi::c_void;
     use std::marker::PhantomData;

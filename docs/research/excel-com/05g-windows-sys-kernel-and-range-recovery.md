@@ -71,3 +71,9 @@ rerun through the recovered backend. It remains explicitly not tested in this
 evidence set; no public API or conversion semantics are claimed from the smoke
 test alone. Cold/clean/warm high-level comparison contexts are likewise
 unresolved rather than inferred from the single current-session control.
+
+## Prompt 05H follow-up
+
+The recovered raw backend subsequently ran the dedicated Prompt 05H scalar and
+rectangular matrix. Its evidence and conclusions are intentionally separate
+from this recovery record: [Prompt 05H runtime matrix](05h-value-safearray-runtime-matrix.md).

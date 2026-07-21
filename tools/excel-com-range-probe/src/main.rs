@@ -80,6 +80,24 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             )?;
             println!("{summary}");
         }
+        "value-matrix" => {
+            let mode = options.get("mode").map(String::as_str).unwrap_or("L");
+            let action = options
+                .get("action")
+                .map(String::as_str)
+                .unwrap_or("scalar-value2");
+            let case = options.get("case").map(String::as_str);
+            let summary = excel_com_range_probe::raw::value_matrix(&root, mode, action, case)?;
+            println!("{summary}");
+        }
+        "value-matrix-refresh" => {
+            excel_com_range_probe::raw::refresh_value_matrix(&root)?;
+            println!("value-runtime reports refreshed from existing evidence without opening Excel");
+        }
+        "value-matrix-check" => {
+            excel_com_range_probe::raw::value_matrix_check(&root)?;
+            println!("value-runtime evidence and reports are current and deterministic");
+        }
         "kernel-check" => {
             excel_com_range_probe::raw::check(&root)?;
             println!("windows-sys kernel evidence and reports are current and deterministic");
@@ -107,6 +125,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry>] [--fixture <controlled-fixture>] [--run-id <id>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>]"
         .to_owned()
 }

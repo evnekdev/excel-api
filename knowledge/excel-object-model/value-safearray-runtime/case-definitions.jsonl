@@ -1,0 +1,13 @@
+{"schema_version":1,"id":"S-V2-01..28","category":"scalar-value2","description":"Required scalar VARIANT writes through Range.Value2, including Empty, Null, Boolean, integral, floating-point, BSTR, error, date, and currency inputs."}
+{"schema_version":1,"id":"S-V-01..28","category":"scalar-value","description":"Matching scalar VARIANT writes through Range.Value for direct comparison with Value2."}
+{"schema_version":1,"id":"B-01..06","category":"blank-null-empty","description":"Never-written blank, VT_EMPTY, VT_NULL, empty string, ClearContents, and formula-empty-string states."}
+{"schema_version":1,"id":"D-01..07","category":"date-currency","description":"OA date serial values read through Value and Value2 with an explicit NumberFormat."}
+{"schema_version":1,"id":"C-01..04","category":"date-currency","description":"VT_CY zero, positive, negative, and large safe values with an explicit NumberFormat."}
+{"schema_version":1,"id":"E-01..07","category":"errors","description":"Controlled formula-generated Excel error values read through Value, Value2, Formula, and Formula2."}
+{"schema_version":1,"id":"F-01..08","category":"formulas","description":"Scalar arithmetic, reference, text, Boolean, error, date, empty-string, and Unicode formulas."}
+{"schema_version":1,"id":"R-01..09","category":"rectangular-reads","description":"Required 1x1 through 3x4 shapes populated with unique row/column marker values."}
+{"schema_version":1,"id":"W-01..07","category":"rectangular-writes","description":"Required matching SAFEARRAY(VARIANT) shapes with marker-value round trips."}
+{"schema_version":1,"id":"P-01..10","category":"precision","description":"IEEE-754 exact-integer boundaries, integer limits, decimal precision, small values, large finite value, and negative zero."}
+{"schema_version":1,"id":"T-01..14","category":"strings","description":"Whitespace, control, embedded-NUL, Unicode, formula-like, apostrophe, and Excel cell-length BSTR cases."}
+{"schema_version":1,"id":"M-01","category":"mixed-array","description":"A 3x3 SAFEARRAY(VARIANT) containing Empty, Null, Boolean, number, string, error, date, and currency elements."}
+{"schema_version":1,"id":"DA-01","category":"dynamic-array","description":"Formula2 SEQUENCE capability and spill-range Value2 observation."}
