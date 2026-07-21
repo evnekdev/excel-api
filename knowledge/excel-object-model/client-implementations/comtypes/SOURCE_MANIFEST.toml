@@ -1,0 +1,24 @@
+schema_version = 1
+client = "comtypes"
+repository = "enthought/comtypes"
+commit = "339ea278d85defda3d3c0dba118969021018e5fb"
+retrieved_on = "2026-07-21"
+source_version = "1.4.16"
+license = "MIT"
+locally_installed_version = "1.4.16"
+installed_version_matches_inspected_source = true
+installed_exact_commit_match = "unverified: wheel metadata carries no source commit"
+files_inspected = [
+  "comtypes/__init__.py",
+  "comtypes/automation.py",
+  "comtypes/safearray.py",
+  "comtypes/_memberspec.py",
+  "comtypes/client/__init__.py",
+  "comtypes/client/_create.py",
+  "comtypes/client/_activeobj.py",
+  "comtypes/client/_managing.py",
+  "comtypes/client/dynamic.py",
+  "comtypes/client/lazybind.py",
+  "comtypes/client/_generate.py",
+  "comtypes/tools/tlbparser.py",
+]
