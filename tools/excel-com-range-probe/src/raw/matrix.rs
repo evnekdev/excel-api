@@ -366,6 +366,44 @@ pub(super) fn rectangular_writes(mode: Mode) -> Result<Value, String> {
     }))
 }
 
+/// Combines the established rectangular read and SDK-array write groups into
+/// one follow-up envelope.  Each inner group owns and cleans up its own Excel
+/// process; the combined result makes the 2x3 read/write controls available to
+/// the Prompt 05I S/X repeatability capture without modifying Prompt 05H rows.
+pub(super) fn rectangular_differential(mode: Mode) -> Result<Value, String> {
+    let reads = rectangular_reads(mode)?;
+    let writes = rectangular_writes(mode)?;
+    let mut observations = reads
+        .get("observations")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    observations.extend(
+        writes
+            .get("observations")
+            .and_then(Value::as_array)
+            .cloned()
+            .unwrap_or_default(),
+    );
+    for observation in &mut observations {
+        observation["category"] = Value::String("rectangular-differential".to_owned());
+    }
+    Ok(json!({
+        "schema_version":1,
+        "backend":"raw-windows-sys",
+        "activation_mode":mode.id(),
+        "observations":observations,
+        "cleanup":{
+            "rectangular_reads":reads.get("cleanup").cloned().unwrap_or(Value::Null),
+            "rectangular_writes":writes.get("cleanup").cloned().unwrap_or(Value::Null),
+            "owned_process_exit_verified":reads.get("success").and_then(Value::as_bool)==Some(true) && writes.get("success").and_then(Value::as_bool)==Some(true),
+            "forced_termination":false,
+        },
+        "success":reads.get("success").and_then(Value::as_bool)==Some(true) && writes.get("success").and_then(Value::as_bool)==Some(true),
+        "raw_pointer_values_recorded":false,
+    }))
+}
+
 fn write_marker_array(
     sheet: &super::com_ptr::ComPtr<super::com_ptr::Dispatch>,
     lcid: u32,
@@ -883,6 +921,272 @@ fn mixed_array_case(
         "range_address":address,"input_safearray":input_layout,"write":brief(&write),"value2_read":rectangular_observation(&value2.result),"value2_read_call":brief(&value2),"value_read":rectangular_observation(&value.result),"value_read_call":brief(&value),
         "clear_before":brief(&clear_before),"clear_after":brief(&call(&target,"ClearContents",DISPATCH_METHOD,lcid,Frame::empty())),"raw_pointer_values_recorded":false,
     }))
+}
+
+#[derive(Clone, Copy)]
+enum MixedReplacement {
+    R8,
+    Empty,
+    Null,
+    I4,
+    Error,
+    Date,
+    Currency,
+}
+
+impl MixedReplacement {
+    fn semantic(self) -> &'static str {
+        match self {
+            Self::R8 => "VT_R8(9.5) control",
+            Self::Empty => "VT_EMPTY",
+            Self::Null => "VT_NULL",
+            Self::I4 => "VT_I4(42)",
+            Self::Error => "VT_ERROR(2042)",
+            Self::Date => "VT_DATE(45292.5)",
+            Self::Currency => "VT_CY(123.4500)",
+        }
+    }
+
+    fn value(self) -> OwnedVariant {
+        match self {
+            Self::R8 => OwnedVariant::r8(9.5),
+            Self::Empty => OwnedVariant::empty(),
+            Self::Null => OwnedVariant::null(),
+            Self::I4 => OwnedVariant::i4(42),
+            Self::Error => OwnedVariant::error(2042),
+            Self::Date => OwnedVariant::date(45_292.5),
+            Self::Currency => OwnedVariant::currency(1_234_500),
+        }
+    }
+}
+
+/// Narrows Prompt 05H's mixed array failure to one fixed position at a time.
+/// The payload is always a 3x3 `SAFEARRAY(VARIANT)` with the same R8/BSTR/BOOL
+/// control cells.  This is deliberately raw evidence: every read retains the
+/// physical owner and element VARTYPEs through the SDK inspector.
+pub(super) fn mixed_array_differential(mode: Mode) -> Result<Value, String> {
+    let _apartment = ComApartment::initialize()?;
+    let app = activate(mode)?;
+    let lcid = if matches!(mode, Mode::L) { 0x0400 } else { 0 };
+    let owned = OwnedProcess::from_app(&app, lcid)?;
+    let workbooks = get(&app, "Workbooks", lcid, vec![])?;
+    let add = call(&workbooks, "Add", DISPATCH_METHOD, lcid, Frame::empty());
+    let workbook = add
+        .result
+        .dispatch()
+        .ok_or_else(|| format!("Workbooks.Add did not return VT_DISPATCH: {}", add.hr))?;
+    let sheet = get(&app, "ActiveSheet", lcid, vec![])?;
+    let mut observations = Vec::new();
+    let mut first_failure = None;
+    for (id, replacement) in [
+        ("M-D-00", MixedReplacement::R8),
+        ("M-D-01", MixedReplacement::Empty),
+        ("M-D-02", MixedReplacement::Null),
+        ("M-D-03", MixedReplacement::I4),
+        ("M-D-04", MixedReplacement::Error),
+        ("M-D-05", MixedReplacement::Date),
+        ("M-D-06", MixedReplacement::Currency),
+    ] {
+        let row = mixed_differential_case(&sheet, lcid, mode, id, replacement)?;
+        if first_failure.is_none()
+            && row.pointer("/write/hresult").and_then(Value::as_i64) != Some(0)
+        {
+            first_failure = Some((id, replacement));
+        }
+        observations.push(row);
+    }
+    if let Some((failed_id, replacement)) = first_failure {
+        for retry in 1..=3 {
+            let mut row = mixed_differential_case(&sheet, lcid, mode, &format!("{failed_id}-rerun-{retry}"), replacement)?;
+            row["reproduces"] = Value::String(failed_id.to_owned());
+            row["rerun"] = Value::from(retry);
+            observations.push(row);
+        }
+    }
+    let close = call(&workbook, "Close", DISPATCH_METHOD, lcid, Frame::positional(vec![OwnedVariant::boolean(false)]));
+    let quit = call(&app, "Quit", DISPATCH_METHOD, lcid, Frame::empty());
+    drop(sheet);
+    drop(workbook);
+    drop(workbooks);
+    drop(app);
+    let exited = owned.wait();
+    Ok(json!({
+        "schema_version":1,"backend":"raw-windows-sys","activation_mode":mode.id(),"workbooks_add":brief(&add),"observations":observations,
+        "cleanup":{"workbook_close":brief(&close),"excel_quit":brief(&quit),"owned_process_exit_verified":exited,"forced_termination":false},"success":exited,
+    }))
+}
+
+fn mixed_differential_case(
+    sheet: &super::com_ptr::ComPtr<super::com_ptr::Dispatch>,
+    lcid: u32,
+    mode: Mode,
+    id: &str,
+    replacement: MixedReplacement,
+) -> Result<Value, String> {
+    let target = get(sheet, "Range", lcid, vec![OwnedVariant::bstr("A1:C3")?])?;
+    let clear_before = call(&target, "ClearContents", DISPATCH_METHOD, lcid, Frame::empty());
+    let bounds = [
+        SAFEARRAYBOUND { cElements: 3, lLbound: 1 },
+        SAFEARRAYBOUND { cElements: 3, lLbound: 1 },
+    ];
+    let array = OwnedSafeArray::create_variant(&bounds)?;
+    let values = vec![
+        OwnedVariant::r8(1.25),
+        OwnedVariant::bstr("text")?,
+        OwnedVariant::boolean(true),
+        OwnedVariant::r8(2.5),
+        OwnedVariant::bstr("more")?,
+        OwnedVariant::boolean(false),
+        OwnedVariant::r8(3.5),
+        replacement.value(),
+        OwnedVariant::boolean(true),
+    ];
+    for (index, value) in values.iter().enumerate() {
+        let row = i32::try_from(index / 3 + 1).map_err(|_| "mixed differential row overflow")?;
+        let column = i32::try_from(index % 3 + 1).map_err(|_| "mixed differential column overflow")?;
+        array.put_variant(&[row, column], value)?;
+    }
+    let input_safearray = unsafe { ObservedSafeArray::inspect(array.as_ptr()) }
+        .ok_or_else(|| "cannot inspect differential mixed SAFEARRAY".to_owned())?;
+    let write = call(&target, "Value2", DISPATCH_PROPERTYPUT, lcid, Frame::put(OwnedVariant::array(array)));
+    let value2 = call(&target, "Value2", DISPATCH_PROPERTYGET, lcid, Frame::empty());
+    let value = call(&target, "Value", DISPATCH_PROPERTYGET, lcid, Frame::empty());
+    Ok(json!({
+        "schema_version":1,"id":id,"category":"mixed-array-differential","activation_mode":mode.id(),"fresh_process":true,
+        "range_address":"A1:C3","fixed_position":{"logical_row":2,"logical_column":1,"physical_indices":[3,2]},
+        "control_elements":"R8/BSTR/BOOL in all non-target positions","replacement_semantic":replacement.semantic(),"input_safearray":input_safearray,
+        "clear_before":brief(&clear_before),"write":brief(&write),"value2_read_call":brief(&value2),"value2_read":rectangular_observation(&value2.result),
+        "value_read_call":brief(&value),"value_read":rectangular_observation(&value.result),"clear_after":brief(&call(&target,"ClearContents",DISPATCH_METHOD,lcid,Frame::empty())),"raw_pointer_values_recorded":false,
+    }))
+}
+
+/// Separates `VT_DATE` writes from equal OA doubles through both members and
+/// General/date number formats.  Negative serials remain observations, not a
+/// policy decision about Excel's calendar boundary.
+pub(super) fn date_differential(mode: Mode) -> Result<Value, String> {
+    let _apartment = ComApartment::initialize()?;
+    let app = activate(mode)?;
+    let lcid = if matches!(mode, Mode::L) { 0x0400 } else { 0 };
+    let owned = OwnedProcess::from_app(&app, lcid)?;
+    let workbooks = get(&app, "Workbooks", lcid, vec![])?;
+    let add = call(&workbooks, "Add", DISPATCH_METHOD, lcid, Frame::empty());
+    let workbook = add.result.dispatch().ok_or_else(|| format!("Workbooks.Add did not return VT_DISPATCH: {}", add.hr))?;
+    let sheet = get(&app, "ActiveSheet", lcid, vec![])?;
+    let mut observations = Vec::new();
+    for (serial_id, serial) in [("minus-one", -1.0), ("zero", 0.0), ("one", 1.0), ("half", 0.5), ("modern", 45_292.0), ("negative-half", -0.5)] {
+        for (format_id, number_format) in [("general", "General"), ("date", "m/d/yyyy h:mm")] {
+            observations.push(date_or_currency_case(&sheet, lcid, mode, &format!("D-DATE-{serial_id}-{format_id}"), "date-differential", "Value", OwnedVariant::date(serial), number_format)?);
+            observations.push(date_or_currency_case(&sheet, lcid, mode, &format!("D-R8-{serial_id}-{format_id}"), "date-differential", "Value2", OwnedVariant::r8(serial), number_format)?);
+        }
+    }
+    let close = call(&workbook, "Close", DISPATCH_METHOD, lcid, Frame::positional(vec![OwnedVariant::boolean(false)]));
+    let quit = call(&app, "Quit", DISPATCH_METHOD, lcid, Frame::empty());
+    drop(sheet);
+    drop(workbook);
+    drop(workbooks);
+    drop(app);
+    let exited = owned.wait();
+    Ok(json!({"schema_version":1,"backend":"raw-windows-sys","activation_mode":mode.id(),"workbooks_add":brief(&add),"observations":observations,"cleanup":{"workbook_close":brief(&close),"excel_quit":brief(&quit),"owned_process_exit_verified":exited,"forced_termination":false},"success":exited}))
+}
+
+/// Covers the target/input shape mismatch and rank cases without making a
+/// future SAFEARRAY coercion policy.  Inputs are constructed only with SDK
+/// SAFEARRAY APIs and observed again through raw `Value2` reads.
+pub(super) fn shape_differential(mode: Mode) -> Result<Value, String> {
+    let _apartment = ComApartment::initialize()?;
+    let app = activate(mode)?;
+    let lcid = if matches!(mode, Mode::L) { 0x0400 } else { 0 };
+    let owned = OwnedProcess::from_app(&app, lcid)?;
+    let workbooks = get(&app, "Workbooks", lcid, vec![])?;
+    let add = call(&workbooks, "Add", DISPATCH_METHOD, lcid, Frame::empty());
+    let workbook = add.result.dispatch().ok_or_else(|| format!("Workbooks.Add did not return VT_DISPATCH: {}", add.hr))?;
+    let sheet = get(&app, "ActiveSheet", lcid, vec![])?;
+    let mut observations = Vec::new();
+    for (id, address, dimensions) in [
+        ("SH-01-1x2-to-1x3", "A1:C1", vec![1_u32, 2]),
+        ("SH-02-1x3-to-1x2", "A1:B1", vec![1, 3]),
+        ("SH-03-2x2-to-2x3", "A1:C2", vec![2, 2]),
+        ("SH-04-2x3-to-2x2", "A1:B2", vec![2, 3]),
+        ("SH-05-rank1-row", "A1:C1", vec![3]),
+        ("SH-06-rank1-column", "A1:A3", vec![3]),
+        ("SH-07-rank3", "A1", vec![1, 1, 1]),
+    ] {
+        observations.push(shape_differential_case(&sheet, lcid, mode, id, address, &dimensions)?);
+    }
+    let close = call(&workbook, "Close", DISPATCH_METHOD, lcid, Frame::positional(vec![OwnedVariant::boolean(false)]));
+    let quit = call(&app, "Quit", DISPATCH_METHOD, lcid, Frame::empty());
+    drop(sheet);
+    drop(workbook);
+    drop(workbooks);
+    drop(app);
+    let exited = owned.wait();
+    Ok(json!({"schema_version":1,"backend":"raw-windows-sys","activation_mode":mode.id(),"workbooks_add":brief(&add),"observations":observations,"cleanup":{"workbook_close":brief(&close),"excel_quit":brief(&quit),"owned_process_exit_verified":exited,"forced_termination":false},"success":exited}))
+}
+
+fn shape_differential_case(
+    sheet: &super::com_ptr::ComPtr<super::com_ptr::Dispatch>,
+    lcid: u32,
+    mode: Mode,
+    id: &str,
+    address: &str,
+    dimensions: &[u32],
+) -> Result<Value, String> {
+    let target = get(sheet, "Range", lcid, vec![OwnedVariant::bstr(address)?])?;
+    let clear_before = call(&target, "ClearContents", DISPATCH_METHOD, lcid, Frame::empty());
+    let bounds = dimensions.iter().map(|elements| SAFEARRAYBOUND { cElements: *elements, lLbound: 1 }).collect::<Vec<_>>();
+    let array = OwnedSafeArray::create_variant(&bounds)?;
+    let mut marker = 1_i32;
+    match dimensions {
+        [one] => for first in 1..=*one { let value = OwnedVariant::i4(marker); marker += 1; array.put_variant(&[i32::try_from(first).map_err(|_| "rank1 index overflow")?], &value)?; },
+        [rows, columns] => for row in 1..=*rows { for column in 1..=*columns { let value = OwnedVariant::i4(marker); marker += 1; array.put_variant(&[i32::try_from(row).map_err(|_| "rank2 row index overflow")?, i32::try_from(column).map_err(|_| "rank2 column index overflow")?], &value)?; } },
+        [first, second, third] => for one in 1..=*first { for two in 1..=*second { for three in 1..=*third { let value = OwnedVariant::i4(marker); marker += 1; array.put_variant(&[i32::try_from(one).map_err(|_| "rank3 first index overflow")?, i32::try_from(two).map_err(|_| "rank3 second index overflow")?, i32::try_from(three).map_err(|_| "rank3 third index overflow")?], &value)?; } } },
+        _ => return Err("unsupported differential SAFEARRAY rank".to_owned()),
+    }
+    let input_safearray = unsafe { ObservedSafeArray::inspect(array.as_ptr()) }.ok_or_else(|| "cannot inspect shape differential input".to_owned())?;
+    let write = call(&target, "Value2", DISPATCH_PROPERTYPUT, lcid, Frame::put(OwnedVariant::array(array)));
+    let read = call(&target, "Value2", DISPATCH_PROPERTYGET, lcid, Frame::empty());
+    Ok(json!({"schema_version":1,"id":id,"category":"shape-mismatch","activation_mode":mode.id(),"fresh_process":true,"target_range":address,"input_safearray":input_safearray,"clear_before":brief(&clear_before),"write":brief(&write),"value2_read_call":brief(&read),"value2_read":rectangular_observation(&read.result),"clear_after":brief(&call(&target,"ClearContents",DISPATCH_METHOD,lcid,Frame::empty())),"raw_pointer_values_recorded":false}))
+}
+
+/// Exercises Formula2's normal spill, text spill, and blocked spill forms.
+pub(super) fn dynamic_array_differential(mode: Mode) -> Result<Value, String> {
+    let _apartment = ComApartment::initialize()?;
+    let app = activate(mode)?;
+    let lcid = if matches!(mode, Mode::L) { 0x0400 } else { 0 };
+    let owned = OwnedProcess::from_app(&app, lcid)?;
+    let workbooks = get(&app, "Workbooks", lcid, vec![])?;
+    let add = call(&workbooks, "Add", DISPATCH_METHOD, lcid, Frame::empty());
+    let workbook = add.result.dispatch().ok_or_else(|| format!("Workbooks.Add did not return VT_DISPATCH: {}", add.hr))?;
+    let sheet = get(&app, "ActiveSheet", lcid, vec![])?;
+    let mut observations = Vec::new();
+    for (id, formula, blocked) in [("DA-D-01", "=SEQUENCE(2,3)", false), ("DA-D-02", "=SEQUENCE(2,3)&\"x\"", false), ("DA-D-03", "=SEQUENCE(2,3)", true)] {
+        let owner = get(&sheet, "Range", lcid, vec![OwnedVariant::bstr("A1")?])?;
+        let spill = get(&sheet, "Range", lcid, vec![OwnedVariant::bstr("A1:C2")?])?;
+        let clear_before = call(&spill, "ClearContents", DISPATCH_METHOD, lcid, Frame::empty());
+        let blocker = if blocked {
+            let cell = get(&sheet, "Range", lcid, vec![OwnedVariant::bstr("B1")?])?;
+            Some(call(
+                &cell,
+                "Value2",
+                DISPATCH_PROPERTYPUT,
+                lcid,
+                Frame::put(OwnedVariant::bstr("blocked")?),
+            ))
+        } else {
+            None
+        };
+        let write = call(&owner, "Formula2", DISPATCH_PROPERTYPUT, lcid, Frame::put(OwnedVariant::bstr(formula)?));
+        let value2 = call(&spill, "Value2", DISPATCH_PROPERTYGET, lcid, Frame::empty());
+        observations.push(json!({"schema_version":1,"id":id,"category":"dynamic-array","activation_mode":mode.id(),"fresh_process":true,"formula2_input":formula,"blocked":blocked,"clear_before":brief(&clear_before),"blocker":blocker.as_ref().map(brief),"formula2_write":brief(&write),"owner_reads":read_members(&owner,lcid),"spill_value2":{"call":brief(&value2),"value":rectangular_observation(&value2.result)},"clear_after":brief(&call(&spill,"ClearContents",DISPATCH_METHOD,lcid,Frame::empty())),"raw_pointer_values_recorded":false}));
+    }
+    let close = call(&workbook, "Close", DISPATCH_METHOD, lcid, Frame::positional(vec![OwnedVariant::boolean(false)]));
+    let quit = call(&app, "Quit", DISPATCH_METHOD, lcid, Frame::empty());
+    drop(sheet);
+    drop(workbook);
+    drop(workbooks);
+    drop(app);
+    let exited = owned.wait();
+    Ok(json!({"schema_version":1,"backend":"raw-windows-sys","activation_mode":mode.id(),"workbooks_add":brief(&add),"observations":observations,"cleanup":{"workbook_close":brief(&close),"excel_quit":brief(&quit),"owned_process_exit_verified":exited,"forced_termination":false},"success":exited}))
 }
 
 fn dynamic_array_case(

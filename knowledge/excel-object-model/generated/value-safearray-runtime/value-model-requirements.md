@@ -13,4 +13,7 @@ This is a derived research requirements report, not a public API design. It is b
 9. Values at and above IEEE-754 exact-integer boundaries, non-finite values, and negative zero require explicit loss/normalization policy.
 10. BSTR UTF-16 length, embedded NUL transformation, Unicode, formula-like strings, and Excel cell-length limits require explicit policy.
 11. Unsupported or rejected writes must retain HRESULT, EXCEPINFO, `puArgErr`, and post-failure read-back.
-12. No finalized Rust enum or public API is defined here.
+12. Prompt 05I confirms that client-visible Python values are not physical return-VARTYPE evidence; retain the raw kernel result alongside any pywin32 or comtypes differential.
+13. The fixed-position 05I mixed-array control accepts Empty, Null, I4, Date, and Currency replacements in this environment, while a VT_ERROR replacement is rejected with preserved failure diagnostics.
+14. Negative OA doubles through `Value2` and negative VT_DATE through `Value` are distinct operations; preserve member, source VARTYPE, NumberFormat, and both read-backs.
+15. No finalized Rust enum or public API is defined here.

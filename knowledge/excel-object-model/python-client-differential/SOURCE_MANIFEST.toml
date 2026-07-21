@@ -1,0 +1,6 @@
+schema_version = 1
+name = "excel-com-python-client-differential"
+classification = "research-only"
+raw_backend = "windows-sys generic IDispatch"
+python_clients = ["pywin32", "comtypes"]
+value_boundary = "Python-visible values are never inferred to be raw returned VARTYPEs."

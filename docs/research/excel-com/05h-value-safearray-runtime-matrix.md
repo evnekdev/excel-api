@@ -170,3 +170,18 @@ in the generated remaining-blockers report.
 
 Use this evidence to design, but not yet freeze, the safe value-model policy
 and its explicit conversion boundaries.
+
+## 26. Prompt 05I follow-on
+
+Prompt 05I preserves this Prompt 05H corpus and records a separate
+raw-kernel/Python-client differential in
+[`python-client-differential`](../../../knowledge/excel-object-model/python-client-differential/).
+It narrows the original mixed-array anomaly with a fixed-position 3x3 control:
+in the observed environment, Empty, Null, I4, Date, and Currency replacements
+complete, while the `VT_ERROR(2042)` replacement fails repeatedly with retained
+HRESULT and EXCEPINFO. It also distinguishes negative `VT_DATE` through
+`Value` from the same negative OA number through `Value2`.
+
+The pywin32 and comtypes results in that follow-on are explicitly
+client-visible post-conversion observations. They are not substituted for the
+physical VARTYPE, SAFEARRAY, HRESULT, or EXCEPINFO observations in this matrix.

@@ -11,6 +11,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 pub mod raw;
+pub mod python_differential;
 
 const PROBE_VERSION: u32 = 2;
 const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];

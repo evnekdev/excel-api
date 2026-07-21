@@ -98,6 +98,51 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             excel_com_range_probe::raw::value_matrix_check(&root)?;
             println!("value-runtime evidence and reports are current and deterministic");
         }
+        "python-differential" => {
+            let python = options
+                .get("python")
+                .map(PathBuf::from)
+                .ok_or_else(usage)?;
+            let client = options.get("client").map(String::as_str).ok_or_else(usage)?;
+            let wrapper = options.get("wrapper").map(String::as_str).ok_or_else(usage)?;
+            let family = options.get("family").map(String::as_str).unwrap_or("all");
+            let environment_id = options
+                .get("environment-id")
+                .map(String::as_str)
+                .ok_or_else(usage)?;
+            let cache_dir = options
+                .get("cache-dir")
+                .map(PathBuf::from)
+                .ok_or_else(usage)?;
+            let summary = excel_com_range_probe::python_differential::capture(
+                &root,
+                &python,
+                client,
+                wrapper,
+                family,
+                environment_id,
+                &cache_dir,
+            )?;
+            println!("{summary}");
+        }
+        "python-differential-refresh" => {
+            excel_com_range_probe::python_differential::refresh(&root)?;
+            println!("Python-client differential reports refreshed without opening Excel or Python");
+        }
+        "python-differential-check" => {
+            excel_com_range_probe::python_differential::check(&root)?;
+            println!("Python-client differential evidence and reports are current and deterministic");
+        }
+        "python-differential-raw" => {
+            let mode = options.get("mode").map(String::as_str).unwrap_or("L");
+            let family = options.get("family").map(String::as_str).ok_or_else(usage)?;
+            let run_id = options.get("run-id").map(String::as_str);
+            let result = excel_com_range_probe::raw::differential(mode, family)?;
+            let summary = excel_com_range_probe::python_differential::capture_raw(
+                &root, family, &result, run_id,
+            )?;
+            println!("{summary}");
+        }
         "kernel-check" => {
             excel_com_range_probe::raw::check(&root)?;
             println!("windows-sys kernel evidence and reports are current and deterministic");
@@ -125,6 +170,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check|python-differential|python-differential-raw|python-differential-refresh|python-differential-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>] [--python <path> --client <pywin32|comtypes> --wrapper <dynamic|generated> --family <all|mixed|date|shape|dynamic> --environment-id <id> --cache-dir <path>]"
         .to_owned()
 }
