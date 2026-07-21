@@ -3,3 +3,8 @@
 {"control":"lower-level-windows-sys","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}
 {"control":"rust-to-native-c-abi-shim","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"immediate"}
 {"control":"native-direct-executable","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"immediate"}
+{"control":"state-b-manual-workbook-closed-controls","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}
+{"control":"state-c-automation-warmup-controls","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}
+{"control":"state-d-retained-reference-controls","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}
+{"control":"state-e-unique-prefix-matrix","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}
+{"control":"state-f-current-high-level-controls","forced_termination":false,"owned_process_exited":true,"schema_version":1,"shutdown_duration_bucket":"1-15-seconds"}

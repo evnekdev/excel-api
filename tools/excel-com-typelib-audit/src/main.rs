@@ -60,6 +60,10 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             excel_com_typelib_audit::check(&root, &input)?;
             println!("type-library evidence is current and deterministic");
         }
+        "check-historical" => {
+            excel_com_typelib_audit::check_historical(&root)?;
+            println!("historical type-library evidence is current and deterministic");
+        }
         _ => return Err(usage()),
     }
     Ok(())
@@ -92,5 +96,5 @@ fn option_path(
 }
 
 fn usage() -> String {
-    "usage: excel-com-typelib-audit <audit|check> --root <knowledge-root> [--typelib <path>] [--windows-version <value>] [--excel-file-version <value>] [--office-bitness <value>]".to_owned()
+    "usage: excel-com-typelib-audit <audit|check|check-historical> --root <knowledge-root> [--typelib <path>] [--windows-version <value>] [--excel-file-version <value>] [--office-bitness <value>]".to_owned()
 }
