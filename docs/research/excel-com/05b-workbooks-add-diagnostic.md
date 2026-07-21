@@ -4,6 +4,11 @@
 so the Range smoke test and full Prompt 05 matrix did not run.
 **Date:** 2026-07-21
 
+**Prompt 05D follow-up:** source-matched activation/LCID configurations did not
+produce a Rust-owned workbook through either `Workbooks.Add` or `Workbooks.Open`.
+The raw-diagnostic evidence remains preserved; see [client parity and workbook
+recovery](05d-client-parity-and-workbook-recovery.md).
+
 ## Scope and baseline
 
 This research-only repair is limited to `tools/excel-com-range-probe` and its

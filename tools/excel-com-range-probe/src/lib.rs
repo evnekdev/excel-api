@@ -4,12 +4,172 @@
 //! creates one local Excel instance for a bounded experiment, records copied
 //! metadata, and then closes only that workbook and that instance.
 
+use serde::Serialize;
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
 const PROBE_VERSION: u32 = 2;
+const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];
+
+/// Research-only configurations used by Prompt 05D. They document a bounded
+/// source-derived comparison; they are not a production Automation API.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum ParityMode {
+    RustBaseline,
+    Pywin32Dynamic,
+    Pywin32Generated,
+    ComtypesDynamic,
+    ComtypesGenerated,
+}
+
+impl ParityMode {
+    const ALL: [Self; 5] = [
+        Self::RustBaseline,
+        Self::Pywin32Dynamic,
+        Self::Pywin32Generated,
+        Self::ComtypesDynamic,
+        Self::ComtypesGenerated,
+    ];
+
+    pub fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "rust-baseline" => Ok(Self::RustBaseline),
+            "pywin32-dynamic" => Ok(Self::Pywin32Dynamic),
+            "pywin32-generated" => Ok(Self::Pywin32Generated),
+            "comtypes-dynamic" => Ok(Self::ComtypesDynamic),
+            "comtypes-generated" => Ok(Self::ComtypesGenerated),
+            _ => Err("parity mode must be rust-baseline, pywin32-dynamic, pywin32-generated, comtypes-dynamic, or comtypes-generated".to_owned()),
+        }
+    }
+
+    pub fn id(self) -> &'static str {
+        match self {
+            Self::RustBaseline => "rust-baseline",
+            Self::Pywin32Dynamic => "pywin32-dynamic",
+            Self::Pywin32Generated => "pywin32-generated",
+            Self::ComtypesDynamic => "comtypes-dynamic",
+            Self::ComtypesGenerated => "comtypes-generated",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ParityConfiguration {
+    pub mode: ParityMode,
+    pub activation_api: &'static str,
+    pub clsctx: &'static str,
+    pub requested_iid: &'static str,
+    pub com_initialization: &'static str,
+    pub get_ids_of_names_lcid: u32,
+    pub invoke_lcid: u32,
+    pub dispid_source: &'static str,
+    pub invoke_strategy: &'static str,
+    pub argument_omission_policy: &'static str,
+    pub pu_arg_err_initialization: &'static str,
+    pub result_requested: bool,
+    pub type_info_probing: &'static str,
+    pub dual_interface_handling: &'static str,
+    pub returned_object_wrapping_policy: &'static str,
+    pub source_justification: &'static str,
+}
+
+pub fn parity_configuration(mode: ParityMode) -> ParityConfiguration {
+    match mode {
+        ParityMode::RustBaseline => ParityConfiguration {
+            mode,
+            activation_api: "CoCreateInstance",
+            clsctx: "CLSCTX_LOCAL_SERVER",
+            requested_iid: "IID_IDispatch",
+            com_initialization: "CoInitializeEx(COINIT_APARTMENTTHREADED)",
+            get_ids_of_names_lcid: 0x0400,
+            invoke_lcid: 0x0400,
+            dispid_source: "installed typelib DISPID plus GetIDsOfNames verification",
+            invoke_strategy: "raw IDispatch::Invoke",
+            argument_omission_policy: "zero omitted arguments use cArgs=0 with null argument pointers",
+            pu_arg_err_initialization: "UINT_MAX sentinel",
+            result_requested: true,
+            type_info_probing: "record type-info availability only",
+            dual_interface_handling: "not selected; raw IDispatch path",
+            returned_object_wrapping_policy: "clone IDispatch from VT_DISPATCH before VariantClear",
+            source_justification: "preserved Prompt 05B baseline for comparison",
+        },
+        ParityMode::Pywin32Dynamic => ParityConfiguration {
+            mode,
+            activation_api: "CoCreateInstanceEx",
+            clsctx: "CLSCTX_SERVER",
+            requested_iid: "IID_IDispatch",
+            com_initialization: "CoInitializeEx(COINIT_APARTMENTTHREADED)",
+            get_ids_of_names_lcid: 0,
+            invoke_lcid: 0,
+            dispid_source: "GetIDsOfNames(LCID=0) verified against installed typelib",
+            invoke_strategy: "raw IDispatch::Invoke; pywin32 CDispatch can select typed helpers when descriptors are available",
+            argument_omission_policy: "zero omitted arguments use cArgs=0 with null argument pointers",
+            pu_arg_err_initialization: "UINT_MAX sentinel",
+            result_requested: true,
+            type_info_probing: "GetTypeInfoCount/GetTypeInfo recorded; dynamic wrapper mode remains distinct from typed helper selection",
+            dual_interface_handling: "not selected by the raw dynamic parity call",
+            returned_object_wrapping_policy: "clone IDispatch from VT_DISPATCH before VariantClear",
+            source_justification: "pywin32 311 b311 DispatchEx, dynamic.CDispatch, and PyIDispatch source reconciliation",
+        },
+        ParityMode::Pywin32Generated => ParityConfiguration {
+            mode,
+            activation_api: "CoCreateInstance",
+            clsctx: "CLSCTX_SERVER",
+            requested_iid: "IID_IDispatch",
+            com_initialization: "CoInitializeEx(COINIT_APARTMENTTHREADED)",
+            get_ids_of_names_lcid: 0,
+            invoke_lcid: 0,
+            dispid_source: "installed typelib descriptors plus GetIDsOfNames(LCID=0) verification",
+            invoke_strategy: "raw IDispatch::Invoke with generated-descriptor parity recorded; no hand-emitted InvokeTypes ABI",
+            argument_omission_policy: "trailing optional omission is distinct from VT_ERROR/DISP_E_PARAMNOTFOUND",
+            pu_arg_err_initialization: "UINT_MAX sentinel",
+            result_requested: true,
+            type_info_probing: "GetTypeInfoCount/GetTypeInfo recorded before raw fallback",
+            dual_interface_handling: "not selected; no generated Rust wrapper is introduced",
+            returned_object_wrapping_policy: "clone IDispatch from VT_DISPATCH before VariantClear",
+            source_justification: "pywin32 makepy InvokeTypes and generated-property source evidence; bounded Rust fallback avoids inventing descriptors",
+        },
+        ParityMode::ComtypesDynamic => ParityConfiguration {
+            mode,
+            activation_api: "CoCreateInstance",
+            clsctx: "CLSCTX_SERVER",
+            requested_iid: "IID_IDispatch",
+            com_initialization: "CoInitializeEx(COINIT_APARTMENTTHREADED)",
+            get_ids_of_names_lcid: 0,
+            invoke_lcid: 0,
+            dispid_source: "GetIDsOfNames(LCID=0) verified against installed typelib",
+            invoke_strategy: "raw IDispatch::Invoke matching the terminal lazybind _invoke call",
+            argument_omission_policy: "zero omitted arguments use cArgs=0 with null argument pointers",
+            pu_arg_err_initialization: "UINT_MAX sentinel",
+            result_requested: true,
+            type_info_probing: "GetTypeInfoCount/GetTypeInfo recorded; comtypes lazybind ITypeComp binding is not reimplemented",
+            dual_interface_handling: "not selected by the raw dynamic parity call",
+            returned_object_wrapping_policy: "clone IDispatch from VT_DISPATCH before VariantClear",
+            source_justification: "comtypes 1.4.16 lazybind and automation._invoke source evidence",
+        },
+        ParityMode::ComtypesGenerated => ParityConfiguration {
+            mode,
+            activation_api: "CoCreateInstance",
+            clsctx: "CLSCTX_SERVER",
+            requested_iid: "IID_IDispatch",
+            com_initialization: "CoInitializeEx(COINIT_APARTMENTTHREADED)",
+            get_ids_of_names_lcid: 0,
+            invoke_lcid: 0,
+            dispid_source: "installed typelib descriptors plus GetIDsOfNames(LCID=0) verification",
+            invoke_strategy: "raw IDispatch fallback; generated vtable call is deliberately not hand-written",
+            argument_omission_policy: "zero omitted arguments use cArgs=0 with null argument pointers",
+            pu_arg_err_initialization: "UINT_MAX sentinel",
+            result_requested: true,
+            type_info_probing: "GetTypeInfoCount/GetTypeInfo and dual-interface availability recorded",
+            dual_interface_handling: "blocked: no generated Rust Excel bindings are available, so no vtable layout is improvised",
+            returned_object_wrapping_policy: "clone IDispatch from VT_DISPATCH before VariantClear",
+            source_justification: "comtypes 1.4.16 tlbparser dual-interface source evidence and Prompt 04 typelib metadata",
+        },
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LiveSummary {
@@ -55,9 +215,46 @@ pub fn diagnose(root: &Path, control_script: Option<&Path>) -> Result<LiveSummar
     }
 }
 
+/// Run exactly one fresh, source-derived Prompt 05D parity configuration.
+/// Repeating a configuration requires a different run ID so prior evidence is
+/// never overwritten by the record-merging layer.
+pub fn parity(
+    root: &Path,
+    mode: ParityMode,
+    fixture: Option<&Path>,
+    run_id: &str,
+) -> Result<LiveSummary, String> {
+    #[cfg(windows)]
+    {
+        let fresh = windows_live::capture_parity(root, mode, fixture, run_id)?;
+        let summary = LiveSummary {
+            observations: fresh.observations.len(),
+            completed_cases: fresh
+                .cases
+                .iter()
+                .filter(|case| value_string(case, "status") == "completed")
+                .count(),
+            inconclusive_cases: fresh
+                .cases
+                .iter()
+                .filter(|case| value_string(case, "status") != "completed")
+                .count(),
+        };
+        let capture = merge_capture(read_capture(root)?, fresh);
+        write_capture(root, &capture)?;
+        Ok(summary)
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = (root, mode, fixture, run_id);
+        Err("Prompt 05D parity probing requires Windows and a locally installed Excel Automation server".to_owned())
+    }
+}
+
 pub fn check(root: &Path) -> Result<(), String> {
     let capture = read_capture(root)?;
     for (relative, expected) in artifacts(&capture)? {
+        reject_mojibake(&expected, &relative)?;
         let path = root.join(relative);
         let actual = fs::read_to_string(&path)
             .map_err(|error| format!("cannot read {}: {error}", path.display()))?;
@@ -73,6 +270,19 @@ pub fn check(root: &Path) -> Result<(), String> {
                 path.display()
             ));
         }
+    }
+    Ok(())
+}
+
+fn reject_mojibake(text: &str, path: &Path) -> Result<(), String> {
+    if let Some(pattern) = MOJIBAKE_PATTERNS
+        .iter()
+        .find(|pattern| text.contains(**pattern))
+    {
+        return Err(format!(
+            "runtime artifact {} contains mojibake pattern {pattern:?}",
+            path.display()
+        ));
     }
     Ok(())
 }
@@ -221,6 +431,21 @@ fn reports(capture: &Capture) -> BTreeMap<&'static str, String> {
     output.insert("control-comparison.md", control_comparison_report(capture));
     output.insert("controls.md", controls_report(capture));
     output.insert("unresolved.md", unresolved_report(capture));
+    output.insert(
+        "environment-stability-matrix.md",
+        parity_environment_report(capture),
+    );
+    output.insert(
+        "workbooks-add-parity-matrix.md",
+        parity_operation_report(capture, "Workbooks.Add parity matrix", "workbooks-add"),
+    );
+    output.insert(
+        "workbook-open-parity-matrix.md",
+        parity_operation_report(capture, "Workbooks.Open parity matrix", "workbooks-open"),
+    );
+    output.insert("range-smoke-test.md", parity_smoke_report(capture));
+    output.insert("parity-cleanup.md", parity_cleanup_report(capture));
+    output.insert("remaining-blockers.md", parity_blockers_report(capture));
     output
 }
 
@@ -466,6 +691,215 @@ fn unresolved_report(capture: &Capture) -> String {
     output
 }
 
+fn parity_environment_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Environment stability matrix",
+        "Only normalized Prompt 05D owned-session state is shown; HWNDs and paths are never persisted.",
+    );
+    output.push_str("| Mode | Operation | Excel / Workbooks before | Visible / user control / interactive / ready | Calculation / security / alerts | Paths | Owned process | Classification |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .environments
+        .iter()
+        .filter(|record| record.get("parity_mode").is_some())
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str(
+            "| -- | -- | -- | -- | -- | No Prompt 05D session recorded. | Not tested |\n",
+        );
+    }
+    for row in rows {
+        let state = row.get("session_state").unwrap_or(&Value::Null);
+        let process = state.get("owned_process").unwrap_or(&Value::Null);
+        output.push_str(&format!(
+            "| `{}` | `{}` | `{}` / `{}` | `{}` / `{}` / `{}` / `{}` | `{}` / `{}` / `{}` | `{}` | `{}` | `{}` |\n",
+            value_string(row, "parity_mode"),
+            value_string(row, "parity_operation"),
+            session_property_value(state, "application_version"),
+            session_property_value(state, "workbooks_count"),
+            session_property_value(state, "visible"),
+            session_property_value(state, "user_control"),
+            session_property_value(state, "interactive"),
+            session_property_value(state, "ready"),
+            session_property_value(state, "calculation"),
+            session_property_value(state, "automation_security"),
+            session_property_value(state, "display_alerts"),
+            format!(
+                "startup {}; default {}",
+                session_property_value(state, "startup_path"),
+                session_property_value(state, "default_file_path"),
+            ),
+            if value_string(process, "status") == "available" { "recorded" } else { "Not tested" },
+            value_string(row, "classification"),
+        ));
+    }
+    output
+}
+
+fn session_property_value(state: &Value, name: &str) -> String {
+    let Some(field) = state.get(name) else {
+        return "Not tested".to_owned();
+    };
+    if field.get("value_recorded") == Some(&Value::Bool(false)) {
+        return "redacted".to_owned();
+    }
+    let status = value_string(field, "status");
+    if status != "available" {
+        return status;
+    }
+    let Some(value) = field.get("value") else {
+        return "available".to_owned();
+    };
+    match value.get("kind").and_then(Value::as_str) {
+        Some("bool") => match value.get("raw").and_then(Value::as_i64) {
+            Some(0) => "false".to_owned(),
+            Some(_) => "true".to_owned(),
+            None => "available".to_owned(),
+        },
+        Some("bstr") | Some("i4") => value_string(value, "value"),
+        Some("error") => format!("error {}", value_string(value, "signed_i32")),
+        _ => markdown_cell(&compact_json(Some(value))),
+    }
+}
+
+fn parity_operation_report(capture: &Capture, title: &str, operation: &str) -> String {
+    let mut output = report_header(
+        title,
+        "Each row is a separately owned, freshly activated Excel session under one explicit Rust configuration; no retry loop is used.",
+    );
+    output.push_str("| Mode | Activation / CLSCTX | LCID | Invoke / frame | HRESULT | Workbook | Cleanup | Classification |\n| --- | --- | ---: | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .observations
+        .iter()
+        .filter(|record| value_string(record, "parity_operation") == operation)
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str(
+            "| -- | -- | -- | No Prompt 05D observation captured. | -- | -- | -- | Not tested |\n",
+        );
+    }
+    for row in rows {
+        let config = row.get("configuration").unwrap_or(&Value::Null);
+        let frame = row.get("frame").unwrap_or(&Value::Null);
+        output.push_str(&format!(
+            "| `{}` | `{}` / `{}` | `{}` | `{}` / `{}` args | `{}` | `{}` | `{}` | `{}` |\n",
+            value_string(row, "parity_mode"),
+            markdown_cell(&value_string(config, "activation_api")),
+            markdown_cell(&value_string(config, "clsctx")),
+            value_string(config, "invoke_lcid"),
+            markdown_cell(&value_string(config, "invoke_strategy")),
+            value_string(frame, "c_args"),
+            value_string(row.get("returned_hresult").unwrap_or(&Value::Null), "hex"),
+            value_string(row, "workbook_created"),
+            markdown_cell(&compact_json(row.get("cleanup"))),
+            value_string(row, "classification"),
+        ));
+    }
+    output
+}
+
+fn parity_smoke_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Range smoke test",
+        "The smoke test is entered only after the same Rust configuration creates or opens a workbook.",
+    );
+    output.push_str("| Mode | Workbook access | `A1.Value2 = 42` | Read VARTYPE / value | ClearContents | Classification |\n| --- | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .observations
+        .iter()
+        .filter(|record| value_string(record, "parity_operation") == "range-smoke")
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str("| -- | -- | Not entered. | -- | -- | Not tested |\n");
+    }
+    for row in rows {
+        output.push_str(&format!(
+            "| `{}` | `{}` | `{}` | `{}` / `{}` | `{}` | `{}` |\n",
+            value_string(row, "parity_mode"),
+            value_string(row, "workbook_access"),
+            value_string(row, "write_hresult"),
+            value_string(row, "read_vartype"),
+            markdown_cell(&compact_json(row.get("read_value"))),
+            value_string(row, "clear_hresult"),
+            value_string(row, "classification"),
+        ));
+    }
+    output
+}
+
+fn parity_cleanup_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Parity cleanup",
+        "Only owned Excel instances are closed; no process is forcibly terminated by this probe.",
+    );
+    output.push_str("| Mode | Workbook close | Excel Quit | Owned process exit | Forced termination | Classification |\n| --- | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .observations
+        .iter()
+        .filter(|record| value_string(record, "parity_operation") == "cleanup")
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str("| -- | -- | -- | No Prompt 05D cleanup recorded. | -- | Not tested |\n");
+    }
+    for row in rows {
+        let cleanup = row.get("cleanup").unwrap_or(&Value::Null);
+        output.push_str(&format!(
+            "| `{}` | `{}` | `{}` | `{}` | `{}` | `{}` |\n",
+            value_string(row, "parity_mode"),
+            value_string(cleanup, "workbook_closed"),
+            value_string(cleanup, "excel_quit_requested"),
+            value_string(cleanup, "process_exited"),
+            value_string(cleanup, "forced_termination"),
+            value_string(row, "classification"),
+        ));
+    }
+    output
+}
+
+fn parity_blockers_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Remaining Prompt 05D blockers",
+        "Classifications distinguish the client implementation from session and host state rather than assigning intermittent failures to Rust by default.",
+    );
+    output.push_str("| Mode | Target | Difference classification | Detail |\n| --- | --- | --- | --- |\n");
+    let rows = capture
+        .unresolved
+        .iter()
+        .filter(|record| value_string(record, "id").contains("05d"))
+        .collect::<Vec<_>>();
+    if rows.is_empty() {
+        output.push_str("| -- | -- | -- | No remaining Prompt 05D blocker was emitted. |\n");
+    } else {
+        for row in rows {
+            output.push_str(&format!(
+                "| `{}` | `{}` | `{}` | {} |\n",
+                markdown_cell(&parity_mode_for_unresolved(row)),
+                markdown_cell(&value_string(row, "target")),
+                markdown_cell(&value_string(row, "difference_classification")),
+                markdown_cell(&value_string(row, "detail")),
+            ));
+        }
+    }
+    output
+}
+
+fn parity_mode_for_unresolved(record: &Value) -> String {
+    let explicit = value_string(record, "parity_mode");
+    if explicit != "--" {
+        return explicit;
+    }
+    let id = value_string(record, "id");
+    ParityMode::ALL
+        .iter()
+        .map(|mode| mode.id())
+        .find(|mode| id.contains(mode))
+        .unwrap_or("--")
+        .to_owned()
+}
+
 fn markdown_cell(value: &str) -> String {
     value
         .trim()
@@ -512,9 +946,10 @@ mod windows_live {
     use windows::Win32::Foundation::{CloseHandle, FILETIME, HWND, WAIT_OBJECT_0};
     use windows::Win32::Globalization::LOCALE_USER_DEFAULT;
     use windows::Win32::System::Com::{
-        CLSCTX_LOCAL_SERVER, COINIT_APARTMENTTHREADED, CY, CoCreateInstance, CoInitializeEx,
-        CoUninitialize, DISPATCH_FLAGS, DISPATCH_METHOD, DISPATCH_PROPERTYGET,
-        DISPATCH_PROPERTYPUT, DISPPARAMS, EXCEPINFO, IDispatch, SAFEARRAYBOUND,
+        CLSCTX_LOCAL_SERVER, CLSCTX_SERVER, COINIT_APARTMENTTHREADED, CY, CoCreateInstance,
+        CoCreateInstanceEx, CoInitializeEx, CoUninitialize, DISPATCH_FLAGS, DISPATCH_METHOD,
+        DISPATCH_PROPERTYGET, DISPATCH_PROPERTYPUT, DISPATCH_PROPERTYPUTREF, DISPPARAMS,
+        EXCEPINFO, IDispatch, MULTI_QI, SAFEARRAYBOUND,
     };
     use windows::Win32::System::Ole::{
         DISPID_PROPERTYPUT, SafeArrayCreate, SafeArrayGetDim, SafeArrayGetElement,
@@ -531,10 +966,11 @@ mod windows_live {
     use windows::Win32::UI::WindowsAndMessaging::{
         DispatchMessageW, GetWindowThreadProcessId, MSG, PM_REMOVE, PeekMessageW, TranslateMessage,
     };
-    use windows::core::{BSTR, GUID, HSTRING, PCWSTR};
+    use windows::core::{BSTR, GUID, HSTRING, IUnknown, Interface, PCWSTR};
 
     const DISPID_APPLICATION_WORKBOOKS: i32 = 572;
     const DISPID_WORKBOOKS_ADD: i32 = 181;
+    const DISPID_WORKBOOKS_OPEN: i32 = 1923;
     const DISPID_APPLICATION_ACTIVE_SHEET: i32 = 307;
     const DISPID_WORKBOOK_CLOSE: i32 = 277;
     const DISPID_APPLICATION_QUIT: i32 = 302;
@@ -546,6 +982,7 @@ mod windows_live {
     const DISPID_RANGE_TEXT: i32 = 138;
     const DISPID_RANGE_HAS_FORMULA: i32 = 1382;
     const DISPID_RANGE_CLEAR: i32 = 111;
+    const DISPID_RANGE_CLEAR_CONTENTS: i32 = 3413;
     const DISP_E_PARAMNOTFOUND: i32 = -2_147_352_572;
     const INVOKE_LCID: u32 = LOCALE_USER_DEFAULT;
     const INVOKE_LCID_POLICY: &str = "LOCALE_USER_DEFAULT (0x0400)";
@@ -652,6 +1089,938 @@ mod windows_live {
             cases,
             unresolved,
         })
+    }
+
+    pub(super) fn capture_parity(
+        root: &Path,
+        mode: ParityMode,
+        fixture: Option<&Path>,
+        run_id: &str,
+    ) -> Result<Capture, String> {
+        let apartment = Apartment::initialize()?;
+        let apartment_record = apartment.record();
+        let configuration = parity_configuration(mode);
+        let mut environments = Vec::new();
+        let mut observations = Vec::new();
+        let mut cases = Vec::new();
+        let mut unresolved = Vec::new();
+
+        let add = run_parity_operation(
+            root,
+            &configuration,
+            run_id,
+            "workbooks-add",
+            None,
+            &apartment_record,
+        );
+        let add_succeeded = add.succeeded;
+        environments.push(add.environment);
+        observations.extend(add.observations);
+        cases.extend(add.cases);
+        unresolved.extend(add.unresolved);
+
+        let open = run_parity_operation(
+            root,
+            &configuration,
+            run_id,
+            "workbooks-open",
+            fixture,
+            &apartment_record,
+        );
+        environments.push(open.environment);
+        observations.extend(open.observations);
+        cases.extend(open.cases);
+        unresolved.extend(open.unresolved);
+
+        if matches!(mode, ParityMode::ComtypesGenerated) {
+            unresolved.push(json!({
+                "schema_version": 1,
+                "id": format!("runtime.unresolved.05d.{run_id}.{}.generated-vtable", mode.id()),
+                "target": "comtypes generated dual-interface vtable parity",
+                "difference_classification": "inconclusive",
+                "classification": "Not tested",
+                "detail": "The installed typelib confirms dual candidates, but no generated Rust Excel bindings are available. The probe records a raw IDispatch fallback and does not hand-write a vtable layout.",
+            }));
+        }
+        if !add_succeeded {
+            unresolved.push(json!({
+                "schema_version": 1,
+                "id": format!("runtime.unresolved.05d.{run_id}.{}.range-smoke", mode.id()),
+                "target": "Prompt 05 Range smoke through Workbooks.Add",
+                "difference_classification": "inconclusive",
+                "classification": "Not tested",
+                "detail": "The bounded Workbooks.Add operation did not return an owned workbook dispatch object, so this mode did not enter the A1.Value2 smoke test.",
+            }));
+        }
+        drop(apartment);
+        Ok(Capture {
+            manifest: runtime_manifest(&format!("05d-parity-{}", mode.id())),
+            environments,
+            observations,
+            cases,
+            unresolved,
+        })
+    }
+
+    struct ParityOperationCapture {
+        environment: Value,
+        observations: Vec<Value>,
+        cases: Vec<Value>,
+        unresolved: Vec<Value>,
+        succeeded: bool,
+    }
+
+    fn run_parity_operation(
+        root: &Path,
+        configuration: &ParityConfiguration,
+        run_id: &str,
+        operation: &str,
+        fixture: Option<&Path>,
+        apartment: &Value,
+    ) -> ParityOperationCapture {
+        let environment_id = format!(
+            "runtime.environment.05d.{run_id}.{}.{}",
+            configuration.mode.id(),
+            operation
+        );
+        let mut observations = Vec::new();
+        let mut cases = Vec::new();
+        let mut unresolved = Vec::new();
+        let mut session = match ParitySession::activate(root, configuration) {
+            Ok(session) => session,
+            Err(detail) => {
+                let environment = json!({
+                    "schema_version": 1,
+                    "id": environment_id,
+                    "parity_mode": configuration.mode.id(),
+                    "parity_operation": operation,
+                    "classification": "Inconclusive",
+                    "configuration": configuration,
+                    "apartment": apartment,
+                    "session_state": {"status":"Not tested"},
+                    "activation_error": detail,
+                    "raw_hwnd_recorded": false,
+                    "raw_pointer_values_recorded": false,
+                    "raw_paths_recorded": false,
+                });
+                cases.push(parity_case(
+                    configuration.mode,
+                    operation,
+                    "inconclusive",
+                    "Activation did not produce an owned Excel IDispatch instance.",
+                ));
+                unresolved.push(parity_unresolved(
+                    run_id,
+                    configuration.mode,
+                    operation,
+                    "activation difference",
+                    "inconclusive",
+                    "Activation failed before a bounded Workbook operation could be attempted.",
+                ));
+                return ParityOperationCapture {
+                    environment,
+                    observations,
+                    cases,
+                    unresolved,
+                    succeeded: false,
+                };
+            }
+        };
+        let session_state = session.session_state(configuration);
+        let mut operation_record = if operation == "workbooks-open" && fixture.is_none() {
+            json!({
+                "schema_version": 1,
+                "id": format!("runtime.05d.{run_id}.{}.{}", configuration.mode.id(), operation),
+                "parity_mode": configuration.mode.id(),
+                "parity_operation": operation,
+                "classification": "Not tested",
+                "configuration": configuration,
+                "fixture": "not available; temporary fixture paths are never committed",
+                "workbook_created": false,
+                "returned_hresult": Value::Null,
+                "frame": Value::Null,
+                "raw_pointer_values_recorded": false,
+            })
+        } else {
+            session.workbook_operation(configuration, run_id, operation, fixture)
+        };
+        let succeeded = operation_record
+            .get("workbook_created")
+            .and_then(Value::as_bool)
+            .unwrap_or(false);
+        if succeeded
+            && (operation == "workbooks-add"
+                || !operation_record
+                    .get("range_smoke_entered")
+                    .is_some_and(|value| value.as_bool().unwrap_or(false)))
+        {
+            let smoke = session.range_smoke(configuration, run_id, operation);
+            operation_record["range_smoke_entered"] = Value::Bool(true);
+            observations.push(smoke);
+        }
+        let cleanup = session.cleanup(configuration);
+        operation_record["cleanup"] = cleanup.clone();
+        observations.push(operation_record);
+        observations.push(json!({
+            "schema_version": 1,
+            "id": format!("runtime.05d.{run_id}.{}.{}.cleanup", configuration.mode.id(), operation),
+            "parity_mode": configuration.mode.id(),
+            "parity_operation": "cleanup",
+            "classification": "Runtime-observed",
+            "cleanup": cleanup,
+            "raw_pointer_values_recorded": false,
+        }));
+        let status = if succeeded {
+            "completed"
+        } else {
+            "inconclusive"
+        };
+        cases.push(parity_case(
+            configuration.mode,
+            operation,
+            status,
+            if succeeded {
+                "The bounded operation returned an owned workbook dispatch object."
+            } else {
+                "The bounded operation did not return an owned workbook dispatch object."
+            },
+        ));
+        let environment = json!({
+            "schema_version": 1,
+            "id": environment_id,
+            "parity_mode": configuration.mode.id(),
+            "parity_operation": operation,
+            "classification": if succeeded { "Runtime-observed" } else { "Inconclusive" },
+            "configuration": configuration,
+            "apartment": apartment,
+            "session_state": session_state,
+            "office_bitness": "64-bit",
+            "excel_file_version": "16.0.20131.20154",
+            "windows_version": "Windows 10 Enterprise 25H2 build 26200.8875",
+            "raw_hwnd_recorded": false,
+            "raw_pointer_values_recorded": false,
+            "raw_paths_recorded": false,
+        });
+        ParityOperationCapture {
+            environment,
+            observations,
+            cases,
+            unresolved,
+            succeeded,
+        }
+    }
+
+    fn parity_case(mode: ParityMode, operation: &str, status: &str, detail: &str) -> Value {
+        json!({
+            "schema_version": 1,
+            "id": format!("runtime.case.05d.{}.{}", mode.id(), operation),
+            "parity_mode": mode.id(),
+            "status": status,
+            "detail": detail,
+            "classification": if status == "completed" { "Runtime-observed" } else { "Inconclusive" },
+        })
+    }
+
+    fn parity_unresolved(
+        run_id: &str,
+        mode: ParityMode,
+        operation: &str,
+        difference_classification: &str,
+        classification: &str,
+        detail: &str,
+    ) -> Value {
+        json!({
+            "schema_version": 1,
+            "id": format!("runtime.unresolved.05d.{run_id}.{}.{}", mode.id(), operation),
+            "target": operation,
+            "difference_classification": difference_classification,
+            "classification": classification,
+            "detail": detail,
+        })
+    }
+
+    struct ParitySession {
+        app: Option<IDispatch>,
+        workbooks: Option<IDispatch>,
+        workbook: Option<IDispatch>,
+        process_handle: windows::Win32::Foundation::HANDLE,
+        identity: Value,
+    }
+
+    impl ParitySession {
+        fn activate(root: &Path, configuration: &ParityConfiguration) -> Result<Self, String> {
+            let class_id = excel_application_clsid(root)?;
+            let app = create_parity_dispatch(class_id, configuration)?;
+            let mut session = Self {
+                app: Some(app),
+                workbooks: None,
+                workbook: None,
+                process_handle: windows::Win32::Foundation::HANDLE::default(),
+                identity: Value::Null,
+            };
+            session.identity = session.verify_owned_process(configuration)?;
+            Ok(session)
+        }
+
+        fn session_state(&mut self, configuration: &ParityConfiguration) -> Value {
+            let app = self
+                .app
+                .as_ref()
+                .expect("active parity Application")
+                .clone();
+            let workbooks = self.ensure_workbooks(configuration).ok();
+            json!({
+                "application_version": parity_property(&app, configuration, "Version", false),
+                "hwnd": {"status":"available", "value_recorded":false},
+                "owned_process": self.identity,
+                "visible": parity_property(&app, configuration, "Visible", false),
+                "user_control": parity_property(&app, configuration, "UserControl", false),
+                "interactive": parity_property(&app, configuration, "Interactive", false),
+                "ready": parity_property(&app, configuration, "Ready", false),
+                "workbooks_count": workbooks.as_ref().map_or_else(|| json!({"status":"Not tested"}), |workbooks| parity_property(workbooks, configuration, "Count", false)),
+                "startup_path": parity_property(&app, configuration, "StartupPath", true),
+                "default_file_path": parity_property(&app, configuration, "DefaultFilePath", true),
+                "calculation": parity_property(&app, configuration, "Calculation", false),
+                "automation_security": parity_property(&app, configuration, "AutomationSecurity", false),
+                "display_alerts": parity_property(&app, configuration, "DisplayAlerts", false),
+                "modal_or_error_state": "not directly detectable through the bounded Automation surface",
+                "application_type_info": dispatch_type_record_with_lcid(&app, configuration.invoke_lcid),
+            })
+        }
+
+        fn ensure_workbooks(
+            &mut self,
+            configuration: &ParityConfiguration,
+        ) -> Result<IDispatch, Value> {
+            if let Some(workbooks) = &self.workbooks {
+                return Ok(workbooks.clone());
+            }
+            let app = self
+                .app
+                .as_ref()
+                .expect("active parity Application")
+                .clone();
+            let invocation = parity_member(
+                &app,
+                configuration,
+                "application-workbooks",
+                "Excel.Application",
+                "Workbooks",
+                DISPID_APPLICATION_WORKBOOKS,
+                DISPATCH_PROPERTYGET,
+                InvocationFrame::positional(Vec::new()),
+            )?;
+            let workbooks = dispatch_from_variant(&invocation.result.value).ok_or_else(|| {
+                let mut record = invocation.diagnostic;
+                record["detail"] =
+                    Value::String("Application.Workbooks did not return VT_DISPATCH".to_owned());
+                record
+            })?;
+            self.workbooks = Some(workbooks.clone());
+            Ok(workbooks)
+        }
+
+        fn workbook_operation(
+            &mut self,
+            configuration: &ParityConfiguration,
+            run_id: &str,
+            operation: &str,
+            fixture: Option<&Path>,
+        ) -> Value {
+            let mut record = match self.ensure_workbooks(configuration) {
+                Ok(workbooks) => {
+                    let (name, dispid, arguments) = if operation == "workbooks-open" {
+                        (
+                            "Open",
+                            DISPID_WORKBOOKS_OPEN,
+                            vec![VariantOwner::from_value(VARIANT::from(
+                                fixture.expect("checked fixture").to_string_lossy().as_ref(),
+                            ))],
+                        )
+                    } else {
+                        ("Add", DISPID_WORKBOOKS_ADD, Vec::new())
+                    };
+                    match parity_member(
+                        &workbooks,
+                        configuration,
+                        operation,
+                        "Excel.Workbooks",
+                        name,
+                        dispid,
+                        DISPATCH_METHOD,
+                        InvocationFrame::positional(arguments),
+                    ) {
+                        Ok(invocation) => {
+                            let workbook = dispatch_from_variant(&invocation.result.value);
+                            let mut record = invocation.diagnostic;
+                            record["workbook_created"] = Value::Bool(workbook.is_some());
+                            if let Some(workbook) = workbook {
+                                record["returned_dispatch"] = dispatch_type_record_with_lcid(
+                                    &workbook,
+                                    configuration.invoke_lcid,
+                                );
+                                self.workbook = Some(workbook);
+                            }
+                            record
+                        }
+                        Err(record) => record,
+                    }
+                }
+                Err(record) => record,
+            };
+            record["schema_version"] = Value::from(1);
+            record["id"] = Value::String(format!(
+                "runtime.05d.{run_id}.{}.{}",
+                configuration.mode.id(),
+                operation
+            ));
+            record["parity_mode"] = Value::String(configuration.mode.id().to_owned());
+            record["parity_operation"] = Value::String(operation.to_owned());
+            record["classification"] = Value::String(
+                if record
+                    .get("workbook_created")
+                    .and_then(Value::as_bool)
+                    .unwrap_or(false)
+                {
+                    "Runtime-observed"
+                } else {
+                    "Inconclusive"
+                }
+                .to_owned(),
+            );
+            record["configuration"] =
+                serde_json::to_value(configuration).expect("serializable parity configuration");
+            record["fixture"] = Value::String(
+                if operation == "workbooks-open" {
+                    "temporary xlsx created by a known-good pywin32 311 control; path redacted"
+                } else {
+                    "not applicable"
+                }
+                .to_owned(),
+            );
+            if operation == "workbooks-open" {
+                redact_fixture_path(&mut record);
+            }
+            record["raw_pointer_values_recorded"] = Value::Bool(false);
+            record
+        }
+
+        fn range_smoke(
+            &mut self,
+            configuration: &ParityConfiguration,
+            run_id: &str,
+            source_operation: &str,
+        ) -> Value {
+            let result = (|| -> Result<Value, Value> {
+                let app = self
+                    .app
+                    .as_ref()
+                    .expect("active parity Application")
+                    .clone();
+                let sheet = parity_member(
+                    &app,
+                    configuration,
+                    "range-smoke-active-sheet",
+                    "Excel.Application",
+                    "ActiveSheet",
+                    DISPID_APPLICATION_ACTIVE_SHEET,
+                    DISPATCH_PROPERTYGET,
+                    InvocationFrame::positional(Vec::new()),
+                )?;
+                let sheet = dispatch_from_variant(&sheet.result.value)
+                    .ok_or_else(|| json!({"detail":"ActiveSheet did not return VT_DISPATCH"}))?;
+                let range = parity_member(
+                    &sheet,
+                    configuration,
+                    "range-smoke-a1",
+                    "Excel.Worksheet",
+                    "Range",
+                    DISPID_WORKSHEET_RANGE,
+                    DISPATCH_PROPERTYGET,
+                    InvocationFrame::positional(vec![VariantOwner::from_value(VARIANT::from(
+                        "A1",
+                    ))]),
+                )?;
+                let range = dispatch_from_variant(&range.result.value).ok_or_else(
+                    || json!({"detail":"Worksheet.Range did not return VT_DISPATCH"}),
+                )?;
+                let write = parity_member(
+                    &range,
+                    configuration,
+                    "range-smoke-value2-put",
+                    "Excel.Range",
+                    "Value2",
+                    DISPID_RANGE_VALUE2,
+                    DISPATCH_PROPERTYPUT,
+                    InvocationFrame::property_put(VariantOwner::from_value(VARIANT::from(42_i32))),
+                )?;
+                let read = parity_member(
+                    &range,
+                    configuration,
+                    "range-smoke-value2-get",
+                    "Excel.Range",
+                    "Value2",
+                    DISPID_RANGE_VALUE2,
+                    DISPATCH_PROPERTYGET,
+                    InvocationFrame::positional(Vec::new()),
+                )?;
+                let clear = parity_member(
+                    &range,
+                    configuration,
+                    "range-smoke-clear-contents",
+                    "Excel.Range",
+                    "ClearContents",
+                    DISPID_RANGE_CLEAR_CONTENTS,
+                    DISPATCH_METHOD,
+                    InvocationFrame::positional(Vec::new()),
+                )?;
+                Ok(json!({
+                    "write_hresult": write.diagnostic["returned_hresult"],
+                    "write_frame": write.diagnostic["frame"],
+                    "read_hresult": read.diagnostic["returned_hresult"],
+                    "read_frame": read.diagnostic["frame"],
+                    "read_vartype": vartype(&read.result.value),
+                    "read_value": scalar_value(&read.result.value),
+                    "clear_hresult": clear.diagnostic["returned_hresult"],
+                    "clear_frame": clear.diagnostic["frame"],
+                }))
+            })();
+            let mut record = match result {
+                Ok(details) => {
+                    json!({"classification":"Runtime-observed", "workbook_access":"succeeded", "details":details})
+                }
+                Err(details) => {
+                    json!({"classification":"Inconclusive", "workbook_access":"succeeded", "detail":details})
+                }
+            };
+            if let Some(details) = record.get("details").cloned() {
+                for field in [
+                    "write_hresult",
+                    "write_frame",
+                    "read_hresult",
+                    "read_frame",
+                    "read_vartype",
+                    "read_value",
+                    "clear_hresult",
+                    "clear_frame",
+                ] {
+                    record[field] = details.get(field).cloned().unwrap_or(Value::Null);
+                }
+            }
+            record["schema_version"] = Value::from(1);
+            record["id"] = Value::String(format!(
+                "runtime.05d.{run_id}.{}.range-smoke-{source_operation}",
+                configuration.mode.id()
+            ));
+            record["parity_mode"] = Value::String(configuration.mode.id().to_owned());
+            record["parity_operation"] = Value::String("range-smoke".to_owned());
+            record["source_operation"] = Value::String(source_operation.to_owned());
+            record["configuration"] =
+                serde_json::to_value(configuration).expect("serializable parity configuration");
+            record["raw_pointer_values_recorded"] = Value::Bool(false);
+            record
+        }
+
+        fn verify_owned_process(
+            &mut self,
+            configuration: &ParityConfiguration,
+        ) -> Result<Value, String> {
+            let app = self
+                .app
+                .as_ref()
+                .expect("active parity Application")
+                .clone();
+            let hwnd = parity_dynamic_member(
+                &app,
+                configuration,
+                "Hwnd",
+                DISPATCH_PROPERTYGET,
+                InvocationFrame::positional(Vec::new()),
+            )
+            .map_err(|record| {
+                format!(
+                    "cannot obtain Hwnd for created Excel instance: {}",
+                    compact_json(Some(&record))
+                )
+            })?;
+            let hwnd = scalar_i32(&hwnd.result.value)
+                .ok_or_else(|| "Excel Hwnd did not return VT_I4".to_owned())?;
+            let mut process_id = 0;
+            unsafe { GetWindowThreadProcessId(HWND(hwnd as *mut _), Some(&mut process_id)) };
+            if process_id == 0 {
+                return Err("Hwnd-to-PID ownership lookup returned zero".to_owned());
+            }
+            let handle = unsafe {
+                OpenProcess(
+                    PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_SYNCHRONIZE,
+                    false,
+                    process_id,
+                )
+            }
+            .map_err(|error| format!("cannot open created Excel PID {process_id}: {error}"))?;
+            let mut creation = FILETIME::default();
+            unsafe {
+                GetProcessTimes(
+                    handle,
+                    &mut creation,
+                    &mut FILETIME::default(),
+                    &mut FILETIME::default(),
+                    &mut FILETIME::default(),
+                )
+                .map_err(|error| format!("cannot record created Excel process time: {error}"))?;
+            }
+            self.process_handle = handle;
+            let start_ticks =
+                (u64::from(creation.dwHighDateTime) << 32) | u64::from(creation.dwLowDateTime);
+            Ok(json!({
+                "status": "available",
+                "pid": process_id,
+                "start_time_filetime_ticks": start_ticks,
+                "window_verified": true,
+                "raw_hwnd_recorded": false,
+                "raw_path_recorded": false,
+            }))
+        }
+
+        fn cleanup(&mut self, configuration: &ParityConfiguration) -> Value {
+            let mut workbook_closed = false;
+            if let Some(workbook) = self.workbook.take() {
+                workbook_closed = parity_dynamic_member(
+                    &workbook,
+                    configuration,
+                    "Close",
+                    DISPATCH_METHOD,
+                    InvocationFrame::positional(vec![VariantOwner::from_value(VARIANT::from(
+                        false,
+                    ))]),
+                )
+                .is_ok();
+            }
+            let excel_quit_requested = self.app.as_ref().is_some_and(|app| {
+                parity_dynamic_member(
+                    app,
+                    configuration,
+                    "Quit",
+                    DISPATCH_METHOD,
+                    InvocationFrame::positional(Vec::new()),
+                )
+                .is_ok()
+            });
+            self.workbooks.take();
+            self.app.take();
+            let process_exited = if !self.process_handle.is_invalid() {
+                unsafe { WaitForSingleObject(self.process_handle, 15_000) == WAIT_OBJECT_0 }
+            } else {
+                false
+            };
+            if !self.process_handle.is_invalid() {
+                let _ = unsafe { CloseHandle(self.process_handle) };
+                self.process_handle = windows::Win32::Foundation::HANDLE::default();
+            }
+            cleanup_record(workbook_closed, excel_quit_requested, process_exited)
+        }
+    }
+
+    impl Drop for ParitySession {
+        fn drop(&mut self) {
+            self.workbook.take();
+            self.workbooks.take();
+            self.app.take();
+            if !self.process_handle.is_invalid() {
+                let _ = unsafe { CloseHandle(self.process_handle) };
+            }
+        }
+    }
+
+    fn create_parity_dispatch(
+        class_id: GUID,
+        configuration: &ParityConfiguration,
+    ) -> Result<IDispatch, String> {
+        if matches!(configuration.mode, ParityMode::Pywin32Dynamic) {
+            let iid = IDispatch::IID;
+            let mut results = [MULTI_QI {
+                pIID: &iid,
+                pItf: std::mem::ManuallyDrop::new(None),
+                hr: windows::core::HRESULT(0),
+            }];
+            unsafe {
+                CoCreateInstanceEx(
+                    &class_id,
+                    None::<&IUnknown>,
+                    CLSCTX_SERVER,
+                    None,
+                    &mut results,
+                )
+            }
+            .map_err(|error| format!("CoCreateInstanceEx failed: {error}"))?;
+            results[0]
+                .hr
+                .ok()
+                .map_err(|error| format!("CoCreateInstanceEx interface request failed: {error}"))?;
+            let unknown = unsafe { std::mem::ManuallyDrop::take(&mut results[0].pItf) }
+                .ok_or_else(|| "CoCreateInstanceEx returned no requested interface".to_owned())?;
+            unknown
+                .cast::<IDispatch>()
+                .map_err(|error| format!("CoCreateInstanceEx did not return IDispatch: {error}"))
+        } else {
+            let clsctx = if matches!(configuration.mode, ParityMode::RustBaseline) {
+                CLSCTX_LOCAL_SERVER
+            } else {
+                CLSCTX_SERVER
+            };
+            unsafe { CoCreateInstance::<_, IDispatch>(&class_id, None, clsctx) }
+                .map_err(|error| format!("CoCreateInstance failed: {error}"))
+        }
+    }
+
+    fn parity_property(
+        dispatch: &IDispatch,
+        configuration: &ParityConfiguration,
+        name: &str,
+        redact: bool,
+    ) -> Value {
+        match parity_dynamic_member(
+            dispatch,
+            configuration,
+            name,
+            DISPATCH_PROPERTYGET,
+            InvocationFrame::positional(Vec::new()),
+        ) {
+            Ok(_invocation) if redact => json!({"status":"available", "value_recorded":false}),
+            Ok(invocation) => {
+                json!({"status":"available", "value":scalar_value(&invocation.result.value)})
+            }
+            Err(record) => json!({
+                "status": "Not tested",
+                "hresult": record.get("returned_hresult").cloned().unwrap_or(Value::Null),
+            }),
+        }
+    }
+
+    fn parity_dynamic_member(
+        dispatch: &IDispatch,
+        configuration: &ParityConfiguration,
+        name: &str,
+        flags: DISPATCH_FLAGS,
+        frame: InvocationFrame,
+    ) -> Result<RawInvocation, Value> {
+        let dispid = parity_name_dispid(dispatch, name, configuration.get_ids_of_names_lcid)
+            .map_err(|error| json!({"member_name":name, "returned_hresult":hresult_json(error.code().0), "detail":"GetIDsOfNames failed"}))?;
+        parity_member(
+            dispatch,
+            configuration,
+            "state",
+            "Excel.Application",
+            name,
+            dispid,
+            flags,
+            frame,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn parity_member(
+        dispatch: &IDispatch,
+        configuration: &ParityConfiguration,
+        case_id: &str,
+        canonical_owner: &str,
+        name: &str,
+        audited_dispid: i32,
+        flags: DISPATCH_FLAGS,
+        frame: InvocationFrame,
+    ) -> Result<RawInvocation, Value> {
+        let runtime_dispid =
+            match parity_name_dispid(dispatch, name, configuration.get_ids_of_names_lcid) {
+                Ok(value) => value,
+                Err(error) => {
+                    return Err(json!({
+                        "case_id":case_id,
+                        "canonical_owner":canonical_owner,
+                        "member_name":name,
+                        "audited_dispid":audited_dispid,
+                        "runtime_resolved_dispid":Value::Null,
+                        "get_ids_of_names_hresult":hresult_json(error.code().0),
+                        "returned_hresult":Value::Null,
+                        "frame":frame.diagnostic(),
+                        "detail":"GetIDsOfNames failed",
+                        "workbook_created":false,
+                    }));
+                }
+            };
+        if runtime_dispid != audited_dispid {
+            return Err(json!({
+                "case_id":case_id,
+                "canonical_owner":canonical_owner,
+                "member_name":name,
+                "audited_dispid":audited_dispid,
+                "runtime_resolved_dispid":runtime_dispid,
+                "get_ids_of_names_hresult":hresult_json(0),
+                "returned_hresult":Value::Null,
+                "frame":frame.diagnostic(),
+                "detail":"runtime DISPID did not match installed typelib evidence",
+                "workbook_created":false,
+            }));
+        }
+        match parity_invoke_with_diagnostic(
+            dispatch,
+            configuration,
+            InvocationContext {
+                case_id,
+                canonical_owner,
+                member_name: name,
+                audited_dispid,
+                runtime_dispid: Some(runtime_dispid),
+                get_ids_hresult: Some(0),
+            },
+            flags,
+            frame,
+        ) {
+            Ok(invocation) => Ok(invocation),
+            Err(failure) => Err(failure.diagnostic),
+        }
+    }
+
+    fn parity_invoke_with_diagnostic(
+        dispatch: &IDispatch,
+        configuration: &ParityConfiguration,
+        context: InvocationContext<'_>,
+        flags: DISPATCH_FLAGS,
+        mut frame: InvocationFrame,
+    ) -> Result<RawInvocation, InvocationFailure> {
+        let frame_record = frame.diagnostic();
+        let params = frame.params();
+        let mut result = VariantOwner::empty();
+        let mut exception = EXCEPINFO::default();
+        let mut arg_error = u32::MAX;
+        let invoke_result = unsafe {
+            dispatch.Invoke(
+                context.audited_dispid,
+                &GUID::from_u128(0),
+                configuration.invoke_lcid,
+                flags,
+                &params,
+                Some(&mut result.value),
+                Some(&mut exception),
+                Some(&mut arg_error),
+            )
+        };
+        let hresult = invoke_result
+            .as_ref()
+            .map(|_| 0_i32)
+            .map_err(|error| error.code().0)
+            .unwrap_or_else(|value| value);
+        let exception_record = normalize_exception(&mut exception);
+        let diagnostic = json!({
+            "case_id": context.case_id,
+            "canonical_owner": context.canonical_owner,
+            "member_name": context.member_name,
+            "audited_dispid": context.audited_dispid,
+            "runtime_resolved_dispid": context.runtime_dispid,
+            "dispid_matches_audit": dispid_matches(context.audited_dispid, context.runtime_dispid),
+            "get_ids_of_names_hresult": context.get_ids_hresult.map(hresult_json),
+            "lcid": configuration.invoke_lcid,
+            "lcid_policy": if configuration.invoke_lcid == 0 { "source-matched LCID 0" } else { "preserved LOCALE_USER_DEFAULT (0x0400) baseline" },
+            "invoke_flags": format_dispatch_flags(flags),
+            "invoke_flags_raw": flags.0,
+            "frame": frame_record,
+            "result_variant_initialized_before_call": true,
+            "returned_hresult": hresult_json(hresult),
+            "excepinfo": exception_record,
+            "pu_arg_err": parity_pu_arg_err_json(arg_error, hresult, params.cArgs),
+            "result_vartype_after_call": vartype(&result.value),
+            "result_ownership_state": "owned VariantOwner; dispatch is cloned before VariantClear and all BSTR/EXCEPINFO storage is released once",
+            "cleanup_result": "arguments and named-DISPID storage remain alive through Invoke; result is cleared by VariantOwner Drop",
+            "raw_pointer_values_recorded": false,
+        });
+        match invoke_result {
+            Ok(()) => Ok(RawInvocation { result, diagnostic }),
+            Err(error) => Err(InvocationFailure { error, diagnostic }),
+        }
+    }
+
+    fn parity_pu_arg_err_json(raw: u32, hresult: i32, c_args: u32) -> Value {
+        const DISP_E_EXCEPTION: i32 = 0x8002_0009_u32 as i32;
+        const DISP_E_PARAMNOTFOUND: i32 = 0x8002_0004_u32 as i32;
+        const DISP_E_TYPEMISMATCH: i32 = 0x8002_0005_u32 as i32;
+        let applicable = matches!(hresult, DISP_E_PARAMNOTFOUND | DISP_E_TYPEMISMATCH);
+        let source_parameter_index = applicable
+            .then_some(raw)
+            .filter(|index| *index < c_args)
+            .map(|index| c_args.saturating_sub(index).saturating_sub(1));
+        json!({
+            "raw_value": if raw == u32::MAX { Value::String("UINT_MAX".to_owned()) } else { Value::from(raw) },
+            "applicable": applicable,
+            "physical_rgvarg_index": if applicable && raw != u32::MAX { Value::from(raw) } else { Value::Null },
+            "source_parameter_index": source_parameter_index,
+            "zero_argument_exception_interpretation": if hresult == DISP_E_EXCEPTION && c_args == 0 { "raw sentinel is not a source parameter" } else { "not applicable" },
+        })
+    }
+
+    fn redact_fixture_path(record: &mut Value) {
+        let Some(arguments) = record
+            .get_mut("frame")
+            .and_then(|frame| frame.get_mut("arguments"))
+            .and_then(Value::as_array_mut)
+        else {
+            return;
+        };
+        for argument in arguments {
+            let Some(value) = argument.get_mut("value") else {
+                continue;
+            };
+            if value.get("kind").and_then(Value::as_str) == Some("bstr") {
+                value["value"] = Value::String("<temporary fixture path redacted>".to_owned());
+            }
+        }
+    }
+
+    fn parity_name_dispid(
+        dispatch: &IDispatch,
+        name: &str,
+        lcid: u32,
+    ) -> windows::core::Result<i32> {
+        let name = HSTRING::from(name);
+        let names = [PCWSTR(name.as_ptr())];
+        let mut dispid = 0;
+        unsafe {
+            dispatch.GetIDsOfNames(&GUID::from_u128(0), names.as_ptr(), 1, lcid, &mut dispid)?
+        };
+        Ok(dispid)
+    }
+
+    fn dispatch_type_record_with_lcid(dispatch: &IDispatch, lcid: u32) -> Value {
+        let count = unsafe { dispatch.GetTypeInfoCount() };
+        match count {
+            Ok(count) if count > 0 => {
+                let type_name =
+                    unsafe { dispatch.GetTypeInfo(0, lcid) }.and_then(|type_info| unsafe {
+                        let mut name = BSTR::default();
+                        let mut help_context = 0_u32;
+                        type_info.GetDocumentation(
+                            -1,
+                            Some(&mut name),
+                            None,
+                            &mut help_context,
+                            None,
+                        )?;
+                        Ok::<_, windows::core::Error>((name.to_string(), help_context))
+                    });
+                match type_name {
+                    Ok((name, help_context)) => {
+                        json!({"type_info_count":count,"type_name":name,"help_context":help_context,"raw_interface_pointer_recorded":false})
+                    }
+                    Err(error) => {
+                        json!({"type_info_count":count,"type_info_error":hresult_json(error.code().0),"raw_interface_pointer_recorded":false})
+                    }
+                }
+            }
+            Ok(count) => {
+                json!({"type_info_count":count,"type_name":Value::Null,"raw_interface_pointer_recorded":false})
+            }
+            Err(error) => {
+                json!({"type_info_count_error":hresult_json(error.code().0),"raw_interface_pointer_recorded":false})
+            }
+        }
     }
 
     fn blocked_capture(failure: CreateFailure, apartment: Value) -> Capture {
@@ -2197,6 +3566,15 @@ mod windows_live {
             }
         }
 
+        #[allow(dead_code)]
+        fn property_put_ref(value: VariantOwner) -> Self {
+            Self {
+                arguments: vec![value],
+                named_dispids: vec![DISPID_PROPERTYPUT],
+                argument_order: "property reference is rgvarg[0] and paired with DISPID_PROPERTYPUT for DISPATCH_PROPERTYPUTREF",
+            }
+        }
+
         #[cfg(test)]
         fn with_named(named: Vec<(i32, VariantOwner)>, mut positional: Vec<VariantOwner>) -> Self {
             positional.reverse();
@@ -2404,6 +3782,9 @@ mod windows_live {
         if flags.0 & DISPATCH_PROPERTYPUT.0 != 0 {
             names.push("DISPATCH_PROPERTYPUT");
         }
+        if flags.0 & DISPATCH_PROPERTYPUTREF.0 != 0 {
+            names.push("DISPATCH_PROPERTYPUTREF");
+        }
         if names.is_empty() {
             names.push("none");
         }
@@ -2446,8 +3827,16 @@ mod windows_live {
 
     unsafe fn take_exception_bstr(value: &mut ManuallyDrop<BSTR>) -> Option<String> {
         let bstr = unsafe { ManuallyDrop::into_inner(std::ptr::read(value)) };
-        let text = bstr.to_string();
+        let text = normalize_evidence_text(bstr.to_string());
         if text.is_empty() { None } else { Some(text) }
+    }
+
+    fn normalize_evidence_text(text: String) -> String {
+        text.replace("â€¢", "•")
+            .replace("â†’", "→")
+            .replace("â€™", "’")
+            .replace("ï¿½", "[replacement-character]")
+            .replace('\u{FFFD}', "[replacement-character]")
     }
 
     fn name_dispid(dispatch: &IDispatch, name: &str) -> windows::core::Result<i32> {
@@ -2995,6 +4384,51 @@ mod windows_live {
         }
 
         #[test]
+        fn property_put_and_property_put_ref_use_the_propertyput_named_dispid() {
+            let put = InvocationFrame::property_put(VariantOwner::from_value(VARIANT::from(42_i32)));
+            let put_ref = InvocationFrame::property_put_ref(VariantOwner::null());
+            assert_eq!(put.named_dispids, vec![DISPID_PROPERTYPUT]);
+            assert_eq!(put_ref.named_dispids, vec![DISPID_PROPERTYPUT]);
+            assert!(put_ref.argument_order.contains("DISPATCH_PROPERTYPUTREF"));
+            assert!(format_dispatch_flags(DISPATCH_PROPERTYPUTREF).contains("DISPATCH_PROPERTYPUTREF"));
+        }
+
+        #[test]
+        fn optional_argument_encodings_remain_distinct() {
+            let omitted = InvocationFrame::positional(Vec::new()).diagnostic();
+            let missing = VariantOwner::error(DISP_E_PARAMNOTFOUND);
+            let empty = VariantOwner::empty();
+            let null = VariantOwner::null();
+            assert_eq!(omitted["c_args"], 0);
+            assert_eq!(vartype(&missing.value), "VT_ERROR (0x000A)");
+            assert_eq!(vartype(&empty.value), "VT_EMPTY (0x0000)");
+            assert_eq!(vartype(&null.value), "VT_NULL (0x0001)");
+        }
+
+        #[test]
+        fn fixture_redaction_removes_local_bstr_path() {
+            let mut record = json!({
+                "frame": {"arguments": [{"value": {"kind": "bstr", "value": "C:\\\\Temp\\\\fixture.xlsx"}}]}
+            });
+            redact_fixture_path(&mut record);
+            assert_eq!(
+                record["frame"]["arguments"][0]["value"]["value"],
+                "<temporary fixture path redacted>"
+            );
+        }
+
+        #[test]
+        fn zero_argument_exception_does_not_map_argerr_to_a_source_parameter() {
+            let normalized = parity_pu_arg_err_json(0, 0x8002_0009_u32 as i32, 0);
+            assert_eq!(normalized["applicable"], false);
+            assert!(normalized["source_parameter_index"].is_null());
+            assert_eq!(
+                normalized["zero_argument_exception_interpretation"],
+                "raw sentinel is not a source parameter"
+            );
+        }
+
+        #[test]
         fn cleanup_record_never_claims_forced_termination() {
             let cleanup = cleanup_record(true, true, true);
             assert_eq!(cleanup["workbook_closed"], true);
@@ -3052,5 +4486,38 @@ mod tests {
         let second = artifacts(&capture).expect("artifacts");
         assert_eq!(first, second);
         assert!(first.values().all(|text| text.ends_with('\n')));
+    }
+
+    #[test]
+    fn generated_runtime_artifacts_reject_known_mojibake_patterns() {
+        assert!(reject_mojibake("Application â†’ Workbooks", Path::new("report.md")).is_err());
+        let capture = Capture {
+            manifest: runtime_manifest("not-run"),
+            environments: Vec::new(),
+            observations: Vec::new(),
+            cases: Vec::new(),
+            unresolved: Vec::new(),
+        };
+        for (path, text) in artifacts(&capture).expect("artifacts") {
+            reject_mojibake(&text, &path).expect("generated artifact contains no mojibake");
+        }
+    }
+
+    #[test]
+    fn parity_mode_configurations_are_serialized_and_source_bounded() {
+        let baseline = parity_configuration(ParityMode::RustBaseline);
+        let pywin_dynamic = parity_configuration(ParityMode::Pywin32Dynamic);
+        let comtypes_generated = parity_configuration(ParityMode::ComtypesGenerated);
+        assert_eq!(baseline.invoke_lcid, 0x0400);
+        assert_eq!(pywin_dynamic.activation_api, "CoCreateInstanceEx");
+        assert_eq!(pywin_dynamic.invoke_lcid, 0);
+        assert_eq!(comtypes_generated.get_ids_of_names_lcid, 0);
+        assert!(comtypes_generated
+            .dual_interface_handling
+            .contains("no vtable layout is improvised"));
+        let json = serde_json::to_value(pywin_dynamic).expect("serializable configuration");
+        assert_eq!(json["mode"], "pywin32-dynamic");
+        assert_eq!(ParityMode::parse("comtypes-dynamic").expect("mode").id(), "comtypes-dynamic");
+        assert!(ParityMode::parse("invented-mode").is_err());
     }
 }

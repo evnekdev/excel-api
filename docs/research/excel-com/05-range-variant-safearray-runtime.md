@@ -9,6 +9,12 @@ repaired and the call was fully diagnosed, but `Workbooks.Add` still returned
 Excel's application-level error before a workbook existed. The blocker is not
 resolved; see the [Prompt 05B diagnostic](05b-workbooks-add-diagnostic.md).
 
+**Prompt 05D update:** source-derived pywin32/comtypes parity modes reached
+fresh owned Excel sessions but all five Rust modes failed both `Workbooks.Add`
+and a known-good `Workbooks.Open` fixture before a workbook was returned. The
+Range smoke test and this matrix remain blocked; see [client parity and workbook
+recovery](05d-client-parity-and-workbook-recovery.md).
+
 ## 1. Scope and evidence boundary
 
 This change adds only an isolated, Windows-only raw-COM research probe and its
