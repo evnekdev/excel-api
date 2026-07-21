@@ -4,6 +4,12 @@
 complete.
 **Date:** 2026-07-21
 
+**Prompt 05H update:** this historical record remains accurate for its own
+attempt. A later rebooted raw `windows-sys` matrix created owned workbooks and
+recorded scalar and rectangular `Value`/`Value2` evidence separately; see
+[Prompt 05H runtime matrix](05h-value-safearray-runtime-matrix.md). It does
+not alter the failure evidence documented below.
+
 **Prompt 05B update:** the original raw `DISPPARAMS` empty-pointer defect was
 repaired and the call was fully diagnosed, but `Workbooks.Add` still returned
 Excel's application-level error before a workbook existed. The blocker is not

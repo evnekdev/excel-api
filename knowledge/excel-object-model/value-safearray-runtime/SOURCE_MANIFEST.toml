@@ -1,0 +1,14 @@
+schema_version = 1
+prompt = "05H"
+starting_origin_master = "4a46f72004bc1d79c24d979c31d70b77acba0179"
+branch = "research/excel-com-05h-value-safearray-matrix"
+phase = "raw-module refactor and runtime Value/Value2, SAFEARRAY, formula, precision, string, and stability matrix"
+windows_sys = "0.61.2"
+windows = "0.62.2"
+public_api_changed = false
+raw_pointers_persisted = false
+raw_hwnds_persisted = false
+raw_pids_persisted = false
+local_paths_persisted = false
+transport_gate = "passed: rebooted controls-first baseline and 10/10 post-refactor fresh-process smokes"
+live_matrix = "canonical L scalar, rectangular, semantic, and edge groups recorded with zero-process gates; S/X scalar representative reruns are recorded separately"
