@@ -1,4 +1,4 @@
-# Codex Prompt 03 — Research `VARIANT`, `SAFEARRAY`, and Excel Range Semantics
+# Codex Prompt 04 — Research `VARIANT`, `SAFEARRAY`, and Excel Range Semantics
 
 ## Objective
 
@@ -13,12 +13,12 @@ Repository: `evnekdev/excel-api`
 Branch:
 
 ```text
-research/excel-com-03-range-values
+research/excel-com-04-range-values
 ```
 
 ## Required preparation
 
-Read prompts 01 and 02 research outputs and official Microsoft documentation for:
+Read prompts 01, 02, and 03 research outputs and official Microsoft documentation for:
 
 - `Range.Value`;
 - `Range.Value2`;
@@ -36,7 +36,7 @@ Inspect the locally available Excel type library if supported by the environment
 Create:
 
 ```text
-docs/research/excel-com/03-variant-safearray-and-range-values.md
+docs/research/excel-com/04-variant-safearray-and-range-values.md
 ```
 
 Optional research code may be added under:

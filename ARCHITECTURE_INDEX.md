@@ -27,6 +27,7 @@ notification are optional or experimental, not core 1.0 prerequisites.
 | RTD | `RTD_STREAMING_ARCHITECTURE.md` | Experimental Windows-only prototype; optional post-1.0 | Optional E1-E2 |
 | COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | Deferred optional integrations | Optional E3-E4 |
 | Excel COM knowledge base | `knowledge/excel-object-model/README.md`, `docs/research/excel-com/02-object-model-knowledge-base.md` | Documentation-derived, attributed research foundation; no runtime implementation | Optional E4 preparation |
+| Excel COM object-model analysis | `docs/research/excel-com/03-excel-object-model-analysis.md`, `knowledge/excel-object-model/generated/analysis/` | Documentation-derived navigation, candidate, typelib, and runtime evidence backlog; no runtime implementation | Optional E4 preparation |
 | Support/release | `SUPPORT_MATRIX.md`, `OPTIONAL_INTEGRATIONS_ROADMAP.md`, `docs/release/core-1.0-release-checklist.md` | Core 1.0 boundary defined; release audit active | M20 / E1-E5 |
 
 ## Dependency order

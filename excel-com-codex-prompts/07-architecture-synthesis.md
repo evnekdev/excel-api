@@ -1,4 +1,4 @@
-# Codex Prompt 06 — Synthesize the `excel-com` Architecture
+# Codex Prompt 07 — Synthesize the `excel-com` Architecture
 
 ## Objective
 
@@ -13,7 +13,7 @@ Repository: `evnekdev/excel-api`
 Branch:
 
 ```text
-architecture/excel-com-06-synthesis
+architecture/excel-com-07-synthesis
 ```
 
 ## Required reading

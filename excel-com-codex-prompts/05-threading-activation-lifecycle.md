@@ -1,4 +1,4 @@
-# Codex Prompt 04 — Research Apartments, Activation, and Excel Lifecycle
+# Codex Prompt 05 — Research Apartments, Activation, and Excel Lifecycle
 
 ## Objective
 
@@ -13,7 +13,7 @@ Repository: `evnekdev/excel-api`
 Branch:
 
 ```text
-research/excel-com-04-threading-lifecycle
+research/excel-com-05-threading-lifecycle
 ```
 
 ## Required sources
@@ -38,7 +38,7 @@ Use official Microsoft documentation for:
 Create:
 
 ```text
-docs/research/excel-com/04-threading-activation-and-lifecycle.md
+docs/research/excel-com/05-threading-activation-and-lifecycle.md
 ```
 
 ## Required analysis
