@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "object.schema.json",
+  "title": "Excel object record",
+  "type": "object",
+  "required": ["schema_version", "id", "kind", "name", "namespace", "summary", "source", "documentation", "classification", "verification", "implementation", "examples", "provenance"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^Excel\\." },
+    "kind": { "const": "object" },
+    "name": { "type": "string", "minLength": 1 },
+    "namespace": { "const": "Excel" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "source": { "$ref": "source.schema.json#/$defs/source_ref" },
+    "documentation": { "$ref": "source.schema.json#/$defs/documentation" },
+    "classification": { "type": "object", "required": ["is_collection", "collection_item_type"], "properties": { "is_collection": { "type": "boolean" }, "collection_item_type": { "type": ["string", "null"] } }, "additionalProperties": false },
+    "verification": { "$ref": "source.schema.json#/$defs/verification" },
+    "implementation": { "$ref": "source.schema.json#/$defs/implementation" },
+    "examples": { "$ref": "source.schema.json#/$defs/examples" },
+    "provenance": { "$ref": "source.schema.json#/$defs/provenance" }
+  },
+  "additionalProperties": false
+}

@@ -5,7 +5,7 @@ This package contains twelve sequential Codex prompts for researching, designing
 ## Recommended order
 
 1. `01-com-automation-foundations.md`
-2. `02-excel-object-model.md`
+2. `02-object-model-knowledge-base.md`
 3. `03-range-values-and-safearray.md`
 4. `04-threading-activation-lifecycle.md`
 5. `05-typelib-and-events.md`
@@ -18,3 +18,7 @@ This package contains twelve sequential Codex prompts for researching, designing
 12. `12-reliability-and-release-review.md`
 
 Each prompt is intended to produce one focused feature branch and one draft pull request. Review and merge each prompt's output before starting the next prompt unless you deliberately choose to parallelize independent research work.
+
+Prompt 02 supersedes the earlier narrative object-model inventory. It first
+builds the pinned, attributed, machine-readable evidence base that later object
+inventory and wrapper-design work must consume.

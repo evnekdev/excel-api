@@ -1,0 +1,16 @@
+[source]
+name = "fixture/VBA-Docs"
+repository = "https://example.invalid/MicrosoftDocs/VBA-Docs"
+commit = "0123456789abcdef0123456789abcdef01234567"
+retrieved = "2026-07-21"
+documentation_license = "fixture-only"
+sample_code_license = "fixture-only"
+
+[selection]
+include = ["api/Excel.*.md"]
+exclude = []
+
+[transform]
+tool_version = 1
+summary_policy = "fixture"
+copy_examples = false
