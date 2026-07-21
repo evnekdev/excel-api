@@ -108,3 +108,11 @@ production probe.
 - [operation matrix](../../../knowledge/excel-object-model/generated/native-abi/native-vs-rust-operation-matrix.md)
 - [lifetime comparison](../../../knowledge/excel-object-model/generated/native-abi/interface-lifetime-comparison.md)
 - [remaining blockers](../../../knowledge/excel-object-model/generated/native-abi/remaining-blockers.md)
+
+## Prompt 05F follow-up
+
+Prompt 05F preserved a cold-session baseline, tested the full pre-`Add`
+prefix sequence in fresh child processes, and compared later current-state
+controls. The prefix matrix did not isolate a causal operation, while the
+high-level path continued to show a path-sensitive failure boundary and the
+lower-level/native controls succeeded. See [the 05F delta investigation](05f-pre-add-sequence-delta.md).

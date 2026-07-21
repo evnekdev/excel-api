@@ -1,3 +1,3 @@
 # Root cause
 
-**Classification: non-deterministic Excel state / inconclusive.** The former full high-level local/0x0400 failure did not reproduce in the current isolated prefix matrix, so no individual operation, ownership transition, or storage behavior is causal. No repair is applied.
+**Classification: high-level runtime/path sensitivity, inconclusive.** The isolated prefix matrices contain no failing prefix, while 6 recovery-path rows fail before `Open` with the Excel exception. The current independent controls keep the lower-level generic `IDispatch` and native paths successful. No individual pre-`Add` operation, ownership transition, or storage behavior is established as causal; no repair is applied.

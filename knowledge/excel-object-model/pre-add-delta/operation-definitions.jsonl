@@ -7,6 +7,7 @@
 {"description":"Added alone to the immediately preceding production-harness prefix","id":"A6","operation":"lifetime-clone-then-clear","schema_version":1,"stage":"after-workbooks"}
 {"description":"Added alone to the immediately preceding production-harness prefix","id":"A7","operation":"lifetime-retain-then-clear","schema_version":1,"stage":"after-workbooks"}
 {"description":"Added alone to the immediately preceding production-harness prefix","id":"A8","operation":"lifetime-query-interface-then-clear","schema_version":1,"stage":"after-workbooks"}
+{"after_workbooks":["workbooks-get-type-info-count","workbooks-query-interface-iunknown","workbooks-query-interface-idispatch","workbooks-count","lifetime-clone-then-clear","lifetime-retain-then-clear","lifetime-query-interface-then-clear"],"before_workbooks":["application-version"],"group":"state-d","id":"state-d-retained-workbooks-reference","ownership":"W2-clone-clear-immediately","schema_version":1,"storage":"fresh-per-invoke"}
 {"after_workbooks":[],"before_workbooks":[],"group":"ownership","id":"W0-retain-result","ownership":"W0-retain-result","schema_version":1,"storage":"fresh-per-invoke"}
 {"after_workbooks":[],"before_workbooks":[],"group":"ownership","id":"W1-clone-clear-after","ownership":"W1-clone-clear-after","schema_version":1,"storage":"fresh-per-invoke"}
 {"after_workbooks":[],"before_workbooks":[],"group":"ownership","id":"W2-clone-clear-immediately","ownership":"W2-clone-clear-immediately","schema_version":1,"storage":"fresh-per-invoke"}

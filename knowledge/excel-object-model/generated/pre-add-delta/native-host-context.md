@@ -2,3 +2,6 @@
 
 {"control":"rust-to-native-c-abi-shim","environment_id":"cold-boot-no-prior-excel","executable_manifest_presence":"not-recorded","loaded_crt_family":"MSVC-dynamic","mode":"local-0400","result":"workbook-created","schema_version":1,"working_directory":"normalized"}
 {"control":"native-direct-executable","environment_id":"cold-boot-no-prior-excel","executable_manifest_presence":"not-recorded","loaded_crt_family":"MSVC-dynamic","mode":"local-0400","result":"workbook-created","schema_version":1,"working_directory":"normalized"}
+{"control":"lower-level-windows-sys","environment_id":"post-recovery-clean-process","mode":"local-0400","result":"workbook-created","schema_version":1,"shutdown":"bounded-clean-exit"}
+{"control":"rust-to-native-c-abi-shim","environment_id":"post-recovery-clean-process","mode":"local-0400","result":"workbook-created","schema_version":1,"shutdown":"immediate-clean-exit"}
+{"control":"native-direct-executable","environment_id":"post-recovery-clean-process","mode":"local-0400","result":"workbook-created","schema_version":1,"shutdown":"immediate-clean-exit"}

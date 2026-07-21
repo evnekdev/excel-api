@@ -95,8 +95,9 @@ pub fn check(root: &Path, input: &AuditInput) -> Result<(), String> {
             .map_err(|error| format!("cannot read {}: {error}", path.display()))?;
         if actual != expected {
             return Err(format!(
-                "generated type-library artifact {} is stale; run audit",
-                path.display()
+                "generated type-library artifact {} is stale; run audit ({})",
+                path.display(),
+                first_text_difference(&actual, &expected)
             ));
         }
         if actual.contains("\r\n") || !actual.ends_with('\n') {
@@ -104,6 +105,106 @@ pub fn check(root: &Path, input: &AuditInput) -> Result<(), String> {
                 "type-library artifact {} must use LF endings and a final newline",
                 path.display()
             ));
+        }
+    }
+    Ok(())
+}
+
+/// Validates the committed historical inspection without rewriting it.
+///
+/// `LoadRegTypeLib` intentionally has no portable file path, so it cannot
+/// recreate the manifest's captured file-identity fields.  This mode validates
+/// that manifest's historical labels and file-identity structure, then compares
+/// every typelib-derived artifact freshly read from the currently registered
+/// Excel type library.
+pub fn check_historical(root: &Path) -> Result<(), String> {
+    let input = historical_input(root)?;
+    let first = inspect(root, &input)?;
+    let second = inspect(root, &input)?;
+    let first_artifacts = artifacts(&first)?;
+    let second_artifacts = artifacts(&second)?;
+    if first_artifacts != second_artifacts {
+        return Err("type-library inspection is not deterministic for this input".to_owned());
+    }
+    for (relative, expected) in first_artifacts {
+        let path = root.join(&relative);
+        let actual = fs::read_to_string(&path)
+            .map_err(|error| format!("cannot read {}: {error}", path.display()))?;
+        if relative == PathBuf::from("typelib/SOURCE_MANIFEST.toml") {
+            validate_historical_manifest(&actual, &input)?;
+            continue;
+        }
+        if actual != expected {
+            return Err(format!(
+                "generated type-library artifact {} is stale; run audit ({})",
+                path.display(),
+                first_text_difference(&actual, &expected)
+            ));
+        }
+        if actual.contains("\r\n") || !actual.ends_with('\n') {
+            return Err(format!(
+                "type-library artifact {} must use LF endings and a final newline",
+                path.display()
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn first_text_difference(actual: &str, expected: &str) -> String {
+    let line = actual
+        .lines()
+        .zip(expected.lines())
+        .position(|(actual, expected)| actual != expected)
+        .map(|index| index + 1)
+        .unwrap_or_else(|| actual.lines().count().min(expected.lines().count()) + 1);
+    format!("first differing line {line}")
+}
+
+/// Builds a read-only inspection input from the committed historical manifest.
+///
+/// Unlike the ordinary `check` command, this preserves the recorded host labels
+/// rather than substituting `not-recorded`, so the historical artifacts can be
+/// validated without regenerating or changing them.
+pub fn historical_input(root: &Path) -> Result<AuditInput, String> {
+    let path = root.join("typelib").join("SOURCE_MANIFEST.toml");
+    let text = fs::read_to_string(&path)
+        .map_err(|error| format!("cannot read historical source manifest {}: {error}", path.display()))?;
+    Ok(AuditInput {
+        typelib_path: None,
+        windows_version: manifest_string(&text, "windows_version")?,
+        excel_file_version: manifest_string(&text, "excel_file_version")?,
+        office_bitness: manifest_string(&text, "office_bitness")?,
+    })
+}
+
+fn manifest_string(text: &str, key: &str) -> Result<String, String> {
+    let prefix = format!("{key} = \"");
+    let value = text
+        .lines()
+        .find_map(|line| line.strip_prefix(&prefix))
+        .and_then(|line| line.strip_suffix("\""))
+        .ok_or_else(|| format!("historical source manifest lacks a valid {key} value"))?;
+    Ok(value.to_owned())
+}
+
+fn validate_historical_manifest(text: &str, input: &AuditInput) -> Result<(), String> {
+    if text.contains("\r\n") || !text.ends_with('\n') {
+        return Err("historical source manifest must use LF endings and a final newline".to_owned());
+    }
+    for (key, value) in [
+        ("windows_version", &input.windows_version),
+        ("excel_file_version", &input.excel_file_version),
+        ("office_bitness", &input.office_bitness),
+    ] {
+        let expected = format!("{key} = \"{}\"", escape_toml(value));
+        if !text.lines().any(|line| line == expected) {
+            return Err(format!("historical source manifest lacks expected {key}"));
+        }
+    }
+    for key in ["registration_source", "loaded_file_basename", "loaded_file_sha256"] {
+        if manifest_string(text, key)?.is_empty() {
+            return Err(format!("historical source manifest has an empty {key}"));
         }
     }
     Ok(())
@@ -1686,5 +1787,30 @@ mod tests {
     #[test]
     fn empty_jsonl_still_has_a_final_lf() {
         assert_eq!(jsonl(&[]).expect("empty JSONL is valid"), "\n");
+    }
+
+    #[test]
+    fn historical_manifest_labels_are_read_without_host_defaults() {
+        let manifest = "excel_file_version = \"16.0.1\"\nwindows_version = \"Windows test\"\noffice_bitness = \"64-bit\"\n";
+        assert_eq!(manifest_string(manifest, "excel_file_version").unwrap(), "16.0.1");
+        assert_eq!(manifest_string(manifest, "windows_version").unwrap(), "Windows test");
+        assert_eq!(manifest_string(manifest, "office_bitness").unwrap(), "64-bit");
+    }
+
+    #[test]
+    fn first_difference_reports_the_first_changed_line() {
+        assert_eq!(first_text_difference("one\ntwo\n", "one\nthree\n"), "first differing line 2");
+    }
+
+    #[test]
+    fn historical_manifest_requires_recorded_labels_and_file_identity() {
+        let input = AuditInput {
+            typelib_path: None,
+            windows_version: "Windows test".to_owned(),
+            excel_file_version: "16.0.1".to_owned(),
+            office_bitness: "64-bit".to_owned(),
+        };
+        let manifest = "registration_source = \"registered\"\nloaded_file_basename = \"EXCEL.EXE\"\nloaded_file_sha256 = \"abc\"\nexcel_file_version = \"16.0.1\"\nwindows_version = \"Windows test\"\noffice_bitness = \"64-bit\"\n";
+        assert!(validate_historical_manifest(manifest, &input).is_ok());
     }
 }

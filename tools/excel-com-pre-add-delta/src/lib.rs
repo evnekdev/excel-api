@@ -259,7 +259,7 @@ pub fn run(arguments: Vec<String>) -> Result<(), String> {
 }
 
 fn usage() -> String {
-    "usage: excel-com-pre-add-delta <generate|render|check|matrix|recovery|case> --root <knowledge/excel-object-model/pre-add-delta> [--repeats <count>] [--seed <u64>] [--mode <L|S|X>] [--scenario <id>] [--run-id <id>] [--order <n>] [--fixture <temporary-xlsx>]".to_owned()
+    "usage: excel-com-pre-add-delta <generate|render|check|matrix|recovery|case> --root <knowledge/excel-object-model/pre-add-delta> [--suite <prefix|ownership|storage|property|type-info|process-instrumentation|all>] [--append <true|false>] [--resume <true|false>] [--limit <count>] [--repeats <count>] [--seed <u64>] [--mode <L|S|X>] [--scenario <id>] [--run-id <id>] [--order <n>] [--recovery <true|false>] [--fixture <temporary-xlsx>]".to_owned()
 }
 
 #[derive(Default)]
@@ -268,9 +268,14 @@ struct Options {
     repeats: Option<u32>,
     seed: Option<u64>,
     mode: Option<Mode>,
+    suite: Option<String>,
+    append: bool,
+    resume: bool,
+    limit: Option<usize>,
     scenario: Option<String>,
     run_id: Option<String>,
     order: Option<u32>,
+    recovery: bool,
     fixture: Option<PathBuf>,
 }
 
@@ -296,10 +301,39 @@ impl Options {
                     result.seed = Some(value.parse().map_err(|_| "--seed must be an integer")?)
                 }
                 "--mode" => result.mode = Some(Mode::parse(value)?),
+                "--suite" => result.suite = Some(value.clone()),
+                "--append" => {
+                    result.append = match value.as_str() {
+                        "true" => true,
+                        "false" => false,
+                        _ => return Err("--append must be true or false".to_owned()),
+                    }
+                }
+                "--resume" => {
+                    result.resume = match value.as_str() {
+                        "true" => true,
+                        "false" => false,
+                        _ => return Err("--resume must be true or false".to_owned()),
+                    }
+                }
+                "--limit" => {
+                    result.limit = Some(
+                        value
+                            .parse()
+                            .map_err(|_| "--limit must be a positive integer")?,
+                    )
+                }
                 "--scenario" => result.scenario = Some(value.clone()),
                 "--run-id" => result.run_id = Some(value.clone()),
                 "--order" => {
                     result.order = Some(value.parse().map_err(|_| "--order must be an integer")?)
+                }
+                "--recovery" => {
+                    result.recovery = match value.as_str() {
+                        "true" => true,
+                        "false" => false,
+                        _ => return Err("--recovery must be true or false".to_owned()),
+                    }
                 }
                 "--fixture" => result.fixture = Some(PathBuf::from(value)),
                 _ => return Err(format!("unknown option: {name}")),
@@ -338,6 +372,10 @@ fn prefix_case(length: usize) -> CaseSpec {
 
 fn supplemental_cases() -> Vec<CaseSpec> {
     let mut result = Vec::new();
+    let mut retained_reference = prefix_case(PREFIX_OPERATIONS.len());
+    retained_reference.id = "state-d-retained-workbooks-reference".to_owned();
+    retained_reference.group = "state-d";
+    result.push(retained_reference);
     for ownership in [
         Ownership::W0RetainResult,
         Ownership::W1CloneThenClearAfter,
@@ -522,6 +560,7 @@ fn generate(root: &Path) -> Result<(), String> {
         "cold-session-baseline.jsonl",
         "session-state-transitions.jsonl",
         "owned-process-cleanup.jsonl",
+        "current-state-controls.jsonl",
         "repairs.jsonl",
         "unresolved.jsonl",
     ] {
@@ -612,11 +651,44 @@ fn matrix(options: Options) -> Result<(), String> {
     }
     let seed = options.seed.unwrap_or(SCHEDULE_SEED);
     let mode_filter = options.mode;
-    let schedule = schedule(seed, repeats, mode_filter);
-    write_jsonl(root.join("run-schedule.jsonl"), &schedule)?;
+    let suite = options.suite.as_deref().unwrap_or("prefix");
+    let schedule = if options.resume {
+        read_schedule(root.join("run-schedule.jsonl"))?
+    } else {
+        schedule(seed, repeats, mode_filter, suite)?
+    };
+    let mut all_schedule = if options.append && !options.resume {
+        read_schedule(root.join("run-schedule.jsonl"))?
+    } else {
+        Vec::new()
+    };
+    if !options.resume {
+        all_schedule.extend(schedule.iter().cloned());
+        write_jsonl(root.join("run-schedule.jsonl"), &all_schedule)?;
+    }
     let executable = env::current_exe().map_err(io_error)?;
-    let mut records = Vec::new();
-    for entry in &schedule {
+    let mut records = if options.append || options.resume {
+        read_records(root.join("observations.jsonl"))?
+    } else {
+        Vec::new()
+    };
+    let completed: BTreeSet<_> = records.iter().map(|record| record.run_id.clone()).collect();
+    let pending: Vec<_> = schedule
+        .iter()
+        .filter(|entry| !completed.contains(&entry.run_id))
+        .take(options.limit.unwrap_or(usize::MAX))
+        .collect();
+    if pending.is_empty() {
+        return render(&root);
+    }
+    for entry in pending {
+        let preexisting = current_excel_process_count()?;
+        if preexisting != 0 {
+            return Err(format!(
+                "{} starts with {preexisting} Excel process(es); matrix stopped without terminating an unrelated process",
+                entry.run_id
+            ));
+        }
         let output = Command::new(&executable)
             .arg("case")
             .arg("--root")
@@ -651,9 +723,22 @@ fn matrix(options: Options) -> Result<(), String> {
                 entry.run_id
             ));
         }
+        if current_excel_process_count()? != 0 {
+            return Err(format!(
+                "{} left an Excel process after cleanup; matrix stopped safely",
+                entry.run_id
+            ));
+        }
         records.push(record);
+        if options.append || options.resume {
+            append_jsonl(
+                root.join("observations.jsonl"),
+                records.last().expect("record added"),
+            )?;
+        } else {
+            write_jsonl(root.join("observations.jsonl"), &records)?;
+        }
     }
-    write_jsonl(root.join("observations.jsonl"), &records)?;
     write_jsonl(
         root.join("ownership-variants.jsonl"),
         &records
@@ -661,19 +746,30 @@ fn matrix(options: Options) -> Result<(), String> {
             .filter(|record| record.group == "ownership")
             .collect::<Vec<_>>(),
     )?;
-    write(root.join("unresolved.jsonl"), unresolved_jsonl(&records))?;
+    let recoveries = read_records(root.join("repairs.jsonl"))?;
+    write(
+        root.join("unresolved.jsonl"),
+        unresolved_jsonl(&records, &recoveries),
+    )?;
     render(&root)
 }
 
-fn schedule(seed: u64, repeats: u32, mode_filter: Option<Mode>) -> Vec<ScheduleEntry> {
+fn schedule(
+    seed: u64,
+    repeats: u32,
+    mode_filter: Option<Mode>,
+    suite: &str,
+) -> Result<Vec<ScheduleEntry>, String> {
     let modes: Vec<Mode> = match mode_filter {
         Some(mode) => vec![mode],
         None => vec![Mode::L, Mode::S, Mode::X],
     };
+    let cases = cases_for_suite(suite)?;
     let mut candidates = Vec::new();
     for repetition in 1..=repeats {
         for mode in &modes {
-            for case in all_cases() {
+            for case in &cases {
+                let case = case.clone();
                 candidates.push((case, *mode, repetition));
             }
         }
@@ -686,11 +782,11 @@ fn schedule(seed: u64, repeats: u32, mode_filter: Option<Mode>) -> Vec<ScheduleE
         let swap = (state as usize) % (index + 1);
         candidates.swap(index, swap);
     }
-    candidates
+    Ok(candidates
         .into_iter()
         .enumerate()
         .map(|(index, (case, mode, repetition))| ScheduleEntry {
-            run_id: format!("run-{seed}-{index:04}"),
+            run_id: format!("run-{seed}-{suite}-{index:04}"),
             scenario: case.id.clone(),
             group: case.group.to_owned(),
             prefix_id: case.id.clone(),
@@ -698,6 +794,32 @@ fn schedule(seed: u64, repeats: u32, mode_filter: Option<Mode>) -> Vec<ScheduleE
             repetition,
             order_index: u32::try_from(index + 1).expect("schedule index fits u32"),
             sequence_hash: case_hash(&case),
+        })
+        .collect())
+}
+
+fn cases_for_suite(suite: &str) -> Result<Vec<CaseSpec>, String> {
+    let all = all_cases();
+    match suite {
+        "prefix" => Ok(all
+            .into_iter()
+            .filter(|case| case.group == "prefix")
+            .collect()),
+        "ownership" | "storage" | "property" | "type-info" | "process-instrumentation" => Ok(all
+            .into_iter()
+            .filter(|case| case.group == suite)
+            .collect()),
+        "all" => Ok(all),
+        _ => Err("--suite must be prefix, ownership, storage, property, type-info, process-instrumentation, or all".to_owned()),
+    }
+}
+
+fn read_schedule(path: PathBuf) -> Result<Vec<ScheduleEntry>, String> {
+    let text = fs::read_to_string(&path).map_err(io_error)?;
+    text.lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| {
+            serde_json::from_str(line).map_err(|error| format!("{}: {error}", path.display()))
         })
         .collect()
 }
@@ -718,7 +840,14 @@ fn run_case_command(options: Options) -> Result<(), String> {
         .order
         .ok_or_else(|| "--order is required".to_owned())?;
     let case = case_by_id(scenario)?;
-    let record = live_case(&case, mode, run_id, order, options.fixture.as_deref())?;
+    let record = live_case(
+        &case,
+        mode,
+        run_id,
+        order,
+        options.fixture.as_deref(),
+        options.recovery,
+    )?;
     print!(
         "{}",
         serde_json::to_string(&record).map_err(|error| error.to_string())?
@@ -732,11 +861,17 @@ fn recovery(options: Options) -> Result<(), String> {
         .fixture
         .as_deref()
         .ok_or_else(|| "--fixture is required for recovery".to_owned())?;
-    let mut records = Vec::new();
+    let path = root.join("repairs.jsonl");
+    let mut records = if path.is_file() {
+        read_records(path.clone())?
+    } else {
+        Vec::new()
+    };
+    let attempt = records.len() / 3 + 1;
     for (index, mode) in [Mode::L, Mode::S, Mode::X].into_iter().enumerate() {
         let record = live_recovery(
             mode,
-            &format!("recovery-{}", mode.id()),
+            &format!("recovery-attempt-{attempt}-{}", mode.id()),
             u32::try_from(index + 1).expect("small"),
             fixture,
         )?;
@@ -748,7 +883,12 @@ fn recovery(options: Options) -> Result<(), String> {
         }
         records.push(record);
     }
-    write_jsonl(root.join("repairs.jsonl"), &records)?;
+    write_jsonl(path, &records)?;
+    let observations = read_records(root.join("observations.jsonl"))?;
+    write(
+        root.join("unresolved.jsonl"),
+        unresolved_jsonl(&observations, &records),
+    )?;
     render(&root)
 }
 
@@ -758,14 +898,15 @@ fn live_case(
     run_id: &str,
     order: u32,
     fixture: Option<&Path>,
+    recovery: bool,
 ) -> Result<RunRecord, String> {
     #[cfg(windows)]
     {
-        windows_live::run(case, mode, run_id, order, fixture, false)
+        windows_live::run(case, mode, run_id, order, fixture, recovery)
     }
     #[cfg(not(windows))]
     {
-        let _ = (case, mode, run_id, order, fixture);
+        let _ = (case, mode, run_id, order, fixture, recovery);
         Err("Windows is required for a live delta run".to_owned())
     }
 }
@@ -807,6 +948,7 @@ fn check(root: &Path) -> Result<(), String> {
         "cold-session-baseline.jsonl",
         "session-state-transitions.jsonl",
         "owned-process-cleanup.jsonl",
+        "current-state-controls.jsonl",
         "repairs.jsonl",
         "unresolved.jsonl",
     ] {
@@ -857,6 +999,12 @@ fn reject_sensitive(text: &str, path: &Path) -> Result<(), String> {
 }
 
 fn render(root: &Path) -> Result<(), String> {
+    let records = read_records(root.join("observations.jsonl"))?;
+    let recoveries = read_records(root.join("repairs.jsonl"))?;
+    write(
+        root.join("unresolved.jsonl"),
+        unresolved_jsonl(&records, &recoveries),
+    )?;
     for (name, content) in report_contents(root)? {
         write(report_root(root).join(name), content)?;
     }
@@ -877,6 +1025,7 @@ fn report_names() -> &'static [&'static str] {
         "cold-session-baseline.md",
         "excel-session-state-transition.md",
         "owned-process-cleanup.md",
+        "current-state-controls.md",
         "cold-vs-warm-session-comparison.md",
         "typelib-validation-status.md",
         "repair-validation.md",
@@ -923,13 +1072,14 @@ fn report_contents(root: &Path) -> Result<BTreeMap<&'static str, String>, String
         session_transition_report(root)?,
     );
     reports.insert("owned-process-cleanup.md", cleanup_report(root)?);
+    reports.insert("current-state-controls.md", current_control_report(root)?);
     reports.insert(
         "cold-vs-warm-session-comparison.md",
         cold_warm_comparison_report(root)?,
     );
     reports.insert("typelib-validation-status.md", typelib_status_report());
     reports.insert("repair-validation.md", recovery_report(&recoveries));
-    reports.insert("root-cause.md", root_cause_report(&records));
+    reports.insert("root-cause.md", root_cause_report(&records, &recoveries));
     reports.insert(
         "remaining-blockers.md",
         remaining_blockers_report(&records, &recoveries),
@@ -1127,6 +1277,25 @@ fn cleanup_report(root: &Path) -> Result<String, String> {
     Ok(output)
 }
 
+fn current_control_report(root: &Path) -> Result<String, String> {
+    let rows = read_json_values(root.join("current-state-controls.jsonl"))?;
+    let mut output = "# Current-state independent controls\n\n| Control | Mode | Add | Cleanup |\n| --- | --- | --- | --- |\n".to_owned();
+    if rows.is_empty() {
+        output.push_str("| Not run | -- | -- | -- |\n");
+    } else {
+        for row in rows {
+            output.push_str(&format!(
+                "| `{}` | `{}` | `{}` | `{}` |\n",
+                value_text(&row, "control"),
+                value_text(&row, "mode"),
+                value_text(&row, "add_hresult"),
+                value_text(&row, "owned_process_cleanup"),
+            ));
+        }
+    }
+    Ok(output)
+}
+
 fn cold_warm_comparison_report(root: &Path) -> Result<String, String> {
     let cold = read_json_values(root.join("cold-session-baseline.jsonl"))?;
     let warm = read_json_values(root.join("session-state-transitions.jsonl"))?;
@@ -1181,14 +1350,22 @@ fn recovery_report(records: &[RunRecord]) -> String {
     output
 }
 
-fn root_cause_report(records: &[RunRecord]) -> String {
+fn root_cause_report(records: &[RunRecord], recoveries: &[RunRecord]) -> String {
     let failure_count = records
         .iter()
         .filter(|record| {
             record.group == "prefix" && record.mode == "L" && record.add_hresult != "0x00000000"
         })
         .count();
-    if failure_count == 0 {
+    let recovery_failures = recoveries
+        .iter()
+        .filter(|record| record.add_hresult != "0x00000000")
+        .count();
+    if recovery_failures > 0 {
+        format!(
+            "# Root cause\n\n**Classification: high-level runtime/path sensitivity, inconclusive.** The isolated prefix matrices contain no failing prefix, while {recovery_failures} recovery-path rows fail before `Open` with the Excel exception. The current independent controls keep the lower-level generic `IDispatch` and native paths successful. No individual pre-`Add` operation, ownership transition, or storage behavior is established as causal; no repair is applied.\n"
+        )
+    } else if failure_count == 0 {
         "# Root cause\n\n**Classification: non-deterministic Excel state / inconclusive.** The former full high-level local/0x0400 failure did not reproduce in the current isolated prefix matrix, so no individual operation, ownership transition, or storage behavior is causal. No repair is applied.\n".to_owned()
     } else {
         "# Root cause\n\n**Classification: pending reversibility.** A fresh-process prefix failure exists in the evidence; do not attribute it until removal and relocation controls reproduce it.\n".to_owned()
@@ -1206,18 +1383,21 @@ fn remaining_blockers_report(records: &[RunRecord], recoveries: &[RunRecord]) ->
     )
 }
 
-fn unresolved_jsonl(records: &[RunRecord]) -> String {
+fn unresolved_jsonl(records: &[RunRecord], recoveries: &[RunRecord]) -> String {
     let failed = records
         .iter()
         .filter(|record| {
             record.group == "prefix" && record.mode == "L" && record.add_hresult != "0x00000000"
         })
         .count();
+    let recovery_failed = recoveries
+        .iter()
+        .any(|record| record.add_hresult != "0x00000000");
     json!({
         "schema_version": SCHEMA_VERSION,
         "id": "05f.full-high-local-0400",
-        "classification": if failed == 0 { "changed-baseline-non-deterministic" } else { "reproducible-prefix-failure-pending-reversibility" },
-        "detail": if failed == 0 { "The previously reported full high-level failure passed during this fresh-process matrix." } else { "At least one current prefix failed; see reversibility report." },
+        "classification": if recovery_failed { "high-level-runtime-path-sensitive-inconclusive" } else if failed == 0 { "changed-baseline-non-deterministic" } else { "reproducible-prefix-failure-pending-reversibility" },
+        "detail": if recovery_failed { "Recovery-path Add failures occurred before Open while the prefix matrices passed; see recovery and current-state control evidence." } else if failed == 0 { "The previously reported full high-level failure passed during this fresh-process matrix." } else { "At least one current prefix failed; see reversibility report." },
     }).to_string() + "\n"
 }
 
@@ -1245,8 +1425,46 @@ fn write_jsonl<T: Serialize>(path: PathBuf, values: &[T]) -> Result<(), String> 
     write(path, text)
 }
 
+fn append_jsonl<T: Serialize>(path: PathBuf, value: &T) -> Result<(), String> {
+    use std::io::Write;
+    let mut output = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .map_err(io_error)?;
+    writeln!(
+        output,
+        "{}",
+        serde_json::to_string(value).map_err(|error| error.to_string())?
+    )
+    .map_err(io_error)
+}
+
 fn io_error(error: std::io::Error) -> String {
     error.to_string()
+}
+
+fn current_excel_process_count() -> Result<usize, String> {
+    #[cfg(windows)]
+    {
+        let output = Command::new("tasklist")
+            .args(["/fi", "IMAGENAME eq EXCEL.EXE", "/fo", "csv", "/nh"])
+            .output()
+            .map_err(io_error)?;
+        if !output.status.success() {
+            return Err("cannot inspect Excel process gate".to_owned());
+        }
+        let rows = String::from_utf8(output.stdout)
+            .map_err(|error| error.to_string())?
+            .lines()
+            .filter(|line| line.contains("EXCEL.EXE"))
+            .count();
+        Ok(rows)
+    }
+    #[cfg(not(windows))]
+    {
+        Ok(0)
+    }
 }
 
 #[cfg(windows)]
@@ -1310,6 +1528,12 @@ mod windows_live {
                 data.Anonymous.lVal = value;
             }
             result
+        }
+        fn i4_value(&self) -> Option<i32> {
+            if self.vartype() != VT_I4.0 {
+                return None;
+            }
+            Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.lVal })
         }
         fn boolean(value: bool) -> Self {
             let mut result = Self::empty();
@@ -1937,6 +2161,15 @@ mod windows_live {
         );
         let active_workbooks =
             unsafe { ownership_dispatch(case.ownership, &app, &mut workbooks, lcid, &mut trace) }?;
+        let retained_reference = if case.id == "state-d-retained-workbooks-reference" {
+            operations.insert(
+                "deliberately-retained-interface".to_owned(),
+                Value::String("Workbooks retained through Quit then released".to_owned()),
+            );
+            Some(active_workbooks.clone())
+        } else {
+            None
+        };
         let empty = DISPPARAMS::default();
         let mut add = VariantOwner::empty();
         let mut add_exception = EXCEPINFO::default();
@@ -2016,8 +2249,17 @@ mod windows_live {
                 "immediate",
             )
         };
+        drop(active_workbooks);
         drop(workbooks);
         drop(app);
+        if let Some(retained_reference) = retained_reference {
+            std::thread::sleep(std::time::Duration::from_millis(500));
+            drop(retained_reference);
+            cleanup.insert(
+                "deliberately_retained_reference_released".to_owned(),
+                Value::Bool(true),
+            );
+        }
         let exited = match process {
             Some(handle) => {
                 let exited = unsafe { WaitForSingleObject(handle, 15_000) == WAIT_OBJECT_0 };
@@ -2197,11 +2439,30 @@ mod windows_live {
         {
             return "failed-write".to_owned();
         }
-        let (get_hr, get_type) = unsafe { property(&range, "Range", "Value2", lcid, trace) };
-        if get_hr != 0 || get_type != format!("VT_{}", VT_I4.0) {
+        let empty = DISPPARAMS::default();
+        let mut get = VariantOwner::empty();
+        let mut get_exception = EXCEPINFO::default();
+        let mut get_arg = u32::MAX;
+        let get_hr = unsafe {
+            invoke(
+                &range,
+                "Range",
+                "Value2",
+                DISPATCH_PROPERTYGET,
+                "PROPERTYGET",
+                lcid,
+                &empty,
+                &mut get,
+                &mut get_exception,
+                &mut get_arg,
+                trace,
+                "result-owned",
+                "immediate",
+            )
+        };
+        if get_hr != 0 || get.i4_value() != Some(42) {
             return "failed-read".to_owned();
         }
-        let empty = DISPPARAMS::default();
         let mut clear = VariantOwner::empty();
         let mut clear_exception = EXCEPINFO::default();
         let mut clear_arg = u32::MAX;
@@ -2381,13 +2642,13 @@ mod tests {
 
     #[test]
     fn schedule_is_seeded_and_complete() {
-        let first = schedule(SCHEDULE_SEED, 2, None);
-        let second = schedule(SCHEDULE_SEED, 2, None);
+        let first = schedule(SCHEDULE_SEED, 2, None, "prefix").unwrap();
+        let second = schedule(SCHEDULE_SEED, 2, None, "prefix").unwrap();
         assert_eq!(
             serde_json::to_string(&first).unwrap(),
             serde_json::to_string(&second).unwrap()
         );
-        assert_eq!(first.len(), all_cases().len() * 3 * 2);
+        assert_eq!(first.len(), (PREFIX_OPERATIONS.len() + 1) * 3 * 2);
         assert!(
             first
                 .iter()

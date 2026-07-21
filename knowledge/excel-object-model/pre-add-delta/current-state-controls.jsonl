@@ -1,0 +1,8 @@
+{"add_hresult":"0x80020009","control":"pre-add-delta-baseline-A0","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"passed","schema_version":1}
+{"add_hresult":"0x80020009","control":"pre-add-delta-full-A8","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"passed","schema_version":1}
+{"add_hresult":"0x80020009","control":"pre-add-delta-full-A8","environment_id":"post-recovery-clean-process","mode":"server-0000","owned_process_cleanup":"passed","schema_version":1}
+{"add_hresult":"0x80020009","control":"pre-add-delta-full-A8","environment_id":"post-recovery-clean-process","mode":"cocreateex-server-0000","owned_process_cleanup":"passed","schema_version":1}
+{"add_hresult":"0x80020009","control":"minimal-high-level-repro","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"not-separately-attributed","schema_version":1}
+{"add_hresult":"0x00000000","control":"lower-level-windows-sys","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"passed-after-bounded-wait","schema_version":1}
+{"add_hresult":"0x00000000","control":"rust-to-native-c-abi-shim","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"passed","schema_version":1}
+{"add_hresult":"0x00000000","control":"native-direct-executable","environment_id":"post-recovery-clean-process","mode":"local-0400","owned_process_cleanup":"passed","schema_version":1}

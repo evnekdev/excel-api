@@ -233,3 +233,8 @@ Prompt 05E performed that bounded ABI comparison. It preserves this parity
 record, finds that the minimal high-level reproduction succeeds on both tested
 windows-rs releases, and leaves the production local/`0x0400` sequence as the
 next bounded repair; see [the native ABI differential](05e-native-abi-differential.md).
+
+Prompt 05F then tested that pre-`Add` sequence under a preserved cold baseline,
+fresh-process prefix matrix, session transitions, and independent controls. It
+found no causal prefix and retained a high-level runtime/path-sensitive failure
+boundary; see [the pre-`Add` delta investigation](05f-pre-add-sequence-delta.md).
