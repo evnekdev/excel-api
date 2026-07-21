@@ -1,0 +1,21 @@
+[source]
+name = "MicrosoftDocs/VBA-Docs"
+repository = "https://github.com/MicrosoftDocs/VBA-Docs"
+commit = "b2cda886ea91e36c62eb1cb177133ad024ecd345"
+retrieved = "2026-07-21"
+documentation_license = "Creative Commons Attribution 4.0 International (repository LICENSE)"
+sample_code_license = "MIT (repository LICENSE-CODE)"
+
+[selection]
+include = [
+    "api/Excel.*.md",
+    "api/overview/Excel/*.md",
+]
+exclude = [
+    "api/Excel.*-graph-*.md",
+]
+
+[transform]
+tool_version = 1
+summary_policy = "project-authored concise factual summaries or short attributed source descriptions, maximum 240 characters"
+copy_examples = false

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "enum.schema.json",
+  "title": "Excel enumeration record",
+  "type": "object",
+  "required": ["schema_version", "id", "kind", "name", "namespace", "summary", "members", "source", "documentation", "verification", "implementation", "examples", "provenance"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^Excel\\." },
+    "kind": { "const": "enum" },
+    "name": { "type": "string", "minLength": 1 },
+    "namespace": { "const": "Excel" },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 240 },
+    "members": { "type": "array", "items": { "type": "object", "required": ["name", "documented_value", "summary"], "properties": { "name": { "type": "string", "minLength": 1 }, "documented_value": { "type": ["string", "null"] }, "summary": { "type": ["string", "null"], "maxLength": 240 } }, "additionalProperties": false } },
+    "source": { "$ref": "source.schema.json#/$defs/source_ref" },
+    "documentation": { "$ref": "source.schema.json#/$defs/documentation" },
+    "verification": { "$ref": "source.schema.json#/$defs/verification" },
+    "implementation": { "$ref": "source.schema.json#/$defs/implementation" },
+    "examples": { "$ref": "source.schema.json#/$defs/examples" },
+    "provenance": { "$ref": "source.schema.json#/$defs/provenance" }
+  },
+  "additionalProperties": false
+}

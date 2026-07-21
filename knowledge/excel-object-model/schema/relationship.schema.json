@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "relationship.schema.json",
+  "title": "Excel relationship record",
+  "type": "object",
+  "required": ["schema_version", "id", "kind", "from", "member", "to", "source", "verification", "implementation", "provenance"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "pattern": "^Excel\\." },
+    "kind": { "enum": ["object-has-member", "returns", "collection-contains-object", "object-belongs-to-collection", "event-belongs-to-object", "member-references-enum", "related-link"] },
+    "from": { "type": "string", "pattern": "^Excel\\." },
+    "member": { "type": ["string", "null"], "pattern": "^Excel\\." },
+    "to": { "type": "string", "pattern": "^Excel\\." },
+    "source": { "$ref": "source.schema.json#/$defs/source_ref" },
+    "verification": { "$ref": "source.schema.json#/$defs/verification" },
+    "implementation": { "$ref": "source.schema.json#/$defs/implementation" },
+    "provenance": { "$ref": "source.schema.json#/$defs/provenance" }
+  },
+  "additionalProperties": false
+}

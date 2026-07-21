@@ -13,7 +13,7 @@ default-members = [
     "crates/excel-api-macros",
     "examples/minimal-xll",
 ]
-exclude = ["tools/abi-check"]
+exclude = ["tools/abi-check", "tools/excel-com-kb"]
 
 [workspace.package]
 version = "0.1.0"
