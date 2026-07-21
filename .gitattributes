@@ -8,3 +8,6 @@ knowledge/excel-object-model/generated/typelib/*.md text eol=lf
 knowledge/excel-object-model/typelib/*.jsonl text eol=lf
 knowledge/excel-object-model/typelib/*.json text eol=lf
 knowledge/excel-object-model/typelib/*.toml text eol=lf
+knowledge/excel-object-model/runtime/*.jsonl text eol=lf
+knowledge/excel-object-model/runtime/*.toml text eol=lf
+knowledge/excel-object-model/generated/runtime/*.md text eol=lf

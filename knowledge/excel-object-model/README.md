@@ -20,6 +20,11 @@ examples are intentionally not copied.
   portable and deliberately records no raw user path.
 - `generated/typelib/` contains deterministic reports derived from the
   type-library evidence layer; never edit it by hand.
+- `runtime/` is a separate evidence layer for explicit owned-Excel experiments.
+  It records version-specific observations or explicit host blockers; it never
+  changes the documentation or typelib layers.
+- `generated/runtime/` contains deterministic runtime summaries; never edit it
+  by hand.
 
 Every record carries its source repository, exact commit, repository-relative
 path, extraction method, verification dimensions, implementation status, and
@@ -109,3 +114,5 @@ For the documentation-only object-model analysis generated from the same
 canonical records, see [the Prompt 03 research record](../../docs/research/excel-com/03-excel-object-model-analysis.md).
 For the installed-typelib audit and its runtime boundaries, see [the Prompt 04
 research record](../../docs/research/excel-com/04-core-excel-typelib-audit.md).
+For the explicit Range runtime probe and its current host-blocked result, see
+[the Prompt 05 research record](../../docs/research/excel-com/05-range-variant-safearray-runtime.md).

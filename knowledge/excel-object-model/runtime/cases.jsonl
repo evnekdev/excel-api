@@ -1,0 +1,1 @@
+{"classification":"Inconclusive","detail":"The owned local Excel server rejected Workbooks.Add before a temporary workbook or Range could be created.","id":"runtime.case.host.workbooks-add","schema_version":1,"status":"inconclusive"}
