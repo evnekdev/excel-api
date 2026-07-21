@@ -1,0 +1,6 @@
+# Canonical knowledge-base data and generated reports are byte-deterministic.
+# Keep their checked-out line endings LF even on Windows hosts with autocrlf.
+knowledge/excel-object-model/data/*.jsonl text eol=lf
+knowledge/excel-object-model/data/*.json text eol=lf
+knowledge/excel-object-model/generated/*.md text eol=lf
+knowledge/excel-object-model/generated/analysis/*.md text eol=lf

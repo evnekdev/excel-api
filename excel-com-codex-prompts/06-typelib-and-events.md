@@ -1,4 +1,4 @@
-# Codex Prompt 05 — Audit Excel Events and the Installed Type Library
+# Codex Prompt 06 — Audit Excel Events and the Installed Type Library
 
 ## Objective
 
@@ -13,7 +13,7 @@ Repository: `evnekdev/excel-api`
 Branch:
 
 ```text
-research/excel-com-05-typelib-events
+research/excel-com-06-typelib-events
 ```
 
 ## Required preparation
@@ -25,7 +25,7 @@ Read all prior Excel COM research and the existing RTD type-library audit. Apply
 Create:
 
 ```text
-docs/research/excel-com/05-excel-typelib-and-events.md
+docs/research/excel-com/06-excel-typelib-and-events.md
 tools/excel-com-typelib-audit/
 ```
 

@@ -41,6 +41,11 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             let result = excel_com_kb::generate(&root)?;
             println!("generated {} reports", result.reports);
         }
+        "analyze" => {
+            let root = option_path(&options, "root")?;
+            let result = excel_com_kb::analyze(&root)?;
+            println!("generated {} analysis reports", result.reports);
+        }
         "check" => {
             let root = option_path(&options, "root")?;
             excel_com_kb::check(&root)?;
@@ -78,5 +83,5 @@ fn option_path(
 }
 
 fn usage() -> String {
-    "usage: excel-com-kb <ingest|validate|generate|check> --source <checkout> --manifest <SOURCE_MANIFEST.toml> --output <data-dir>; validation commands use --root <knowledge-root>".to_owned()
+    "usage: excel-com-kb <ingest|validate|generate|analyze|check> --source <checkout> --manifest <SOURCE_MANIFEST.toml> --output <data-dir>; validation commands use --root <knowledge-root>".to_owned()
 }

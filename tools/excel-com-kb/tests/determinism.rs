@@ -1,4 +1,4 @@
-use excel_com_kb::{generate, ingest, validate};
+use excel_com_kb::{analyze, check, generate, ingest, validate};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -67,4 +67,20 @@ fn ingestion_and_generation_are_byte_deterministic_and_portable() {
         first_reports,
         fs::read(root.path().join("generated/object-index.md")).expect("second report")
     );
+    analyze(root.path()).expect("first analysis");
+    let first_analysis = fs::read(
+        root.path()
+            .join("generated/analysis/architectural-spine.md"),
+    )
+    .expect("analysis report");
+    analyze(root.path()).expect("second analysis");
+    assert_eq!(
+        first_analysis,
+        fs::read(
+            root.path()
+                .join("generated/analysis/architectural-spine.md")
+        )
+        .expect("second analysis report")
+    );
+    check(root.path()).expect("checked analysis reports");
 }

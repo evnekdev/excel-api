@@ -59,6 +59,8 @@ cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- ingest `
     --output knowledge/excel-object-model/data
 cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- generate `
     --root knowledge/excel-object-model
+cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- analyze `
+    --root knowledge/excel-object-model
 git diff --check
 ```
 
@@ -78,3 +80,5 @@ assumptions.
 
 For design rationale, limitations, and how later prompts should use the data,
 see [the Prompt 02 research record](../../docs/research/excel-com/02-object-model-knowledge-base.md).
+For the documentation-only object-model analysis generated from the same
+canonical records, see [the Prompt 03 research record](../../docs/research/excel-com/03-excel-object-model-analysis.md).
