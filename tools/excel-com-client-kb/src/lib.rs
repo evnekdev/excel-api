@@ -9,7 +9,10 @@ use std::process::Command;
 
 const RETRIEVED_ON: &str = "2026-07-21";
 const PYWIN32_COMMIT: &str = "a992023bd2d2ef57f8b605b43c1bcc29cdc619e9";
+const PYWIN32_311_COMMIT: &str = "8b328dffac71b7afaf2d72f47c4048f27a32f6c8";
+const PYWIN32_312_COMMIT: &str = "2a277cb5552756c2b4d42b524dc36d25e0bb6354";
 const COMTYPES_COMMIT: &str = "339ea278d85defda3d3c0dba118969021018e5fb";
+const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];
 
 #[derive(Debug, Clone, Copy)]
 struct CorpusMember {
@@ -472,6 +475,7 @@ pub fn generate(root: &Path) -> Result<Summary, String> {
 pub fn check(root: &Path) -> Result<Summary, String> {
     let rendered = render(root)?;
     for (relative, expected) in &rendered.files {
+        reject_mojibake(expected, relative)?;
         let path = root.join(relative);
         let actual = fs::read_to_string(&path).map_err(|_| {
             format!(
@@ -479,6 +483,7 @@ pub fn check(root: &Path) -> Result<Summary, String> {
                 path.display()
             )
         })?;
+        let actual = normalize_line_endings(&actual);
         if actual != *expected {
             return Err(format!(
                 "non-deterministic or hand-edited output: {}",
@@ -500,6 +505,23 @@ pub fn check(root: &Path) -> Result<Summary, String> {
         reports: rendered.reports,
         typelib_joins: CORPUS.len(),
     })
+}
+
+fn normalize_line_endings(text: &str) -> String {
+    text.replace("\r\n", "\n")
+}
+
+fn reject_mojibake(text: &str, relative: &Path) -> Result<(), String> {
+    if let Some(pattern) = MOJIBAKE_PATTERNS
+        .iter()
+        .find(|pattern| text.contains(**pattern))
+    {
+        return Err(format!(
+            "mojibake pattern {pattern:?} in generated output: {}",
+            relative.display()
+        ));
+    }
+    Ok(())
 }
 
 pub fn diagnose(root: &Path, mode: &str, python: Option<&str>) -> Result<(), String> {
@@ -563,8 +585,8 @@ fn render(root: &Path) -> Result<Rendered, String> {
     insert_reports(&mut files, &typelib)?;
     Ok(Rendered {
         files,
-        records: CORPUS.len() * ClientMode::ALL.len() + 28,
-        reports: 13,
+        records: CORPUS.len() * ClientMode::ALL.len() + 37,
+        reports: 16,
     })
 }
 
@@ -661,13 +683,19 @@ fn insert_client_files(
     files.insert(base.join("conversions.jsonl"), conversions(client)?);
     files.insert(base.join("errors.jsonl"), errors(client)?);
     files.insert(base.join("patterns.jsonl"), patterns(client)?);
+    if client == "pywin32" {
+        files.insert(
+            base.join("version-reconciliation.jsonl"),
+            pywin32_version_reconciliation()?,
+        );
+    }
     Ok(())
 }
 
 fn source_manifest(client: &str) -> Result<String, String> {
     let content = match client {
         "pywin32" => format!(
-            "schema_version = 1\nclient = \"pywin32\"\nrepository = \"mhammond/pywin32\"\ncommit = \"{PYWIN32_COMMIT}\"\nretrieved_on = \"{RETRIEVED_ON}\"\nsource_version = \"312.1\"\nlicense = \"BSD-3-Clause\"\nlocally_installed_version = \"311\"\ninstalled_matches_inspected_commit = false\nfiles_inspected = [\n  \"com/win32com/client/__init__.py\",\n  \"com/win32com/client/dynamic.py\",\n  \"com/win32com/client/build.py\",\n  \"com/win32com/client/genpy.py\",\n  \"com/win32com/client/gencache.py\",\n  \"com/win32com/src/PyIDispatch.cpp\",\n  \"com/win32com/src/oleargs.cpp\",\n  \"com/win32com/src/ErrorUtils.cpp\",\n  \"com/win32com/src/PythonCOM.cpp\",\n]\n"
+            "schema_version = 1\nclient = \"pywin32\"\nrepository = \"mhammond/pywin32\"\ncommit = \"{PYWIN32_COMMIT}\"\nretrieved_on = \"{RETRIEVED_ON}\"\nsource_version = \"312.1\"\nlicense = \"BSD-3-Clause\"\n\n[reconciliation]\ninstalled_package_version = \"311\"\ninstalled_source_tag = \"b311\"\ninstalled_source_commit = \"{PYWIN32_311_COMMIT}\"\nreleased_comparison_tag = \"b312\"\nreleased_comparison_commit = \"{PYWIN32_312_COMMIT}\"\ninspected_reference_commit = \"{PYWIN32_COMMIT}\"\nstatus = \"complete for the selected Excel Automation paths\"\ninstalled_version_parity = \"source-confirmed for the selected paths; not byte-identical to 312.1\"\nsource_build_312_1 = \"not installed: isolated build exceeded the bounded diagnostic interval\"\n\nfiles_inspected = [\n  \"com/win32com/client/__init__.py\",\n  \"com/win32com/client/dynamic.py\",\n  \"com/win32com/client/build.py\",\n  \"com/win32com/client/genpy.py\",\n  \"com/win32com/client/gencache.py\",\n  \"com/win32com/src/PyIDispatch.cpp\",\n  \"com/win32com/src/oleargs.cpp\",\n  \"com/win32com/src/ErrorUtils.cpp\",\n  \"com/win32com/src/PythonCOM.cpp\",\n]\n"
         ),
         "comtypes" => format!(
             "schema_version = 1\nclient = \"comtypes\"\nrepository = \"enthought/comtypes\"\ncommit = \"{COMTYPES_COMMIT}\"\nretrieved_on = \"{RETRIEVED_ON}\"\nsource_version = \"1.4.16\"\nlicense = \"MIT\"\nlocally_installed_version = \"1.4.16\"\ninstalled_version_matches_inspected_source = true\ninstalled_exact_commit_match = \"unverified: wheel metadata carries no source commit\"\nfiles_inspected = [\n  \"comtypes/__init__.py\",\n  \"comtypes/automation.py\",\n  \"comtypes/safearray.py\",\n  \"comtypes/_memberspec.py\",\n  \"comtypes/client/__init__.py\",\n  \"comtypes/client/_create.py\",\n  \"comtypes/client/_activeobj.py\",\n  \"comtypes/client/_managing.py\",\n  \"comtypes/client/dynamic.py\",\n  \"comtypes/client/lazybind.py\",\n  \"comtypes/client/_generate.py\",\n  \"comtypes/tools/tlbparser.py\",\n]\n"
@@ -680,21 +708,44 @@ fn source_manifest(client: &str) -> Result<String, String> {
 fn environments(client: &str) -> Result<String, String> {
     let values = match client {
         "pywin32" => vec![
-            json!({"id":"client.pywin32.local-python-311","classification":"Control-confirmed","python_version":"3.11.7","pywin32_version":"311","module_identities":{"win32com":"win32com","pythoncom":"pythoncom"},"com_initialization":{"module":"pythoncom","main_thread":"automatic","sys_coinitialization_flags":null,"source":"PyCOM module initialization reads sys.coinit_flags or defaults to COINIT_APARTMENTTHREADED"},"installed_matches_source_manifest":false,"raw_paths_recorded":false}),
+            json!({"id":"client.pywin32.05d-env-a","classification":"Control-confirmed","environment":"A","python_version":"3.11.7","interpreter_architecture":"x64","package_architecture":"win_amd64","pywin32_version":"311","source_tag":"b311","source_commit":PYWIN32_311_COMMIT,"excel_version":"16.0","office_bitness":"64-bit","wrapper_modes":["dynamic","makepy-generated"],"generated_cache":"isolated per local control mode; path not committed","com_initialization":{"module":"pythoncom","main_thread":"automatic","sys_coinitialization_flags":null,"source":"PyCOM module initialization reads sys.coinit_flags or defaults to COINIT_APARTMENTTHREADED"},"reconciliation":"source-confirmed for selected Automation paths","raw_paths_recorded":false}),
+            json!({"id":"client.pywin32.05d-env-b","classification":"Control-confirmed","environment":"B","python_version":"3.11.7","interpreter_architecture":"x64","package_architecture":"win_amd64","pywin32_version":"312","source_tag":"b312","source_commit":PYWIN32_312_COMMIT,"inspected_reference_version":"312.1","inspected_reference_commit":PYWIN32_COMMIT,"excel_version":"16.0","office_bitness":"64-bit","wrapper_modes":["dynamic","makepy-generated"],"generated_cache":"isolated per local control mode; path not committed","source_build_312_1":"attempted in an isolated environment; bounded build did not complete, no package was retained","reconciliation":"b312 has no material selected Automation-path difference from inspected 312.1 source","raw_paths_recorded":false}),
+            json!({"id":"client.pywin32.local-python-311","classification":"Control-confirmed","python_version":"3.11.7","pywin32_version":"311","module_identities":{"win32com":"win32com","pythoncom":"pythoncom"},"com_initialization":{"module":"pythoncom","main_thread":"automatic","sys_coinitialization_flags":null,"source":"PyCOM module initialization reads sys.coinit_flags or defaults to COINIT_APARTMENTTHREADED"},"installed_matches_source_manifest":"reconciled selected paths","raw_paths_recorded":false}),
             json!({"id":"client.pywin32.dynamic-05c","classification":"Inconclusive","mode":"dynamic","wrapper_classes":{"Application":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbooks":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbook":"not returned"},"activation":"DispatchEx then dynamic.Dispatch","workbooks_add":{"outer_hresult":"0x80020009","excepinfo_scode":"0x800A03EC"},"note":"Current opt-in control did not supersede the preserved Prompt 05B DispatchEx success."}),
-            json!({"id":"client.pywin32.makepy-05c","classification":"Inconclusive","mode":"makepy-generated","wrapper_classes":{"Application":{"class":"_Application","module":"win32com.gen_py.Excel-typelib"},"Workbooks":{"class":"Workbooks","module":"win32com.gen_py.Excel-typelib"},"Workbook":"not returned"},"activation":"gencache.EnsureDispatch","workbooks_add":{"outer_hresult":"0x80020009","excepinfo_scode":"0x800A03EC"},"note":"Generated-wrapper control used pywin32 311; source manifest is pywin32 312.1 and not an exact installed-source match."}),
+            json!({"id":"client.pywin32.makepy-05c","classification":"Inconclusive","mode":"makepy-generated","wrapper_classes":{"Application":{"class":"_Application","module":"win32com.gen_py.Excel-typelib"},"Workbooks":{"class":"Workbooks","module":"win32com.gen_py.Excel-typelib"},"Workbook":"not returned"},"activation":"gencache.EnsureDispatch","workbooks_add":{"outer_hresult":"0x80020009","excepinfo_scode":"0x800A03EC"},"note":"Generated-wrapper control used pywin32 311; selected Automation paths are reconciled in Prompt 05D, but the historic 05C runtime observation remains separately classified."}),
+            json!({"id":"client.pywin32.05d-control-311-dynamic","classification":"Control-confirmed","environment":"A","mode":"dynamic","activation":"DispatchEx then dynamic.Dispatch","wrapper_classes":{"Application":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbooks":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbook":{"class":"CDispatch","module":"win32com.client.dynamic"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
+            json!({"id":"client.pywin32.05d-control-311-generated","classification":"Control-confirmed","environment":"A","mode":"makepy-generated","activation":"gencache.EnsureDispatch","wrapper_classes":{"Application":{"class":"_Application","module":"win32com.gen_py.Excel-typelib"},"Workbooks":{"class":"Workbooks","module":"win32com.gen_py.Excel-typelib"},"Workbook":{"class":"Workbook","module":"win32com.gen_py.Excel-typelib"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
+            json!({"id":"client.pywin32.05d-control-312-dynamic","classification":"Control-confirmed","environment":"B","mode":"dynamic","activation":"DispatchEx then dynamic.Dispatch","wrapper_classes":{"Application":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbooks":{"class":"CDispatch","module":"win32com.client.dynamic"},"Workbook":{"class":"CDispatch","module":"win32com.client.dynamic"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
+            json!({"id":"client.pywin32.05d-control-312-generated","classification":"Control-confirmed","environment":"B","mode":"makepy-generated","activation":"gencache.EnsureDispatch","wrapper_classes":{"Application":{"class":"_Application","module":"win32com.gen_py.Excel-typelib"},"Workbooks":{"class":"Workbooks","module":"win32com.gen_py.Excel-typelib"},"Workbook":{"class":"Workbook","module":"win32com.gen_py.Excel-typelib"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
             json!({"id":"client.pywin32.prompt-05b-preserved-control","classification":"Control-confirmed","activation":"win32com.client.DispatchEx(Excel.Application)","excel_version":"16.0","workbooks_add":"succeeded","created_workbook":"Book1","evidence_boundary":"historical runtime control preserved without reclassification"}),
         ],
         "comtypes" => vec![
+            json!({"id":"client.comtypes.05d-env-c","classification":"Control-confirmed","environment":"C","python_version":"3.11.7","interpreter_architecture":"x64","package_architecture":"x64 pure Python","comtypes_version":"1.4.16","excel_version":"16.0","office_bitness":"64-bit","wrapper_modes":["dynamic","generated"],"generated_cache":"isolated per local control mode; path not committed","raw_paths_recorded":false}),
             json!({"id":"client.comtypes.local-python-311","classification":"Control-confirmed","python_version":"3.11.7","comtypes_version":"1.4.16","module_identities":{"comtypes":"comtypes","comtypes_client":"comtypes.client"},"com_initialization":{"source":"comtypes imports call CoInitializeEx with sys.coinit_flags or COINIT_APARTMENTTHREADED and register a shutdown handler"},"installed_version_matches_source_manifest":true,"installed_exact_commit_match":"unverified: wheel metadata carries no source commit","raw_paths_recorded":false}),
             json!({"id":"client.comtypes.dynamic-05c-initial-control","classification":"Control-confirmed","mode":"dynamic","activation":"comtypes.client.CreateObject(Excel.Application, dynamic=True)","wrapper_classes":{"Application":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbooks":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbook":{"class":"Dispatch","module":"comtypes.client.lazybind"}},"member_resolution":"ITypeComp.Bind followed by the private IDispatch._invoke path","workbooks_add":{"succeeded":true,"zero_argument_dispparams":"cArgs=0, cNamedArgs=0, rgvarg=null, rgdispidNamedArgs=null"},"excel_version":"16.0","created_workbook":"Book1","boundary":"earlier bounded control; preserved separately from the later recheck"}),
             json!({"id":"client.comtypes.dynamic-05c-recheck","classification":"Inconclusive","mode":"dynamic","wrapper_classes":{"Application":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbooks":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbook":"not returned"},"workbooks_add":{"outer_hresult":"0x80020009","excepinfo_scode":"0x800A03EC"},"note":"Later bounded recheck returned Excel's resource exception; it does not supersede the initial control-confirmed observation."}),
             json!({"id":"client.comtypes.generated-05c-initial-control","classification":"Control-confirmed","mode":"generated","activation":"GetModule(Excel typelib) then comtypes.client.CreateObject(Excel.Application)","wrapper_classes":{"Application":{"class":"POINTER(_Application)","module":"comtypes._post_coinit.unknwn"},"Workbooks":{"class":"POINTER(Workbooks)","module":"comtypes._post_coinit.unknwn"},"Workbook":{"class":"POINTER(_Workbook)","module":"comtypes._post_coinit.unknwn"}},"member_resolution":"generated dual-interface vtable bindings for the observed Application, Workbooks, and Workbook chain","workbooks_add":{"succeeded":true,"dispparams":"not used by the vtable call"},"excel_version":"16.0","created_workbook":"Book1","boundary":"earlier bounded control; other corpus members and selected dispinterface paths were not runtime exercised"}),
             json!({"id":"client.comtypes.generated-05c-recheck","classification":"Inconclusive","mode":"generated","wrapper_classes":{"Application":{"class":"POINTER(_Application)","module":"comtypes._post_coinit.unknwn"},"Workbooks":{"class":"POINTER(Workbooks)","module":"comtypes._post_coinit.unknwn"},"Workbook":"not returned"},"workbooks_add":{"outer_hresult":"0x80020009","excepinfo_scode":"0x800A03EC"},"note":"Later bounded recheck returned Excel's resource exception; it does not supersede the initial control-confirmed observation."}),
+            json!({"id":"client.comtypes.05d-control-dynamic","classification":"Control-confirmed","environment":"C","mode":"dynamic","activation":"CreateObject(dynamic=True)","wrapper_classes":{"Application":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbooks":{"class":"Dispatch","module":"comtypes.client.lazybind"},"Workbook":{"class":"Dispatch","module":"comtypes.client.lazybind"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
+            json!({"id":"client.comtypes.05d-control-generated","classification":"Control-confirmed","environment":"C","mode":"generated","activation":"GetModule then CreateObject","wrapper_classes":{"Application":{"class":"POINTER(_Application)","module":"comtypes._post_coinit.unknwn"},"Workbooks":{"class":"POINTER(Workbooks)","module":"comtypes._post_coinit.unknwn"},"Workbook":{"class":"POINTER(_Workbook)","module":"comtypes._post_coinit.unknwn"}},"workbooks_add":{"succeeded":true,"created_workbook":"Book1"},"session_state_recorded":true,"owned_process_exit":true,"raw_identity_values_recorded":false}),
         ],
         _ => return Err(format!("unknown client {client}")),
     };
     json_lines(values)
+}
+
+fn pywin32_version_reconciliation() -> Result<String, String> {
+    json_lines(vec![
+        json!({"id":"pywin32.reconciliation.dynamic-cdispatch","path":"com/win32com/client/dynamic.py","b311_to_312_1":"identical","b312_to_312_1":"identical","scope":"dynamic.CDispatch member lookup and wrapping","conclusion":"installed 311 source supports the inspected dynamic dispatch mechanics"}),
+        json!({"id":"pywin32.reconciliation.pydispatch-invoke","path":"com/win32com/src/PyIDispatch.cpp","b311_to_312_1":"semantically equivalent","b312_to_312_1":"identical","scope":"Invoke, InvokeTypes, reverse rgvarg order, puArgErr, EXCEPINFO, and result conversion","conclusion":"C API modernization does not change the selected Excel Automation behaviour"}),
+        json!({"id":"pywin32.reconciliation.dispatch-selection","path":"com/win32com/client/__init__.py","b311_to_312_1":"changed but irrelevant","b312_to_312_1":"identical","scope":"generated-wrapper QueryInterface fast path","conclusion":"does not alter the examined activation or Invoke spine"}),
+        json!({"id":"pywin32.reconciliation.generated-descriptors","path":"com/win32com/client/build.py","b311_to_312_1":"changed but irrelevant","b312_to_312_1":"identical","scope":"VT_RECORD generated out-parameter metadata","conclusion":"outside the bounded Excel Range Automation corpus"}),
+        json!({"id":"pywin32.reconciliation.generated-cache","path":"com/win32com/client/gencache.py","b311_to_312_1":"semantically equivalent","b312_to_312_1":"identical","scope":"generated-wrapper cache creation and cleanup","conclusion":"cache robustness changes do not alter generated member descriptors"}),
+        json!({"id":"pywin32.reconciliation.generator-output","path":"com/win32com/client/genpy.py","b311_to_312_1":"changed but irrelevant","b312_to_312_1":"identical","scope":"temporary filename and atomic generated-wrapper writes","conclusion":"no selected generated invocation semantics changed"}),
+        json!({"id":"pywin32.reconciliation.error-utils","path":"com/win32com/src/ErrorUtils.cpp","b311_to_312_1":"semantically equivalent","b312_to_312_1":"identical","scope":"EXCEPINFO materialization, deferred fill-in, and BSTR cleanup","conclusion":"C API modernization preserves the examined error mechanics"}),
+        json!({"id":"pywin32.reconciliation.oleargs","path":"com/win32com/src/oleargs.cpp","b311_to_312_1":"materially changed outside bounded corpus","b312_to_312_1":"identical","scope":"PythonOleArgHelper VARIANT and SAFEARRAY conversion","conclusion":"VT_RECORD SAFEARRAY and typed VT_INT changes are material, but ordinary VARIANT, missing, null, and property-put forms used here remain semantically equivalent"}),
+        json!({"id":"pywin32.reconciliation.pythoncom","path":"com/win32com/src/PythonCOM.cpp","b311_to_312_1":"semantically equivalent for local Excel activation","b312_to_312_1":"changed but irrelevant","scope":"CoCreateInstanceEx and COM helper loading","conclusion":"modern local Excel activation remains equivalent; the b312 to 312.1 ObjectFromAddress change is outside this automation path"}),
+    ])
 }
 
 fn activation(client: &str) -> Result<String, String> {
@@ -1135,6 +1186,15 @@ fn insert_reports(
     );
     files.insert(base.join("error-handling-patterns.md"), error_report());
     files.insert(base.join("pywin32-vs-comtypes.md"), comparison_report());
+    files.insert(base.join("pywin32-311-vs-312.md"), pywin32_version_report());
+    files.insert(
+        base.join("source-version-reconciliation.md"),
+        source_version_reconciliation_report(),
+    );
+    files.insert(
+        base.join("implemented-rust-parity.md"),
+        implemented_rust_parity_report(),
+    );
     files.insert(base.join("rust-parity-backlog.md"), parity_report());
     files.insert(base.join("unresolved.md"), unresolved_report());
     Ok(())
@@ -1275,6 +1335,44 @@ fn error_report() -> String {
 fn comparison_report() -> String {
     let mut output = report_header("pywin32 versus comtypes");
     output.push_str("Shared, source-supported rules:\n\n- Automation positional arguments are reversed on `IDispatch::Invoke` paths.\n- Property puts carry `DISPID_PROPERTYPUT` on `IDispatch` paths.\n- Both use LCID 0 by default for their exposed dispatch helpers.\n- Both translate `None` to `VT_NULL`, distinguish an explicit missing marker, and wrap object returns.\n- Both own temporary `VARIANT`/`DISPPARAMS` storage and translate failing HRESULTs to Python exceptions.\n\nImplementation-specific rules:\n\n- pywin32 makepy emits `InvokeTypes` descriptors and can omit trailing `pythoncom.Missing` arguments; dynamic `CDispatch` may still synthesize typed calls from type information.\n- The observed comtypes dynamic path is `lazybind.Dispatch`: it resolves members with `ITypeComp.Bind` and invokes an empty frame with null pointers. The no-type-information `_Dispatch` fallback uses `GetIDsOfNames`.\n- comtypes generated code may switch from IDispatch to a dual-interface vtable binding, and its dynamic `Invoke` rejects arbitrary named keyword arguments.\n- comtypes exposes explicit `VARIANT.missing`, `VARIANT.empty`, and `VARIANT.null` objects; pywin32 exposes `pythoncom.Missing` and special OLE marker objects.\n\nThe successful comtypes controls rule out neither an Excel/session difference nor a Rust defect; no rule here changes the Rust probe.\n");
+    output
+}
+
+fn pywin32_version_report() -> String {
+    let mut output = report_header("pywin32 311 versus 312.1 selected Automation paths");
+    output.push_str(&format!("The installed 311 package was reconciled against its exact upstream `b311` tag `{PYWIN32_311_COMMIT}`, then compared with inspected 312.1 reference `{PYWIN32_COMMIT}`. The released `b312` tag `{PYWIN32_312_COMMIT}` is also compared because a 312.1 wheel was not published for the isolated control environment.\n\n"));
+    output.push_str("| Path / behaviour | b311 to 312.1 | b312 to 312.1 | Bounded conclusion |\n| --- | --- | --- | --- |\n");
+    output.push_str("| `dynamic.py` / `CDispatch` | identical | identical | Dynamic wrapper mechanics are source-matched. |\n");
+    output.push_str("| `PyIDispatch.cpp` / Invoke and InvokeTypes | semantically equivalent | identical | Reverse arguments, `puArgErr`, EXCEPINFO, and result conversion are matched for the bounded corpus. |\n");
+    output.push_str("| `__init__.py`, `build.py`, `genpy.py` | changed but irrelevant | identical | Generated wrapper fast paths, record descriptors, and atomic writer details do not affect the selected spine. |\n");
+    output.push_str("| `gencache.py`, `ErrorUtils.cpp` | semantically equivalent | identical | Cache robustness and C API modernization retain selected semantics. |\n");
+    output.push_str("| `oleargs.cpp` | materially changed outside bounded corpus | identical | VT_RECORD SAFEARRAY and typed VT_INT changed; ordinary VARIANT, missing, null, and property-put forms remain source-equivalent here. |\n");
+    output.push_str("| `PythonCOM.cpp` | semantically equivalent for local Excel activation | changed but irrelevant | The b312 to 312.1 `ObjectFromAddress` change is not in the local Excel activation path. |\n\n");
+    output.push_str("This is a source reconciliation, not a claim that an intermittent Excel result has one source-level cause.\n");
+    output
+}
+
+fn source_version_reconciliation_report() -> String {
+    let mut output = report_header("Client source-version reconciliation");
+    output.push_str("| Client environment | Package / source | Reconciliation result | Boundary |\n| --- | --- | --- | --- |\n");
+    output.push_str(&format!("| pywin32 A | 311 / `b311` `{PYWIN32_311_COMMIT}` | Exact upstream 311 source inspected and classified against 312.1. | Selected Automation paths only. |\n"));
+    output.push_str(&format!("| pywin32 B | 312 / `b312` `{PYWIN32_312_COMMIT}` | Released 312 selected paths are identical to 312.1 except an irrelevant helper change. | 312.1 source build was attempted only in an isolated environment and was not retained after its bounded build interval. |\n"));
+    output.push_str(&format!("| pywin32 reference | 312.1 / `{PYWIN32_COMMIT}` | Retained as the inspected source reference from Prompt 05C. | No unverified wheel-to-commit claim. |\n"));
+    output.push_str("| comtypes C | 1.4.16 | Installed package version matches the inspected source version; wheel commit metadata remains unverified. | Existing Prompt 05C source boundary remains unchanged. |\n\n");
+    output.push_str("The controls use isolated Python 3.11 x64 environments and isolated generated-wrapper caches. Their local paths, raw HWND values, and raw process identities are deliberately absent from committed evidence.\n");
+    output
+}
+
+fn implemented_rust_parity_report() -> String {
+    let mut output = report_header("Implemented Rust parity configurations");
+    output.push_str("Prompt 05D adds research-only configurations to `excel-com-range-probe`; they do not expose a production Excel COM API.\n\n");
+    output.push_str("| Mode | Activation / CLSCTX / IID | LCID | Invocation boundary | Type-info or dual-interface boundary |\n| --- | --- | ---: | --- | --- |\n");
+    output.push_str("| rust-baseline | `CoCreateInstance` / `CLSCTX_LOCAL_SERVER` / `IID_IDispatch` | `0x0400` | raw `IDispatch::Invoke` | retains historical baseline. |\n");
+    output.push_str("| pywin32 dynamic | `CoCreateInstanceEx` / `CLSCTX_SERVER` / `IID_IDispatch` | 0 | raw dispatch comparison with pywin32 source behaviour recorded | no generated descriptor ABI is improvised. |\n");
+    output.push_str("| pywin32 generated | `CoCreateInstance` / `CLSCTX_SERVER` / `IID_IDispatch` | 0 | raw fallback while generated InvokeTypes descriptors are recorded | generated descriptors are evidence, not a hand-emitted ABI. |\n");
+    output.push_str("| comtypes dynamic | `CoCreateInstance` / `CLSCTX_SERVER` / `IID_IDispatch` | 0 | raw dispatch comparison with terminal lazybind `_invoke` mechanics recorded | raw dynamic path only. |\n");
+    output.push_str("| comtypes generated | `CoCreateInstance` / `CLSCTX_SERVER` / `IID_IDispatch` | 0 | raw fallback | generated Rust Excel bindings are unavailable, so no vtable layout is hand-written. |\n\n");
+    output.push_str("All modes initialize the apartment as STA, preserve zero-argument null frame pointers, distinguish omitted/missing/empty/null values, initialize `puArgErr` with `UINT_MAX`, normalize EXCEPINFO with BSTR cleanup, clone returned dispatch before `VariantClear`, and retain `DISPID_PROPERTYPUT` frames. `PROPERTYPUTREF` is unit-tested as a distinct frame form.\n");
     output
 }
 
@@ -1460,6 +1558,9 @@ mod tests {
         assert!(!comtypes.contains(":\\"));
         assert!(comtypes.contains("client/lazybind.py"));
         assert!(comtypes.contains("locally_installed_version = \"1.4.16\""));
+        assert!(pywin.contains(PYWIN32_311_COMMIT));
+        assert!(pywin.contains(PYWIN32_312_COMMIT));
+        assert!(pywin.contains("complete for the selected Excel Automation paths"));
     }
 
     #[test]
@@ -1485,13 +1586,38 @@ mod tests {
         let first = render(&knowledge_root()).expect("first render").files;
         let second = render(&knowledge_root()).expect("second render").files;
         assert_eq!(first, second);
-        assert_eq!(first.len(), 29);
+        assert_eq!(first.len(), 33);
         let property_put = first
             .get(&PathBuf::from(
                 "generated/client-implementations/property-put-patterns.md",
             ))
             .expect("property put report");
         assert!(property_put.contains("DISPID_PROPERTYPUT"));
+    }
+
+    #[test]
+    fn pywin32_version_reconciliation_is_complete_and_portable() {
+        let records = pywin32_version_reconciliation().expect("records");
+        assert!(records.contains("dynamic-cdispatch"));
+        assert!(records.contains("materially changed outside bounded corpus"));
+        assert!(records.contains("semantically equivalent for local Excel activation"));
+        assert!(!records.contains(":\\"));
+        assert!(!records.contains("C:\\"));
+        let report = pywin32_version_report();
+        assert!(report.contains(PYWIN32_311_COMMIT));
+        assert!(report.contains("not a claim that an intermittent Excel result"));
+    }
+
+    #[test]
+    fn generated_reports_reject_known_mojibake_patterns() {
+        let reports = render(&knowledge_root()).expect("reports").files;
+        for (path, content) in reports {
+            if path.starts_with("generated/client-implementations") {
+                reject_mojibake(&content, &path).expect("generated report is valid UTF-8 text");
+            }
+        }
+        assert!(reject_mojibake("Application â†’ Workbooks", Path::new("report.md")).is_err());
+        assert!(reject_mojibake("replacement ï¿½ marker", Path::new("report.md")).is_err());
     }
 
     #[test]

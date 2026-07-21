@@ -1,6 +1,6 @@
 # Client-implementation knowledge base
 
-**Status:** source-derived evidence complete; client controls are recorded separately from Excel runtime evidence. Prompt 05 remains incomplete because the Rust probe still did not receive a workbook.
+**Status:** source-derived evidence complete; client controls are recorded separately from Excel runtime evidence. Prompt 05 remains incomplete because the Rust probe still did not receive a workbook. Prompt 05D reconciles pywin32 311 with the inspected source and records bounded Rust parity experiments in [client parity and workbook recovery](05d-client-parity-and-workbook-recovery.md).
 **Date:** 2026-07-21
 **Baseline:** `origin/master` `7be1a691926862a5a82fb1b3937f6f3f7fb4a60d`
 
@@ -57,7 +57,7 @@ The generated local wrapper supplied the otherwise absent `Application.Hwnd` des
 
 [`CreateObject`](https://github.com/enthought/comtypes/blob/339ea278d85defda3d3c0dba118969021018e5fb/comtypes/client/_create.py) uses `CoCreateInstance` locally and `CoCreateInstanceEx` with server information. `dynamic=True` requests `IDispatch`; with type information it returns [`lazybind.Dispatch`](https://github.com/enthought/comtypes/blob/339ea278d85defda3d3c0dba118969021018e5fb/comtypes/client/lazybind.py), otherwise it falls back to `client.dynamic._Dispatch`. Generated mode loads type information through `GetBestInterface` and may query the selected generated interface.
 
-The generated strategy is mixed by design. The parser follows `GetRefTypeOfImplType(-1)` for a dual dispinterface and emits a typed vtable interface; otherwise `DispMemberGenerator` emits `IDispatch.Invoke` methods. The audited Excel metadata correlates Application, Workbooks, Workbook, and Worksheet as dual candidates, while Worksheets and Range are dispatch-only. The initial generated control confirms the vtable path for the observed Application â†’ Workbooks â†’ Workbook chain; the later recheck is Inconclusive at `Workbooks.Add`, and the remaining selected interfaces were not control-run.
+The generated strategy is mixed by design. The parser follows `GetRefTypeOfImplType(-1)` for a dual dispinterface and emits a typed vtable interface; otherwise `DispMemberGenerator` emits `IDispatch.Invoke` methods. The audited Excel metadata correlates Application, Workbooks, Workbook, and Worksheet as dual candidates, while Worksheets and Range are dispatch-only. The initial generated control confirms the vtable path for the observed Application → Workbooks → Workbook chain; the later recheck is Inconclusive at `Workbooks.Add`, and the remaining selected interfaces were not control-run.
 
 ## 10. COM initialization comparison
 
@@ -127,7 +127,7 @@ This prompt does not choose a Rust public API, crate layout, `AutomationValue` o
 
 ## 24. Unresolved questions
 
-The historical pywin32 success versus current pywin32 311 controls is unresolved. Initial comtypes dynamic and generated controls are confirmed for the Application â†’ Workbooks â†’ Workbook chain, but their later rechecks are Inconclusive and no mode is confirmed for every selected interface. LCID 0 versus `0x0400` has not been isolated, and Range SAFEARRAY runtime shape remains blocked on Rust workbook creation. See [unresolved.md](../../../knowledge/excel-object-model/generated/client-implementations/unresolved.md).
+The historical pywin32 success versus current pywin32 311 controls is unresolved. Initial comtypes dynamic and generated controls are confirmed for the Application → Workbooks → Workbook chain, but their later rechecks are Inconclusive and no mode is confirmed for every selected interface. LCID 0 versus `0x0400` has not been isolated, and Range SAFEARRAY runtime shape remains blocked on Rust workbook creation. See [unresolved.md](../../../knowledge/excel-object-model/generated/client-implementations/unresolved.md).
 
 ## 25. Validation
 

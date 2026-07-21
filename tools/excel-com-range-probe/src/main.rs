@@ -32,6 +32,22 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
                 summary.observations, summary.completed_cases, summary.inconclusive_cases
             );
         }
+        "parity" => {
+            let mode = options
+                .get("mode")
+                .ok_or_else(usage)
+                .and_then(|mode| excel_com_range_probe::ParityMode::parse(mode))?;
+            let fixture = options.get("fixture").map(PathBuf::from);
+            let run_id = options
+                .get("run-id")
+                .map(String::as_str)
+                .unwrap_or("05d-2026-07-21");
+            let summary = excel_com_range_probe::parity(&root, mode, fixture.as_deref(), run_id)?;
+            println!(
+                "captured {} parity observations across {} completed cases ({} inconclusive)",
+                summary.observations, summary.completed_cases, summary.inconclusive_cases
+            );
+        }
         "check" => {
             excel_com_range_probe::check(&root)?;
             println!("runtime evidence and reports are current and deterministic");
@@ -63,6 +79,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|refresh|check> --root <knowledge-root> [--control-script <path>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated>] [--fixture <temporary-xlsx>] [--run-id <id>]"
         .to_owned()
 }

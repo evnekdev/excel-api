@@ -5,8 +5,18 @@ commit = "a992023bd2d2ef57f8b605b43c1bcc29cdc619e9"
 retrieved_on = "2026-07-21"
 source_version = "312.1"
 license = "BSD-3-Clause"
-locally_installed_version = "311"
-installed_matches_inspected_commit = false
+
+[reconciliation]
+installed_package_version = "311"
+installed_source_tag = "b311"
+installed_source_commit = "8b328dffac71b7afaf2d72f47c4048f27a32f6c8"
+released_comparison_tag = "b312"
+released_comparison_commit = "2a277cb5552756c2b4d42b524dc36d25e0bb6354"
+inspected_reference_commit = "a992023bd2d2ef57f8b605b43c1bcc29cdc619e9"
+status = "complete for the selected Excel Automation paths"
+installed_version_parity = "source-confirmed for the selected paths; not byte-identical to 312.1"
+source_build_312_1 = "not installed: isolated build exceeded the bounded diagnostic interval"
+
 files_inspected = [
   "com/win32com/client/__init__.py",
   "com/win32com/client/dynamic.py",
