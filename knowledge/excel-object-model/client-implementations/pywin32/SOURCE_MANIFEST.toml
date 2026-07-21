@@ -1,0 +1,20 @@
+schema_version = 1
+client = "pywin32"
+repository = "mhammond/pywin32"
+commit = "a992023bd2d2ef57f8b605b43c1bcc29cdc619e9"
+retrieved_on = "2026-07-21"
+source_version = "312.1"
+license = "BSD-3-Clause"
+locally_installed_version = "311"
+installed_matches_inspected_commit = false
+files_inspected = [
+  "com/win32com/client/__init__.py",
+  "com/win32com/client/dynamic.py",
+  "com/win32com/client/build.py",
+  "com/win32com/client/genpy.py",
+  "com/win32com/client/gencache.py",
+  "com/win32com/src/PyIDispatch.cpp",
+  "com/win32com/src/oleargs.cpp",
+  "com/win32com/src/ErrorUtils.cpp",
+  "com/win32com/src/PythonCOM.cpp",
+]

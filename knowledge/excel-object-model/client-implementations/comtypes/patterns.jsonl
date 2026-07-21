@@ -1,0 +1,4 @@
+{"classification":"Source-established","id":"comtypes.pattern.activation","rule":"CreateObject(dynamic=True) requests IDispatch; generated mode uses GetBestInterface/type-library generation"}
+{"classification":"Source-established","id":"comtypes.pattern.frames","rule":"IDispatch.Invoke reverses VARIANT arguments and attaches DISPID_PROPERTYPUT for property assignment; arbitrary named keywords are unsupported"}
+{"classification":"Generated-code-established","id":"comtypes.pattern.generated","rule":"TKIND_DISPATCH with a dual reference is generated as a typed vtable interface; ordinary dispinterfaces retain IDispatch.Invoke"}
+{"classification":"Source-established","id":"comtypes.pattern.collections","rule":"dynamic iteration invokes DISPID_NEWENUM and consumes IEnumVARIANT.Next; indexing is an enumeration operation, not proof of Excel Item indexing"}

@@ -1,0 +1,4 @@
+{"classification":"Source-established","id":"pywin32.pattern.activation","rule":"DispatchEx requests IID_IDispatch through CoCreateInstanceEx and then selects a dynamic or generated wrapper"}
+{"classification":"Source-established","id":"pywin32.pattern.frames","rule":"Invoke reverses positional arguments; zero arguments leave both DISPPARAMS pointers null; puts attach DISPID_PROPERTYPUT"}
+{"classification":"Generated-code-established","id":"pywin32.pattern.generated","rule":"makepy emits type descriptors and usually InvokeTypes; omitted generated Missing arguments shrink trailing non-byref arguments"}
+{"classification":"Generated-code-established","id":"pywin32.pattern.collections","rule":"generated and dynamic wrappers use DISPID_NEWENUM/InvokeTypes for iteration and special Item projection for collection indexing"}
