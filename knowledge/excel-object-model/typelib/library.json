@@ -1,0 +1,14 @@
+{
+  "documentation": "Microsoft Excel 16.0 Object Library",
+  "guid": "{00020813-0000-0000-c000-000000000046}",
+  "id": "Excel.TypeLib",
+  "lcid": 0,
+  "library_flags_raw": 8,
+  "major_version": 1,
+  "minor_version": 9,
+  "name": "Excel",
+  "schema_version": 1,
+  "source": "installed-excel-typelib",
+  "syskind": "SYS_WIN32",
+  "type_info_count": 1036
+}

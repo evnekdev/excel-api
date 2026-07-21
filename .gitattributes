@@ -4,3 +4,7 @@ knowledge/excel-object-model/data/*.jsonl text eol=lf
 knowledge/excel-object-model/data/*.json text eol=lf
 knowledge/excel-object-model/generated/*.md text eol=lf
 knowledge/excel-object-model/generated/analysis/*.md text eol=lf
+knowledge/excel-object-model/generated/typelib/*.md text eol=lf
+knowledge/excel-object-model/typelib/*.jsonl text eol=lf
+knowledge/excel-object-model/typelib/*.json text eol=lf
+knowledge/excel-object-model/typelib/*.toml text eol=lf
