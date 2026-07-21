@@ -56,6 +56,34 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             excel_com_range_probe::refresh(&root)?;
             println!("runtime reports refreshed from existing evidence without opening Excel");
         }
+        "kernel-init" => {
+            excel_com_range_probe::raw::initialize(&root)?;
+            println!("windows-sys kernel evidence initialized without opening Excel");
+        }
+        "kernel" => {
+            let backend = options
+                .get("backend")
+                .map(String::as_str)
+                .unwrap_or("raw-windows-sys");
+            let mode = options
+                .get("mode")
+                .map(String::as_str)
+                .unwrap_or("all");
+            let fixture = options.get("fixture").map(PathBuf::from);
+            let action = options.get("action").map(String::as_str).unwrap_or("single");
+            let summary = excel_com_range_probe::raw::run(
+                &root,
+                backend,
+                mode,
+                fixture.as_deref(),
+                action,
+            )?;
+            println!("{summary}");
+        }
+        "kernel-check" => {
+            excel_com_range_probe::raw::check(&root)?;
+            println!("windows-sys kernel evidence and reports are current and deterministic");
+        }
         _ => return Err(usage()),
     }
     Ok(())
@@ -79,6 +107,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated>] [--fixture <temporary-xlsx>] [--run-id <id>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry>] [--fixture <controlled-fixture>] [--run-id <id>]"
         .to_owned()
 }

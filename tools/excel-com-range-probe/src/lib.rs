@@ -10,6 +10,8 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+pub mod raw;
+
 const PROBE_VERSION: u32 = 2;
 const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];
 
@@ -249,6 +251,41 @@ pub fn parity(
         let _ = (root, mode, fixture, run_id);
         Err("Prompt 05D parity probing requires Windows and a locally installed Excel Automation server".to_owned())
     }
+}
+
+/// Execute the pre-existing high-level `windows` control without writing to
+/// the historical Prompt 05 runtime corpus. Prompt 05G persists only this
+/// copied summary in its separate evidence tree.
+#[cfg(windows)]
+pub(crate) fn high_level_kernel_control(
+    knowledge_root: &Path,
+    fixture: Option<&Path>,
+    run_id: &str,
+) -> Result<Value, String> {
+    let capture = windows_live::capture_parity(
+        knowledge_root,
+        ParityMode::RustBaseline,
+        fixture,
+        run_id,
+    )?;
+    let operation = |name| {
+        capture
+            .observations
+            .iter()
+            .find(|record| value_string(record, "parity_operation") == name)
+            .cloned()
+            .unwrap_or(Value::Null)
+    };
+    Ok(json!({
+        "backend": "high-level-windows",
+        "implementation": "existing Prompt 05 high-level windows crate diagnostic, run without persistence",
+        "workbooks_add": operation("workbooks-add"),
+        "workbooks_open": operation("workbooks-open"),
+        "range_smoke": operation("range-smoke"),
+        "completed_cases": capture.cases.iter().filter(|case| value_string(case, "status") == "completed").count(),
+        "inconclusive_cases": capture.cases.iter().filter(|case| value_string(case, "status") != "completed").count(),
+        "raw_pointer_values_recorded": false,
+    }))
 }
 
 pub fn check(root: &Path) -> Result<(), String> {
@@ -711,6 +748,11 @@ fn parity_environment_report(capture: &Capture) -> String {
     for row in rows {
         let state = row.get("session_state").unwrap_or(&Value::Null);
         let process = state.get("owned_process").unwrap_or(&Value::Null);
+        let paths = format!(
+            "startup {}; default {}",
+            session_property_value(state, "startup_path"),
+            session_property_value(state, "default_file_path"),
+        );
         output.push_str(&format!(
             "| `{}` | `{}` | `{}` / `{}` | `{}` / `{}` / `{}` / `{}` | `{}` / `{}` / `{}` | `{}` | `{}` | `{}` |\n",
             value_string(row, "parity_mode"),
@@ -724,11 +766,7 @@ fn parity_environment_report(capture: &Capture) -> String {
             session_property_value(state, "calculation"),
             session_property_value(state, "automation_security"),
             session_property_value(state, "display_alerts"),
-            format!(
-                "startup {}; default {}",
-                session_property_value(state, "startup_path"),
-                session_property_value(state, "default_file_path"),
-            ),
+            paths,
             if value_string(process, "status") == "available" { "recorded" } else { "Not tested" },
             value_string(row, "classification"),
         ));

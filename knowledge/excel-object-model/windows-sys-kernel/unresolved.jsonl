@@ -1,0 +1,2 @@
+{"classification":"Not tested","detail":"Clean/cold/warm/current-session high-level comparison is opt-in and must not replace raw kernel evidence.","id":"unresolved.05g-high-level-comparison","schema_version":1}
+{"classification":"Not tested","detail":"Prompt 05 scalar/rectangle Value and Value2 matrix resumes only after the required 30 fresh-process kernel runs.","id":"unresolved.05g-runtime-matrix","schema_version":1}
