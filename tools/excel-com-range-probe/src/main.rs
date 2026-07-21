@@ -24,6 +24,14 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
                 summary.observations, summary.completed_cases, summary.inconclusive_cases
             );
         }
+        "diagnose" => {
+            let control_script = options.get("control-script").map(PathBuf::from);
+            let summary = excel_com_range_probe::diagnose(&root, control_script.as_deref())?;
+            println!(
+                "captured {} diagnostic/runtime observations across {} completed cases ({} inconclusive)",
+                summary.observations, summary.completed_cases, summary.inconclusive_cases
+            );
+        }
         "check" => {
             excel_com_range_probe::check(&root)?;
             println!("runtime evidence and reports are current and deterministic");
@@ -55,6 +63,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|refresh|check> --root <knowledge-root> [--control-script <path>]"
+    "usage: excel-com-range-probe <live|diagnose|refresh|check> --root <knowledge-root> [--control-script <path>]"
         .to_owned()
 }

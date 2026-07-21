@@ -9,7 +9,7 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-const PROBE_VERSION: u32 = 1;
+const PROBE_VERSION: u32 = 2;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LiveSummary {
@@ -19,22 +19,29 @@ pub struct LiveSummary {
 }
 
 pub fn live(root: &Path, control_script: Option<&Path>) -> Result<LiveSummary, String> {
+    diagnose(root, control_script)
+}
+
+/// Run the opt-in Prompt 05B diagnostic. Existing Prompt 05 evidence is
+/// merged by record ID so the historical blocked observation is never erased.
+pub fn diagnose(root: &Path, control_script: Option<&Path>) -> Result<LiveSummary, String> {
     #[cfg(windows)]
     {
-        let capture = windows_live::capture(root, control_script)?;
+        let fresh = windows_live::capture(root, control_script)?;
         let summary = LiveSummary {
-            observations: capture.observations.len(),
-            completed_cases: capture
+            observations: fresh.observations.len(),
+            completed_cases: fresh
                 .cases
                 .iter()
                 .filter(|case| value_string(case, "status") == "completed")
                 .count(),
-            inconclusive_cases: capture
+            inconclusive_cases: fresh
                 .cases
                 .iter()
                 .filter(|case| value_string(case, "status") != "completed")
                 .count(),
         };
+        let capture = merge_capture(read_capture(root)?, fresh);
         write_capture(root, &capture)?;
         Ok(summary)
     }
@@ -206,6 +213,12 @@ fn reports(capture: &Capture) -> BTreeMap<&'static str, String> {
         "optional-arguments.md",
         observation_report(capture, "Optional Range arguments", "optional"),
     );
+    output.insert(
+        "workbooks-add-diagnostic.md",
+        workbooks_add_diagnostic_report(capture),
+    );
+    output.insert("invocation-frames.md", invocation_frames_report(capture));
+    output.insert("control-comparison.md", control_comparison_report(capture));
     output.insert("controls.md", controls_report(capture));
     output.insert("unresolved.md", unresolved_report(capture));
     output
@@ -314,6 +327,124 @@ fn controls_report(capture: &Capture) -> String {
     output
 }
 
+fn workbooks_add_diagnostic_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Workbooks.Add diagnostic",
+        "This report compares only the explicit Prompt 05B dispatch frames; it does not turn a control projection into raw ABI evidence.",
+    );
+    output.push_str("| Case | Target | Audited/runtime DISPID | Flags | LCID | Args/named | HRESULT | Result VARTYPE | Workbook/cleanup |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .observations
+        .iter()
+        .filter(|record| {
+            value_string(record, "case_id").starts_with("workbooks.")
+                || value_string(record, "id") == "runtime.control.pywin32-dispatchex-workbooks-add"
+        })
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str("| -- | -- | -- | -- | -- | -- | No diagnostic captured. | -- | -- |\n");
+    }
+    for row in rows {
+        if value_string(row, "classification") == "Control-confirmed" {
+            output.push_str(&format!(
+                "| `pywin32-control` | `{}` | -- | -- | -- | -- | `{}` | Projection only | `{}` |\n",
+                markdown_cell(&value_string(row, "activation")),
+                markdown_cell(&value_string(row, "workbooks_add")),
+                markdown_cell(&value_string(row, "created_workbook")),
+            ));
+            continue;
+        }
+        let frame = row.get("frame").unwrap_or(&Value::Null);
+        let hresult = row
+            .get("returned_hresult")
+            .and_then(|value| value.get("hex"))
+            .and_then(Value::as_str)
+            .unwrap_or("--");
+        output.push_str(&format!(
+            "| `{}` | `{}` | {}/{} | `{}` | `{}` | {}/{} | `{}` | `{}` | {} |\n",
+            markdown_cell(&value_string(row, "case_id")),
+            markdown_cell(&value_string(row, "canonical_owner")),
+            value_string(row, "audited_dispid"),
+            value_string(row, "runtime_resolved_dispid"),
+            markdown_cell(&value_string(row, "invoke_flags")),
+            value_string(row, "lcid"),
+            value_string(frame, "c_args"),
+            value_string(frame, "c_named_args"),
+            hresult,
+            markdown_cell(&value_string(row, "result_vartype_after_call")),
+            markdown_cell(&compact_json(row.get("cleanup_result"))),
+        ));
+    }
+    output
+}
+
+fn invocation_frames_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Raw invocation frames",
+        "All values below are copied diagnostics: nullness is recorded, but raw pointer addresses are never persisted.",
+    );
+    output.push_str("| Case | Member | GetIDsOfNames DISPID | Frame | EXCEPINFO | puArgErr | Result ownership |\n| --- | --- | --- | --- | --- | --- | --- |\n");
+    let mut rows = capture
+        .observations
+        .iter()
+        .filter(|record| {
+            record
+                .get("categories")
+                .and_then(Value::as_array)
+                .is_some_and(|categories| {
+                    categories
+                        .iter()
+                        .any(|category| category.as_str() == Some("invocation"))
+                })
+        })
+        .collect::<Vec<_>>();
+    rows.sort_by_key(|record| value_string(record, "id"));
+    if rows.is_empty() {
+        output.push_str("| -- | -- | -- | No invocation diagnostic captured. | -- | -- | -- |\n");
+    }
+    for row in rows {
+        output.push_str(&format!(
+            "| `{}` | `{}` | `{}` | {} | {} | {} | {} |\n",
+            markdown_cell(&value_string(row, "case_id")),
+            markdown_cell(&value_string(row, "member_name")),
+            value_string(row, "runtime_resolved_dispid"),
+            markdown_cell(&compact_json(row.get("frame"))),
+            markdown_cell(&compact_json(row.get("excepinfo"))),
+            markdown_cell(&compact_json(row.get("pu_arg_err"))),
+            markdown_cell(&value_string(row, "result_ownership_state")),
+        ));
+    }
+    output
+}
+
+fn control_comparison_report(capture: &Capture) -> String {
+    let mut output = report_header(
+        "Control comparison",
+        "Independent controls establish only their own projection-level result; raw VARIANT and SAFEARRAY claims remain limited to the owned raw probe.",
+    );
+    output.push_str("| Control | Activation | Result | Boundary |\n| --- | --- | --- | --- |\n");
+    let mut controls = capture
+        .observations
+        .iter()
+        .filter(|record| value_string(record, "classification") == "Control-confirmed")
+        .collect::<Vec<_>>();
+    controls.sort_by_key(|record| value_string(record, "id"));
+    if controls.is_empty() {
+        output.push_str("| -- | -- | No independent control captured. | -- |\n");
+    }
+    for control in controls {
+        output.push_str(&format!(
+            "| `{}` | `{}` | Workbooks.Add: `{}`; workbook: `{}` | No raw VARIANT or SAFEARRAY inference. |\n",
+            markdown_cell(&value_string(control, "client")),
+            markdown_cell(&value_string(control, "activation")),
+            markdown_cell(&value_string(control, "workbooks_add")),
+            markdown_cell(&value_string(control, "created_workbook")),
+        ));
+    }
+    output
+}
+
 fn unresolved_report(capture: &Capture) -> String {
     let mut output = report_header(
         "Unresolved runtime questions",
@@ -362,7 +493,7 @@ fn compact_json(value: Option<&Value>) -> String {
 
 fn runtime_manifest(control_version: &str) -> String {
     format!(
-        "schema_version = 1\nprobe_version = {PROBE_VERSION}\nbase_repository_commit = \"2ac52effadafe6cd5b95b448f356a62389fa54f2\"\ndocumentation_source_pin = \"b2cda886ea91e36c62eb1cb177133ad024ecd345\"\ntypelib_guid = \"{{00020813-0000-0000-C000-000000000046}}\"\ntypelib_version = \"1.9\"\nexcel_file_version = \"16.0.20131.20154\"\noffice_bitness = \"64-bit\"\nwindows_version = \"Windows 10 Enterprise 25H2 build 26200.8875\"\nlocale = \"not-recorded-by-raw-probe\"\nlist_separator = \"not-recorded-by-raw-probe\"\ndecimal_separator = \"not-recorded-by-raw-probe\"\ndate_system = \"not-recorded-by-raw-probe\"\ncalculation_mode_before = \"not-recorded-by-raw-probe\"\ncalculation_mode_after = \"not-recorded-by-raw-probe\"\nexecution_date = \"2026-07-21\"\ncontrol_version = \"{}\"\nprocess_isolation = \"CoCreateInstance local server; require Hwnd-to-PID/start-time identity before Range work; host-blocked runs record incomplete cleanup explicitly\"\n",
+        "schema_version = 1\nprobe_version = {PROBE_VERSION}\nprompt_05_start_origin_master_commit = \"2ac52effadafe6cd5b95b448f356a62389fa54f2\"\nprompt_05b_start_origin_master_commit = \"dbbc9600af2628b45e3f05431ce168102ad9e6ae\"\ndocumentation_source_pin = \"b2cda886ea91e36c62eb1cb177133ad024ecd345\"\ntypelib_guid = \"{{00020813-0000-0000-C000-000000000046}}\"\ntypelib_version = \"1.9\"\nexcel_file_version = \"16.0.20131.20154\"\noffice_bitness = \"64-bit\"\nwindows_version = \"Windows 10 Enterprise 25H2 build 26200.8875\"\nlocale = \"LOCALE_USER_DEFAULT (0x0400) for Prompt 05B raw calls\"\nlist_separator = \"not-recorded-by-raw-probe\"\ndecimal_separator = \"not-recorded-by-raw-probe\"\ndate_system = \"not-recorded-by-raw-probe\"\ncalculation_mode_before = \"not-recorded-by-raw-probe\"\ncalculation_mode_after = \"not-recorded-by-raw-probe\"\nexecution_date = \"2026-07-21\"\ncontrol_version = \"{}\"\nprocess_isolation = \"CoCreateInstance local server; require Hwnd-to-PID/start-time identity before Range work; close only created workbooks; record bounded cleanup exactly\"\n",
         escape_toml(control_version)
     )
 }
@@ -376,25 +507,30 @@ mod windows_live {
     use super::*;
     use std::mem::ManuallyDrop;
     use std::process::Command;
+    use std::thread;
+    use std::time::{Duration, Instant};
     use windows::Win32::Foundation::{CloseHandle, FILETIME, HWND, WAIT_OBJECT_0};
+    use windows::Win32::Globalization::LOCALE_USER_DEFAULT;
     use windows::Win32::System::Com::{
         CLSCTX_LOCAL_SERVER, COINIT_APARTMENTTHREADED, CY, CoCreateInstance, CoInitializeEx,
-        CoUninitialize, DISPATCH_METHOD, DISPATCH_PROPERTYGET, DISPATCH_PROPERTYPUT, DISPPARAMS,
-        IDispatch, SAFEARRAYBOUND,
+        CoUninitialize, DISPATCH_FLAGS, DISPATCH_METHOD, DISPATCH_PROPERTYGET,
+        DISPATCH_PROPERTYPUT, DISPPARAMS, EXCEPINFO, IDispatch, SAFEARRAYBOUND,
     };
     use windows::Win32::System::Ole::{
         DISPID_PROPERTYPUT, SafeArrayCreate, SafeArrayGetDim, SafeArrayGetElement,
         SafeArrayGetLBound, SafeArrayGetUBound, SafeArrayGetVartype, SafeArrayPutElement,
     };
     use windows::Win32::System::Threading::{
-        GetProcessTimes, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION, PROCESS_SYNCHRONIZE,
-        WaitForSingleObject,
+        GetCurrentThreadId, GetProcessTimes, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION,
+        PROCESS_SYNCHRONIZE, WaitForSingleObject,
     };
     use windows::Win32::System::Variant::{
         VARENUM, VARIANT, VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_EMPTY,
         VT_ERROR, VT_I4, VT_NULL, VT_R8, VT_VARIANT, VariantClear,
     };
-    use windows::Win32::UI::WindowsAndMessaging::GetWindowThreadProcessId;
+    use windows::Win32::UI::WindowsAndMessaging::{
+        DispatchMessageW, GetWindowThreadProcessId, MSG, PM_REMOVE, PeekMessageW, TranslateMessage,
+    };
     use windows::core::{BSTR, GUID, HSTRING, PCWSTR};
 
     const DISPID_APPLICATION_WORKBOOKS: i32 = 572;
@@ -402,8 +538,6 @@ mod windows_live {
     const DISPID_APPLICATION_ACTIVE_SHEET: i32 = 307;
     const DISPID_WORKBOOK_CLOSE: i32 = 277;
     const DISPID_APPLICATION_QUIT: i32 = 302;
-    const DISPID_APPLICATION_VISIBLE: i32 = 558;
-    const DISPID_APPLICATION_DISPLAY_ALERTS: i32 = 343;
     const DISPID_WORKSHEET_RANGE: i32 = 197;
     const DISPID_RANGE_VALUE: i32 = 6;
     const DISPID_RANGE_VALUE2: i32 = 1388;
@@ -411,23 +545,61 @@ mod windows_live {
     const DISPID_RANGE_FORMULA2: i32 = 1580;
     const DISPID_RANGE_TEXT: i32 = 138;
     const DISPID_RANGE_HAS_FORMULA: i32 = 1382;
+    const DISPID_RANGE_CLEAR: i32 = 111;
     const DISP_E_PARAMNOTFOUND: i32 = -2_147_352_572;
+    const INVOKE_LCID: u32 = LOCALE_USER_DEFAULT;
+    const INVOKE_LCID_POLICY: &str = "LOCALE_USER_DEFAULT (0x0400)";
 
     pub(super) fn capture(root: &Path, control_script: Option<&Path>) -> Result<Capture, String> {
         let apartment = Apartment::initialize()?;
+        let apartment_record = apartment.record();
         let mut session = match Session::create(root) {
             Ok(session) => session,
-            Err(error) => {
+            Err(failure) => {
                 drop(apartment);
-                return Ok(blocked_capture(&error));
+                return Ok(blocked_capture(failure, apartment_record));
             }
         };
-        let mut observations = Vec::new();
+        let pywin32_control = pywin32_control_record();
+        let mut observations = vec![pywin32_control.clone()];
+        observations.extend(session.take_invocation_observations());
         let mut cases = Vec::new();
         let mut unresolved = standard_unresolved();
-        let control = run_control(control_script);
-        let result = session.run_cases(&mut observations, &mut cases, control.as_ref());
+        let add_diagnostic_result =
+            session.workbooks_add_optional_diagnostics(&mut observations, &mut cases);
+        observations.extend(session.take_invocation_observations());
+        let result = add_diagnostic_result.and_then(|()| {
+            if session.workbook.is_some() {
+                session.run_cases(&mut observations, &mut cases, None)
+            } else {
+                let error = session.primary_add_failure.clone().unwrap_or_else(|| {
+                    "No Workbooks.Add diagnostic representation returned an owned workbook dispatch object"
+                        .to_owned()
+                });
+                cases.push(case(
+                    "range.runtime-matrix",
+                    "inconclusive",
+                    "No Workbooks.Add representation returned a retained owned workbook, so the Range smoke test and full Prompt 05 matrix were not entered.",
+                ));
+                Err(error)
+            }
+        });
+        let control = if result.is_ok() {
+            run_control(control_script)
+        } else {
+            None
+        };
         let cleanup = session.cleanup();
+        observations.push(json!({
+            "schema_version": 1,
+            "id": "runtime.cleanup.05b-owned-excel",
+            "case_id": "cleanup.owned-excel",
+            "classification": "Runtime-observed",
+            "categories": ["cleanup", "workbooks-add-diagnostic"],
+            "environment_id": "excel-16.0.20131.20154-win64-05b",
+            "cleanup": cleanup.clone(),
+            "raw_pointer_values_recorded": false,
+        }));
         drop(apartment);
         if let Err(error) = result {
             unresolved.push(json!({
@@ -453,16 +625,19 @@ mod windows_live {
         }
         let environment = json!({
             "schema_version": 1,
-            "id": "excel-16.0.20131.20154-win64",
+            "id": "excel-16.0.20131.20154-win64-05b",
             "classification": "Version-specific",
             "excel_file_version": "16.0.20131.20154",
             "office_bitness": "64-bit",
             "typelib_guid": "{00020813-0000-0000-C000-000000000046}",
             "typelib_version": "1.9",
             "windows_version": "Windows 10 Enterprise 25H2 build 26200.8875",
+            "pre_workbook_application_configuration": "none; Visible and DisplayAlerts were not changed before Workbooks.Add",
             "owned_process": session.identity,
+            "apartment": apartment_record,
             "cleanup": cleanup,
             "control": control,
+            "pywin32_control": pywin32_control,
             "source": "isolated-raw-com-probe"
         });
         let control_version = control
@@ -479,51 +654,78 @@ mod windows_live {
         })
     }
 
-    fn blocked_capture(error: &str) -> Capture {
+    fn blocked_capture(failure: CreateFailure, apartment: Value) -> Capture {
+        let pywin32_control = pywin32_control_record();
+        let mut observations = vec![pywin32_control.clone()];
+        observations.extend(
+            failure
+                .invocation_diagnostics
+                .into_iter()
+                .map(invocation_observation),
+        );
+        observations.push(json!({
+            "schema_version": 1,
+            "id": "runtime.cleanup.05b-owned-excel",
+            "case_id": "cleanup.owned-excel",
+            "classification": "Runtime-observed",
+            "categories": ["cleanup", "workbooks-add-diagnostic"],
+            "environment_id": "excel-16.0.20131.20154-win64-05b",
+            "cleanup": failure.cleanup.clone(),
+            "raw_pointer_values_recorded": false,
+        }));
         Capture {
-            manifest: runtime_manifest("not-run-host-blocked"),
+            manifest: runtime_manifest("not-run-after-raw-workbooks-add-failure"),
             environments: vec![json!({
                 "schema_version": 1,
-                "id": "excel-16.0.20131.20154-win64",
+                "id": "excel-16.0.20131.20154-win64-05b",
                 "classification": "Version-specific",
                 "excel_file_version": "16.0.20131.20154",
                 "office_bitness": "64-bit",
                 "typelib_guid": "{00020813-0000-0000-C000-000000000046}",
                 "typelib_version": "1.9",
                 "windows_version": "Windows 10 Enterprise 25H2 build 26200.8875",
-                "process_isolation": "CoCreateInstance created an isolated local server; setup aborted before workbook creation and no Range call was made.",
-                "cleanup": {
-                    "workbook_created": false,
-                    "excel_quit_requested_by_drop_guard": true,
-                    "process_exit_verified_by_probe": false,
-                    "forced_termination": false
-                },
-                "source": "isolated-raw-com-probe-host-blocked"
+                "process_isolation": "CoCreateInstance created an isolated local server; the recorded diagnostic failed before the primary workbook could be retained and no Range call was made.",
+                "owned_process": failure.identity,
+                "apartment": apartment,
+                "cleanup": failure.cleanup,
+                "pywin32_control": pywin32_control,
+                "source": "isolated-raw-com-probe-05b-diagnostic"
             })],
-            observations: Vec::new(),
+            observations,
             cases: vec![case(
-                "host.workbooks-add",
+                "workbooks-add.diagnostic-start",
                 "inconclusive",
-                "The owned local Excel server rejected Workbooks.Add before a temporary workbook or Range could be created.",
+                "The owned local Excel server rejected the recorded Workbooks.Add diagnostic before a temporary workbook or Range could be created.",
             )],
             unresolved: vec![json!({
                 "schema_version": 1,
-                "id": "runtime.unresolved.host-workbooks-add",
+                "id": "runtime.unresolved.05b-workbooks-add-diagnostic",
                 "target": "Excel.Workbooks.Add on dedicated local server",
                 "classification": "Inconclusive",
-                "detail": error,
-                "hresult": "0x800A03EC",
-                "effect": "No Range runtime observation was captured. The session drop guard requested Excel.Quit and did not terminate any process."
+                "detail": failure.message,
+                "effect": "No Range runtime observation was captured. The owned-session cleanup path requested Excel.Quit and did not terminate any process."
             })],
         }
     }
 
-    struct Apartment;
+    struct Apartment {
+        thread_id: u32,
+    }
     impl Apartment {
         fn initialize() -> Result<Self, String> {
             unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED).ok() }
                 .map_err(|error| format!("cannot initialize the probe COM apartment: {error}"))?;
-            Ok(Self)
+            Ok(Self {
+                thread_id: unsafe { GetCurrentThreadId() },
+            })
+        }
+
+        fn record(&self) -> Value {
+            json!({
+                "co_initialize_ex": "COINIT_APARTMENTTHREADED",
+                "thread_id": self.thread_id,
+                "message_pump_availability": "no custom pump; bounded synchronous local-server calls only",
+            })
         }
     }
     impl Drop for Apartment {
@@ -661,60 +863,199 @@ mod windows_live {
     }
 
     struct Session {
-        app: IDispatch,
+        app: Option<IDispatch>,
+        workbooks: Option<IDispatch>,
         workbook: Option<IDispatch>,
         identity: Value,
         process_handle: windows::Win32::Foundation::HANDLE,
+        invocation_diagnostics: Vec<Value>,
+        primary_add_failure: Option<String>,
+    }
+
+    struct CreateFailure {
+        message: String,
+        invocation_diagnostics: Vec<Value>,
+        identity: Value,
+        cleanup: Value,
+    }
+
+    impl CreateFailure {
+        fn before_session(message: String) -> Self {
+            Self {
+                message,
+                invocation_diagnostics: Vec::new(),
+                identity: Value::Null,
+                cleanup: json!({
+                    "workbook_closed": false,
+                    "excel_quit_requested": false,
+                    "process_exited": false,
+                    "forced_termination": false,
+                    "stage": "before-session-creation",
+                }),
+            }
+        }
     }
 
     impl Session {
-        fn create(root: &Path) -> Result<Self, String> {
-            let class_id = excel_application_clsid(root)?;
+        fn create(root: &Path) -> Result<Self, CreateFailure> {
+            let class_id = excel_application_clsid(root).map_err(CreateFailure::before_session)?;
             let app =
                 unsafe { CoCreateInstance::<_, IDispatch>(&class_id, None, CLSCTX_LOCAL_SERVER) }
                     .map_err(|error| {
-                    format!("cannot create a dedicated Excel local server: {error}")
+                    CreateFailure::before_session(format!(
+                        "cannot create a dedicated Excel local server: {error}"
+                    ))
                 })?;
             let mut session = Self {
-                app,
+                app: Some(app),
+                workbooks: None,
                 workbook: None,
                 identity: Value::Null,
                 process_handle: windows::Win32::Foundation::HANDLE::default(),
+                invocation_diagnostics: Vec::new(),
+                primary_add_failure: None,
             };
-            session.set_property(
-                &session.app,
-                DISPID_APPLICATION_VISIBLE,
-                "Visible",
-                VariantOwner::from_value(VARIANT::from(false)),
-            )?;
-            session.set_property(
-                &session.app,
-                DISPID_APPLICATION_DISPLAY_ALERTS,
-                "DisplayAlerts",
-                VariantOwner::from_value(VARIANT::from(false)),
-            )?;
-            session.identity = session.verify_owned_process()?;
-            let workbooks = session.get_dispatch(
-                &session.app,
+            // Match the supplied DispatchEx control through Workbooks.Add:
+            // do not alter Application.Visible or DisplayAlerts before the
+            // primary diagnostic. Those settings are not needed to own or
+            // close this temporary workbook and would add another raw frame
+            // before the failing operation.
+            match session.verify_owned_process() {
+                Ok(identity) => session.identity = identity,
+                Err(error) => return Err(session.creation_failure(error)),
+            }
+            let application = session
+                .app
+                .as_ref()
+                .expect("session has its Application dispatch during creation")
+                .clone();
+            let workbooks = match session.diagnostic_get_dispatch(
+                &application,
                 DISPID_APPLICATION_WORKBOOKS,
                 "Workbooks",
                 "Excel.Application.Workbooks",
-            )?;
-            let workbook = session.call_dispatch(
+                "workbooks.application-property-get",
+                "Excel.Application/_Application",
+            ) {
+                Ok(workbooks) => workbooks,
+                Err(error) => return Err(session.creation_failure(error)),
+            };
+            let workbook = match session.diagnostic_call_dispatch(
                 &workbooks,
                 DISPID_WORKBOOKS_ADD,
                 "Add",
                 "Excel.Workbooks.Add",
+                "workbooks.add.zero-argument",
+                "Excel.Workbooks/Workbooks",
+                DISPATCH_METHOD,
                 Vec::new(),
-            )?;
-            session.workbook = Some(workbook);
+            ) {
+                Ok(workbook) => Some(workbook),
+                Err(primary_error) => {
+                    match session.retry_workbooks_add(&workbooks, primary_error) {
+                        Ok(workbook) => Some(workbook),
+                        Err(error) => {
+                            session.primary_add_failure = Some(error);
+                            None
+                        }
+                    }
+                }
+            };
+            session.workbooks = Some(workbooks);
+            session.workbook = workbook;
             Ok(session)
+        }
+
+        fn creation_failure(&mut self, message: String) -> CreateFailure {
+            let cleanup = self.cleanup();
+            CreateFailure {
+                message,
+                invocation_diagnostics: std::mem::take(&mut self.invocation_diagnostics),
+                identity: self.identity.clone(),
+                cleanup,
+            }
+        }
+
+        fn retry_workbooks_add(
+            &mut self,
+            workbooks: &IDispatch,
+            primary_error: String,
+        ) -> Result<IDispatch, String> {
+            let mut attempts = vec![format!("immediate DISPATCH_METHOD: {primary_error}")];
+            thread::sleep(Duration::from_millis(500));
+            match self.diagnostic_call_dispatch(
+                workbooks,
+                DISPID_WORKBOOKS_ADD,
+                "Add",
+                "Excel.Workbooks.Add",
+                "workbooks.add.delay-500ms",
+                "Excel.Workbooks/Workbooks",
+                DISPATCH_METHOD,
+                Vec::new(),
+            ) {
+                Ok(workbook) => return Ok(workbook),
+                Err(error) => attempts.push(format!("500 ms delay DISPATCH_METHOD: {error}")),
+            }
+            pump_messages_for(Duration::from_millis(500));
+            match self.diagnostic_call_dispatch(
+                workbooks,
+                DISPID_WORKBOOKS_ADD,
+                "Add",
+                "Excel.Workbooks.Add",
+                "workbooks.add.message-pump-500ms",
+                "Excel.Workbooks/Workbooks",
+                DISPATCH_METHOD,
+                Vec::new(),
+            ) {
+                Ok(workbook) => return Ok(workbook),
+                Err(error) => {
+                    attempts.push(format!("500 ms message pump DISPATCH_METHOD: {error}"))
+                }
+            }
+            thread::sleep(Duration::from_millis(2_000));
+            match self.diagnostic_call_dispatch(
+                workbooks,
+                DISPID_WORKBOOKS_ADD,
+                "Add",
+                "Excel.Workbooks.Add",
+                "workbooks.add.delay-2000ms",
+                "Excel.Workbooks/Workbooks",
+                DISPATCH_METHOD,
+                Vec::new(),
+            ) {
+                Ok(workbook) => return Ok(workbook),
+                Err(error) => attempts.push(format!("2,000 ms delay DISPATCH_METHOD: {error}")),
+            }
+            match self.diagnostic_call_dispatch(
+                workbooks,
+                DISPID_WORKBOOKS_ADD,
+                "Add",
+                "Excel.Workbooks.Add",
+                "workbooks.add.combined-method-propertyget",
+                "Excel.Workbooks/Workbooks",
+                DISPATCH_METHOD | DISPATCH_PROPERTYGET,
+                Vec::new(),
+            ) {
+                Ok(workbook) => Ok(workbook),
+                Err(error) => {
+                    attempts.push(format!("combined method/property-get: {error}"));
+                    Err(attempts.join("; "))
+                }
+            }
         }
 
         fn verify_owned_process(&mut self) -> Result<Value, String> {
             let hwnd_value = invoke(
-                &self.app,
-                name_dispid(&self.app, "Hwnd").map_err(|error| error.to_string())?,
+                self.app
+                    .as_ref()
+                    .ok_or_else(|| "owned Application dispatch was released".to_owned())?,
+                name_dispid(
+                    self.app
+                        .as_ref()
+                        .ok_or_else(|| "owned Application dispatch was released".to_owned())?,
+                    "Hwnd",
+                )
+                .map_err(|error| error.to_string())?,
                 DISPATCH_PROPERTYGET,
                 Vec::new(),
                 false,
@@ -768,11 +1109,14 @@ mod windows_live {
             control: Option<&Value>,
         ) -> Result<(), String> {
             let sheet = self.get_dispatch(
-                &self.app,
+                self.app
+                    .as_ref()
+                    .ok_or_else(|| "owned Application dispatch was released".to_owned())?,
                 DISPID_APPLICATION_ACTIVE_SHEET,
                 "ActiveSheet",
                 "Excel.Application.ActiveSheet",
             )?;
+            self.range_smoke(&sheet, observations, cases)?;
             self.populate_fixture(&sheet, observations, cases)?;
             self.read_scalars(&sheet, observations, cases, control)?;
             self.read_shapes(&sheet, observations, cases, control)?;
@@ -781,6 +1125,171 @@ mod windows_live {
             self.write_matrices(&sheet, observations, cases)?;
             self.optional_arguments(&sheet, observations, cases)?;
             self.stress(&sheet, observations, cases)?;
+            Ok(())
+        }
+
+        fn workbooks_add_optional_diagnostics(
+            &mut self,
+            observations: &mut Vec<Value>,
+            cases: &mut Vec<Value>,
+        ) -> Result<(), String> {
+            cases.push(case(
+                "workbooks.add.zero-argument",
+                "completed",
+                "The primary Workbooks.Add diagnostic used DISPATCH_METHOD with cArgs=0, cNamedArgs=0, and null argument pointers.",
+            ));
+            let workbooks = self.workbooks.clone().ok_or_else(|| {
+                "Workbooks.Add diagnostic lacks the returned Workbooks dispatch object".to_owned()
+            })?;
+            let matrix = vec![
+                (
+                    "workbooks.add.missing-marker",
+                    "VT_ERROR/DISP_E_PARAMNOTFOUND",
+                    VariantOwner::error(DISP_E_PARAMNOTFOUND),
+                    "explicit missing-marker argument",
+                ),
+                (
+                    "workbooks.add.empty",
+                    "VT_EMPTY",
+                    VariantOwner::empty(),
+                    "explicit empty argument",
+                ),
+                (
+                    "workbooks.add.null",
+                    "VT_NULL",
+                    VariantOwner::null(),
+                    "explicit null argument",
+                ),
+                (
+                    "workbooks.add.xl-wbat-worksheet",
+                    "VT_I4(-4167)",
+                    VariantOwner::from_value(VARIANT::from(-4167_i32)),
+                    "Excel.XlWBATemplate.xlWBATWorksheet from the committed documentation evidence",
+                ),
+            ];
+            for (case_id, input, argument, source) in matrix {
+                match self.diagnostic_member(
+                    &workbooks,
+                    case_id,
+                    "Excel.Workbooks/Workbooks",
+                    "Add",
+                    DISPID_WORKBOOKS_ADD,
+                    DISPATCH_METHOD,
+                    InvocationFrame::positional(vec![argument]),
+                ) {
+                    Ok(mut invocation) => {
+                        match dispatch_from_variant(&invocation.result.value) {
+                            Some(workbook) => {
+                                let retain_for_range = self.workbook.is_none();
+                                if retain_for_range {
+                                    self.workbook = Some(workbook.clone());
+                                }
+                                invocation.diagnostic["workbook_created"] = Value::Bool(true);
+                                invocation.diagnostic["created_workbook_dispatch"] =
+                                    dispatch_type_record(&workbook);
+                                invocation.diagnostic["retained_for_range_smoke"] =
+                                    Value::Bool(retain_for_range);
+                                invocation.diagnostic["cleanup_result"] = if retain_for_range {
+                                    json!({
+                                        "workbook_close": "deferred to the owned-session cleanup after the Range smoke and matrix",
+                                        "forced_termination": false,
+                                    })
+                                } else {
+                                    match invoke(
+                                        &workbook,
+                                        DISPID_WORKBOOK_CLOSE,
+                                        DISPATCH_METHOD,
+                                        vec![VariantOwner::from_value(VARIANT::from(false))],
+                                        false,
+                                    ) {
+                                        Ok(value) => json!({
+                                            "workbook_close": "succeeded",
+                                            "workbook_close_result": describe_variant(&value.value),
+                                            "forced_termination": false,
+                                        }),
+                                        Err(error) => json!({
+                                            "workbook_close": "failed",
+                                            "hresult": hresult_json(error.code().0),
+                                            "forced_termination": false,
+                                        }),
+                                    }
+                                };
+                            }
+                            None => {
+                                invocation.diagnostic["workbook_created"] = Value::Bool(false);
+                                invocation.diagnostic["cleanup_result"] = json!({
+                                    "workbook_close": "not-attempted; Add did not return VT_DISPATCH",
+                                    "forced_termination": false,
+                                });
+                            }
+                        }
+                        invocation.diagnostic["optional_argument_representation"] =
+                            Value::String(input.to_owned());
+                        invocation.diagnostic["optional_argument_source"] =
+                            Value::String(source.to_owned());
+                        observations.push(invocation_observation(invocation.diagnostic));
+                    }
+                    Err(_) => observations.extend(self.take_invocation_observations()),
+                }
+            }
+            cases.push(case(
+                "workbooks.add.optional-arguments",
+                "completed",
+                "The zero-argument primary call and each separate missing, empty, null, and xlWBATWorksheet argument representation were recorded without assuming equivalence.",
+            ));
+            Ok(())
+        }
+
+        fn range_smoke(
+            &self,
+            sheet: &IDispatch,
+            observations: &mut Vec<Value>,
+            cases: &mut Vec<Value>,
+        ) -> Result<(), String> {
+            let range = self.range(sheet, "A1")?;
+            let write = invoke(
+                &range,
+                DISPID_RANGE_VALUE2,
+                DISPATCH_PROPERTYPUT,
+                vec![VariantOwner::from_value(VARIANT::from(42_i32))],
+                true,
+            )
+            .map_err(|error| format!("Range smoke A1.Value2 write failed: {error}"))?;
+            let read = invoke(
+                &range,
+                DISPID_RANGE_VALUE2,
+                DISPATCH_PROPERTYGET,
+                Vec::new(),
+                false,
+            )
+            .map_err(|error| format!("Range smoke A1.Value2 read failed: {error}"))?;
+            let clear = invoke(
+                &range,
+                DISPID_RANGE_CLEAR,
+                DISPATCH_METHOD,
+                Vec::new(),
+                false,
+            )
+            .map_err(|error| format!("Range smoke A1.Clear failed: {error}"))?;
+            observations.push(json!({
+                "schema_version": 1,
+                "id": "runtime.range-smoke.a1-value2",
+                "case_id": "range.smoke.a1-value2",
+                "classification": "Runtime-observed",
+                "categories": ["smoke", "range", "value2"],
+                "environment_id": "excel-16.0.20131.20154-win64-05b",
+                "address": "A1",
+                "write": describe_variant(&write.value),
+                "read": describe_variant(&read.value),
+                "clear": describe_variant(&clear.value),
+                "result_ownership": "all raw return VARIANTs were owned and cleared by scoped VariantOwner values",
+                "raw_pointer_values_recorded": false,
+            }));
+            cases.push(case(
+                "range.smoke.a1-value2",
+                "completed",
+                "A1.Value2 was written as VT_I4(42), read through raw IDispatch, then cleared before the full matrix.",
+            ));
             Ok(())
         }
 
@@ -1309,6 +1818,141 @@ mod windows_live {
             )
         }
 
+        fn take_invocation_observations(&mut self) -> Vec<Value> {
+            std::mem::take(&mut self.invocation_diagnostics)
+                .into_iter()
+                .map(invocation_observation)
+                .collect()
+        }
+
+        fn diagnostic_get_dispatch(
+            &mut self,
+            dispatch: &IDispatch,
+            dispid: i32,
+            name: &str,
+            subject: &str,
+            case_id: &str,
+            canonical_owner: &str,
+        ) -> Result<IDispatch, String> {
+            let mut invocation = self.diagnostic_member(
+                dispatch,
+                case_id,
+                canonical_owner,
+                name,
+                dispid,
+                DISPATCH_PROPERTYGET,
+                InvocationFrame::positional(Vec::new()),
+            )?;
+            let result = dispatch_from_variant(&invocation.result.value)
+                .ok_or_else(|| format!("{subject} did not return VT_DISPATCH"))?;
+            invocation.diagnostic["returned_dispatch"] = dispatch_type_record(&result);
+            self.invocation_diagnostics.push(invocation.diagnostic);
+            Ok(result)
+        }
+
+        #[allow(clippy::too_many_arguments)]
+        fn diagnostic_call_dispatch(
+            &mut self,
+            dispatch: &IDispatch,
+            dispid: i32,
+            name: &str,
+            subject: &str,
+            case_id: &str,
+            canonical_owner: &str,
+            flags: DISPATCH_FLAGS,
+            arguments: Vec<VariantOwner>,
+        ) -> Result<IDispatch, String> {
+            let mut invocation = self.diagnostic_member(
+                dispatch,
+                case_id,
+                canonical_owner,
+                name,
+                dispid,
+                flags,
+                InvocationFrame::positional(arguments),
+            )?;
+            let result = dispatch_from_variant(&invocation.result.value)
+                .ok_or_else(|| format!("{subject} did not return VT_DISPATCH"))?;
+            invocation.diagnostic["returned_dispatch"] = dispatch_type_record(&result);
+            self.invocation_diagnostics.push(invocation.diagnostic);
+            Ok(result)
+        }
+
+        #[allow(clippy::too_many_arguments)]
+        fn diagnostic_member(
+            &mut self,
+            dispatch: &IDispatch,
+            case_id: &str,
+            canonical_owner: &str,
+            name: &str,
+            audited_dispid: i32,
+            flags: DISPATCH_FLAGS,
+            frame: InvocationFrame,
+        ) -> Result<RawInvocation, String> {
+            let runtime_dispid = match name_dispid(dispatch, name) {
+                Ok(value) => value,
+                Err(error) => {
+                    self.invocation_diagnostics.push(json!({
+                        "schema_version": 1,
+                        "case_id": case_id,
+                        "canonical_owner": canonical_owner,
+                        "member_name": name,
+                        "audited_dispid": audited_dispid,
+                        "runtime_resolved_dispid": Value::Null,
+                        "dispid_matches_audit": Value::Null,
+                        "lcid": INVOKE_LCID,
+                        "lcid_policy": INVOKE_LCID_POLICY,
+                        "get_ids_of_names_hresult": hresult_json(error.code().0),
+                        "invoke_skipped": true,
+                        "frame": frame.diagnostic(),
+                        "raw_pointer_values_recorded": false,
+                    }));
+                    return Err(format!("cannot resolve {name}: {error}"));
+                }
+            };
+            if runtime_dispid != audited_dispid {
+                self.invocation_diagnostics.push(json!({
+                    "schema_version": 1,
+                    "case_id": case_id,
+                    "canonical_owner": canonical_owner,
+                    "member_name": name,
+                    "audited_dispid": audited_dispid,
+                    "runtime_resolved_dispid": runtime_dispid,
+                    "dispid_matches_audit": false,
+                    "lcid": INVOKE_LCID,
+                    "lcid_policy": INVOKE_LCID_POLICY,
+                    "get_ids_of_names_hresult": hresult_json(0),
+                    "invoke_skipped": true,
+                    "frame": frame.diagnostic(),
+                    "raw_pointer_values_recorded": false,
+                }));
+                return Err(format!(
+                    "name lookup for {name} returned DISPID {runtime_dispid}, expected reflected DISPID {audited_dispid}"
+                ));
+            }
+            match invoke_with_diagnostic(
+                dispatch,
+                InvocationContext {
+                    case_id,
+                    canonical_owner,
+                    member_name: name,
+                    audited_dispid,
+                    runtime_dispid: Some(runtime_dispid),
+                    get_ids_hresult: Some(0),
+                },
+                flags,
+                frame,
+            ) {
+                Ok(result) => Ok(result),
+                Err(failure) => {
+                    let message =
+                        format!("{canonical_owner}.{name} Invoke failed: {}", failure.error);
+                    self.invocation_diagnostics.push(failure.diagnostic);
+                    Err(message)
+                }
+            }
+        }
+
         fn get_dispatch(
             &self,
             dispatch: &IDispatch,
@@ -1332,34 +1976,6 @@ mod windows_live {
                 .map_err(|error| format!("{subject} failed: {error}"))?;
             dispatch_from_variant(&result.value)
                 .ok_or_else(|| format!("{subject} did not return VT_DISPATCH"))
-        }
-
-        fn call_dispatch(
-            &self,
-            dispatch: &IDispatch,
-            dispid: i32,
-            name: &str,
-            subject: &str,
-            args: Vec<VariantOwner>,
-        ) -> Result<IDispatch, String> {
-            verify_name(dispatch, name, dispid)?;
-            let result = invoke(dispatch, dispid, DISPATCH_METHOD, args, false)
-                .map_err(|error| format!("{subject} failed: {error}"))?;
-            dispatch_from_variant(&result.value)
-                .ok_or_else(|| format!("{subject} did not return VT_DISPATCH"))
-        }
-
-        fn set_property(
-            &self,
-            dispatch: &IDispatch,
-            dispid: i32,
-            name: &str,
-            value: VariantOwner,
-        ) -> Result<(), String> {
-            verify_name(dispatch, name, dispid)?;
-            invoke(dispatch, dispid, DISPATCH_PROPERTYPUT, vec![value], true)
-                .map(|_| ())
-                .map_err(|error| format!("setting {name} failed: {error}"))
         }
 
         fn set_named_property(
@@ -1435,14 +2051,24 @@ mod windows_live {
                 name_dispid(
                     &self
                         .range_for_observation(subject, address)
-                        .unwrap_or_else(|| self.app.clone()),
+                        .unwrap_or_else(|| {
+                            self.app
+                                .as_ref()
+                                .expect("Application dispatch remains live during observations")
+                                .clone()
+                        }),
                     name,
                 )
                 .ok()
             });
             let target = self
                 .range_for_observation(subject, address)
-                .unwrap_or_else(|| self.app.clone());
+                .unwrap_or_else(|| {
+                    self.app
+                        .as_ref()
+                        .expect("Application dispatch remains live during observations")
+                        .clone()
+                });
             let result = match invoke(&target, dispid, DISPATCH_PROPERTYPUT, vec![value], true) {
                 Ok(value) => describe_variant(&value.value),
                 Err(error) => failed_result(&error),
@@ -1465,7 +2091,9 @@ mod windows_live {
         fn range_for_observation(&self, subject: &str, address: &str) -> Option<IDispatch> {
             if subject.starts_with("Excel.Range") {
                 self.get_dispatch(
-                    &self.app,
+                    self.app
+                        .as_ref()
+                        .expect("Application dispatch remains live during observations"),
                     DISPID_APPLICATION_ACTIVE_SHEET,
                     "ActiveSheet",
                     "Excel.Application.ActiveSheet",
@@ -1489,14 +2117,18 @@ mod windows_live {
                 )
                 .is_ok();
             }
-            let quit_requested = invoke(
-                &self.app,
-                DISPID_APPLICATION_QUIT,
-                DISPATCH_METHOD,
-                Vec::new(),
-                false,
-            )
-            .is_ok();
+            let quit_requested = self.app.as_ref().is_some_and(|app| {
+                invoke(
+                    app,
+                    DISPID_APPLICATION_QUIT,
+                    DISPATCH_METHOD,
+                    Vec::new(),
+                    false,
+                )
+                .is_ok()
+            });
+            self.workbooks.take();
+            self.app.take();
             let exited = if !self.process_handle.is_invalid() {
                 unsafe { WaitForSingleObject(self.process_handle, 15_000) == WAIT_OBJECT_0 }
             } else {
@@ -1506,13 +2138,7 @@ mod windows_live {
                 let _ = unsafe { CloseHandle(self.process_handle) };
                 self.process_handle = windows::Win32::Foundation::HANDLE::default();
             }
-            json!({
-                "workbook_closed": workbook_closed,
-                "excel_quit_requested": quit_requested,
-                "process_exited": exited,
-                "verification_timeout_milliseconds": 15000,
-                "forced_termination": false,
-            })
+            cleanup_record(workbook_closed, quit_requested, exited)
         }
     }
 
@@ -1527,60 +2153,316 @@ mod windows_live {
                     false,
                 );
             }
-            let _ = invoke(
-                &self.app,
-                DISPID_APPLICATION_QUIT,
-                DISPATCH_METHOD,
-                Vec::new(),
-                false,
-            );
+            if let Some(app) = self.app.as_ref() {
+                let _ = invoke(
+                    app,
+                    DISPID_APPLICATION_QUIT,
+                    DISPATCH_METHOD,
+                    Vec::new(),
+                    false,
+                );
+            }
+            self.workbooks.take();
+            self.app.take();
             if !self.process_handle.is_invalid() {
                 let _ = unsafe { CloseHandle(self.process_handle) };
             }
         }
     }
 
+    /// An owned `DISPPARAMS` backing store.  Its vectors are never resized after
+    /// `params` has exposed their pointers, and empty vectors become null
+    /// pointers as required by the Automation call-frame contract.
+    struct InvocationFrame {
+        arguments: Vec<VariantOwner>,
+        named_dispids: Vec<i32>,
+        argument_order: &'static str,
+    }
+
+    impl InvocationFrame {
+        fn positional(mut arguments: Vec<VariantOwner>) -> Self {
+            arguments.reverse();
+            Self {
+                arguments,
+                named_dispids: Vec::new(),
+                argument_order: "positional arguments reversed into rgvarg",
+            }
+        }
+
+        fn property_put(value: VariantOwner) -> Self {
+            Self {
+                arguments: vec![value],
+                named_dispids: vec![DISPID_PROPERTYPUT],
+                argument_order: "property value is rgvarg[0] and paired with DISPID_PROPERTYPUT",
+            }
+        }
+
+        #[cfg(test)]
+        fn with_named(named: Vec<(i32, VariantOwner)>, mut positional: Vec<VariantOwner>) -> Self {
+            positional.reverse();
+            let mut arguments = Vec::with_capacity(named.len() + positional.len());
+            let mut named_dispids = Vec::with_capacity(named.len());
+            for (dispid, value) in named {
+                named_dispids.push(dispid);
+                arguments.push(value);
+            }
+            arguments.extend(positional);
+            Self {
+                arguments,
+                named_dispids,
+                argument_order: "named values lead rgvarg in named-DISPID order; positional values follow in reverse order",
+            }
+        }
+
+        fn params(&mut self) -> DISPPARAMS {
+            DISPPARAMS {
+                rgvarg: if self.arguments.is_empty() {
+                    std::ptr::null_mut()
+                } else {
+                    self.arguments.as_mut_ptr().cast::<VARIANT>()
+                },
+                rgdispidNamedArgs: if self.named_dispids.is_empty() {
+                    std::ptr::null_mut()
+                } else {
+                    self.named_dispids.as_mut_ptr()
+                },
+                cArgs: u32::try_from(self.arguments.len()).unwrap_or(u32::MAX),
+                cNamedArgs: u32::try_from(self.named_dispids.len()).unwrap_or(u32::MAX),
+            }
+        }
+
+        fn diagnostic(&self) -> Value {
+            json!({
+                "c_args": self.arguments.len(),
+                "c_named_args": self.named_dispids.len(),
+                "rgvarg_is_null": self.arguments.is_empty(),
+                "rgdispid_named_args_is_null": self.named_dispids.is_empty(),
+                "argument_order": self.argument_order,
+                "arguments": self.arguments.iter().map(|argument| json!({
+                    "vartype": vartype(&argument.value),
+                    "value": scalar_value(&argument.value),
+                })).collect::<Vec<_>>(),
+                "named_dispids": self.named_dispids,
+            })
+        }
+    }
+
+    struct InvocationContext<'a> {
+        case_id: &'a str,
+        canonical_owner: &'a str,
+        member_name: &'a str,
+        audited_dispid: i32,
+        runtime_dispid: Option<i32>,
+        get_ids_hresult: Option<i32>,
+    }
+
+    struct RawInvocation {
+        result: VariantOwner,
+        diagnostic: Value,
+    }
+
+    struct InvocationFailure {
+        error: windows::core::Error,
+        diagnostic: Value,
+    }
+
     fn invoke(
         dispatch: &IDispatch,
         dispid: i32,
-        flags: windows::Win32::System::Com::DISPATCH_FLAGS,
-        mut arguments: Vec<VariantOwner>,
+        flags: DISPATCH_FLAGS,
+        arguments: Vec<VariantOwner>,
         property_put: bool,
     ) -> windows::core::Result<VariantOwner> {
-        arguments.reverse();
-        let raw = arguments.as_mut_ptr() as *mut VARIANT;
-        let mut named = if property_put {
-            vec![DISPID_PROPERTYPUT]
+        let frame = if property_put {
+            let mut arguments = arguments;
+            if arguments.len() != 1 {
+                return Err(windows::core::Error::new(
+                    windows::core::HRESULT(0x8007_0057_u32 as i32),
+                    "research probe property put requires exactly one value",
+                ));
+            }
+            InvocationFrame::property_put(arguments.pop().expect("checked length"))
         } else {
-            Vec::new()
+            InvocationFrame::positional(arguments)
         };
-        let params = DISPPARAMS {
-            rgvarg: raw,
-            rgdispidNamedArgs: named.as_mut_ptr(),
-            cArgs: u32::try_from(arguments.len()).unwrap_or(u32::MAX),
-            cNamedArgs: u32::try_from(named.len()).unwrap_or(u32::MAX),
-        };
+        invoke_with_diagnostic(
+            dispatch,
+            InvocationContext {
+                case_id: "unrecorded.raw-invocation",
+                canonical_owner: "unrecorded dispatch target",
+                member_name: "unrecorded",
+                audited_dispid: dispid,
+                runtime_dispid: None,
+                get_ids_hresult: None,
+            },
+            flags,
+            frame,
+        )
+        .map(|result| result.result)
+        .map_err(|failure| failure.error)
+    }
+
+    fn invoke_with_diagnostic(
+        dispatch: &IDispatch,
+        context: InvocationContext<'_>,
+        flags: DISPATCH_FLAGS,
+        mut frame: InvocationFrame,
+    ) -> Result<RawInvocation, InvocationFailure> {
+        let frame_record = frame.diagnostic();
+        let params = frame.params();
         let mut result = VariantOwner::empty();
-        unsafe {
+        let mut exception = EXCEPINFO::default();
+        let mut arg_error = u32::MAX;
+        let invoke_result = unsafe {
             dispatch.Invoke(
-                dispid,
+                context.audited_dispid,
                 &GUID::from_u128(0),
-                0,
+                INVOKE_LCID,
                 flags,
                 &params,
                 Some(&mut result.value),
-                None,
-                None,
-            )?
+                Some(&mut exception),
+                Some(&mut arg_error),
+            )
         };
-        Ok(result)
+        let exception_record = normalize_exception(&mut exception);
+        let hresult = invoke_result
+            .as_ref()
+            .map(|_| 0_i32)
+            .map_err(|error| error.code().0)
+            .unwrap_or_else(|value| value);
+        let diagnostic = json!({
+            "schema_version": 1,
+            "case_id": context.case_id,
+            "canonical_owner": context.canonical_owner,
+            "member_name": context.member_name,
+            "audited_dispid": context.audited_dispid,
+            "runtime_resolved_dispid": context.runtime_dispid,
+            "dispid_matches_audit": dispid_matches(context.audited_dispid, context.runtime_dispid),
+            "get_ids_of_names_hresult": context.get_ids_hresult.map(hresult_json),
+            "lcid": INVOKE_LCID,
+            "lcid_policy": INVOKE_LCID_POLICY,
+            "invoke_flags": format_dispatch_flags(flags),
+            "invoke_flags_raw": flags.0,
+            "frame": frame_record,
+            "result_variant_initialized_before_call": true,
+            "returned_hresult": hresult_json(hresult),
+            "excepinfo": exception_record,
+            "pu_arg_err": pu_arg_err_json(arg_error),
+            "result_vartype_after_call": vartype(&result.value),
+            "result_ownership_state": "owned VariantOwner; VariantClear runs exactly once when the result leaves scope",
+            "cleanup_result": "arguments and named-DISPID storage remain alive through Invoke; result is cleared by VariantOwner Drop",
+            "raw_pointer_values_recorded": false,
+        });
+        match invoke_result {
+            Ok(()) => Ok(RawInvocation { result, diagnostic }),
+            Err(error) => Err(InvocationFailure { error, diagnostic }),
+        }
+    }
+
+    fn hresult_json(value: i32) -> Value {
+        let raw = value as u32;
+        json!({
+            "hex": format!("0x{raw:08X}"),
+            "signed_i32": value,
+            "severity": raw >> 31,
+            "facility": (raw >> 16) & 0x1fff,
+            "code": raw & 0xffff,
+        })
+    }
+
+    fn pu_arg_err_json(value: u32) -> Value {
+        if value == u32::MAX {
+            Value::Null
+        } else {
+            json!({"rgvarg_index": value, "index_is_physical_reverse_order": true})
+        }
+    }
+
+    fn dispid_matches(audited: i32, runtime: Option<i32>) -> Value {
+        runtime.map_or(Value::Null, |value| Value::Bool(value == audited))
+    }
+
+    fn cleanup_record(workbook_closed: bool, quit_requested: bool, process_exited: bool) -> Value {
+        json!({
+            "workbook_closed": workbook_closed,
+            "excel_quit_requested": quit_requested,
+            "process_exited": process_exited,
+            "verification_timeout_milliseconds": 15000,
+            "forced_termination": false,
+        })
+    }
+
+    fn format_dispatch_flags(flags: DISPATCH_FLAGS) -> String {
+        let mut names = Vec::new();
+        if flags.0 & DISPATCH_METHOD.0 != 0 {
+            names.push("DISPATCH_METHOD");
+        }
+        if flags.0 & DISPATCH_PROPERTYGET.0 != 0 {
+            names.push("DISPATCH_PROPERTYGET");
+        }
+        if flags.0 & DISPATCH_PROPERTYPUT.0 != 0 {
+            names.push("DISPATCH_PROPERTYPUT");
+        }
+        if names.is_empty() {
+            names.push("none");
+        }
+        format!("{} (0x{:04X})", names.join(" | "), flags.0)
+    }
+
+    fn pump_messages_for(duration: Duration) {
+        let deadline = Instant::now() + duration;
+        while Instant::now() < deadline {
+            let mut message = MSG::default();
+            while unsafe { PeekMessageW(&mut message, None, 0, 0, PM_REMOVE).as_bool() } {
+                unsafe {
+                    let _ = TranslateMessage(&message);
+                    DispatchMessageW(&message);
+                }
+            }
+            thread::sleep(Duration::from_millis(10));
+        }
+    }
+
+    fn normalize_exception(exception: &mut EXCEPINFO) -> Value {
+        let deferred_present = exception.pfnDeferredFillIn.is_some();
+        let deferred_result = exception
+            .pfnDeferredFillIn
+            .map(|fill| unsafe { fill(exception as *mut EXCEPINFO).0 });
+        let source = unsafe { take_exception_bstr(&mut exception.bstrSource) };
+        let description = unsafe { take_exception_bstr(&mut exception.bstrDescription) };
+        let help_file = unsafe { take_exception_bstr(&mut exception.bstrHelpFile) };
+        json!({
+            "deferred_fill_in_present": deferred_present,
+            "deferred_fill_in_hresult": deferred_result.map(hresult_json),
+            "wcode": exception.wCode,
+            "scode": hresult_json(exception.scode),
+            "source": source,
+            "description": description,
+            "help_file": help_file,
+            "help_context": exception.dwHelpContext,
+        })
+    }
+
+    unsafe fn take_exception_bstr(value: &mut ManuallyDrop<BSTR>) -> Option<String> {
+        let bstr = unsafe { ManuallyDrop::into_inner(std::ptr::read(value)) };
+        let text = bstr.to_string();
+        if text.is_empty() { None } else { Some(text) }
     }
 
     fn name_dispid(dispatch: &IDispatch, name: &str) -> windows::core::Result<i32> {
         let name = HSTRING::from(name);
         let names = [PCWSTR(name.as_ptr())];
         let mut dispid = 0;
-        unsafe { dispatch.GetIDsOfNames(&GUID::from_u128(0), names.as_ptr(), 1, 0, &mut dispid)? };
+        unsafe {
+            dispatch.GetIDsOfNames(
+                &GUID::from_u128(0),
+                names.as_ptr(),
+                1,
+                INVOKE_LCID,
+                &mut dispid,
+            )?
+        };
         Ok(dispid)
     }
 
@@ -1730,6 +2612,49 @@ mod windows_live {
         }
     }
 
+    fn dispatch_type_record(dispatch: &IDispatch) -> Value {
+        let count = unsafe { dispatch.GetTypeInfoCount() };
+        match count {
+            Ok(count) if count > 0 => {
+                let type_name =
+                    unsafe { dispatch.GetTypeInfo(0, INVOKE_LCID) }.and_then(|type_info| unsafe {
+                        let mut name = BSTR::default();
+                        let mut help_context = 0_u32;
+                        type_info.GetDocumentation(
+                            -1,
+                            Some(&mut name),
+                            None,
+                            &mut help_context,
+                            None,
+                        )?;
+                        Ok::<_, windows::core::Error>((name.to_string(), help_context))
+                    });
+                match type_name {
+                    Ok((name, help_context)) => json!({
+                        "type_info_count": count,
+                        "type_name": name,
+                        "help_context": help_context,
+                        "raw_interface_pointer_recorded": false,
+                    }),
+                    Err(error) => json!({
+                        "type_info_count": count,
+                        "type_info_error": hresult_json(error.code().0),
+                        "raw_interface_pointer_recorded": false,
+                    }),
+                }
+            }
+            Ok(count) => json!({
+                "type_info_count": count,
+                "type_name": Value::Null,
+                "raw_interface_pointer_recorded": false,
+            }),
+            Err(error) => json!({
+                "type_info_count_error": hresult_json(error.code().0),
+                "raw_interface_pointer_recorded": false,
+            }),
+        }
+    }
+
     fn inspect_array(value: &VARIANT) -> Value {
         let array = unsafe { variant_data(value).Anonymous.parray };
         if array.is_null() {
@@ -1830,11 +2755,41 @@ mod windows_live {
             "argument_vartypes":argument_types,
             "result":result,
             "categories":categories,
-            "environment_id":"excel-16.0.20131.20154-win64",
+            "environment_id":"excel-16.0.20131.20154-win64-05b",
             "probe_version":PROBE_VERSION,
             "control":control,
             "classification":"Runtime-observed",
             "cleanup":"returned VARIANT deep-copied into JSON evidence before scoped VariantClear; no pointer address recorded"
+        })
+    }
+
+    fn invocation_observation(mut diagnostic: Value) -> Value {
+        let case_id = diagnostic
+            .get("case_id")
+            .and_then(Value::as_str)
+            .unwrap_or("unknown-invocation");
+        diagnostic["id"] = Value::String(format!("runtime.invocation.{case_id}"));
+        diagnostic["classification"] = Value::String("Runtime-observed".to_owned());
+        diagnostic["categories"] = json!(["invocation", "workbooks-add-diagnostic"]);
+        diagnostic["environment_id"] = Value::String("excel-16.0.20131.20154-win64-05b".to_owned());
+        diagnostic["probe_version"] = Value::from(PROBE_VERSION);
+        diagnostic
+    }
+
+    fn pywin32_control_record() -> Value {
+        json!({
+            "schema_version": 1,
+            "id": "runtime.control.pywin32-dispatchex-workbooks-add",
+            "classification": "Control-confirmed",
+            "categories": ["control", "workbooks-add-diagnostic"],
+            "client": "Python pywin32",
+            "activation": "win32com.client.DispatchEx(\"Excel.Application\")",
+            "excel_version": "16.0",
+            "workbooks_add": "succeeded",
+            "created_workbook": "Book1",
+            "hwnd_recorded": false,
+            "raw_variant_or_safearray_inference": false,
+            "evidence_origin": "Prompt 05B independent control supplied by the user",
         })
     }
 
@@ -1961,7 +2916,111 @@ mod windows_live {
             let unknown = VariantOwner::empty();
             assert_eq!(scalar_value(&unknown.value)["kind"], "empty");
         }
+
+        #[test]
+        fn zero_argument_frame_uses_null_pointers() {
+            let mut frame = InvocationFrame::positional(Vec::new());
+            let params = frame.params();
+            assert_eq!(params.cArgs, 0);
+            assert_eq!(params.cNamedArgs, 0);
+            assert!(params.rgvarg.is_null());
+            assert!(params.rgdispidNamedArgs.is_null());
+        }
+
+        #[test]
+        fn one_and_many_positional_arguments_are_reversed() {
+            let mut frame = InvocationFrame::positional(vec![
+                VariantOwner::from_value(VARIANT::from(1_i32)),
+                VariantOwner::from_value(VARIANT::from(2_i32)),
+            ]);
+            let params = frame.params();
+            assert_eq!(params.cArgs, 2);
+            assert_eq!(scalar_i32(&frame.arguments[0].value), Some(2));
+            assert_eq!(scalar_i32(&frame.arguments[1].value), Some(1));
+        }
+
+        #[test]
+        fn named_arguments_lead_the_reverse_positional_layout() {
+            let frame = InvocationFrame::with_named(
+                vec![(77, VariantOwner::from_value(VARIANT::from(9_i32)))],
+                vec![
+                    VariantOwner::from_value(VARIANT::from(1_i32)),
+                    VariantOwner::from_value(VARIANT::from(2_i32)),
+                ],
+            );
+            assert_eq!(frame.named_dispids, vec![77]);
+            assert_eq!(scalar_i32(&frame.arguments[0].value), Some(9));
+            assert_eq!(scalar_i32(&frame.arguments[1].value), Some(2));
+            assert_eq!(scalar_i32(&frame.arguments[2].value), Some(1));
+        }
+
+        #[test]
+        fn flags_hresult_exceptions_and_argerr_have_stable_diagnostics() {
+            assert_eq!(
+                format_dispatch_flags(DISPATCH_METHOD | DISPATCH_PROPERTYGET),
+                "DISPATCH_METHOD | DISPATCH_PROPERTYGET (0x0003)"
+            );
+            assert_eq!(hresult_json(0x8002_0004_u32 as i32)["facility"], 2);
+            assert_eq!(hresult_json(0x8002_0004_u32 as i32)["code"], 4);
+            let mut exception = EXCEPINFO {
+                wCode: 7,
+                scode: 0x800A_03EC_u32 as i32,
+                ..Default::default()
+            };
+            let normalized = normalize_exception(&mut exception);
+            assert_eq!(normalized["wcode"], 7);
+            assert_eq!(normalized["scode"]["hex"], "0x800A03EC");
+            assert_eq!(pu_arg_err_json(3)["rgvarg_index"], 3);
+            assert!(pu_arg_err_json(u32::MAX).is_null());
+        }
+
+        #[test]
+        fn audit_comparison_and_result_initialization_are_explicit() {
+            assert_eq!(dispid_matches(181, Some(181)), Value::Bool(true));
+            assert_eq!(dispid_matches(181, Some(180)), Value::Bool(false));
+            assert!(dispid_matches(181, None).is_null());
+            let result = VariantOwner::empty();
+            assert_eq!(vartype(&result.value), "VT_EMPTY (0x0000)");
+        }
+
+        #[test]
+        fn frame_diagnostic_serialization_omits_pointer_values() {
+            let frame =
+                InvocationFrame::property_put(VariantOwner::from_value(VARIANT::from(42_i32)));
+            let diagnostic = frame.diagnostic();
+            assert_eq!(diagnostic["c_args"], 1);
+            assert_eq!(diagnostic["c_named_args"], 1);
+            assert!(diagnostic.get("rgvarg").is_none());
+            assert!(diagnostic.get("rgdispidNamedArgs").is_none());
+        }
+
+        #[test]
+        fn cleanup_record_never_claims_forced_termination() {
+            let cleanup = cleanup_record(true, true, true);
+            assert_eq!(cleanup["workbook_closed"], true);
+            assert_eq!(cleanup["excel_quit_requested"], true);
+            assert_eq!(cleanup["process_exited"], true);
+            assert_eq!(cleanup["forced_termination"], false);
+        }
     }
+}
+
+fn merge_capture(mut existing: Capture, fresh: Capture) -> Capture {
+    existing.manifest = fresh.manifest;
+    merge_records(&mut existing.environments, fresh.environments);
+    merge_records(&mut existing.observations, fresh.observations);
+    merge_records(&mut existing.cases, fresh.cases);
+    merge_records(&mut existing.unresolved, fresh.unresolved);
+    existing
+}
+
+fn merge_records(existing: &mut Vec<Value>, fresh: Vec<Value>) {
+    let mut records = BTreeMap::new();
+    for record in std::mem::take(existing).into_iter().chain(fresh) {
+        let key = value_string(&record, "id");
+        records.insert(key, record);
+    }
+    *existing = records.into_values().collect();
 }
 
 #[cfg(test)]

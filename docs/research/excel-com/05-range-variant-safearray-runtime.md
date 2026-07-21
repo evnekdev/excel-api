@@ -4,6 +4,11 @@
 complete.
 **Date:** 2026-07-21
 
+**Prompt 05B update:** the original raw `DISPPARAMS` empty-pointer defect was
+repaired and the call was fully diagnosed, but `Workbooks.Add` still returned
+Excel's application-level error before a workbook existed. The blocker is not
+resolved; see the [Prompt 05B diagnostic](05b-workbooks-add-diagnostic.md).
+
 ## 1. Scope and evidence boundary
 
 This change adds only an isolated, Windows-only raw-COM research probe and its
@@ -140,6 +145,13 @@ committed after the setup failure, it is supporting diagnostic information—not
 an exact ownership proof. The planned 1,000 scalar/matrix clear stress loops
 were not run.
 
+Prompt 05B subsequently confirmed the `Application.Workbooks` target,
+audited/runtime DISPIDs, zero-argument `DISPPARAMS`, flags, LCID, result
+initialization, and exception details. It repaired the empty-pointer frame and
+released owned dispatch references before the exit wait. The call nevertheless
+failed with `DISP_E_EXCEPTION` and inner `EXCEPINFO.scode` `0x800A03EC`; no
+workbook, Range smoke test, or full matrix result was captured.
+
 ## 18. Version-specific limitations
 
 All future observations must remain scoped to this exact Excel 16.0.20131.20154
@@ -170,6 +182,10 @@ The principal blocker is recorded in
 the owned local server rejected `Workbooks.Add` with `0x800A03EC`. The remaining
 unresolved entries deliberately include `Find`/`Sort`, `Address`, locale
 formula syntax, embedded NULs, and rejected/jagged/empty array shapes.
+
+The distinct [Prompt 05B record](05b-workbooks-add-diagnostic.md) preserves the
+independent pywin32 success and the valid Rust invocation frames; it does not
+reclassify the original blocked observation as resolved.
 
 ## 22. Validation evidence
 
