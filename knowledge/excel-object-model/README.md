@@ -15,6 +15,11 @@ examples are intentionally not copied.
   members, relationships, and enumerations. `data/source.json` records the
   deterministic ingestion coverage and review queue.
 - `generated/` contains small reproducible indexes; never edit it by hand.
+- `typelib/` is a separate, installed-Excel type-library evidence layer. It
+  does not alter `data/` or claim runtime behavior; its source manifest is
+  portable and deliberately records no raw user path.
+- `generated/typelib/` contains deterministic reports derived from the
+  type-library evidence layer; never edit it by hand.
 
 Every record carries its source repository, exact commit, repository-relative
 path, extraction method, verification dimensions, implementation status, and
@@ -47,6 +52,26 @@ cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- validate `
     --root knowledge/excel-object-model
 cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- check `
     --root knowledge/excel-object-model
+```
+
+The type-library audit is a separate Windows-only, read-only operation. It
+uses `LoadTypeLibEx` for an explicitly supplied local file or `LoadRegTypeLib`
+for the registered Excel 1.9 library. It does not activate Excel or modify COM
+registration:
+
+```powershell
+cargo run --offline --manifest-path tools/excel-com-typelib-audit/Cargo.toml -- audit `
+    --root knowledge/excel-object-model `
+    --typelib <path-to-EXCEL.EXE> `
+    --windows-version <recorded-windows-version> `
+    --excel-file-version <recorded-excel-file-version> `
+    --office-bitness <recorded-office-bitness>
+cargo run --offline --manifest-path tools/excel-com-typelib-audit/Cargo.toml -- check `
+    --root knowledge/excel-object-model `
+    --typelib <path-to-EXCEL.EXE> `
+    --windows-version <recorded-windows-version> `
+    --excel-file-version <recorded-excel-file-version> `
+    --office-bitness <recorded-office-bitness>
 ```
 
 To regenerate from the pinned source, supply a separate clean checkout. It is
@@ -82,3 +107,5 @@ For design rationale, limitations, and how later prompts should use the data,
 see [the Prompt 02 research record](../../docs/research/excel-com/02-object-model-knowledge-base.md).
 For the documentation-only object-model analysis generated from the same
 canonical records, see [the Prompt 03 research record](../../docs/research/excel-com/03-excel-object-model-analysis.md).
+For the installed-typelib audit and its runtime boundaries, see [the Prompt 04
+research record](../../docs/research/excel-com/04-core-excel-typelib-audit.md).

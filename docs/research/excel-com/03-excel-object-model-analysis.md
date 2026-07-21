@@ -145,7 +145,8 @@ or public types.
 
 ## 10. Type-library verification backlog
 
-No installed typelib was inspected. The prioritized
+At the time of this documentation-derived analysis, no installed typelib had
+been inspected. The prioritized
 [typelib audit target](../../../knowledge/excel-object-model/generated/analysis/typelib-audit-targets.md)
 sets cover the Application root, the 50 candidate members, collection mechanics,
 Range transport and optional calls, event interfaces, then adjacent deferred
@@ -192,7 +193,10 @@ introduced. No canonical knowledge-base data was manually changed.
 
 ## 15. Next prompt
 
-Prompt 04, [VARIANT, SAFEARRAY, and Range runtime research](../../../excel-com-codex-prompts/04-range-values-and-safearray.md), follows this analysis. It must consume the Range transport and runtime probe targets, then establish evidence without treating this candidate inventory as a public API. It was not executed here.
+The core installed-typelib audit now precedes the later Range runtime work; see
+[Prompt 04](04-core-excel-typelib-audit.md). The existing Range runtime prompt
+must consume both the Range transport/runtime targets and the declared
+type-library evidence without treating this candidate inventory as a public API.
 
 ## 16. Validations
 

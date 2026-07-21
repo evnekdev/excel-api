@@ -1,0 +1,22 @@
+schema_version = 1
+audit_tool_version = 1
+input_target_list = "generated/analysis/typelib-audit-targets.md"
+library_guid = "{00020813-0000-0000-c000-000000000046}"
+major_version = 1
+minor_version = 9
+lcid = 0
+syskind = "SYS_WIN32"
+registration_source = "HKCR\TypeLib\{00020813-0000-0000-C000-000000000046}\1.9\0\Win64"
+loaded_file_basename = "EXCEL.EXE"
+loaded_file_sha256 = "99fd42191aec291db9d8988c4f09ad12ff15c424386c30a733499ee5ae281346"
+excel_file_version = "16.0.20131.20154"
+windows_version = "Windows 10 Enterprise 25H2 build 26200.8875"
+office_bitness = "64-bit"
+windows_crate_version = "0.62.2"
+windows_core_version = "0.62.2"
+inspection_date = "2026-07-21"
+
+[audit_targets]
+architectural_spine = ["Excel.Application", "Excel.Workbooks", "Excel.Workbook", "Excel.Worksheets", "Excel.Worksheet", "Excel.Range"]
+collection_families = ["Excel.Sheets", "Excel.Windows", "Excel.Names", "Excel.ListObjects", "Excel.ChartObjects", "Excel.Shapes"]
+candidate_0_1_count = 50

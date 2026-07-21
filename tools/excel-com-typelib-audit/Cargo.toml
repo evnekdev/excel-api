@@ -1,0 +1,20 @@
+[package]
+name = "excel-com-typelib-audit"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Read-only, deterministic Excel Automation type-library audit"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+sha2 = "0.10.9"
+windows = { version = "=0.62.2", features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+] }
+
+[workspace]
