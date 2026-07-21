@@ -1,0 +1,28 @@
+[package]
+name = "excel-com-native-abi"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# These direct, exact requirements make the differential self-describing and
+# keep experiments separate from the repository's production dependency graph.
+windows = { version = "=0.62.2", features = [
+    "Win32_Foundation",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Com",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+] }
+windows-core = "=0.62.2"
+windows-result = "=0.4.1"
+windows-strings = "=0.5.1"
+windows-sys = { version = "=0.61.2", features = [
+    "Win32_Foundation",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Com",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+] }
+
+[workspace]

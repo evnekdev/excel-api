@@ -136,3 +136,8 @@ The tool’s deterministic unit suite covers source manifests, stable IDs, wrapp
 ## 26. Prompt 05D handoff
 
 Review this knowledge base and backlog before changing the Rust invocation kernel. Prompt 05D should implement only confirmed parity work behind bounded diagnostics, first resolve the activation/LCID comparison, then resume Prompt 05 only after a workbook and Range smoke test succeed.
+
+Prompt 05E later compared the generated wrapper with a lower Rust ABI path and
+a native C ABI control without rewriting these source findings. The resulting
+version matrix and remaining local/`0x0400` sequence blocker are documented in
+[the native ABI differential](05e-native-abi-differential.md).

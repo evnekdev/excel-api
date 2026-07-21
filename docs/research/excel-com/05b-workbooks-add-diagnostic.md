@@ -106,3 +106,7 @@ repository and evidence validation outcomes are recorded in the draft PR.
 Do not begin Prompt 06. The remaining gate is an isolated comparison of the
 Rust raw activation/session path with the known-good pywin32 `DispatchEx`
 control, followed by successful raw workbook creation and Range smoke testing.
+
+Prompt 05E adds a later, bounded native/Rust ABI differential. It preserves
+this historical observation and narrows the next step to the local/`0x0400`
+high-level pre-`Add` sequence; see [the Prompt 05E record](05e-native-abi-differential.md).
