@@ -29,6 +29,7 @@ notification are optional or experimental, not core 1.0 prerequisites.
 | Excel COM knowledge base | `knowledge/excel-object-model/README.md`, `docs/research/excel-com/02-object-model-knowledge-base.md` | Documentation-derived, attributed research foundation; no runtime implementation | Optional E4 preparation |
 | Excel COM object-model analysis | `docs/research/excel-com/03-excel-object-model-analysis.md`, `knowledge/excel-object-model/generated/analysis/` | Documentation-derived navigation, candidate, typelib, and runtime evidence backlog; no runtime implementation | Optional E4 preparation |
 | Excel COM typelib audit | `docs/research/excel-com/04-core-excel-typelib-audit.md`, `knowledge/excel-object-model/typelib/`, `knowledge/excel-object-model/generated/typelib/` | Installed Excel type-library evidence; no activation, dispatch implementation, or runtime conclusions | Optional E4 preparation |
+| Excel COM Range runtime probe | `docs/research/excel-com/05-range-variant-safearray-runtime.md`, `knowledge/excel-object-model/runtime/`, `knowledge/excel-object-model/generated/runtime/` | Isolated raw-COM probe infrastructure; current host blocked before Range observation | Optional E4 preparation |
 | Support/release | `SUPPORT_MATRIX.md`, `OPTIONAL_INTEGRATIONS_ROADMAP.md`, `docs/release/core-1.0-release-checklist.md` | Core 1.0 boundary defined; release audit active | M20 / E1-E5 |
 
 ## Dependency order
