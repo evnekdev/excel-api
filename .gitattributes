@@ -14,3 +14,7 @@ knowledge/excel-object-model/generated/runtime/*.md text eol=lf
 knowledge/excel-object-model/generated/native-abi/*.md text eol=lf
 knowledge/excel-object-model/native-abi/*.jsonl text eol=lf
 knowledge/excel-object-model/native-abi/*.toml text eol=lf
+knowledge/excel-object-model/pre-add-delta/*.jsonl text eol=lf
+knowledge/excel-object-model/pre-add-delta/*.toml text eol=lf
+knowledge/excel-object-model/generated/pre-add-delta/*.md text eol=lf
+tools/**/Cargo.lock text eol=lf

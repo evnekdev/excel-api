@@ -1,0 +1,12 @@
+schema_version = 1
+tool = "excel-com-pre-add-delta"
+prompt = "05F"
+starting_origin_master = "bbf767d522e968969cd5afd143dfcc80718c57cf"
+windows_crate = "0.62.2"
+windows_core = "0.62.2"
+windows_sys = "0.61.2"
+process_isolation = "one child process and one owned Excel Automation instance per live run"
+raw_pointers_persisted = false
+raw_hwnds_persisted = false
+raw_pids_persisted = false
+local_paths_persisted = false
