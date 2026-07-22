@@ -1,0 +1,4 @@
+schema_version = 1
+name = "excel-error-scode-runtime"
+classification = "research-only"
+source = "Prompt 05J raw generic IDispatch experiments"

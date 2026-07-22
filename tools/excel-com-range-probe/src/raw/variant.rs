@@ -2,7 +2,7 @@
 
 use windows_sys::Win32::System::Com::CY;
 use windows_sys::Win32::System::Variant::{
-    VariantClear, VariantInit, VARIANT, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_ERROR,
+    VariantClear, VariantCopy, VariantInit, VARIANT, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_ERROR,
     VT_I2, VT_I4, VT_I8, VT_NULL, VT_R4, VT_R8,
 };
 
@@ -76,6 +76,17 @@ impl OwnedVariant {
         result
     }
 
+    /// Copies the Automation value with `VariantCopy`.  Prompt 05J uses this
+    /// for formula-returned `VT_ERROR` values so the source union bits are not
+    /// reconstructed or normalized before a direct write experiment.
+    pub(super) fn copy(&self) -> Result<Self, String> {
+        let mut result = Self::empty();
+        let status = unsafe { VariantCopy(&mut result.0, &self.0) };
+        (status == 0)
+            .then_some(result)
+            .ok_or_else(|| format!("VariantCopy failed with 0x{:08X}", status as u32))
+    }
+
     pub(super) fn date(value: f64) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_DATE;
@@ -116,7 +127,19 @@ impl OwnedVariant {
     }
 
     pub(super) fn i4_value(&self) -> Option<i32> {
-        (self.vt() == VT_I4).then(|| unsafe { self.0.Anonymous.Anonymous.Anonymous.lVal })
+        if self.vt() == VT_I4 {
+            Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.lVal })
+        } else {
+            None
+        }
+    }
+
+    pub(super) fn error_scode(&self) -> Option<i32> {
+        if self.vt() == VT_ERROR {
+            Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.scode })
+        } else {
+            None
+        }
     }
 
     pub(super) fn is_exact_42(&self) -> bool {
@@ -143,5 +166,32 @@ impl Drop for OwnedVariant {
         unsafe {
             let _ = VariantClear(&mut self.0);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn vt_error_constructor_preserves_exact_signed_scode_bits() {
+        for scode in [2042_i32, 0x800A_07FA_u32 as i32, -1_i32] {
+            let value = OwnedVariant::error(scode);
+            assert_eq!(value.vt(), VT_ERROR);
+            assert_eq!(value.error_scode(), Some(scode));
+            assert_eq!(value.error_scode().expect("scode") as u32, scode as u32);
+            unsafe {
+                assert_eq!(value.0.Anonymous.Anonymous.wReserved1, 0);
+                assert_eq!(value.0.Anonymous.Anonymous.wReserved2, 0);
+                assert_eq!(value.0.Anonymous.Anonymous.wReserved3, 0);
+            }
+        }
+    }
+
+    #[test]
+    fn variant_copy_preserves_vt_error_raw_bits() {
+        let copied = OwnedVariant::error(0x800A_07FA_u32 as i32).copy().expect("VariantCopy");
+        assert_eq!(copied.vt(), VT_ERROR);
+        assert_eq!(copied.error_scode().map(|value| value as u32), Some(0x800A_07FA));
     }
 }
