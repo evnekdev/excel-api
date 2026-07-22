@@ -2,7 +2,7 @@
 
 ## Summary
 
-An Excel workbook object. The initial crate supports basic identity, saved-state, and explicit close-without-saving operations.
+An Excel workbook object. The bounded crate supports identity, file lifecycle, worksheets, and a typed Names collection; workbook and worksheet-local Name scopes remain Excel-defined.
 
 ## Sources
 
@@ -63,7 +63,7 @@ An Excel workbook object. The initial crate supports basic identity, saved-state
 | UpdateRemoteReferences | PROPERTYGET/PROPERTYPUT | bool | declared | 411 | Metadata Only | Reviewed | Not Tested | |
 | Password | PROPERTYGET/PROPERTYPUT | String | declared | 429 | Metadata Only | Reviewed | Not Tested | |
 | Windows | PROPERTYGET | Windows | declared | 430 | Metadata Only | Reviewed | Not Tested | |
-| Names | PROPERTYGET | Names | declared | 442 | Metadata Only | Reviewed | Not Tested | |
+| Names | PROPERTYGET | Names | declared | 442 | Implemented | Reviewed | Live Tested | |
 | Sheets | PROPERTYGET | Sheets | declared | 485 | Metadata Only | Reviewed | Not Tested | |
 | Styles | PROPERTYGET | Styles | declared | 493 | Metadata Only | Reviewed | Not Tested | |
 | Worksheets | PROPERTYGET | Sheets | declared | 494 | Implemented | Reviewed | Live Tested | |

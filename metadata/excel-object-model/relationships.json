@@ -1785,6 +1785,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.names.item",
+    "schema_version": 1,
+    "source": "excel.names",
+    "source_confidence": "typelib-only",
+    "target": "excel.name"
+  },
+  {
     "member_id": "excel.negativebarformat.application",
     "schema_version": 1,
     "source": "excel.negativebarformat",

@@ -2,7 +2,7 @@
 
 ## Summary
 
-The cell and rectangular-value object. The bounded crate supports values plus Cells, Item, Offset, Resize, Rows, Columns, Areas, EntireRow, and EntireColumn navigation.
+The cell and rectangular-value object. The bounded crate slice supports values, explicit A1/R1C1/external address output, and Cells, Item, Offset, Resize, Rows, Columns, Areas, EntireRow, and EntireColumn navigation.
 
 ## Sources
 

@@ -3,7 +3,7 @@
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
 | Worksheet | _Evaluate | -5 | Metadata Only |
-| Worksheet | Evaluate | 1 | Metadata Only |
+| Worksheet | Evaluate | 1 | Implemented |
 | Worksheet | DrawingObjects | 88 | Metadata Only |
 | Worksheet | Delete | 117 | Metadata Only |
 | Worksheet | Paste | 211 | Metadata Only |

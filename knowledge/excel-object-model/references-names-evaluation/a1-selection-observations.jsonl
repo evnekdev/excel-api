@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"a1-block","input":"A1:X10","row_count":10,"column_count":24,"address_a1":"$A$1:$X$10","status":"passed"}
+{"schema_version":1,"case_id":"a1-forms","inputs":["A:A","1:1","'Sheet Name'!A1"],"status":"passed","authority":"Excel syntax validation"}

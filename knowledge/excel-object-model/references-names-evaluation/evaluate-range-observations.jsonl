@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"named-range","expression":"InputRange","result_category":"range-object","external_address_matches_source":true}
+{"schema_version":1,"case_id":"scalar-mismatch","expression":"SUM(InputRange)","requested":"evaluate_range","result":"structured value/object category mismatch"}

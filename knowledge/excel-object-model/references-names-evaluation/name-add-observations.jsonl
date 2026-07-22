@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"range","name":"InputRange","input_kind":"Range","encoding":"qualified external A1 through RefersTo","status":"passed"}
+{"schema_version":1,"case_id":"a1","name":"A1Target","input_kind":"A1","encoding":"RefersTo","status":"passed"}
+{"schema_version":1,"case_id":"r1c1","name":"ReferenceTarget","input_kind":"R1C1","encoding":"RefersToR1C1","status":"passed"}
+{"schema_version":1,"case_id":"formula","name":"ConstantValue","input_kind":"Formula","encoding":"RefersTo","status":"passed"}

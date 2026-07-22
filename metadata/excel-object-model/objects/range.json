@@ -10162,6 +10162,16 @@
     }
   ],
   "name": "Range",
+  "reference_capabilities": {
+    "external_address": true,
+    "formula_conversion": false,
+    "input_styles": [],
+    "output_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "relative_address": true
+  },
   "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Range",

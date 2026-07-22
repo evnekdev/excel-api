@@ -73,6 +73,14 @@ impl PositionalArguments {
             .push(OwnedVariant::dispatch_borrowed(&value.dispatch));
     }
 
+    /// Safely passes an optional wrapper object, preserving `Missing` when absent.
+    pub(crate) fn push_optional_object(&mut self, value: Option<&DispatchObject>) {
+        match value {
+            Some(value) => self.push_object(value),
+            None => self.push_optional(None),
+        }
+    }
+
     pub(crate) fn into_inner(self) -> Vec<OwnedVariant> {
         self.values
     }

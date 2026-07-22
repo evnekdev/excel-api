@@ -2,10 +2,10 @@ use std::fmt::{Debug, Formatter};
 
 use crate::ExcelComError;
 use crate::automation::{
-    AutomationValue, ConversionPolicy, DateWriteMode, decode_variant, invoke, property_get,
-    property_put, validate_range_shape,
+    AutomationValue, ConversionPolicy, DateWriteMode, OwnedVariant, PositionalArguments,
+    decode_variant, invoke, property_get, property_put, validate_range_shape,
 };
-use crate::excel::{Areas, DispatchObject};
+use crate::excel::{Areas, DispatchObject, RangeAddressOptions, ReferenceStyle};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
 
@@ -46,14 +46,63 @@ impl Range {
         self.inner.same_object(&other.inner)
     }
 
-    /// Returns the default A1-style address as reported by Excel.
+    /// Returns the default absolute A1-style address as reported by Excel.
+    ///
+    /// This compatibility convenience is equivalent to [`Self::address_a1`].
     pub fn address(&self) -> Result<String, ExcelComError> {
+        self.address_a1()
+    }
+
+    /// Returns Excel's absolute A1-style address with `External = false`.
+    pub fn address_a1(&self) -> Result<String, ExcelComError> {
+        self.address_with_options(&RangeAddressOptions::default())
+    }
+
+    /// Returns Excel's absolute R1C1-style address with `External = false`.
+    ///
+    /// ```no_run
+    /// # fn example(range: &excel_com::Range) -> Result<(), excel_com::ExcelComError> {
+    /// let r1c1 = range.address_r1c1()?;
+    /// # assert!(!r1c1.is_empty());
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn address_r1c1(&self) -> Result<String, ExcelComError> {
+        self.address_with_options(&RangeAddressOptions {
+            reference_style: ReferenceStyle::R1C1,
+            ..RangeAddressOptions::default()
+        })
+    }
+
+    /// Returns an address using explicit Excel `Range.Address` options.
+    ///
+    /// The options map directly to Excel's `RowAbsolute`, `ColumnAbsolute`,
+    /// `ReferenceStyle`, `External`, and `RelativeTo` positions. Omitted
+    /// booleans and bases are preserved as `Missing`; relative R1C1 offsets
+    /// are calculated by Excel from `relative_to`, never by Rust arithmetic.
+    pub fn address_with_options(
+        &self,
+        options: &RangeAddressOptions<'_>,
+    ) -> Result<String, ExcelComError> {
         property_get(
             &self.inner.dispatch,
             member(MemberId::new("excel.range.address"), false),
-            vec![],
+            address_arguments(options),
         )?
         .as_string()
+    }
+
+    /// Returns Excel's external/qualified address in the requested notation.
+    ///
+    /// Unsaved workbooks commonly use a temporary workbook name rather than a
+    /// filesystem path, and Excel controls all quoting. This textual context
+    /// is not a COM identity claim.
+    pub fn external_address(&self, style: ReferenceStyle) -> Result<String, ExcelComError> {
+        self.address_with_options(&RangeAddressOptions {
+            reference_style: style,
+            external: Some(true),
+            ..RangeAddressOptions::default()
+        })
     }
 
     /// Returns the one-based first-row position.
@@ -296,6 +345,16 @@ impl Range {
     }
 }
 
+fn address_arguments(options: &RangeAddressOptions<'_>) -> Vec<OwnedVariant> {
+    let mut arguments = PositionalArguments::new();
+    arguments.push_optional(options.row_absolute.map(OwnedVariant::bool));
+    arguments.push_optional(options.column_absolute.map(OwnedVariant::bool));
+    arguments.push_required(OwnedVariant::i32(options.reference_style.raw()));
+    arguments.push_optional(options.external.map(OwnedVariant::bool));
+    arguments.push_optional_object(options.relative_to.map(Range::dispatch_object));
+    arguments.into_inner()
+}
+
 fn one_based_i32(value: usize, detail: &'static str) -> Result<i32, ExcelComError> {
     if value == 0 {
         return Err(ExcelComError::Unsupported {
@@ -303,4 +362,37 @@ fn one_based_i32(value: usize, detail: &'static str) -> Result<i32, ExcelComErro
         });
     }
     i32::try_from(value).map_err(|_| ExcelComError::Unsupported { detail })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use windows_sys::Win32::Foundation::DISP_E_PARAMNOTFOUND;
+
+    #[test]
+    fn address_arguments_are_logical_and_position_preserving() {
+        let values = address_arguments(&RangeAddressOptions::default());
+        assert_eq!(values.len(), 5);
+        assert_eq!(values[0].as_bool(), Some(true));
+        assert_eq!(values[1].as_bool(), Some(true));
+        assert_eq!(values[2].as_i32(), Some(1));
+        assert_eq!(values[3].as_bool(), Some(false));
+        assert_eq!(values[4].as_scode(), Some(DISP_E_PARAMNOTFOUND));
+    }
+
+    #[test]
+    fn address_arguments_keep_interior_missing_values() {
+        let values = address_arguments(&RangeAddressOptions {
+            row_absolute: None,
+            column_absolute: Some(false),
+            reference_style: ReferenceStyle::R1C1,
+            external: Some(true),
+            relative_to: None,
+        });
+        assert_eq!(values[0].as_scode(), Some(DISP_E_PARAMNOTFOUND));
+        assert_eq!(values[1].as_bool(), Some(false));
+        assert_eq!(values[2].as_i32(), Some(-4150));
+        assert_eq!(values[3].as_bool(), Some(true));
+        assert_eq!(values[4].as_scode(), Some(DISP_E_PARAMNOTFOUND));
+    }
 }

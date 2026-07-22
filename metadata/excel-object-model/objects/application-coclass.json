@@ -3,6 +3,12 @@
   "collection": null,
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.application(object)",
+  "evaluation_result_categories": [
+    "automation-value",
+    "range-object",
+    "other-object",
+    "unknown"
+  ],
   "guid": "{00024500-0000-0000-c000-000000000046}",
   "id": "excel.application.coclass",
   "implemented_interface_count": 2,
@@ -10,6 +16,19 @@
   "kind": "coclass",
   "members": [],
   "name": "Application",
+  "reference_capabilities": {
+    "external_address": false,
+    "formula_conversion": true,
+    "input_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "output_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "relative_address": true
+  },
   "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Application",

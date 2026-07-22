@@ -3,6 +3,12 @@
   "collection": null,
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.application(object)",
+  "evaluation_result_categories": [
+    "automation-value",
+    "range-object",
+    "other-object",
+    "unknown"
+  ],
   "guid": "{000208d5-0000-0000-c000-000000000046}",
   "id": "excel.application",
   "implemented_interface_count": 1,
@@ -91,11 +97,13 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 1,
       "documentation_status": "reviewed",
       "id": "excel.application.evaluate-1",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -107,15 +115,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2633,11 +2643,13 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 325,
       "documentation_status": "reviewed",
       "id": "excel.application.convertformula",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2649,15 +2661,17 @@
       "optional_argument_count": 3,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -4269,11 +4283,14 @@
           "raw_com_type": "VT_USERDEFINED(XlReferenceStyle)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 380,
       "documentation_status": "reviewed",
       "id": "excel.application.referencestyle",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -4286,15 +4303,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_USERDEFINED(XlReferenceStyle)",
       "return_type": "XlReferenceStyle",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -15010,6 +15030,19 @@
     }
   ],
   "name": "Application",
+  "reference_capabilities": {
+    "external_address": false,
+    "formula_conversion": true,
+    "input_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "output_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "relative_address": true
+  },
   "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "_Application",

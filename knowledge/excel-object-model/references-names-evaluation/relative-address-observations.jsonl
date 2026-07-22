@@ -1,0 +1,3 @@
+{"schema_version":1,"case_id":"relative-r1c1","base":"A1","target":"B2","output":"R[1]C[1]"}
+{"schema_version":1,"case_id":"relative-r1c1","base":"B2","target":"A1","output":"R[-1]C[-1]"}
+{"schema_version":1,"case_id":"relative-r1c1","base":"A1","target":"A1","output":"RC"}

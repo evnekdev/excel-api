@@ -6,8 +6,8 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use excel_com::{
-    Application, AutomationArgument, AutomationArray, AutomationValue, ComApartment, ExcelComError,
-    SaveChanges, WorkbookCloseOptions, WorkbookOpenOptions, WorkbookSaveAsOptions, XlFileFormat,
+    Application, AutomationArray, AutomationValue, ComApartment, ExcelComError, SaveChanges,
+    WorkbookCloseOptions, WorkbookOpenOptions, WorkbookSaveAsOptions, XlFileFormat,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -47,10 +47,7 @@ fn range(
     worksheet: &excel_com::Worksheet,
     address: &str,
 ) -> Result<excel_com::Range, ExcelComError> {
-    worksheet.range(
-        AutomationArgument::Value(AutomationValue::Text(address.to_owned())),
-        None,
-    )
+    worksheet.range(address)
 }
 
 fn unique_test_directory() -> std::path::PathBuf {

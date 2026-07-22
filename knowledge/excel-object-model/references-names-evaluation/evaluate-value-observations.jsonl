@@ -1,0 +1,3 @@
+{"schema_version":1,"case_id":"sum-named-range","expression":"SUM(InputRange)","result_category":"automation-value","result":5}
+{"schema_version":1,"case_id":"constant-name","expression":"ConstantValue","result_category":"automation-value","result":42}
+{"schema_version":1,"case_id":"range-mismatch","expression":"InputRange","requested":"evaluate_value","result":"structured object/value category mismatch"}

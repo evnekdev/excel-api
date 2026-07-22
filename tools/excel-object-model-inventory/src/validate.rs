@@ -68,6 +68,36 @@ pub fn check(root: &Path) -> Result<(), String> {
         } else if !object["collection"].is_null() {
             return Err("collection must be an object or null".to_owned());
         }
+        if let Some(capabilities) = object["reference_capabilities"].as_object() {
+            for field in ["input_styles", "output_styles"] {
+                for style in capabilities[field]
+                    .as_array()
+                    .ok_or("reference capabilities styles must be arrays")?
+                {
+                    let style = style.as_str().ok_or("reference style is not text")?;
+                    if !model::REFERENCE_STYLES.contains(&style) {
+                        return Err(format!("invalid reference style {style}"));
+                    }
+                }
+            }
+            for field in ["relative_address", "external_address", "formula_conversion"] {
+                if !capabilities[field].is_boolean() {
+                    return Err(format!("reference capability {field} must be boolean"));
+                }
+            }
+        } else if !object["reference_capabilities"].is_null() {
+            return Err("reference_capabilities must be an object or null".to_owned());
+        }
+        if let Some(categories) = object["evaluation_result_categories"].as_array() {
+            for category in categories {
+                let category = category.as_str().ok_or("evaluation category is not text")?;
+                if !model::EVALUATION_RESULT_CATEGORIES.contains(&category) {
+                    return Err(format!("invalid evaluation result category {category}"));
+                }
+            }
+        } else if !object["evaluation_result_categories"].is_null() {
+            return Err("evaluation_result_categories must be an array or null".to_owned());
+        }
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?

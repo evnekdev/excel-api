@@ -41,6 +41,26 @@ const APPLICATION_UNION: MemberDescriptor = MemberDescriptor {
     name: "Union",
     kind: MemberKind::Method,
 };
+const APPLICATION_REFERENCE_STYLE_GET: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.referencestyle"),
+    name: "ReferenceStyle",
+    kind: MemberKind::PropertyGet,
+};
+const APPLICATION_REFERENCE_STYLE_PUT: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.referencestyle"),
+    name: "ReferenceStyle",
+    kind: MemberKind::PropertyPut,
+};
+const APPLICATION_CONVERT_FORMULA: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.convertformula"),
+    name: "ConvertFormula",
+    kind: MemberKind::Method,
+};
+const APPLICATION_EVALUATE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.evaluate-1"),
+    name: "Evaluate",
+    kind: MemberKind::Method,
+};
 const WORKBOOKS_COUNT: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.workbooks.count"),
     name: "Count",
@@ -127,6 +147,11 @@ const WORKBOOK_WORKSHEETS: MemberDescriptor = MemberDescriptor {
     name: "Worksheets",
     kind: MemberKind::PropertyGet,
 };
+const WORKBOOK_NAMES: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.names"),
+    name: "Names",
+    kind: MemberKind::PropertyGet,
+};
 const WORKSHEETS_COUNT: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.worksheets.count"),
     name: "Count",
@@ -181,6 +206,26 @@ const WORKSHEET_USED_RANGE: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.worksheet.usedrange"),
     name: "UsedRange",
     kind: MemberKind::PropertyGet,
+};
+const WORKSHEET_APPLICATION: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.worksheet.application"),
+    name: "Application",
+    kind: MemberKind::PropertyGet,
+};
+const WORKSHEET_CELLS: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.worksheet.cells"),
+    name: "Cells",
+    kind: MemberKind::PropertyGet,
+};
+const WORKSHEET_NAMES: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.worksheet.names"),
+    name: "Names",
+    kind: MemberKind::PropertyGet,
+};
+const WORKSHEET_EVALUATE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.worksheet.evaluate-1"),
+    name: "Evaluate",
+    kind: MemberKind::Method,
 };
 const RANGE_ADDRESS: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.range.address"),
@@ -267,6 +312,56 @@ const AREAS_NEW_ENUM: MemberDescriptor = MemberDescriptor {
     name: "_NewEnum",
     kind: MemberKind::PropertyGet,
 };
+const NAMES_COUNT: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.names.count"),
+    name: "Count",
+    kind: MemberKind::PropertyGet,
+};
+const NAMES_ITEM: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.names.item"),
+    name: "Item",
+    kind: MemberKind::Method,
+};
+const NAMES_NEW_ENUM: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.names.newenum"),
+    name: "_NewEnum",
+    kind: MemberKind::PropertyGet,
+};
+const NAMES_ADD: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.names.add"),
+    name: "Add",
+    kind: MemberKind::Method,
+};
+const NAME_NAME: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.name"),
+    name: "Name",
+    kind: MemberKind::PropertyGet,
+};
+const NAME_REFERS_TO: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.refersto"),
+    name: "RefersTo",
+    kind: MemberKind::PropertyGet,
+};
+const NAME_REFERS_TO_R1C1: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.referstor1c1"),
+    name: "RefersToR1C1",
+    kind: MemberKind::PropertyGet,
+};
+const NAME_REFERS_TO_RANGE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.referstorange"),
+    name: "RefersToRange",
+    kind: MemberKind::PropertyGet,
+};
+const NAME_VISIBLE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.visible"),
+    name: "Visible",
+    kind: MemberKind::PropertyGet,
+};
+const NAME_DELETE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.name.delete"),
+    name: "Delete",
+    kind: MemberKind::Method,
+};
 const RANGE_VALUE_GET: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.range.value"),
     name: "Value",
@@ -321,6 +416,9 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.application.workbooks",
     "excel.application.quit",
     "excel.application.union",
+    "excel.application.referencestyle",
+    "excel.application.convertformula",
+    "excel.application.evaluate-1",
     "excel.workbooks.count",
     "excel.workbooks.item",
     "excel.workbooks.newenum",
@@ -337,6 +435,7 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.workbook.saveas-3174",
     "excel.workbook.savecopyas",
     "excel.workbook.worksheets",
+    "excel.workbook.names",
     "excel.worksheets.count",
     "excel.worksheets.item",
     "excel.worksheets.newenum",
@@ -346,6 +445,10 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.worksheet.visible",
     "excel.worksheet.range",
     "excel.worksheet.usedrange",
+    "excel.worksheet.application",
+    "excel.worksheet.cells",
+    "excel.worksheet.names",
+    "excel.worksheet.evaluate-1",
     "excel.range.address",
     "excel.range.row",
     "excel.range.column",
@@ -368,6 +471,16 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.areas.count",
     "excel.areas.item",
     "excel.areas.newenum",
+    "excel.names.count",
+    "excel.names.item",
+    "excel.names.newenum",
+    "excel.names.add",
+    "excel.name.name",
+    "excel.name.refersto",
+    "excel.name.referstor1c1",
+    "excel.name.referstorange",
+    "excel.name.visible",
+    "excel.name.delete",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
@@ -380,6 +493,10 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.application.workbooks", _) => APPLICATION_WORKBOOKS,
         ("excel.application.quit", _) => APPLICATION_QUIT,
         ("excel.application.union", _) => APPLICATION_UNION,
+        ("excel.application.referencestyle", false) => APPLICATION_REFERENCE_STYLE_GET,
+        ("excel.application.referencestyle", true) => APPLICATION_REFERENCE_STYLE_PUT,
+        ("excel.application.convertformula", _) => APPLICATION_CONVERT_FORMULA,
+        ("excel.application.evaluate-1", _) => APPLICATION_EVALUATE,
         ("excel.workbooks.count", _) => WORKBOOKS_COUNT,
         ("excel.workbooks.item", _) => WORKBOOKS_ITEM,
         ("excel.workbooks.newenum", _) => WORKBOOKS_NEW_ENUM,
@@ -397,6 +514,7 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.workbook.saveas-3174", _) => WORKBOOK_SAVE_AS,
         ("excel.workbook.savecopyas", _) => WORKBOOK_SAVE_COPY_AS,
         ("excel.workbook.worksheets", _) => WORKBOOK_WORKSHEETS,
+        ("excel.workbook.names", _) => WORKBOOK_NAMES,
         ("excel.worksheets.count", _) => WORKSHEETS_COUNT,
         ("excel.worksheets.item", _) => WORKSHEETS_ITEM,
         ("excel.worksheets.newenum", _) => WORKSHEETS_NEW_ENUM,
@@ -408,6 +526,10 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.worksheet.visible", true) => WORKSHEET_VISIBLE_PUT,
         ("excel.worksheet.range", _) => WORKSHEET_RANGE,
         ("excel.worksheet.usedrange", _) => WORKSHEET_USED_RANGE,
+        ("excel.worksheet.application", _) => WORKSHEET_APPLICATION,
+        ("excel.worksheet.cells", _) => WORKSHEET_CELLS,
+        ("excel.worksheet.names", _) => WORKSHEET_NAMES,
+        ("excel.worksheet.evaluate-1", _) => WORKSHEET_EVALUATE,
         ("excel.range.address", _) => RANGE_ADDRESS,
         ("excel.range.row", _) => RANGE_ROW,
         ("excel.range.column", _) => RANGE_COLUMN,
@@ -434,6 +556,16 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.areas.count", _) => AREAS_COUNT,
         ("excel.areas.item", _) => AREAS_ITEM,
         ("excel.areas.newenum", _) => AREAS_NEW_ENUM,
+        ("excel.names.count", _) => NAMES_COUNT,
+        ("excel.names.item", _) => NAMES_ITEM,
+        ("excel.names.newenum", _) => NAMES_NEW_ENUM,
+        ("excel.names.add", _) => NAMES_ADD,
+        ("excel.name.name", _) => NAME_NAME,
+        ("excel.name.refersto", _) => NAME_REFERS_TO,
+        ("excel.name.referstor1c1", _) => NAME_REFERS_TO_R1C1,
+        ("excel.name.referstorange", _) => NAME_REFERS_TO_RANGE,
+        ("excel.name.visible", _) => NAME_VISIBLE,
+        ("excel.name.delete", _) => NAME_DELETE,
         _ => unreachable!("implemented member ID must be registered"),
     }
 }

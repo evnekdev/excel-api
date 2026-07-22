@@ -77,7 +77,7 @@
 | AllowEditRanges | GetIDsOfNames | 1610678274 | Metadata Only |
 | AllowEditRanges | Invoke | 1610678275 | Metadata Only |
 | Application | _Evaluate | -5 | Metadata Only |
-| Application | Evaluate | 1 | Metadata Only |
+| Application | Evaluate | 1 | Implemented |
 | Application | RegisterXLL | 30 | Metadata Only |
 | Application | _WSFunction | 169 | Metadata Only |
 | Application | SaveWorkspace | 212 | Metadata Only |
@@ -90,7 +90,7 @@
 | Application | Repeat | 301 | Metadata Only |
 | Application | Quit | 302 | Implemented |
 | Application | Undo | 303 | Metadata Only |
-| Application | ConvertFormula | 325 | Metadata Only |
+| Application | ConvertFormula | 325 | Implemented |
 | Application | DDEExecute | 333 | Metadata Only |
 | Application | DDEInitiate | 334 | Metadata Only |
 | Application | DDEPoke | 335 | Metadata Only |

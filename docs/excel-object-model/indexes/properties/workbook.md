@@ -30,7 +30,7 @@
 | Workbook | UpdateRemoteReferences | 411 | Metadata Only |
 | Workbook | Password | 429 | Metadata Only |
 | Workbook | Windows | 430 | Metadata Only |
-| Workbook | Names | 442 | Metadata Only |
+| Workbook | Names | 442 | Implemented |
 | Workbook | Sheets | 485 | Metadata Only |
 | Workbook | Styles | 493 | Metadata Only |
 | Workbook | Worksheets | 494 | Implemented |

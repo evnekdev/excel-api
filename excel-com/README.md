@@ -75,6 +75,36 @@ strict nonzero `resize`, `rows`, `columns`, `areas`, `entire_row`, and
 to construct a multi-area Range. These APIs do not materialize Rust cell
 collections or generalize multi-area assignment.
 
+## Selecting, naming, converting, and evaluating ranges
+
+The concise selection default is A1. R1C1 selection is explicit and is
+converted by Excel rather than parsed by Rust. Numeric coordinates are
+one-based. `ReferenceStyle` is global Excel state, so temporary changes use a
+restoring guard. Workbook and worksheet Name collections have distinct Excel
+scope behavior; a valid Name does not necessarily resolve to a Range.
+
+| Need | API |
+|---|---|
+| A1 selection | `Worksheet::range` |
+| Two A1 corners | `Worksheet::range_between` |
+| R1C1 selection | `Worksheet::range_r1c1` |
+| Numeric cell | `Worksheet::cell` |
+| Numeric rectangle | `Worksheet::range_from_cells` |
+| A1 output | `Range::address_a1` |
+| R1C1 output | `Range::address_r1c1` |
+| Customized address | `Range::address_with_options` |
+| Formula/reference conversion | `Application::convert_formula` |
+| Workbook names | `Workbook::names` |
+| Worksheet names | `Worksheet::names` |
+| Add name | `Names::add` |
+| Resolve name to Range | `Name::range` |
+| Evaluate scalar | `Application::evaluate_value` |
+| Evaluate Range | `Application::evaluate_range` |
+
+`Worksheet::range` changed from its earlier `AutomationArgument` plus optional
+second-argument form to `range(&str)`. Use `range_between` for separate A1
+corners instead.
+
 ## API documentation
 
 Rustdoc describes the public wrapper and Automation-value contracts; the

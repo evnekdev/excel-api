@@ -566,10 +566,10 @@
 | Modules | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ModuleView | dispatch-interface | Metadata Only | Generated | Not Tested |
 | MultiThreadedCalculation | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Name | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Name](../objects/name.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | NamedSheetView | dispatch-interface | Metadata Only | Generated | Not Tested |
 | NamedSheetViewCollection | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Names | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Names](../objects/names.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | NegativeBarFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ODBCConnection | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ODBCError | dispatch-interface | Metadata Only | Generated | Not Tested |
