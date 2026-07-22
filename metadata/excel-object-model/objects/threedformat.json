@@ -1,16 +1,12 @@
 {
   "alias_target": null,
-  "collection": false,
-  "collection_capabilities": [],
+  "collection": null,
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": null,
   "guid": "{000c0321-0000-0000-c000-000000000046}",
   "id": "excel.threedformat",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": null,
   "kind": "dispatch-interface",
   "members": [
     {

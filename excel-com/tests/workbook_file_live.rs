@@ -141,10 +141,12 @@ fn workbook_file_lifecycle_naturally_exits() -> Result<(), Box<dyn std::error::E
                 vec![AutomationValue::Number(3.0), AutomationValue::Number(4.0)],
             ])?)
         );
+        let read_only_alerts = application.display_alerts_guard(false)?;
         match reopened.save() {
             Ok(()) => eprintln!("read-only Workbook.Save completed without a reported error"),
             Err(error) => eprintln!("read-only Workbook.Save reported: {error}"),
         }
+        read_only_alerts.restore()?;
         drop((reopened_sheet, reopened_sheets));
         reopened.close(WorkbookCloseOptions {
             save_changes: SaveChanges::Discard,

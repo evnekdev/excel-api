@@ -392,13 +392,13 @@
 | Arcs | AddIndent | 1063 | Metadata Only |
 | Arcs | AutoScaleFont | 1525 | Metadata Only |
 | Arcs | ShapeRange | 1528 | Metadata Only |
-| Areas | _NewEnum | -4 | Metadata Only |
+| Areas | _NewEnum | -4 | Implemented |
 | Areas | _Default | 0 | Metadata Only |
-| Areas | Count | 118 | Metadata Only |
+| Areas | Count | 118 | Implemented |
 | Areas | Application | 148 | Metadata Only |
 | Areas | Creator | 149 | Metadata Only |
 | Areas | Parent | 150 | Metadata Only |
-| Areas | Item | 170 | Metadata Only |
+| Areas | Item | 170 | Implemented |
 | Author | Name | 110 | Metadata Only |
 | Author | Application | 148 | Metadata Only |
 | Author | Creator | 149 | Metadata Only |

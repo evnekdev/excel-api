@@ -1,21 +1,22 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Add"
-  ],
+  "collection": {
+    "count_member_id": "excel.workbooks.count",
+    "element_type": "Workbook",
+    "enumerator_member_id": "excel.workbooks.newenum",
+    "index_kinds": [
+      "one-based-integer",
+      "string-key"
+    ],
+    "item_member_id": "excel.workbooks.item",
+    "iterator_status": "implemented"
+  },
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbooks",
-  "element_type": "Workbook",
-  "enumerator_member": "_NewEnum",
   "guid": "{000208db-0000-0000-c000-000000000046}",
   "id": "excel.workbooks",
   "implemented_interface_count": 1,
   "implemented_status": "partial",
-  "index_member": "Item",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -24,7 +25,7 @@
       "dispid": -4,
       "documentation_status": "reviewed",
       "id": "excel.workbooks.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -40,11 +41,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -232,7 +233,7 @@
       "dispid": 170,
       "documentation_status": "reviewed",
       "id": "excel.workbooks.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -248,11 +249,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]

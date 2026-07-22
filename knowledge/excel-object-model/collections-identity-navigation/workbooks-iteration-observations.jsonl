@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"workbooks-iteration","collection":"Workbooks","count_and_item":true,"enumerator":"_NewEnum","index_kinds":["one-based-integer","string-key"],"identity_item_to_index":true,"outcome":"passed"}

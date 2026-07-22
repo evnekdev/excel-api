@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"range-navigation","members":["Cells","Item","Offset","Resize","Rows","Columns","Areas","EntireRow","EntireColumn","Application.Union"],"one_based_indices":true,"positive_and_negative_offsets":true,"resize":true,"derived_write_and_original_read":true,"outcome":"passed"}

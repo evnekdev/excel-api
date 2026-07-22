@@ -1,18 +1,12 @@
 {
   "alias_target": null,
-  "collection": false,
-  "collection_capabilities": [
-    "Delete"
-  ],
+  "collection": null,
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": null,
   "guid": "{00020866-0001-0000-c000-000000000046}",
   "id": "excel.imenu",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": null,
   "kind": "interface",
   "members": [
     {

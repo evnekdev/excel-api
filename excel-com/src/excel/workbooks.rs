@@ -1,10 +1,23 @@
-use crate::automation::{OwnedVariant, PositionalArguments, invoke, property_get};
+use crate::ExcelComError;
+use crate::automation::{
+    EnumVariant, OwnedVariant, PositionalArguments, enumerated_dispatch, invoke, property_get,
+};
+use crate::excel::collection::{
+    CollectionDescriptor, count as collection_count, enumerator, item_by_index, item_by_name,
+};
 use crate::excel::{DispatchObject, Workbook, WorkbookOpenOptions};
 use crate::internal::{ComPtr, Dispatch, path_bstr};
 use crate::object_model::{MemberId, member};
-use crate::{ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
+use std::iter::FusedIterator;
 use std::path::Path;
+
+const DESCRIPTOR: CollectionDescriptor = CollectionDescriptor {
+    name: "Workbooks",
+    count: MemberId::new("excel.workbooks.count"),
+    item: MemberId::new("excel.workbooks.item"),
+    new_enum: MemberId::new("excel.workbooks.newenum"),
+};
 
 /// Experimental wrapper for an Excel Workbooks collection.
 pub struct Workbooks {
@@ -36,15 +49,11 @@ impl Workbooks {
     }
     /// Returns the number of open workbooks.
     pub fn count(&self) -> Result<i32, ExcelComError> {
-        property_get(
-            &self.inner.dispatch,
-            member(MemberId::new("excel.workbooks.count"), false),
-            vec![],
-        )?
-        .as_i32()
-        .ok_or(ExcelComError::Conversion(
-            ConversionError::UnsupportedVariantType { vartype: 0 },
-        ))
+        i32::try_from(collection_count(&self.inner, DESCRIPTOR)?).map_err(|_| {
+            ExcelComError::Unsupported {
+                detail: "Workbooks.Count exceeds i32",
+            }
+        })
     }
     /// Adds a default workbook using Excel's proven property-get invocation form.
     pub fn add(&self) -> Result<Workbook, ExcelComError> {
@@ -78,7 +87,65 @@ impl Workbooks {
     pub fn open_default<P: AsRef<Path>>(&self, filename: P) -> Result<Workbook, ExcelComError> {
         self.open(filename, WorkbookOpenOptions::new())
     }
+    /// Returns the one-based workbook at `index`.
+    pub fn item_by_index(&self, index: usize) -> Result<Workbook, ExcelComError> {
+        Ok(Workbook::from_dispatch(item_by_index(
+            &self.inner,
+            DESCRIPTOR,
+            index,
+        )?))
+    }
+    /// Returns the workbook selected by its current name.
+    pub fn item_by_name(&self, name: &str) -> Result<Workbook, ExcelComError> {
+        Ok(Workbook::from_dispatch(item_by_name(
+            &self.inner,
+            DESCRIPTOR,
+            name,
+        )?))
+    }
+    /// Iterates workbook objects in Excel's `_NewEnum` order.
+    pub fn iter(&self) -> Result<WorkbooksIter, ExcelComError> {
+        Ok(WorkbooksIter {
+            enumerator: enumerator(&self.inner, DESCRIPTOR)?,
+            next_index: 0,
+            terminal: false,
+        })
+    }
 }
+
+/// Typed, single-pass workbook collection iterator.
+pub struct WorkbooksIter {
+    enumerator: EnumVariant,
+    next_index: usize,
+    terminal: bool,
+}
+impl Iterator for WorkbooksIter {
+    type Item = Result<Workbook, ExcelComError>;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.terminal {
+            return None;
+        }
+        match self.enumerator.next() {
+            Ok(Some(mut value)) => {
+                let index = self.next_index;
+                self.next_index += 1;
+                Some(
+                    enumerated_dispatch(&mut value, "Workbooks", index)
+                        .map(Workbook::from_dispatch),
+                )
+            }
+            Ok(None) => {
+                self.terminal = true;
+                None
+            }
+            Err(error) => {
+                self.terminal = true;
+                Some(Err(error))
+            }
+        }
+    }
+}
+impl FusedIterator for WorkbooksIter {}
 
 fn open_arguments(
     filename: &Path,

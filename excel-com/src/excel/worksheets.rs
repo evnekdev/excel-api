@@ -1,12 +1,22 @@
 use std::fmt::{Debug, Formatter};
 
 use crate::ExcelComError;
-use crate::automation::{
-    AutomationArgument, OwnedVariant, PositionalArguments, invoke, property_get,
+use crate::automation::{AutomationArgument, OwnedVariant, PositionalArguments, invoke};
+use crate::automation::{EnumVariant, enumerated_dispatch};
+use crate::excel::collection::{
+    CollectionDescriptor, count as collection_count, enumerator, item_by_index, item_by_name,
 };
 use crate::excel::{DispatchObject, Worksheet};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
+use std::iter::FusedIterator;
+
+const DESCRIPTOR: CollectionDescriptor = CollectionDescriptor {
+    name: "Worksheets",
+    count: MemberId::new("excel.worksheets.count"),
+    item: MemberId::new("excel.worksheets.item"),
+    new_enum: MemberId::new("excel.worksheets.newenum"),
+};
 
 /// Options for [`Worksheets::add`].
 ///
@@ -98,43 +108,29 @@ impl Worksheets {
 
     /// Returns the number of worksheets in the collection.
     pub fn count(&self) -> Result<i32, ExcelComError> {
-        property_get(
-            &self.inner.dispatch,
-            member(MemberId::new("excel.worksheets.count"), false),
-            vec![],
-        )?
-        .as_i32()
-        .ok_or(ExcelComError::Unsupported {
-            detail: "Worksheets.Count did not return VT_I4",
+        i32::try_from(collection_count(&self.inner, DESCRIPTOR)?).map_err(|_| {
+            ExcelComError::Unsupported {
+                detail: "Worksheets.Count exceeds i32",
+            }
         })
     }
 
     /// Returns the one-based worksheet at `index`.
-    pub fn item_by_index(&self, index: u32) -> Result<Worksheet, ExcelComError> {
-        if index == 0 {
-            return Err(ExcelComError::Unsupported {
-                detail: "worksheet index is one-based",
-            });
-        }
-        let index = i32::try_from(index).map_err(|_| ExcelComError::Unsupported {
-            detail: "worksheet index exceeds i32",
-        })?;
-        let mut result = property_get(
-            &self.inner.dispatch,
-            member(MemberId::new("excel.worksheets.item"), false),
-            vec![OwnedVariant::i32(index)],
-        )?;
-        Ok(Worksheet::from_dispatch(result.take_dispatch()?))
+    pub fn item_by_index(&self, index: usize) -> Result<Worksheet, ExcelComError> {
+        Ok(Worksheet::from_dispatch(item_by_index(
+            &self.inner,
+            DESCRIPTOR,
+            index,
+        )?))
     }
 
     /// Returns the worksheet selected by its current name.
     pub fn item_by_name(&self, name: &str) -> Result<Worksheet, ExcelComError> {
-        let mut result = property_get(
-            &self.inner.dispatch,
-            member(MemberId::new("excel.worksheets.item"), false),
-            vec![OwnedVariant::bstr(name)?],
-        )?;
-        Ok(Worksheet::from_dispatch(result.take_dispatch()?))
+        Ok(Worksheet::from_dispatch(item_by_name(
+            &self.inner,
+            DESCRIPTOR,
+            name,
+        )?))
     }
 
     /// Adds a worksheet using optional arguments in their logical Excel order.
@@ -192,4 +188,46 @@ impl Worksheets {
         )?;
         Ok(Worksheet::from_dispatch(result.take_dispatch()?))
     }
+    /// Iterates worksheet objects in Excel's `_NewEnum` order.
+    pub fn iter(&self) -> Result<WorksheetsIter, ExcelComError> {
+        Ok(WorksheetsIter {
+            enumerator: enumerator(&self.inner, DESCRIPTOR)?,
+            next_index: 0,
+            terminal: false,
+        })
+    }
 }
+
+/// Typed, single-pass worksheet collection iterator.
+pub struct WorksheetsIter {
+    enumerator: EnumVariant,
+    next_index: usize,
+    terminal: bool,
+}
+impl Iterator for WorksheetsIter {
+    type Item = Result<Worksheet, ExcelComError>;
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.terminal {
+            return None;
+        }
+        match self.enumerator.next() {
+            Ok(Some(mut value)) => {
+                let index = self.next_index;
+                self.next_index += 1;
+                Some(
+                    enumerated_dispatch(&mut value, "Worksheets", index)
+                        .map(Worksheet::from_dispatch),
+                )
+            }
+            Ok(None) => {
+                self.terminal = true;
+                None
+            }
+            Err(error) => {
+                self.terminal = true;
+                Some(Err(error))
+            }
+        }
+    }
+}
+impl FusedIterator for WorksheetsIter {}

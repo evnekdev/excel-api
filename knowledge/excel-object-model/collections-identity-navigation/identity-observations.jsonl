@@ -1,0 +1,4 @@
+{"schema_version":1,"id":"worksheet-index-iterator-identity","comparison":"Worksheet Item(1) versus first iterator item","same":true}
+{"schema_version":1,"id":"worksheet-name-iterator-identity","comparison":"Worksheet name lookup versus iterator item","same":true}
+{"schema_version":1,"id":"range-equivalent-identity","comparison":"independently materialized equivalent Range values","same":false,"note":"logical address equality is not COM identity"}
+{"schema_version":1,"id":"areas-item-iterator-identity","comparison":"Areas.Item(1) versus first iterator item","same":false,"note":"Excel materialized distinct Range COM objects with the same address"}

@@ -18,7 +18,7 @@ pub fn generate(root: &Path) -> Result<Summary, String> {
         write(path, content)?;
     }
     Ok(Summary {
-        pages: 6,
+        pages: 7,
         enum_pages: outputs
             .keys()
             .filter(|path| {
@@ -40,7 +40,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, and Areas iteration plus core Range navigation. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -91,6 +91,10 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         );
     }
     output.insert(docs.join("indexes/events.md"), event_index(&objects));
+    output.insert(
+        docs.join("indexes/collections.md"),
+        collection_index(&objects),
+    );
     output.insert(docs.join("indexes/enums.md"), enum_index(&enums));
     output.insert(docs.join("indexes/unsupported.md"), "# Unsupported and deferred inventory\n\nThe initial crate intentionally defers range wrappers, worksheet wrappers, charts, events, macros, connection points, generic collections, cross-apartment marshaling, and stable API commitments. Their metadata remains structurally inventoried.\n".to_owned());
     output.insert(docs.join("STATUS.md"), status(&objects));
@@ -139,20 +143,21 @@ fn summary(name: &str) -> &'static str {
             "The root Automation object for a locally activated Excel instance. The initial crate exposes only a deliberately small lifecycle and workbook-navigation slice."
         }
         "Workbooks" => {
-            "The collection through which an Application exposes open workbooks. The initial crate supports counting and creating a workbook, without a general collection abstraction."
+            "The typed collection through which an Application exposes open workbooks, including Count, Item, and fallible _NewEnum iteration."
         }
         "Workbook" => {
             "An Excel workbook object. The initial crate supports basic identity, saved-state, and explicit close-without-saving operations."
         }
         "Worksheets" => {
-            "The workbook worksheet collection. The bounded crate slice supports Count, Item, and constrained Add options."
+            "The typed workbook worksheet collection. The bounded slice supports Count, Item, constrained Add options, and fallible _NewEnum iteration."
         }
         "Worksheet" => {
             "A worksheet object within a workbook. The bounded crate slice exposes identity, visibility, Range, and UsedRange navigation."
         }
         "Range" => {
-            "The cell and rectangular-value object. The bounded crate slice supports address, dimensions, Value/Value2, Formula/Formula2, and ClearContents."
+            "The cell and rectangular-value object. The bounded crate slice supports values plus Cells, Item, Offset, Resize, Rows, Columns, Areas, EntireRow, and EntireColumn navigation."
         }
+        "Areas" => "The typed collection of contiguous ranges produced by a multi-area Range.",
         _ => "This type-library object is structurally inventoried for future wrapper planning.",
     }
 }
@@ -390,6 +395,64 @@ fn event_index(objects: &[Value]) -> String {
     }
     lines.join("\n") + "\n"
 }
+fn collection_index(objects: &[Value]) -> String {
+    let mut lines = vec![
+        "# Collection inventory".to_owned(),
+        "".to_owned(),
+        "Collections are detected structurally from Count and Item. Iterator status is independent from the broader wrapper status.".to_owned(),
+        "".to_owned(),
+        "## Priority collection status".to_owned(),
+        "".to_owned(),
+        "| Collection | Iterator status |".to_owned(),
+        "|---|---|".to_owned(),
+    ];
+    for name in [
+        "Workbooks",
+        "Worksheets",
+        "Areas",
+        "Names",
+        "Charts",
+        "Shapes",
+        "ListObjects",
+    ] {
+        let status = objects
+            .iter()
+            .find(|object| object["name"].as_str() == Some(name))
+            .and_then(|object| object["collection"]["iterator_status"].as_str())
+            .unwrap_or("not-started");
+        lines.push(format!("| {name} | {status} |"));
+    }
+    lines.extend([
+        "".to_owned(),
+        "## All structurally identified collections".to_owned(),
+        "".to_owned(),
+        "| Collection | Element | Count member | Item member | Enumerator | Index kinds | Iterator |".to_owned(),
+        "|---|---|---|---|---|---|---|".to_owned(),
+    ]);
+    for object in objects
+        .iter()
+        .filter(|object| object["collection"].is_object())
+    {
+        let collection = &object["collection"];
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} | {} | {} |",
+            object["name"].as_str().unwrap_or("--"),
+            collection["element_type"].as_str().unwrap_or("Unknown"),
+            collection["count_member_id"].as_str().unwrap_or("--"),
+            collection["item_member_id"].as_str().unwrap_or("--"),
+            collection["enumerator_member_id"].as_str().unwrap_or("--"),
+            collection["index_kinds"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+                .collect::<Vec<_>>()
+                .join(", "),
+            collection["iterator_status"].as_str().unwrap_or("--"),
+        ));
+    }
+    lines.join("\n") + "\n"
+}
 fn enum_index(enums: &[Value]) -> String {
     let mut lines = vec![
         "# Enum index".to_owned(),
@@ -563,6 +626,7 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "Worksheets",
         "Worksheet",
         "Range",
+        "Areas",
     ]
     .into_iter()
     .filter_map(|name| {

@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"worksheets-iteration","collection":"Worksheets","count_and_item":true,"enumerator":"_NewEnum","index_kinds":["one-based-integer","string-key"],"iteration_matches_excel_index_order":true,"identity_index_to_iterator":true,"identity_name_to_iterator":true,"outcome":"passed"}

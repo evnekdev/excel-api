@@ -1,16 +1,12 @@
 {
   "alias_target": null,
-  "collection": false,
-  "collection_capabilities": [],
+  "collection": null,
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.application(object)",
-  "element_type": null,
-  "enumerator_member": null,
   "guid": "{000208d5-0000-0000-c000-000000000046}",
   "id": "excel.application",
   "implemented_interface_count": 1,
   "implemented_status": "partial",
-  "index_member": null,
   "kind": "dispatch-interface",
   "members": [
     {
@@ -6548,7 +6544,7 @@
       "dispid": 779,
       "documentation_status": "reviewed",
       "id": "excel.application.union",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -6564,11 +6560,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

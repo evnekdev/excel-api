@@ -2,7 +2,7 @@
 
 ## Summary
 
-The collection through which an Application exposes open workbooks. The initial crate supports counting and creating a workbook, without a general collection abstraction.
+The typed collection through which an Application exposes open workbooks. The bounded crate supports Count, Item lookup, creation, file operations, and fallible `_NewEnum` iteration without exposing a generic public collection API.
 
 ## Sources
 
@@ -31,7 +31,7 @@ The collection through which an Application exposes open workbooks. The initial 
 | `Add` | `excel.workbook` | Implemented |
 | `Application` | `excel.application` | Metadata Only |
 | `_Default` | `excel.workbook` | Metadata Only |
-| `Item` | `excel.workbook` | Metadata Only |
+| `Item` | `excel.workbook` | Implemented |
 | `_Open` | `excel.workbook` | Metadata Only |
 | `Open` | `excel.workbook` | Implemented |
 | `OpenDatabase` | `excel.workbook` | Metadata Only |
@@ -42,13 +42,13 @@ The collection through which an Application exposes open workbooks. The initial 
 
 | Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---|---|---:|---|---|---|---|
-| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Metadata Only | Reviewed | Not Tested | |
+| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Implemented | Reviewed | Live Tested | |
 | _Default | PROPERTYGET | Workbook | declared | 0 | Metadata Only | Reviewed | Not Tested | |
 | Count | PROPERTYGET | i32 | declared | 118 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| Item | PROPERTYGET | Workbook | declared | 170 | Metadata Only | Reviewed | Not Tested | |
+| Item | PROPERTYGET | Workbook | declared | 170 | Implemented | Reviewed | Live Tested | |
 
 ## Methods
 

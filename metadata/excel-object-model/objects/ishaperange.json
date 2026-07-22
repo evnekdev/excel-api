@@ -1,21 +1,21 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Delete"
-  ],
+  "collection": {
+    "count_member_id": "excel.ishaperange.count",
+    "element_type": "Unknown",
+    "enumerator_member_id": "excel.ishaperange.newenum",
+    "index_kinds": [
+      "variant-key"
+    ],
+    "item_member_id": "excel.ishaperange.item",
+    "iterator_status": "metadata-only"
+  },
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": "_NewEnum",
   "guid": "{0002443b-0001-0000-c000-000000000046}",
   "id": "excel.ishaperange",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": "Item",
   "kind": "interface",
   "members": [
     {

@@ -360,7 +360,13 @@ fn object_record(
             .filter(|target| {
                 matches!(
                     target.as_str(),
-                    "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range"
+                    "Application"
+                        | "Workbooks"
+                        | "Workbook"
+                        | "Worksheets"
+                        | "Worksheet"
+                        | "Range"
+                        | "Areas"
                 )
             })
             .or_else(|| relationship_fallback(&id).map(str::to_owned));
@@ -373,7 +379,7 @@ fn object_record(
         "alias" => format!("{}.alias", model::object_id(raw_name)),
         _ => model::object_id(raw_name),
     };
-    let collection = members
+    let is_collection = members
         .iter()
         .any(|member| member["name"].as_str() == Some("Count"))
         && members
@@ -382,16 +388,37 @@ fn object_record(
     let collection_element = match model::canonical_name(raw_name) {
         "Workbooks" => Some("Workbook"),
         "Worksheets" => Some("Worksheet"),
+        "Areas" => Some("Range"),
         _ => None,
     };
-    let collection_capabilities: Vec<&str> = ["Count", "Item", "_NewEnum", "Add", "Delete"]
-        .into_iter()
-        .filter(|candidate| {
-            members
-                .iter()
-                .any(|member| member["name"].as_str() == Some(*candidate))
+    let member_id = |name: &str| {
+        members
+            .iter()
+            .find(|member| member["name"].as_str() == Some(name))
+            .and_then(|member| member["id"].as_str())
+            .map(str::to_owned)
+    };
+    let index_kinds = match model::canonical_name(raw_name) {
+        "Workbooks" | "Worksheets" => vec!["one-based-integer", "string-key"],
+        "Areas" => vec!["one-based-integer"],
+        _ if is_collection => vec!["variant-key"],
+        _ => vec!["no-index"],
+    };
+    let iterator_status = match model::canonical_name(raw_name) {
+        "Workbooks" | "Worksheets" | "Areas" => "implemented",
+        _ if is_collection => "metadata-only",
+        _ => "not-started",
+    };
+    let collection = is_collection.then(|| {
+        json!({
+            "element_type": collection_element.unwrap_or("Unknown"),
+            "count_member_id": member_id("Count"),
+            "item_member_id": member_id("Item"),
+            "enumerator_member_id": member_id("_NewEnum"),
+            "index_kinds": index_kinds,
+            "iterator_status": iterator_status,
         })
-        .collect();
+    });
     if let Some(element) = collection_element {
         if let Some(item) = members
             .iter()
@@ -409,7 +436,7 @@ fn object_record(
         None
     };
     Ok(
-        json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "collection_capabilities": collection_capabilities, "element_type": collection_element, "index_member": if collection { Some("Item") } else { None::<&str> }, "enumerator_member": if members.iter().any(|member| member["name"].as_str() == Some("_NewEnum")) { Some("_NewEnum") } else { None::<&str> }, "members": members}),
+        json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "members": members}),
     )
 }
 

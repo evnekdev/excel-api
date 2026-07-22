@@ -1,5 +1,5 @@
 use crate::automation::{OwnedVariant, activate_excel, invoke, property_get, property_put};
-use crate::excel::{DispatchObject, Workbooks};
+use crate::excel::{DispatchObject, Range, Workbooks};
 use crate::object_model::{MemberId, member};
 use crate::{ComApartment, ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
@@ -144,6 +144,22 @@ impl Application {
             vec![],
         )?;
         Ok(Workbooks::from_dispatch(result.take_dispatch()?))
+    }
+    /// Returns the union of two ranges from this Application's Excel server.
+    ///
+    /// Both Range values must belong to compatible workbooks in the same Excel
+    /// instance; Excel reports any cross-server or cross-workbook restriction.
+    pub fn union2(&self, left: &Range, right: &Range) -> Result<Range, ExcelComError> {
+        let mut arguments = crate::automation::PositionalArguments::new();
+        arguments.push_object(left.dispatch_object());
+        arguments.push_object(right.dispatch_object());
+        let mut result = invoke(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.union"), false),
+            arguments.into_inner(),
+            false,
+        )?;
+        Ok(Range::from_dispatch(result.take_dispatch()?))
     }
     /// Explicitly asks the crate-created application to quit. `Drop` never does this.
     pub fn quit(self) -> Result<(), ExcelComError> {

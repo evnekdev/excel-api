@@ -48,6 +48,35 @@
 //! through [`DisplayAlertsGuard::restore`]). [`Workbook::close`] consumes its
 //! wrapper and takes [`WorkbookCloseOptions`] with [`SaveChanges`].
 //!
+//! # Collections and navigation
+//!
+//! [`Workbooks::iter`], [`Worksheets::iter`], and [`Areas::iter`] are
+//! fallible, single-pass, apartment-bound cursors over Excel's `_NewEnum`.
+//! Each yields `Result`; a COM or conversion failure fuses that cursor, and
+//! dropping it early releases its enumerator. [`Workbook::is_same_object`],
+//! [`Worksheet::is_same_object`], and [`Range::is_same_object`] compare the
+//! canonical COM `IUnknown` identity and are deliberately fallible rather
+//! than `PartialEq`. Excel may materialize logically equivalent Range values
+//! as distinct COM objects, so addresses are not identity.
+//!
+//! ```no_run
+//! # fn example() -> Result<(), excel_com::ExcelComError> {
+//! # use excel_com::{Application, AutomationArgument, AutomationValue, ComApartment};
+//! # let apartment = ComApartment::sta()?;
+//! # let application = Application::new(&apartment)?;
+//! # let workbook = application.workbooks()?.add()?;
+//! let worksheets = workbook.worksheets()?;
+//! let direct = worksheets.item_by_index(1)?;
+//! let first = worksheets.iter()?.next().transpose()?.expect("worksheet");
+//! assert!(direct.is_same_object(&first)?);
+//! let base = direct.range(AutomationArgument::Value(AutomationValue::Text("B2".into())), None)?;
+//! let shifted = base.resize(2, 3)?.cell(2, 3)?.offset(1, -1)?;
+//! # drop(shifted);
+//! # application.quit()?;
+//! # Ok(())
+//! # }
+//! ```
+//!
 //! # Example
 //!
 //! ```no_run
@@ -99,10 +128,11 @@ pub use automation::{
 };
 pub use error::ExcelComError;
 pub use excel::{
-    Application, DisplayAlertsGuard, Range, SaveChanges, Workbook, WorkbookCloseOptions,
-    WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions, Workbooks, Worksheet,
-    Worksheets, WorksheetsAddOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
-    XlSaveConflictResolution, XlSheetVisibility, XlUpdateLinks,
+    Application, Areas, AreasIter, DisplayAlertsGuard, Range, SaveChanges, Workbook,
+    WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions,
+    Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions, WorksheetsIter,
+    XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,
+    XlSheetVisibility, XlUpdateLinks,
 };
 pub use internal::ComApartment;
 pub use object_model::{

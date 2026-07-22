@@ -2387,6 +2387,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.range.areas",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.areas"
+  },
+  {
     "member_id": "excel.range.cells",
     "schema_version": 1,
     "source": "excel.range",

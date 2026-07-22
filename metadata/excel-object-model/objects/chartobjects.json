@@ -1,22 +1,21 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Add",
-    "Delete"
-  ],
+  "collection": {
+    "count_member_id": "excel.chartobjects.count",
+    "element_type": "Unknown",
+    "enumerator_member_id": "excel.chartobjects.newenum",
+    "index_kinds": [
+      "variant-key"
+    ],
+    "item_member_id": "excel.chartobjects.item",
+    "iterator_status": "metadata-only"
+  },
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": "_NewEnum",
   "guid": "{000208d0-0000-0000-c000-000000000046}",
   "id": "excel.chartobjects",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": "Item",
   "kind": "dispatch-interface",
   "members": [
     {

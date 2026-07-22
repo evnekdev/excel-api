@@ -68,6 +68,10 @@ impl Worksheet {
     pub(crate) fn dispatch_object(&self) -> &DispatchObject {
         &self.inner
     }
+    /// Returns whether two Worksheet wrappers denote the same COM object identity.
+    pub fn is_same_object(&self, other: &Self) -> Result<bool, ExcelComError> {
+        self.inner.same_object(&other.inner)
+    }
 
     /// Returns the worksheet name.
     pub fn name(&self) -> Result<String, ExcelComError> {

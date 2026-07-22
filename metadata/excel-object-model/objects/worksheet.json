@@ -1,18 +1,12 @@
 {
   "alias_target": null,
-  "collection": false,
-  "collection_capabilities": [
-    "Delete"
-  ],
+  "collection": null,
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet",
-  "element_type": null,
-  "enumerator_member": null,
   "guid": "{000208d8-0000-0000-c000-000000000046}",
   "id": "excel.worksheet",
   "implemented_interface_count": 1,
   "implemented_status": "partial",
-  "index_member": null,
   "kind": "dispatch-interface",
   "members": [
     {
