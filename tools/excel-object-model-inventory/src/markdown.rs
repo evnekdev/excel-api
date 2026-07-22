@@ -18,7 +18,10 @@ pub fn generate(root: &Path) -> Result<Summary, String> {
         write(path, content)?;
     }
     Ok(Summary {
-        pages: 7,
+        pages: priority_records(&read_records(
+            &root.join("metadata/excel-object-model/objects"),
+        )?)
+        .len(),
         enum_pages: outputs
             .keys()
             .filter(|path| {
@@ -40,7 +43,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, and Names iteration plus core Range navigation, references, formula conversion, and typed evaluation. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, Names, and Borders iteration plus core Range navigation, references, formula conversion, typed evaluation, Font, Interior, Borders, dimensions, and AutoFit. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -162,6 +165,12 @@ fn summary(name: &str) -> &'static str {
         "Name" => {
             "One Excel defined name, which may resolve to a Range, scalar, formula, or invalid reference."
         }
+        "Font" => "The apartment-bound Excel formatting object for a Range's font properties.",
+        "Interior" => "The apartment-bound Excel formatting object for a Range's fill properties.",
+        "Borders" => {
+            "The enum-keyed, apartment-bound collection of Excel Border objects for a Range."
+        }
+        "Border" => "One apartment-bound Excel border selected from a Borders collection.",
         _ => "This type-library object is structurally inventoried for future wrapper planning.",
     }
 }
@@ -415,6 +424,7 @@ fn collection_index(objects: &[Value]) -> String {
         "Worksheets",
         "Areas",
         "Names",
+        "Borders",
         "Charts",
         "Shapes",
         "ListObjects",
@@ -633,6 +643,10 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "Areas",
         "Names",
         "Name",
+        "Font",
+        "Interior",
+        "Borders",
+        "Border",
     ]
     .into_iter()
     .filter_map(|name| {

@@ -1,0 +1,6 @@
+{"schema_version":1,"case_id":"range-formatting-live","property":"RowHeight","set_points":[20.0,30.0],"multi_row_result":"Mixed","uniform_set_points":22.0,"uniform_readback_points":22.0}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"RowHeight","uniform_vartype":"VT_R8","mixed_vartype":"VT_NULL"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"ColumnWidth","set_values":[14.0,18.0],"multi_column_result":"Mixed","uniform_set_value":16.0,"uniform_readback_value":16.0}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"ColumnWidth","uniform_vartype":"VT_R8","mixed_vartype":"VT_NULL"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","operation":"set full row RowHeight to zero","hidden_after_set":true}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","operation":"set full column ColumnWidth to zero","hidden_after_set":true}

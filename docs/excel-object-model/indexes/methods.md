@@ -13,6 +13,10 @@ The complete inventory is sharded alphabetically by owning object; the core wrap
 - [Areas](methods/areas.md)
 - [Names](methods/names.md)
 - [Name](methods/name.md)
+- [Font](methods/font.md)
+- [Interior](methods/interior.md)
+- [Borders](methods/borders.md)
+- [Border](methods/border.md)
 
 ## Complete alphabetical inventory
 

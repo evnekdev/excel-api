@@ -1,0 +1,6 @@
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Name","set":"Arial","readback":"Arial","result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Size","set_points":12.0,"readback_points":12.0,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Bold","set":true,"readback":true,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Italic","set":true,"readback":true,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Underline","set_raw":2,"readback_raw":2,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Font.Strikethrough","set":false,"readback":false,"result":"uniform"}

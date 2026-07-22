@@ -11,7 +11,7 @@
 | Range | CopyPicture | 213 | Metadata Only |
 | Range | _Replace | 226 | Metadata Only |
 | Range | Select | 235 | Metadata Only |
-| Range | AutoFit | 237 | Metadata Only |
+| Range | AutoFit | 237 | Implemented |
 | Range | ClearNotes | 239 | Metadata Only |
 | Range | Ungroup | 244 | Metadata Only |
 | Range | DialogBox | 245 | Metadata Only |

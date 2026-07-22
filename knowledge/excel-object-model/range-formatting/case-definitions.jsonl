@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"range-formatting-live","harness":"excel-com range_formatting_live","workbook":"fresh-unsaved","visibility":"true","cleanup":"close-without-saving then Application.Quit","preexisting_excel_processes":0}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","harness":"private excel-com ignored unit test","workbook":"fresh-unsaved","visibility":"true","purpose":"physical VARTYPE observation without public raw-VARIANT exposure","preexisting_excel_processes":0}

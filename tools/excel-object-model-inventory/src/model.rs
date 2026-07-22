@@ -56,6 +56,7 @@ pub const MEMBER_ORIGINS: &[&str] = &[
 pub const COLLECTION_INDEX_KINDS: &[&str] = &[
     "one-based-integer",
     "string-key",
+    "enum-key",
     "variant-key",
     "no-index",
     "unknown",
@@ -116,6 +117,10 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "Areas" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.areas"),
         "Names" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.names"),
         "Name" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.name(object)"),
+        "Font" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.font"),
+        "Interior" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.interior"),
+        "Borders" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.borders"),
+        "Border" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.border"),
         _ => None,
     }
 }
@@ -131,6 +136,10 @@ pub fn priority_object(name: &str) -> bool {
             | "Areas"
             | "Names"
             | "Name"
+            | "Font"
+            | "Interior"
+            | "Borders"
+            | "Border"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
@@ -145,6 +154,10 @@ pub fn wrapper_object(name: &str) -> bool {
             | "Areas"
             | "Names"
             | "Name"
+            | "Font"
+            | "Interior"
+            | "Borders"
+            | "Border"
     )
 }
 pub fn surface_class(

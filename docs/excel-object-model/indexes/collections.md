@@ -10,6 +10,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Worksheets | implemented |
 | Areas | implemented |
 | Names | implemented |
+| Borders | implemented |
 | Charts | metadata-only |
 | Shapes | metadata-only |
 | ListObjects | metadata-only |
@@ -26,7 +27,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Arcs | Unknown | excel.arcs.count | excel.arcs.item | excel.arcs.newenum | variant-key | metadata-only |
 | Areas | Range | excel.areas.count | excel.areas.item | excel.areas.newenum | one-based-integer | implemented |
 | Axes | Unknown | excel.axes.count | excel.axes.item | excel.axes.newenum | variant-key | metadata-only |
-| Borders | Unknown | excel.borders.count | excel.borders.item | excel.borders.newenum | variant-key | metadata-only |
+| Borders | Border | excel.borders.count | excel.borders.item | excel.borders.newenum | enum-key | implemented |
 | Buttons | Unknown | excel.buttons.count | excel.buttons.item | excel.buttons.newenum | variant-key | metadata-only |
 | CalculatedFields | Unknown | excel.calculatedfields.count | excel.calculatedfields.item | excel.calculatedfields.newenum | variant-key | metadata-only |
 | CalculatedItems | Unknown | excel.calculateditems.count | excel.calculateditems.item | excel.calculateditems.newenum | variant-key | metadata-only |

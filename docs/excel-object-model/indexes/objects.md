@@ -24,8 +24,8 @@
 | Axes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Axis | dispatch-interface | Metadata Only | Generated | Not Tested |
 | AxisTitle | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Border | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Borders | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Border](../objects/border.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [Borders](../objects/borders.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Button | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Buttons | dispatch-interface | Metadata Only | Generated | Not Tested |
 | CalculatedFields | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -116,7 +116,7 @@
 | Filter | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Filters | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Floor | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Font | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Font](../objects/font.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | FormatColor | dispatch-interface | Metadata Only | Generated | Not Tested |
 | FormatCondition | dispatch-interface | Metadata Only | Generated | Not Tested |
 | FormatConditions | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -335,7 +335,7 @@
 | INamedSheetViewCollection | interface | Metadata Only | Generated | Not Tested |
 | INames | interface | Metadata Only | Generated | Not Tested |
 | INegativeBarFormat | interface | Metadata Only | Generated | Not Tested |
-| Interior | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Interior](../objects/interior.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | IODBCConnection | interface | Metadata Only | Generated | Not Tested |
 | IODBCError | interface | Metadata Only | Generated | Not Tested |
 | IODBCErrors | interface | Metadata Only | Generated | Not Tested |

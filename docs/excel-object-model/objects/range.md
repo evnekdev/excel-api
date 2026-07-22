@@ -30,6 +30,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
 | `Areas` | `excel.areas` | Implemented |
+| `Borders` | `excel.borders` | Implemented |
 | `Cells` | `excel.range` | Implemented |
 | `ColumnDifferences` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Implemented |
@@ -44,6 +45,8 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `Find` | `excel.range` | Metadata Only |
 | `FindNext` | `excel.range` | Metadata Only |
 | `FindPrevious` | `excel.range` | Metadata Only |
+| `Font` | `excel.font` | Implemented |
+| `Interior` | `excel.interior` | Implemented |
 | `MergeArea` | `excel.range` | Metadata Only |
 | `Next` | `excel.range` | Metadata Only |
 | `Offset` | `excel.range` | Implemented |
@@ -71,17 +74,17 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Height | PROPERTYGET | AutomationValue | declared | 123 | Metadata Only | Reviewed | Not Tested | |
 | Top | PROPERTYGET | AutomationValue | declared | 126 | Metadata Only | Reviewed | Not Tested | |
 | Left | PROPERTYGET | AutomationValue | declared | 127 | Metadata Only | Reviewed | Not Tested | |
-| Interior | PROPERTYGET | Interior | declared | 129 | Metadata Only | Reviewed | Not Tested | |
+| Interior | PROPERTYGET | Interior | declared | 129 | Implemented | Reviewed | Live Tested | |
 | Orientation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 134 | Metadata Only | Reviewed | Not Tested | |
-| HorizontalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 136 | Metadata Only | Reviewed | Not Tested | |
-| VerticalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 137 | Metadata Only | Reviewed | Not Tested | |
+| HorizontalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 136 | Implemented | Reviewed | Live Tested | |
+| VerticalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 137 | Implemented | Reviewed | Live Tested | |
 | Text | PROPERTYGET | AutomationValue | declared | 138 | Metadata Only | Reviewed | Not Tested | |
-| Font | PROPERTYGET | Font | declared | 146 | Metadata Only | Reviewed | Not Tested | |
+| Font | PROPERTYGET | Font | declared | 146 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | Item | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 170 | Implemented | Reviewed | Live Tested | |
-| NumberFormat | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 193 | Metadata Only | Reviewed | Not Tested | |
+| NumberFormat | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 193 | Implemented | Reviewed | Live Tested | |
 | Range | PROPERTYGET | Range | declared | 197 | Metadata Only | Reviewed | Not Tested | |
 | IndentLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 201 | Metadata Only | Reviewed | Not Tested | |
 | MergeCells | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 208 | Metadata Only | Reviewed | Not Tested | |
@@ -90,7 +93,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Cells | PROPERTYGET | Range | declared | 238 | Implemented | Reviewed | Live Tested | |
 | Column | PROPERTYGET | i32 | declared | 240 | Implemented | Reviewed | Live Tested | |
 | Columns | PROPERTYGET | Range | declared | 241 | Implemented | Reviewed | Live Tested | |
-| ColumnWidth | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 242 | Metadata Only | Reviewed | Not Tested | |
+| ColumnWidth | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 242 | Implemented | Reviewed | Live Tested | |
 | CurrentRegion | PROPERTYGET | Range | declared | 243 | Metadata Only | Reviewed | Not Tested | |
 | EntireColumn | PROPERTYGET | Range | declared | 246 | Implemented | Reviewed | Live Tested | |
 | EntireRow | PROPERTYGET | Range | declared | 247 | Implemented | Reviewed | Live Tested | |
@@ -110,13 +113,13 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Hidden | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 268 | Metadata Only | Reviewed | Not Tested | |
 | Locked | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 269 | Metadata Only | Reviewed | Not Tested | |
 | OutlineLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 271 | Metadata Only | Reviewed | Not Tested | |
-| RowHeight | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 272 | Metadata Only | Reviewed | Not Tested | |
+| RowHeight | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 272 | Implemented | Reviewed | Live Tested | |
 | Summary | PROPERTYGET | AutomationValue | declared | 273 | Metadata Only | Reviewed | Not Tested | |
 | UseStandardHeight | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 274 | Metadata Only | Reviewed | Not Tested | |
 | UseStandardWidth | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 275 | Metadata Only | Reviewed | Not Tested | |
-| WrapText | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 276 | Metadata Only | Reviewed | Not Tested | |
+| WrapText | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 276 | Implemented | Reviewed | Live Tested | |
 | Worksheet | PROPERTYGET | Worksheet | declared | 348 | Metadata Only | Reviewed | Not Tested | |
-| Borders | PROPERTYGET | Borders | declared | 435 | Metadata Only | Reviewed | Not Tested | |
+| Borders | PROPERTYGET | Borders | declared | 435 | Implemented | Reviewed | Live Tested | |
 | AddressLocal | PROPERTYGET | String | declared | 437 | Metadata Only | Reviewed | Not Tested | |
 | End | PROPERTYGET | Range | declared | 500 | Metadata Only | Reviewed | Not Tested | |
 | CurrentArray | PROPERTYGET | Range | declared | 501 | Metadata Only | Reviewed | Not Tested | |
@@ -188,7 +191,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | CopyPicture | AutomationValue | 2 | declared | 213 | Metadata Only | Reviewed | Not Tested | |
 | _Replace | bool | 8 | declared | 226 | Metadata Only | Reviewed | Not Tested | |
 | Select | AutomationValue | 0 | declared | 235 | Metadata Only | Reviewed | Not Tested | |
-| AutoFit | AutomationValue | 0 | declared | 237 | Metadata Only | Reviewed | Not Tested | |
+| AutoFit | AutomationValue | 0 | declared | 237 | Implemented | Reviewed | Live Tested | |
 | ClearNotes | AutomationValue | 0 | declared | 239 | Metadata Only | Reviewed | Not Tested | |
 | Ungroup | AutomationValue | 0 | declared | 244 | Metadata Only | Reviewed | Not Tested | |
 | DialogBox | AutomationValue | 0 | declared | 245 | Metadata Only | Reviewed | Not Tested | |

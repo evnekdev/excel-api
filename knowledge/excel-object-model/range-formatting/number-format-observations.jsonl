@@ -1,0 +1,6 @@
+{"schema_version":1,"case_id":"range-formatting-live","format":"General","readback":"General","result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","format":"0.00","readback":"0.00","result":"uniform","vartype":"VT_BSTR"}
+{"schema_version":1,"case_id":"range-formatting-live","format":"0%","readback":"0%","result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","format":"yyyy-mm-dd","readback":"yyyy-mm-dd","result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","format":"[Green]0.00;[Red]-0.00;0.00;@","readback":"[Green]0.00;[Red]-0.00;0.00;@","result":"uniform"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Range.NumberFormat","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}

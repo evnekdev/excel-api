@@ -14,6 +14,27 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.aboveaverage.borders",
+    "schema_version": 1,
+    "source": "excel.aboveaverage",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.aboveaverage.font",
+    "schema_version": 1,
+    "source": "excel.aboveaverage",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.aboveaverage.interior",
+    "schema_version": 1,
+    "source": "excel.aboveaverage",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.action.application",
     "schema_version": 1,
     "source": "excel.action",
@@ -161,11 +182,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.arc.border",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.arc.bottomrightcell",
     "schema_version": 1,
     "source": "excel.arc",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.arc.font",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.arc.interior",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.arc.topleftcell",
@@ -180,6 +222,27 @@
     "source": "excel.arcs",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.arcs.border",
+    "schema_version": 1,
+    "source": "excel.arcs",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.arcs.font",
+    "schema_version": 1,
+    "source": "excel.arcs",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.arcs.interior",
+    "schema_version": 1,
+    "source": "excel.arcs",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.areas.application",
@@ -252,11 +315,39 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.axis.border",
+    "schema_version": 1,
+    "source": "excel.axis",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.axistitle.application",
     "schema_version": 1,
     "source": "excel.axistitle",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.axistitle.border",
+    "schema_version": 1,
+    "source": "excel.axistitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.axistitle.font",
+    "schema_version": 1,
+    "source": "excel.axistitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.axistitle.interior",
+    "schema_version": 1,
+    "source": "excel.axistitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.border.application",
@@ -273,6 +364,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.borders.default",
+    "schema_version": 1,
+    "source": "excel.borders",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.borders.item",
+    "schema_version": 1,
+    "source": "excel.borders",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.button.application",
     "schema_version": 1,
     "source": "excel.button",
@@ -287,6 +392,13 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.button.font",
+    "schema_version": 1,
+    "source": "excel.button",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
     "member_id": "excel.button.topleftcell",
     "schema_version": 1,
     "source": "excel.button",
@@ -299,6 +411,13 @@
     "source": "excel.buttons",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.buttons.font",
+    "schema_version": 1,
+    "source": "excel.buttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
   },
   {
     "member_id": "excel.calculatedfields.application",
@@ -350,11 +469,39 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.cellformat.borders",
+    "schema_version": 1,
+    "source": "excel.cellformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.cellformat.font",
+    "schema_version": 1,
+    "source": "excel.cellformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.cellformat.interior",
+    "schema_version": 1,
+    "source": "excel.cellformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.characters.application",
     "schema_version": 1,
     "source": "excel.characters",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.characters.font",
+    "schema_version": 1,
+    "source": "excel.characters",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
   },
   {
     "member_id": "excel.chart.application",
@@ -369,6 +516,27 @@
     "source": "excel.chartarea",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartarea.border",
+    "schema_version": 1,
+    "source": "excel.chartarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.chartarea.font",
+    "schema_version": 1,
+    "source": "excel.chartarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.chartarea.interior",
+    "schema_version": 1,
+    "source": "excel.chartarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.chartcategory.application",
@@ -420,11 +588,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.chartobject.border",
+    "schema_version": 1,
+    "source": "excel.chartobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.chartobject.bottomrightcell",
     "schema_version": 1,
     "source": "excel.chartobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.chartobject.interior",
+    "schema_version": 1,
+    "source": "excel.chartobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.chartobject.topleftcell",
@@ -439,6 +621,20 @@
     "source": "excel.chartobjects",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartobjects.border",
+    "schema_version": 1,
+    "source": "excel.chartobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.chartobjects.interior",
+    "schema_version": 1,
+    "source": "excel.chartobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.charts.application",
@@ -462,6 +658,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.charttitle.border",
+    "schema_version": 1,
+    "source": "excel.charttitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.charttitle.font",
+    "schema_version": 1,
+    "source": "excel.charttitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.charttitle.interior",
+    "schema_version": 1,
+    "source": "excel.charttitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.chartview.application",
     "schema_version": 1,
     "source": "excel.chartview",
@@ -476,11 +693,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.checkbox.border",
+    "schema_version": 1,
+    "source": "excel.checkbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.checkbox.bottomrightcell",
     "schema_version": 1,
     "source": "excel.checkbox",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.checkbox.interior",
+    "schema_version": 1,
+    "source": "excel.checkbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.checkbox.topleftcell",
@@ -495,6 +726,20 @@
     "source": "excel.checkboxes",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.checkboxes.border",
+    "schema_version": 1,
+    "source": "excel.checkboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.checkboxes.interior",
+    "schema_version": 1,
+    "source": "excel.checkboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.colorscale.application",
@@ -665,6 +910,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.datalabel.border",
+    "schema_version": 1,
+    "source": "excel.datalabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.datalabel.font",
+    "schema_version": 1,
+    "source": "excel.datalabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.datalabel.interior",
+    "schema_version": 1,
+    "source": "excel.datalabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.datalabels.application",
     "schema_version": 1,
     "source": "excel.datalabels",
@@ -672,11 +938,46 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.datalabels.border",
+    "schema_version": 1,
+    "source": "excel.datalabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.datalabels.font",
+    "schema_version": 1,
+    "source": "excel.datalabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.datalabels.interior",
+    "schema_version": 1,
+    "source": "excel.datalabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.datatable.application",
     "schema_version": 1,
     "source": "excel.datatable",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.datatable.border",
+    "schema_version": 1,
+    "source": "excel.datatable",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.datatable.font",
+    "schema_version": 1,
+    "source": "excel.datatable",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
   },
   {
     "member_id": "excel.defaultpivottablelayoutoptions.application",
@@ -749,11 +1050,53 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.displayformat.borders",
+    "schema_version": 1,
+    "source": "excel.displayformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.displayformat.font",
+    "schema_version": 1,
+    "source": "excel.displayformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.displayformat.interior",
+    "schema_version": 1,
+    "source": "excel.displayformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.displayunitlabel.application",
     "schema_version": 1,
     "source": "excel.displayunitlabel",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.displayunitlabel.border",
+    "schema_version": 1,
+    "source": "excel.displayunitlabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.displayunitlabel.font",
+    "schema_version": 1,
+    "source": "excel.displayunitlabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.displayunitlabel.interior",
+    "schema_version": 1,
+    "source": "excel.displayunitlabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.downbars.application",
@@ -763,6 +1106,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.downbars.border",
+    "schema_version": 1,
+    "source": "excel.downbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.downbars.interior",
+    "schema_version": 1,
+    "source": "excel.downbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.drawing.application",
     "schema_version": 1,
     "source": "excel.drawing",
@@ -770,11 +1127,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.drawing.border",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.drawing.bottomrightcell",
     "schema_version": 1,
     "source": "excel.drawing",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.drawing.font",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.drawing.interior",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.drawing.topleftcell",
@@ -791,11 +1169,53 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.drawingobjects.border",
+    "schema_version": 1,
+    "source": "excel.drawingobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.drawingobjects.font",
+    "schema_version": 1,
+    "source": "excel.drawingobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.drawingobjects.interior",
+    "schema_version": 1,
+    "source": "excel.drawingobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.drawings.application",
     "schema_version": 1,
     "source": "excel.drawings",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.drawings.border",
+    "schema_version": 1,
+    "source": "excel.drawings",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.drawings.font",
+    "schema_version": 1,
+    "source": "excel.drawings",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.drawings.interior",
+    "schema_version": 1,
+    "source": "excel.drawings",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.dropdown.application",
@@ -831,6 +1251,13 @@
     "source": "excel.droplines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.droplines.border",
+    "schema_version": 1,
+    "source": "excel.droplines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.editbox.application",
@@ -873,6 +1300,13 @@
     "source": "excel.errorbars",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.errorbars.border",
+    "schema_version": 1,
+    "source": "excel.errorbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.errorcheckingoptions.application",
@@ -924,6 +1358,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.floor.border",
+    "schema_version": 1,
+    "source": "excel.floor",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.floor.interior",
+    "schema_version": 1,
+    "source": "excel.floor",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.font.application",
     "schema_version": 1,
     "source": "excel.font",
@@ -950,6 +1398,27 @@
     "source": "excel.formatcondition",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.formatcondition.borders",
+    "schema_version": 1,
+    "source": "excel.formatcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.formatcondition.font",
+    "schema_version": 1,
+    "source": "excel.formatcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.formatcondition.interior",
+    "schema_version": 1,
+    "source": "excel.formatcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.formatconditions.application",
@@ -1071,6 +1540,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.gridlines.border",
+    "schema_version": 1,
+    "source": "excel.gridlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.groupbox.application",
     "schema_version": 1,
     "source": "excel.groupbox",
@@ -1106,11 +1582,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.groupobject.border",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.groupobject.bottomrightcell",
     "schema_version": 1,
     "source": "excel.groupobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.groupobject.font",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.groupobject.interior",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.groupobject.topleftcell",
@@ -1127,6 +1624,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.groupobjects.border",
+    "schema_version": 1,
+    "source": "excel.groupobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.groupobjects.font",
+    "schema_version": 1,
+    "source": "excel.groupobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.groupobjects.interior",
+    "schema_version": 1,
+    "source": "excel.groupobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.groupshapes.application",
     "schema_version": 1,
     "source": "excel.groupshapes",
@@ -1139,6 +1657,13 @@
     "source": "excel.hilolines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hilolines.border",
+    "schema_version": 1,
+    "source": "excel.hilolines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.hpagebreak.application",
@@ -1267,11 +1792,39 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.leaderlines.border",
+    "schema_version": 1,
+    "source": "excel.leaderlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.legend.application",
     "schema_version": 1,
     "source": "excel.legend",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.legend.border",
+    "schema_version": 1,
+    "source": "excel.legend",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.legend.font",
+    "schema_version": 1,
+    "source": "excel.legend",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.legend.interior",
+    "schema_version": 1,
+    "source": "excel.legend",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.legendentries.application",
@@ -1288,6 +1841,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.legendentry.font",
+    "schema_version": 1,
+    "source": "excel.legendentry",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
     "member_id": "excel.legendkey.application",
     "schema_version": 1,
     "source": "excel.legendkey",
@@ -1295,11 +1855,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.legendkey.border",
+    "schema_version": 1,
+    "source": "excel.legendkey",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.legendkey.interior",
+    "schema_version": 1,
+    "source": "excel.legendkey",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.line.application",
     "schema_version": 1,
     "source": "excel.line",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.line.border",
+    "schema_version": 1,
+    "source": "excel.line",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.line.bottomrightcell",
@@ -1328,6 +1909,13 @@
     "source": "excel.lines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.lines.border",
+    "schema_version": 1,
+    "source": "excel.lines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.linkformat.application",
@@ -1855,11 +2443,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.oleobject.border",
+    "schema_version": 1,
+    "source": "excel.oleobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.oleobject.bottomrightcell",
     "schema_version": 1,
     "source": "excel.oleobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.oleobject.interior",
+    "schema_version": 1,
+    "source": "excel.oleobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.oleobject.topleftcell",
@@ -1876,6 +2478,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.oleobjects.border",
+    "schema_version": 1,
+    "source": "excel.oleobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.oleobjects.interior",
+    "schema_version": 1,
+    "source": "excel.oleobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.optionbutton.application",
     "schema_version": 1,
     "source": "excel.optionbutton",
@@ -1883,11 +2499,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.optionbutton.border",
+    "schema_version": 1,
+    "source": "excel.optionbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.optionbutton.bottomrightcell",
     "schema_version": 1,
     "source": "excel.optionbutton",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.optionbutton.interior",
+    "schema_version": 1,
+    "source": "excel.optionbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.optionbutton.topleftcell",
@@ -1904,6 +2534,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.optionbuttons.border",
+    "schema_version": 1,
+    "source": "excel.optionbuttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.optionbuttons.interior",
+    "schema_version": 1,
+    "source": "excel.optionbuttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.outline.application",
     "schema_version": 1,
     "source": "excel.outline",
@@ -1918,11 +2562,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.oval.border",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.oval.bottomrightcell",
     "schema_version": 1,
     "source": "excel.oval",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.oval.font",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.oval.interior",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.oval.topleftcell",
@@ -1937,6 +2602,27 @@
     "source": "excel.ovals",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.ovals.border",
+    "schema_version": 1,
+    "source": "excel.ovals",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.ovals.font",
+    "schema_version": 1,
+    "source": "excel.ovals",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.ovals.interior",
+    "schema_version": 1,
+    "source": "excel.ovals",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.pagesetup.application",
@@ -1995,11 +2681,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.phonetic.font",
+    "schema_version": 1,
+    "source": "excel.phonetic",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
     "member_id": "excel.phonetics.application",
     "schema_version": 1,
     "source": "excel.phonetics",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.phonetics.font",
+    "schema_version": 1,
+    "source": "excel.phonetics",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
   },
   {
     "member_id": "excel.picture.application",
@@ -2009,11 +2709,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.picture.border",
+    "schema_version": 1,
+    "source": "excel.picture",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.picture.bottomrightcell",
     "schema_version": 1,
     "source": "excel.picture",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.picture.interior",
+    "schema_version": 1,
+    "source": "excel.picture",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.picture.topleftcell",
@@ -2028,6 +2742,20 @@
     "source": "excel.pictures",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pictures.border",
+    "schema_version": 1,
+    "source": "excel.pictures",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.pictures.interior",
+    "schema_version": 1,
+    "source": "excel.pictures",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.pivotaxis.application",
@@ -2282,11 +3010,39 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.plotarea.border",
+    "schema_version": 1,
+    "source": "excel.plotarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.plotarea.interior",
+    "schema_version": 1,
+    "source": "excel.plotarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.point.application",
     "schema_version": 1,
     "source": "excel.point",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.point.border",
+    "schema_version": 1,
+    "source": "excel.point",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.point.interior",
+    "schema_version": 1,
+    "source": "excel.point",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.points.application",
@@ -2401,6 +3157,13 @@
     "target": "excel.areas"
   },
   {
+    "member_id": "excel.range.borders",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
     "member_id": "excel.range.cells",
     "schema_version": 1,
     "source": "excel.range",
@@ -2497,6 +3260,20 @@
     "source": "excel.range",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.font",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.range.interior",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.range.mergearea",
@@ -2639,11 +3416,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.rectangle.border",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.rectangle.bottomrightcell",
     "schema_version": 1,
     "source": "excel.rectangle",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.rectangle.font",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.rectangle.interior",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.rectangle.topleftcell",
@@ -2658,6 +3456,27 @@
     "source": "excel.rectangles",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.rectangles.border",
+    "schema_version": 1,
+    "source": "excel.rectangles",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.rectangles.font",
+    "schema_version": 1,
+    "source": "excel.rectangles",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.rectangles.interior",
+    "schema_version": 1,
+    "source": "excel.rectangles",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.rectangulargradient.application",
@@ -2737,6 +3556,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.series.border",
+    "schema_version": 1,
+    "source": "excel.series",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.series.interior",
+    "schema_version": 1,
+    "source": "excel.series",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.seriescollection.application",
     "schema_version": 1,
     "source": "excel.seriescollection",
@@ -2756,6 +3589,13 @@
     "source": "excel.serieslines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.serieslines.border",
+    "schema_version": 1,
+    "source": "excel.serieslines",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.serverviewableitems.application",
@@ -3080,6 +3920,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.style.borders",
+    "schema_version": 1,
+    "source": "excel.style",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.style.font",
+    "schema_version": 1,
+    "source": "excel.style",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.style.interior",
+    "schema_version": 1,
+    "source": "excel.style",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.styles.application",
     "schema_version": 1,
     "source": "excel.styles",
@@ -3129,6 +3990,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.tablestyleelement.borders",
+    "schema_version": 1,
+    "source": "excel.tablestyleelement",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.tablestyleelement.font",
+    "schema_version": 1,
+    "source": "excel.tablestyleelement",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.tablestyleelement.interior",
+    "schema_version": 1,
+    "source": "excel.tablestyleelement",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.tablestyleelements.application",
     "schema_version": 1,
     "source": "excel.tablestyleelements",
@@ -3150,11 +4032,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.textbox.border",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
     "member_id": "excel.textbox.bottomrightcell",
     "schema_version": 1,
     "source": "excel.textbox",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.textbox.font",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.textbox.interior",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.textbox.topleftcell",
@@ -3169,6 +4072,27 @@
     "source": "excel.textboxes",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.textboxes.border",
+    "schema_version": 1,
+    "source": "excel.textboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.textboxes.font",
+    "schema_version": 1,
+    "source": "excel.textboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.textboxes.interior",
+    "schema_version": 1,
+    "source": "excel.textboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.textconnection.application",
@@ -3190,6 +4114,13 @@
     "source": "excel.ticklabels",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.ticklabels.font",
+    "schema_version": 1,
+    "source": "excel.ticklabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
   },
   {
     "member_id": "excel.timelinestate.application",
@@ -3248,6 +4179,27 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.top10.borders",
+    "schema_version": 1,
+    "source": "excel.top10",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.top10.font",
+    "schema_version": 1,
+    "source": "excel.top10",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.top10.interior",
+    "schema_version": 1,
+    "source": "excel.top10",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.treeviewcontrol.application",
     "schema_version": 1,
     "source": "excel.treeviewcontrol",
@@ -3260,6 +4212,13 @@
     "source": "excel.trendline",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.trendline.border",
+    "schema_version": 1,
+    "source": "excel.trendline",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
   },
   {
     "member_id": "excel.trendlines.application",
@@ -3283,11 +4242,46 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.uniquevalues.borders",
+    "schema_version": 1,
+    "source": "excel.uniquevalues",
+    "source_confidence": "typelib-only",
+    "target": "excel.borders"
+  },
+  {
+    "member_id": "excel.uniquevalues.font",
+    "schema_version": 1,
+    "source": "excel.uniquevalues",
+    "source_confidence": "typelib-only",
+    "target": "excel.font"
+  },
+  {
+    "member_id": "excel.uniquevalues.interior",
+    "schema_version": 1,
+    "source": "excel.uniquevalues",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
+  },
+  {
     "member_id": "excel.upbars.application",
     "schema_version": 1,
     "source": "excel.upbars",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.upbars.border",
+    "schema_version": 1,
+    "source": "excel.upbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.upbars.interior",
+    "schema_version": 1,
+    "source": "excel.upbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.usedobjects.application",
@@ -3344,6 +4338,20 @@
     "source": "excel.walls",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.walls.border",
+    "schema_version": 1,
+    "source": "excel.walls",
+    "source_confidence": "typelib-only",
+    "target": "excel.border"
+  },
+  {
+    "member_id": "excel.walls.interior",
+    "schema_version": 1,
+    "source": "excel.walls",
+    "source_confidence": "typelib-only",
+    "target": "excel.interior"
   },
   {
     "member_id": "excel.watch.application",

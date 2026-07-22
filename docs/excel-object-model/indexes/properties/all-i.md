@@ -2396,11 +2396,11 @@
 | INegativeBarFormat | ColorType | 2195 | Metadata Only |
 | INegativeBarFormat | BorderColorType | 2969 | Metadata Only |
 | INegativeBarFormat | BorderColor | 2970 | Metadata Only |
-| Interior | Pattern | 95 | Metadata Only |
-| Interior | ColorIndex | 97 | Metadata Only |
-| Interior | PatternColorIndex | 98 | Metadata Only |
-| Interior | Color | 99 | Metadata Only |
-| Interior | PatternColor | 100 | Metadata Only |
+| Interior | Pattern | 95 | Implemented |
+| Interior | ColorIndex | 97 | Implemented |
+| Interior | PatternColorIndex | 98 | Implemented |
+| Interior | Color | 99 | Implemented |
+| Interior | PatternColor | 100 | Implemented |
 | Interior | InvertIfNegative | 132 | Metadata Only |
 | Interior | Application | 148 | Metadata Only |
 | Interior | Creator | 149 | Metadata Only |

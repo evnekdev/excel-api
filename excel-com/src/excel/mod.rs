@@ -1,7 +1,12 @@
 mod application;
 mod areas;
+mod border;
+mod borders;
 mod collection;
 mod file_lifecycle;
+mod font;
+mod formatting;
+mod interior;
 mod name;
 mod names;
 mod range;
@@ -14,11 +19,19 @@ mod worksheets;
 
 pub use application::{Application, DisplayAlertsGuard, ReferenceStyleGuard};
 pub use areas::{Areas, AreasIter};
+pub use border::Border;
+pub use borders::{Borders, BordersIter};
 pub use file_lifecycle::{
     SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
     WorkbookSaveAsOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
     XlSaveConflictResolution, XlUpdateLinks,
 };
+pub use font::Font;
+pub use formatting::{
+    BorderIndex, BorderLineStyle, BorderWeight, ExcelColor, ExcelColorIndex, FillPattern,
+    HorizontalAlignment, MixedValue, UnderlineStyle, VerticalAlignment,
+};
+pub use interior::Interior;
 pub use name::Name;
 pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
 pub use range::Range;

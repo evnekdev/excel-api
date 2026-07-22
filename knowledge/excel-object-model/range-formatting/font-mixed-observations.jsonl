@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Font.Bold","uniform_vartype":"VT_BOOL","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Font.Name","uniform_vartype":"VT_BSTR","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Font.Size","uniform_vartype":"VT_R8","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Font.Color","uniform_vartype":"VT_R8","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}
