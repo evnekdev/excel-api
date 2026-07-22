@@ -12,7 +12,7 @@
 | Range | Top | 126 | Metadata Only |
 | Range | Left | 127 | Metadata Only |
 | Range | Interior | 129 | Implemented |
-| Range | Orientation | 134 | Metadata Only |
+| Range | Orientation | 134 | Implemented |
 | Range | HorizontalAlignment | 136 | Implemented |
 | Range | VerticalAlignment | 137 | Implemented |
 | Range | Text | 138 | Metadata Only |
@@ -23,9 +23,9 @@
 | Range | Item | 170 | Implemented |
 | Range | NumberFormat | 193 | Implemented |
 | Range | Range | 197 | Metadata Only |
-| Range | IndentLevel | 201 | Metadata Only |
-| Range | MergeCells | 208 | Metadata Only |
-| Range | ShrinkToFit | 209 | Metadata Only |
+| Range | IndentLevel | 201 | Implemented |
+| Range | MergeCells | 208 | Implemented |
+| Range | ShrinkToFit | 209 | Implemented |
 | Range | Address | 236 | Implemented |
 | Range | Cells | 238 | Implemented |
 | Range | Column | 240 | Implemented |
@@ -41,14 +41,14 @@
 | Range | Rows | 258 | Implemented |
 | Range | Style | 260 | Metadata Only |
 | Range | Formula | 261 | Implemented |
-| Range | FormulaHidden | 262 | Metadata Only |
+| Range | FormulaHidden | 262 | Implemented |
 | Range | FormulaLocal | 263 | Implemented |
 | Range | FormulaR1C1 | 264 | Implemented |
 | Range | FormulaR1C1Local | 265 | Implemented |
 | Range | HasArray | 266 | Implemented |
 | Range | HasFormula | 267 | Implemented |
 | Range | Hidden | 268 | Implemented |
-| Range | Locked | 269 | Metadata Only |
+| Range | Locked | 269 | Implemented |
 | Range | OutlineLevel | 271 | Metadata Only |
 | Range | RowHeight | 272 | Implemented |
 | Range | Summary | 273 | Metadata Only |
@@ -68,7 +68,7 @@
 | Range | DirectDependents | 545 | Implemented |
 | Range | DirectPrecedents | 546 | Implemented |
 | Range | Areas | 568 | Implemented |
-| Range | ShowDetail | 585 | Metadata Only |
+| Range | ShowDetail | 585 | Implemented |
 | Range | FormulaArray | 586 | Implemented |
 | Range | Characters | 603 | Metadata Only |
 | Range | DisplayFormat | 666 | Metadata Only |
@@ -78,12 +78,12 @@
 | Range | PivotItem | 740 | Metadata Only |
 | Range | Comment | 910 | Metadata Only |
 | Range | SoundNote | 916 | Metadata Only |
-| Range | ReadingOrder | 975 | Metadata Only |
+| Range | ReadingOrder | 975 | Implemented |
 | Range | AddIndent | 1063 | Metadata Only |
 | Range | NumberFormatLocal | 1097 | Metadata Only |
 | Range | ListHeaderRows | 1187 | Metadata Only |
 | Range | FormulaLabel | 1380 | Metadata Only |
-| Range | MergeArea | 1385 | Metadata Only |
+| Range | MergeArea | 1385 | Implemented |
 | Range | QueryTable | 1386 | Metadata Only |
 | Range | Validation | 1387 | Implemented |
 | Range | Value2 | 1388 | Implemented |

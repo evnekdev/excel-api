@@ -1,0 +1,29 @@
+schema_version = 1
+prompt = "15-workbook-presentation-output-macros"
+typelib_guid = "{00020813-0000-0000-c000-000000000046}"
+typelib_version = "1.9"
+
+[[sources]]
+kind = "typelib"
+path = "metadata/excel-object-model"
+purpose = "Installed Excel declarations, DISPIDs, member kinds, and enum values."
+
+[[sources]]
+kind = "microsoft-learn"
+url = "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet.copy"
+purpose = "Worksheet copy and new-workbook destination semantics."
+
+[[sources]]
+kind = "microsoft-learn"
+url = "https://learn.microsoft.com/en-us/office/vba/api/excel.pagesetup.zoom"
+purpose = "Variant zoom and fit-to-pages semantics."
+
+[[sources]]
+kind = "microsoft-learn"
+url = "https://learn.microsoft.com/en-us/office/vba/api/office.msoautomationsecurity"
+purpose = "Process-global Automation macro security values."
+
+[[sources]]
+kind = "microsoft-learn"
+url = "https://learn.microsoft.com/en-us/office/vba/api/excel.application.run"
+purpose = "Positional Application.Run macro arguments and scalar Variant return contract."

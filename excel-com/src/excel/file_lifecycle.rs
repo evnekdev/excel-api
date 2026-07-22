@@ -9,10 +9,18 @@ pub struct XlFileFormat(i32);
 impl XlFileFormat {
     /// Excel Binary Workbook (`.xlsb`).
     pub const EXCEL12: Self = Self(50);
+    /// Excel Binary Workbook (`.xlsb`).
+    pub const EXCEL_BINARY_WORKBOOK: Self = Self(50);
     /// Open XML Workbook (`.xlsx`).
     pub const OPEN_XML_WORKBOOK: Self = Self(51);
     /// Open XML macro-enabled workbook (`.xlsm`).
     pub const OPEN_XML_WORKBOOK_MACRO_ENABLED: Self = Self(52);
+    /// Alias for the macro-enabled Open XML workbook (`.xlsm`) format.
+    pub const EXCEL_MACRO_ENABLED_WORKBOOK: Self = Self(52);
+    /// Open XML macro-enabled workbook template (`.xltm`).
+    pub const OPEN_XML_TEMPLATE_MACRO_ENABLED: Self = Self(53);
+    /// Excel add-in (`.xlam`).
+    pub const OPEN_XML_ADD_IN: Self = Self(55);
     /// Open XML template (`.xltx`).
     pub const OPEN_XML_TEMPLATE: Self = Self(54);
     /// OpenDocument Spreadsheet (`.ods`).

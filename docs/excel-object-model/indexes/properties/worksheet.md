@@ -3,8 +3,8 @@
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
 | Worksheet | _CodeName | -2147418112 | Metadata Only |
-| Worksheet | Outline | 102 | Metadata Only |
-| Worksheet | Type | 108 | Metadata Only |
+| Worksheet | Outline | 102 | Implemented |
+| Worksheet | Type | 108 | Implemented |
 | Worksheet | Name | 110 | Implemented |
 | Worksheet | Application | 148 | Implemented |
 | Worksheet | Creator | 149 | Metadata Only |
@@ -14,9 +14,9 @@
 | Worksheet | Cells | 238 | Implemented |
 | Worksheet | Columns | 241 | Metadata Only |
 | Worksheet | Rows | 258 | Metadata Only |
-| Worksheet | ProtectContents | 292 | Metadata Only |
-| Worksheet | ProtectDrawingObjects | 293 | Metadata Only |
-| Worksheet | ProtectScenarios | 294 | Metadata Only |
+| Worksheet | ProtectContents | 292 | Implemented |
+| Worksheet | ProtectDrawingObjects | 293 | Implemented |
+| Worksheet | ProtectScenarios | 294 | Implemented |
 | Worksheet | TransitionExpEval | 401 | Metadata Only |
 | Worksheet | TransitionFormEntry | 402 | Metadata Only |
 | Worksheet | StandardHeight | 407 | Metadata Only |
@@ -41,20 +41,20 @@
 | Worksheet | _AutoFilter | 793 | Metadata Only |
 | Worksheet | FilterMode | 800 | Implemented |
 | Worksheet | _Sort | 880 | Metadata Only |
-| Worksheet | PageSetup | 998 | Metadata Only |
+| Worksheet | PageSetup | 998 | Implemented |
 | Worksheet | OnSheetActivate | 1031 | Metadata Only |
-| Worksheet | Tab | 1041 | Metadata Only |
+| Worksheet | Tab | 1041 | Implemented |
 | Worksheet | CircularReference | 1069 | Metadata Only |
 | Worksheet | OnSheetDeactivate | 1081 | Metadata Only |
 | Worksheet | EnableAutoFilter | 1156 | Metadata Only |
 | Worksheet | EnableOutlining | 1157 | Metadata Only |
 | Worksheet | EnablePivotTable | 1158 | Metadata Only |
-| Worksheet | ProtectionMode | 1159 | Metadata Only |
+| Worksheet | ProtectionMode | 1159 | Implemented |
 | Worksheet | CodeName | 1373 | Metadata Only |
 | Worksheet | Shapes | 1377 | Metadata Only |
 | Worksheet | Hyperlinks | 1393 | Metadata Only |
-| Worksheet | HPageBreaks | 1418 | Metadata Only |
-| Worksheet | VPageBreaks | 1419 | Metadata Only |
+| Worksheet | HPageBreaks | 1418 | Implemented |
+| Worksheet | VPageBreaks | 1419 | Implemented |
 | Worksheet | EnableCalculation | 1424 | Metadata Only |
 | Worksheet | EnableSelection | 1425 | Metadata Only |
 | Worksheet | ScrollArea | 1433 | Metadata Only |

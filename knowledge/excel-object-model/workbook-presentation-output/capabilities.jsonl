@@ -1,0 +1,3 @@
+{"schema_version":1,"capability":"worksheet-presentation","status":"implemented-from-typelib","objects":["Worksheet","Range","Window","PageSetup","Tab","Outline","HPageBreaks","VPageBreaks"],"runtime_status":"blocked-before-workbook-creation"}
+{"schema_version":1,"capability":"fixed-format-output","status":"implemented-from-typelib","objects":["Workbook","Worksheet","Range"],"runtime_status":"blocked-before-workbook-creation"}
+{"schema_version":1,"capability":"macro-runtime-safety","status":"implemented-from-typelib-and-official-docs","objects":["Application","Workbooks","Workbook"],"runtime_status":"blocked-before-workbook-creation"}

@@ -31,16 +31,16 @@
 | ValueChange | AllocationWeightExpression | 2876 | Metadata Only |
 | ValueChange | VisibleInPivotTable | 2971 | Metadata Only |
 | ValueChange | Tuple | 2972 | Metadata Only |
-| VPageBreak | Type | 108 | Metadata Only |
+| VPageBreak | Type | 108 | Implemented |
 | VPageBreak | Application | 148 | Metadata Only |
 | VPageBreak | Creator | 149 | Metadata Only |
 | VPageBreak | Parent | 150 | Metadata Only |
-| VPageBreak | Location | 1397 | Metadata Only |
+| VPageBreak | Location | 1397 | Implemented |
 | VPageBreak | Extent | 1422 | Metadata Only |
-| VPageBreaks | _NewEnum | -4 | Metadata Only |
+| VPageBreaks | _NewEnum | -4 | Implemented |
 | VPageBreaks | _Default | 0 | Metadata Only |
-| VPageBreaks | Count | 118 | Metadata Only |
+| VPageBreaks | Count | 118 | Implemented |
 | VPageBreaks | Application | 148 | Metadata Only |
 | VPageBreaks | Creator | 149 | Metadata Only |
 | VPageBreaks | Parent | 150 | Metadata Only |
-| VPageBreaks | Item | 170 | Metadata Only |
+| VPageBreaks | Item | 170 | Implemented |

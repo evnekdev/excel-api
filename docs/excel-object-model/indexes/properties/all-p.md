@@ -12,42 +12,42 @@
 | Pages | _Default | 0 | Metadata Only |
 | Pages | Count | 118 | Metadata Only |
 | Pages | Item | 170 | Metadata Only |
-| PageSetup | Orientation | 134 | Metadata Only |
+| PageSetup | Orientation | 134 | Implemented |
 | PageSetup | Application | 148 | Metadata Only |
 | PageSetup | Creator | 149 | Metadata Only |
 | PageSetup | Parent | 150 | Metadata Only |
-| PageSetup | Order | 192 | Metadata Only |
-| PageSetup | Zoom | 663 | Metadata Only |
-| PageSetup | LeftMargin | 999 | Metadata Only |
-| PageSetup | RightMargin | 1000 | Metadata Only |
-| PageSetup | TopMargin | 1001 | Metadata Only |
-| PageSetup | BottomMargin | 1002 | Metadata Only |
-| PageSetup | PrintHeadings | 1003 | Metadata Only |
-| PageSetup | PrintGridlines | 1004 | Metadata Only |
-| PageSetup | CenterHorizontally | 1005 | Metadata Only |
-| PageSetup | CenterVertically | 1006 | Metadata Only |
-| PageSetup | PaperSize | 1007 | Metadata Only |
-| PageSetup | FirstPageNumber | 1008 | Metadata Only |
-| PageSetup | BlackAndWhite | 1009 | Metadata Only |
-| PageSetup | CenterFooter | 1010 | Metadata Only |
-| PageSetup | CenterHeader | 1011 | Metadata Only |
+| PageSetup | Order | 192 | Implemented |
+| PageSetup | Zoom | 663 | Implemented |
+| PageSetup | LeftMargin | 999 | Implemented |
+| PageSetup | RightMargin | 1000 | Implemented |
+| PageSetup | TopMargin | 1001 | Implemented |
+| PageSetup | BottomMargin | 1002 | Implemented |
+| PageSetup | PrintHeadings | 1003 | Implemented |
+| PageSetup | PrintGridlines | 1004 | Implemented |
+| PageSetup | CenterHorizontally | 1005 | Implemented |
+| PageSetup | CenterVertically | 1006 | Implemented |
+| PageSetup | PaperSize | 1007 | Implemented |
+| PageSetup | FirstPageNumber | 1008 | Implemented |
+| PageSetup | BlackAndWhite | 1009 | Implemented |
+| PageSetup | CenterFooter | 1010 | Implemented |
+| PageSetup | CenterHeader | 1011 | Implemented |
 | PageSetup | ChartSize | 1012 | Metadata Only |
-| PageSetup | FitToPagesTall | 1013 | Metadata Only |
-| PageSetup | FitToPagesWide | 1014 | Metadata Only |
-| PageSetup | FooterMargin | 1015 | Metadata Only |
-| PageSetup | HeaderMargin | 1016 | Metadata Only |
-| PageSetup | LeftFooter | 1017 | Metadata Only |
-| PageSetup | LeftHeader | 1018 | Metadata Only |
-| PageSetup | PrintArea | 1019 | Metadata Only |
-| PageSetup | Draft | 1020 | Metadata Only |
+| PageSetup | FitToPagesTall | 1013 | Implemented |
+| PageSetup | FitToPagesWide | 1014 | Implemented |
+| PageSetup | FooterMargin | 1015 | Implemented |
+| PageSetup | HeaderMargin | 1016 | Implemented |
+| PageSetup | LeftFooter | 1017 | Implemented |
+| PageSetup | LeftHeader | 1018 | Implemented |
+| PageSetup | PrintArea | 1019 | Implemented |
+| PageSetup | Draft | 1020 | Implemented |
 | PageSetup | PrintNotes | 1021 | Metadata Only |
-| PageSetup | PrintQuality | 1022 | Metadata Only |
-| PageSetup | PrintTitleColumns | 1023 | Metadata Only |
-| PageSetup | PrintTitleRows | 1024 | Metadata Only |
-| PageSetup | RightFooter | 1025 | Metadata Only |
-| PageSetup | RightHeader | 1026 | Metadata Only |
-| PageSetup | PrintComments | 1524 | Metadata Only |
-| PageSetup | PrintErrors | 2149 | Metadata Only |
+| PageSetup | PrintQuality | 1022 | Implemented |
+| PageSetup | PrintTitleColumns | 1023 | Implemented |
+| PageSetup | PrintTitleRows | 1024 | Implemented |
+| PageSetup | RightFooter | 1025 | Implemented |
+| PageSetup | RightHeader | 1026 | Implemented |
+| PageSetup | PrintComments | 1524 | Implemented |
+| PageSetup | PrintErrors | 2149 | Implemented |
 | PageSetup | CenterHeaderPicture | 2150 | Metadata Only |
 | PageSetup | CenterFooterPicture | 2151 | Metadata Only |
 | PageSetup | LeftHeaderPicture | 2152 | Metadata Only |

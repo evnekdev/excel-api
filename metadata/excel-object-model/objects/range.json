@@ -217,7 +217,7 @@
       "dispid": 46,
       "documentation_status": "reviewed",
       "id": "excel.range.group",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -236,8 +236,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -733,7 +733,7 @@
       "dispid": 134,
       "documentation_status": "reviewed",
       "id": "excel.range.orientation",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -753,8 +753,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1179,7 +1179,7 @@
       "dispid": 201,
       "documentation_status": "reviewed",
       "id": "excel.range.indentlevel",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1199,8 +1199,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1221,7 +1221,7 @@
       "dispid": 208,
       "documentation_status": "reviewed",
       "id": "excel.range.mergecells",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1241,8 +1241,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1263,7 +1263,7 @@
       "dispid": 209,
       "documentation_status": "reviewed",
       "id": "excel.range.shrinktofit",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1283,8 +1283,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1440,7 +1440,7 @@
       "dispid": 235,
       "documentation_status": "reviewed",
       "id": "excel.range.select",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -1459,8 +1459,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -1798,7 +1798,7 @@
       "dispid": 244,
       "documentation_status": "reviewed",
       "id": "excel.range.ungroup",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -1817,8 +1817,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2710,7 +2710,7 @@
       "dispid": 262,
       "documentation_status": "reviewed",
       "id": "excel.range.formulahidden",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2730,8 +2730,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3018,7 +3018,7 @@
       "dispid": 269,
       "documentation_status": "reviewed",
       "id": "excel.range.locked",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3038,8 +3038,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3350,7 +3350,7 @@
       "dispid": 281,
       "documentation_status": "reviewed",
       "id": "excel.range.printpreview",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -3369,8 +3369,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -3381,7 +3381,7 @@
       "dispid": 304,
       "documentation_status": "reviewed",
       "id": "excel.range.activate",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -3400,8 +3400,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -5032,7 +5032,7 @@
       "dispid": 564,
       "documentation_status": "reviewed",
       "id": "excel.range.merge",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -5051,8 +5051,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -5180,7 +5180,7 @@
       "dispid": 585,
       "documentation_status": "reviewed",
       "id": "excel.range.showdetail",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -5200,8 +5200,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -6290,7 +6290,7 @@
       "dispid": 975,
       "documentation_status": "reviewed",
       "id": "excel.range.readingorder",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -6310,8 +6310,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -7150,7 +7150,7 @@
       "dispid": 1384,
       "documentation_status": "reviewed",
       "id": "excel.range.unmerge",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -7169,8 +7169,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -7181,7 +7181,7 @@
       "dispid": 1385,
       "documentation_status": "reviewed",
       "id": "excel.range.mergearea",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -7200,8 +7200,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -8180,7 +8180,7 @@
       "dispid": 2361,
       "documentation_status": "reviewed",
       "id": "excel.range.printout-2361",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -8199,8 +8199,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -8775,7 +8775,7 @@
       "dispid": 3175,
       "documentation_status": "reviewed",
       "id": "excel.range.exportasfixedformat-3175",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -8794,8 +8794,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

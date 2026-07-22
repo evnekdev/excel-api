@@ -134,6 +134,16 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "SortFields" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sortfields"),
         "SortField" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sortfield"),
         "Validation" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.validation"),
+        "Sheets" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sheets"),
+        "Windows" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.windows"),
+        "Window" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.window"),
+        "PageSetup" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.pagesetup"),
+        "Tab" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.tab"),
+        "Outline" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.outline"),
+        "HPageBreaks" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hpagebreaks"),
+        "HPageBreak" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hpagebreak"),
+        "VPageBreaks" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.vpagebreaks"),
+        "VPageBreak" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.vpagebreak"),
         _ => None,
     }
 }
@@ -166,6 +176,16 @@ pub fn priority_object(name: &str) -> bool {
             | "SortFields"
             | "SortField"
             | "Validation"
+            | "Sheets"
+            | "Windows"
+            | "Window"
+            | "PageSetup"
+            | "Tab"
+            | "Outline"
+            | "HPageBreaks"
+            | "HPageBreak"
+            | "VPageBreaks"
+            | "VPageBreak"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
@@ -197,6 +217,16 @@ pub fn wrapper_object(name: &str) -> bool {
             | "SortFields"
             | "SortField"
             | "Validation"
+            | "Sheets"
+            | "Windows"
+            | "Window"
+            | "PageSetup"
+            | "Tab"
+            | "Outline"
+            | "HPageBreaks"
+            | "HPageBreak"
+            | "VPageBreaks"
+            | "VPageBreak"
     )
 }
 pub fn surface_class(
@@ -248,4 +278,102 @@ pub fn implemented_member_ids() -> BTreeSet<&'static str> {
 }
 pub fn member_id(object: &str, member: &str) -> String {
     format!("{}.{}", object_id(object), slug(member))
+}
+
+/// Returns whether an implemented member is presently blocked before live
+/// acceptance coverage by the recorded Prompt 15 `Workbooks.Add` baseline.
+pub fn runtime_blocked_member(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.application.activecell"
+            | "excel.application.activesheet"
+            | "excel.application.activewindow"
+            | "excel.application.activeworkbook"
+            | "excel.application.automationsecurity"
+            | "excel.application.goto"
+            | "excel.application.run"
+            | "excel.application.selection"
+            | "excel.application.sheets"
+            | "excel.application.windows"
+            | "excel.application.worksheets"
+            | "excel.workbooks.application"
+            | "excel.workbook.activate"
+            | "excel.workbook.activesheet"
+            | "excel.workbook.exportasfixedformat-3175"
+            | "excel.workbook.hasvbproject"
+            | "excel.workbook.protectstructure"
+            | "excel.workbook.protectwindows"
+            | "excel.workbook.printout-2361"
+            | "excel.workbook.printpreview"
+            | "excel.workbook.protect-2029"
+            | "excel.workbook.sheets"
+            | "excel.workbook.unprotect"
+            | "excel.workbook.windows"
+            | "excel.worksheet.activate"
+            | "excel.worksheet.copy"
+            | "excel.worksheet.delete"
+            | "excel.worksheet.exportasfixedformat-3175"
+            | "excel.worksheet.hpagebreaks"
+            | "excel.worksheet.move"
+            | "excel.worksheet.outline"
+            | "excel.worksheet.pagesetup"
+            | "excel.worksheet.printout-2361"
+            | "excel.worksheet.printpreview"
+            | "excel.worksheet.protect-2029"
+            | "excel.worksheet.protectcontents"
+            | "excel.worksheet.protectdrawingobjects"
+            | "excel.worksheet.protectionmode"
+            | "excel.worksheet.protectscenarios"
+            | "excel.worksheet.resetallpagebreaks"
+            | "excel.worksheet.select"
+            | "excel.worksheet.tab"
+            | "excel.worksheet.type"
+            | "excel.worksheet.unprotect"
+            | "excel.worksheet.vpagebreaks"
+    ) || id.starts_with("excel.sheets.")
+        || id.starts_with("excel.windows.")
+        || id.starts_with("excel.window.")
+        || id.starts_with("excel.pagesetup.")
+        || id.starts_with("excel.tab.")
+        || id.starts_with("excel.outline.")
+        || id.starts_with("excel.hpagebreak")
+        || id.starts_with("excel.vpagebreak")
+        || matches!(
+            id,
+            "excel.range.activate"
+                | "excel.range.exportasfixedformat-3175"
+                | "excel.range.group"
+                | "excel.range.locked"
+                | "excel.range.formulahidden"
+                | "excel.range.indentlevel"
+                | "excel.range.merge"
+                | "excel.range.mergearea"
+                | "excel.range.mergecells"
+                | "excel.range.orientation"
+                | "excel.range.printout-2361"
+                | "excel.range.printpreview"
+                | "excel.range.readingorder"
+                | "excel.range.select"
+                | "excel.range.showdetail"
+                | "excel.range.shrinktofit"
+                | "excel.range.ungroup"
+                | "excel.range.unmerge"
+        )
+}
+
+/// Returns whether a new Prompt 15 object family has no passing live test yet.
+pub fn runtime_blocked_object(name: &str) -> bool {
+    matches!(
+        canonical_name(name),
+        "Sheets"
+            | "Windows"
+            | "Window"
+            | "PageSetup"
+            | "Tab"
+            | "Outline"
+            | "HPageBreaks"
+            | "HPageBreak"
+            | "VPageBreaks"
+            | "VPageBreak"
+    )
 }

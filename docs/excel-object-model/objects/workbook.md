@@ -54,22 +54,22 @@ No capability metadata is recorded for this surface.
 | FullName | PROPERTYGET | String | declared | 289 | Implemented | Reviewed | Live Tested | |
 | HasPassword | PROPERTYGET | bool | declared | 290 | Metadata Only | Reviewed | Not Tested | |
 | Path | PROPERTYGET | String | declared | 291 | Implemented | Reviewed | Live Tested | |
-| ProtectWindows | PROPERTYGET | bool | declared | 295 | Metadata Only | Reviewed | Not Tested | |
+| ProtectWindows | PROPERTYGET | bool | declared | 295 | Implemented | Reviewed | Blocked | |
 | ReadOnly | PROPERTYGET | bool | declared | 296 | Implemented | Reviewed | Live Tested | |
 | _ReadOnlyRecommended | PROPERTYGET | bool | declared | 297 | Metadata Only | Reviewed | Not Tested | |
 | Saved | PROPERTYGET/PROPERTYPUT | bool | declared | 298 | Implemented | Reviewed | Live Tested | |
 | WriteReserved | PROPERTYGET | bool | declared | 299 | Metadata Only | Reviewed | Not Tested | |
 | WriteReservedBy | PROPERTYGET | String | declared | 300 | Metadata Only | Reviewed | Not Tested | |
-| ActiveSheet | PROPERTYGET | Object | declared | 307 | Metadata Only | Reviewed | Not Tested | |
+| ActiveSheet | PROPERTYGET | Object | declared | 307 | Implemented | Reviewed | Blocked | |
 | Date1904 | PROPERTYGET/PROPERTYPUT | bool | declared | 403 | Metadata Only | Reviewed | Not Tested | |
 | DisplayDrawingObjects | PROPERTYGET/PROPERTYPUT | XlDisplayDrawingObjects | declared | 404 | Metadata Only | Reviewed | Not Tested | |
 | PrecisionAsDisplayed | PROPERTYGET/PROPERTYPUT | bool | declared | 405 | Metadata Only | Reviewed | Not Tested | |
 | SaveLinkValues | PROPERTYGET/PROPERTYPUT | bool | declared | 406 | Metadata Only | Reviewed | Not Tested | |
 | UpdateRemoteReferences | PROPERTYGET/PROPERTYPUT | bool | declared | 411 | Metadata Only | Reviewed | Not Tested | |
 | Password | PROPERTYGET/PROPERTYPUT | String | declared | 429 | Metadata Only | Reviewed | Not Tested | |
-| Windows | PROPERTYGET | Windows | declared | 430 | Metadata Only | Reviewed | Not Tested | |
+| Windows | PROPERTYGET | Windows | declared | 430 | Implemented | Reviewed | Blocked | |
 | Names | PROPERTYGET | Names | declared | 442 | Implemented | Reviewed | Live Tested | |
-| Sheets | PROPERTYGET | Sheets | declared | 485 | Metadata Only | Reviewed | Not Tested | |
+| Sheets | PROPERTYGET | Sheets | declared | 485 | Implemented | Reviewed | Blocked | |
 | Styles | PROPERTYGET | Styles | declared | 493 | Metadata Only | Reviewed | Not Tested | |
 | Worksheets | PROPERTYGET | Sheets | declared | 494 | Implemented | Reviewed | Live Tested | |
 | Author | PROPERTYGET/PROPERTYPUT | String | declared | 574 | Metadata Only | Reviewed | Not Tested | |
@@ -78,7 +78,7 @@ No capability metadata is recorded for this surface.
 | Excel4MacroSheets | PROPERTYGET | Sheets | declared | 579 | Metadata Only | Reviewed | Not Tested | |
 | Excel4IntlMacroSheets | PROPERTYGET | Sheets | declared | 581 | Metadata Only | Reviewed | Not Tested | |
 | Modules | PROPERTYGET | Sheets | declared | 582 | Metadata Only | Reviewed | Not Tested | |
-| ProtectStructure | PROPERTYGET | bool | declared | 588 | Metadata Only | Reviewed | Not Tested | |
+| ProtectStructure | PROPERTYGET | bool | declared | 588 | Implemented | Reviewed | Blocked | |
 | PivotTables | PROPERTYGET | Object | declared | 690 | Metadata Only | Reviewed | Not Tested | |
 | DialogSheets | PROPERTYGET | Sheets | declared | 764 | Metadata Only | Reviewed | Not Tested | |
 | UpdateLinks | PROPERTYGET/PROPERTYPUT | XlUpdateLinks | declared | 864 | Metadata Only | Reviewed | Not Tested | |
@@ -152,7 +152,7 @@ No capability metadata is recorded for this surface.
 | DefaultTableStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2526 | Metadata Only | Reviewed | Not Tested | |
 | DefaultPivotTableStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2527 | Metadata Only | Reviewed | Not Tested | |
 | CheckCompatibility | PROPERTYGET/PROPERTYPUT | bool | declared | 2528 | Metadata Only | Reviewed | Not Tested | |
-| HasVBProject | PROPERTYGET | bool | declared | 2529 | Metadata Only | Reviewed | Not Tested | |
+| HasVBProject | PROPERTYGET | bool | declared | 2529 | Implemented | Reviewed | Blocked | |
 | CustomXMLParts | PROPERTYGET | CustomXMLParts | declared | 2530 | Metadata Only | Reviewed | Not Tested | |
 | Final | PROPERTYGET/PROPERTYPUT | bool | declared | 2531 | Metadata Only | Reviewed | Not Tested | |
 | Research | PROPERTYGET | Research | declared | 2532 | Metadata Only | Reviewed | Not Tested | |
@@ -188,12 +188,12 @@ No capability metadata is recorded for this surface.
 | SaveCopyAs | Unknown | 1 | declared | 175 | Implemented | Reviewed | Live Tested | |
 | Close | Unknown | 3 | declared | 277 | Implemented | Reviewed | Live Tested | |
 | NewWindow | Window | 0 | declared | 280 | Metadata Only | Reviewed | Not Tested | |
-| PrintPreview | Unknown | 1 | declared | 281 | Metadata Only | Reviewed | Not Tested | |
+| PrintPreview | Unknown | 1 | declared | 281 | Implemented | Reviewed | Blocked | |
 | _Protect | Unknown | 3 | declared | 282 | Metadata Only | Reviewed | Not Tested | |
 | Save | Unknown | 0 | declared | 283 | Implemented | Reviewed | Live Tested | |
 | __SaveAs | Unknown | 11 | declared | 284 | Metadata Only | Reviewed | Not Tested | |
-| Unprotect | Unknown | 1 | declared | 285 | Metadata Only | Reviewed | Not Tested | |
-| Activate | Unknown | 0 | declared | 304 | Metadata Only | Reviewed | Not Tested | |
+| Unprotect | Unknown | 1 | declared | 285 | Implemented | Reviewed | Blocked | |
+| Activate | Unknown | 0 | declared | 304 | Implemented | Reviewed | Blocked | |
 | DeleteNumberFormat | Unknown | 1 | declared | 397 | Metadata Only | Reviewed | Not Tested | |
 | RunAutoMacros | Unknown | 1 | declared | 634 | Metadata Only | Reviewed | Not Tested | |
 | PivotTableWizard | Unknown | 16 | declared | 684 | Metadata Only | Reviewed | Not Tested | |
@@ -232,7 +232,7 @@ No capability metadata is recorded for this surface.
 | ReloadAs | Unknown | 1 | declared | 1821 | Metadata Only | Reviewed | Not Tested | |
 | sblt | Unknown | 1 | declared | 1826 | Metadata Only | Reviewed | Not Tested | |
 | _SaveAs | Unknown | 12 | declared | 1925 | Metadata Only | Reviewed | Not Tested | |
-| Protect | Unknown | 3 | declared | 2029 | Metadata Only | Reviewed | Not Tested | |
+| Protect | Unknown | 3 | declared | 2029 | Implemented | Reviewed | Blocked | |
 | Dummy17 | Unknown | 1 | declared | 2044 | Metadata Only | Reviewed | Not Tested | |
 | BreakLink | Unknown | 2 | declared | 2047 | Metadata Only | Reviewed | Not Tested | |
 | Dummy16 | Unknown | 0 | declared | 2048 | Metadata Only | Reviewed | Not Tested | |
@@ -248,7 +248,7 @@ No capability metadata is recorded for this surface.
 | XmlImportXml | XlXmlImportResult | 4 | declared | 2277 | Metadata Only | Reviewed | Not Tested | |
 | SaveAsXMLData | Unknown | 2 | declared | 2278 | Metadata Only | Reviewed | Not Tested | |
 | ToggleFormsDesign | Unknown | 0 | declared | 2279 | Metadata Only | Reviewed | Not Tested | |
-| PrintOut | Unknown | 9 | declared | 2361 | Metadata Only | Reviewed | Not Tested | |
+| PrintOut | Unknown | 9 | declared | 2361 | Implemented | Reviewed | Blocked | |
 | _ExportAsFixedFormat | Unknown | 9 | declared | 2493 | Metadata Only | Reviewed | Not Tested | |
 | RemoveDocumentInformation | Unknown | 1 | declared | 2514 | Metadata Only | Reviewed | Not Tested | |
 | CheckInWithVersion | Unknown | 4 | declared | 2517 | Metadata Only | Reviewed | Not Tested | |
@@ -262,7 +262,7 @@ No capability metadata is recorded for this surface.
 | Dummy27 | Unknown | 0 | declared | 2870 | Metadata Only | Reviewed | Not Tested | |
 | CreateForecastSheet | Unknown | 10 | declared | 3167 | Metadata Only | Reviewed | Not Tested | |
 | SaveAs | Unknown | 13 | declared | 3174 | Implemented | Reviewed | Live Tested | |
-| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Metadata Only | Reviewed | Not Tested | |
+| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Implemented | Reviewed | Blocked | |
 | PublishToPBI | String | 3 | declared | 3257 | Metadata Only | Reviewed | Not Tested | |
 | ConvertComments | Unknown | 0 | declared | 3279 | Metadata Only | Reviewed | Not Tested | |
 | PublishToDocs | String | 3 | declared | 3334 | Metadata Only | Reviewed | Not Tested | |

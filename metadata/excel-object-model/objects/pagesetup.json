@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.pagesetup",
   "guid": "{000208b4-0000-0000-c000-000000000046}",
   "id": "excel.pagesetup",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -22,9 +22,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 134,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.orientation",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -40,12 +40,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -55,7 +55,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -72,7 +72,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -86,7 +86,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -103,7 +103,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -117,7 +117,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -134,7 +134,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -157,9 +157,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 192,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.order",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -175,12 +175,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -199,9 +199,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.zoom",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -217,12 +217,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -241,9 +241,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 999,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.leftmargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -259,12 +259,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -283,9 +283,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1000,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.rightmargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -301,12 +301,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -325,9 +325,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1001,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.topmargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -343,12 +343,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -367,9 +367,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1002,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.bottommargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -385,12 +385,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -409,9 +409,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1003,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printheadings",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -427,12 +427,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -451,9 +451,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1004,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printgridlines",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -469,12 +469,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -493,9 +493,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1005,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centerhorizontally",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -511,12 +511,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -535,9 +535,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1006,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centervertically",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -553,12 +553,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -577,9 +577,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1007,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.papersize",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -595,12 +595,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -619,9 +619,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1008,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.firstpagenumber",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -637,12 +637,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -661,9 +661,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1009,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.blackandwhite",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -679,12 +679,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -703,9 +703,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1010,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centerfooter",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -721,12 +721,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -745,9 +745,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1011,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centerheader",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -763,12 +763,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -787,7 +787,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1012,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.chartsize",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -805,7 +805,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -829,9 +829,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1013,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.fittopagestall",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -847,12 +847,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -871,9 +871,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1014,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.fittopageswide",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -889,12 +889,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -913,9 +913,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1015,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.footermargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -931,12 +931,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -955,9 +955,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1016,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.headermargin",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -973,12 +973,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -997,9 +997,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1017,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.leftfooter",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1015,12 +1015,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1039,9 +1039,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1018,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.leftheader",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1057,12 +1057,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1081,9 +1081,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1019,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printarea",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1099,12 +1099,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1123,9 +1123,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1020,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.draft",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1141,12 +1141,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1165,7 +1165,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1021,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printnotes",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1183,7 +1183,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1207,9 +1207,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1022,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printquality",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1225,12 +1225,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1249,9 +1249,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1023,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printtitlecolumns",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1267,12 +1267,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1291,9 +1291,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1024,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printtitlerows",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1309,12 +1309,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1333,9 +1333,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1025,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.rightfooter",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1351,12 +1351,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1375,9 +1375,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1026,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.rightheader",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1393,12 +1393,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1417,9 +1417,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1524,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printcomments",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1435,12 +1435,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1459,9 +1459,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.printerrors",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1477,12 +1477,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1492,7 +1492,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centerheaderpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1509,7 +1509,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1523,7 +1523,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2151,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.centerfooterpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1540,7 +1540,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1554,7 +1554,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2152,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.leftheaderpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1571,7 +1571,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1585,7 +1585,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2153,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.leftfooterpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1602,7 +1602,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1616,7 +1616,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2154,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.rightheaderpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1633,7 +1633,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1647,7 +1647,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2155,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.rightfooterpicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1664,7 +1664,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1687,7 +1687,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2600,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.oddandevenpagesheaderfooter",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1705,7 +1705,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1729,7 +1729,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2601,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.differentfirstpageheaderfooter",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1747,7 +1747,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1771,7 +1771,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2602,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.scalewithdocheaderfooter",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1789,7 +1789,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1813,7 +1813,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2603,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.alignmarginsheaderfooter",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1831,7 +1831,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1846,7 +1846,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2604,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.pages",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1863,7 +1863,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1877,7 +1877,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2605,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.evenpage",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1894,7 +1894,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1908,7 +1908,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2606,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.firstpage",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1925,7 +1925,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1956,7 +1956,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1973,7 +1973,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1987,7 +1987,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2004,7 +2004,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2018,7 +2018,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2035,7 +2035,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2058,7 +2058,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2075,7 +2075,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2114,7 +2114,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2131,7 +2131,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2186,7 +2186,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2203,7 +2203,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2282,7 +2282,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.pagesetup.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2299,7 +2299,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2311,11 +2311,11 @@
     }
   ],
   "name": "PageSetup",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "PageSetup",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

@@ -133,8 +133,8 @@
 | GroupShapes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | HeaderFooter | dispatch-interface | Metadata Only | Generated | Not Tested |
 | HiLoLines | dispatch-interface | Metadata Only | Generated | Not Tested |
-| HPageBreak | dispatch-interface | Metadata Only | Generated | Not Tested |
-| HPageBreaks | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [HPageBreak](../objects/hpagebreak.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [HPageBreaks](../objects/hpagebreaks.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Hyperlink | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Hyperlinks | dispatch-interface | Metadata Only | Generated | Not Tested |
 | IAboveAverage | interface | Metadata Only | Generated | Not Tested |
@@ -584,12 +584,12 @@
 | OLEObjects | dispatch-interface | Metadata Only | Generated | Not Tested |
 | OptionButton | dispatch-interface | Metadata Only | Generated | Not Tested |
 | OptionButtons | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Outline | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Outline](../objects/outline.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Oval | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Ovals | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Page | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Pages | dispatch-interface | Metadata Only | Generated | Not Tested |
-| PageSetup | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [PageSetup](../objects/pagesetup.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Pane | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Panes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Parameter | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -661,7 +661,7 @@
 | ShapeNodes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ShapeRange | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Shapes | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Sheets | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Sheets](../objects/sheets.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | SheetViews | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Slicer | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SlicerCache | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -697,7 +697,7 @@
 | Spinners | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Style | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Styles | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Tab | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Tab](../objects/tab.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | TableObject | dispatch-interface | Metadata Only | Generated | Not Tested |
 | TableStyle | dispatch-interface | Metadata Only | Generated | Not Tested |
 | TableStyleElement | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -728,14 +728,14 @@
 | UserAccessList | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Validation](../objects/validation.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | ValueChange | dispatch-interface | Metadata Only | Generated | Not Tested |
-| VPageBreak | dispatch-interface | Metadata Only | Generated | Not Tested |
-| VPageBreaks | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [VPageBreak](../objects/vpagebreak.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [VPageBreaks](../objects/vpagebreaks.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Walls | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Watch | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Watches | dispatch-interface | Metadata Only | Generated | Not Tested |
 | WebOptions | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Window | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Windows | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Window](../objects/window.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Windows](../objects/windows.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [Workbook](../objects/workbook.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Workbook | coclass | Metadata Only | Generated | Not Tested |
 | WorkbookConnection | dispatch-interface | Metadata Only | Generated | Not Tested |

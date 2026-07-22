@@ -84,7 +84,7 @@
 | Application | AddChartAutoFormat | 216 | Metadata Only |
 | Application | DeleteChartAutoFormat | 217 | Metadata Only |
 | Application | SetDefaultChart | 219 | Metadata Only |
-| Application | Run | 259 | Metadata Only |
+| Application | Run | 259 | Implemented |
 | Application | Calculate | 279 | Implemented |
 | Application | Save | 283 | Metadata Only |
 | Application | Repeat | 301 | Metadata Only |
@@ -102,7 +102,7 @@
 | Application | InputBox | 357 | Metadata Only |
 | Application | SendKeys | 383 | Metadata Only |
 | Application | _Wait | 393 | Metadata Only |
-| Application | Goto | 475 | Metadata Only |
+| Application | Goto | 475 | Implemented |
 | Application | CheckSpelling | 505 | Metadata Only |
 | Application | OnTime | 624 | Metadata Only |
 | Application | OnKey | 626 | Metadata Only |

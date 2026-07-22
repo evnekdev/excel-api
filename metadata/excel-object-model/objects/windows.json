@@ -10,21 +10,21 @@
     "item_member_id": "excel.windows.item",
     "iterator_status": "metadata-only"
   },
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.windows",
   "guid": "{00020892-0000-0000-c000-000000000046}",
   "id": "excel.windows",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -39,12 +39,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -62,7 +62,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -79,7 +79,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -93,9 +93,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -110,12 +110,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -124,7 +124,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -141,7 +141,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -155,7 +155,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -172,7 +172,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -186,7 +186,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -203,7 +203,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -226,9 +226,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -243,12 +243,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -290,7 +290,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 638,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.arrange",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -307,7 +307,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -330,7 +330,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2246,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.comparesidebysidewith",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -347,7 +347,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -361,7 +361,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2248,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.breaksidebyside",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -378,7 +378,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -401,7 +401,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2249,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.syncscrollingsidebyside",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -419,7 +419,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -434,7 +434,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2250,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.resetpositionssidebyside",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -451,7 +451,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -482,7 +482,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -499,7 +499,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -513,7 +513,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -530,7 +530,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -544,7 +544,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -561,7 +561,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -584,7 +584,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -601,7 +601,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -640,7 +640,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -657,7 +657,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -712,7 +712,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -729,7 +729,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -808,7 +808,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.windows.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -825,7 +825,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -837,11 +837,11 @@
     }
   ],
   "name": "Windows",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Windows",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

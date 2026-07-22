@@ -18,7 +18,7 @@
 | HiLoLines | GetTypeInfo | 1610678273 | Metadata Only |
 | HiLoLines | GetIDsOfNames | 1610678274 | Metadata Only |
 | HiLoLines | Invoke | 1610678275 | Metadata Only |
-| HPageBreak | Delete | 117 | Metadata Only |
+| HPageBreak | Delete | 117 | Implemented |
 | HPageBreak | DragOff | 1420 | Metadata Only |
 | HPageBreak | QueryInterface | 1610612736 | Metadata Only |
 | HPageBreak | AddRef | 1610612737 | Metadata Only |
@@ -27,7 +27,7 @@
 | HPageBreak | GetTypeInfo | 1610678273 | Metadata Only |
 | HPageBreak | GetIDsOfNames | 1610678274 | Metadata Only |
 | HPageBreak | Invoke | 1610678275 | Metadata Only |
-| HPageBreaks | Add | 181 | Metadata Only |
+| HPageBreaks | Add | 181 | Implemented |
 | HPageBreaks | QueryInterface | 1610612736 | Metadata Only |
 | HPageBreaks | AddRef | 1610612737 | Metadata Only |
 | HPageBreaks | Release | 1610612738 | Metadata Only |

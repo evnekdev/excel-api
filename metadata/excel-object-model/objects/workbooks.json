@@ -131,7 +131,7 @@
       "dispid": 148,
       "documentation_status": "reviewed",
       "id": "excel.workbooks.application",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -150,8 +150,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]

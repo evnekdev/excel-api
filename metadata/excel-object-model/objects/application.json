@@ -530,7 +530,7 @@
       "dispid": 147,
       "documentation_status": "reviewed",
       "id": "excel.application.selection",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -549,8 +549,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -1657,7 +1657,7 @@
       "dispid": 259,
       "documentation_status": "reviewed",
       "id": "excel.application.run",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -1676,8 +1676,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -1891,7 +1891,7 @@
       "dispid": 305,
       "documentation_status": "reviewed",
       "id": "excel.application.activecell",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -1910,8 +1910,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -1964,7 +1964,7 @@
       "dispid": 307,
       "documentation_status": "reviewed",
       "id": "excel.application.activesheet",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -1983,8 +1983,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -1995,7 +1995,7 @@
       "dispid": 308,
       "documentation_status": "reviewed",
       "id": "excel.application.activeworkbook",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -2014,8 +2014,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -4870,7 +4870,7 @@
       "dispid": 430,
       "documentation_status": "reviewed",
       "id": "excel.application.windows",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -4889,8 +4889,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -4949,7 +4949,7 @@
       "dispid": 475,
       "documentation_status": "reviewed",
       "id": "excel.application.goto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -4968,8 +4968,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -4980,7 +4980,7 @@
       "dispid": 485,
       "documentation_status": "reviewed",
       "id": "excel.application.sheets",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -4999,8 +4999,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -5011,7 +5011,7 @@
       "dispid": 494,
       "documentation_status": "reviewed",
       "id": "excel.application.worksheets",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -5030,8 +5030,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -5720,7 +5720,7 @@
       "dispid": 759,
       "documentation_status": "reviewed",
       "id": "excel.application.activewindow",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -5739,8 +5739,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -11437,7 +11437,7 @@
       "dispid": 1941,
       "documentation_status": "reviewed",
       "id": "excel.application.automationsecurity",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -11457,8 +11457,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"

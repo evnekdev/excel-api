@@ -20,7 +20,7 @@
 | ValueChange | GetTypeInfo | 1610678273 | Metadata Only |
 | ValueChange | GetIDsOfNames | 1610678274 | Metadata Only |
 | ValueChange | Invoke | 1610678275 | Metadata Only |
-| VPageBreak | Delete | 117 | Metadata Only |
+| VPageBreak | Delete | 117 | Implemented |
 | VPageBreak | DragOff | 1420 | Metadata Only |
 | VPageBreak | QueryInterface | 1610612736 | Metadata Only |
 | VPageBreak | AddRef | 1610612737 | Metadata Only |
@@ -29,7 +29,7 @@
 | VPageBreak | GetTypeInfo | 1610678273 | Metadata Only |
 | VPageBreak | GetIDsOfNames | 1610678274 | Metadata Only |
 | VPageBreak | Invoke | 1610678275 | Metadata Only |
-| VPageBreaks | Add | 181 | Metadata Only |
+| VPageBreaks | Add | 181 | Implemented |
 | VPageBreaks | QueryInterface | 1610612736 | Metadata Only |
 | VPageBreaks | AddRef | 1610612737 | Metadata Only |
 | VPageBreaks | Release | 1610612738 | Metadata Only |

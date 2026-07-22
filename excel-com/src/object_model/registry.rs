@@ -640,9 +640,146 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.range.copy",
     "excel.range.cut",
     "excel.range.pastespecial-1928",
+    "excel.application.activecell",
+    "excel.application.activesheet",
+    "excel.application.activewindow",
+    "excel.application.activeworkbook",
+    "excel.application.automationsecurity",
+    "excel.application.goto",
+    "excel.application.run",
+    "excel.application.selection",
+    "excel.application.sheets",
+    "excel.application.windows",
+    "excel.application.worksheets",
+    "excel.hpagebreak.delete",
+    "excel.hpagebreak.location",
+    "excel.hpagebreak.type",
+    "excel.hpagebreaks.add",
+    "excel.hpagebreaks.count",
+    "excel.hpagebreaks.item",
+    "excel.hpagebreaks.newenum",
+    "excel.outline.automaticstyles",
+    "excel.outline.showlevels",
+    "excel.outline.summarycolumn",
+    "excel.outline.summaryrow",
+    "excel.pagesetup.blackandwhite",
+    "excel.pagesetup.bottommargin",
+    "excel.pagesetup.centerfooter",
+    "excel.pagesetup.centerheader",
+    "excel.pagesetup.centerhorizontally",
+    "excel.pagesetup.centervertically",
+    "excel.pagesetup.draft",
+    "excel.pagesetup.firstpagenumber",
+    "excel.pagesetup.fittopagestall",
+    "excel.pagesetup.fittopageswide",
+    "excel.pagesetup.footermargin",
+    "excel.pagesetup.headermargin",
+    "excel.pagesetup.leftfooter",
+    "excel.pagesetup.leftheader",
+    "excel.pagesetup.leftmargin",
+    "excel.pagesetup.order",
+    "excel.pagesetup.orientation",
+    "excel.pagesetup.papersize",
+    "excel.pagesetup.printarea",
+    "excel.pagesetup.printcomments",
+    "excel.pagesetup.printerrors",
+    "excel.pagesetup.printgridlines",
+    "excel.pagesetup.printheadings",
+    "excel.pagesetup.printquality",
+    "excel.pagesetup.printtitlecolumns",
+    "excel.pagesetup.printtitlerows",
+    "excel.pagesetup.rightfooter",
+    "excel.pagesetup.rightheader",
+    "excel.pagesetup.rightmargin",
+    "excel.pagesetup.topmargin",
+    "excel.pagesetup.zoom",
+    "excel.range.activate",
+    "excel.range.exportasfixedformat-3175",
+    "excel.range.group",
+    "excel.range.locked",
+    "excel.range.formulahidden",
+    "excel.range.indentlevel",
+    "excel.range.merge",
+    "excel.range.mergearea",
+    "excel.range.mergecells",
+    "excel.range.orientation",
+    "excel.range.printout-2361",
+    "excel.range.printpreview",
+    "excel.range.readingorder",
+    "excel.range.select",
+    "excel.range.showdetail",
+    "excel.range.shrinktofit",
+    "excel.range.ungroup",
+    "excel.range.unmerge",
+    "excel.sheets.count",
+    "excel.sheets.item",
+    "excel.sheets.newenum",
+    "excel.tab.color",
+    "excel.tab.colorindex",
+    "excel.vpagebreak.delete",
+    "excel.vpagebreak.location",
+    "excel.vpagebreak.type",
+    "excel.vpagebreaks.add",
+    "excel.vpagebreaks.count",
+    "excel.vpagebreaks.item",
+    "excel.vpagebreaks.newenum",
+    "excel.window.activate",
+    "excel.window.displaygridlines",
+    "excel.window.displayheadings",
+    "excel.window.displayzeros",
+    "excel.window.freezepanes",
+    "excel.window.index",
+    "excel.window.scrollcolumn",
+    "excel.window.scrollrow",
+    "excel.window.splitcolumn",
+    "excel.window.splithorizontal",
+    "excel.window.splitrow",
+    "excel.window.splitvertical",
+    "excel.window.view",
+    "excel.window.zoom",
+    "excel.windows.count",
+    "excel.windows.item",
+    "excel.windows.newenum",
+    "excel.workbook.activate",
+    "excel.workbook.activesheet",
+    "excel.workbook.exportasfixedformat-3175",
+    "excel.workbook.hasvbproject",
+    "excel.workbook.protectstructure",
+    "excel.workbook.protectwindows",
+    "excel.workbook.printout-2361",
+    "excel.workbook.printpreview",
+    "excel.workbook.protect-2029",
+    "excel.workbook.sheets",
+    "excel.workbook.unprotect",
+    "excel.workbook.windows",
+    "excel.workbooks.application",
+    "excel.worksheet.activate",
+    "excel.worksheet.copy",
+    "excel.worksheet.delete",
+    "excel.worksheet.exportasfixedformat-3175",
+    "excel.worksheet.hpagebreaks",
+    "excel.worksheet.move",
+    "excel.worksheet.outline",
+    "excel.worksheet.pagesetup",
+    "excel.worksheet.printout-2361",
+    "excel.worksheet.printpreview",
+    "excel.worksheet.protect-2029",
+    "excel.worksheet.protectcontents",
+    "excel.worksheet.protectdrawingobjects",
+    "excel.worksheet.protectionmode",
+    "excel.worksheet.protectscenarios",
+    "excel.worksheet.resetallpagebreaks",
+    "excel.worksheet.select",
+    "excel.worksheet.tab",
+    "excel.worksheet.type",
+    "excel.worksheet.unprotect",
+    "excel.worksheet.vpagebreaks",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
+    if let Some(descriptor) = presentation_member(id, put) {
+        return descriptor;
+    }
     if let Some(descriptor) = structured_data_member(id, put) {
         return descriptor;
     }
@@ -1220,6 +1357,236 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.name.delete", _) => NAME_DELETE,
         _ => unreachable!("implemented member ID must be registered"),
     }
+}
+
+fn presentation_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {
+    let (name, kind) = match (id.as_str(), put) {
+        ("excel.sheet.name", false) => ("Name", MemberKind::PropertyGet),
+        ("excel.worksheet.type", false) => ("Type", MemberKind::PropertyGet),
+        ("excel.sheets.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.sheets.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.sheets.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.windows.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.windows.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.windows.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.window.activate", _) => ("Activate", MemberKind::Method),
+        ("excel.window.index", _) => ("Index", MemberKind::PropertyGet),
+        ("excel.window.displaygridlines", false) => ("DisplayGridlines", MemberKind::PropertyGet),
+        ("excel.window.displaygridlines", true) => ("DisplayGridlines", MemberKind::PropertyPut),
+        ("excel.window.displayheadings", false) => ("DisplayHeadings", MemberKind::PropertyGet),
+        ("excel.window.displayheadings", true) => ("DisplayHeadings", MemberKind::PropertyPut),
+        ("excel.window.displayzeros", false) => ("DisplayZeros", MemberKind::PropertyGet),
+        ("excel.window.displayzeros", true) => ("DisplayZeros", MemberKind::PropertyPut),
+        ("excel.window.freezepanes", false) => ("FreezePanes", MemberKind::PropertyGet),
+        ("excel.window.freezepanes", true) => ("FreezePanes", MemberKind::PropertyPut),
+        ("excel.window.scrollcolumn", false) => ("ScrollColumn", MemberKind::PropertyGet),
+        ("excel.window.scrollcolumn", true) => ("ScrollColumn", MemberKind::PropertyPut),
+        ("excel.window.scrollrow", false) => ("ScrollRow", MemberKind::PropertyGet),
+        ("excel.window.scrollrow", true) => ("ScrollRow", MemberKind::PropertyPut),
+        ("excel.window.splitcolumn", false) => ("SplitColumn", MemberKind::PropertyGet),
+        ("excel.window.splitcolumn", true) => ("SplitColumn", MemberKind::PropertyPut),
+        ("excel.window.splitrow", false) => ("SplitRow", MemberKind::PropertyGet),
+        ("excel.window.splitrow", true) => ("SplitRow", MemberKind::PropertyPut),
+        ("excel.window.splithorizontal", _) => ("SplitHorizontal", MemberKind::PropertyGet),
+        ("excel.window.splitvertical", _) => ("SplitVertical", MemberKind::PropertyGet),
+        ("excel.window.zoom", false) => ("Zoom", MemberKind::PropertyGet),
+        ("excel.window.zoom", true) => ("Zoom", MemberKind::PropertyPut),
+        ("excel.window.view", false) => ("View", MemberKind::PropertyGet),
+        ("excel.window.view", true) => ("View", MemberKind::PropertyPut),
+        ("excel.tab.color", false) => ("Color", MemberKind::PropertyGet),
+        ("excel.tab.color", true) => ("Color", MemberKind::PropertyPut),
+        ("excel.tab.colorindex", true) => ("ColorIndex", MemberKind::PropertyPut),
+        ("excel.outline.automaticstyles", false) => ("AutomaticStyles", MemberKind::PropertyGet),
+        ("excel.outline.automaticstyles", true) => ("AutomaticStyles", MemberKind::PropertyPut),
+        ("excel.outline.summaryrow", false) => ("SummaryRow", MemberKind::PropertyGet),
+        ("excel.outline.summaryrow", true) => ("SummaryRow", MemberKind::PropertyPut),
+        ("excel.outline.summarycolumn", false) => ("SummaryColumn", MemberKind::PropertyGet),
+        ("excel.outline.summarycolumn", true) => ("SummaryColumn", MemberKind::PropertyPut),
+        ("excel.outline.showlevels", _) => ("ShowLevels", MemberKind::Method),
+        ("excel.pagesetup.orientation", false) => ("Orientation", MemberKind::PropertyGet),
+        ("excel.pagesetup.orientation", true) => ("Orientation", MemberKind::PropertyPut),
+        ("excel.pagesetup.papersize", false) => ("PaperSize", MemberKind::PropertyGet),
+        ("excel.pagesetup.papersize", true) => ("PaperSize", MemberKind::PropertyPut),
+        ("excel.pagesetup.order", false) => ("Order", MemberKind::PropertyGet),
+        ("excel.pagesetup.order", true) => ("Order", MemberKind::PropertyPut),
+        ("excel.pagesetup.zoom", false) => ("Zoom", MemberKind::PropertyGet),
+        ("excel.pagesetup.zoom", true) => ("Zoom", MemberKind::PropertyPut),
+        ("excel.pagesetup.fittopageswide", false) => ("FitToPagesWide", MemberKind::PropertyGet),
+        ("excel.pagesetup.fittopageswide", true) => ("FitToPagesWide", MemberKind::PropertyPut),
+        ("excel.pagesetup.fittopagestall", false) => ("FitToPagesTall", MemberKind::PropertyGet),
+        ("excel.pagesetup.fittopagestall", true) => ("FitToPagesTall", MemberKind::PropertyPut),
+        ("excel.pagesetup.leftmargin", false) => ("LeftMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.leftmargin", true) => ("LeftMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.rightmargin", false) => ("RightMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.rightmargin", true) => ("RightMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.topmargin", false) => ("TopMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.topmargin", true) => ("TopMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.bottommargin", false) => ("BottomMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.bottommargin", true) => ("BottomMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.headermargin", false) => ("HeaderMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.headermargin", true) => ("HeaderMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.footermargin", false) => ("FooterMargin", MemberKind::PropertyGet),
+        ("excel.pagesetup.footermargin", true) => ("FooterMargin", MemberKind::PropertyPut),
+        ("excel.pagesetup.printheadings", false) => ("PrintHeadings", MemberKind::PropertyGet),
+        ("excel.pagesetup.printheadings", true) => ("PrintHeadings", MemberKind::PropertyPut),
+        ("excel.pagesetup.printgridlines", false) => ("PrintGridlines", MemberKind::PropertyGet),
+        ("excel.pagesetup.printgridlines", true) => ("PrintGridlines", MemberKind::PropertyPut),
+        ("excel.pagesetup.centerhorizontally", false) => {
+            ("CenterHorizontally", MemberKind::PropertyGet)
+        }
+        ("excel.pagesetup.centerhorizontally", true) => {
+            ("CenterHorizontally", MemberKind::PropertyPut)
+        }
+        ("excel.pagesetup.centervertically", false) => {
+            ("CenterVertically", MemberKind::PropertyGet)
+        }
+        ("excel.pagesetup.centervertically", true) => ("CenterVertically", MemberKind::PropertyPut),
+        ("excel.pagesetup.blackandwhite", false) => ("BlackAndWhite", MemberKind::PropertyGet),
+        ("excel.pagesetup.blackandwhite", true) => ("BlackAndWhite", MemberKind::PropertyPut),
+        ("excel.pagesetup.draft", false) => ("Draft", MemberKind::PropertyGet),
+        ("excel.pagesetup.draft", true) => ("Draft", MemberKind::PropertyPut),
+        ("excel.pagesetup.firstpagenumber", false) => ("FirstPageNumber", MemberKind::PropertyGet),
+        ("excel.pagesetup.firstpagenumber", true) => ("FirstPageNumber", MemberKind::PropertyPut),
+        ("excel.pagesetup.printcomments", false) => ("PrintComments", MemberKind::PropertyGet),
+        ("excel.pagesetup.printcomments", true) => ("PrintComments", MemberKind::PropertyPut),
+        ("excel.pagesetup.printquality", false) => ("PrintQuality", MemberKind::PropertyGet),
+        ("excel.pagesetup.printquality", true) => ("PrintQuality", MemberKind::PropertyPut),
+        ("excel.pagesetup.printerrors", false) => ("PrintErrors", MemberKind::PropertyGet),
+        ("excel.pagesetup.printerrors", true) => ("PrintErrors", MemberKind::PropertyPut),
+        ("excel.pagesetup.printarea", false) => ("PrintArea", MemberKind::PropertyGet),
+        ("excel.pagesetup.printarea", true) => ("PrintArea", MemberKind::PropertyPut),
+        ("excel.pagesetup.printtitlerows", false) => ("PrintTitleRows", MemberKind::PropertyGet),
+        ("excel.pagesetup.printtitlerows", true) => ("PrintTitleRows", MemberKind::PropertyPut),
+        ("excel.pagesetup.printtitlecolumns", false) => {
+            ("PrintTitleColumns", MemberKind::PropertyGet)
+        }
+        ("excel.pagesetup.printtitlecolumns", true) => {
+            ("PrintTitleColumns", MemberKind::PropertyPut)
+        }
+        ("excel.pagesetup.leftheader", false) => ("LeftHeader", MemberKind::PropertyGet),
+        ("excel.pagesetup.leftheader", true) => ("LeftHeader", MemberKind::PropertyPut),
+        ("excel.pagesetup.centerheader", false) => ("CenterHeader", MemberKind::PropertyGet),
+        ("excel.pagesetup.centerheader", true) => ("CenterHeader", MemberKind::PropertyPut),
+        ("excel.pagesetup.rightheader", false) => ("RightHeader", MemberKind::PropertyGet),
+        ("excel.pagesetup.rightheader", true) => ("RightHeader", MemberKind::PropertyPut),
+        ("excel.pagesetup.leftfooter", false) => ("LeftFooter", MemberKind::PropertyGet),
+        ("excel.pagesetup.leftfooter", true) => ("LeftFooter", MemberKind::PropertyPut),
+        ("excel.pagesetup.centerfooter", false) => ("CenterFooter", MemberKind::PropertyGet),
+        ("excel.pagesetup.centerfooter", true) => ("CenterFooter", MemberKind::PropertyPut),
+        ("excel.pagesetup.rightfooter", false) => ("RightFooter", MemberKind::PropertyGet),
+        ("excel.pagesetup.rightfooter", true) => ("RightFooter", MemberKind::PropertyPut),
+        _ => return presentation_member_tail(id, put),
+    };
+    Some(MemberDescriptor { id, name, kind })
+}
+
+fn presentation_member_tail(id: MemberId, put: bool) -> Option<MemberDescriptor> {
+    let (name, kind) = match (id.as_str(), put) {
+        ("excel.hpagebreaks.count", _) | ("excel.vpagebreaks.count", _) => {
+            ("Count", MemberKind::PropertyGet)
+        }
+        ("excel.hpagebreaks.item", _) | ("excel.vpagebreaks.item", _) => {
+            ("Item", MemberKind::PropertyGet)
+        }
+        ("excel.hpagebreaks.newenum", _) | ("excel.vpagebreaks.newenum", _) => {
+            ("_NewEnum", MemberKind::PropertyGet)
+        }
+        ("excel.hpagebreaks.add", _) | ("excel.vpagebreaks.add", _) => ("Add", MemberKind::Method),
+        ("excel.hpagebreak.location", false) | ("excel.vpagebreak.location", false) => {
+            ("Location", MemberKind::PropertyGet)
+        }
+        ("excel.hpagebreak.location", true) | ("excel.vpagebreak.location", true) => {
+            ("Location", MemberKind::PropertyPut)
+        }
+        ("excel.hpagebreak.type", _) | ("excel.vpagebreak.type", _) => {
+            ("Type", MemberKind::PropertyGet)
+        }
+        ("excel.hpagebreak.delete", _) | ("excel.vpagebreak.delete", _) => {
+            ("Delete", MemberKind::Method)
+        }
+        ("excel.application.activeworkbook", _) => ("ActiveWorkbook", MemberKind::PropertyGet),
+        ("excel.application.activesheet", _) => ("ActiveSheet", MemberKind::PropertyGet),
+        ("excel.application.activecell", _) => ("ActiveCell", MemberKind::PropertyGet),
+        ("excel.application.selection", _) => ("Selection", MemberKind::PropertyGet),
+        ("excel.application.activewindow", _) => ("ActiveWindow", MemberKind::PropertyGet),
+        ("excel.application.windows", _) => ("Windows", MemberKind::PropertyGet),
+        ("excel.application.sheets", _) => ("Sheets", MemberKind::PropertyGet),
+        ("excel.application.worksheets", _) => ("Worksheets", MemberKind::PropertyGet),
+        ("excel.application.goto", _) => ("Goto", MemberKind::Method),
+        ("excel.application.automationsecurity", false) => {
+            ("AutomationSecurity", MemberKind::PropertyGet)
+        }
+        ("excel.application.automationsecurity", true) => {
+            ("AutomationSecurity", MemberKind::PropertyPut)
+        }
+        ("excel.application.run", _) => ("Run", MemberKind::Method),
+        ("excel.workbooks.application", _) => ("Application", MemberKind::PropertyGet),
+        ("excel.workbook.activate", _) => ("Activate", MemberKind::Method),
+        ("excel.workbook.activesheet", _) => ("ActiveSheet", MemberKind::PropertyGet),
+        ("excel.workbook.sheets", _) => ("Sheets", MemberKind::PropertyGet),
+        ("excel.workbook.windows", _) => ("Windows", MemberKind::PropertyGet),
+        ("excel.workbook.hasvbproject", _) => ("HasVBProject", MemberKind::PropertyGet),
+        ("excel.workbook.protectstructure", _) => ("ProtectStructure", MemberKind::PropertyGet),
+        ("excel.workbook.protectwindows", _) => ("ProtectWindows", MemberKind::PropertyGet),
+        ("excel.workbook.protect-2029", _) => ("Protect", MemberKind::Method),
+        ("excel.workbook.unprotect", _) => ("Unprotect", MemberKind::Method),
+        ("excel.workbook.printpreview", _) => ("PrintPreview", MemberKind::Method),
+        ("excel.workbook.printout-2361", _) => ("PrintOut", MemberKind::Method),
+        ("excel.workbook.exportasfixedformat-3175", _) => {
+            ("ExportAsFixedFormat", MemberKind::Method)
+        }
+        ("excel.worksheet.activate", _) => ("Activate", MemberKind::Method),
+        ("excel.worksheet.select", _) => ("Select", MemberKind::Method),
+        ("excel.worksheet.copy", _) => ("Copy", MemberKind::Method),
+        ("excel.worksheet.move", _) => ("Move", MemberKind::Method),
+        ("excel.worksheet.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.worksheet.tab", _) => ("Tab", MemberKind::PropertyGet),
+        ("excel.worksheet.pagesetup", _) => ("PageSetup", MemberKind::PropertyGet),
+        ("excel.worksheet.outline", _) => ("Outline", MemberKind::PropertyGet),
+        ("excel.worksheet.hpagebreaks", _) => ("HPageBreaks", MemberKind::PropertyGet),
+        ("excel.worksheet.vpagebreaks", _) => ("VPageBreaks", MemberKind::PropertyGet),
+        ("excel.worksheet.resetallpagebreaks", _) => ("ResetAllPageBreaks", MemberKind::Method),
+        ("excel.worksheet.protect-2029", _) => ("Protect", MemberKind::Method),
+        ("excel.worksheet.unprotect", _) => ("Unprotect", MemberKind::Method),
+        ("excel.worksheet.protectcontents", _) => ("ProtectContents", MemberKind::PropertyGet),
+        ("excel.worksheet.protectdrawingobjects", _) => {
+            ("ProtectDrawingObjects", MemberKind::PropertyGet)
+        }
+        ("excel.worksheet.protectscenarios", _) => ("ProtectScenarios", MemberKind::PropertyGet),
+        ("excel.worksheet.protectionmode", _) => ("ProtectionMode", MemberKind::PropertyGet),
+        ("excel.worksheet.printpreview", _) => ("PrintPreview", MemberKind::Method),
+        ("excel.worksheet.printout-2361", _) => ("PrintOut", MemberKind::Method),
+        ("excel.worksheet.exportasfixedformat-3175", _) => {
+            ("ExportAsFixedFormat", MemberKind::Method)
+        }
+        ("excel.range.activate", _) => ("Activate", MemberKind::Method),
+        ("excel.range.select", _) => ("Select", MemberKind::Method),
+        ("excel.range.merge", _) => ("Merge", MemberKind::Method),
+        ("excel.range.unmerge", _) => ("UnMerge", MemberKind::Method),
+        ("excel.range.mergecells", _) => ("MergeCells", MemberKind::PropertyGet),
+        ("excel.range.mergearea", _) => ("MergeArea", MemberKind::PropertyGet),
+        ("excel.range.orientation", false) => ("Orientation", MemberKind::PropertyGet),
+        ("excel.range.orientation", true) => ("Orientation", MemberKind::PropertyPut),
+        ("excel.range.indentlevel", false) => ("IndentLevel", MemberKind::PropertyGet),
+        ("excel.range.indentlevel", true) => ("IndentLevel", MemberKind::PropertyPut),
+        ("excel.range.shrinktofit", false) => ("ShrinkToFit", MemberKind::PropertyGet),
+        ("excel.range.shrinktofit", true) => ("ShrinkToFit", MemberKind::PropertyPut),
+        ("excel.range.readingorder", false) => ("ReadingOrder", MemberKind::PropertyGet),
+        ("excel.range.readingorder", true) => ("ReadingOrder", MemberKind::PropertyPut),
+        ("excel.range.group", _) => ("Group", MemberKind::Method),
+        ("excel.range.locked", false) => ("Locked", MemberKind::PropertyGet),
+        ("excel.range.locked", true) => ("Locked", MemberKind::PropertyPut),
+        ("excel.range.formulahidden", false) => ("FormulaHidden", MemberKind::PropertyGet),
+        ("excel.range.formulahidden", true) => ("FormulaHidden", MemberKind::PropertyPut),
+        ("excel.range.ungroup", _) => ("Ungroup", MemberKind::Method),
+        ("excel.range.showdetail", false) => ("ShowDetail", MemberKind::PropertyGet),
+        ("excel.range.showdetail", true) => ("ShowDetail", MemberKind::PropertyPut),
+        ("excel.range.printpreview", _) => ("PrintPreview", MemberKind::Method),
+        ("excel.range.printout-2361", _) => ("PrintOut", MemberKind::Method),
+        ("excel.range.exportasfixedformat-3175", _) => ("ExportAsFixedFormat", MemberKind::Method),
+        _ => return None,
+    };
+    Some(MemberDescriptor { id, name, kind })
 }
 
 fn structured_data_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {

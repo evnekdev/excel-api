@@ -47,6 +47,9 @@ impl Workbooks {
             },
         }
     }
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        &self.inner
+    }
     /// Returns the number of open workbooks.
     pub fn count(&self) -> Result<i32, ExcelComError> {
         i32::try_from(collection_count(&self.inner, DESCRIPTOR)?).map_err(|_| {
