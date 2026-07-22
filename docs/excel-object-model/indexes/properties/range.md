@@ -1,0 +1,116 @@
+# Properties: Range
+
+| Object | Member | DISPID | Status |
+|---|---|---:|---|
+| Range | _NewEnum | -4 | Metadata Only |
+| Range | _Default | 0 | Metadata Only |
+| Range | Value | 6 | Implemented |
+| Range | Name | 110 | Metadata Only |
+| Range | Count | 118 | Implemented |
+| Range | Width | 122 | Metadata Only |
+| Range | Height | 123 | Metadata Only |
+| Range | Top | 126 | Metadata Only |
+| Range | Left | 127 | Metadata Only |
+| Range | Interior | 129 | Metadata Only |
+| Range | Orientation | 134 | Metadata Only |
+| Range | HorizontalAlignment | 136 | Metadata Only |
+| Range | VerticalAlignment | 137 | Metadata Only |
+| Range | Text | 138 | Metadata Only |
+| Range | Font | 146 | Metadata Only |
+| Range | Application | 148 | Metadata Only |
+| Range | Creator | 149 | Metadata Only |
+| Range | Parent | 150 | Metadata Only |
+| Range | Item | 170 | Metadata Only |
+| Range | NumberFormat | 193 | Metadata Only |
+| Range | Range | 197 | Metadata Only |
+| Range | IndentLevel | 201 | Metadata Only |
+| Range | MergeCells | 208 | Metadata Only |
+| Range | ShrinkToFit | 209 | Metadata Only |
+| Range | Address | 236 | Implemented |
+| Range | Cells | 238 | Metadata Only |
+| Range | Column | 240 | Implemented |
+| Range | Columns | 241 | Implemented |
+| Range | ColumnWidth | 242 | Metadata Only |
+| Range | CurrentRegion | 243 | Metadata Only |
+| Range | EntireColumn | 246 | Metadata Only |
+| Range | EntireRow | 247 | Metadata Only |
+| Range | Offset | 254 | Metadata Only |
+| Range | PageBreak | 255 | Metadata Only |
+| Range | Resize | 256 | Metadata Only |
+| Range | Row | 257 | Implemented |
+| Range | Rows | 258 | Implemented |
+| Range | Style | 260 | Metadata Only |
+| Range | Formula | 261 | Implemented |
+| Range | FormulaHidden | 262 | Metadata Only |
+| Range | FormulaLocal | 263 | Metadata Only |
+| Range | FormulaR1C1 | 264 | Metadata Only |
+| Range | FormulaR1C1Local | 265 | Metadata Only |
+| Range | HasArray | 266 | Metadata Only |
+| Range | HasFormula | 267 | Metadata Only |
+| Range | Hidden | 268 | Metadata Only |
+| Range | Locked | 269 | Metadata Only |
+| Range | OutlineLevel | 271 | Metadata Only |
+| Range | RowHeight | 272 | Metadata Only |
+| Range | Summary | 273 | Metadata Only |
+| Range | UseStandardHeight | 274 | Metadata Only |
+| Range | UseStandardWidth | 275 | Metadata Only |
+| Range | WrapText | 276 | Metadata Only |
+| Range | Worksheet | 348 | Metadata Only |
+| Range | Borders | 435 | Metadata Only |
+| Range | AddressLocal | 437 | Metadata Only |
+| Range | End | 500 | Metadata Only |
+| Range | CurrentArray | 501 | Metadata Only |
+| Range | Next | 502 | Metadata Only |
+| Range | Previous | 503 | Metadata Only |
+| Range | PrefixCharacter | 504 | Metadata Only |
+| Range | Dependents | 543 | Metadata Only |
+| Range | Precedents | 544 | Metadata Only |
+| Range | DirectDependents | 545 | Metadata Only |
+| Range | DirectPrecedents | 546 | Metadata Only |
+| Range | Areas | 568 | Metadata Only |
+| Range | ShowDetail | 585 | Metadata Only |
+| Range | FormulaArray | 586 | Metadata Only |
+| Range | Characters | 603 | Metadata Only |
+| Range | DisplayFormat | 666 | Metadata Only |
+| Range | LocationInTable | 691 | Metadata Only |
+| Range | PivotTable | 716 | Metadata Only |
+| Range | PivotField | 731 | Metadata Only |
+| Range | PivotItem | 740 | Metadata Only |
+| Range | Comment | 910 | Metadata Only |
+| Range | SoundNote | 916 | Metadata Only |
+| Range | ReadingOrder | 975 | Metadata Only |
+| Range | AddIndent | 1063 | Metadata Only |
+| Range | NumberFormatLocal | 1097 | Metadata Only |
+| Range | ListHeaderRows | 1187 | Metadata Only |
+| Range | FormulaLabel | 1380 | Metadata Only |
+| Range | MergeArea | 1385 | Metadata Only |
+| Range | QueryTable | 1386 | Metadata Only |
+| Range | Validation | 1387 | Metadata Only |
+| Range | Value2 | 1388 | Implemented |
+| Range | Phonetic | 1391 | Metadata Only |
+| Range | FormatConditions | 1392 | Metadata Only |
+| Range | Hyperlinks | 1393 | Metadata Only |
+| Range | Formula2 | 1580 | Implemented |
+| Range | Phonetics | 1811 | Metadata Only |
+| Range | ID | 1813 | Metadata Only |
+| Range | PivotCell | 2013 | Metadata Only |
+| Range | Errors | 2015 | Metadata Only |
+| Range | SmartTags | 2016 | Metadata Only |
+| Range | AllowEdit | 2020 | Metadata Only |
+| Range | MDX | 2123 | Metadata Only |
+| Range | ListObject | 2257 | Metadata Only |
+| Range | XPath | 2258 | Metadata Only |
+| Range | ServerActions | 2491 | Metadata Only |
+| Range | CountLarge | 2499 | Metadata Only |
+| Range | SparklineGroups | 2853 | Metadata Only |
+| Range | CommentThreaded | 3281 | Metadata Only |
+| Range | LinkedDataTypeState | 3291 | Metadata Only |
+| Range | HasSpill | 3295 | Metadata Only |
+| Range | SpillingToRange | 3296 | Metadata Only |
+| Range | SpillParent | 3297 | Metadata Only |
+| Range | Formula2Local | 3300 | Metadata Only |
+| Range | Formula2R1C1 | 3301 | Metadata Only |
+| Range | Formula2R1C1Local | 3302 | Metadata Only |
+| Range | SavedAsArray | 3303 | Metadata Only |
+| Range | HasRichDataType | 3326 | Metadata Only |
+| Range | CellControl | 3411 | Metadata Only |

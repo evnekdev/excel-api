@@ -1,0 +1,52 @@
+# Methods: n
+
+| Object | Member | DISPID | Status |
+|---|---|---:|---|
+| Name | Delete | 117 | Metadata Only |
+| Name | QueryInterface | 1610612736 | Metadata Only |
+| Name | AddRef | 1610612737 | Metadata Only |
+| Name | Release | 1610612738 | Metadata Only |
+| Name | GetTypeInfoCount | 1610678272 | Metadata Only |
+| Name | GetTypeInfo | 1610678273 | Metadata Only |
+| Name | GetIDsOfNames | 1610678274 | Metadata Only |
+| Name | Invoke | 1610678275 | Metadata Only |
+| NamedSheetView | Delete | 117 | Metadata Only |
+| NamedSheetView | Activate | 304 | Metadata Only |
+| NamedSheetView | Duplicate | 1039 | Metadata Only |
+| NamedSheetView | QueryInterface | 1610612736 | Metadata Only |
+| NamedSheetView | AddRef | 1610612737 | Metadata Only |
+| NamedSheetView | Release | 1610612738 | Metadata Only |
+| NamedSheetView | GetTypeInfoCount | 1610678272 | Metadata Only |
+| NamedSheetView | GetTypeInfo | 1610678273 | Metadata Only |
+| NamedSheetView | GetIDsOfNames | 1610678274 | Metadata Only |
+| NamedSheetView | Invoke | 1610678275 | Metadata Only |
+| NamedSheetViewCollection | Add | 181 | Metadata Only |
+| NamedSheetViewCollection | EnterTemporary | 3360 | Metadata Only |
+| NamedSheetViewCollection | Exit | 3361 | Metadata Only |
+| NamedSheetViewCollection | GetActive | 3362 | Metadata Only |
+| NamedSheetViewCollection | GetItem | 3363 | Metadata Only |
+| NamedSheetViewCollection | GetItemAt | 3364 | Metadata Only |
+| NamedSheetViewCollection | QueryInterface | 1610612736 | Metadata Only |
+| NamedSheetViewCollection | AddRef | 1610612737 | Metadata Only |
+| NamedSheetViewCollection | Release | 1610612738 | Metadata Only |
+| NamedSheetViewCollection | GetTypeInfoCount | 1610678272 | Metadata Only |
+| NamedSheetViewCollection | GetTypeInfo | 1610678273 | Metadata Only |
+| NamedSheetViewCollection | GetIDsOfNames | 1610678274 | Metadata Only |
+| NamedSheetViewCollection | Invoke | 1610678275 | Metadata Only |
+| Names | _Default | 0 | Metadata Only |
+| Names | Item | 170 | Metadata Only |
+| Names | Add | 181 | Metadata Only |
+| Names | QueryInterface | 1610612736 | Metadata Only |
+| Names | AddRef | 1610612737 | Metadata Only |
+| Names | Release | 1610612738 | Metadata Only |
+| Names | GetTypeInfoCount | 1610678272 | Metadata Only |
+| Names | GetTypeInfo | 1610678273 | Metadata Only |
+| Names | GetIDsOfNames | 1610678274 | Metadata Only |
+| Names | Invoke | 1610678275 | Metadata Only |
+| NegativeBarFormat | QueryInterface | 1610612736 | Metadata Only |
+| NegativeBarFormat | AddRef | 1610612737 | Metadata Only |
+| NegativeBarFormat | Release | 1610612738 | Metadata Only |
+| NegativeBarFormat | GetTypeInfoCount | 1610678272 | Metadata Only |
+| NegativeBarFormat | GetTypeInfo | 1610678273 | Metadata Only |
+| NegativeBarFormat | GetIDsOfNames | 1610678274 | Metadata Only |
+| NegativeBarFormat | Invoke | 1610678275 | Metadata Only |

@@ -388,6 +388,7 @@
   "name": "ISlicerPivotTables",
   "schema_version": 1,
   "source_interface": "ISlicerPivotTables",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

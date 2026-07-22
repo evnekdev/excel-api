@@ -703,6 +703,7 @@
   "name": "ListRows",
   "schema_version": 1,
   "source_interface": "ListRows",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

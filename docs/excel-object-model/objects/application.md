@@ -16,6 +16,7 @@ The root Automation object for a locally activated Excel instance. The initial c
 | Interface | `_Application` |
 | GUID | `{000208d5-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Application` |
 | Implementation | Partial |
 | Documentation | Reviewed |

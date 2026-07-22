@@ -1,33 +1,50 @@
+use crate::automation::ConversionError;
 use std::error::Error;
 use std::fmt::{Display, Formatter};
 
 /// Production-facing Automation failure without raw address disclosure.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ExcelComError {
+    /// COM apartment initialization failed.
     Initialization {
+        /// The failed HRESULT.
         hresult: i32,
     },
+    /// Creating the local Excel Automation server failed.
     Activation {
+        /// The failed HRESULT.
         hresult: i32,
     },
+    /// Looking up an Automation member name failed.
     NameLookup {
+        /// The requested member name.
         member: &'static str,
+        /// The failed HRESULT.
         hresult: i32,
     },
+    /// Calling an Automation member failed.
     Invocation {
+        /// The invoked member name.
         member: &'static str,
+        /// The resolved member DISPID.
         dispid: i32,
+        /// The failed HRESULT.
         hresult: i32,
+        /// The server-provided exception SCODE, if any.
         exception_scode: Option<i32>,
+        /// The Automation argument index reported by COM, if any.
         argument_index: Option<u32>,
     },
-    Conversion {
-        detail: &'static str,
-    },
+    /// A value could not be converted before or after an Automation call.
+    Conversion(ConversionError),
+    /// A COM ownership invariant was violated.
     Ownership {
+        /// A static description of the invariant.
         detail: &'static str,
     },
+    /// The requested operation is intentionally outside this crate's slice.
     Unsupported {
+        /// A static description of the unsupported operation.
         detail: &'static str,
     },
 }
@@ -69,9 +86,7 @@ impl Display for ExcelComError {
                 exception_scode.map(|value| format!("0x{:08X}", value as u32)),
                 argument_index
             ),
-            Self::Conversion { detail } => {
-                write!(formatter, "Automation conversion failed: {detail}")
-            }
+            Self::Conversion(error) => write!(formatter, "Automation conversion failed: {error:?}"),
             Self::Ownership { detail } => write!(formatter, "COM ownership failure: {detail}"),
             Self::Unsupported { detail } => {
                 write!(formatter, "unsupported Automation operation: {detail}")

@@ -1,0 +1,50 @@
+# Methods: u
+
+| Object | Member | DISPID | Status |
+|---|---|---:|---|
+| UniqueValues | Delete | 117 | Metadata Only |
+| UniqueValues | ModifyAppliesToRange | 2627 | Metadata Only |
+| UniqueValues | SetFirstPriority | 2629 | Metadata Only |
+| UniqueValues | SetLastPriority | 2630 | Metadata Only |
+| UniqueValues | QueryInterface | 1610612736 | Metadata Only |
+| UniqueValues | AddRef | 1610612737 | Metadata Only |
+| UniqueValues | Release | 1610612738 | Metadata Only |
+| UniqueValues | GetTypeInfoCount | 1610678272 | Metadata Only |
+| UniqueValues | GetTypeInfo | 1610678273 | Metadata Only |
+| UniqueValues | GetIDsOfNames | 1610678274 | Metadata Only |
+| UniqueValues | Invoke | 1610678275 | Metadata Only |
+| UpBars | Delete | 117 | Metadata Only |
+| UpBars | Select | 235 | Metadata Only |
+| UpBars | SetProperty | 3253 | Metadata Only |
+| UpBars | GetProperty | 3256 | Metadata Only |
+| UpBars | QueryInterface | 1610612736 | Metadata Only |
+| UpBars | AddRef | 1610612737 | Metadata Only |
+| UpBars | Release | 1610612738 | Metadata Only |
+| UpBars | GetTypeInfoCount | 1610678272 | Metadata Only |
+| UpBars | GetTypeInfo | 1610678273 | Metadata Only |
+| UpBars | GetIDsOfNames | 1610678274 | Metadata Only |
+| UpBars | Invoke | 1610678275 | Metadata Only |
+| UsedObjects | QueryInterface | 1610612736 | Metadata Only |
+| UsedObjects | AddRef | 1610612737 | Metadata Only |
+| UsedObjects | Release | 1610612738 | Metadata Only |
+| UsedObjects | GetTypeInfoCount | 1610678272 | Metadata Only |
+| UsedObjects | GetTypeInfo | 1610678273 | Metadata Only |
+| UsedObjects | GetIDsOfNames | 1610678274 | Metadata Only |
+| UsedObjects | Invoke | 1610678275 | Metadata Only |
+| UserAccess | Delete | 117 | Metadata Only |
+| UserAccess | QueryInterface | 1610612736 | Metadata Only |
+| UserAccess | AddRef | 1610612737 | Metadata Only |
+| UserAccess | Release | 1610612738 | Metadata Only |
+| UserAccess | GetTypeInfoCount | 1610678272 | Metadata Only |
+| UserAccess | GetTypeInfo | 1610678273 | Metadata Only |
+| UserAccess | GetIDsOfNames | 1610678274 | Metadata Only |
+| UserAccess | Invoke | 1610678275 | Metadata Only |
+| UserAccessList | Add | 181 | Metadata Only |
+| UserAccessList | DeleteAll | 2239 | Metadata Only |
+| UserAccessList | QueryInterface | 1610612736 | Metadata Only |
+| UserAccessList | AddRef | 1610612737 | Metadata Only |
+| UserAccessList | Release | 1610612738 | Metadata Only |
+| UserAccessList | GetTypeInfoCount | 1610678272 | Metadata Only |
+| UserAccessList | GetTypeInfo | 1610678273 | Metadata Only |
+| UserAccessList | GetIDsOfNames | 1610678274 | Metadata Only |
+| UserAccessList | Invoke | 1610678275 | Metadata Only |

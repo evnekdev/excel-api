@@ -1,4 +1,4 @@
-use crate::ExcelComError;
+use crate::{ConversionError, ExcelComError};
 use windows_sys::Win32::Foundation::{SysAllocStringLen, SysFreeString};
 
 /// Private BSTR owner. BSTR length is preserved and no pointer escapes.
@@ -8,9 +8,7 @@ pub(crate) struct Bstr(*mut u16);
 impl Bstr {
     pub(crate) fn new(text: &str) -> Result<Self, ExcelComError> {
         if text.contains('\0') {
-            return Err(ExcelComError::Conversion {
-                detail: "embedded NUL is not supported by this BSTR owner",
-            });
+            return Err(ExcelComError::Conversion(ConversionError::EmbeddedNul));
         }
         let units: Vec<u16> = text.encode_utf16().collect();
         // SAFETY: `units` is valid UTF-16 storage for the duration of this allocation call.

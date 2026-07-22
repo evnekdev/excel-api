@@ -1305,6 +1305,7 @@
   "name": "Trendline",
   "schema_version": 1,
   "source_interface": "Trendline",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

@@ -1756,6 +1756,7 @@
   "name": "Pictures",
   "schema_version": 1,
   "source_interface": "Pictures",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

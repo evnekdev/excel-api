@@ -366,6 +366,7 @@
   "name": "IAddIns2",
   "schema_version": 1,
   "source_interface": "IAddIns2",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

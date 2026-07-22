@@ -13,6 +13,12 @@ pub fn check(root: &Path) -> Result<(), String> {
     for object in &objects {
         validate_schema_version(object, "object")?;
         validate_status(object)?;
+        let surface_class = object["surface_class"]
+            .as_str()
+            .ok_or("object lacks surface class")?;
+        if !model::SURFACE_CLASSES.contains(&surface_class) {
+            return Err(format!("invalid surface class {surface_class}"));
+        }
         let id = object["id"].as_str().ok_or("object lacks id")?;
         if !ids.insert(id.to_owned()) {
             return Err(format!("duplicate object id {id}"));
@@ -83,6 +89,22 @@ pub fn check(root: &Path) -> Result<(), String> {
         let path = metadata.join(name);
         let text = fs::read_to_string(&path).map_err(|error| error.to_string())?;
         validate_text(&text, &path)?;
+    }
+    let baseline_path = metadata.join("baseline.json");
+    let baseline_text = fs::read_to_string(&baseline_path).map_err(|error| error.to_string())?;
+    validate_text(&baseline_text, &baseline_path)?;
+    let baseline: Value =
+        serde_json::from_str(&baseline_text).map_err(|error| error.to_string())?;
+    validate_schema_version(&baseline, "baseline")?;
+    let member_count: usize = objects
+        .iter()
+        .map(|object| object["members"].as_array().map_or(0, Vec::len))
+        .sum();
+    if baseline["objects"].as_u64() != Some(objects.len() as u64)
+        || baseline["members"].as_u64() != Some(member_count as u64)
+        || baseline["enums"].as_u64() != Some(enums.len() as u64)
+    {
+        return Err("baseline counts disagree with committed metadata".to_owned());
     }
     let expected = markdown::planned_outputs(root)?;
     for (path, generated) in expected {

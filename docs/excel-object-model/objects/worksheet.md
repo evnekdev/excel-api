@@ -16,10 +16,11 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | Interface | `_Worksheet` |
 | GUID | `{000208d8-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Worksheet` |
-| Implementation | Metadata Only |
+| Implementation | Partial |
 | Documentation | Reviewed |
-| Tests | Not Tested |
+| Tests | Live Tested |
 
 ## Relationships
 
@@ -29,9 +30,9 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | `Cells` | `excel.range` | Metadata Only |
 | `CircularReference` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Metadata Only |
-| `Range` | `excel.range` | Metadata Only |
+| `Range` | `excel.range` | Implemented |
 | `Rows` | `excel.range` | Metadata Only |
-| `UsedRange` | `excel.range` | Metadata Only |
+| `UsedRange` | `excel.range` | Implemented |
 | `XmlDataQuery` | `excel.range` | Metadata Only |
 | `XmlMapQuery` | `excel.range` | Metadata Only |
 
@@ -42,12 +43,12 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | _CodeName | PROPERTYGET/PROPERTYPUT | String | -2147418112 | Metadata Only | Reviewed | Not Tested | |
 | Outline | PROPERTYGET | Outline | 102 | Metadata Only | Reviewed | Not Tested | |
 | Type | PROPERTYGET | XlSheetType | 108 | Metadata Only | Reviewed | Not Tested | |
-| Name | PROPERTYGET/PROPERTYPUT | String | 110 | Metadata Only | Reviewed | Not Tested | |
+| Name | PROPERTYGET/PROPERTYPUT | String | 110 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | 150 | Metadata Only | Reviewed | Not Tested | |
 | Protection | PROPERTYGET | Protection | 176 | Metadata Only | Reviewed | Not Tested | |
-| Range | PROPERTYGET | Range | 197 | Metadata Only | Reviewed | Not Tested | |
+| Range | PROPERTYGET | Range | 197 | Implemented | Reviewed | Live Tested | |
 | Cells | PROPERTYGET | Range | 238 | Metadata Only | Reviewed | Not Tested | |
 | Columns | PROPERTYGET | Range | 241 | Metadata Only | Reviewed | Not Tested | |
 | Rows | PROPERTYGET | Range | 258 | Metadata Only | Reviewed | Not Tested | |
@@ -58,12 +59,12 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | TransitionFormEntry | PROPERTYGET/PROPERTYPUT | bool | 402 | Metadata Only | Reviewed | Not Tested | |
 | StandardHeight | PROPERTYGET | f64 | 407 | Metadata Only | Reviewed | Not Tested | |
 | StandardWidth | PROPERTYGET/PROPERTYPUT | f64 | 408 | Metadata Only | Reviewed | Not Tested | |
-| UsedRange | PROPERTYGET | Range | 412 | Metadata Only | Reviewed | Not Tested | |
+| UsedRange | PROPERTYGET | Range | 412 | Implemented | Reviewed | Live Tested | |
 | Names | PROPERTYGET | Names | 442 | Metadata Only | Reviewed | Not Tested | |
-| Index | PROPERTYGET | i32 | 486 | Metadata Only | Reviewed | Not Tested | |
+| Index | PROPERTYGET | i32 | 486 | Implemented | Reviewed | Live Tested | |
 | Next | PROPERTYGET | Object | 502 | Metadata Only | Reviewed | Not Tested | |
 | Previous | PROPERTYGET | Object | 503 | Metadata Only | Reviewed | Not Tested | |
-| Visible | PROPERTYGET/PROPERTYPUT | XlSheetVisibility | 558 | Metadata Only | Reviewed | Not Tested | |
+| Visible | PROPERTYGET/PROPERTYPUT | XlSheetVisibility | 558 | Implemented | Reviewed | Live Tested | |
 | Comments | PROPERTYGET | Comments | 575 | Metadata Only | Reviewed | Not Tested | |
 | OnCalculate | PROPERTYGET/PROPERTYPUT | String | 625 | Metadata Only | Reviewed | Not Tested | |
 | OnEntry | PROPERTYGET/PROPERTYPUT | String | 627 | Metadata Only | Reviewed | Not Tested | |

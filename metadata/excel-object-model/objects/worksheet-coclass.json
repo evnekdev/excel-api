@@ -16,6 +16,7 @@
   "name": "Worksheet",
   "schema_version": 1,
   "source_interface": "Worksheet",
+  "surface_class": "implemented-wrapper",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

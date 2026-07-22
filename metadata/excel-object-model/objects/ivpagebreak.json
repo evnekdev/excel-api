@@ -334,6 +334,7 @@
   "name": "IVPageBreak",
   "schema_version": 1,
   "source_interface": "IVPageBreak",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

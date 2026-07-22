@@ -987,6 +987,7 @@
   "name": "CalloutFormat",
   "schema_version": 1,
   "source_interface": "CalloutFormat",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

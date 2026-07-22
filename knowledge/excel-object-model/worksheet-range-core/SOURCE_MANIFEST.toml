@@ -1,0 +1,7 @@
+schema_version = 1
+name = "excel-com-worksheet-range-core"
+classification = "experimental wrapper implementation evidence"
+source = "Prompt 08; registered Excel 1.9 typelib, prior SAFEARRAY runtime research, and owned-process live test"
+baseline_origin_master = "95db15fc7cf29f3878609e4226b234a22b4f15f2"
+raw_pointer_values_recorded = false
+process_identifiers_recorded = false

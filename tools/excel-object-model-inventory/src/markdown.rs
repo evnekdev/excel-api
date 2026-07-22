@@ -26,7 +26,10 @@ pub fn generate(root: &Path) -> Result<Summary, String> {
                     || path.to_string_lossy().contains("\\enums\\")
             })
             .count(),
-        indexes: 7,
+        indexes: outputs
+            .keys()
+            .filter(|path| path.to_string_lossy().contains("indexes"))
+            .count(),
     })
 }
 
@@ -37,7 +40,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nSee [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Status values are controlled and machine-readable. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nThe experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Status values and surface classes are controlled and machine-readable. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -52,12 +55,41 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
     output.insert(docs.join("indexes/objects.md"), object_index(&objects));
     output.insert(
         docs.join("indexes/properties.md"),
-        member_index(&objects, true),
+        member_index_root(&objects, true),
     );
     output.insert(
         docs.join("indexes/methods.md"),
-        member_index(&objects, false),
+        member_index_root(&objects, false),
     );
+    for object in priority_records(&objects) {
+        let name = object["name"].as_str().unwrap();
+        output.insert(
+            docs.join("indexes/properties")
+                .join(format!("{}.md", model::slug(name))),
+            member_index_for_objects(&[object], true, &format!("Properties: {name}")),
+        );
+        output.insert(
+            docs.join("indexes/methods")
+                .join(format!("{}.md", model::slug(name))),
+            member_index_for_objects(&[object], false, &format!("Methods: {name}")),
+        );
+    }
+    for initial in 'a'..='z' {
+        let selected: Vec<&Value> = objects
+            .iter()
+            .filter(|object| index_initial(object) == initial)
+            .collect();
+        output.insert(
+            docs.join("indexes/properties")
+                .join(format!("all-{initial}.md")),
+            member_index_for_objects(&selected, true, &format!("Properties: {initial}")),
+        );
+        output.insert(
+            docs.join("indexes/methods")
+                .join(format!("all-{initial}.md")),
+            member_index_for_objects(&selected, false, &format!("Methods: {initial}")),
+        );
+    }
     output.insert(docs.join("indexes/events.md"), event_index(&objects));
     output.insert(docs.join("indexes/enums.md"), enum_index(&enums));
     output.insert(docs.join("indexes/unsupported.md"), "# Unsupported and deferred inventory\n\nThe initial crate intentionally defers range wrappers, worksheet wrappers, charts, events, macros, connection points, generic collections, cross-apartment marshaling, and stable API commitments. Their metadata remains structurally inventoried.\n".to_owned());
@@ -83,10 +115,11 @@ fn object_page(object: &Value, relationships: &[Value], existing: Option<&str>) 
         summary(object["name"].as_str().unwrap()),
     );
     let generated = format!(
-        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
+        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Surface class | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
         object["source_interface"].as_str().unwrap_or("--"),
         object["guid"].as_str().unwrap_or("--"),
         object["kind"].as_str().unwrap_or("--"),
+        object["surface_class"].as_str().unwrap_or("--"),
         object["name"].as_str().unwrap_or("Object"),
         title(&object["implemented_status"]),
         title(&object["documentation_status"]),
@@ -110,13 +143,13 @@ fn summary(name: &str) -> &'static str {
             "An Excel workbook object. The initial crate supports basic identity, saved-state, and explicit close-without-saving operations."
         }
         "Worksheets" => {
-            "The workbook worksheet collection. It is structurally inventoried but has no production wrapper in this initial crate."
+            "The workbook worksheet collection. The bounded crate slice supports Count, Item, and constrained Add options."
         }
         "Worksheet" => {
-            "A worksheet object within a workbook. It is structurally inventoried while worksheet operations remain in the research tools."
+            "A worksheet object within a workbook. The bounded crate slice exposes identity, visibility, Range, and UsedRange navigation."
         }
         "Range" => {
-            "The cell and rectangular-value object. It is structurally inventoried; production Range support remains deferred pending the wrapper architecture review."
+            "The cell and rectangular-value object. The bounded crate slice supports address, dimensions, Value/Value2, Formula/Formula2, and ClearContents."
         }
         _ => "This type-library object is structurally inventoried for future wrapper planning.",
     }
@@ -267,9 +300,37 @@ fn object_index(objects: &[Value]) -> String {
     }
     lines.join("\n") + "\n"
 }
-fn member_index(objects: &[Value], property: bool) -> String {
+fn member_index_root(objects: &[Value], property: bool) -> String {
+    let kind = if property { "properties" } else { "methods" };
+    let title = if property { "Property" } else { "Method" };
     let mut lines = vec![
-        format!("# {} index", if property { "Property" } else { "Method" }),
+        format!("# {title} index"),
+        "".to_owned(),
+        "The complete inventory is sharded alphabetically by owning object; the core wrapper objects also have focused shards.".to_owned(),
+        "".to_owned(),
+        "## Core wrapper objects".to_owned(),
+        "".to_owned(),
+    ];
+    for object in priority_records(objects) {
+        let name = object["name"].as_str().unwrap();
+        lines.push(format!("- [{name}]({kind}/{}.md)", model::slug(name)));
+    }
+    lines.extend([
+        "".to_owned(),
+        "## Complete alphabetical inventory".to_owned(),
+        "".to_owned(),
+    ]);
+    let links = ('a'..='z')
+        .map(|initial| format!("[{initial}]({kind}/all-{initial}.md)"))
+        .collect::<Vec<_>>()
+        .join(" · ");
+    lines.push(links);
+    lines.join("\n") + "\n"
+}
+
+fn member_index_for_objects(objects: &[&Value], property: bool, heading: &str) -> String {
+    let mut lines = vec![
+        format!("# {heading}"),
         "".to_owned(),
         "| Object | Member | DISPID | Status |".to_owned(),
         "|---|---|---:|---|".to_owned(),
@@ -293,6 +354,14 @@ fn member_index(objects: &[Value], property: bool) -> String {
         }
     }
     lines.join("\n") + "\n"
+}
+
+fn index_initial(object: &Value) -> char {
+    object["name"]
+        .as_str()
+        .and_then(|name| model::slug(name).chars().next())
+        .filter(char::is_ascii_lowercase)
+        .unwrap_or('z')
 }
 fn event_index(objects: &[Value]) -> String {
     let mut lines = vec![
@@ -355,9 +424,13 @@ fn status(objects: &[Value]) -> String {
     let mut object_counts = BTreeMap::new();
     let mut member_counts = BTreeMap::new();
     let mut test_counts = BTreeMap::new();
+    let mut surface_counts = BTreeMap::new();
     for object in objects {
         *object_counts
             .entry(object["implemented_status"].as_str().unwrap_or("unknown"))
+            .or_insert(0usize) += 1;
+        *surface_counts
+            .entry(object["surface_class"].as_str().unwrap_or("unknown"))
             .or_insert(0usize) += 1;
         *test_counts
             .entry(object["test_status"].as_str().unwrap_or("unknown"))
@@ -398,6 +471,13 @@ fn status(objects: &[Value]) -> String {
             "| {} | {} |\n",
             title_string(status),
             object_counts.get(status).unwrap_or(&0)
+        ));
+    }
+    text.push_str("\n## Surface classes\n\n| Surface class | Object count |\n|---|---:|\n");
+    for class in model::SURFACE_CLASSES {
+        text.push_str(&format!(
+            "| {class} | {} |\n",
+            surface_counts.get(class).unwrap_or(&0)
         ));
     }
     text.push_str("\n## Member coverage\n\n| Member type | Total | Implemented | Partial | Metadata only | Not started |\n|---|---:|---:|---:|---:|---:|\n");

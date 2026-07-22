@@ -2130,6 +2130,7 @@
   "name": "IWorkbookEvents",
   "schema_version": 1,
   "source_interface": "IWorkbookEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

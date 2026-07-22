@@ -870,6 +870,7 @@
   "name": "IDocEvents",
   "schema_version": 1,
   "source_interface": "IDocEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

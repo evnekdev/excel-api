@@ -635,7 +635,7 @@
 | QueryTable | coclass | Metadata Only | Generated | Not Tested |
 | QueryTables | dispatch-interface | Metadata Only | Generated | Not Tested |
 | QuickAnalysis | dispatch-interface | Metadata Only | Generated | Not Tested |
-| [Range](../objects/range.md) | dispatch-interface | Metadata Only | Reviewed | Not Tested |
+| [Range](../objects/range.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Ranges | dispatch-interface | Metadata Only | Generated | Not Tested |
 | RecentFile | dispatch-interface | Metadata Only | Generated | Not Tested |
 | RecentFiles | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -742,11 +742,11 @@
 | WorkbookEvents | event-interface | Not Started | Generated | Not Tested |
 | WorkbookQuery | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Workbooks](../objects/workbooks.md) | dispatch-interface | Partial | Reviewed | Live Tested |
-| [Worksheet](../objects/worksheet.md) | dispatch-interface | Metadata Only | Reviewed | Not Tested |
+| [Worksheet](../objects/worksheet.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Worksheet | coclass | Metadata Only | Generated | Not Tested |
 | WorksheetDataConnection | dispatch-interface | Metadata Only | Generated | Not Tested |
 | WorksheetFunction | dispatch-interface | Metadata Only | Generated | Not Tested |
-| [Worksheets](../objects/worksheets.md) | dispatch-interface | Metadata Only | Reviewed | Not Tested |
+| [Worksheets](../objects/worksheets.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | WorksheetView | dispatch-interface | Metadata Only | Generated | Not Tested |
 | XmlDataBinding | dispatch-interface | Metadata Only | Generated | Not Tested |
 | XmlMap | dispatch-interface | Metadata Only | Generated | Not Tested |

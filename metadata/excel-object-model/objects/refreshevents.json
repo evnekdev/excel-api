@@ -462,6 +462,7 @@
   "name": "RefreshEvents",
   "schema_version": 1,
   "source_interface": "RefreshEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

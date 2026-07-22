@@ -16,6 +16,7 @@ The collection through which an Application exposes open workbooks. The initial 
 | Interface | `Workbooks` |
 | GUID | `{000208db-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Workbooks` |
 | Implementation | Partial |
 | Documentation | Reviewed |

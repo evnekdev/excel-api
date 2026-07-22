@@ -77,6 +77,7 @@
   "name": "IOLEObjectEvents",
   "schema_version": 1,
   "source_interface": "IOLEObjectEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,
