@@ -6,14 +6,14 @@ use windows_sys::Win32::Foundation::SysStringLen;
 use windows_sys::Win32::System::Com::CY;
 use windows_sys::Win32::System::Variant::{
     VARIANT, VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_ERROR, VT_I4, VT_NULL,
-    VT_R8, VT_VARIANT, VariantClear, VariantInit,
+    VT_R8, VT_UNKNOWN, VT_VARIANT, VariantClear, VariantInit,
 };
 
 use super::SafeArray;
 use super::bstr::Bstr;
 use crate::{
     ConversionError, ExcelComError,
-    internal::{ComPtr, Dispatch},
+    internal::{ComPtr, Dispatch, Unknown},
 };
 
 /// Private initialized `VARIANT` owner with exactly-once `VariantClear` cleanup.
@@ -168,6 +168,20 @@ impl OwnedVariant {
         // SAFETY: the checked VT_DISPATCH tag selects pdispVal in the VARIANT union.
         let raw = unsafe { self.0.Anonymous.Anonymous.Anonymous.pdispVal };
         self.0.Anonymous.Anonymous.Anonymous.pdispVal = std::ptr::null_mut();
+        self.0.Anonymous.Anonymous.vt = 0;
+        // SAFETY: ownership moved out by clearing the tag and pointer slot above.
+        unsafe { ComPtr::from_owned(raw) }
+    }
+
+    pub(crate) fn take_unknown(&mut self) -> Result<ComPtr<Unknown>, ExcelComError> {
+        if self.vt() != VT_UNKNOWN {
+            return Err(ExcelComError::Conversion(
+                ConversionError::UnsupportedVariantType { vartype: self.vt() },
+            ));
+        }
+        // SAFETY: the checked VT_UNKNOWN tag selects punkVal in the VARIANT union.
+        let raw = unsafe { self.0.Anonymous.Anonymous.Anonymous.punkVal };
+        self.0.Anonymous.Anonymous.Anonymous.punkVal = std::ptr::null_mut();
         self.0.Anonymous.Anonymous.vt = 0;
         // SAFETY: ownership moved out by clearing the tag and pointer slot above.
         unsafe { ComPtr::from_owned(raw) }

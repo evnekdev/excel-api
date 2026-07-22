@@ -2,7 +2,7 @@
 
 ## Summary
 
-The root Automation object for a locally activated Excel instance. The initial crate exposes only a deliberately small lifecycle and workbook-navigation slice.
+The root Automation object for a locally activated Excel instance. The bounded crate slice includes lifecycle, workbook navigation, and two-range Union construction for Areas testing.
 
 ## Sources
 
@@ -40,7 +40,7 @@ The root Automation object for a locally activated Excel instance. The initial c
 | `Rows` | `excel.range` | Metadata Only |
 | `ThisCell` | `excel.range` | Metadata Only |
 | `ThisWorkbook` | `excel.workbook` | Metadata Only |
-| `Union` | `excel.range` | Metadata Only |
+| `Union` | `excel.range` | Implemented |
 | `Workbooks` | `excel.workbooks` | Implemented |
 
 ## Properties
@@ -339,7 +339,7 @@ The root Automation object for a locally activated Excel instance. The initial c
 | OnRepeat | Unknown | 2 | declared | 769 | Metadata Only | Reviewed | Not Tested | |
 | OnUndo | Unknown | 2 | declared | 770 | Metadata Only | Reviewed | Not Tested | |
 | RecordMacro | Unknown | 2 | declared | 773 | Metadata Only | Reviewed | Not Tested | |
-| Union | Range | 30 | declared | 779 | Metadata Only | Reviewed | Not Tested | |
+| Union | Range | 30 | declared | 779 | Implemented | Reviewed | Live Tested | |
 | AddCustomList | Unknown | 2 | declared | 780 | Metadata Only | Reviewed | Not Tested | |
 | DeleteCustomList | Unknown | 1 | declared | 783 | Metadata Only | Reviewed | Not Tested | |
 | GetCustomListNum | i32 | 1 | declared | 785 | Metadata Only | Reviewed | Not Tested | |

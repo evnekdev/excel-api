@@ -36,7 +36,7 @@
 | Application | OnRepeat | 769 | Metadata Only |
 | Application | OnUndo | 770 | Metadata Only |
 | Application | RecordMacro | 773 | Metadata Only |
-| Application | Union | 779 | Metadata Only |
+| Application | Union | 779 | Implemented |
 | Application | AddCustomList | 780 | Metadata Only |
 | Application | DeleteCustomList | 783 | Metadata Only |
 | Application | GetCustomListNum | 785 | Metadata Only |

@@ -2,7 +2,7 @@
 
 ## Summary
 
-The workbook worksheet collection. It is structurally inventoried but has no production wrapper in this initial crate.
+The typed workbook worksheet collection. The bounded crate supports Count, Item, constrained Add options, and fallible `_NewEnum` iteration.
 
 ## Sources
 
@@ -35,7 +35,7 @@ The workbook worksheet collection. It is structurally inventoried but has no pro
 
 | Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---|---|---:|---|---|---|---|
-| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Metadata Only | Reviewed | Not Tested | |
+| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Implemented | Reviewed | Live Tested | |
 | _Default | PROPERTYGET | Object | declared | 0 | Metadata Only | Reviewed | Not Tested | |
 | Count | PROPERTYGET | i32 | declared | 118 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |

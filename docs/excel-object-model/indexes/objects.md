@@ -16,7 +16,7 @@
 | Application | coclass | Metadata Only | Generated | Not Tested |
 | Arc | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Arcs | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Areas | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Areas](../objects/areas.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Author | dispatch-interface | Metadata Only | Generated | Not Tested |
 | AutoCorrect | dispatch-interface | Metadata Only | Generated | Not Tested |
 | AutoFilter | dispatch-interface | Metadata Only | Generated | Not Tested |

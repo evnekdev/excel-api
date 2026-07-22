@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Range | _NewEnum | -4 | Metadata Only |
+| Range | _NewEnum | -4 | Implemented |
 | Range | _Default | 0 | Metadata Only |
 | Range | Value | 6 | Implemented |
 | Range | Name | 110 | Metadata Only |
@@ -20,23 +20,23 @@
 | Range | Application | 148 | Metadata Only |
 | Range | Creator | 149 | Metadata Only |
 | Range | Parent | 150 | Metadata Only |
-| Range | Item | 170 | Metadata Only |
+| Range | Item | 170 | Implemented |
 | Range | NumberFormat | 193 | Metadata Only |
 | Range | Range | 197 | Metadata Only |
 | Range | IndentLevel | 201 | Metadata Only |
 | Range | MergeCells | 208 | Metadata Only |
 | Range | ShrinkToFit | 209 | Metadata Only |
 | Range | Address | 236 | Implemented |
-| Range | Cells | 238 | Metadata Only |
+| Range | Cells | 238 | Implemented |
 | Range | Column | 240 | Implemented |
 | Range | Columns | 241 | Implemented |
 | Range | ColumnWidth | 242 | Metadata Only |
 | Range | CurrentRegion | 243 | Metadata Only |
-| Range | EntireColumn | 246 | Metadata Only |
-| Range | EntireRow | 247 | Metadata Only |
-| Range | Offset | 254 | Metadata Only |
+| Range | EntireColumn | 246 | Implemented |
+| Range | EntireRow | 247 | Implemented |
+| Range | Offset | 254 | Implemented |
 | Range | PageBreak | 255 | Metadata Only |
-| Range | Resize | 256 | Metadata Only |
+| Range | Resize | 256 | Implemented |
 | Range | Row | 257 | Implemented |
 | Range | Rows | 258 | Implemented |
 | Range | Style | 260 | Metadata Only |
@@ -67,7 +67,7 @@
 | Range | Precedents | 544 | Metadata Only |
 | Range | DirectDependents | 545 | Metadata Only |
 | Range | DirectPrecedents | 546 | Metadata Only |
-| Range | Areas | 568 | Metadata Only |
+| Range | Areas | 568 | Implemented |
 | Range | ShowDetail | 585 | Metadata Only |
 | Range | FormulaArray | 586 | Metadata Only |
 | Range | Characters | 603 | Metadata Only |

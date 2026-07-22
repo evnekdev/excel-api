@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"areas-iteration","collection":"Areas","count":2,"item_access":true,"enumerator":"_NewEnum","index_kinds":["one-based-integer"],"addresses_match_expected_areas":true,"outcome":"passed"}

@@ -37,6 +37,10 @@ impl Workbook {
             },
         }
     }
+    /// Returns whether two Workbook wrappers denote the same COM object identity.
+    pub fn is_same_object(&self, other: &Self) -> Result<bool, ExcelComError> {
+        self.inner.same_object(&other.inner)
+    }
     /// Returns the workbook name reported by Excel.
     pub fn name(&self) -> Result<String, ExcelComError> {
         property_get(

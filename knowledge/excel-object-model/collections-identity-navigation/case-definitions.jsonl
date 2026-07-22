@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"collections-navigation.live","test":"cargo test -p excel-com --test collection_navigation_live -- --ignored --test-threads=1","visible":true,"owned_excel_process":true,"temporary_workbook":"unsaved","mutation_during_iteration":"not-tested"}

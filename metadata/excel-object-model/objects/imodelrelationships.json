@@ -1,21 +1,21 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Add"
-  ],
+  "collection": {
+    "count_member_id": "excel.imodelrelationships.count",
+    "element_type": "Unknown",
+    "enumerator_member_id": "excel.imodelrelationships.newenum",
+    "index_kinds": [
+      "variant-key"
+    ],
+    "item_member_id": "excel.imodelrelationships.item",
+    "iterator_status": "metadata-only"
+  },
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": "_NewEnum",
   "guid": "{000244da-0001-0000-c000-000000000046}",
   "id": "excel.imodelrelationships",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": "Item",
   "kind": "interface",
   "members": [
     {

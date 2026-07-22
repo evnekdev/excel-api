@@ -56,6 +56,25 @@ Events, charts, macros, existing-session attachment, marshaling, generic
 collections, formatting, and a stable public API are intentionally out of
 scope for this first crate slice.
 
+## Typed collections and Range navigation
+
+`Workbooks`, `Worksheets`, and `Areas` expose fallible `iter()` methods backed
+by owned `IEnumVARIANT` cursors. The cursors are single-pass and apartment-bound;
+each item is a `Result`, an error fuses the cursor, and early drop releases the
+COM enumerator. Excel controls collection order and mutation-during-iteration
+semantics.
+
+`Workbook`, `Worksheet`, and `Range` expose fallible `is_same_object` methods
+based on canonical `IUnknown` identity, not names, paths, or addresses. The
+crate deliberately does not implement `PartialEq`: Excel may return separate
+COM objects for logically equivalent Range lookups.
+
+Range navigation includes one-based `item`/`cell`, `cells`, signed `offset`,
+strict nonzero `resize`, `rows`, `columns`, `areas`, `entire_row`, and
+`entire_column`. `Application::union2` is the deliberately narrow helper used
+to construct a multi-area Range. These APIs do not materialize Rust cell
+collections or generalize multi-area assignment.
+
 ## API documentation
 
 Rustdoc describes the public wrapper and Automation-value contracts; the

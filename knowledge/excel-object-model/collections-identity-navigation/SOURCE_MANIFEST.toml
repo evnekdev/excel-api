@@ -1,0 +1,12 @@
+schema_version = 1
+name = "excel-com-collections-identity-navigation"
+classification = "experimental wrapper implementation evidence"
+source = "Prompt 10; registered Excel 1.9 typelib and owned-process live test"
+baseline_origin_master = "5ac5d477398cc31934403e623db7499f280c62d9"
+raw_pointer_values_recorded = false
+process_identifiers_recorded = false
+user_paths_recorded = false
+
+[selection]
+include = ["Workbooks", "Worksheets", "Areas", "Range navigation", "canonical IUnknown identity"]
+exclude = ["raw pointers", "PIDs", "HWNDs", "absolute local paths"]

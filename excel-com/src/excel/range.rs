@@ -5,7 +5,7 @@ use crate::automation::{
     AutomationValue, ConversionPolicy, DateWriteMode, decode_variant, invoke, property_get,
     property_put, validate_range_shape,
 };
-use crate::excel::DispatchObject;
+use crate::excel::{Areas, DispatchObject};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
 
@@ -36,6 +36,14 @@ impl Range {
                 kind: "Range",
             },
         }
+    }
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        &self.inner
+    }
+
+    /// Returns whether two Range wrappers denote the same COM object identity.
+    pub fn is_same_object(&self, other: &Self) -> Result<bool, ExcelComError> {
+        self.inner.same_object(&other.inner)
     }
 
     /// Returns the default A1-style address as reported by Excel.
@@ -71,6 +79,95 @@ impl Range {
     /// Returns the number of columns in the Range.
     pub fn column_count(&self) -> Result<i32, ExcelComError> {
         self.related_count("excel.range.columns")
+    }
+
+    /// Returns the Range containing this range's cells.
+    pub fn cells(&self) -> Result<Range, ExcelComError> {
+        self.range_property("excel.range.cells")
+    }
+
+    /// Returns the one-based cell addressed relative to this Range.
+    pub fn item(&self, row: usize, column: Option<usize>) -> Result<Range, ExcelComError> {
+        let row = one_based_i32(row, "Range.Item row")?;
+        let mut arguments = vec![crate::automation::OwnedVariant::i32(row)];
+        if let Some(column) = column {
+            arguments.push(crate::automation::OwnedVariant::i32(one_based_i32(
+                column,
+                "Range.Item column",
+            )?));
+        }
+        let mut result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.range.item"), false),
+            arguments,
+        )?;
+        Ok(Self::from_dispatch(result.take_dispatch()?))
+    }
+
+    /// Returns the one-based cell at `row`, `column` relative to this Range.
+    pub fn cell(&self, row: usize, column: usize) -> Result<Range, ExcelComError> {
+        self.item(row, Some(column))
+    }
+
+    /// Returns a Range translated by signed row and column offsets.
+    pub fn offset(&self, row_offset: isize, column_offset: isize) -> Result<Range, ExcelComError> {
+        let row = i32::try_from(row_offset).map_err(|_| ExcelComError::Unsupported {
+            detail: "Range.Offset row offset exceeds i32",
+        })?;
+        let column = i32::try_from(column_offset).map_err(|_| ExcelComError::Unsupported {
+            detail: "Range.Offset column offset exceeds i32",
+        })?;
+        self.range_property_with(
+            "excel.range.offset",
+            vec![
+                crate::automation::OwnedVariant::i32(row),
+                crate::automation::OwnedVariant::i32(column),
+            ],
+        )
+    }
+
+    /// Returns this Range resized to the nonzero `rows` by `columns` dimensions.
+    pub fn resize(&self, rows: usize, columns: usize) -> Result<Range, ExcelComError> {
+        self.range_property_with(
+            "excel.range.resize",
+            vec![
+                crate::automation::OwnedVariant::i32(one_based_i32(rows, "Range.Resize rows")?),
+                crate::automation::OwnedVariant::i32(one_based_i32(
+                    columns,
+                    "Range.Resize columns",
+                )?),
+            ],
+        )
+    }
+
+    /// Returns the Range representing this Range's rows.
+    pub fn rows(&self) -> Result<Range, ExcelComError> {
+        self.range_property("excel.range.rows")
+    }
+
+    /// Returns the Range representing this Range's columns.
+    pub fn columns(&self) -> Result<Range, ExcelComError> {
+        self.range_property("excel.range.columns")
+    }
+
+    /// Returns the collection of contiguous areas in this Range.
+    pub fn areas(&self) -> Result<Areas, ExcelComError> {
+        let mut result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.range.areas"), false),
+            vec![],
+        )?;
+        Ok(Areas::from_dispatch(result.take_dispatch()?))
+    }
+
+    /// Returns the full worksheet rows intersecting this Range.
+    pub fn entire_row(&self) -> Result<Range, ExcelComError> {
+        self.range_property("excel.range.entirerow")
+    }
+
+    /// Returns the full worksheet columns intersecting this Range.
+    pub fn entire_column(&self) -> Result<Range, ExcelComError> {
+        self.range_property("excel.range.entirecolumn")
     }
 
     /// Gets `Range.Value`, preserving scalar and rectangular Automation values.
@@ -135,13 +232,24 @@ impl Range {
     }
 
     fn related_count(&self, id: &'static str) -> Result<i32, ExcelComError> {
+        let related = self.range_property(id)?;
+        related.cell_count()
+    }
+
+    fn range_property(&self, id: &'static str) -> Result<Range, ExcelComError> {
+        self.range_property_with(id, vec![])
+    }
+    fn range_property_with(
+        &self,
+        id: &'static str,
+        arguments: Vec<crate::automation::OwnedVariant>,
+    ) -> Result<Range, ExcelComError> {
         let mut result = property_get(
             &self.inner.dispatch,
             member(MemberId::new(id), false),
-            vec![],
+            arguments,
         )?;
-        let related = Self::from_dispatch(result.take_dispatch()?);
-        related.cell_count()
+        Ok(Self::from_dispatch(result.take_dispatch()?))
     }
 
     fn dimensions(&self) -> Result<(usize, usize), ExcelComError> {
@@ -186,4 +294,13 @@ impl Range {
         )?;
         Ok(())
     }
+}
+
+fn one_based_i32(value: usize, detail: &'static str) -> Result<i32, ExcelComError> {
+    if value == 0 {
+        return Err(ExcelComError::Unsupported {
+            detail: "Range indices and dimensions are one-based and nonzero",
+        });
+    }
+    i32::try_from(value).map_err(|_| ExcelComError::Unsupported { detail })
 }

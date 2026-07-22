@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Worksheets | _NewEnum | -4 | Metadata Only |
+| Worksheets | _NewEnum | -4 | Implemented |
 | Worksheets | _Default | 0 | Metadata Only |
 | Worksheets | Count | 118 | Implemented |
 | Worksheets | Application | 148 | Metadata Only |

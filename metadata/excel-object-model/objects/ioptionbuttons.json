@@ -1,22 +1,21 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Add",
-    "Delete"
-  ],
+  "collection": {
+    "count_member_id": "excel.ioptionbuttons.count",
+    "element_type": "Unknown",
+    "enumerator_member_id": "excel.ioptionbuttons.newenum",
+    "index_kinds": [
+      "variant-key"
+    ],
+    "item_member_id": "excel.ioptionbuttons.item",
+    "iterator_status": "metadata-only"
+  },
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": "_NewEnum",
   "guid": "{00020882-0001-0000-c000-000000000046}",
   "id": "excel.ioptionbuttons",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": "Item",
   "kind": "interface",
   "members": [
     {

@@ -1,22 +1,21 @@
 {
   "alias_target": null,
-  "collection": true,
-  "collection_capabilities": [
-    "Count",
-    "Item",
-    "_NewEnum",
-    "Add",
-    "Delete"
-  ],
+  "collection": {
+    "count_member_id": "excel.ibuttons.count",
+    "element_type": "Unknown",
+    "enumerator_member_id": "excel.ibuttons.newenum",
+    "index_kinds": [
+      "variant-key"
+    ],
+    "item_member_id": "excel.ibuttons.item",
+    "iterator_status": "metadata-only"
+  },
   "documentation_status": "generated",
   "documentation_url": null,
-  "element_type": null,
-  "enumerator_member": "_NewEnum",
   "guid": "{0002087e-0001-0000-c000-000000000046}",
   "id": "excel.ibuttons",
   "implemented_interface_count": 1,
   "implemented_status": "metadata-only",
-  "index_member": "Item",
   "kind": "interface",
   "members": [
     {

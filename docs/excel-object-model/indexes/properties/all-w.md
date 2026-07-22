@@ -267,13 +267,13 @@
 | WorkbookQuery | Parent | 150 | Metadata Only |
 | WorkbookQuery | Description | 218 | Metadata Only |
 | WorkbookQuery | Formula | 261 | Metadata Only |
-| Workbooks | _NewEnum | -4 | Metadata Only |
+| Workbooks | _NewEnum | -4 | Implemented |
 | Workbooks | _Default | 0 | Metadata Only |
 | Workbooks | Count | 118 | Implemented |
 | Workbooks | Application | 148 | Metadata Only |
 | Workbooks | Creator | 149 | Metadata Only |
 | Workbooks | Parent | 150 | Metadata Only |
-| Workbooks | Item | 170 | Metadata Only |
+| Workbooks | Item | 170 | Implemented |
 | Worksheet | _CodeName | -2147418112 | Metadata Only |
 | Worksheet | Outline | 102 | Metadata Only |
 | Worksheet | Type | 108 | Metadata Only |
@@ -353,7 +353,7 @@
 | WorksheetFunction | Application | 148 | Metadata Only |
 | WorksheetFunction | Creator | 149 | Metadata Only |
 | WorksheetFunction | Parent | 150 | Metadata Only |
-| Worksheets | _NewEnum | -4 | Metadata Only |
+| Worksheets | _NewEnum | -4 | Implemented |
 | Worksheets | _Default | 0 | Metadata Only |
 | Worksheets | Count | 118 | Implemented |
 | Worksheets | Application | 148 | Metadata Only |

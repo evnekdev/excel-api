@@ -53,6 +53,20 @@ pub const MEMBER_ORIGINS: &[&str] = &[
     "inherited-idispatch",
     "inherited-base-interface",
 ];
+pub const COLLECTION_INDEX_KINDS: &[&str] = &[
+    "one-based-integer",
+    "string-key",
+    "variant-key",
+    "no-index",
+    "unknown",
+];
+pub const COLLECTION_ITERATOR_STATUSES: &[&str] = &[
+    "not-started",
+    "metadata-only",
+    "implemented",
+    "blocked",
+    "unsupported",
+];
 
 pub fn slug(value: &str) -> String {
     let mut result = String::new();
@@ -90,19 +104,20 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "Worksheets" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.worksheets"),
         "Worksheet" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet"),
         "Range" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.range(object)"),
+        "Areas" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.areas"),
         _ => None,
     }
 }
 pub fn priority_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
-        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range"
+        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range" | "Areas"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
-        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range"
+        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range" | "Areas"
     )
 }
 pub fn surface_class(

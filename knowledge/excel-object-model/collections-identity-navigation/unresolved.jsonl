@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"range-identity-materialization","status":"observed","detail":"Excel may materialize equivalent Range and Areas values as distinct canonical IUnknown objects; the API reports this without substituting address equality."}

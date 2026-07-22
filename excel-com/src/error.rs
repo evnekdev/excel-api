@@ -15,12 +15,28 @@ pub enum ExcelComError {
         /// The failed HRESULT.
         hresult: i32,
     },
+    /// Querying a COM interface failed.
+    QueryInterface {
+        /// The failed HRESULT.
+        hresult: i32,
+    },
     /// Looking up an Automation member name failed.
     NameLookup {
         /// The requested member name.
         member: &'static str,
         /// The failed HRESULT.
         hresult: i32,
+    },
+    /// An `IEnumVARIANT` operation or yielded collection value was invalid.
+    Enumeration {
+        /// The collection being iterated.
+        collection: &'static str,
+        /// Zero-based item position requested from the enumerator.
+        item_index: usize,
+        /// The HRESULT reported by `IEnumVARIANT::Next`, if applicable.
+        hresult: Option<i32>,
+        /// A static description of the validated failure.
+        detail: &'static str,
     },
     /// Calling an Automation member failed.
     Invocation {
@@ -77,10 +93,25 @@ impl Display for ExcelComError {
                 "Excel activation failed (0x{:08X})",
                 *hresult as u32
             ),
+            Self::QueryInterface { hresult } => write!(
+                formatter,
+                "COM QueryInterface failed (0x{:08X})",
+                *hresult as u32
+            ),
             Self::NameLookup { member, hresult } => write!(
                 formatter,
                 "name lookup for {member} failed (0x{:08X})",
                 *hresult as u32
+            ),
+            Self::Enumeration {
+                collection,
+                item_index,
+                hresult,
+                detail,
+            } => write!(
+                formatter,
+                "enumeration of {collection} at item {item_index} failed ({detail}, HRESULT {:?})",
+                hresult.map(|value| format!("0x{:08X}", value as u32))
             ),
             Self::Invocation {
                 object_type,

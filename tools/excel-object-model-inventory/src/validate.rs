@@ -29,6 +29,45 @@ pub fn check(root: &Path) -> Result<(), String> {
         if !ids.insert(id.to_owned()) {
             return Err(format!("duplicate object id {id}"));
         }
+        if let Some(collection) = object["collection"].as_object() {
+            let element_type = collection
+                .get("element_type")
+                .and_then(Value::as_str)
+                .ok_or("collection lacks element_type")?;
+            if element_type.is_empty() {
+                return Err("collection has empty element_type".to_owned());
+            }
+            for field in ["count_member_id", "item_member_id", "enumerator_member_id"] {
+                if let Some(value) = collection.get(field).and_then(Value::as_str)
+                    && !object["members"]
+                        .as_array()
+                        .into_iter()
+                        .flatten()
+                        .any(|member| member["id"].as_str() == Some(value))
+                {
+                    return Err(format!(
+                        "collection {field} does not reference an object member"
+                    ));
+                }
+            }
+            for kind in collection["index_kinds"]
+                .as_array()
+                .ok_or("collection lacks index_kinds")?
+            {
+                let kind = kind.as_str().ok_or("collection index kind is not text")?;
+                if !model::COLLECTION_INDEX_KINDS.contains(&kind) {
+                    return Err(format!("invalid collection index kind {kind}"));
+                }
+            }
+            let status = collection["iterator_status"]
+                .as_str()
+                .ok_or("collection lacks iterator_status")?;
+            if !model::COLLECTION_ITERATOR_STATUSES.contains(&status) {
+                return Err(format!("invalid collection iterator status {status}"));
+            }
+        } else if !object["collection"].is_null() {
+            return Err("collection must be an object or null".to_owned());
+        }
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?

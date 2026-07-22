@@ -2,7 +2,7 @@
 
 ## Summary
 
-The cell and rectangular-value object. It is structurally inventoried; production Range support remains deferred pending the wrapper architecture review.
+The cell and rectangular-value object. The bounded crate supports values plus Cells, Item, Offset, Resize, Rows, Columns, Areas, EntireRow, and EntireColumn navigation.
 
 ## Sources
 
@@ -29,7 +29,8 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Relationship | Target | Status |
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
-| `Cells` | `excel.range` | Metadata Only |
+| `Areas` | `excel.areas` | Implemented |
+| `Cells` | `excel.range` | Implemented |
 | `ColumnDifferences` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Implemented |
 | `CurrentArray` | `excel.range` | Metadata Only |
@@ -38,18 +39,18 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | `DirectDependents` | `excel.range` | Metadata Only |
 | `DirectPrecedents` | `excel.range` | Metadata Only |
 | `End` | `excel.range` | Metadata Only |
-| `EntireColumn` | `excel.range` | Metadata Only |
-| `EntireRow` | `excel.range` | Metadata Only |
+| `EntireColumn` | `excel.range` | Implemented |
+| `EntireRow` | `excel.range` | Implemented |
 | `Find` | `excel.range` | Metadata Only |
 | `FindNext` | `excel.range` | Metadata Only |
 | `FindPrevious` | `excel.range` | Metadata Only |
 | `MergeArea` | `excel.range` | Metadata Only |
 | `Next` | `excel.range` | Metadata Only |
-| `Offset` | `excel.range` | Metadata Only |
+| `Offset` | `excel.range` | Implemented |
 | `Precedents` | `excel.range` | Metadata Only |
 | `Previous` | `excel.range` | Metadata Only |
 | `Range` | `excel.range` | Metadata Only |
-| `Resize` | `excel.range` | Metadata Only |
+| `Resize` | `excel.range` | Implemented |
 | `RowDifferences` | `excel.range` | Metadata Only |
 | `Rows` | `excel.range` | Implemented |
 | `SpecialCells` | `excel.range` | Metadata Only |
@@ -61,7 +62,7 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 
 | Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---|---|---:|---|---|---|---|
-| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Metadata Only | Reviewed | Not Tested | |
+| _NewEnum | PROPERTYGET | Unknown | declared | -4 | Implemented | Reviewed | Live Tested | |
 | _Default | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 0 | Metadata Only | Reviewed | Not Tested | |
 | Value | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 6 | Implemented | Reviewed | Live Tested | |
 | Name | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 110 | Metadata Only | Reviewed | Not Tested | |
@@ -79,23 +80,23 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| Item | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 170 | Metadata Only | Reviewed | Not Tested | |
+| Item | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 170 | Implemented | Reviewed | Live Tested | |
 | NumberFormat | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 193 | Metadata Only | Reviewed | Not Tested | |
 | Range | PROPERTYGET | Range | declared | 197 | Metadata Only | Reviewed | Not Tested | |
 | IndentLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 201 | Metadata Only | Reviewed | Not Tested | |
 | MergeCells | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 208 | Metadata Only | Reviewed | Not Tested | |
 | ShrinkToFit | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 209 | Metadata Only | Reviewed | Not Tested | |
 | Address | PROPERTYGET | String | declared | 236 | Implemented | Reviewed | Live Tested | |
-| Cells | PROPERTYGET | Range | declared | 238 | Metadata Only | Reviewed | Not Tested | |
+| Cells | PROPERTYGET | Range | declared | 238 | Implemented | Reviewed | Live Tested | |
 | Column | PROPERTYGET | i32 | declared | 240 | Implemented | Reviewed | Live Tested | |
 | Columns | PROPERTYGET | Range | declared | 241 | Implemented | Reviewed | Live Tested | |
 | ColumnWidth | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 242 | Metadata Only | Reviewed | Not Tested | |
 | CurrentRegion | PROPERTYGET | Range | declared | 243 | Metadata Only | Reviewed | Not Tested | |
-| EntireColumn | PROPERTYGET | Range | declared | 246 | Metadata Only | Reviewed | Not Tested | |
-| EntireRow | PROPERTYGET | Range | declared | 247 | Metadata Only | Reviewed | Not Tested | |
-| Offset | PROPERTYGET | Range | declared | 254 | Metadata Only | Reviewed | Not Tested | |
+| EntireColumn | PROPERTYGET | Range | declared | 246 | Implemented | Reviewed | Live Tested | |
+| EntireRow | PROPERTYGET | Range | declared | 247 | Implemented | Reviewed | Live Tested | |
+| Offset | PROPERTYGET | Range | declared | 254 | Implemented | Reviewed | Live Tested | |
 | PageBreak | PROPERTYGET/PROPERTYPUT | i32 | declared | 255 | Metadata Only | Reviewed | Not Tested | |
-| Resize | PROPERTYGET | Range | declared | 256 | Metadata Only | Reviewed | Not Tested | |
+| Resize | PROPERTYGET | Range | declared | 256 | Implemented | Reviewed | Live Tested | |
 | Row | PROPERTYGET | i32 | declared | 257 | Implemented | Reviewed | Live Tested | |
 | Rows | PROPERTYGET | Range | declared | 258 | Implemented | Reviewed | Live Tested | |
 | Style | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 260 | Metadata Only | Reviewed | Not Tested | |
@@ -126,7 +127,7 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Precedents | PROPERTYGET | Range | declared | 544 | Metadata Only | Reviewed | Not Tested | |
 | DirectDependents | PROPERTYGET | Range | declared | 545 | Metadata Only | Reviewed | Not Tested | |
 | DirectPrecedents | PROPERTYGET | Range | declared | 546 | Metadata Only | Reviewed | Not Tested | |
-| Areas | PROPERTYGET | Areas | declared | 568 | Metadata Only | Reviewed | Not Tested | |
+| Areas | PROPERTYGET | Areas | declared | 568 | Implemented | Reviewed | Live Tested | |
 | ShowDetail | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 585 | Metadata Only | Reviewed | Not Tested | |
 | FormulaArray | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 586 | Metadata Only | Reviewed | Not Tested | |
 | Characters | PROPERTYGET | Characters | declared | 603 | Metadata Only | Reviewed | Not Tested | |

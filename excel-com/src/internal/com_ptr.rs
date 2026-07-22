@@ -3,12 +3,19 @@ use std::marker::PhantomData;
 use std::ptr::NonNull;
 use std::rc::Rc;
 
+use windows_sys::core::GUID;
 use windows_sys::core::IUnknown_Vtbl;
 
 use crate::ExcelComError;
 
 /// Marker for generic Automation dispatch references.
 pub(crate) enum Dispatch {}
+/// Marker for an owned IUnknown reference that is never dispatched through.
+pub(crate) enum Unknown {}
+/// Marker for an owned IEnumVARIANT reference.
+pub(crate) enum EnumVariantInterface {}
+
+pub(crate) const IID_IUNKNOWN: GUID = GUID::from_u128(0x00000000_0000_0000_c000_000000000046);
 
 #[repr(C)]
 pub(crate) struct DispatchVtbl {
@@ -64,16 +71,37 @@ impl<T> ComPtr<T> {
         std::mem::forget(self);
         raw
     }
+    unsafe fn iunknown_vtbl(&self) -> &IUnknown_Vtbl {
+        // SAFETY: every owned interface starts with the IUnknown vtable prefix.
+        unsafe { &**(self.raw() as *const *const IUnknown_Vtbl) }
+    }
+    pub(crate) fn query_interface<U>(&self, iid: &GUID) -> Result<ComPtr<U>, ExcelComError> {
+        let mut raw = std::ptr::null_mut();
+        // SAFETY: the interface, IID, and writable output pointer are valid.
+        let status = unsafe { (self.iunknown_vtbl().QueryInterface)(self.raw(), iid, &mut raw) };
+        if ExcelComError::failed(status) {
+            return Err(ExcelComError::QueryInterface { hresult: status });
+        }
+        // SAFETY: a successful QueryInterface returns one owned reference.
+        unsafe { ComPtr::from_owned(raw) }
+    }
+}
+
+impl ComPtr<Dispatch> {
     pub(crate) unsafe fn vtbl(&self) -> &DispatchVtbl {
-        // SAFETY: constructors require an owned generic IDispatch pointer with this vtable layout.
+        // SAFETY: this specialization only owns IDispatch pointers.
         unsafe { &**(self.raw() as *const *const DispatchVtbl) }
+    }
+
+    pub(crate) fn canonical_unknown(&self) -> Result<ComPtr<Unknown>, ExcelComError> {
+        self.query_interface(&IID_IUNKNOWN)
     }
 }
 
 impl<T> Clone for ComPtr<T> {
     fn clone(&self) -> Self {
-        // SAFETY: this is a valid IDispatch reference; AddRef establishes the cloned ownership.
-        unsafe { (self.vtbl().base.AddRef)(self.raw()) };
+        // SAFETY: this is a valid interface reference; AddRef establishes cloned ownership.
+        unsafe { (self.iunknown_vtbl().AddRef)(self.raw()) };
         Self {
             raw: self.raw,
             _type: PhantomData,
@@ -85,6 +113,6 @@ impl<T> Clone for ComPtr<T> {
 impl<T> Drop for ComPtr<T> {
     fn drop(&mut self) {
         // SAFETY: this owner holds exactly one reference that has not yet been released.
-        unsafe { (self.vtbl().base.Release)(self.raw()) };
+        unsafe { (self.iunknown_vtbl().Release)(self.raw()) };
     }
 }
