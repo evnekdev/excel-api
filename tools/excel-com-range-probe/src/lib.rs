@@ -26,6 +26,14 @@ pub fn automation_value_live(root: &Path, only_case: Option<&str>) -> Result<Str
     automation::live_compatibility(root, only_case)
 }
 
+/// Runs the semantic live cases without modifying the Prompt 06 evidence
+/// tree. This lets later research prompts retain their own observations.
+pub fn automation_value_live_observations(
+    only_case: Option<&str>,
+) -> Result<(Vec<Value>, Vec<&'static str>), String> {
+    automation::live_compatibility_observations(only_case)
+}
+
 const PROBE_VERSION: u32 = 2;
 const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];
 

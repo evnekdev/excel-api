@@ -1,6 +1,8 @@
 /target
 /tools/abi-check/target
 /tools/abi-check/Cargo.lock
+/tools/excel-com-microsoft-sample/Cargo.lock
 /tools/excel-com-kb/target
 /tools/**/target/
 /artifacts
+/*.obj
