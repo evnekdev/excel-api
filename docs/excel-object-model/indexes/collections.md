@@ -9,7 +9,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Workbooks | implemented |
 | Worksheets | implemented |
 | Areas | implemented |
-| Names | metadata-only |
+| Names | implemented |
 | Charts | metadata-only |
 | Shapes | metadata-only |
 | ListObjects | metadata-only |
@@ -213,7 +213,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | ModelTableNames | Unknown | excel.modeltablenames.count | excel.modeltablenames.item | -- | variant-key | metadata-only |
 | ModelTables | Unknown | excel.modeltables.count | excel.modeltables.item | excel.modeltables.newenum | variant-key | metadata-only |
 | Modules | Unknown | excel.modules.count | excel.modules.item | excel.modules.newenum | variant-key | metadata-only |
-| Names | Unknown | excel.names.count | excel.names.item | excel.names.newenum | variant-key | metadata-only |
+| Names | Name | excel.names.count | excel.names.item | excel.names.newenum | one-based-integer, string-key | implemented |
 | ODBCErrors | Unknown | excel.odbcerrors.count | excel.odbcerrors.item | excel.odbcerrors.newenum | variant-key | metadata-only |
 | OLEDBErrors | Unknown | excel.oledberrors.count | excel.oledberrors.item | excel.oledberrors.newenum | variant-key | metadata-only |
 | OLEObjects | Unknown | excel.oleobjects.count | excel.oleobjects.item | excel.oleobjects.newenum | variant-key | metadata-only |

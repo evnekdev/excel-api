@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"r1c1-converted-selection","input":"R1C1:R10C24","conversion":"Application.ConvertFormula R1C1 to A1","address_a1":"$A$1:$X$10","status":"passed"}
+{"schema_version":1,"case_id":"direct-worksheet-range-r1c1","input":"R1C1","reference_styles":["A1","R1C1"],"result":"Excel invocation error 0x80020009 with EXCEPINFO 0x800A03EC in both cases","conclusion":"do not use direct Worksheet.Range for R1C1 selection"}

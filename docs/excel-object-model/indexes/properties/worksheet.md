@@ -6,12 +6,12 @@
 | Worksheet | Outline | 102 | Metadata Only |
 | Worksheet | Type | 108 | Metadata Only |
 | Worksheet | Name | 110 | Implemented |
-| Worksheet | Application | 148 | Metadata Only |
+| Worksheet | Application | 148 | Implemented |
 | Worksheet | Creator | 149 | Metadata Only |
 | Worksheet | Parent | 150 | Metadata Only |
 | Worksheet | Protection | 176 | Metadata Only |
 | Worksheet | Range | 197 | Implemented |
-| Worksheet | Cells | 238 | Metadata Only |
+| Worksheet | Cells | 238 | Implemented |
 | Worksheet | Columns | 241 | Metadata Only |
 | Worksheet | Rows | 258 | Metadata Only |
 | Worksheet | ProtectContents | 292 | Metadata Only |
@@ -22,7 +22,7 @@
 | Worksheet | StandardHeight | 407 | Metadata Only |
 | Worksheet | StandardWidth | 408 | Metadata Only |
 | Worksheet | UsedRange | 412 | Implemented |
-| Worksheet | Names | 442 | Metadata Only |
+| Worksheet | Names | 442 | Implemented |
 | Worksheet | Index | 486 | Implemented |
 | Worksheet | Next | 502 | Metadata Only |
 | Worksheet | Previous | 503 | Metadata Only |

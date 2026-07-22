@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"workbook-range-name","name":"InputRange","refers_to":"='Sheet Name'!$B$2:$B$3","refers_to_r1c1":"='Sheet Name'!R2C2:R3C2","visible":true,"range_resolution":"passed"}

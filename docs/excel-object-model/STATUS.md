@@ -5,8 +5,8 @@
 | Status | Count |
 |---|---:|
 | Implemented | 0 |
-| Partial | 7 |
-| Metadata Only | 735 |
+| Partial | 9 |
+| Metadata Only | 733 |
 | Not Started | 12 |
 | Blocked | 0 |
 | Unsupported | 0 |
@@ -15,8 +15,8 @@
 
 | Surface class | Object count |
 |---|---:|
-| primary-object-model | 7 |
-| secondary-public | 303 |
+| primary-object-model | 9 |
+| secondary-public | 301 |
 | hidden | 422 |
 | restricted | 0 |
 | event-interface | 12 |
@@ -29,9 +29,9 @@
 
 | Roadmap class | Object count |
 |---|---:|
-| implemented-wrapper | 7 |
+| implemented-wrapper | 9 |
 | priority-inventory | 0 |
-| deferred-inventory | 747 |
+| deferred-inventory | 745 |
 
 ## Member coverage
 
@@ -40,24 +40,24 @@
 | Raw type-library members | 17828 |
 | Declared Excel members | 15112 |
 | Inherited COM members | 2716 |
-| Implemented declared Excel members | 53 |
+| Implemented declared Excel members | 71 |
 
 Only declared Excel members are included in the human coverage table below.
 
 | Member type | Declared total | Implemented | Partial | Metadata only | Not started |
 |---|---:|---:|---:|---:|---:|
-| Properties | 10388 | 43 | 0 | 10345 | 0 |
-| Methods | 4440 | 10 | 0 | 4430 | 0 |
+| Properties | 10388 | 55 | 0 | 10333 | 0 |
+| Methods | 4440 | 16 | 0 | 4424 | 0 |
 | Events | 284 | 0 | 0 | 0 | 284 |
 
 ## Test coverage
 
 | Test status | Count |
 |---|---:|
-| Live Tested | 60 |
+| Live Tested | 80 |
 | Integration Tested | 0 |
 | Unit Tested | 0 |
-| Not Tested | 15806 |
+| Not Tested | 15786 |
 | Blocked | 0 |
 
 ## Priority objects
@@ -71,3 +71,5 @@ Only declared Excel members are included in the human coverage table below.
 | [Worksheet](objects/worksheet.md) | Partial |
 | [Range](objects/range.md) | Partial |
 | [Areas](objects/areas.md) | Partial |
+| [Names](objects/names.md) | Partial |
+| [Name](objects/name.md) | Partial |

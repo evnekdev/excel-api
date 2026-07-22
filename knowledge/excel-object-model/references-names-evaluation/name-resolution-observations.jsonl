@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"range-name","name":"InputRange","name_range":"resolved","external_address_matches_source":true,"canonical_identity":false}
+{"schema_version":1,"case_id":"constant-name","name":"ConstantValue","refers_to":"=42","name_range":"Excel invocation error","evaluate_value":42}

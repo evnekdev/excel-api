@@ -2,7 +2,7 @@
 
 ## Summary
 
-A worksheet object within a workbook. It is structurally inventoried while worksheet operations remain in the research tools.
+A worksheet object within a workbook. The bounded crate slice exposes identity, visibility, explicit A1/R1C1/numeric Range selection, local Names, worksheet evaluation, and UsedRange navigation.
 
 ## Sources
 
@@ -28,8 +28,8 @@ A worksheet object within a workbook. It is structurally inventoried while works
 
 | Relationship | Target | Status |
 |---|---|---|
-| `Application` | `excel.application` | Metadata Only |
-| `Cells` | `excel.range` | Metadata Only |
+| `Application` | `excel.application` | Implemented |
+| `Cells` | `excel.range` | Implemented |
 | `CircularReference` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Metadata Only |
 | `Range` | `excel.range` | Implemented |
@@ -46,12 +46,12 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | Outline | PROPERTYGET | Outline | declared | 102 | Metadata Only | Reviewed | Not Tested | |
 | Type | PROPERTYGET | XlSheetType | declared | 108 | Metadata Only | Reviewed | Not Tested | |
 | Name | PROPERTYGET/PROPERTYPUT | String | declared | 110 | Implemented | Reviewed | Live Tested | |
-| Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
+| Application | PROPERTYGET | Application | declared | 148 | Implemented | Reviewed | Live Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | Protection | PROPERTYGET | Protection | declared | 176 | Metadata Only | Reviewed | Not Tested | |
 | Range | PROPERTYGET | Range | declared | 197 | Implemented | Reviewed | Live Tested | |
-| Cells | PROPERTYGET | Range | declared | 238 | Metadata Only | Reviewed | Not Tested | |
+| Cells | PROPERTYGET | Range | declared | 238 | Implemented | Reviewed | Live Tested | |
 | Columns | PROPERTYGET | Range | declared | 241 | Metadata Only | Reviewed | Not Tested | |
 | Rows | PROPERTYGET | Range | declared | 258 | Metadata Only | Reviewed | Not Tested | |
 | ProtectContents | PROPERTYGET | bool | declared | 292 | Metadata Only | Reviewed | Not Tested | |
@@ -62,7 +62,7 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | StandardHeight | PROPERTYGET | f64 | declared | 407 | Metadata Only | Reviewed | Not Tested | |
 | StandardWidth | PROPERTYGET/PROPERTYPUT | f64 | declared | 408 | Metadata Only | Reviewed | Not Tested | |
 | UsedRange | PROPERTYGET | Range | declared | 412 | Implemented | Reviewed | Live Tested | |
-| Names | PROPERTYGET | Names | declared | 442 | Metadata Only | Reviewed | Not Tested | |
+| Names | PROPERTYGET | Names | declared | 442 | Implemented | Reviewed | Live Tested | |
 | Index | PROPERTYGET | i32 | declared | 486 | Implemented | Reviewed | Live Tested | |
 | Next | PROPERTYGET | Object | declared | 502 | Metadata Only | Reviewed | Not Tested | |
 | Previous | PROPERTYGET | Object | declared | 503 | Metadata Only | Reviewed | Not Tested | |
@@ -118,7 +118,7 @@ A worksheet object within a workbook. It is structurally inventoried while works
 | Method | Return | Arguments | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---:|---|---:|---|---|---|---|
 | _Evaluate | AutomationValue | 1 | declared | -5 | Metadata Only | Reviewed | Not Tested | |
-| Evaluate | AutomationValue | 1 | declared | 1 | Metadata Only | Reviewed | Not Tested | |
+| Evaluate | AutomationValue | 1 | declared | 1 | Implemented | Reviewed | Live Tested | |
 | DrawingObjects | Object | 1 | declared | 88 | Metadata Only | Reviewed | Not Tested | |
 | Delete | Unknown | 0 | declared | 117 | Metadata Only | Reviewed | Not Tested | |
 | Paste | Unknown | 2 | declared | 211 | Metadata Only | Reviewed | Not Tested | |

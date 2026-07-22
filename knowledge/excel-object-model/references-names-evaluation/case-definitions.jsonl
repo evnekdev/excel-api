@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"reference-names-live","harness":"excel-com reference_names_live","workbook":"fresh-unsaved","visibility":"true","cleanup":"close-without-saving then Application.Quit","preexisting_excel_processes":0}

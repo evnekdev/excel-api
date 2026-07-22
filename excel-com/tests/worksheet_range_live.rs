@@ -4,8 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArgument, AutomationArray, AutomationValue, ComApartment,
-    ConversionError, Currency, ExcelComError, ExcelError, OaDate, Worksheet, WorksheetsAddOptions,
+    Application, AutomationArray, AutomationValue, ComApartment, ConversionError, Currency,
+    ExcelComError, ExcelError, OaDate, Worksheet, WorksheetsAddOptions,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -42,10 +42,7 @@ fn excel_process_count() -> Result<u32, String> {
 }
 
 fn range(worksheet: &Worksheet, address: &str) -> Result<excel_com::Range, ExcelComError> {
-    worksheet.range(
-        AutomationArgument::Value(AutomationValue::Text(address.to_owned())),
-        None,
-    )
+    worksheet.range(address)
 }
 
 #[test]

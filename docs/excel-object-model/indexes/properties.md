@@ -11,6 +11,8 @@ The complete inventory is sharded alphabetically by owning object; the core wrap
 - [Worksheet](properties/worksheet.md)
 - [Range](properties/range.md)
 - [Areas](properties/areas.md)
+- [Names](properties/names.md)
+- [Name](properties/name.md)
 
 ## Complete alphabetical inventory
 

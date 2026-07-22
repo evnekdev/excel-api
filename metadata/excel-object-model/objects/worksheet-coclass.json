@@ -3,6 +3,12 @@
   "collection": null,
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet",
+  "evaluation_result_categories": [
+    "automation-value",
+    "range-object",
+    "other-object",
+    "unknown"
+  ],
   "guid": "{00020820-0000-0000-c000-000000000046}",
   "id": "excel.worksheet.coclass",
   "implemented_interface_count": 2,
@@ -10,6 +16,16 @@
   "kind": "coclass",
   "members": [],
   "name": "Worksheet",
+  "reference_capabilities": {
+    "external_address": false,
+    "formula_conversion": false,
+    "input_styles": [
+      "a1",
+      "r1c1"
+    ],
+    "output_styles": [],
+    "relative_address": false
+  },
   "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Worksheet",

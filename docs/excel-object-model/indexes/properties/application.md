@@ -74,7 +74,7 @@
 | Application | PathSeparator | 377 | Metadata Only |
 | Application | PreviousSelections | 378 | Metadata Only |
 | Application | RecordRelative | 379 | Metadata Only |
-| Application | ReferenceStyle | 380 | Metadata Only |
+| Application | ReferenceStyle | 380 | Implemented |
 | Application | TemplatesPath | 381 | Metadata Only |
 | Application | ScreenUpdating | 382 | Metadata Only |
 | Application | StartupPath | 385 | Metadata Only |

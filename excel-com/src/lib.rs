@@ -59,9 +59,53 @@
 //! than `PartialEq`. Excel may materialize logically equivalent Range values
 //! as distinct COM objects, so addresses are not identity.
 //!
+//! # Selecting, naming, converting, and evaluating ranges
+//!
+//! A1 is the concise default: [`Worksheet::range`] selects one A1 reference,
+//! while [`Worksheet::range_between`] accepts two corners. R1C1 is explicit
+//! through [`Worksheet::range_r1c1`], which uses Excel's own
+//! [`Application::convert_formula`] engine rather than a Rust parser. Numeric
+//! [`Worksheet::cell`] and [`Worksheet::range_from_cells`] coordinates are
+//! one-based and reject zero before COM. [`Range::address_a1`],
+//! [`Range::address_r1c1`], and [`Range::address_with_options`] request
+//! explicit output notation without relying on the global setting.
+//!
+//! [`ReferenceStyle`] preserves unknown Excel values. Because it is global
+//! Application state, use [`Application::reference_style_guard`] for a
+//! temporary change and explicitly call [`ReferenceStyleGuard::restore`] when
+//! a restoration failure must be observed. [`FormulaConversionOptions`] and
+//! [`RangeAddressOptions`] preserve omitted Automation positions as Missing.
+//!
+//! [`Workbook::names`] and [`Worksheet::names`] expose distinct Excel scopes.
+//! [`Names::add`] accepts a Range, A1, R1C1, or formula target, but a valid
+//! [`Name`] can still denote a scalar, formula, or external reference instead
+//! of a Range. [`Name::range`] is therefore fallible. Evaluation is similarly
+//! explicit: [`Application::evaluate_value`] requires an Automation value or
+//! array, whereas [`Application::evaluate_range`] requires a Range object.
+//! Equal addresses, names, and formula strings do not imply canonical COM
+//! object identity.
+//!
+//! | Need | API |
+//! |---|---|
+//! | A1 selection | [`Worksheet::range`] |
+//! | Two A1 corners | [`Worksheet::range_between`] |
+//! | R1C1 selection | [`Worksheet::range_r1c1`] |
+//! | Numeric cell | [`Worksheet::cell`] |
+//! | Numeric rectangle | [`Worksheet::range_from_cells`] |
+//! | A1 output | [`Range::address_a1`] |
+//! | R1C1 output | [`Range::address_r1c1`] |
+//! | Customized address | [`Range::address_with_options`] |
+//! | Formula conversion | [`Application::convert_formula`] |
+//! | Workbook names | [`Workbook::names`] |
+//! | Worksheet names | [`Worksheet::names`] |
+//! | Add name | [`Names::add`] |
+//! | Resolve name | [`Name::range`] |
+//! | Evaluate scalar | [`Application::evaluate_value`] |
+//! | Evaluate Range | [`Application::evaluate_range`] |
+//!
 //! ```no_run
 //! # fn example() -> Result<(), excel_com::ExcelComError> {
-//! # use excel_com::{Application, AutomationArgument, AutomationValue, ComApartment};
+//! # use excel_com::{Application, ComApartment};
 //! # let apartment = ComApartment::sta()?;
 //! # let application = Application::new(&apartment)?;
 //! # let workbook = application.workbooks()?.add()?;
@@ -69,7 +113,7 @@
 //! let direct = worksheets.item_by_index(1)?;
 //! let first = worksheets.iter()?.next().transpose()?.expect("worksheet");
 //! assert!(direct.is_same_object(&first)?);
-//! let base = direct.range(AutomationArgument::Value(AutomationValue::Text("B2".into())), None)?;
+//! let base = direct.range("B2")?;
 //! let shifted = base.resize(2, 3)?.cell(2, 3)?.offset(1, -1)?;
 //! # drop(shifted);
 //! # application.quit()?;
@@ -81,7 +125,7 @@
 //!
 //! ```no_run
 //! use excel_com::{
-//!     Application, AutomationArgument, AutomationValue, ComApartment,
+//!     Application, ComApartment,
 //!     SaveChanges, WorkbookCloseOptions, WorkbookOpenOptions,
 //!     WorkbookSaveAsOptions, XlFileFormat,
 //! };
@@ -128,7 +172,9 @@ pub use automation::{
 };
 pub use error::ExcelComError;
 pub use excel::{
-    Application, Areas, AreasIter, DisplayAlertsGuard, Range, SaveChanges, Workbook,
+    Application, Areas, AreasIter, DisplayAlertsGuard, FormulaConversionOptions, Name,
+    NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions,
+    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, SaveChanges, Workbook,
     WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions,
     Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions, WorksheetsIter,
     XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,

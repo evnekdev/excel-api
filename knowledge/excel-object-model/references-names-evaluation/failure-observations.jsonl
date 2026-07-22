@@ -1,0 +1,3 @@
+{"schema_version":1,"case_id":"nul-text","inputs":["Worksheet.range","Names.item_by_name"],"result":"rejected before COM"}
+{"schema_version":1,"case_id":"zero-index","input":"Worksheet.cell(0, 1)","result":"rejected before COM"}
+{"schema_version":1,"case_id":"non-range-name","input":"Name.RefersToRange on =42","result":"Excel invocation error preserved"}

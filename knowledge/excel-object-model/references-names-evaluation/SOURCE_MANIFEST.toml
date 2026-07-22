@@ -1,0 +1,9 @@
+schema_version = 1
+topic = "Excel references, defined names, formula conversion, and evaluation"
+typelib_guid = "{00020813-0000-0000-c000-000000000046}"
+typelib_version = "1.9"
+sources = [
+  "registered Excel type library extracted by excel-object-model-inventory",
+  "excel-com/tests/reference_names_live.rs",
+  "Excel runtime through the experimental excel-com wrapper",
+]

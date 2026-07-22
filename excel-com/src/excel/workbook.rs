@@ -1,6 +1,6 @@
 use crate::automation::{OwnedVariant, PositionalArguments, invoke, property_get, property_put};
 use crate::excel::{
-    DispatchObject, SaveChanges, WorkbookCloseOptions, WorkbookSaveAsOptions, Worksheets,
+    DispatchObject, Names, SaveChanges, WorkbookCloseOptions, WorkbookSaveAsOptions, Worksheets,
     XlFileFormat,
 };
 use crate::internal::{ComPtr, Dispatch, path_bstr};
@@ -58,6 +58,18 @@ impl Workbook {
             vec![],
         )?;
         Ok(Worksheets::from_dispatch(result.take_dispatch()?))
+    }
+    /// Returns this workbook's Excel Names collection.
+    ///
+    /// Excel controls which workbook-level and visible names appear here.
+    /// Worksheet-local collections are available through [`crate::Worksheet::names`].
+    pub fn names(&self) -> Result<Names, ExcelComError> {
+        let mut result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbook.names"), false),
+            vec![],
+        )?;
+        Ok(Names::from_dispatch(result.take_dispatch()?))
     }
     /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {

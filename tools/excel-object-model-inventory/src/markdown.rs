@@ -40,7 +40,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, and Areas iteration plus core Range navigation. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, and Names iteration plus core Range navigation, references, formula conversion, and typed evaluation. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -158,6 +158,10 @@ fn summary(name: &str) -> &'static str {
             "The cell and rectangular-value object. The bounded crate slice supports values plus Cells, Item, Offset, Resize, Rows, Columns, Areas, EntireRow, and EntireColumn navigation."
         }
         "Areas" => "The typed collection of contiguous ranges produced by a multi-area Range.",
+        "Names" => "The typed workbook- or worksheet-scoped collection of Excel defined names.",
+        "Name" => {
+            "One Excel defined name, which may resolve to a Range, scalar, formula, or invalid reference."
+        }
         _ => "This type-library object is structurally inventoried for future wrapper planning.",
     }
 }
@@ -627,6 +631,8 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "Worksheet",
         "Range",
         "Areas",
+        "Names",
+        "Name",
     ]
     .into_iter()
     .filter_map(|name| {

@@ -2,7 +2,7 @@
 
 ## Summary
 
-The root Automation object for a locally activated Excel instance. The bounded crate slice includes lifecycle, workbook navigation, and two-range Union construction for Areas testing.
+The root Automation object for a locally activated Excel instance. The bounded crate slice includes lifecycle, workbook navigation, reference-style guarding, Excel-backed formula conversion, and separately typed scalar/Range evaluation.
 
 ## Sources
 
@@ -119,7 +119,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | PathSeparator | PROPERTYGET | String | declared | 377 | Metadata Only | Reviewed | Not Tested | |
 | PreviousSelections | PROPERTYGET | AutomationValue | declared | 378 | Metadata Only | Reviewed | Not Tested | |
 | RecordRelative | PROPERTYGET | bool | declared | 379 | Metadata Only | Reviewed | Not Tested | |
-| ReferenceStyle | PROPERTYGET/PROPERTYPUT | XlReferenceStyle | declared | 380 | Metadata Only | Reviewed | Not Tested | |
+| ReferenceStyle | PROPERTYGET/PROPERTYPUT | XlReferenceStyle | declared | 380 | Implemented | Reviewed | Live Tested | |
 | TemplatesPath | PROPERTYGET | String | declared | 381 | Metadata Only | Reviewed | Not Tested | |
 | ScreenUpdating | PROPERTYGET/PROPERTYPUT | bool | declared | 382 | Metadata Only | Reviewed | Not Tested | |
 | StartupPath | PROPERTYGET | String | declared | 385 | Metadata Only | Reviewed | Not Tested | |
@@ -306,7 +306,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Method | Return | Arguments | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---:|---|---:|---|---|---|---|
 | _Evaluate | AutomationValue | 1 | declared | -5 | Metadata Only | Reviewed | Not Tested | |
-| Evaluate | AutomationValue | 1 | declared | 1 | Metadata Only | Reviewed | Not Tested | |
+| Evaluate | AutomationValue | 1 | declared | 1 | Implemented | Reviewed | Live Tested | |
 | RegisterXLL | bool | 1 | declared | 30 | Metadata Only | Reviewed | Not Tested | |
 | _WSFunction | AutomationValue | 30 | declared | 169 | Metadata Only | Reviewed | Not Tested | |
 | SaveWorkspace | Unknown | 1 | declared | 212 | Metadata Only | Reviewed | Not Tested | |
@@ -319,7 +319,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Repeat | Unknown | 0 | declared | 301 | Metadata Only | Reviewed | Not Tested | |
 | Quit | Unknown | 0 | declared | 302 | Implemented | Reviewed | Live Tested | |
 | Undo | Unknown | 0 | declared | 303 | Metadata Only | Reviewed | Not Tested | |
-| ConvertFormula | AutomationValue | 5 | declared | 325 | Metadata Only | Reviewed | Not Tested | |
+| ConvertFormula | AutomationValue | 5 | declared | 325 | Implemented | Reviewed | Live Tested | |
 | DDEExecute | Unknown | 2 | declared | 333 | Metadata Only | Reviewed | Not Tested | |
 | DDEInitiate | i32 | 2 | declared | 334 | Metadata Only | Reviewed | Not Tested | |
 | DDEPoke | Unknown | 3 | declared | 335 | Metadata Only | Reviewed | Not Tested | |

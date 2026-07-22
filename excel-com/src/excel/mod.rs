@@ -2,20 +2,29 @@ mod application;
 mod areas;
 mod collection;
 mod file_lifecycle;
+mod name;
+mod names;
 mod range;
+mod reference;
+mod text;
 mod workbook;
 mod workbooks;
 mod worksheet;
 mod worksheets;
 
-pub use application::{Application, DisplayAlertsGuard};
+pub use application::{Application, DisplayAlertsGuard, ReferenceStyleGuard};
 pub use areas::{Areas, AreasIter};
 pub use file_lifecycle::{
     SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
     WorkbookSaveAsOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
     XlSaveConflictResolution, XlUpdateLinks,
 };
+pub use name::Name;
+pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
 pub use range::Range;
+pub use reference::{
+    FormulaConversionOptions, RangeAddressOptions, ReferenceAbsoluteMode, ReferenceStyle,
+};
 pub use workbook::Workbook;
 pub use workbooks::{Workbooks, WorkbooksIter};
 pub use worksheet::{Worksheet, XlSheetVisibility};

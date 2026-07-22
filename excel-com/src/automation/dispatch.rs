@@ -162,6 +162,10 @@ fn object_type(id: &str) -> &'static str {
         "Worksheet"
     } else if id.starts_with("excel.range.") {
         "Range"
+    } else if id.starts_with("excel.names.") {
+        "Names"
+    } else if id.starts_with("excel.name.") {
+        "Name"
     } else {
         "IDispatch"
     }

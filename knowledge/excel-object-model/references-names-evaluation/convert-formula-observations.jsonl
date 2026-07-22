@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"a1-to-r1c1","input":"$A$1:$X$10","output":"R1C1:R10C24","status":"passed"}
+{"schema_version":1,"case_id":"r1c1-to-a1","input":"R1C1:R10C24","output":"$A$1:$X$10","status":"passed"}
+{"schema_version":1,"case_id":"formula","input":"=SUM(A1:X10)","from":"A1","to":"R1C1","status":"passed"}
+{"schema_version":1,"case_id":"relative","input":"R[1]C[1]","relative_to":"A1","output":"B2","status":"passed"}

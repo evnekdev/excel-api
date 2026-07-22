@@ -389,6 +389,7 @@ fn object_record(
         "Workbooks" => Some("Workbook"),
         "Worksheets" => Some("Worksheet"),
         "Areas" => Some("Range"),
+        "Names" => Some("Name"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -399,13 +400,13 @@ fn object_record(
             .map(str::to_owned)
     };
     let index_kinds = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" => vec!["one-based-integer", "string-key"],
+        "Workbooks" | "Worksheets" | "Names" => vec!["one-based-integer", "string-key"],
         "Areas" => vec!["one-based-integer"],
         _ if is_collection => vec!["variant-key"],
         _ => vec!["no-index"],
     };
     let iterator_status = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" | "Areas" => "implemented",
+        "Workbooks" | "Worksheets" | "Areas" | "Names" => "implemented",
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
@@ -435,9 +436,16 @@ fn object_record(
     } else {
         None
     };
-    Ok(
-        json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "members": members}),
-    )
+    let mut record = json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "members": members});
+    let capabilities = reference_capabilities(raw_name);
+    if !capabilities.is_null() {
+        record["reference_capabilities"] = capabilities;
+    }
+    let categories = evaluation_result_categories(raw_name);
+    if !categories.is_null() {
+        record["evaluation_result_categories"] = categories;
+    }
+    Ok(record)
 }
 
 fn enum_record(info: &ITypeInfo, name: &str, attr: &TYPEATTR) -> Result<Value, String> {
@@ -486,6 +494,7 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
     match id {
         "excel.application.visible"
         | "excel.application.displayalerts"
+        | "excel.application.referencestyle"
         | "excel.workbook.saved"
         | "excel.worksheet.name"
         | "excel.worksheet.visible"
@@ -493,6 +502,12 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.range.value2"
         | "excel.range.formula"
         | "excel.range.formula2" => &["PROPERTYGET", "PROPERTYPUT"],
+        "excel.application.convertformula"
+        | "excel.application.evaluate-1"
+        | "excel.worksheet.evaluate-1"
+        | "excel.names.item"
+        | "excel.names.add"
+        | "excel.name.delete" => &["METHOD"],
         "excel.application.quit"
         | "excel.workbook.close"
         | "excel.workbooks.open-1923"
@@ -503,6 +518,7 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         "excel.worksheets.add" | "excel.range.clearcontents" => &["METHOD"],
         "excel.application.version"
         | "excel.application.workbooks"
+        | "excel.workbook.names"
         | "excel.workbooks.count"
         | "excel.workbook.name"
         | "excel.workbook.fullname"
@@ -515,13 +531,50 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.worksheet.index"
         | "excel.worksheet.range"
         | "excel.worksheet.usedrange"
+        | "excel.worksheet.application"
+        | "excel.worksheet.cells"
+        | "excel.worksheet.names"
         | "excel.range.address"
         | "excel.range.row"
         | "excel.range.column"
         | "excel.range.count"
         | "excel.range.rows"
-        | "excel.range.columns" => &["PROPERTYGET"],
+        | "excel.range.columns"
+        | "excel.names.count"
+        | "excel.names.newenum"
+        | "excel.name.name"
+        | "excel.name.refersto"
+        | "excel.name.referstor1c1"
+        | "excel.name.referstorange"
+        | "excel.name.visible" => &["PROPERTYGET"],
         _ => &[],
+    }
+}
+
+fn reference_capabilities(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Worksheet" => {
+            json!({"input_styles":["a1", "r1c1"], "output_styles":[], "relative_address":false, "external_address":false, "formula_conversion":false})
+        }
+        "Range" => {
+            json!({"input_styles":[], "output_styles":["a1", "r1c1"], "relative_address":true, "external_address":true, "formula_conversion":false})
+        }
+        "Application" => {
+            json!({"input_styles":["a1", "r1c1"], "output_styles":["a1", "r1c1"], "relative_address":true, "external_address":false, "formula_conversion":true})
+        }
+        _ => Value::Null,
+    }
+}
+
+fn evaluation_result_categories(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Application" | "Worksheet" => json!([
+            "automation-value",
+            "range-object",
+            "other-object",
+            "unknown"
+        ]),
+        _ => Value::Null,
     }
 }
 fn relationship_fallback(id: &str) -> Option<&'static str> {

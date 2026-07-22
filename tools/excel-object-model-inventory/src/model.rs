@@ -67,6 +67,15 @@ pub const COLLECTION_ITERATOR_STATUSES: &[&str] = &[
     "blocked",
     "unsupported",
 ];
+/// Controlled styles used by reference-input and reference-output metadata.
+pub const REFERENCE_STYLES: &[&str] = &["a1", "r1c1"];
+/// Controlled result categories for explicitly typed Excel evaluation APIs.
+pub const EVALUATION_RESULT_CATEGORIES: &[&str] = &[
+    "automation-value",
+    "range-object",
+    "other-object",
+    "unknown",
+];
 
 pub fn slug(value: &str) -> String {
     let mut result = String::new();
@@ -105,19 +114,37 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "Worksheet" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet"),
         "Range" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.range(object)"),
         "Areas" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.areas"),
+        "Names" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.names"),
+        "Name" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.name(object)"),
         _ => None,
     }
 }
 pub fn priority_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
-        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range" | "Areas"
+        "Application"
+            | "Workbooks"
+            | "Workbook"
+            | "Worksheets"
+            | "Worksheet"
+            | "Range"
+            | "Areas"
+            | "Names"
+            | "Name"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
-        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range" | "Areas"
+        "Application"
+            | "Workbooks"
+            | "Workbook"
+            | "Worksheets"
+            | "Worksheet"
+            | "Range"
+            | "Areas"
+            | "Names"
+            | "Name"
     )
 }
 pub fn surface_class(

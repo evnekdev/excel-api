@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Name | Delete | 117 | Metadata Only |
+| Name | Delete | 117 | Implemented |
 | Name | QueryInterface | 1610612736 | Metadata Only |
 | Name | AddRef | 1610612737 | Metadata Only |
 | Name | Release | 1610612738 | Metadata Only |
@@ -34,8 +34,8 @@
 | NamedSheetViewCollection | GetIDsOfNames | 1610678274 | Metadata Only |
 | NamedSheetViewCollection | Invoke | 1610678275 | Metadata Only |
 | Names | _Default | 0 | Metadata Only |
-| Names | Item | 170 | Metadata Only |
-| Names | Add | 181 | Metadata Only |
+| Names | Item | 170 | Implemented |
+| Names | Add | 181 | Implemented |
 | Names | QueryInterface | 1610612736 | Metadata Only |
 | Names | AddRef | 1610612737 | Metadata Only |
 | Names | Release | 1610612738 | Metadata Only |
