@@ -368,6 +368,21 @@ fn object_record(
         if stateful_search(&id) {
             member["stateful_search"] = Value::Bool(true);
         }
+        if returns_optional_dispatch(&id) {
+            member["returns_optional_dispatch"] = Value::Bool(true);
+        }
+        if one_based_field(&id) {
+            member["one_based_field"] = Value::Bool(true);
+        }
+        if modifies_range_in_place(&id) {
+            member["modifies_range_in_place"] = Value::Bool(true);
+        }
+        if stateful_filter(&id) {
+            member["stateful_filter"] = Value::Bool(true);
+        }
+        if clipboard_dependent(&id) {
+            member["clipboard_dependent"] = Value::Bool(true);
+        }
         let target = target
             .filter(|target| {
                 matches!(
@@ -383,6 +398,19 @@ fn object_record(
                         | "Interior"
                         | "Borders"
                         | "Border"
+                        | "ListObjects"
+                        | "ListObject"
+                        | "ListColumns"
+                        | "ListColumn"
+                        | "ListRows"
+                        | "ListRow"
+                        | "AutoFilter"
+                        | "Filters"
+                        | "Filter"
+                        | "Sort"
+                        | "SortFields"
+                        | "SortField"
+                        | "Validation"
                 )
             })
             .or_else(|| relationship_fallback(&id).map(str::to_owned));
@@ -407,6 +435,11 @@ fn object_record(
         "Areas" => Some("Range"),
         "Names" => Some("Name"),
         "Borders" => Some("Border"),
+        "ListObjects" => Some("ListObject"),
+        "ListColumns" => Some("ListColumn"),
+        "ListRows" => Some("ListRow"),
+        "Filters" => Some("Filter"),
+        "SortFields" => Some("SortField"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -417,14 +450,17 @@ fn object_record(
             .map(str::to_owned)
     };
     let index_kinds = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" | "Names" => vec!["one-based-integer", "string-key"],
-        "Areas" => vec!["one-based-integer"],
+        "Workbooks" | "Worksheets" | "Names" | "ListObjects" | "ListColumns" => {
+            vec!["one-based-integer", "string-key"]
+        }
+        "Areas" | "ListRows" | "Filters" | "SortFields" => vec!["one-based-integer"],
         "Borders" => vec!["enum-key"],
         _ if is_collection => vec!["variant-key"],
         _ => vec!["no-index"],
     };
     let iterator_status = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" | "Areas" | "Names" | "Borders" => "implemented",
+        "Workbooks" | "Worksheets" | "Areas" | "Names" | "Borders" | "ListObjects"
+        | "ListColumns" | "ListRows" | "Filters" => "implemented",
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
@@ -478,6 +514,10 @@ fn object_record(
     let auditing_search = auditing_search_capability(raw_name);
     if !auditing_search.is_null() {
         record["auditing_search_capability"] = auditing_search;
+    }
+    let structured_data = structured_data_capability(raw_name);
+    if !structured_data.is_null() {
+        record["structured_data_capability"] = structured_data;
     }
     Ok(record)
 }
@@ -644,6 +684,100 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.name.referstor1c1"
         | "excel.name.referstorange"
         | "excel.name.visible" => &["PROPERTYGET"],
+        "excel.listobject.name"
+        | "excel.listobject.displayname"
+        | "excel.listobject.showheaders"
+        | "excel.listobject.showtotals"
+        | "excel.listobject.showautofilter"
+        | "excel.listobject.tablestyle"
+        | "excel.listcolumn.name"
+        | "excel.listcolumn.totalscalculation"
+        | "excel.sort.header"
+        | "excel.sort.matchcase"
+        | "excel.sort.orientation"
+        | "excel.validation.ignoreblank"
+        | "excel.validation.incelldropdown"
+        | "excel.validation.showinput"
+        | "excel.validation.showerror"
+        | "excel.validation.inputtitle"
+        | "excel.validation.inputmessage"
+        | "excel.validation.errortitle"
+        | "excel.validation.errormessage"
+        | "excel.range.hidden" => &["PROPERTYGET", "PROPERTYPUT"],
+        "excel.listobjects.add"
+        | "excel.listobject.resize"
+        | "excel.listobject.delete"
+        | "excel.listobject.unlist"
+        | "excel.listcolumns.add"
+        | "excel.listcolumn.delete"
+        | "excel.listrows.add"
+        | "excel.listrow.delete"
+        | "excel.worksheet.showalldata"
+        | "excel.range.autofilter-3289"
+        | "excel.range.sort"
+        | "excel.sort.setrange"
+        | "excel.sort.apply"
+        | "excel.sortfields.clear"
+        | "excel.sortfields.add"
+        | "excel.validation.add"
+        | "excel.validation.delete"
+        | "excel.range.removeduplicates"
+        | "excel.range.insert"
+        | "excel.range.delete"
+        | "excel.range.clear"
+        | "excel.range.clearformats"
+        | "excel.range.clearcomments"
+        | "excel.range.clearhyperlinks"
+        | "excel.range.copy"
+        | "excel.range.cut"
+        | "excel.range.pastespecial-1928" => &["METHOD"],
+        "excel.worksheet.listobjects"
+        | "excel.worksheet.autofiltermode"
+        | "excel.worksheet.filtermode"
+        | "excel.worksheet.autofilter-3289"
+        | "excel.range.worksheet"
+        | "excel.listobjects.count"
+        | "excel.listobjects.item"
+        | "excel.listobjects.newenum"
+        | "excel.listobject.range"
+        | "excel.listobject.headerrowrange"
+        | "excel.listobject.databodyrange"
+        | "excel.listobject.totalsrowrange"
+        | "excel.listobject.insertrowrange"
+        | "excel.listobject.listcolumns"
+        | "excel.listobject.listrows"
+        | "excel.listobject.autofilter-3289"
+        | "excel.listobject.sort-3288"
+        | "excel.listcolumns.count"
+        | "excel.listcolumns.item"
+        | "excel.listcolumns.newenum"
+        | "excel.listcolumn.index"
+        | "excel.listcolumn.range"
+        | "excel.listcolumn.databodyrange"
+        | "excel.listcolumn.total"
+        | "excel.listrows.count"
+        | "excel.listrows.item"
+        | "excel.listrows.newenum"
+        | "excel.listrow.index"
+        | "excel.listrow.range"
+        | "excel.autofilter.range"
+        | "excel.autofilter.filters"
+        | "excel.filters.count"
+        | "excel.filters.item"
+        | "excel.filters.newenum"
+        | "excel.filter.on"
+        | "excel.filter.operator-2641"
+        | "excel.filter.criteria1"
+        | "excel.filter.criteria2"
+        | "excel.sort.sortfields"
+        | "excel.validation.value"
+        | "excel.validation.type"
+        | "excel.validation.alertstyle"
+        | "excel.validation.operator"
+        | "excel.validation.formula1"
+        | "excel.validation.formula2"
+        | "excel.range.validation"
+        | "excel.range.currentregion" => &["PROPERTYGET"],
         _ => &[],
     }
 }
@@ -735,6 +869,123 @@ fn auditing_search_capability(name: &str) -> Value {
         }),
         _ => Value::Null,
     }
+}
+
+fn structured_data_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Worksheet" | "Range" => json!({
+            "tables": true,
+            "sort": true,
+            "filter": true,
+            "validation": true,
+            "remove_duplicates": true,
+            "structural_editing": true,
+        }),
+        "ListObjects" | "ListObject" | "ListColumns" | "ListColumn" | "ListRows" | "ListRow" => {
+            json!({
+                "tables": true,
+                "sort": true,
+                "filter": true,
+                "validation": false,
+                "remove_duplicates": false,
+                "structural_editing": true,
+            })
+        }
+        "AutoFilter" | "Filters" | "Filter" => json!({
+            "tables": false,
+            "sort": false,
+            "filter": true,
+            "validation": false,
+            "remove_duplicates": false,
+            "structural_editing": false,
+        }),
+        "Sort" | "SortFields" | "SortField" => json!({
+            "tables": false,
+            "sort": true,
+            "filter": false,
+            "validation": false,
+            "remove_duplicates": false,
+            "structural_editing": false,
+        }),
+        "Validation" => json!({
+            "tables": false,
+            "sort": false,
+            "filter": false,
+            "validation": true,
+            "remove_duplicates": false,
+            "structural_editing": false,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn returns_optional_dispatch(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.worksheet.autofilter-3289"
+            | "excel.listobject.headerrowrange"
+            | "excel.listobject.databodyrange"
+            | "excel.listobject.totalsrowrange"
+            | "excel.listobject.insertrowrange"
+            | "excel.listcolumn.databodyrange"
+            | "excel.listcolumn.total"
+    )
+}
+
+fn one_based_field(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.listobjects.item"
+            | "excel.listcolumns.item"
+            | "excel.listrows.item"
+            | "excel.filters.item"
+            | "excel.range.autofilter-3289"
+            | "excel.range.removeduplicates"
+    )
+}
+
+fn modifies_range_in_place(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.sort"
+            | "excel.sort.apply"
+            | "excel.range.removeduplicates"
+            | "excel.range.insert"
+            | "excel.range.delete"
+            | "excel.range.clear"
+            | "excel.range.clearformats"
+            | "excel.range.clearcomments"
+            | "excel.range.clearhyperlinks"
+            | "excel.range.copy"
+            | "excel.range.cut"
+            | "excel.range.pastespecial-1928"
+    )
+}
+
+fn stateful_filter(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.worksheet.autofiltermode"
+            | "excel.worksheet.filtermode"
+            | "excel.worksheet.showalldata"
+            | "excel.worksheet.autofilter-3289"
+            | "excel.listobject.autofilter-3289"
+            | "excel.autofilter.range"
+            | "excel.autofilter.filters"
+            | "excel.filters.item"
+            | "excel.filter.on"
+            | "excel.filter.operator-2641"
+            | "excel.filter.criteria1"
+            | "excel.filter.criteria2"
+            | "excel.range.autofilter-3289"
+    )
+}
+
+fn clipboard_dependent(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.copy" | "excel.range.cut" | "excel.range.pastespecial-1928"
+    )
 }
 
 fn mixed_value_possible(id: &str) -> bool {

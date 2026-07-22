@@ -19,7 +19,7 @@
 | [Areas](../objects/areas.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Author | dispatch-interface | Metadata Only | Generated | Not Tested |
 | AutoCorrect | dispatch-interface | Metadata Only | Generated | Not Tested |
-| AutoFilter | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [AutoFilter](../objects/autofilter.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | AutoRecover | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Axes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Axis | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -113,8 +113,8 @@
 | FileExportConverter | dispatch-interface | Metadata Only | Generated | Not Tested |
 | FileExportConverters | dispatch-interface | Metadata Only | Generated | Not Tested |
 | FillFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Filter | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Filters | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Filter](../objects/filter.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [Filters](../objects/filters.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Floor | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Font](../objects/font.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | FormatColor | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -519,13 +519,13 @@
 | LinkFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ListBox | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ListBoxes | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListColumn | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListColumns | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ListColumn](../objects/listcolumn.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [ListColumns](../objects/listcolumns.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | ListDataFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListObject | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListObjects | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListRow | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ListRows | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ListObject](../objects/listobject.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [ListObjects](../objects/listobjects.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [ListRow](../objects/listrow.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [ListRows](../objects/listrows.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Mailer | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Menu | dispatch-interface | Metadata Only | Generated | Not Tested |
 | MenuBar | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -679,9 +679,9 @@
 | SmartTagRecognizer | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SmartTagRecognizers | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SmartTags | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Sort | dispatch-interface | Metadata Only | Generated | Not Tested |
-| SortField | dispatch-interface | Metadata Only | Generated | Not Tested |
-| SortFields | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Sort](../objects/sort.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [SortField](../objects/sortfield.md) | dispatch-interface | Partial | Reviewed | Live Tested |
+| [SortFields](../objects/sortfields.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | SoundNote | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SparkAxes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SparkColor | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -726,7 +726,7 @@
 | UsedObjects | dispatch-interface | Metadata Only | Generated | Not Tested |
 | UserAccess | dispatch-interface | Metadata Only | Generated | Not Tested |
 | UserAccessList | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Validation | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Validation](../objects/validation.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | ValueChange | dispatch-interface | Metadata Only | Generated | Not Tested |
 | VPageBreak | dispatch-interface | Metadata Only | Generated | Not Tested |
 | VPageBreaks | dispatch-interface | Metadata Only | Generated | Not Tested |

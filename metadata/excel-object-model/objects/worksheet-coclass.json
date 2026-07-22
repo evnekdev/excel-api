@@ -32,6 +32,14 @@
   "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Worksheet",
+  "structured_data_capability": {
+    "filter": true,
+    "remove_duplicates": true,
+    "sort": true,
+    "structural_editing": true,
+    "tables": true,
+    "validation": true
+  },
   "surface_class": "coclass",
   "test_status": "not-tested",
   "typelib_type_flags": 2,

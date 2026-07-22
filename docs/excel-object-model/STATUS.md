@@ -5,8 +5,8 @@
 | Status | Count |
 |---|---:|
 | Implemented | 0 |
-| Partial | 13 |
-| Metadata Only | 729 |
+| Partial | 26 |
+| Metadata Only | 716 |
 | Not Started | 12 |
 | Blocked | 0 |
 | Unsupported | 0 |
@@ -15,8 +15,8 @@
 
 | Surface class | Object count |
 |---|---:|
-| primary-object-model | 13 |
-| secondary-public | 297 |
+| primary-object-model | 26 |
+| secondary-public | 284 |
 | hidden | 422 |
 | restricted | 0 |
 | event-interface | 12 |
@@ -29,9 +29,9 @@
 
 | Roadmap class | Object count |
 |---|---:|
-| implemented-wrapper | 13 |
+| implemented-wrapper | 26 |
 | priority-inventory | 0 |
-| deferred-inventory | 741 |
+| deferred-inventory | 728 |
 
 ## Member coverage
 
@@ -40,24 +40,24 @@
 | Raw type-library members | 17828 |
 | Declared Excel members | 15112 |
 | Inherited COM members | 2716 |
-| Implemented declared Excel members | 135 |
+| Implemented declared Excel members | 230 |
 
 Only declared Excel members are included in the human coverage table below.
 
 | Member type | Declared total | Implemented | Partial | Metadata only | Not started |
 |---|---:|---:|---:|---:|---:|
-| Properties | 10388 | 107 | 0 | 10281 | 0 |
-| Methods | 4440 | 28 | 0 | 4412 | 0 |
+| Properties | 10388 | 175 | 0 | 10213 | 0 |
+| Methods | 4440 | 55 | 0 | 4385 | 0 |
 | Events | 284 | 0 | 0 | 0 | 284 |
 
 ## Test coverage
 
 | Test status | Count |
 |---|---:|
-| Live Tested | 148 |
+| Live Tested | 256 |
 | Integration Tested | 0 |
 | Unit Tested | 0 |
-| Not Tested | 15718 |
+| Not Tested | 15610 |
 | Blocked | 0 |
 
 ## Priority objects
@@ -77,3 +77,16 @@ Only declared Excel members are included in the human coverage table below.
 | [Interior](objects/interior.md) | Partial |
 | [Borders](objects/borders.md) | Partial |
 | [Border](objects/border.md) | Partial |
+| [ListObjects](objects/listobjects.md) | Partial |
+| [ListObject](objects/listobject.md) | Partial |
+| [ListColumns](objects/listcolumns.md) | Partial |
+| [ListColumn](objects/listcolumn.md) | Partial |
+| [ListRows](objects/listrows.md) | Partial |
+| [ListRow](objects/listrow.md) | Partial |
+| [AutoFilter](objects/autofilter.md) | Partial |
+| [Filters](objects/filters.md) | Partial |
+| [Filter](objects/filter.md) | Partial |
+| [Sort](objects/sort.md) | Partial |
+| [SortFields](objects/sortfields.md) | Partial |
+| [SortField](objects/sortfield.md) | Partial |
+| [Validation](objects/validation.md) | Partial |

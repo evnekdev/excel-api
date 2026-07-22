@@ -474,15 +474,15 @@
 | SmartTags | Application | 148 | Metadata Only |
 | SmartTags | Creator | 149 | Metadata Only |
 | SmartTags | Parent | 150 | Metadata Only |
-| Sort | Orientation | 134 | Metadata Only |
+| Sort | Orientation | 134 | Implemented |
 | Sort | Application | 148 | Metadata Only |
 | Sort | Creator | 149 | Metadata Only |
 | Sort | Parent | 150 | Metadata Only |
-| Sort | MatchCase | 426 | Metadata Only |
-| Sort | Header | 895 | Metadata Only |
+| Sort | MatchCase | 426 | Implemented |
+| Sort | Header | 895 | Implemented |
 | Sort | SortMethod | 897 | Metadata Only |
 | Sort | Rng | 2748 | Metadata Only |
-| Sort | SortFields | 2749 | Metadata Only |
+| Sort | SortFields | 2749 | Implemented |
 | SortField | Application | 148 | Metadata Only |
 | SortField | Creator | 149 | Metadata Only |
 | SortField | Parent | 150 | Metadata Only |
@@ -496,7 +496,7 @@
 | SortField | SubField | 3328 | Metadata Only |
 | SortFields | _NewEnum | -4 | Metadata Only |
 | SortFields | _Default | 0 | Metadata Only |
-| SortFields | Count | 118 | Metadata Only |
+| SortFields | Count | 118 | Implemented |
 | SortFields | Application | 148 | Metadata Only |
 | SortFields | Creator | 149 | Metadata Only |
 | SortFields | Parent | 150 | Metadata Only |

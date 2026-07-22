@@ -2535,11 +2535,13 @@
           "raw_com_type": "VT_bool (11)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 792,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.autofiltermode",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2552,15 +2554,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_bool (11)",
       "return_type": "bool",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2599,11 +2604,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 794,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.showalldata",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2615,15 +2622,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_Unknown (24)",
       "return_type": "Unknown",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2670,11 +2680,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 800,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.filtermode",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -2686,15 +2698,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_bool (11)",
       "return_type": "bool",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -4934,11 +4949,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 2259,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.listobjects",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -4950,15 +4967,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(ListObjects))",
       "return_type": "ListObjects",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -5644,11 +5663,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 3289,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.autofilter-3289",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -5660,15 +5681,19 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(AutoFilter))",
       "return_type": "AutoFilter",
-      "runtime_confirmed_invoke_kinds": [],
+      "returns_optional_dispatch": true,
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -6093,6 +6118,14 @@
   "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "_Worksheet",
+  "structured_data_capability": {
+    "filter": true,
+    "remove_duplicates": true,
+    "sort": true,
+    "structural_editing": true,
+    "tables": true,
+    "validation": true
+  },
   "surface_class": "primary-object-model",
   "test_status": "live-tested",
   "typelib_type_flags": 4288,

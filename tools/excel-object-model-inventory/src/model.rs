@@ -121,6 +121,19 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "Interior" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.interior"),
         "Borders" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.borders"),
         "Border" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.border"),
+        "ListObjects" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listobjects"),
+        "ListObject" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listobject"),
+        "ListColumns" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listcolumns"),
+        "ListColumn" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listcolumn"),
+        "ListRows" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listrows"),
+        "ListRow" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.listrow"),
+        "AutoFilter" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.autofilter"),
+        "Filters" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.filters"),
+        "Filter" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.filter"),
+        "Sort" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sort"),
+        "SortFields" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sortfields"),
+        "SortField" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sortfield"),
+        "Validation" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.validation"),
         _ => None,
     }
 }
@@ -140,6 +153,19 @@ pub fn priority_object(name: &str) -> bool {
             | "Interior"
             | "Borders"
             | "Border"
+            | "ListObjects"
+            | "ListObject"
+            | "ListColumns"
+            | "ListColumn"
+            | "ListRows"
+            | "ListRow"
+            | "AutoFilter"
+            | "Filters"
+            | "Filter"
+            | "Sort"
+            | "SortFields"
+            | "SortField"
+            | "Validation"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
@@ -158,6 +184,19 @@ pub fn wrapper_object(name: &str) -> bool {
             | "Interior"
             | "Borders"
             | "Border"
+            | "ListObjects"
+            | "ListObject"
+            | "ListColumns"
+            | "ListColumn"
+            | "ListRows"
+            | "ListRow"
+            | "AutoFilter"
+            | "Filters"
+            | "Filter"
+            | "Sort"
+            | "SortFields"
+            | "SortField"
+            | "Validation"
     )
 }
 pub fn surface_class(

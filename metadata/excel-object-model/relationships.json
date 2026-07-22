@@ -287,11 +287,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.autofilter.filters",
+    "schema_version": 1,
+    "source": "excel.autofilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.filters"
+  },
+  {
     "member_id": "excel.autofilter.range",
     "schema_version": 1,
     "source": "excel.autofilter",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.autofilter.sort",
+    "schema_version": 1,
+    "source": "excel.autofilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
+    "member_id": "excel.autofilter.sort-3288",
+    "schema_version": 1,
+    "source": "excel.autofilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
   },
   {
     "member_id": "excel.autorecover.application",
@@ -1029,6 +1050,34 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.dialogsheet.autofilter",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
+  },
+  {
+    "member_id": "excel.dialogsheet.autofilter-3289",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
+  },
+  {
+    "member_id": "excel.dialogsheet.sort",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
+    "member_id": "excel.dialogsheet.sort-3288",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
     "member_id": "excel.dialogsheets.application",
     "schema_version": 1,
     "source": "excel.dialogsheets",
@@ -1349,6 +1398,20 @@
     "source": "excel.filters",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.filters.default",
+    "schema_version": 1,
+    "source": "excel.filters",
+    "source_confidence": "typelib-only",
+    "target": "excel.filter"
+  },
+  {
+    "member_id": "excel.filters.item",
+    "schema_version": 1,
+    "source": "excel.filters",
+    "source_confidence": "typelib-only",
+    "target": "excel.filter"
   },
   {
     "member_id": "excel.floor.application",
@@ -1981,11 +2044,32 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.listcolumns.add",
+    "schema_version": 1,
+    "source": "excel.listcolumns",
+    "source_confidence": "typelib-only",
+    "target": "excel.listcolumn"
+  },
+  {
     "member_id": "excel.listcolumns.application",
     "schema_version": 1,
     "source": "excel.listcolumns",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listcolumns.default",
+    "schema_version": 1,
+    "source": "excel.listcolumns",
+    "source_confidence": "typelib-only",
+    "target": "excel.listcolumn"
+  },
+  {
+    "member_id": "excel.listcolumns.item",
+    "schema_version": 1,
+    "source": "excel.listcolumns",
+    "source_confidence": "typelib-only",
+    "target": "excel.listcolumn"
   },
   {
     "member_id": "excel.listdataformat.application",
@@ -2000,6 +2084,20 @@
     "source": "excel.listobject",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listobject.autofilter",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
+  },
+  {
+    "member_id": "excel.listobject.autofilter-3289",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
   },
   {
     "member_id": "excel.listobject.databodyrange",
@@ -2023,11 +2121,39 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.listobject.listcolumns",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.listcolumns"
+  },
+  {
+    "member_id": "excel.listobject.listrows",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.listrows"
+  },
+  {
     "member_id": "excel.listobject.range",
     "schema_version": 1,
     "source": "excel.listobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.sort",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
+    "member_id": "excel.listobject.sort-3288",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
   },
   {
     "member_id": "excel.listobject.totalsrowrange",
@@ -2037,11 +2163,39 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.listobjects.add",
+    "schema_version": 1,
+    "source": "excel.listobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
+    "member_id": "excel.listobjects.add-2085",
+    "schema_version": 1,
+    "source": "excel.listobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
     "member_id": "excel.listobjects.application",
     "schema_version": 1,
     "source": "excel.listobjects",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listobjects.default",
+    "schema_version": 1,
+    "source": "excel.listobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
+    "member_id": "excel.listobjects.item",
+    "schema_version": 1,
+    "source": "excel.listobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
   },
   {
     "member_id": "excel.listrow.application",
@@ -2058,11 +2212,39 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.listrows.add",
+    "schema_version": 1,
+    "source": "excel.listrows",
+    "source_confidence": "typelib-only",
+    "target": "excel.listrow"
+  },
+  {
+    "member_id": "excel.listrows.add-2085",
+    "schema_version": 1,
+    "source": "excel.listrows",
+    "source_confidence": "typelib-only",
+    "target": "excel.listrow"
+  },
+  {
     "member_id": "excel.listrows.application",
     "schema_version": 1,
     "source": "excel.listrows",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listrows.default",
+    "schema_version": 1,
+    "source": "excel.listrows",
+    "source_confidence": "typelib-only",
+    "target": "excel.listrow"
+  },
+  {
+    "member_id": "excel.listrows.item",
+    "schema_version": 1,
+    "source": "excel.listrows",
+    "source_confidence": "typelib-only",
+    "target": "excel.listrow"
   },
   {
     "member_id": "excel.mailer.application",
@@ -3122,11 +3304,32 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.querytable.listobject",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
     "member_id": "excel.querytable.resultrange",
     "schema_version": 1,
     "source": "excel.querytable",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.querytable.sort",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
+    "member_id": "excel.querytable.sort-3288",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
   },
   {
     "member_id": "excel.querytables.application",
@@ -3276,6 +3479,13 @@
     "target": "excel.interior"
   },
   {
+    "member_id": "excel.range.listobject",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
     "member_id": "excel.range.mergearea",
     "schema_version": 1,
     "source": "excel.range",
@@ -3358,6 +3568,13 @@
     "source": "excel.range",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.validation",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.validation"
   },
   {
     "member_id": "excel.range.worksheet",
@@ -3668,6 +3885,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.slicercache.listobject",
+    "schema_version": 1,
+    "source": "excel.slicercache",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
+  },
+  {
     "member_id": "excel.slicercachelevel.application",
     "schema_version": 1,
     "source": "excel.slicercachelevel",
@@ -3787,6 +4011,13 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.sort.sortfields",
+    "schema_version": 1,
+    "source": "excel.sort",
+    "source_confidence": "typelib-only",
+    "target": "excel.sortfields"
+  },
+  {
     "member_id": "excel.sortfield.application",
     "schema_version": 1,
     "source": "excel.sortfield",
@@ -3801,11 +4032,39 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.sortfields.add",
+    "schema_version": 1,
+    "source": "excel.sortfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.sortfield"
+  },
+  {
+    "member_id": "excel.sortfields.add2",
+    "schema_version": 1,
+    "source": "excel.sortfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.sortfield"
+  },
+  {
     "member_id": "excel.sortfields.application",
     "schema_version": 1,
     "source": "excel.sortfields",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sortfields.default",
+    "schema_version": 1,
+    "source": "excel.sortfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.sortfield"
+  },
+  {
+    "member_id": "excel.sortfields.item",
+    "schema_version": 1,
+    "source": "excel.sortfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.sortfield"
   },
   {
     "member_id": "excel.soundnote.application",
@@ -3967,6 +4226,13 @@
     "source": "excel.tableobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.tableobject.listobject",
+    "schema_version": 1,
+    "source": "excel.tableobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobject"
   },
   {
     "member_id": "excel.tableobject.resultrange",
@@ -4508,6 +4774,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.worksheet.autofilter",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
+  },
+  {
+    "member_id": "excel.worksheet.autofilter-3289",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.autofilter"
+  },
+  {
     "member_id": "excel.worksheet.cells",
     "schema_version": 1,
     "source": "excel.worksheet",
@@ -4529,6 +4809,13 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.worksheet.listobjects",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.listobjects"
+  },
+  {
     "member_id": "excel.worksheet.range",
     "schema_version": 1,
     "source": "excel.worksheet",
@@ -4541,6 +4828,20 @@
     "source": "excel.worksheet",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.sort",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
+  },
+  {
+    "member_id": "excel.worksheet.sort-3288",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.sort"
   },
   {
     "member_id": "excel.worksheet.usedrange",

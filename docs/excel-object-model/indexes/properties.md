@@ -17,6 +17,19 @@ The complete inventory is sharded alphabetically by owning object; the core wrap
 - [Interior](properties/interior.md)
 - [Borders](properties/borders.md)
 - [Border](properties/border.md)
+- [ListObjects](properties/listobjects.md)
+- [ListObject](properties/listobject.md)
+- [ListColumns](properties/listcolumns.md)
+- [ListColumn](properties/listcolumn.md)
+- [ListRows](properties/listrows.md)
+- [ListRow](properties/listrow.md)
+- [AutoFilter](properties/autofilter.md)
+- [Filters](properties/filters.md)
+- [Filter](properties/filter.md)
+- [Sort](properties/sort.md)
+- [SortFields](properties/sortfields.md)
+- [SortField](properties/sortfield.md)
+- [Validation](properties/validation.md)
 
 ## Complete alphabetical inventory
 

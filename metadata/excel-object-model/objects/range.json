@@ -286,62 +286,72 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 111,
       "documentation_status": "reviewed",
       "id": "excel.range.clear",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "Clear",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 112,
       "documentation_status": "reviewed",
       "id": "excel.range.clearformats",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "ClearFormats",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -480,31 +490,36 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 117,
       "documentation_status": "reviewed",
       "id": "excel.range.delete",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "Delete",
       "notes": [],
       "optional_argument_count": 1,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -1744,11 +1759,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 243,
       "documentation_status": "reviewed",
       "id": "excel.range.currentregion",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -1760,15 +1777,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
       "return_type": "Range",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -2040,31 +2059,36 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 252,
       "documentation_status": "reviewed",
       "id": "excel.range.insert",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "Insert",
       "notes": [],
       "optional_argument_count": 2,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2942,11 +2966,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 268,
       "documentation_status": "reviewed",
       "id": "excel.range.hidden",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2959,15 +2986,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3378,11 +3408,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 348,
       "documentation_status": "reviewed",
       "id": "excel.range.worksheet",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -3394,15 +3426,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Worksheet))",
       "return_type": "Worksheet",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -4948,31 +4982,37 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
+      "clipboard_dependent": true,
       "dispid": 551,
       "documentation_status": "reviewed",
       "id": "excel.range.copy",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "Copy",
       "notes": [],
       "optional_argument_count": 1,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -5028,31 +5068,37 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
+      "clipboard_dependent": true,
       "dispid": 565,
       "documentation_status": "reviewed",
       "id": "excel.range.cut",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "Cut",
       "notes": [],
       "optional_argument_count": 1,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -5782,31 +5828,36 @@
           "raw_com_type": "VT_USERDEFINED(XlSortDataOption)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 880,
       "documentation_status": "reviewed",
       "id": "excel.range.sort",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "_Sort",
       "notes": [],
       "optional_argument_count": 15,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -7188,11 +7239,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 1387,
       "documentation_status": "reviewed",
       "id": "excel.range.validation",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -7204,15 +7257,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Validation))",
       "return_type": "Validation",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -7307,31 +7362,36 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 1390,
       "documentation_status": "reviewed",
       "id": "excel.range.clearcomments",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "ClearComments",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_Unknown (24)",
       "return_type": "Unknown",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -7714,31 +7774,37 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
+      "clipboard_dependent": true,
       "dispid": 1928,
       "documentation_status": "reviewed",
       "id": "excel.range.pastespecial-1928",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "PasteSpecial",
       "notes": [],
       "optional_argument_count": 4,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -8220,31 +8286,37 @@
           "raw_com_type": "VT_USERDEFINED(XlYesNoGuess)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 2492,
       "documentation_status": "reviewed",
       "id": "excel.range.removeduplicates",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "RemoveDuplicates",
       "notes": [],
+      "one_based_field": true,
       "optional_argument_count": 2,
       "raw_return_type": "VT_Unknown (24)",
       "return_type": "Unknown",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -8489,31 +8561,36 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 2854,
       "documentation_status": "reviewed",
       "id": "excel.range.clearhyperlinks",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
       "kind": "METHOD",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "modifies_range_in_place": true,
       "name": "ClearHyperlinks",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_Unknown (24)",
       "return_type": "Unknown",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -9036,11 +9113,13 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 3289,
       "documentation_status": "reviewed",
       "id": "excel.range.autofilter-3289",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -9049,18 +9128,22 @@
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoFilter",
       "notes": [],
+      "one_based_field": true,
       "optional_argument_count": 6,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -10381,6 +10464,14 @@
   "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Range",
+  "structured_data_capability": {
+    "filter": true,
+    "remove_duplicates": true,
+    "sort": true,
+    "structural_editing": true,
+    "tables": true,
+    "validation": true
+  },
   "surface_class": "primary-object-model",
   "test_status": "live-tested",
   "typelib_type_flags": 4096,

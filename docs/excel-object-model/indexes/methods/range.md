@@ -3,11 +3,11 @@
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
 | Range | Group | 46 | Metadata Only |
-| Range | Clear | 111 | Metadata Only |
-| Range | ClearFormats | 112 | Metadata Only |
+| Range | Clear | 111 | Implemented |
+| Range | ClearFormats | 112 | Implemented |
 | Range | _ClearContents | 113 | Implemented |
 | Range | AutoFormat | 114 | Metadata Only |
-| Range | Delete | 117 | Metadata Only |
+| Range | Delete | 117 | Implemented |
 | Range | CopyPicture | 213 | Metadata Only |
 | Range | _Replace | 226 | Metadata Only |
 | Range | Select | 235 | Metadata Only |
@@ -19,7 +19,7 @@
 | Range | FillLeft | 249 | Metadata Only |
 | Range | FillRight | 250 | Metadata Only |
 | Range | FillUp | 251 | Metadata Only |
-| Range | Insert | 252 | Metadata Only |
+| Range | Insert | 252 | Implemented |
 | Range | ListNames | 253 | Metadata Only |
 | Range | Run | 259 | Metadata Only |
 | Range | Calculate | 279 | Implemented |
@@ -45,16 +45,16 @@
 | Range | CheckSpelling | 505 | Metadata Only |
 | Range | ColumnDifferences | 510 | Metadata Only |
 | Range | RowDifferences | 511 | Metadata Only |
-| Range | Copy | 551 | Metadata Only |
+| Range | Copy | 551 | Implemented |
 | Range | Merge | 564 | Metadata Only |
-| Range | Cut | 565 | Metadata Only |
+| Range | Cut | 565 | Implemented |
 | Range | FunctionWizard | 571 | Metadata Only |
 | Range | _AutoFilter | 793 | Metadata Only |
 | Range | AdvancedFilter | 876 | Metadata Only |
 | Range | ShowDependents | 877 | Metadata Only |
 | Range | ShowErrors | 878 | Metadata Only |
 | Range | ShowPrecedents | 879 | Metadata Only |
-| Range | _Sort | 880 | Metadata Only |
+| Range | _Sort | 880 | Implemented |
 | Range | SortSpecial | 881 | Metadata Only |
 | Range | Subtotal | 882 | Metadata Only |
 | Range | RemoveSubtotal | 883 | Metadata Only |
@@ -72,18 +72,18 @@
 | Range | InsertIndent | 1381 | Metadata Only |
 | Range | UnMerge | 1384 | Metadata Only |
 | Range | AddComment | 1389 | Metadata Only |
-| Range | ClearComments | 1390 | Metadata Only |
+| Range | ClearComments | 1390 | Implemented |
 | Range | _PrintOut | 1772 | Metadata Only |
 | Range | SetPhonetic | 1812 | Metadata Only |
-| Range | PasteSpecial | 1928 | Metadata Only |
+| Range | PasteSpecial | 1928 | Implemented |
 | Range | Dirty | 2014 | Implemented |
 | Range | Speak | 2017 | Metadata Only |
 | Range | PrintOut | 2361 | Metadata Only |
 | Range | CalculateRowMajorOrder | 2364 | Metadata Only |
-| Range | RemoveDuplicates | 2492 | Metadata Only |
+| Range | RemoveDuplicates | 2492 | Implemented |
 | Range | _ExportAsFixedFormat | 2493 | Metadata Only |
 | Range | BorderAround | 2771 | Metadata Only |
-| Range | ClearHyperlinks | 2854 | Metadata Only |
+| Range | ClearHyperlinks | 2854 | Implemented |
 | Range | AllocateChanges | 2855 | Metadata Only |
 | Range | DiscardChanges | 2856 | Metadata Only |
 | Range | FlashFill | 2996 | Metadata Only |
@@ -91,7 +91,7 @@
 | Range | ShowCard | 3274 | Metadata Only |
 | Range | AddCommentThreaded | 3280 | Metadata Only |
 | Range | Sort | 3288 | Metadata Only |
-| Range | AutoFilter | 3289 | Metadata Only |
+| Range | AutoFilter | 3289 | Implemented |
 | Range | ConvertToLinkedDataType | 3290 | Metadata Only |
 | Range | SetCellDataTypeFromCell | 3293 | Metadata Only |
 | Range | DataTypeToText | 3294 | Metadata Only |

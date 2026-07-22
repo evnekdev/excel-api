@@ -221,7 +221,7 @@
 | Worksheet | Drawings | 772 | Metadata Only |
 | Worksheet | Rectangles | 774 | Metadata Only |
 | Worksheet | TextBoxes | 777 | Metadata Only |
-| Worksheet | ShowAllData | 794 | Metadata Only |
+| Worksheet | ShowAllData | 794 | Implemented |
 | Worksheet | OLEObjects | 799 | Metadata Only |
 | Worksheet | Ovals | 801 | Metadata Only |
 | Worksheet | CheckBoxes | 824 | Metadata Only |

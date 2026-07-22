@@ -155,6 +155,18 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "wrap_safe_iterator",
             ],
         )?;
+        validate_boolean_capability(
+            object,
+            "structured_data_capability",
+            &[
+                "tables",
+                "sort",
+                "filter",
+                "validation",
+                "remove_duplicates",
+                "structural_editing",
+            ],
+        )?;
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?
@@ -183,6 +195,11 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "version_sensitive",
                 "returns_range_or_nothing",
                 "stateful_search",
+                "returns_optional_dispatch",
+                "one_based_field",
+                "modifies_range_in_place",
+                "stateful_filter",
+                "clipboard_dependent",
             ] {
                 if !member[field].is_null() && !member[field].is_boolean() {
                     return Err(format!("member {id} has invalid {field}"));

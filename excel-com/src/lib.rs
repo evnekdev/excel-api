@@ -132,6 +132,44 @@
 //! # }
 //! ```
 //!
+//! # Tables, filters, sorting, and structural edits
+//!
+//! [`Worksheet::list_objects`] exposes typed [`ListObjects`], [`ListObject`],
+//! [`ListColumns`], and [`ListRows`] wrappers. Table indexes and filter fields
+//! are one-based; `DataBodyRange` is explicitly optional for an empty table.
+//! Excel owns table naming, structured-reference parsing, calculated-column
+//! propagation, resizing, totals, and all data changes. A table's
+//! [`ListObject::unlist`] and deletion consume their wrapper because the COM
+//! target no longer represents a table afterward.
+//!
+//! [`Range::apply_auto_filter`] and [`AutoFilter`] retain Excel's stateful
+//! filtering model. [`Range::sort`] and [`Sort::apply`] modify worksheet data
+//! in place. [`Range::validation`] passes validation formulas through as Excel
+//! syntax. [`Range::remove_duplicates`], [`Range::insert`], and
+//! [`Range::delete`] are structural, in-place operations; [`Range::copy`],
+//! [`Range::cut`], and [`Range::paste_special`] use Excel's cut/copy state and
+//! do not inspect the operating-system clipboard. Hidden assignment is passed
+//! to Excel exactly as supplied; use complete rows or columns where required.
+//!
+//! ```no_run
+//! # fn example(worksheet: &excel_com::Worksheet) -> Result<(), excel_com::ExcelComError> {
+//! use excel_com::{ListObjectAddOptions, TableHeaderMode, TotalsCalculation};
+//! let source = worksheet.range("A1:C10")?;
+//! let table = worksheet.list_objects()?.add_from_range(&ListObjectAddOptions {
+//!     source: &source,
+//!     has_headers: TableHeaderMode::YES,
+//!     destination: None,
+//!     table_style_name: None,
+//! })?;
+//! let amount = table.list_columns()?.add(None)?;
+//! amount.set_name("Amount")?;
+//! amount.set_calculated_column_formula("=[@Quantity]*[@Price]")?;
+//! table.set_show_totals(true)?;
+//! amount.set_totals_calculation(TotalsCalculation::SUM)?;
+//! # Ok(())
+//! # }
+//! ```
+//!
 //! # Formatting ranges
 //!
 //! Formatting wrappers preserve Excel's mixed-selection results: a getter that
@@ -266,13 +304,21 @@ pub use automation::{
 };
 pub use error::ExcelComError;
 pub use excel::{
-    Application, Areas, AreasIter, Border, BorderIndex, BorderLineStyle, BorderWeight, Borders,
-    BordersIter, CalculationMode, CalculationModeGuard, CalculationState, DisplayAlertsGuard,
-    ExcelColor, ExcelColorIndex, FillPattern, FindLookIn, FindMatchMode, FindOptions, Font,
-    FormulaConversionOptions, FormulaValue, HorizontalAlignment, Interior, MixedValue, Name,
-    NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions, RangeFindIter,
-    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, ReplaceOptions, SaveChanges,
-    SearchDirection, SearchOrder, SpecialCellType, SpecialCellValueMask, UnderlineStyle,
+    Application, Areas, AreasIter, AutoFilter, AutoFilterOperator, AutoFilterOptions, Border,
+    BorderIndex, BorderLineStyle, BorderWeight, Borders, BordersIter, CalculationMode,
+    CalculationModeGuard, CalculationState, DeleteShiftDirection, DisplayAlertsGuard,
+    DynamicFilterCriteria, ExcelColor, ExcelColorIndex, FillPattern, Filter, FilterCriterion,
+    Filters, FiltersIter, FindLookIn, FindMatchMode, FindOptions, Font, FormulaConversionOptions,
+    FormulaValue, HorizontalAlignment, InsertFormatOrigin, InsertShiftDirection, Interior,
+    ListColumn, ListColumns, ListColumnsIter, ListObject, ListObjectAddOptions,
+    ListObjectSourceType, ListObjects, ListObjectsIter, ListRow, ListRows, ListRowsIter,
+    MixedValue, Name, NameAddOptions, NameRefersTo, Names, NamesIter, PasteOperation,
+    PasteSpecialOptions, PasteType, Range, RangeAddressOptions, RangeFindIter, RangeInsertOptions,
+    RangeSortOptions, ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard,
+    RemoveDuplicatesOptions, ReplaceOptions, SaveChanges, SearchDirection, SearchOrder, Sort,
+    SortDataOption, SortField, SortFields, SortMethod, SortOrder, SortOrientation, SpecialCellType,
+    SpecialCellValueMask, TableHeaderMode, TotalsCalculation, UnderlineStyle, Validation,
+    ValidationAddOptions, ValidationAlertStyle, ValidationOperator, ValidationType,
     VerticalAlignment, Workbook, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
     WorkbookSaveAsOptions, Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions,
     WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
