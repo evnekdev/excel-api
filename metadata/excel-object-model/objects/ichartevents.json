@@ -1,0 +1,675 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{0002440f-0001-0000-c000-000000000046}",
+  "id": "excel.ichartevents",
+  "implemented_interface_count": 1,
+  "implemented_status": "not-started",
+  "index_member": null,
+  "kind": "event-interface",
+  "members": [
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 235,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.select",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Select",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 256,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.resize",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Resize",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 279,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.calculate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Calculate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 304,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.activate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Activate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1530,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.deactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Deactivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1531,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.mousedown",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MouseDown",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1532,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.mouseup",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MouseUp",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1533,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.mousemove",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MouseMove",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1534,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.beforerightclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeRightClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1535,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.dragplot",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "DragPlot",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1536,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.dragover",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "DragOver",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1537,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.beforedoubleclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeDoubleClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1538,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.serieschange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SeriesChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3336,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.remoteresize",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteResize",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3337,
+      "documentation_status": "generated",
+      "id": "excel.ichartevents.remoteserieschange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteSeriesChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "IChartEvents",
+  "schema_version": 1,
+  "source_interface": "IChartEvents",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

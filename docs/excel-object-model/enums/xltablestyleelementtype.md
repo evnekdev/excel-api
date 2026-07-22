@@ -1,0 +1,49 @@
+# XlTableStyleElementType
+
+| Variant | Numeric value | Documentation | Crate status |
+|---|---:|---|---|
+| xlBlankRow | 19 | Generated | Not started |
+| xlColumnStripe1 | 7 | Generated | Not started |
+| xlColumnStripe2 | 8 | Generated | Not started |
+| xlColumnSubheading1 | 20 | Generated | Not started |
+| xlColumnSubheading2 | 21 | Generated | Not started |
+| xlColumnSubheading3 | 22 | Generated | Not started |
+| xlFirstColumn | 3 | Generated | Not started |
+| xlFirstHeaderCell | 9 | Generated | Not started |
+| xlFirstTotalCell | 11 | Generated | Not started |
+| xlGrandTotalColumn | 4 | Generated | Not started |
+| xlGrandTotalRow | 2 | Generated | Not started |
+| xlHeaderRow | 1 | Generated | Not started |
+| xlLastColumn | 4 | Generated | Not started |
+| xlLastHeaderCell | 10 | Generated | Not started |
+| xlLastTotalCell | 12 | Generated | Not started |
+| xlPageFieldLabels | 26 | Generated | Not started |
+| xlPageFieldValues | 27 | Generated | Not started |
+| xlRowStripe1 | 5 | Generated | Not started |
+| xlRowStripe2 | 6 | Generated | Not started |
+| xlRowSubheading1 | 23 | Generated | Not started |
+| xlRowSubheading2 | 24 | Generated | Not started |
+| xlRowSubheading3 | 25 | Generated | Not started |
+| xlSlicerHoveredSelectedItemWithData | 33 | Generated | Not started |
+| xlSlicerHoveredSelectedItemWithNoData | 35 | Generated | Not started |
+| xlSlicerHoveredUnselectedItemWithData | 32 | Generated | Not started |
+| xlSlicerHoveredUnselectedItemWithNoData | 34 | Generated | Not started |
+| xlSlicerSelectedItemWithData | 30 | Generated | Not started |
+| xlSlicerSelectedItemWithNoData | 31 | Generated | Not started |
+| xlSlicerUnselectedItemWithData | 28 | Generated | Not started |
+| xlSlicerUnselectedItemWithNoData | 29 | Generated | Not started |
+| xlSubtotalColumn1 | 13 | Generated | Not started |
+| xlSubtotalColumn2 | 14 | Generated | Not started |
+| xlSubtotalColumn3 | 15 | Generated | Not started |
+| xlSubtotalRow1 | 16 | Generated | Not started |
+| xlSubtotalRow2 | 17 | Generated | Not started |
+| xlSubtotalRow3 | 18 | Generated | Not started |
+| xlTimelinePeriodLabels1 | 38 | Generated | Not started |
+| xlTimelinePeriodLabels2 | 39 | Generated | Not started |
+| xlTimelineSelectedTimeBlock | 40 | Generated | Not started |
+| xlTimelineSelectedTimeBlockSpace | 42 | Generated | Not started |
+| xlTimelineSelectionLabel | 36 | Generated | Not started |
+| xlTimelineTimeLevel | 37 | Generated | Not started |
+| xlTimelineUnselectedTimeBlock | 41 | Generated | Not started |
+| xlTotalRow | 2 | Generated | Not started |
+| xlWholeTable | 0 | Generated | Not started |

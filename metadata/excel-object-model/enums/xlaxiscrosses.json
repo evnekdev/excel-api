@@ -1,0 +1,38 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlaxiscrosses",
+  "implementation_status": "not-started",
+  "name": "XlAxisCrosses",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAxisCrossesAutomatic",
+      "numeric_value": -4105
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAxisCrossesCustom",
+      "numeric_value": -4114
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAxisCrossesMaximum",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAxisCrossesMinimum",
+      "numeric_value": 4
+    }
+  ]
+}

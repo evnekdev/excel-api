@@ -1,0 +1,24 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00020821-0000-0000-c000-000000000046}",
+  "id": "excel.chart.coclass",
+  "implemented_interface_count": 2,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "coclass",
+  "members": [],
+  "name": "Chart",
+  "schema_version": 1,
+  "source_interface": "Chart",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlconditionvaluetypes",
+  "implementation_status": "not-started",
+  "name": "XlConditionValueTypes",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueAutomaticMax",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueAutomaticMin",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueFormula",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueHighestValue",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueLowestValue",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueNone",
+      "numeric_value": -1
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValueNumber",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValuePercent",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConditionValuePercentile",
+      "numeric_value": 5
+    }
+  ]
+}

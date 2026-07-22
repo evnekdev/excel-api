@@ -1,0 +1,31 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlslicersort",
+  "implementation_status": "not-started",
+  "name": "XlSlicerSort",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSlicerSortAscending",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSlicerSortDataSourceOrder",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSlicerSortDescending",
+      "numeric_value": 3
+    }
+  ]
+}

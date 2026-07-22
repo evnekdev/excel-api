@@ -1,0 +1,8 @@
+{
+  "aliases": {
+    "_Application": "Application",
+    "_Workbook": "Workbook",
+    "_Worksheet": "Worksheet"
+  },
+  "schema_version": 1
+}

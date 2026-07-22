@@ -1,0 +1,1858 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlbuiltindialog",
+  "implementation_status": "not-started",
+  "name": "XlBuiltInDialog",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073742037,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "_xlDialogChartSourceData",
+      "numeric_value": 541
+    },
+    {
+      "dispid": 1073742035,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "_xlDialogPhonetic",
+      "numeric_value": 538
+    },
+    {
+      "dispid": 1073741879,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogActivate",
+      "numeric_value": 103
+    },
+    {
+      "dispid": 1073742022,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogActiveCellFont",
+      "numeric_value": 476
+    },
+    {
+      "dispid": 1073741987,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAddChartAutoformat",
+      "numeric_value": 390
+    },
+    {
+      "dispid": 1073741964,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAddinManager",
+      "numeric_value": 321
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAlignment",
+      "numeric_value": 43
+    },
+    {
+      "dispid": 1073741900,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAppMove",
+      "numeric_value": 170
+    },
+    {
+      "dispid": 1073741901,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAppSize",
+      "numeric_value": 171
+    },
+    {
+      "dispid": 1073741889,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogApplyNames",
+      "numeric_value": 133
+    },
+    {
+      "dispid": 1073741923,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogApplyStyle",
+      "numeric_value": 212
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogArrangeAll",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741924,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAssignToObject",
+      "numeric_value": 213
+    },
+    {
+      "dispid": 1073741951,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAssignToTool",
+      "numeric_value": 293
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAttachText",
+      "numeric_value": 80
+    },
+    {
+      "dispid": 1073741966,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAttachToolbars",
+      "numeric_value": 323
+    },
+    {
+      "dispid": 1073742025,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAutoCorrect",
+      "numeric_value": 485
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogAxes",
+      "numeric_value": 78
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogBorder",
+      "numeric_value": 45
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCalculation",
+      "numeric_value": 32
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCellProtection",
+      "numeric_value": 46
+    },
+    {
+      "dispid": 1073741899,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChangeLink",
+      "numeric_value": 166
+    },
+    {
+      "dispid": 1073741988,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartAddData",
+      "numeric_value": 392
+    },
+    {
+      "dispid": 1073742034,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartLocation",
+      "numeric_value": 527
+    },
+    {
+      "dispid": 1073742062,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartOptionsDataLabelMultiple",
+      "numeric_value": 724
+    },
+    {
+      "dispid": 1073742029,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartOptionsDataLabels",
+      "numeric_value": 505
+    },
+    {
+      "dispid": 1073742030,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartOptionsDataTable",
+      "numeric_value": 506
+    },
+    {
+      "dispid": 1073742036,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartSourceData",
+      "numeric_value": 540
+    },
+    {
+      "dispid": 1073741974,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartTrend",
+      "numeric_value": 350
+    },
+    {
+      "dispid": 1073742033,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartType",
+      "numeric_value": 526
+    },
+    {
+      "dispid": 1073741950,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogChartWizard",
+      "numeric_value": 288
+    },
+    {
+      "dispid": 1073741999,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCheckboxProperties",
+      "numeric_value": 435
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogClear",
+      "numeric_value": 52
+    },
+    {
+      "dispid": 1073741898,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogColorPalette",
+      "numeric_value": 161
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogColumnWidth",
+      "numeric_value": 47
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCombination",
+      "numeric_value": 73
+    },
+    {
+      "dispid": 1073742043,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogConditionalFormatting",
+      "numeric_value": 583
+    },
+    {
+      "dispid": 1073741907,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogConsolidate",
+      "numeric_value": 191
+    },
+    {
+      "dispid": 1073741894,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCopyChart",
+      "numeric_value": 147
+    },
+    {
+      "dispid": 1073741880,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCopyPicture",
+      "numeric_value": 108
+    },
+    {
+      "dispid": 1073742065,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCreateList",
+      "numeric_value": 796
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCreateNames",
+      "numeric_value": 62
+    },
+    {
+      "dispid": 1073741926,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCreatePublisher",
+      "numeric_value": 217
+    },
+    {
+      "dispid": 1073742084,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCreateRelationship",
+      "numeric_value": 1272
+    },
+    {
+      "dispid": 1073742026,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCustomViews",
+      "numeric_value": 493
+    },
+    {
+      "dispid": 1073741944,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogCustomizeToolbar",
+      "numeric_value": 276
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDataDelete",
+      "numeric_value": 36
+    },
+    {
+      "dispid": 1073741980,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDataLabel",
+      "numeric_value": 379
+    },
+    {
+      "dispid": 1073742061,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDataLabelMultiple",
+      "numeric_value": 723
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDataSeries",
+      "numeric_value": 40
+    },
+    {
+      "dispid": 1073742032,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDataValidation",
+      "numeric_value": 525
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDefineName",
+      "numeric_value": 61
+    },
+    {
+      "dispid": 1073741934,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDefineStyle",
+      "numeric_value": 229
+    },
+    {
+      "dispid": 1073741882,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDeleteFormat",
+      "numeric_value": 111
+    },
+    {
+      "dispid": 1073741881,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDeleteName",
+      "numeric_value": 110
+    },
+    {
+      "dispid": 1073741919,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDemote",
+      "numeric_value": 203
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDisplay",
+      "numeric_value": 27
+    },
+    {
+      "dispid": 1073742068,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogDocumentInspector",
+      "numeric_value": 862
+    },
+    {
+      "dispid": 1073741930,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEditColor",
+      "numeric_value": 223
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEditDelete",
+      "numeric_value": 54
+    },
+    {
+      "dispid": 1073741933,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEditSeries",
+      "numeric_value": 228
+    },
+    {
+      "dispid": 1073742002,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEditboxProperties",
+      "numeric_value": 438
+    },
+    {
+      "dispid": 1073741936,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEditionOptions",
+      "numeric_value": 251
+    },
+    {
+      "dispid": 1073742063,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogErrorChecking",
+      "numeric_value": 732
+    },
+    {
+      "dispid": 1073742012,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogErrorbarX",
+      "numeric_value": 463
+    },
+    {
+      "dispid": 1073742013,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogErrorbarY",
+      "numeric_value": 464
+    },
+    {
+      "dispid": 1073742060,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogEvaluateFormula",
+      "numeric_value": 709
+    },
+    {
+      "dispid": 1073742051,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogExternalDataProperties",
+      "numeric_value": 530
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogExtract",
+      "numeric_value": 35
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFileDelete",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073742024,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFileSharing",
+      "numeric_value": 481
+    },
+    {
+      "dispid": 1073741916,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFillGroup",
+      "numeric_value": 200
+    },
+    {
+      "dispid": 1073741953,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFillWorkgroup",
+      "numeric_value": 301
+    },
+    {
+      "dispid": 1073742005,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFilter",
+      "numeric_value": 447
+    },
+    {
+      "dispid": 1073741978,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFilterAdvanced",
+      "numeric_value": 370
+    },
+    {
+      "dispid": 1073742021,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFindFile",
+      "numeric_value": 475
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFont",
+      "numeric_value": 26
+    },
+    {
+      "dispid": 1073741982,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFontProperties",
+      "numeric_value": 381
+    },
+    {
+      "dispid": 1073742086,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogForecastETS",
+      "numeric_value": 1300
+    },
+    {
+      "dispid": 1073741941,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatAuto",
+      "numeric_value": 269
+    },
+    {
+      "dispid": 1073742014,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatChart",
+      "numeric_value": 465
+    },
+    {
+      "dispid": 1073741996,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatCharttype",
+      "numeric_value": 423
+    },
+    {
+      "dispid": 1073741895,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatFont",
+      "numeric_value": 150
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatLegend",
+      "numeric_value": 88
+    },
+    {
+      "dispid": 1073741931,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatMain",
+      "numeric_value": 225
+    },
+    {
+      "dispid": 1073741885,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatMove",
+      "numeric_value": 128
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatNumber",
+      "numeric_value": 42
+    },
+    {
+      "dispid": 1073741932,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatOverlay",
+      "numeric_value": 226
+    },
+    {
+      "dispid": 1073741886,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatSize",
+      "numeric_value": 129
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormatText",
+      "numeric_value": 89
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormulaFind",
+      "numeric_value": 64
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormulaGoto",
+      "numeric_value": 63
+    },
+    {
+      "dispid": 1073741887,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFormulaReplace",
+      "numeric_value": 130
+    },
+    {
+      "dispid": 1073742006,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogFunctionWizard",
+      "numeric_value": 450
+    },
+    {
+      "dispid": 1073741909,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dArea",
+      "numeric_value": 193
+    },
+    {
+      "dispid": 1073741942,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dBar",
+      "numeric_value": 272
+    },
+    {
+      "dispid": 1073741910,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dColumn",
+      "numeric_value": 194
+    },
+    {
+      "dispid": 1073741911,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dLine",
+      "numeric_value": 195
+    },
+    {
+      "dispid": 1073741912,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dPie",
+      "numeric_value": 196
+    },
+    {
+      "dispid": 1073741943,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGallery3dSurface",
+      "numeric_value": 273
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryArea",
+      "numeric_value": 67
+    },
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryBar",
+      "numeric_value": 68
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryColumn",
+      "numeric_value": 69
+    },
+    {
+      "dispid": 1073741986,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryCustom",
+      "numeric_value": 388
+    },
+    {
+      "dispid": 1073741973,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryDoughnut",
+      "numeric_value": 344
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryLine",
+      "numeric_value": 70
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryPie",
+      "numeric_value": 71
+    },
+    {
+      "dispid": 1073741935,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryRadar",
+      "numeric_value": 249
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGalleryScatter",
+      "numeric_value": 72
+    },
+    {
+      "dispid": 1073741914,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGoalSeek",
+      "numeric_value": 198
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogGridlines",
+      "numeric_value": 76
+    },
+    {
+      "dispid": 1073742050,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogImportTextFile",
+      "numeric_value": 666
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsert",
+      "numeric_value": 55
+    },
+    {
+      "dispid": 1073742044,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsertHyperlink",
+      "numeric_value": 596
+    },
+    {
+      "dispid": 1073742027,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsertNameLabel",
+      "numeric_value": 496
+    },
+    {
+      "dispid": 1073741938,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsertObject",
+      "numeric_value": 259
+    },
+    {
+      "dispid": 1073741972,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsertPicture",
+      "numeric_value": 342
+    },
+    {
+      "dispid": 1073741981,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogInsertTitle",
+      "numeric_value": 380
+    },
+    {
+      "dispid": 1073742000,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogLabelProperties",
+      "numeric_value": 436
+    },
+    {
+      "dispid": 1073742001,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogListboxProperties",
+      "numeric_value": 437
+    },
+    {
+      "dispid": 1073741983,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMacroOptions",
+      "numeric_value": 382
+    },
+    {
+      "dispid": 1073742016,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMailEditMailer",
+      "numeric_value": 470
+    },
+    {
+      "dispid": 1073741971,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMailLogon",
+      "numeric_value": 339
+    },
+    {
+      "dispid": 1073741979,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMailNextLetter",
+      "numeric_value": 378
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMainChart",
+      "numeric_value": 85
+    },
+    {
+      "dispid": 1073741902,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMainChartType",
+      "numeric_value": 185
+    },
+    {
+      "dispid": 1073742083,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogManageRelationships",
+      "numeric_value": 1271
+    },
+    {
+      "dispid": 1073741965,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMenuEditor",
+      "numeric_value": 322
+    },
+    {
+      "dispid": 1073741940,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMove",
+      "numeric_value": 262
+    },
+    {
+      "dispid": 1073742067,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogMyPermission",
+      "numeric_value": 834
+    },
+    {
+      "dispid": 1073742069,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogNameManager",
+      "numeric_value": 977
+    },
+    {
+      "dispid": 1073741883,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogNew",
+      "numeric_value": 119
+    },
+    {
+      "dispid": 1073742070,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogNewName",
+      "numeric_value": 978
+    },
+    {
+      "dispid": 1073742049,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogNewWebQuery",
+      "numeric_value": 667
+    },
+    {
+      "dispid": 1073741896,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogNote",
+      "numeric_value": 154
+    },
+    {
+      "dispid": 1073741921,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogObjectProperties",
+      "numeric_value": 207
+    },
+    {
+      "dispid": 1073741925,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogObjectProtection",
+      "numeric_value": 214
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOpen",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOpenLinks",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741904,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOpenMail",
+      "numeric_value": 188
+    },
+    {
+      "dispid": 1073742003,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOpenText",
+      "numeric_value": 441
+    },
+    {
+      "dispid": 1073741961,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsCalculation",
+      "numeric_value": 318
+    },
+    {
+      "dispid": 1073741967,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsChart",
+      "numeric_value": 325
+    },
+    {
+      "dispid": 1073741962,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsEdit",
+      "numeric_value": 319
+    },
+    {
+      "dispid": 1073741977,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsGeneral",
+      "numeric_value": 356
+    },
+    {
+      "dispid": 1073742008,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsListsAdd",
+      "numeric_value": 458
+    },
+    {
+      "dispid": 1073742046,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsME",
+      "numeric_value": 647
+    },
+    {
+      "dispid": 1073741976,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsTransition",
+      "numeric_value": 355
+    },
+    {
+      "dispid": 1073741963,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOptionsView",
+      "numeric_value": 320
+    },
+    {
+      "dispid": 1073741892,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOutline",
+      "numeric_value": 142
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOverlay",
+      "numeric_value": 86
+    },
+    {
+      "dispid": 1073741903,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogOverlayChartType",
+      "numeric_value": 186
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPageSetup",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogParse",
+      "numeric_value": 91
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPasteNames",
+      "numeric_value": 58
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPasteSpecial",
+      "numeric_value": 53
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPatterns",
+      "numeric_value": 84
+    },
+    {
+      "dispid": 1073742066,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPermission",
+      "numeric_value": 832
+    },
+    {
+      "dispid": 1073742048,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPhonetic",
+      "numeric_value": 656
+    },
+    {
+      "dispid": 1073742041,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotCalculatedField",
+      "numeric_value": 570
+    },
+    {
+      "dispid": 1073742042,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotCalculatedItem",
+      "numeric_value": 572
+    },
+    {
+      "dispid": 1073742057,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotClientServerSet",
+      "numeric_value": 689
+    },
+    {
+      "dispid": 1073742087,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotDefaultLayout",
+      "numeric_value": 1361
+    },
+    {
+      "dispid": 1073741997,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotFieldGroup",
+      "numeric_value": 433
+    },
+    {
+      "dispid": 1073741960,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotFieldProperties",
+      "numeric_value": 313
+    },
+    {
+      "dispid": 1073741998,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotFieldUngroup",
+      "numeric_value": 434
+    },
+    {
+      "dispid": 1073741994,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotShowPages",
+      "numeric_value": 421
+    },
+    {
+      "dispid": 1073742040,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotSolveOrder",
+      "numeric_value": 568
+    },
+    {
+      "dispid": 1073742039,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotTableOptions",
+      "numeric_value": 567
+    },
+    {
+      "dispid": 1073742077,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotTableSlicerConnections",
+      "numeric_value": 1183
+    },
+    {
+      "dispid": 1073742078,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotTableWhatIfAnalysisSettings",
+      "numeric_value": 1153
+    },
+    {
+      "dispid": 1073741959,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPivotTableWizard",
+      "numeric_value": 312
+    },
+    {
+      "dispid": 1073741952,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPlacement",
+      "numeric_value": 300
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPrint",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741929,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPrintPreview",
+      "numeric_value": 222
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPrinterSetup",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741918,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPromote",
+      "numeric_value": 202
+    },
+    {
+      "dispid": 1073742019,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogProperties",
+      "numeric_value": 474
+    },
+    {
+      "dispid": 1073742058,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPropertyFields",
+      "numeric_value": 754
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogProtectDocument",
+      "numeric_value": 28
+    },
+    {
+      "dispid": 1073742045,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogProtectSharing",
+      "numeric_value": 620
+    },
+    {
+      "dispid": 1073742047,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPublishAsWebPage",
+      "numeric_value": 653
+    },
+    {
+      "dispid": 1073742004,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogPushbuttonProperties",
+      "numeric_value": 445
+    },
+    {
+      "dispid": 1073742085,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogRecommendedPivotTables",
+      "numeric_value": 1258
+    },
+    {
+      "dispid": 1073741890,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogReplaceFont",
+      "numeric_value": 134
+    },
+    {
+      "dispid": 1073741970,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogRoutingSlip",
+      "numeric_value": 336
+    },
+    {
+      "dispid": 1073741884,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogRowHeight",
+      "numeric_value": 127
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogRun",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSaveAs",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073742007,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSaveCopyAs",
+      "numeric_value": 456
+    },
+    {
+      "dispid": 1073741922,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSaveNewObject",
+      "numeric_value": 208
+    },
+    {
+      "dispid": 1073741893,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSaveWorkbook",
+      "numeric_value": 145
+    },
+    {
+      "dispid": 1073741949,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSaveWorkspace",
+      "numeric_value": 285
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScale",
+      "numeric_value": 87
+    },
+    {
+      "dispid": 1073741956,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScenarioAdd",
+      "numeric_value": 307
+    },
+    {
+      "dispid": 1073741955,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScenarioCells",
+      "numeric_value": 305
+    },
+    {
+      "dispid": 1073741957,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScenarioEdit",
+      "numeric_value": 308
+    },
+    {
+      "dispid": 1073742018,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScenarioMerge",
+      "numeric_value": 473
+    },
+    {
+      "dispid": 1073741958,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScenarioSummary",
+      "numeric_value": 311
+    },
+    {
+      "dispid": 1073741993,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogScrollbarProperties",
+      "numeric_value": 420
+    },
+    {
+      "dispid": 1073742059,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSearch",
+      "numeric_value": 731
+    },
+    {
+      "dispid": 1073741888,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSelectSpecial",
+      "numeric_value": 132
+    },
+    {
+      "dispid": 1073741905,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSendMail",
+      "numeric_value": 189
+    },
+    {
+      "dispid": 1073742009,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesAxes",
+      "numeric_value": 460
+    },
+    {
+      "dispid": 1073742038,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesOptions",
+      "numeric_value": 557
+    },
+    {
+      "dispid": 1073742015,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesOrder",
+      "numeric_value": 466
+    },
+    {
+      "dispid": 1073742028,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesShape",
+      "numeric_value": 504
+    },
+    {
+      "dispid": 1073742010,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesX",
+      "numeric_value": 461
+    },
+    {
+      "dispid": 1073742011,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSeriesY",
+      "numeric_value": 462
+    },
+    {
+      "dispid": 1073742031,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetBackgroundPicture",
+      "numeric_value": 509
+    },
+    {
+      "dispid": 1073742080,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetMDXEditor",
+      "numeric_value": 1208
+    },
+    {
+      "dispid": 1073742079,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetManager",
+      "numeric_value": 1109
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetPrintTitles",
+      "numeric_value": 23
+    },
+    {
+      "dispid": 1073742082,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetTupleEditorOnColumns",
+      "numeric_value": 1108
+    },
+    {
+      "dispid": 1073742081,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetTupleEditorOnRows",
+      "numeric_value": 1107
+    },
+    {
+      "dispid": 1073741897,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSetUpdateStatus",
+      "numeric_value": 159
+    },
+    {
+      "dispid": 1073741920,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogShowDetail",
+      "numeric_value": 204
+    },
+    {
+      "dispid": 1073741928,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogShowToolbar",
+      "numeric_value": 220
+    },
+    {
+      "dispid": 1073741939,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSize",
+      "numeric_value": 261
+    },
+    {
+      "dispid": 1073742075,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSlicerCreation",
+      "numeric_value": 1182
+    },
+    {
+      "dispid": 1073742076,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSlicerPivotTableConnections",
+      "numeric_value": 1184
+    },
+    {
+      "dispid": 1073742074,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSlicerSettings",
+      "numeric_value": 1179
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSort",
+      "numeric_value": 39
+    },
+    {
+      "dispid": 1073741908,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSortSpecial",
+      "numeric_value": 192
+    },
+    {
+      "dispid": 1073742072,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSparklineInsertColumn",
+      "numeric_value": 1134
+    },
+    {
+      "dispid": 1073742071,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSparklineInsertLine",
+      "numeric_value": 1133
+    },
+    {
+      "dispid": 1073742073,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSparklineInsertWinLoss",
+      "numeric_value": 1135
+    },
+    {
+      "dispid": 1073741891,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSplit",
+      "numeric_value": 137
+    },
+    {
+      "dispid": 1073741906,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogStandardFont",
+      "numeric_value": 190
+    },
+    {
+      "dispid": 1073742017,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogStandardWidth",
+      "numeric_value": 472
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogStyle",
+      "numeric_value": 44
+    },
+    {
+      "dispid": 1073741927,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSubscribeTo",
+      "numeric_value": 218
+    },
+    {
+      "dispid": 1073741990,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSubtotalCreate",
+      "numeric_value": 398
+    },
+    {
+      "dispid": 1073742020,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSummaryInfo",
+      "numeric_value": 474
+    },
+    {
+      "dispid": 1073741989,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogTabOrder",
+      "numeric_value": 394
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogTable",
+      "numeric_value": 41
+    },
+    {
+      "dispid": 1073741995,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogTextToColumns",
+      "numeric_value": 422
+    },
+    {
+      "dispid": 1073741877,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogUnhide",
+      "numeric_value": 94
+    },
+    {
+      "dispid": 1073741917,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogUpdateLink",
+      "numeric_value": 201
+    },
+    {
+      "dispid": 1073741968,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogVbaInsertFile",
+      "numeric_value": 328
+    },
+    {
+      "dispid": 1073742023,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogVbaMakeAddin",
+      "numeric_value": 478
+    },
+    {
+      "dispid": 1073741969,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogVbaProcedureDefinition",
+      "numeric_value": 330
+    },
+    {
+      "dispid": 1073741913,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogView3d",
+      "numeric_value": 197
+    },
+    {
+      "dispid": 1073742064,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsBrowsers",
+      "numeric_value": 773
+    },
+    {
+      "dispid": 1073742055,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsEncoding",
+      "numeric_value": 686
+    },
+    {
+      "dispid": 1073742053,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsFiles",
+      "numeric_value": 684
+    },
+    {
+      "dispid": 1073742056,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsFonts",
+      "numeric_value": 687
+    },
+    {
+      "dispid": 1073742052,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsGeneral",
+      "numeric_value": 683
+    },
+    {
+      "dispid": 1073742054,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWebOptionsPictures",
+      "numeric_value": 685
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWindowMove",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWindowSize",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741945,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookAdd",
+      "numeric_value": 281
+    },
+    {
+      "dispid": 1073741947,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookCopy",
+      "numeric_value": 283
+    },
+    {
+      "dispid": 1073741975,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookInsert",
+      "numeric_value": 354
+    },
+    {
+      "dispid": 1073741946,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookMove",
+      "numeric_value": 282
+    },
+    {
+      "dispid": 1073741985,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookName",
+      "numeric_value": 386
+    },
+    {
+      "dispid": 1073741954,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookNew",
+      "numeric_value": 302
+    },
+    {
+      "dispid": 1073741948,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookOptions",
+      "numeric_value": 284
+    },
+    {
+      "dispid": 1073741992,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookProtect",
+      "numeric_value": 417
+    },
+    {
+      "dispid": 1073741991,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookTabSplit",
+      "numeric_value": 415
+    },
+    {
+      "dispid": 1073741984,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkbookUnhide",
+      "numeric_value": 384
+    },
+    {
+      "dispid": 1073741915,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkgroup",
+      "numeric_value": 199
+    },
+    {
+      "dispid": 1073741878,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogWorkspace",
+      "numeric_value": 95
+    },
+    {
+      "dispid": 1073741937,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogZoom",
+      "numeric_value": 256
+    }
+  ]
+}

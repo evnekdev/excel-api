@@ -1,0 +1,31 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlprintlocation",
+  "implementation_status": "not-started",
+  "name": "XlPrintLocation",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPrintInPlace",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPrintNoComments",
+      "numeric_value": -4142
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPrintSheetEnd",
+      "numeric_value": 1
+    }
+  ]
+}

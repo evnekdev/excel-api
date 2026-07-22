@@ -1,0 +1,59 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlptselectionmode",
+  "implementation_status": "not-started",
+  "name": "XlPTSelectionMode",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBlanks",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlButton",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDataAndLabel",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDataOnly",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFirstRow",
+      "numeric_value": 256
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLabelOnly",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOrigin",
+      "numeric_value": 3
+    }
+  ]
+}

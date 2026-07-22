@@ -1,0 +1,24 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlsortorder",
+  "implementation_status": "not-started",
+  "name": "XlSortOrder",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAscending",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDescending",
+      "numeric_value": 2
+    }
+  ]
+}

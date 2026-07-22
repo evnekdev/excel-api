@@ -1,0 +1,1179 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.constants",
+  "implementation_status": "not-started",
+  "name": "Constants",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741881,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DBar",
+      "numeric_value": -4099
+    },
+    {
+      "dispid": 1073741926,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DEffects1",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741927,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DEffects2",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741882,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DSurface",
+      "numeric_value": -4103
+    },
+    {
+      "dispid": 1073741928,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAbove",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741929,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAccounting1",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741930,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAccounting2",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741931,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAccounting3",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741932,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAccounting4",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741933,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAdd",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAll",
+      "numeric_value": -4104
+    },
+    {
+      "dispid": 1073741986,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAllExceptBorders",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAutomatic",
+      "numeric_value": -4105
+    },
+    {
+      "dispid": 1073741883,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBar",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741916,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBelow",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741892,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBidi",
+      "numeric_value": -5000
+    },
+    {
+      "dispid": 1073741906,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBidiCalendar",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBoth",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741877,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBottom",
+      "numeric_value": -4107
+    },
+    {
+      "dispid": 1073741917,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCascade",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCenter",
+      "numeric_value": -4108
+    },
+    {
+      "dispid": 1073741918,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCenterAcrossSelection",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741919,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChart4",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741920,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChartSeries",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741921,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChartShort",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741922,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChartTitles",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChecker",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCircle",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741923,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlClassic1",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741924,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlClassic2",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741925,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlClassic3",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741910,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlClosed",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741911,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColor1",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741912,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColor2",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741913,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColor3",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741884,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColumn",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741885,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCombination",
+      "numeric_value": -4111
+    },
+    {
+      "dispid": 1073741908,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlComplete",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741914,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConstants",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741915,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlContents",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741894,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlContext",
+      "numeric_value": -5002
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCorner",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCrissCross",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCross",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741886,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCustom",
+      "numeric_value": -4114
+    },
+    {
+      "dispid": 1073741934,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDebugCodePane",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741887,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDefaultAutoFormat",
+      "numeric_value": -1
+    },
+    {
+      "dispid": 1073741935,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDesktop",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDiamond",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741936,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDirect",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDistributed",
+      "numeric_value": -4117
+    },
+    {
+      "dispid": 1073741937,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDivide",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoubleAccounting",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741938,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoubleClosed",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741939,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoubleOpen",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741940,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoubleQuote",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741990,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDrawingObject",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741941,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlEntireChart",
+      "numeric_value": 20
+    },
+    {
+      "dispid": 1073741942,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcelMenus",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741943,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExtended",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741944,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFill",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741945,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFirst",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFixedValue",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741946,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFloating",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFormats",
+      "numeric_value": -4122
+    },
+    {
+      "dispid": 1073741947,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFormula",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741897,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFullScript",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741948,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeneral",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGray16",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGray25",
+      "numeric_value": -4124
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGray50",
+      "numeric_value": -4125
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGray75",
+      "numeric_value": -4126
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGray8",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741907,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGregorian",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGrid",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741949,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGridline",
+      "numeric_value": 22
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlHigh",
+      "numeric_value": -4127
+    },
+    {
+      "dispid": 1073741905,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlHindiNumerals",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741950,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcons",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741951,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlImmediatePane",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInside",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741952,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInteger",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlJustify",
+      "numeric_value": -4130
+    },
+    {
+      "dispid": 1073741895,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLTR",
+      "numeric_value": -5003
+    },
+    {
+      "dispid": 1073741953,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLast",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741954,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLastCell",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741893,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLatin",
+      "numeric_value": -5001
+    },
+    {
+      "dispid": 1073741878,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLeft",
+      "numeric_value": -4131
+    },
+    {
+      "dispid": 1073741987,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLeftToRight",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLightDown",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLightHorizontal",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLightUp",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLightVertical",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741955,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlList1",
+      "numeric_value": 10
+    },
+    {
+      "dispid": 1073741956,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlList2",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741957,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlList3",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741958,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLocalFormat1",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741959,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLocalFormat2",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741902,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLogicalCursor",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741960,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLong",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741961,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLotusHelp",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLow",
+      "numeric_value": -4134
+    },
+    {
+      "dispid": 1073741962,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMacrosheetCell",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlManual",
+      "numeric_value": -4135
+    },
+    {
+      "dispid": 1073741888,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMaximum",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741889,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMinimum",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMinusValues",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741963,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMixed",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741900,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMixedAuthorizedScript",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741899,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMixedScript",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlModule",
+      "numeric_value": -4141
+    },
+    {
+      "dispid": 1073741964,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMultiply",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741965,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNarrow",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNextToAxis",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741966,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNoDocuments",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNone",
+      "numeric_value": -4142
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNotes",
+      "numeric_value": -4144
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOff",
+      "numeric_value": -4146
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOn",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741890,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpaque",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741967,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpen",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741968,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOutside",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741904,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPartial",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741898,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPartialScript",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercent",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPlus",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPlusValues",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741896,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRTL",
+      "numeric_value": -5004
+    },
+    {
+      "dispid": 1073741969,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlReference",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741879,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRight",
+      "numeric_value": -4152
+    },
+    {
+      "dispid": 1073741909,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlScale",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSemiGray75",
+      "numeric_value": 10
+    },
+    {
+      "dispid": 1073741970,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSemiautomatic",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741971,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlShort",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlShowLabel",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlShowLabelAndPercent",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlShowPercent",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlShowValue",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSimple",
+      "numeric_value": -4154
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSingle",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSingleAccounting",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741972,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSingleQuote",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSolid",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSquare",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStError",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStar",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741973,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStrict",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741974,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSubtract",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741903,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSystem",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741975,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextBox",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741976,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTiled",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741977,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTitleBar",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741978,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlToolbar",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlToolbarButton",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741880,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTop",
+      "numeric_value": -4160
+    },
+    {
+      "dispid": 1073741988,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTopToBottom",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741891,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTransparent",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTriangle",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741989,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlVeryHidden",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741979,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlVisible",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741901,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlVisualCursor",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741980,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWatchPane",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741981,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWide",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741982,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorkbookTab",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741983,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorksheet4",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741984,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorksheetCell",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741985,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorksheetShort",
+      "numeric_value": 5
+    }
+  ]
+}

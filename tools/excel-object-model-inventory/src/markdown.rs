@@ -1,0 +1,526 @@
+use std::collections::BTreeMap;
+use std::fs;
+use std::path::{Path, PathBuf};
+
+use serde_json::Value;
+
+use crate::model;
+
+pub struct Summary {
+    pub pages: usize,
+    pub enum_pages: usize,
+    pub indexes: usize,
+}
+
+pub fn generate(root: &Path) -> Result<Summary, String> {
+    let outputs = planned_outputs(root)?;
+    for (path, content) in &outputs {
+        write(path, content)?;
+    }
+    Ok(Summary {
+        pages: 6,
+        enum_pages: outputs
+            .keys()
+            .filter(|path| {
+                path.to_string_lossy().contains("/enums/")
+                    || path.to_string_lossy().contains("\\enums\\")
+            })
+            .count(),
+        indexes: 7,
+    })
+}
+
+pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String> {
+    let objects = read_records(&root.join("metadata/excel-object-model/objects"))?;
+    let enums = read_records(&root.join("metadata/excel-object-model/enums"))?;
+    let relationships =
+        read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
+    let docs = root.join("docs/excel-object-model");
+    let mut output = BTreeMap::new();
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nSee [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Status values are controlled and machine-readable. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    for object in priority_records(&objects) {
+        let file = docs.join("objects").join(format!(
+            "{}.md",
+            model::slug(object["name"].as_str().unwrap())
+        ));
+        let existing = fs::read_to_string(&file).ok();
+        output.insert(
+            file,
+            object_page(object, &relationships, existing.as_deref()),
+        );
+    }
+    output.insert(docs.join("indexes/objects.md"), object_index(&objects));
+    output.insert(
+        docs.join("indexes/properties.md"),
+        member_index(&objects, true),
+    );
+    output.insert(
+        docs.join("indexes/methods.md"),
+        member_index(&objects, false),
+    );
+    output.insert(docs.join("indexes/events.md"), event_index(&objects));
+    output.insert(docs.join("indexes/enums.md"), enum_index(&enums));
+    output.insert(docs.join("indexes/unsupported.md"), "# Unsupported and deferred inventory\n\nThe initial crate intentionally defers range wrappers, worksheet wrappers, charts, events, macros, connection points, generic collections, cross-apartment marshaling, and stable API commitments. Their metadata remains structurally inventoried.\n".to_owned());
+    output.insert(docs.join("STATUS.md"), status(&objects));
+    for enumeration in &enums {
+        let file = docs.join("enums").join(format!(
+            "{}.md",
+            model::slug(enumeration["name"].as_str().unwrap())
+        ));
+        output.insert(file, enum_page(enumeration));
+    }
+    Ok(output)
+}
+
+fn object_page(object: &Value, relationships: &[Value], existing: Option<&str>) -> String {
+    let default_manual = format!(
+        "# {}\n\n## Summary\n\n{}\n\n## Sources\n\n- registered Excel type library\n- official Microsoft documentation URL recorded in metadata\n\n",
+        object["name"].as_str().unwrap(),
+        summary(object["name"].as_str().unwrap())
+    );
+    let manual = existing.unwrap_or(&default_manual).replace(
+        "Independent summary pending review.",
+        summary(object["name"].as_str().unwrap()),
+    );
+    let generated = format!(
+        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
+        object["source_interface"].as_str().unwrap_or("--"),
+        object["guid"].as_str().unwrap_or("--"),
+        object["kind"].as_str().unwrap_or("--"),
+        object["name"].as_str().unwrap_or("Object"),
+        title(&object["implemented_status"]),
+        title(&object["documentation_status"]),
+        title(&object["test_status"]),
+        relationship_table(object, relationships),
+        member_table(object, true),
+        member_table(object, false),
+        event_table(object)
+    );
+    replace_region(&manual, &generated)
+}
+fn summary(name: &str) -> &'static str {
+    match name {
+        "Application" => {
+            "The root Automation object for a locally activated Excel instance. The initial crate exposes only a deliberately small lifecycle and workbook-navigation slice."
+        }
+        "Workbooks" => {
+            "The collection through which an Application exposes open workbooks. The initial crate supports counting and creating a workbook, without a general collection abstraction."
+        }
+        "Workbook" => {
+            "An Excel workbook object. The initial crate supports basic identity, saved-state, and explicit close-without-saving operations."
+        }
+        "Worksheets" => {
+            "The workbook worksheet collection. It is structurally inventoried but has no production wrapper in this initial crate."
+        }
+        "Worksheet" => {
+            "A worksheet object within a workbook. It is structurally inventoried while worksheet operations remain in the research tools."
+        }
+        "Range" => {
+            "The cell and rectangular-value object. It is structurally inventoried; production Range support remains deferred pending the wrapper architecture review."
+        }
+        _ => "This type-library object is structurally inventoried for future wrapper planning.",
+    }
+}
+fn relationship_table(object: &Value, relationships: &[Value]) -> String {
+    let id = object["id"].as_str().unwrap_or_default();
+    let mut lines = vec![
+        "| Relationship | Target | Status |".to_owned(),
+        "|---|---|---|".to_owned(),
+    ];
+    for relationship in relationships
+        .iter()
+        .filter(|relationship| relationship["source"].as_str() == Some(id))
+    {
+        let member_id = relationship["member_id"].as_str().unwrap_or("--");
+        let member = object["members"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .find(|member| member["id"].as_str() == Some(member_id));
+        let name = member
+            .and_then(|member| member["name"].as_str())
+            .unwrap_or(member_id);
+        let status = member
+            .map(|member| title(&member["implementation_status"]))
+            .unwrap_or_else(|| "Metadata Only".to_owned());
+        lines.push(format!(
+            "| `{name}` | `{}` | {status} |",
+            relationship["target"].as_str().unwrap_or("--")
+        ));
+    }
+    if lines.len() == 2 {
+        lines.push("| -- | -- | -- |".to_owned());
+    }
+    lines.join("\n")
+}
+
+fn member_table(object: &Value, property: bool) -> String {
+    let mut lines = vec![
+        if property {
+            "| Property | Access | Type | DISPID | Implementation | Docs | Tests | Notes |"
+        } else {
+            "| Method | Return | Arguments | DISPID | Implementation | Docs | Tests | Notes |"
+        }
+        .to_owned(),
+        if property {
+            "|---|---|---|---:|---|---|---|---|"
+        } else {
+            "|---|---|---:|---:|---|---|---|---|"
+        }
+        .to_owned(),
+    ];
+    for member in object["members"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter(|member| is_property(member) == property)
+    {
+        let name = member["name"].as_str().unwrap_or("--");
+        let args = member["arguments"].as_array().map_or(0, Vec::len);
+        let kind = member["invoke_kinds"]
+            .as_array()
+            .map(|values| {
+                values
+                    .iter()
+                    .filter_map(Value::as_str)
+                    .collect::<Vec<_>>()
+                    .join("/")
+            })
+            .unwrap_or_default();
+        if property {
+            lines.push(format!(
+                "| {name} | {kind} | {} | {} | {} | {} | {} | |",
+                member["return_type"].as_str().unwrap_or("--"),
+                member["dispid"],
+                title(&member["implementation_status"]),
+                title(&member["documentation_status"]),
+                title(&member["test_status"])
+            ));
+        } else {
+            lines.push(format!(
+                "| {name} | {} | {args} | {} | {} | {} | {} | |",
+                member["return_type"].as_str().unwrap_or("--"),
+                member["dispid"],
+                title(&member["implementation_status"]),
+                title(&member["documentation_status"]),
+                title(&member["test_status"])
+            ));
+        }
+    }
+    if lines.len() == 2 {
+        lines.push("| -- | -- | -- | -- | -- | -- | -- | -- |".to_owned());
+    }
+    lines.join("\n")
+}
+fn event_table(_object: &Value) -> String {
+    "| Event | Arguments | DISPID | Implementation | Docs | Tests |\n|---|---:|---:|---|---|---|\n| -- | -- | -- | Not started | Generated | Not tested |".to_owned()
+}
+fn is_property(member: &Value) -> bool {
+    member["invoke_kinds"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .any(|kind| kind.as_str().is_some_and(|kind| kind.contains("PROPERTY")))
+}
+fn replace_region(existing: &str, generated: &str) -> String {
+    const BEGIN: &str = "<!-- BEGIN GENERATED MEMBERS -->";
+    const END: &str = "<!-- END GENERATED MEMBERS -->";
+    let replacement = format!("{BEGIN}\n{generated}{END}\n");
+    if let (Some(begin), Some(end)) = (existing.find(BEGIN), existing.find(END)) {
+        let after = end + END.len();
+        format!(
+            "{}{}{}",
+            &existing[..begin],
+            replacement,
+            &existing[after..]
+        )
+        .trim_end()
+        .to_owned()
+            + "\n"
+    } else {
+        format!("{}\n{replacement}", existing.trim_end())
+    }
+}
+fn object_index(objects: &[Value]) -> String {
+    let mut lines = vec![
+        "# Object index".to_owned(),
+        "".to_owned(),
+        "| Object | Kind | Implementation | Documentation | Tests |".to_owned(),
+        "|---|---|---|---|---|".to_owned(),
+    ];
+    for object in objects {
+        let name = object["name"].as_str().unwrap();
+        let link = if model::priority_object(name)
+            && object["kind"].as_str() == Some("dispatch-interface")
+        {
+            format!("[{}](../objects/{}.md)", name, model::slug(name))
+        } else {
+            name.to_owned()
+        };
+        lines.push(format!(
+            "| {link} | {} | {} | {} | {} |",
+            object["kind"].as_str().unwrap_or("--"),
+            title(&object["implemented_status"]),
+            title(&object["documentation_status"]),
+            title(&object["test_status"])
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+fn member_index(objects: &[Value], property: bool) -> String {
+    let mut lines = vec![
+        format!("# {} index", if property { "Property" } else { "Method" }),
+        "".to_owned(),
+        "| Object | Member | DISPID | Status |".to_owned(),
+        "|---|---|---:|---|".to_owned(),
+    ];
+    for object in objects {
+        for member in object["members"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|member| {
+                member["kind"].as_str() != Some("event") && is_property(member) == property
+            })
+        {
+            lines.push(format!(
+                "| {} | {} | {} | {} |",
+                object["name"].as_str().unwrap_or("--"),
+                member["name"].as_str().unwrap_or("--"),
+                member["dispid"],
+                title(&member["implementation_status"])
+            ));
+        }
+    }
+    lines.join("\n") + "\n"
+}
+fn event_index(objects: &[Value]) -> String {
+    let mut lines = vec![
+        "# Event index".to_owned(),
+        "".to_owned(),
+        "| Event interface | Event | DISPID | Implementation |".to_owned(),
+        "|---|---|---:|---|".to_owned(),
+    ];
+    for object in objects.iter().filter(|object| {
+        object["name"]
+            .as_str()
+            .is_some_and(|name| name.contains("Events"))
+    }) {
+        for member in object["members"].as_array().into_iter().flatten() {
+            lines.push(format!(
+                "| {} | {} | {} | Not started |",
+                object["name"].as_str().unwrap_or("--"),
+                member["name"].as_str().unwrap_or("--"),
+                member["dispid"]
+            ));
+        }
+    }
+    lines.join("\n") + "\n"
+}
+fn enum_index(enums: &[Value]) -> String {
+    let mut lines = vec![
+        "# Enum index".to_owned(),
+        "".to_owned(),
+        "| Enum | Variants | Documentation | Crate status |".to_owned(),
+        "|---|---:|---|---|".to_owned(),
+    ];
+    for enumeration in enums {
+        let name = enumeration["name"].as_str().unwrap();
+        lines.push(format!(
+            "| [{}](../enums/{}.md) | {} | Generated | Not started |",
+            name,
+            model::slug(name),
+            enumeration["variants"].as_array().map_or(0, Vec::len)
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+fn enum_page(enumeration: &Value) -> String {
+    let mut lines = vec![
+        format!("# {}", enumeration["name"].as_str().unwrap()),
+        "".to_owned(),
+        "| Variant | Numeric value | Documentation | Crate status |".to_owned(),
+        "|---|---:|---|---|".to_owned(),
+    ];
+    for variant in enumeration["variants"].as_array().into_iter().flatten() {
+        lines.push(format!(
+            "| {} | {} | Generated | Not started |",
+            variant["name"].as_str().unwrap_or("--"),
+            variant["numeric_value"]
+        ));
+    }
+    lines.join("\n") + "\n"
+}
+fn status(objects: &[Value]) -> String {
+    let mut object_counts = BTreeMap::new();
+    let mut member_counts = BTreeMap::new();
+    let mut test_counts = BTreeMap::new();
+    for object in objects {
+        *object_counts
+            .entry(object["implemented_status"].as_str().unwrap_or("unknown"))
+            .or_insert(0usize) += 1;
+        *test_counts
+            .entry(object["test_status"].as_str().unwrap_or("unknown"))
+            .or_insert(0usize) += 1;
+        for member in object["members"].as_array().into_iter().flatten() {
+            let kind = if member["kind"].as_str() == Some("event") {
+                "Events"
+            } else if is_property(member) {
+                "Properties"
+            } else {
+                "Methods"
+            };
+            *member_counts
+                .entry((
+                    kind,
+                    member["implementation_status"]
+                        .as_str()
+                        .unwrap_or("unknown"),
+                ))
+                .or_insert(0usize) += 1;
+            *test_counts
+                .entry(member["test_status"].as_str().unwrap_or("unknown"))
+                .or_insert(0usize) += 1;
+        }
+    }
+    let mut text =
+        "# Excel object-model status\n\n## Object coverage\n\n| Status | Count |\n|---|---:|\n"
+            .to_owned();
+    for status in [
+        "implemented",
+        "partial",
+        "metadata-only",
+        "not-started",
+        "blocked",
+        "unsupported",
+    ] {
+        text.push_str(&format!(
+            "| {} | {} |\n",
+            title_string(status),
+            object_counts.get(status).unwrap_or(&0)
+        ));
+    }
+    text.push_str("\n## Member coverage\n\n| Member type | Total | Implemented | Partial | Metadata only | Not started |\n|---|---:|---:|---:|---:|---:|\n");
+    for kind in ["Properties", "Methods", "Events"] {
+        let total: usize = member_counts
+            .iter()
+            .filter(|((member_kind, _), _)| *member_kind == kind)
+            .map(|(_, count)| *count)
+            .sum();
+        text.push_str(&format!(
+            "| {kind} | {total} | {} | {} | {} | {} |\n",
+            member_counts.get(&(kind, "implemented")).unwrap_or(&0),
+            member_counts.get(&(kind, "partial")).unwrap_or(&0),
+            member_counts.get(&(kind, "metadata-only")).unwrap_or(&0),
+            member_counts.get(&(kind, "not-started")).unwrap_or(&0)
+        ));
+    }
+    text.push_str("\n## Test coverage\n\n| Test status | Count |\n|---|---:|\n");
+    for status in [
+        "live-tested",
+        "integration-tested",
+        "unit-tested",
+        "not-tested",
+        "blocked",
+    ] {
+        text.push_str(&format!(
+            "| {} | {} |\n",
+            title_string(status),
+            test_counts.get(status).unwrap_or(&0)
+        ));
+    }
+    text.push_str("\n## Priority objects\n\n| Object | Status |\n|---|---|\n");
+    for object in priority_records(objects) {
+        let name = object["name"].as_str().unwrap();
+        text.push_str(&format!(
+            "| [{}](objects/{}.md) | {} |\n",
+            name,
+            model::slug(name),
+            title(&object["implemented_status"])
+        ));
+    }
+    text
+}
+fn priority_records(objects: &[Value]) -> Vec<&Value> {
+    [
+        "Application",
+        "Workbooks",
+        "Workbook",
+        "Worksheets",
+        "Worksheet",
+        "Range",
+    ]
+    .into_iter()
+    .filter_map(|name| {
+        objects.iter().find(|object| {
+            object["name"].as_str() == Some(name)
+                && object["kind"].as_str() == Some("dispatch-interface")
+        })
+    })
+    .collect()
+}
+fn title(value: &Value) -> String {
+    value
+        .as_str()
+        .map(title_string)
+        .unwrap_or_else(|| "--".to_owned())
+}
+fn title_string(value: &str) -> String {
+    value
+        .split('-')
+        .map(|word| {
+            let mut chars = word.chars();
+            chars
+                .next()
+                .map(|first| first.to_uppercase().collect::<String>() + chars.as_str())
+                .unwrap_or_default()
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+fn read_records(directory: &Path) -> Result<Vec<Value>, String> {
+    let mut result: Vec<Value> = Vec::new();
+    for entry in fs::read_dir(directory).map_err(|error| error.to_string())? {
+        let path = entry.map_err(|error| error.to_string())?.path();
+        if path.extension().and_then(|value| value.to_str()) == Some("json") {
+            result.push(
+                serde_json::from_str(&fs::read_to_string(path).map_err(|error| error.to_string())?)
+                    .map_err(|error| error.to_string())?,
+            );
+        }
+    }
+    result.sort_by_key(|value| value["id"].as_str().unwrap_or_default().to_owned());
+    Ok(result)
+}
+fn read_relationships(path: &Path) -> Result<Vec<Value>, String> {
+    let mut relationships: Vec<Value> =
+        serde_json::from_str(&fs::read_to_string(path).map_err(|error| error.to_string())?)
+            .map_err(|error| error.to_string())?;
+    relationships.sort_by_key(|value| {
+        (
+            value["source"].as_str().unwrap_or_default().to_owned(),
+            value["member_id"].as_str().unwrap_or_default().to_owned(),
+        )
+    });
+    Ok(relationships)
+}
+fn write(path: &Path, content: &str) -> Result<(), String> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|error| error.to_string())?;
+    }
+    fs::write(path, format!("{}\n", content.trim_end())).map_err(|error| error.to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn generated_region_preserves_manual_sections() {
+        let input = "# Example\n\nManual note.\n\n<!-- BEGIN GENERATED MEMBERS -->\nold\n<!-- END GENERATED MEMBERS -->\n\nTail.\n";
+        let output = replace_region(input, "new");
+        assert!(output.contains("Manual note."));
+        assert!(output.contains("Tail."));
+        assert!(output.contains("new"));
+        assert!(!output.contains("old"));
+    }
+}

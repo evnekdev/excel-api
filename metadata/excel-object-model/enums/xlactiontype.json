@@ -1,0 +1,38 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlactiontype",
+  "implementation_status": "not-started",
+  "name": "XlActionType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlActionTypeDrillthrough",
+      "numeric_value": 256
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlActionTypeReport",
+      "numeric_value": 128
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlActionTypeRowset",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlActionTypeUrl",
+      "numeric_value": 1
+    }
+  ]
+}

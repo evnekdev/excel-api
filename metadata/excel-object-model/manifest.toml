@@ -1,0 +1,10 @@
+schema_version = 1
+inventory_tool_version = "0.1.0"
+source = "registered-typelib"
+typelib_guid = "{00020813-0000-0000-c000-000000000046}"
+typelib_major = 1
+typelib_minor = 9
+lcid = 0
+excel_version = "16.0"
+office_bitness = "64-bit"
+extraction_date = "2026-07-22"

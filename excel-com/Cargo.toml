@@ -1,0 +1,21 @@
+[package]
+name = "excel-com"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Experimental internal foundation for Excel COM Automation"
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+windows-sys = { version = "=0.61.2", features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_Ole",
+    "Win32_System_Variant",
+] }
+
+[lints]
+workspace = true

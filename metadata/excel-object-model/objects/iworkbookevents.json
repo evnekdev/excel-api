@@ -1,0 +1,2138 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00024412-0001-0000-c000-000000000046}",
+  "id": "excel.iworkbookevents",
+  "implemented_interface_count": 1,
+  "implemented_status": "not-started",
+  "index_member": null,
+  "kind": "event-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 304,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.activate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Activate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1530,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.deactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Deactivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1546,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforeclose",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeClose",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_bool (11)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1547,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforesave",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeSave",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1549,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforeprint",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforePrint",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1550,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.newsheet",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "NewSheet",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1552,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.addininstall",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddinInstall",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1553,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.addinuninstall",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddinUninstall",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Window",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Window))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1554,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.windowresize",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WindowResize",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Window",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Window))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1556,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.windowactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WindowActivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Window",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Window))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1557,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.windowdeactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WindowDeactivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1558,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetselectionchange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetSelectionChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1559,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetbeforedoubleclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetBeforeDoubleClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1560,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetbeforerightclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetBeforeRightClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1561,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetActivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1562,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetdeactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetDeactivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1563,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetcalculate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetCalculate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1564,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetchange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Hyperlink",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Hyperlink))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1854,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetfollowhyperlink",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetFollowHyperlink",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1923,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.open",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Open",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2157,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2158,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.pivottablecloseconnection",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableCloseConnection",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2159,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.pivottableopenconnection",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableOpenConnection",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoSyncEventType",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoSyncEventType)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2266,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sync",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Sync",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XmlMap",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(XmlMap))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_String (8)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_bool (11)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2283,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforexmlimport",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeXmlImport",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XmlMap",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(XmlMap))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_bool (11)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XlXmlImportResult",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_USERDEFINED(XlXmlImportResult)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2285,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.afterxmlimport",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AfterXmlImport",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XmlMap",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(XmlMap))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_String (8)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2287,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforexmlexport",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeXmlExport",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XmlMap",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(XmlMap))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_String (8)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XlXmlExportResult",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_USERDEFINED(XlXmlExportResult)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2288,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.afterxmlexport",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AfterXmlExport",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_String (8)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_bool (11)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2610,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.rowsetcomplete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RowsetComplete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2895,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottableaftervaluechange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableAfterValueChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2896,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottablebeforeallocatechanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableBeforeAllocateChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2897,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottablebeforecommitchanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableBeforeCommitChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2898,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottablebeforediscardchanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableBeforeDiscardChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2899,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetpivottablechangesync",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetPivotTableChangeSync",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_bool (11)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2900,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.aftersave",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AfterSave",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Chart",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Chart))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2901,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.newchart",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "NewChart",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3075,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetlensgalleryrendercomplete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetLensGalleryRenderComplete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "TableObject",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(TableObject))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3076,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheettableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetTableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "ModelChanges",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(ModelChanges))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3077,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.modelchange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ModelChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3079,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.sheetbeforedelete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SheetBeforeDelete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3342,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.beforeremotechange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeRemoteChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3343,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.afterremotechange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AfterRemoteChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3344,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotesheetchange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteSheetChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3345,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotenewsheet",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteNewSheet",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Chart",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Chart))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3346,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotenewchart",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteNewChart",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3347,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotesheetbeforedelete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteSheetBeforeDelete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3348,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotesheetpivottableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteSheetPivotTableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Object (9)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3349,
+      "documentation_status": "generated",
+      "id": "excel.iworkbookevents.remotesheetpivottablechangesync",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteSheetPivotTableChangeSync",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "IWorkbookEvents",
+  "schema_version": 1,
+  "source_interface": "IWorkbookEvents",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

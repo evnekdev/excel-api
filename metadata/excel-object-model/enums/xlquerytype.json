@@ -1,0 +1,52 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlquerytype",
+  "implementation_status": "not-started",
+  "name": "XlQueryType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlADORecordset",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDAORecordset",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlODBCQuery",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOLEDBQuery",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextImport",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWebQuery",
+      "numeric_value": 4
+    }
+  ]
+}

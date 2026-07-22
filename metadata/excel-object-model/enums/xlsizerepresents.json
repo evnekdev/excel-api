@@ -1,0 +1,24 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlsizerepresents",
+  "implementation_status": "not-started",
+  "name": "XlSizeRepresents",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSizeIsArea",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSizeIsWidth",
+      "numeric_value": 2
+    }
+  ]
+}

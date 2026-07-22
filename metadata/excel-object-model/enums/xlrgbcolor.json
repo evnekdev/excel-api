@@ -1,0 +1,1018 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlrgbcolor",
+  "implementation_status": "not-started",
+  "name": "XlRgbColor",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbAliceBlue",
+      "numeric_value": 16775408
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbAntiqueWhite",
+      "numeric_value": 14150650
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbAqua",
+      "numeric_value": 16776960
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbAquamarine",
+      "numeric_value": 13959039
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbAzure",
+      "numeric_value": 16777200
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBeige",
+      "numeric_value": 14480885
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBisque",
+      "numeric_value": 12903679
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBlack",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBlanchedAlmond",
+      "numeric_value": 13495295
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBlue",
+      "numeric_value": 16711680
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBlueViolet",
+      "numeric_value": 14822282
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBrown",
+      "numeric_value": 2763429
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbBurlyWood",
+      "numeric_value": 8894686
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbCadetBlue",
+      "numeric_value": 10526303
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbChartreuse",
+      "numeric_value": 65407
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbCoral",
+      "numeric_value": 5275647
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbCornflowerBlue",
+      "numeric_value": 15570276
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbCornsilk",
+      "numeric_value": 14481663
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbCrimson",
+      "numeric_value": 3937500
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkBlue",
+      "numeric_value": 9109504
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkCyan",
+      "numeric_value": 9145088
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkGoldenrod",
+      "numeric_value": 755384
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkGray",
+      "numeric_value": 11119017
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkGreen",
+      "numeric_value": 25600
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkGrey",
+      "numeric_value": 11119017
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkKhaki",
+      "numeric_value": 7059389
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkMagenta",
+      "numeric_value": 9109643
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkOliveGreen",
+      "numeric_value": 3107669
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkOrange",
+      "numeric_value": 36095
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkOrchid",
+      "numeric_value": 13382297
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkRed",
+      "numeric_value": 139
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkSalmon",
+      "numeric_value": 8034025
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkSeaGreen",
+      "numeric_value": 9419919
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkSlateBlue",
+      "numeric_value": 9125192
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkSlateGray",
+      "numeric_value": 5197615
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkSlateGrey",
+      "numeric_value": 5197615
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkTurquoise",
+      "numeric_value": 13749760
+    },
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDarkViolet",
+      "numeric_value": 13828244
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDeepPink",
+      "numeric_value": 9639167
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDeepSkyBlue",
+      "numeric_value": 16760576
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDimGray",
+      "numeric_value": 6908265
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDimGrey",
+      "numeric_value": 6908265
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbDodgerBlue",
+      "numeric_value": 16748574
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbFireBrick",
+      "numeric_value": 2237106
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbFloralWhite",
+      "numeric_value": 15792895
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbForestGreen",
+      "numeric_value": 2263842
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbFuchsia",
+      "numeric_value": 16711935
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGainsboro",
+      "numeric_value": 14474460
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGhostWhite",
+      "numeric_value": 16775416
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGold",
+      "numeric_value": 55295
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGoldenrod",
+      "numeric_value": 2139610
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGray",
+      "numeric_value": 8421504
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGreen",
+      "numeric_value": 32768
+    },
+    {
+      "dispid": 1073741878,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGreenYellow",
+      "numeric_value": 3145645
+    },
+    {
+      "dispid": 1073741877,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbGrey",
+      "numeric_value": 8421504
+    },
+    {
+      "dispid": 1073741879,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbHoneydew",
+      "numeric_value": 15794160
+    },
+    {
+      "dispid": 1073741880,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbHotPink",
+      "numeric_value": 11823615
+    },
+    {
+      "dispid": 1073741881,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbIndianRed",
+      "numeric_value": 6053069
+    },
+    {
+      "dispid": 1073741882,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbIndigo",
+      "numeric_value": 8519755
+    },
+    {
+      "dispid": 1073741883,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbIvory",
+      "numeric_value": 15794175
+    },
+    {
+      "dispid": 1073741884,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbKhaki",
+      "numeric_value": 9234160
+    },
+    {
+      "dispid": 1073741885,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLavender",
+      "numeric_value": 16443110
+    },
+    {
+      "dispid": 1073741886,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLavenderBlush",
+      "numeric_value": 16118015
+    },
+    {
+      "dispid": 1073741887,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLawnGreen",
+      "numeric_value": 64636
+    },
+    {
+      "dispid": 1073741888,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLemonChiffon",
+      "numeric_value": 13499135
+    },
+    {
+      "dispid": 1073741889,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightBlue",
+      "numeric_value": 15128749
+    },
+    {
+      "dispid": 1073741890,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightCoral",
+      "numeric_value": 8421616
+    },
+    {
+      "dispid": 1073741891,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightCyan",
+      "numeric_value": 9145088
+    },
+    {
+      "dispid": 1073741892,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightGoldenrodYellow",
+      "numeric_value": 13826810
+    },
+    {
+      "dispid": 1073741893,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightGray",
+      "numeric_value": 13882323
+    },
+    {
+      "dispid": 1073741894,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightGreen",
+      "numeric_value": 9498256
+    },
+    {
+      "dispid": 1073741895,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightGrey",
+      "numeric_value": 13882323
+    },
+    {
+      "dispid": 1073741896,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightPink",
+      "numeric_value": 12695295
+    },
+    {
+      "dispid": 1073741897,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSalmon",
+      "numeric_value": 8036607
+    },
+    {
+      "dispid": 1073741898,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSeaGreen",
+      "numeric_value": 11186720
+    },
+    {
+      "dispid": 1073741899,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSkyBlue",
+      "numeric_value": 16436871
+    },
+    {
+      "dispid": 1073741900,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSlateGray",
+      "numeric_value": 10061943
+    },
+    {
+      "dispid": 1073741901,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSlateGrey",
+      "numeric_value": 10061943
+    },
+    {
+      "dispid": 1073741902,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightSteelBlue",
+      "numeric_value": 14599344
+    },
+    {
+      "dispid": 1073741903,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLightYellow",
+      "numeric_value": 14745599
+    },
+    {
+      "dispid": 1073741904,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLime",
+      "numeric_value": 65280
+    },
+    {
+      "dispid": 1073741905,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLimeGreen",
+      "numeric_value": 3329330
+    },
+    {
+      "dispid": 1073741906,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbLinen",
+      "numeric_value": 15134970
+    },
+    {
+      "dispid": 1073741907,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMaroon",
+      "numeric_value": 128
+    },
+    {
+      "dispid": 1073741908,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumAquamarine",
+      "numeric_value": 11206502
+    },
+    {
+      "dispid": 1073741909,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumBlue",
+      "numeric_value": 13434880
+    },
+    {
+      "dispid": 1073741910,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumOrchid",
+      "numeric_value": 13850042
+    },
+    {
+      "dispid": 1073741911,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumPurple",
+      "numeric_value": 14381203
+    },
+    {
+      "dispid": 1073741912,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumSeaGreen",
+      "numeric_value": 7451452
+    },
+    {
+      "dispid": 1073741913,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumSlateBlue",
+      "numeric_value": 15624315
+    },
+    {
+      "dispid": 1073741914,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumSpringGreen",
+      "numeric_value": 10156544
+    },
+    {
+      "dispid": 1073741915,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumTurquoise",
+      "numeric_value": 13422920
+    },
+    {
+      "dispid": 1073741916,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMediumVioletRed",
+      "numeric_value": 8721863
+    },
+    {
+      "dispid": 1073741917,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMidnightBlue",
+      "numeric_value": 7346457
+    },
+    {
+      "dispid": 1073741918,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMintCream",
+      "numeric_value": 16449525
+    },
+    {
+      "dispid": 1073741919,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMistyRose",
+      "numeric_value": 14804223
+    },
+    {
+      "dispid": 1073741920,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbMoccasin",
+      "numeric_value": 11920639
+    },
+    {
+      "dispid": 1073741921,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbNavajoWhite",
+      "numeric_value": 11394815
+    },
+    {
+      "dispid": 1073741922,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbNavy",
+      "numeric_value": 8388608
+    },
+    {
+      "dispid": 1073741923,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbNavyBlue",
+      "numeric_value": 8388608
+    },
+    {
+      "dispid": 1073741924,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOldLace",
+      "numeric_value": 15136253
+    },
+    {
+      "dispid": 1073741925,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOlive",
+      "numeric_value": 32896
+    },
+    {
+      "dispid": 1073741926,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOliveDrab",
+      "numeric_value": 2330219
+    },
+    {
+      "dispid": 1073741927,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOrange",
+      "numeric_value": 42495
+    },
+    {
+      "dispid": 1073741928,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOrangeRed",
+      "numeric_value": 17919
+    },
+    {
+      "dispid": 1073741929,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbOrchid",
+      "numeric_value": 14053594
+    },
+    {
+      "dispid": 1073741930,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPaleGoldenrod",
+      "numeric_value": 7071982
+    },
+    {
+      "dispid": 1073741931,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPaleGreen",
+      "numeric_value": 10025880
+    },
+    {
+      "dispid": 1073741932,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPaleTurquoise",
+      "numeric_value": 15658671
+    },
+    {
+      "dispid": 1073741933,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPaleVioletRed",
+      "numeric_value": 9662683
+    },
+    {
+      "dispid": 1073741934,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPapayaWhip",
+      "numeric_value": 14020607
+    },
+    {
+      "dispid": 1073741935,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPeachPuff",
+      "numeric_value": 12180223
+    },
+    {
+      "dispid": 1073741936,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPeru",
+      "numeric_value": 4163021
+    },
+    {
+      "dispid": 1073741937,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPink",
+      "numeric_value": 13353215
+    },
+    {
+      "dispid": 1073741938,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPlum",
+      "numeric_value": 14524637
+    },
+    {
+      "dispid": 1073741939,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPowderBlue",
+      "numeric_value": 15130800
+    },
+    {
+      "dispid": 1073741940,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbPurple",
+      "numeric_value": 8388736
+    },
+    {
+      "dispid": 1073741941,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbRed",
+      "numeric_value": 255
+    },
+    {
+      "dispid": 1073741942,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbRosyBrown",
+      "numeric_value": 9408444
+    },
+    {
+      "dispid": 1073741943,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbRoyalBlue",
+      "numeric_value": 14772545
+    },
+    {
+      "dispid": 1073741944,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSalmon",
+      "numeric_value": 7504122
+    },
+    {
+      "dispid": 1073741945,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSandyBrown",
+      "numeric_value": 6333684
+    },
+    {
+      "dispid": 1073741946,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSeaGreen",
+      "numeric_value": 5737262
+    },
+    {
+      "dispid": 1073741947,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSeashell",
+      "numeric_value": 15660543
+    },
+    {
+      "dispid": 1073741948,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSienna",
+      "numeric_value": 2970272
+    },
+    {
+      "dispid": 1073741949,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSilver",
+      "numeric_value": 12632256
+    },
+    {
+      "dispid": 1073741950,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSkyBlue",
+      "numeric_value": 15453831
+    },
+    {
+      "dispid": 1073741951,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSlateBlue",
+      "numeric_value": 13458026
+    },
+    {
+      "dispid": 1073741952,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSlateGray",
+      "numeric_value": 9470064
+    },
+    {
+      "dispid": 1073741953,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSlateGrey",
+      "numeric_value": 9470064
+    },
+    {
+      "dispid": 1073741954,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSnow",
+      "numeric_value": 16448255
+    },
+    {
+      "dispid": 1073741955,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSpringGreen",
+      "numeric_value": 8388352
+    },
+    {
+      "dispid": 1073741956,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbSteelBlue",
+      "numeric_value": 11829830
+    },
+    {
+      "dispid": 1073741957,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbTan",
+      "numeric_value": 9221330
+    },
+    {
+      "dispid": 1073741958,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbTeal",
+      "numeric_value": 8421376
+    },
+    {
+      "dispid": 1073741959,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbThistle",
+      "numeric_value": 14204888
+    },
+    {
+      "dispid": 1073741960,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbTomato",
+      "numeric_value": 4678655
+    },
+    {
+      "dispid": 1073741961,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbTurquoise",
+      "numeric_value": 13688896
+    },
+    {
+      "dispid": 1073741964,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbViolet",
+      "numeric_value": 15631086
+    },
+    {
+      "dispid": 1073741965,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbWheat",
+      "numeric_value": 11788021
+    },
+    {
+      "dispid": 1073741966,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbWhite",
+      "numeric_value": 16777215
+    },
+    {
+      "dispid": 1073741967,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbWhiteSmoke",
+      "numeric_value": 16119285
+    },
+    {
+      "dispid": 1073741962,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbYellow",
+      "numeric_value": 65535
+    },
+    {
+      "dispid": 1073741963,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "rgbYellowGreen",
+      "numeric_value": 3329434
+    }
+  ]
+}

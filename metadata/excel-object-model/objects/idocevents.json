@@ -1,0 +1,878 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00024411-0001-0000-c000-000000000046}",
+  "id": "excel.idocevents",
+  "implemented_interface_count": 1,
+  "implemented_status": "not-started",
+  "index_member": null,
+  "kind": "event-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 279,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.calculate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Calculate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 304,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.activate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Activate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Hyperlink",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Hyperlink))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1470,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.followhyperlink",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "FollowHyperlink",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1530,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.deactivate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Deactivate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1534,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.beforerightclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeRightClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1537,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.beforedoubleclick",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeDoubleClick",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1543,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.selectionchange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SelectionChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1545,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.change",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Change",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2156,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2886,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottableaftervaluechange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableAfterValueChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2889,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottablebeforeallocatechanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableBeforeAllocateChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in-out",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_PTR(VT_bool (11))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2892,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottablebeforecommitchanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableBeforeCommitChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2893,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottablebeforediscardchanges",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableBeforeDiscardChanges",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2894,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.pivottablechangesync",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PivotTableChangeSync",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3072,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.lensgalleryrendercomplete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "LensGalleryRenderComplete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "TableObject",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(TableObject))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3073,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.tableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "TableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3074,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.beforedelete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "BeforeDelete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3338,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.remotechange",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteChange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3339,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.remotebeforedelete",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemoteBeforeDelete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3340,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.remotepivottableupdate",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemotePivotTableUpdate",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 3341,
+      "documentation_status": "generated",
+      "id": "excel.idocevents.remotepivottablechangesync",
+      "implementation_status": "not-started",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "event",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemotePivotTableChangeSync",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "IDocEvents",
+  "schema_version": 1,
+  "source_interface": "IDocEvents",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

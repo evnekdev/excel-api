@@ -1,0 +1,24 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlgradientfilltype",
+  "implementation_status": "not-started",
+  "name": "XlGradientFillType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGradientFillLinear",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGradientFillPath",
+      "numeric_value": 1
+    }
+  ]
+}

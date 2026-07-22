@@ -1,11 +1,13 @@
 [workspace]
 resolver = "3"
 members = [
+    "excel-com",
     "crates/excel-api-sys",
     "crates/excel-api",
     "crates/excel-api-macros",
     "examples/minimal-xll",
     "examples/minimal-rtd-server",
+    "tools/excel-object-model-inventory",
 ]
 default-members = [
     "crates/excel-api-sys",

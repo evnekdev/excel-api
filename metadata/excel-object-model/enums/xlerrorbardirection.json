@@ -1,0 +1,24 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlerrorbardirection",
+  "implementation_status": "not-started",
+  "name": "XlErrorBarDirection",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlX",
+      "numeric_value": -4168
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlY",
+      "numeric_value": 1
+    }
+  ]
+}

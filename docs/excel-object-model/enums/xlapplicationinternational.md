@@ -1,0 +1,50 @@
+# XlApplicationInternational
+
+| Variant | Numeric value | Documentation | Crate status |
+|---|---:|---|---|
+| xl24HourClock | 33 | Generated | Not started |
+| xl4DigitYears | 43 | Generated | Not started |
+| xlAlternateArraySeparator | 16 | Generated | Not started |
+| xlColumnSeparator | 14 | Generated | Not started |
+| xlCountryCode | 1 | Generated | Not started |
+| xlCountrySetting | 2 | Generated | Not started |
+| xlCurrencyBefore | 37 | Generated | Not started |
+| xlCurrencyCode | 25 | Generated | Not started |
+| xlCurrencyDigits | 27 | Generated | Not started |
+| xlCurrencyLeadingZeros | 40 | Generated | Not started |
+| xlCurrencyMinusSign | 38 | Generated | Not started |
+| xlCurrencyNegative | 28 | Generated | Not started |
+| xlCurrencySpaceBefore | 36 | Generated | Not started |
+| xlCurrencyTrailingZeros | 39 | Generated | Not started |
+| xlDateOrder | 32 | Generated | Not started |
+| xlDateSeparator | 17 | Generated | Not started |
+| xlDayCode | 21 | Generated | Not started |
+| xlDayLeadingZero | 42 | Generated | Not started |
+| xlDecimalSeparator | 3 | Generated | Not started |
+| xlGeneralFormatName | 26 | Generated | Not started |
+| xlHourCode | 22 | Generated | Not started |
+| xlLeftBrace | 12 | Generated | Not started |
+| xlLeftBracket | 10 | Generated | Not started |
+| xlListSeparator | 5 | Generated | Not started |
+| xlLowerCaseColumnLetter | 9 | Generated | Not started |
+| xlLowerCaseRowLetter | 8 | Generated | Not started |
+| xlMDY | 44 | Generated | Not started |
+| xlMetric | 35 | Generated | Not started |
+| xlMinuteCode | 23 | Generated | Not started |
+| xlMonthCode | 20 | Generated | Not started |
+| xlMonthLeadingZero | 41 | Generated | Not started |
+| xlMonthNameChars | 30 | Generated | Not started |
+| xlNonEnglishFunctions | 34 | Generated | Not started |
+| xlNoncurrencyDigits | 29 | Generated | Not started |
+| xlRightBrace | 13 | Generated | Not started |
+| xlRightBracket | 11 | Generated | Not started |
+| xlRowSeparator | 15 | Generated | Not started |
+| xlSecondCode | 24 | Generated | Not started |
+| xlThousandsSeparator | 4 | Generated | Not started |
+| xlTimeLeadingZero | 45 | Generated | Not started |
+| xlTimeSeparator | 18 | Generated | Not started |
+| xlUICultureTag | 46 | Generated | Not started |
+| xlUpperCaseColumnLetter | 7 | Generated | Not started |
+| xlUpperCaseRowLetter | 6 | Generated | Not started |
+| xlWeekdayNameChars | 31 | Generated | Not started |
+| xlYearCode | 19 | Generated | Not started |
