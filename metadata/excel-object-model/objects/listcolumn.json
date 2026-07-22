@@ -1,19 +1,19 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.listcolumn",
   "guid": "{00024473-0000-0000-c000-000000000046}",
   "id": "excel.listcolumn",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -30,7 +30,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -51,11 +51,14 @@
           "raw_com_type": "VT_String (8)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.name",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -68,15 +71,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_String (8)",
       "return_type": "String",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -84,11 +90,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.delete",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -100,15 +108,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_Unknown (24)",
       "return_type": "Unknown",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -117,7 +127,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -134,7 +144,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -148,7 +158,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -165,7 +175,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -179,7 +189,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -196,7 +206,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -208,11 +218,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 197,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.range",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -224,26 +236,30 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
       "return_type": "Range",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 486,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.index",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -255,26 +271,30 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_i32 (3)",
       "return_type": "i32",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 705,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.databodyrange",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -286,15 +306,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
       "return_type": "Range",
-      "runtime_confirmed_invoke_kinds": [],
+      "returns_optional_dispatch": true,
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -303,7 +326,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2258,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.xpath",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -320,7 +343,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -334,7 +357,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2321,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.listdataformat",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -351,7 +374,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -372,11 +395,14 @@
           "raw_com_type": "VT_USERDEFINED(XlTotalsCalculation)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 2322,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.totalscalculation",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -389,15 +415,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_USERDEFINED(XlTotalsCalculation)",
       "return_type": "XlTotalsCalculation",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -407,7 +436,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2323,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.sharepointformula",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -424,7 +453,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -436,11 +465,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 2681,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.total",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -452,15 +483,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
       "return_type": "Range",
-      "runtime_confirmed_invoke_kinds": [],
+      "returns_optional_dispatch": true,
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -486,7 +520,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -503,7 +537,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -517,7 +551,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -534,7 +568,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -548,7 +582,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -565,7 +599,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -588,7 +622,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -605,7 +639,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -644,7 +678,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -661,7 +695,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -716,7 +750,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -733,7 +767,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -812,7 +846,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.listcolumn.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -829,7 +863,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -841,11 +875,19 @@
     }
   ],
   "name": "ListColumn",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "ListColumn",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "structured_data_capability": {
+    "filter": true,
+    "remove_duplicates": false,
+    "sort": true,
+    "structural_editing": true,
+    "tables": true,
+    "validation": false
+  },
+  "surface_class": "primary-object-model",
+  "test_status": "live-tested",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

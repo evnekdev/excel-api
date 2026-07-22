@@ -1,19 +1,19 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.autofilter",
   "guid": "{00024432-0000-0000-c000-000000000046}",
   "id": "excel.autofilter",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -30,7 +30,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -44,7 +44,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -61,7 +61,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -75,7 +75,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -92,7 +92,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -104,11 +104,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 197,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.range",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -120,15 +122,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
       "return_type": "Range",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -137,7 +142,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 794,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.showalldata",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -154,7 +159,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -168,7 +173,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 800,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.filtermode",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -185,7 +190,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -199,7 +204,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 880,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.sort",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -216,7 +221,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -228,11 +233,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 1617,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.filters",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -244,15 +251,18 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Filters))",
       "return_type": "Filters",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "stateful_filter": true,
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -261,7 +271,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2640,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.applyfilter",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -278,7 +288,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -292,7 +302,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3288,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.sort-3288",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -309,7 +319,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -340,7 +350,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -357,7 +367,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -371,7 +381,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -388,7 +398,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -402,7 +412,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -419,7 +429,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -442,7 +452,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -459,7 +469,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -498,7 +508,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -515,7 +525,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -570,7 +580,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -587,7 +597,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -666,7 +676,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.autofilter.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -683,7 +693,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -695,11 +705,19 @@
     }
   ],
   "name": "AutoFilter",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "AutoFilter",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "structured_data_capability": {
+    "filter": true,
+    "remove_duplicates": false,
+    "sort": false,
+    "structural_editing": false,
+    "tables": false,
+    "validation": false
+  },
+  "surface_class": "primary-object-model",
+  "test_status": "live-tested",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

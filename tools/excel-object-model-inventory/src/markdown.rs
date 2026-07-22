@@ -43,7 +43,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, Names, and Borders iteration plus core Range navigation, references, formula conversion, typed evaluation, formula and dynamic-array operations, calculation control, precedents/dependents, SpecialCells, Find/Replace, Font, Interior, Borders, dimensions, and AutoFit. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, Names, Borders, ListObjects, ListColumns, ListRows, and Filters iteration plus core Range navigation, formulas, calculation, formatting, table operations, filtering, sorting, validation, duplicate removal, and structural edits. Structured collection metadata and its [dashboard](indexes/collections.md) describe only typed collections implemented by the crate. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -148,6 +148,7 @@ fn capability_table(object: &Value) -> String {
         ("Calculation", "calculation_capability"),
         ("Auditing and search", "auditing_search_capability"),
         ("Formatting", "formatting_capability"),
+        ("Structured data", "structured_data_capability"),
     ];
     let mut text = String::new();
     for (label, field) in groups {
@@ -199,6 +200,25 @@ fn summary(name: &str) -> &'static str {
             "The enum-keyed, apartment-bound collection of Excel Border objects for a Range."
         }
         "Border" => "One apartment-bound Excel border selected from a Borders collection.",
+        "ListObjects" => {
+            "The typed worksheet collection of Excel tables, with one-based and name lookup plus fallible enumeration."
+        }
+        "ListObject" => {
+            "An apartment-bound Excel table wrapper with bounded table, row, column, filter, and sort operations."
+        }
+        "ListColumns" => "The typed collection of columns belonging to one Excel table.",
+        "ListColumn" => {
+            "One apartment-bound Excel table column, including calculated-column and totals operations."
+        }
+        "ListRows" => "The typed collection of data rows belonging to one Excel table.",
+        "ListRow" => "One apartment-bound data row within an Excel table.",
+        "AutoFilter" => "Excel's stateful AutoFilter object for a table or worksheet range.",
+        "Filters" => "The typed collection of AutoFilter field state objects.",
+        "Filter" => "Read-only criteria state for one AutoFilter field.",
+        "Sort" => "Excel's persistent sort configuration for a range or table.",
+        "SortFields" => "The typed collection of persistent Excel sort fields.",
+        "SortField" => "One configured Excel persistent sort field.",
+        "Validation" => "Excel data-validation state associated with a Range.",
         _ => "This type-library object is structurally inventoried for future wrapper planning.",
     }
 }
@@ -675,6 +695,19 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "Interior",
         "Borders",
         "Border",
+        "ListObjects",
+        "ListObject",
+        "ListColumns",
+        "ListColumn",
+        "ListRows",
+        "ListRow",
+        "AutoFilter",
+        "Filters",
+        "Filter",
+        "Sort",
+        "SortFields",
+        "SortField",
+        "Validation",
     ]
     .into_iter()
     .filter_map(|name| {

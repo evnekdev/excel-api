@@ -46,18 +46,18 @@
 | Filter | Application | 148 | Metadata Only |
 | Filter | Creator | 149 | Metadata Only |
 | Filter | Parent | 150 | Metadata Only |
-| Filter | Criteria1 | 796 | Metadata Only |
+| Filter | Criteria1 | 796 | Implemented |
 | Filter | Operator | 797 | Metadata Only |
-| Filter | Criteria2 | 798 | Metadata Only |
-| Filter | On | 1618 | Metadata Only |
-| Filter | _Operator | 2641 | Metadata Only |
-| Filters | _NewEnum | -4 | Metadata Only |
+| Filter | Criteria2 | 798 | Implemented |
+| Filter | On | 1618 | Implemented |
+| Filter | _Operator | 2641 | Implemented |
+| Filters | _NewEnum | -4 | Implemented |
 | Filters | _Default | 0 | Metadata Only |
-| Filters | Count | 118 | Metadata Only |
+| Filters | Count | 118 | Implemented |
 | Filters | Application | 148 | Metadata Only |
 | Filters | Creator | 149 | Metadata Only |
 | Filters | Parent | 150 | Metadata Only |
-| Filters | Item | 170 | Metadata Only |
+| Filters | Item | 170 | Implemented |
 | Floor | Name | 110 | Metadata Only |
 | Floor | Format | 116 | Metadata Only |
 | Floor | Border | 128 | Metadata Only |

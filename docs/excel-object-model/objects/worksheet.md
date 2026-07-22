@@ -32,6 +32,17 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 |---|---|
 | `calculate` | true |
 
+### Structured data
+
+| Capability | Available |
+|---|---|
+| `filter` | true |
+| `remove_duplicates` | true |
+| `sort` | true |
+| `structural_editing` | true |
+| `tables` | true |
+| `validation` | true |
+
 
 
 ## Relationships
@@ -39,11 +50,16 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Relationship | Target | Status |
 |---|---|---|
 | `Application` | `excel.application` | Implemented |
+| `_AutoFilter` | `excel.autofilter` | Metadata Only |
+| `AutoFilter` | `excel.autofilter` | Implemented |
 | `Cells` | `excel.range` | Implemented |
 | `CircularReference` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Metadata Only |
+| `ListObjects` | `excel.listobjects` | Implemented |
 | `Range` | `excel.range` | Implemented |
 | `Rows` | `excel.range` | Metadata Only |
+| `_Sort` | `excel.sort` | Metadata Only |
+| `Sort` | `excel.sort` | Metadata Only |
 | `UsedRange` | `excel.range` | Implemented |
 | `XmlDataQuery` | `excel.range` | Metadata Only |
 | `XmlMapQuery` | `excel.range` | Metadata Only |
@@ -87,9 +103,9 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | ConsolidationFunction | PROPERTYGET | XlConsolidationFunction | declared | 789 | Metadata Only | Reviewed | Not Tested | |
 | ConsolidationOptions | PROPERTYGET | AutomationValue | declared | 790 | Metadata Only | Reviewed | Not Tested | |
 | ConsolidationSources | PROPERTYGET | AutomationValue | declared | 791 | Metadata Only | Reviewed | Not Tested | |
-| AutoFilterMode | PROPERTYGET/PROPERTYPUT | bool | declared | 792 | Metadata Only | Reviewed | Not Tested | |
+| AutoFilterMode | PROPERTYGET/PROPERTYPUT | bool | declared | 792 | Implemented | Reviewed | Live Tested | |
 | _AutoFilter | PROPERTYGET | AutoFilter | declared | 793 | Metadata Only | Reviewed | Not Tested | |
-| FilterMode | PROPERTYGET | bool | declared | 800 | Metadata Only | Reviewed | Not Tested | |
+| FilterMode | PROPERTYGET | bool | declared | 800 | Implemented | Reviewed | Live Tested | |
 | _Sort | PROPERTYGET | Sort | declared | 880 | Metadata Only | Reviewed | Not Tested | |
 | PageSetup | PROPERTYGET | PageSetup | declared | 998 | Metadata Only | Reviewed | Not Tested | |
 | OnSheetActivate | PROPERTYGET/PROPERTYPUT | String | declared | 1031 | Metadata Only | Reviewed | Not Tested | |
@@ -115,12 +131,12 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | SmartTags | PROPERTYGET | SmartTags | declared | 2016 | Metadata Only | Reviewed | Not Tested | |
 | MailEnvelope | PROPERTYGET | MsoEnvelope | declared | 2021 | Metadata Only | Reviewed | Not Tested | |
 | CustomProperties | PROPERTYGET | CustomProperties | declared | 2030 | Metadata Only | Reviewed | Not Tested | |
-| ListObjects | PROPERTYGET | ListObjects | declared | 2259 | Metadata Only | Reviewed | Not Tested | |
+| ListObjects | PROPERTYGET | ListObjects | declared | 2259 | Implemented | Reviewed | Live Tested | |
 | EnableFormatConditionsCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 2511 | Metadata Only | Reviewed | Not Tested | |
 | PrintedCommentPages | PROPERTYGET | i32 | declared | 2857 | Metadata Only | Reviewed | Not Tested | |
 | CommentsThreaded | PROPERTYGET | CommentsThreaded | declared | 3282 | Metadata Only | Reviewed | Not Tested | |
 | Sort | PROPERTYGET | Sort | declared | 3288 | Metadata Only | Reviewed | Not Tested | |
-| AutoFilter | PROPERTYGET | AutoFilter | declared | 3289 | Metadata Only | Reviewed | Not Tested | |
+| AutoFilter | PROPERTYGET | AutoFilter | declared | 3289 | Implemented | Reviewed | Live Tested | |
 | NamedSheetViews | PROPERTYGET | NamedSheetViewCollection | declared | 3309 | Metadata Only | Reviewed | Not Tested | |
 
 ## Methods
@@ -152,7 +168,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Drawings | Object | 1 | declared | 772 | Metadata Only | Reviewed | Not Tested | |
 | Rectangles | Object | 1 | declared | 774 | Metadata Only | Reviewed | Not Tested | |
 | TextBoxes | Object | 1 | declared | 777 | Metadata Only | Reviewed | Not Tested | |
-| ShowAllData | Unknown | 0 | declared | 794 | Metadata Only | Reviewed | Not Tested | |
+| ShowAllData | Unknown | 0 | declared | 794 | Implemented | Reviewed | Live Tested | |
 | OLEObjects | Object | 1 | declared | 799 | Metadata Only | Reviewed | Not Tested | |
 | Ovals | Object | 1 | declared | 801 | Metadata Only | Reviewed | Not Tested | |
 | CheckBoxes | Object | 1 | declared | 824 | Metadata Only | Reviewed | Not Tested | |

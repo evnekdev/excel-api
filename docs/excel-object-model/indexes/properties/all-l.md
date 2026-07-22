@@ -237,25 +237,25 @@
 | ListBoxes | Selected | 1123 | Metadata Only |
 | ListBoxes | ShapeRange | 1528 | Metadata Only |
 | ListColumn | _Default | 0 | Metadata Only |
-| ListColumn | Name | 110 | Metadata Only |
+| ListColumn | Name | 110 | Implemented |
 | ListColumn | Application | 148 | Metadata Only |
 | ListColumn | Creator | 149 | Metadata Only |
 | ListColumn | Parent | 150 | Metadata Only |
-| ListColumn | Range | 197 | Metadata Only |
-| ListColumn | Index | 486 | Metadata Only |
-| ListColumn | DataBodyRange | 705 | Metadata Only |
+| ListColumn | Range | 197 | Implemented |
+| ListColumn | Index | 486 | Implemented |
+| ListColumn | DataBodyRange | 705 | Implemented |
 | ListColumn | XPath | 2258 | Metadata Only |
 | ListColumn | ListDataFormat | 2321 | Metadata Only |
-| ListColumn | TotalsCalculation | 2322 | Metadata Only |
+| ListColumn | TotalsCalculation | 2322 | Implemented |
 | ListColumn | SharePointFormula | 2323 | Metadata Only |
-| ListColumn | Total | 2681 | Metadata Only |
-| ListColumns | _NewEnum | -4 | Metadata Only |
+| ListColumn | Total | 2681 | Implemented |
+| ListColumns | _NewEnum | -4 | Implemented |
 | ListColumns | _Default | 0 | Metadata Only |
-| ListColumns | Count | 118 | Metadata Only |
+| ListColumns | Count | 118 | Implemented |
 | ListColumns | Application | 148 | Metadata Only |
 | ListColumns | Creator | 149 | Metadata Only |
 | ListColumns | Parent | 150 | Metadata Only |
-| ListColumns | Item | 170 | Metadata Only |
+| ListColumns | Item | 170 | Implemented |
 | ListDataFormat | _Default | 0 | Metadata Only |
 | ListDataFormat | Type | 108 | Metadata Only |
 | ListDataFormat | Application | 148 | Metadata Only |
@@ -273,59 +273,59 @@
 | ListDataFormat | Required | 2356 | Metadata Only |
 | ListDataFormat | AllowFillIn | 2357 | Metadata Only |
 | ListObject | _Default | 0 | Metadata Only |
-| ListObject | Name | 110 | Metadata Only |
+| ListObject | Name | 110 | Implemented |
 | ListObject | Application | 148 | Metadata Only |
 | ListObject | Creator | 149 | Metadata Only |
 | ListObject | Parent | 150 | Metadata Only |
-| ListObject | Range | 197 | Metadata Only |
+| ListObject | Range | 197 | Implemented |
 | ListObject | Summary | 273 | Metadata Only |
 | ListObject | SourceType | 685 | Metadata Only |
-| ListObject | DataBodyRange | 705 | Metadata Only |
+| ListObject | DataBodyRange | 705 | Implemented |
 | ListObject | _AutoFilter | 793 | Metadata Only |
 | ListObject | _Sort | 880 | Metadata Only |
 | ListObject | Comment | 910 | Metadata Only |
 | ListObject | QueryTable | 1386 | Metadata Only |
-| ListObject | TableStyle | 1504 | Metadata Only |
+| ListObject | TableStyle | 1504 | Implemented |
 | ListObject | DisplayRightToLeft | 1774 | Metadata Only |
 | ListObject | AlternativeText | 1891 | Metadata Only |
 | ListObject | XmlMap | 2253 | Metadata Only |
 | ListObject | Active | 2312 | Metadata Only |
-| ListObject | HeaderRowRange | 2313 | Metadata Only |
-| ListObject | InsertRowRange | 2314 | Metadata Only |
-| ListObject | ListColumns | 2315 | Metadata Only |
-| ListObject | ListRows | 2316 | Metadata Only |
-| ListObject | ShowAutoFilter | 2317 | Metadata Only |
-| ListObject | ShowTotals | 2318 | Metadata Only |
-| ListObject | TotalsRowRange | 2319 | Metadata Only |
+| ListObject | HeaderRowRange | 2313 | Implemented |
+| ListObject | InsertRowRange | 2314 | Implemented |
+| ListObject | ListColumns | 2315 | Implemented |
+| ListObject | ListRows | 2316 | Implemented |
+| ListObject | ShowAutoFilter | 2317 | Implemented |
+| ListObject | ShowTotals | 2318 | Implemented |
+| ListObject | TotalsRowRange | 2319 | Implemented |
 | ListObject | SharePointURL | 2320 | Metadata Only |
 | ListObject | ShowTableStyleLastColumn | 2563 | Metadata Only |
 | ListObject | ShowTableStyleRowStripes | 2564 | Metadata Only |
 | ListObject | ShowTableStyleColumnStripes | 2565 | Metadata Only |
-| ListObject | DisplayName | 2677 | Metadata Only |
-| ListObject | ShowHeaders | 2678 | Metadata Only |
+| ListObject | DisplayName | 2677 | Implemented |
+| ListObject | ShowHeaders | 2678 | Implemented |
 | ListObject | ShowTableStyleFirstColumn | 2679 | Metadata Only |
 | ListObject | Slicers | 2881 | Metadata Only |
 | ListObject | TableObject | 3095 | Metadata Only |
 | ListObject | ShowAutoFilterDropDown | 3096 | Metadata Only |
-| ListObject | Sort | 3288 | Metadata Only |
-| ListObject | AutoFilter | 3289 | Metadata Only |
-| ListObjects | _NewEnum | -4 | Metadata Only |
+| ListObject | Sort | 3288 | Implemented |
+| ListObject | AutoFilter | 3289 | Implemented |
+| ListObjects | _NewEnum | -4 | Implemented |
 | ListObjects | _Default | 0 | Metadata Only |
-| ListObjects | Count | 118 | Metadata Only |
+| ListObjects | Count | 118 | Implemented |
 | ListObjects | Application | 148 | Metadata Only |
 | ListObjects | Creator | 149 | Metadata Only |
 | ListObjects | Parent | 150 | Metadata Only |
-| ListObjects | Item | 170 | Metadata Only |
+| ListObjects | Item | 170 | Implemented |
 | ListRow | Application | 148 | Metadata Only |
 | ListRow | Creator | 149 | Metadata Only |
 | ListRow | Parent | 150 | Metadata Only |
-| ListRow | Range | 197 | Metadata Only |
-| ListRow | Index | 486 | Metadata Only |
+| ListRow | Range | 197 | Implemented |
+| ListRow | Index | 486 | Implemented |
 | ListRow | InvalidData | 2324 | Metadata Only |
-| ListRows | _NewEnum | -4 | Metadata Only |
+| ListRows | _NewEnum | -4 | Implemented |
 | ListRows | _Default | 0 | Metadata Only |
-| ListRows | Count | 118 | Metadata Only |
+| ListRows | Count | 118 | Implemented |
 | ListRows | Application | 148 | Metadata Only |
 | ListRows | Creator | 149 | Metadata Only |
 | ListRows | Parent | 150 | Metadata Only |
-| ListRows | Item | 170 | Metadata Only |
+| ListRows | Item | 170 | Implemented |

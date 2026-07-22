@@ -56,6 +56,28 @@ Events, charts, macros, existing-session attachment, marshaling, generic
 collections, conditional formatting, styles, themes, and a stable public API
 are intentionally out of scope for this first crate slice.
 
+## Structured data operations
+
+`Worksheet::list_objects` provides typed `ListObjects`, `ListObject`,
+`ListColumns`, and `ListRows` wrappers. Table and filter indexes are one-based;
+an empty table has no `DataBodyRange`, represented as `Option<Range>`. Excel
+continues to own structured-reference parsing, table-name validation, totals,
+calculated-column propagation, and resize semantics.
+
+`Range::apply_auto_filter`, `AutoFilter`, `Filters`, `Sort`, `SortFields`, and
+`Validation` expose a bounded stateful filter/sort/validation surface. Range
+sorting, duplicate removal, insertion, deletion, clear operations, and hidden
+dimensions modify Excel state in place. Copy, cut, and PasteSpecial use only
+Excel's cut/copy state; unattended callers should prefer explicit copy/cut
+destinations and should not rely on arbitrary system clipboard contents.
+
+The opt-in table integration test launches one visible Excel process and exits
+it normally:
+
+```powershell
+cargo test -p excel-com --test structured_data_live -- --ignored --test-threads=1
+```
+
 ## Typed collections and Range navigation
 
 `Workbooks`, `Worksheets`, and `Areas` expose fallible `iter()` methods backed

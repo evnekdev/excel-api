@@ -201,7 +201,7 @@
 | ListBoxes | GetTypeInfo | 1610678273 | Metadata Only |
 | ListBoxes | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListBoxes | Invoke | 1610678275 | Metadata Only |
-| ListColumn | Delete | 117 | Metadata Only |
+| ListColumn | Delete | 117 | Implemented |
 | ListColumn | QueryInterface | 1610612736 | Metadata Only |
 | ListColumn | AddRef | 1610612737 | Metadata Only |
 | ListColumn | Release | 1610612738 | Metadata Only |
@@ -209,7 +209,7 @@
 | ListColumn | GetTypeInfo | 1610678273 | Metadata Only |
 | ListColumn | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListColumn | Invoke | 1610678275 | Metadata Only |
-| ListColumns | Add | 181 | Metadata Only |
+| ListColumns | Add | 181 | Implemented |
 | ListColumns | QueryInterface | 1610612736 | Metadata Only |
 | ListColumns | AddRef | 1610612737 | Metadata Only |
 | ListColumns | Release | 1610612738 | Metadata Only |
@@ -224,12 +224,12 @@
 | ListDataFormat | GetTypeInfo | 1610678273 | Metadata Only |
 | ListDataFormat | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListDataFormat | Invoke | 1610678275 | Metadata Only |
-| ListObject | Delete | 117 | Metadata Only |
-| ListObject | Resize | 256 | Metadata Only |
+| ListObject | Delete | 117 | Implemented |
+| ListObject | Resize | 256 | Implemented |
 | ListObject | Refresh | 1417 | Metadata Only |
 | ListObject | Publish | 1895 | Metadata Only |
 | ListObject | Unlink | 2308 | Metadata Only |
-| ListObject | Unlist | 2309 | Metadata Only |
+| ListObject | Unlist | 2309 | Implemented |
 | ListObject | UpdateChanges | 2310 | Metadata Only |
 | ListObject | ExportToVisio | 2680 | Metadata Only |
 | ListObject | QueryInterface | 1610612736 | Metadata Only |
@@ -239,7 +239,7 @@
 | ListObject | GetTypeInfo | 1610678273 | Metadata Only |
 | ListObject | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListObject | Invoke | 1610678275 | Metadata Only |
-| ListObjects | Add | 181 | Metadata Only |
+| ListObjects | Add | 181 | Implemented |
 | ListObjects | _Add | 2085 | Metadata Only |
 | ListObjects | QueryInterface | 1610612736 | Metadata Only |
 | ListObjects | AddRef | 1610612737 | Metadata Only |
@@ -248,7 +248,7 @@
 | ListObjects | GetTypeInfo | 1610678273 | Metadata Only |
 | ListObjects | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListObjects | Invoke | 1610678275 | Metadata Only |
-| ListRow | Delete | 117 | Metadata Only |
+| ListRow | Delete | 117 | Implemented |
 | ListRow | QueryInterface | 1610612736 | Metadata Only |
 | ListRow | AddRef | 1610612737 | Metadata Only |
 | ListRow | Release | 1610612738 | Metadata Only |
@@ -256,7 +256,7 @@
 | ListRow | GetTypeInfo | 1610678273 | Metadata Only |
 | ListRow | GetIDsOfNames | 1610678274 | Metadata Only |
 | ListRow | Invoke | 1610678275 | Metadata Only |
-| ListRows | Add | 181 | Metadata Only |
+| ListRows | Add | 181 | Implemented |
 | ListRows | _Add | 2085 | Metadata Only |
 | ListRows | QueryInterface | 1610612736 | Metadata Only |
 | ListRows | AddRef | 1610612737 | Metadata Only |

@@ -309,9 +309,9 @@
 | Worksheet | ConsolidationFunction | 789 | Metadata Only |
 | Worksheet | ConsolidationOptions | 790 | Metadata Only |
 | Worksheet | ConsolidationSources | 791 | Metadata Only |
-| Worksheet | AutoFilterMode | 792 | Metadata Only |
+| Worksheet | AutoFilterMode | 792 | Implemented |
 | Worksheet | _AutoFilter | 793 | Metadata Only |
-| Worksheet | FilterMode | 800 | Metadata Only |
+| Worksheet | FilterMode | 800 | Implemented |
 | Worksheet | _Sort | 880 | Metadata Only |
 | Worksheet | PageSetup | 998 | Metadata Only |
 | Worksheet | OnSheetActivate | 1031 | Metadata Only |
@@ -337,12 +337,12 @@
 | Worksheet | SmartTags | 2016 | Metadata Only |
 | Worksheet | MailEnvelope | 2021 | Metadata Only |
 | Worksheet | CustomProperties | 2030 | Metadata Only |
-| Worksheet | ListObjects | 2259 | Metadata Only |
+| Worksheet | ListObjects | 2259 | Implemented |
 | Worksheet | EnableFormatConditionsCalculation | 2511 | Metadata Only |
 | Worksheet | PrintedCommentPages | 2857 | Metadata Only |
 | Worksheet | CommentsThreaded | 3282 | Metadata Only |
 | Worksheet | Sort | 3288 | Metadata Only |
-| Worksheet | AutoFilter | 3289 | Metadata Only |
+| Worksheet | AutoFilter | 3289 | Implemented |
 | Worksheet | NamedSheetViews | 3309 | Metadata Only |
 | WorksheetDataConnection | Application | 148 | Metadata Only |
 | WorksheetDataConnection | Creator | 149 | Metadata Only |

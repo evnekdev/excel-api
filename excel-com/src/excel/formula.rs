@@ -58,6 +58,19 @@ impl FormulaMember {
 }
 
 impl Range {
+    pub(crate) fn set_table_calculated_column_formula(
+        &self,
+        formula_member: FormulaMember,
+        formula: &str,
+    ) -> Result<(), ExcelComError> {
+        let _ = property_put(
+            &self.dispatch_object().dispatch,
+            member(MemberId::new(formula_member.id()), true),
+            text_bstr(formula)?,
+        )?;
+        Ok(())
+    }
+
     /// Returns invariant A1-style `Range.Formula` text or a formula array.
     ///
     /// `Formula` retains Excel's legacy implicit-intersection behavior. Use

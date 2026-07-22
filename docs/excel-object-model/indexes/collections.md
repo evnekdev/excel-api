@@ -13,7 +13,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Borders | implemented |
 | Charts | metadata-only |
 | Shapes | metadata-only |
-| ListObjects | metadata-only |
+| ListObjects | implemented |
 
 ## All structurally identified collections
 
@@ -55,7 +55,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | DropDowns | Unknown | excel.dropdowns.count | excel.dropdowns.item | excel.dropdowns.newenum | variant-key | metadata-only |
 | EditBoxes | Unknown | excel.editboxes.count | excel.editboxes.item | excel.editboxes.newenum | variant-key | metadata-only |
 | FileExportConverters | Unknown | excel.fileexportconverters.count | excel.fileexportconverters.item | excel.fileexportconverters.newenum | variant-key | metadata-only |
-| Filters | Unknown | excel.filters.count | excel.filters.item | excel.filters.newenum | variant-key | metadata-only |
+| Filters | Filter | excel.filters.count | excel.filters.item | excel.filters.newenum | one-based-integer | implemented |
 | FormatConditions | Unknown | excel.formatconditions.count | excel.formatconditions.item | excel.formatconditions.newenum | variant-key | metadata-only |
 | FullSeriesCollection | Unknown | excel.fullseriescollection.count | excel.fullseriescollection.item | excel.fullseriescollection.newenum | variant-key | metadata-only |
 | GroupBoxes | Unknown | excel.groupboxes.count | excel.groupboxes.item | excel.groupboxes.newenum | variant-key | metadata-only |
@@ -198,9 +198,9 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | LegendEntries | Unknown | excel.legendentries.count | excel.legendentries.item | excel.legendentries.newenum | variant-key | metadata-only |
 | Lines | Unknown | excel.lines.count | excel.lines.item | excel.lines.newenum | variant-key | metadata-only |
 | ListBoxes | Unknown | excel.listboxes.count | excel.listboxes.item | excel.listboxes.newenum | variant-key | metadata-only |
-| ListColumns | Unknown | excel.listcolumns.count | excel.listcolumns.item | excel.listcolumns.newenum | variant-key | metadata-only |
-| ListObjects | Unknown | excel.listobjects.count | excel.listobjects.item | excel.listobjects.newenum | variant-key | metadata-only |
-| ListRows | Unknown | excel.listrows.count | excel.listrows.item | excel.listrows.newenum | variant-key | metadata-only |
+| ListColumns | ListColumn | excel.listcolumns.count | excel.listcolumns.item | excel.listcolumns.newenum | one-based-integer, string-key | implemented |
+| ListObjects | ListObject | excel.listobjects.count | excel.listobjects.item | excel.listobjects.newenum | one-based-integer, string-key | implemented |
+| ListRows | ListRow | excel.listrows.count | excel.listrows.item | excel.listrows.newenum | one-based-integer | implemented |
 | MenuBars | Unknown | excel.menubars.count | excel.menubars.item | excel.menubars.newenum | variant-key | metadata-only |
 | MenuItems | Unknown | excel.menuitems.count | excel.menuitems.item | excel.menuitems.newenum | variant-key | metadata-only |
 | Menus | Unknown | excel.menus.count | excel.menus.item | excel.menus.newenum | variant-key | metadata-only |
@@ -261,7 +261,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Slicers | Unknown | excel.slicers.count | excel.slicers.item | excel.slicers.newenum | variant-key | metadata-only |
 | SmartTagActions | Unknown | excel.smarttagactions.count | excel.smarttagactions.item | excel.smarttagactions.newenum | variant-key | metadata-only |
 | SmartTagRecognizers | Unknown | excel.smarttagrecognizers.count | excel.smarttagrecognizers.item | excel.smarttagrecognizers.newenum | variant-key | metadata-only |
-| SortFields | Unknown | excel.sortfields.count | excel.sortfields.item | excel.sortfields.newenum | variant-key | metadata-only |
+| SortFields | SortField | excel.sortfields.count | excel.sortfields.item | excel.sortfields.newenum | one-based-integer | metadata-only |
 | SparklineGroup | Unknown | excel.sparklinegroup.count | excel.sparklinegroup.item | excel.sparklinegroup.newenum | variant-key | metadata-only |
 | SparklineGroups | Unknown | excel.sparklinegroups.count | excel.sparklinegroups.item | excel.sparklinegroups.newenum | variant-key | metadata-only |
 | Spinners | Unknown | excel.spinners.count | excel.spinners.item | excel.spinners.newenum | variant-key | metadata-only |

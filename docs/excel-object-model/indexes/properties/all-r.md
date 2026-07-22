@@ -31,7 +31,7 @@
 | Range | Column | 240 | Implemented |
 | Range | Columns | 241 | Implemented |
 | Range | ColumnWidth | 242 | Implemented |
-| Range | CurrentRegion | 243 | Metadata Only |
+| Range | CurrentRegion | 243 | Implemented |
 | Range | EntireColumn | 246 | Implemented |
 | Range | EntireRow | 247 | Implemented |
 | Range | Offset | 254 | Implemented |
@@ -47,7 +47,7 @@
 | Range | FormulaR1C1Local | 265 | Implemented |
 | Range | HasArray | 266 | Implemented |
 | Range | HasFormula | 267 | Implemented |
-| Range | Hidden | 268 | Metadata Only |
+| Range | Hidden | 268 | Implemented |
 | Range | Locked | 269 | Metadata Only |
 | Range | OutlineLevel | 271 | Metadata Only |
 | Range | RowHeight | 272 | Implemented |
@@ -55,7 +55,7 @@
 | Range | UseStandardHeight | 274 | Metadata Only |
 | Range | UseStandardWidth | 275 | Metadata Only |
 | Range | WrapText | 276 | Implemented |
-| Range | Worksheet | 348 | Metadata Only |
+| Range | Worksheet | 348 | Implemented |
 | Range | Borders | 435 | Implemented |
 | Range | AddressLocal | 437 | Metadata Only |
 | Range | End | 500 | Metadata Only |
@@ -85,7 +85,7 @@
 | Range | FormulaLabel | 1380 | Metadata Only |
 | Range | MergeArea | 1385 | Metadata Only |
 | Range | QueryTable | 1386 | Metadata Only |
-| Range | Validation | 1387 | Metadata Only |
+| Range | Validation | 1387 | Implemented |
 | Range | Value2 | 1388 | Implemented |
 | Range | Phonetic | 1391 | Metadata Only |
 | Range | FormatConditions | 1392 | Metadata Only |

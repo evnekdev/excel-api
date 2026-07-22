@@ -1,5 +1,6 @@
 mod application;
 mod areas;
+mod autofilter;
 mod border;
 mod borders;
 mod calculation;
@@ -12,9 +13,13 @@ mod interior;
 mod name;
 mod names;
 mod range;
+mod range_structure;
 mod reference;
 mod search;
+mod sort;
+mod table;
 mod text;
+mod validation;
 mod workbook;
 mod workbooks;
 mod worksheet;
@@ -22,6 +27,10 @@ mod worksheets;
 
 pub use application::{Application, CalculationModeGuard, DisplayAlertsGuard, ReferenceStyleGuard};
 pub use areas::{Areas, AreasIter};
+pub use autofilter::{
+    AutoFilter, AutoFilterOperator, AutoFilterOptions, DynamicFilterCriteria, Filter,
+    FilterCriterion, Filters, FiltersIter,
+};
 pub use border::Border;
 pub use borders::{Borders, BordersIter};
 pub use calculation::{CalculationMode, CalculationState};
@@ -40,12 +49,28 @@ pub use interior::Interior;
 pub use name::Name;
 pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
 pub use range::Range;
+pub use range_structure::{
+    DeleteShiftDirection, InsertFormatOrigin, InsertShiftDirection, PasteOperation,
+    PasteSpecialOptions, PasteType, RangeInsertOptions, RemoveDuplicatesOptions,
+};
 pub use reference::{
     FormulaConversionOptions, RangeAddressOptions, ReferenceAbsoluteMode, ReferenceStyle,
 };
 pub use search::{
     FindLookIn, FindMatchMode, FindOptions, RangeFindIter, ReplaceOptions, SearchDirection,
     SearchOrder, SpecialCellType, SpecialCellValueMask,
+};
+pub use sort::{
+    RangeSortOptions, Sort, SortDataOption, SortField, SortFields, SortMethod, SortOrder,
+    SortOrientation,
+};
+pub use table::{
+    ListColumn, ListColumns, ListColumnsIter, ListObject, ListObjectAddOptions,
+    ListObjectSourceType, ListObjects, ListObjectsIter, ListRow, ListRows, ListRowsIter,
+    TableHeaderMode, TotalsCalculation,
+};
+pub use validation::{
+    Validation, ValidationAddOptions, ValidationAlertStyle, ValidationOperator, ValidationType,
 };
 pub use workbook::Workbook;
 pub use workbooks::{Workbooks, WorkbooksIter};
