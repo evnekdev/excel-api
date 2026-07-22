@@ -246,4 +246,14 @@ mod tests {
         assert_eq!(owner.get_variant(&[-3]).expect("first read").i4_value(), Some(41));
         assert_eq!(owner.get_variant(&[-2]).expect("second read").i4_value(), Some(42));
     }
+
+    #[test]
+    fn put_get_preserves_vt_error_signed_bits() {
+        let owner = OwnedSafeArray::create_variant_vector(1, 1).expect("SAFEARRAY vector");
+        let input = OwnedVariant::error(0x800A_07FA_u32 as i32);
+        owner.put_variant(&[1], &input).expect("put error");
+        let output = owner.get_variant(&[1]).expect("get error");
+        assert_eq!(output.vt(), windows_sys::Win32::System::Variant::VT_ERROR);
+        assert_eq!(output.error_scode().map(|value| value as u32), Some(0x800A_07FA));
+    }
 }

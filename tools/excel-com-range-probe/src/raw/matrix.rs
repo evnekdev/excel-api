@@ -755,6 +755,7 @@ fn read_members(
     })
 }
 
+#[allow(clippy::too_many_arguments)]
 fn date_or_currency_case(
     sheet: &super::com_ptr::ComPtr<super::com_ptr::Dispatch>,
     lcid: u32,

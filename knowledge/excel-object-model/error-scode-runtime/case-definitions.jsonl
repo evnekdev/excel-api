@@ -1,0 +1,7 @@
+{"display":"#DIV/0!","excel_error_number":2007,"formula":"=1/0","full_scode_decimal":-2146826281,"full_scode_hex":"0x800A07D7","id":"div0","schema_version":1,"symbol":"xlErrDiv0"}
+{"display":"#N/A","excel_error_number":2042,"formula":"=NA()","full_scode_decimal":-2146826246,"full_scode_hex":"0x800A07FA","id":"na","schema_version":1,"symbol":"xlErrNA"}
+{"display":"#NAME?","excel_error_number":2029,"formula":"=NOT_A_FUNCTION()","full_scode_decimal":-2146826259,"full_scode_hex":"0x800A07ED","id":"name","schema_version":1,"symbol":"xlErrName"}
+{"display":"#NULL!","excel_error_number":2000,"formula":"=A1 A2","full_scode_decimal":-2146826288,"full_scode_hex":"0x800A07D0","id":"null","schema_version":1,"symbol":"xlErrNull"}
+{"display":"#NUM!","excel_error_number":2036,"formula":"=SQRT(-1)","full_scode_decimal":-2146826252,"full_scode_hex":"0x800A07F4","id":"num","schema_version":1,"symbol":"xlErrNum"}
+{"display":"#REF!","excel_error_number":2023,"formula":"=INDIRECT(\"A0\")","full_scode_decimal":-2146826265,"full_scode_hex":"0x800A07E7","id":"ref","schema_version":1,"symbol":"xlErrRef"}
+{"display":"#VALUE!","excel_error_number":2015,"formula":"=1+\"x\"","full_scode_decimal":-2146826273,"full_scode_hex":"0x800A07DF","id":"value","schema_version":1,"symbol":"xlErrValue"}

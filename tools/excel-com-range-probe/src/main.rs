@@ -98,6 +98,25 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             excel_com_range_probe::raw::value_matrix_check(&root)?;
             println!("value-runtime evidence and reports are current and deterministic");
         }
+        "error-scode" => {
+            let mode = options.get("mode").map(String::as_str).unwrap_or("L");
+            let summary = excel_com_range_probe::raw::error_scode(&root, mode)?;
+            println!("{summary}");
+        }
+        "error-scode-refresh" => {
+            excel_com_range_probe::raw::error_scode_refresh(&root)?;
+            println!("error-SCODE reports refreshed without opening Excel");
+        }
+        "error-scode-python" => {
+            let python = options.get("python").map(PathBuf::from).ok_or_else(usage)?;
+            let client = options.get("client").map(String::as_str).ok_or_else(usage)?;
+            let summary = excel_com_range_probe::raw::error_scode_python(&root, &python, client)?;
+            println!("{summary}");
+        }
+        "error-scode-check" => {
+            excel_com_range_probe::raw::error_scode_check(&root)?;
+            println!("error-SCODE evidence and reports are current and deterministic");
+        }
         "python-differential" => {
             let python = options
                 .get("python")
@@ -170,6 +189,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check|python-differential|python-differential-raw|python-differential-refresh|python-differential-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>] [--python <path> --client <pywin32|comtypes> --wrapper <dynamic|generated> --family <all|mixed|date|shape|dynamic> --environment-id <id> --cache-dir <path>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check|error-scode|error-scode-refresh|error-scode-python|error-scode-check|python-differential|python-differential-raw|python-differential-refresh|python-differential-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>] [--python <path> --client <pywin32|comtypes> --wrapper <dynamic|generated|all> --family <all|mixed|date|shape|dynamic> --environment-id <id> --cache-dir <path>]"
         .to_owned()
 }

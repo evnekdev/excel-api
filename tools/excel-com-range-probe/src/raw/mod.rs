@@ -9,6 +9,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 mod value_evidence;
+mod error_scode;
 
 const MANIFEST: &str = "schema_version = 1\nname = \"excel-com-windows-sys-kernel\"\nclassification = \"research-only\"\nbackend_default = \"raw-windows-sys\"\nsource = \"Prompt 05E lower_level_run generic IDispatch path\"\n";
 
@@ -473,6 +474,29 @@ pub fn refresh_value_matrix(root: &Path) -> Result<(), String> {
 /// Checks Prompt 05H JSONL schema shape, persistence rules, and deterministic reports.
 pub fn value_matrix_check(root: &Path) -> Result<(), String> {
     value_evidence::check(root)
+}
+
+/// Captures the narrowly scoped Prompt 05J worksheet-error SCODE evidence.
+/// This command refuses a pre-existing Excel process and persists only in its
+/// separate error-scode-runtime knowledge tree.
+pub fn error_scode(root: &Path, mode: &str) -> Result<String, String> {
+    error_scode::capture(root, mode)
+}
+
+/// Regenerates Prompt 05J reports without activating Excel.
+pub fn error_scode_refresh(root: &Path) -> Result<(), String> {
+    error_scode::refresh(root)
+}
+
+/// Validates Prompt 05J evidence and its deterministic reports.
+pub fn error_scode_check(root: &Path) -> Result<(), String> {
+    error_scode::check(root)
+}
+
+/// Captures one limited Python client control without treating Python values as
+/// raw VARTYPE evidence.
+pub fn error_scode_python(root: &Path, python: &Path, client: &str) -> Result<String, String> {
+    error_scode::capture_python(root, python, client)
 }
 
 fn run_value_group(

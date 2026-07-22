@@ -103,6 +103,13 @@ Decimal.
 No public conversion policy or API is finalized by this research. The
 remaining explicit limitations are retained in `unresolved.jsonl`.
 
+## Prompt 05J correction
+
+Prompt 05J resolves this follow-on's raw `VT_ERROR(2042)` anomaly without
+changing its client-visible corpus: `2042` is the Excel/CVErr number, while
+formula returns expose the physical signed SCODE `0x800A07FA`. The separate
+05J matrix verifies full-SCODE and raw-copy scalar and SAFEARRAY writes.
+
 ## Validation
 
 `python-differential-check` verifies the required JSONL/TOML files, forbids
