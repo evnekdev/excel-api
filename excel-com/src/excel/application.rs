@@ -154,6 +154,9 @@ impl Application {
             },
         }
     }
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        &self.inner
+    }
 
     /// Starts a fresh local Excel `Application` in the supplied STA apartment.
     pub fn new(apartment: &ComApartment) -> Result<Self, ExcelComError> {

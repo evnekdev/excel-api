@@ -67,7 +67,7 @@ fn worksheet_range_core_live_slice_naturally_exits() -> Result<(), Box<dyn std::
         worksheets.item_by_name(&original_name)?.index()?,
         worksheet.index()?
     );
-    let added = worksheets.add(WorksheetsAddOptions::new())?;
+    let added = worksheets.add(&WorksheetsAddOptions::default())?;
     assert!(added.index()? >= 1);
     assert!(worksheets.count()? >= 2);
 

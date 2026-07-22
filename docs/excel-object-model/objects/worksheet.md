@@ -69,8 +69,8 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---|---|---:|---|---|---|---|
 | _CodeName | PROPERTYGET/PROPERTYPUT | String | declared | -2147418112 | Metadata Only | Reviewed | Not Tested | |
-| Outline | PROPERTYGET | Outline | declared | 102 | Metadata Only | Reviewed | Not Tested | |
-| Type | PROPERTYGET | XlSheetType | declared | 108 | Metadata Only | Reviewed | Not Tested | |
+| Outline | PROPERTYGET | Outline | declared | 102 | Implemented | Reviewed | Blocked | |
+| Type | PROPERTYGET | XlSheetType | declared | 108 | Implemented | Reviewed | Blocked | |
 | Name | PROPERTYGET/PROPERTYPUT | String | declared | 110 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Implemented | Reviewed | Live Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
@@ -80,9 +80,9 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Cells | PROPERTYGET | Range | declared | 238 | Implemented | Reviewed | Live Tested | |
 | Columns | PROPERTYGET | Range | declared | 241 | Metadata Only | Reviewed | Not Tested | |
 | Rows | PROPERTYGET | Range | declared | 258 | Metadata Only | Reviewed | Not Tested | |
-| ProtectContents | PROPERTYGET | bool | declared | 292 | Metadata Only | Reviewed | Not Tested | |
-| ProtectDrawingObjects | PROPERTYGET | bool | declared | 293 | Metadata Only | Reviewed | Not Tested | |
-| ProtectScenarios | PROPERTYGET | bool | declared | 294 | Metadata Only | Reviewed | Not Tested | |
+| ProtectContents | PROPERTYGET | bool | declared | 292 | Implemented | Reviewed | Blocked | |
+| ProtectDrawingObjects | PROPERTYGET | bool | declared | 293 | Implemented | Reviewed | Blocked | |
+| ProtectScenarios | PROPERTYGET | bool | declared | 294 | Implemented | Reviewed | Blocked | |
 | TransitionExpEval | PROPERTYGET/PROPERTYPUT | bool | declared | 401 | Metadata Only | Reviewed | Not Tested | |
 | TransitionFormEntry | PROPERTYGET/PROPERTYPUT | bool | declared | 402 | Metadata Only | Reviewed | Not Tested | |
 | StandardHeight | PROPERTYGET | f64 | declared | 407 | Metadata Only | Reviewed | Not Tested | |
@@ -107,20 +107,20 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | _AutoFilter | PROPERTYGET | AutoFilter | declared | 793 | Metadata Only | Reviewed | Not Tested | |
 | FilterMode | PROPERTYGET | bool | declared | 800 | Implemented | Reviewed | Live Tested | |
 | _Sort | PROPERTYGET | Sort | declared | 880 | Metadata Only | Reviewed | Not Tested | |
-| PageSetup | PROPERTYGET | PageSetup | declared | 998 | Metadata Only | Reviewed | Not Tested | |
+| PageSetup | PROPERTYGET | PageSetup | declared | 998 | Implemented | Reviewed | Blocked | |
 | OnSheetActivate | PROPERTYGET/PROPERTYPUT | String | declared | 1031 | Metadata Only | Reviewed | Not Tested | |
-| Tab | PROPERTYGET | Tab | declared | 1041 | Metadata Only | Reviewed | Not Tested | |
+| Tab | PROPERTYGET | Tab | declared | 1041 | Implemented | Reviewed | Blocked | |
 | CircularReference | PROPERTYGET | Range | declared | 1069 | Metadata Only | Reviewed | Not Tested | |
 | OnSheetDeactivate | PROPERTYGET/PROPERTYPUT | String | declared | 1081 | Metadata Only | Reviewed | Not Tested | |
 | EnableAutoFilter | PROPERTYGET/PROPERTYPUT | bool | declared | 1156 | Metadata Only | Reviewed | Not Tested | |
 | EnableOutlining | PROPERTYGET/PROPERTYPUT | bool | declared | 1157 | Metadata Only | Reviewed | Not Tested | |
 | EnablePivotTable | PROPERTYGET/PROPERTYPUT | bool | declared | 1158 | Metadata Only | Reviewed | Not Tested | |
-| ProtectionMode | PROPERTYGET | bool | declared | 1159 | Metadata Only | Reviewed | Not Tested | |
+| ProtectionMode | PROPERTYGET | bool | declared | 1159 | Implemented | Reviewed | Blocked | |
 | CodeName | PROPERTYGET | String | declared | 1373 | Metadata Only | Reviewed | Not Tested | |
 | Shapes | PROPERTYGET | Shapes | declared | 1377 | Metadata Only | Reviewed | Not Tested | |
 | Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Metadata Only | Reviewed | Not Tested | |
-| HPageBreaks | PROPERTYGET | HPageBreaks | declared | 1418 | Metadata Only | Reviewed | Not Tested | |
-| VPageBreaks | PROPERTYGET | VPageBreaks | declared | 1419 | Metadata Only | Reviewed | Not Tested | |
+| HPageBreaks | PROPERTYGET | HPageBreaks | declared | 1418 | Implemented | Reviewed | Blocked | |
+| VPageBreaks | PROPERTYGET | VPageBreaks | declared | 1419 | Implemented | Reviewed | Blocked | |
 | EnableCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 1424 | Metadata Only | Reviewed | Not Tested | |
 | EnableSelection | PROPERTYGET/PROPERTYPUT | XlEnableSelection | declared | 1425 | Metadata Only | Reviewed | Not Tested | |
 | ScrollArea | PROPERTYGET/PROPERTYPUT | String | declared | 1433 | Metadata Only | Reviewed | Not Tested | |
@@ -146,20 +146,20 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | _Evaluate | AutomationValue | 1 | declared | -5 | Metadata Only | Reviewed | Not Tested | |
 | Evaluate | AutomationValue | 1 | declared | 1 | Implemented | Reviewed | Live Tested | |
 | DrawingObjects | Object | 1 | declared | 88 | Metadata Only | Reviewed | Not Tested | |
-| Delete | Unknown | 0 | declared | 117 | Metadata Only | Reviewed | Not Tested | |
+| Delete | Unknown | 0 | declared | 117 | Implemented | Reviewed | Blocked | |
 | Paste | Unknown | 2 | declared | 211 | Metadata Only | Reviewed | Not Tested | |
-| Select | Unknown | 1 | declared | 235 | Metadata Only | Reviewed | Not Tested | |
+| Select | Unknown | 1 | declared | 235 | Implemented | Reviewed | Blocked | |
 | Calculate | Unknown | 0 | declared | 279 | Implemented | Reviewed | Live Tested | |
-| PrintPreview | Unknown | 1 | declared | 281 | Metadata Only | Reviewed | Not Tested | |
+| PrintPreview | Unknown | 1 | declared | 281 | Implemented | Reviewed | Blocked | |
 | _Protect | Unknown | 5 | declared | 282 | Metadata Only | Reviewed | Not Tested | |
 | __SaveAs | Unknown | 9 | declared | 284 | Metadata Only | Reviewed | Not Tested | |
-| Unprotect | Unknown | 1 | declared | 285 | Metadata Only | Reviewed | Not Tested | |
-| Activate | Unknown | 0 | declared | 304 | Metadata Only | Reviewed | Not Tested | |
+| Unprotect | Unknown | 1 | declared | 285 | Implemented | Reviewed | Blocked | |
+| Activate | Unknown | 0 | declared | 304 | Implemented | Reviewed | Blocked | |
 | ShowDataForm | Unknown | 0 | declared | 409 | Metadata Only | Reviewed | Not Tested | |
 | CheckSpelling | Unknown | 4 | declared | 505 | Metadata Only | Reviewed | Not Tested | |
-| Copy | Unknown | 2 | declared | 551 | Metadata Only | Reviewed | Not Tested | |
+| Copy | Unknown | 2 | declared | 551 | Implemented | Reviewed | Blocked | |
 | Buttons | Object | 1 | declared | 557 | Metadata Only | Reviewed | Not Tested | |
-| Move | Unknown | 2 | declared | 637 | Metadata Only | Reviewed | Not Tested | |
+| Move | Unknown | 2 | declared | 637 | Implemented | Reviewed | Blocked | |
 | PivotTableWizard | PivotTable | 16 | declared | 684 | Metadata Only | Reviewed | Not Tested | |
 | PivotTables | Object | 1 | declared | 690 | Metadata Only | Reviewed | Not Tested | |
 | Arcs | Object | 1 | declared | 760 | Metadata Only | Reviewed | Not Tested | |
@@ -186,20 +186,20 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | ChartObjects | Object | 1 | declared | 1060 | Metadata Only | Reviewed | Not Tested | |
 | GroupObjects | Object | 1 | declared | 1113 | Metadata Only | Reviewed | Not Tested | |
 | SetBackgroundPicture | Unknown | 1 | declared | 1188 | Metadata Only | Reviewed | Not Tested | |
-| ResetAllPageBreaks | Unknown | 0 | declared | 1426 | Metadata Only | Reviewed | Not Tested | |
+| ResetAllPageBreaks | Unknown | 0 | declared | 1426 | Implemented | Reviewed | Blocked | |
 | ClearCircles | Unknown | 0 | declared | 1436 | Metadata Only | Reviewed | Not Tested | |
 | CircleInvalid | Unknown | 0 | declared | 1437 | Metadata Only | Reviewed | Not Tested | |
 | _PrintOut | Unknown | 8 | declared | 1772 | Metadata Only | Reviewed | Not Tested | |
 | _CheckSpelling | Unknown | 6 | declared | 1817 | Metadata Only | Reviewed | Not Tested | |
 | _SaveAs | Unknown | 10 | declared | 1925 | Metadata Only | Reviewed | Not Tested | |
 | PasteSpecial | Unknown | 7 | declared | 1928 | Metadata Only | Reviewed | Not Tested | |
-| Protect | Unknown | 16 | declared | 2029 | Metadata Only | Reviewed | Not Tested | |
+| Protect | Unknown | 16 | declared | 2029 | Implemented | Reviewed | Blocked | |
 | XmlDataQuery | Range | 3 | declared | 2260 | Metadata Only | Reviewed | Not Tested | |
 | XmlMapQuery | Range | 3 | declared | 2263 | Metadata Only | Reviewed | Not Tested | |
-| PrintOut | Unknown | 9 | declared | 2361 | Metadata Only | Reviewed | Not Tested | |
+| PrintOut | Unknown | 9 | declared | 2361 | Implemented | Reviewed | Blocked | |
 | _ExportAsFixedFormat | Unknown | 9 | declared | 2493 | Metadata Only | Reviewed | Not Tested | |
 | SaveAs | Unknown | 10 | declared | 3174 | Metadata Only | Reviewed | Not Tested | |
-| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Metadata Only | Reviewed | Not Tested | |
+| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Implemented | Reviewed | Blocked | |
 | QueryInterface | Unknown | 2 | inherited-iunknown | 1610612736 | Metadata Only | Reviewed | Not Tested | |
 | AddRef | Unknown | 0 | inherited-iunknown | 1610612737 | Metadata Only | Reviewed | Not Tested | |
 | Release | Unknown | 0 | inherited-iunknown | 1610612738 | Metadata Only | Reviewed | Not Tested | |

@@ -12,7 +12,7 @@
 | Application | Top | 126 | Metadata Only |
 | Application | Left | 127 | Metadata Only |
 | Application | Caption | 139 | Metadata Only |
-| Application | Selection | 147 | Metadata Only |
+| Application | Selection | 147 | Implemented |
 | Application | Application | 148 | Metadata Only |
 | Application | Creator | 149 | Metadata Only |
 | Application | Parent | 150 | Metadata Only |
@@ -25,10 +25,10 @@
 | Application | Columns | 241 | Metadata Only |
 | Application | Rows | 258 | Metadata Only |
 | Application | Path | 291 | Metadata Only |
-| Application | ActiveCell | 305 | Metadata Only |
+| Application | ActiveCell | 305 | Implemented |
 | Application | ActivePrinter | 306 | Metadata Only |
-| Application | ActiveSheet | 307 | Metadata Only |
-| Application | ActiveWorkbook | 308 | Metadata Only |
+| Application | ActiveSheet | 307 | Implemented |
+| Application | ActiveWorkbook | 308 | Implemented |
 | Application | TransitionMenuKey | 310 | Metadata Only |
 | Application | TransitionMenuKeyAction | 311 | Metadata Only |
 | Application | TransitionNavigKeys | 312 | Metadata Only |
@@ -87,10 +87,10 @@
 | Application | Version | 392 | Implemented |
 | Application | WindowsForPens | 395 | Metadata Only |
 | Application | WindowState | 396 | Metadata Only |
-| Application | Windows | 430 | Metadata Only |
+| Application | Windows | 430 | Implemented |
 | Application | Names | 442 | Metadata Only |
-| Application | Sheets | 485 | Metadata Only |
-| Application | Worksheets | 494 | Metadata Only |
+| Application | Sheets | 485 | Implemented |
+| Application | Worksheets | 494 | Implemented |
 | Application | AddIns | 549 | Metadata Only |
 | Application | Toolbars | 552 | Metadata Only |
 | Application | Visible | 558 | Implemented |
@@ -105,7 +105,7 @@
 | Application | OnDoubleClick | 628 | Metadata Only |
 | Application | OnData | 629 | Metadata Only |
 | Application | ActiveMenuBar | 758 | Metadata Only |
-| Application | ActiveWindow | 759 | Metadata Only |
+| Application | ActiveWindow | 759 | Implemented |
 | Application | Dialogs | 761 | Metadata Only |
 | Application | DialogSheets | 764 | Metadata Only |
 | Application | RegisteredFunctions | 775 | Metadata Only |
@@ -180,7 +180,7 @@
 | Application | CalculationInterruptKey | 1938 | Metadata Only |
 | Application | Watches | 1939 | Metadata Only |
 | Application | DisplayFunctionToolTips | 1940 | Metadata Only |
-| Application | AutomationSecurity | 1941 | Metadata Only |
+| Application | AutomationSecurity | 1941 | Implemented |
 | Application | FileDialog | 1942 | Metadata Only |
 | Application | DisplayPasteOptions | 1946 | Metadata Only |
 | Application | DisplayInsertOptions | 1947 | Metadata Only |

@@ -12,33 +12,34 @@ use crate::excel::{
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
 
-/// Excel worksheet visibility values accepted by the core wrapper.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-#[repr(i32)]
-pub enum XlSheetVisibility {
-    /// Visible worksheet (`-1`).
-    Visible = -1,
-    /// Hidden worksheet (`0`).
-    Hidden = 0,
-    /// Very hidden worksheet (`2`).
-    VeryHidden = 2,
-}
+/// Excel worksheet visibility value.
+///
+/// This is intentionally transparent rather than a closed Rust enum: Excel
+/// may add values, and a wrapper must preserve a value it reads even if it has
+/// not yet assigned it a convenience constant.
+#[repr(transparent)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub struct SheetVisibility(i32);
 
-impl TryFrom<i32> for XlSheetVisibility {
-    type Error = ExcelComError;
-
-    /// Converts Excel's numeric visibility result into the supported enum.
-    fn try_from(value: i32) -> Result<Self, Self::Error> {
-        match value {
-            -1 => Ok(Self::Visible),
-            0 => Ok(Self::Hidden),
-            2 => Ok(Self::VeryHidden),
-            _ => Err(ExcelComError::Unsupported {
-                detail: "unknown worksheet visibility value",
-            }),
-        }
+impl SheetVisibility {
+    /// A visible sheet (`-1`).
+    pub const VISIBLE: Self = Self(-1);
+    /// A normally hidden sheet (`0`).
+    pub const HIDDEN: Self = Self(0);
+    /// A sheet hidden from Excel's normal Unhide UI (`2`).
+    pub const VERY_HIDDEN: Self = Self(2);
+    /// Preserves a raw value supplied by Excel.
+    pub const fn from_raw(value: i32) -> Self {
+        Self(value)
+    }
+    /// Returns the raw Excel value.
+    pub const fn raw(self) -> i32 {
+        self.0
     }
 }
+
+/// Compatibility alias for the former closed visibility type.
+pub type XlSheetVisibility = SheetVisibility;
 
 /// Experimental wrapper for an Excel `Worksheet`.
 pub struct Worksheet {
@@ -113,7 +114,7 @@ impl Worksheet {
     }
 
     /// Returns the worksheet's visibility state.
-    pub fn visible(&self) -> Result<XlSheetVisibility, ExcelComError> {
+    pub fn visible(&self) -> Result<SheetVisibility, ExcelComError> {
         let value = property_get(
             &self.inner.dispatch,
             member(MemberId::new("excel.worksheet.visible"), false),
@@ -123,15 +124,15 @@ impl Worksheet {
         .ok_or(ExcelComError::Unsupported {
             detail: "Worksheet.Visible did not return VT_I4",
         })?;
-        XlSheetVisibility::try_from(value)
+        Ok(SheetVisibility::from_raw(value))
     }
 
     /// Changes the worksheet visibility state.
-    pub fn set_visible(&self, value: XlSheetVisibility) -> Result<(), ExcelComError> {
+    pub fn set_visible(&self, value: SheetVisibility) -> Result<(), ExcelComError> {
         let _ = property_put(
             &self.inner.dispatch,
             member(MemberId::new("excel.worksheet.visible"), true),
-            OwnedVariant::i32(value as i32),
+            OwnedVariant::i32(value.raw()),
         )?;
         Ok(())
     }

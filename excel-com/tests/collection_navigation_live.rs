@@ -79,9 +79,9 @@ fn collection_identity_and_navigation_naturally_exits() -> Result<(), Box<dyn st
             let sheets = workbook_one.worksheets()?;
             let sheet_one = sheets.item_by_index(1)?;
             sheet_one.set_name("Prompt10One")?;
-            let sheet_two = sheets.add(Default::default())?;
+            let sheet_two = sheets.add(&Default::default())?;
             sheet_two.set_name("Prompt10Two")?;
-            let sheet_three = sheets.add(Default::default())?;
+            let sheet_three = sheets.add(&Default::default())?;
             sheet_three.set_name("Prompt10Three")?;
             assert!(sheet_two.is_same_object(&sheets.item_by_index(2)?)?);
             assert!(sheet_three.is_same_object(&sheets.item_by_name("Prompt10Three")?)?);

@@ -266,7 +266,7 @@ fn formulas_calculation_and_auditing_naturally_exit() -> Result<(), Box<dyn std:
             assert!(transitive_precedents.contains("$A$12:$B$12"));
             assert!(direct_dependents.contains("$B$12"));
             assert!(dependents.contains("$B$12:$C$12"));
-            let cross_sheet = workbook.worksheets()?.add(Default::default())?;
+            let cross_sheet = workbook.worksheets()?.add(&Default::default())?;
             cross_sheet.range("A1")?.set_formula("=Sheet1!A12")?;
             let cross_sheet_precedents = cross_sheet.range("A1")?.direct_precedents();
             assert!(cross_sheet_precedents.is_err());

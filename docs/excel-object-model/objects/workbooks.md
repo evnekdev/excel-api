@@ -34,7 +34,7 @@ No capability metadata is recorded for this surface.
 | Relationship | Target | Status |
 |---|---|---|
 | `Add` | `excel.workbook` | Implemented |
-| `Application` | `excel.application` | Metadata Only |
+| `Application` | `excel.application` | Implemented |
 | `_Default` | `excel.workbook` | Metadata Only |
 | `Item` | `excel.workbook` | Implemented |
 | `_Open` | `excel.workbook` | Metadata Only |
@@ -50,7 +50,7 @@ No capability metadata is recorded for this surface.
 | _NewEnum | PROPERTYGET | Unknown | declared | -4 | Implemented | Reviewed | Live Tested | |
 | _Default | PROPERTYGET | Workbook | declared | 0 | Metadata Only | Reviewed | Not Tested | |
 | Count | PROPERTYGET | i32 | declared | 118 | Implemented | Reviewed | Live Tested | |
-| Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
+| Application | PROPERTYGET | Application | declared | 148 | Implemented | Reviewed | Blocked | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | Item | PROPERTYGET | Workbook | declared | 170 | Implemented | Reviewed | Live Tested | |

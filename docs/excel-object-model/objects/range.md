@@ -106,7 +106,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `Font` | `excel.font` | Implemented |
 | `Interior` | `excel.interior` | Implemented |
 | `ListObject` | `excel.listobject` | Metadata Only |
-| `MergeArea` | `excel.range` | Metadata Only |
+| `MergeArea` | `excel.range` | Implemented |
 | `Next` | `excel.range` | Metadata Only |
 | `Offset` | `excel.range` | Implemented |
 | `Precedents` | `excel.range` | Implemented |
@@ -135,7 +135,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Top | PROPERTYGET | AutomationValue | declared | 126 | Metadata Only | Reviewed | Not Tested | |
 | Left | PROPERTYGET | AutomationValue | declared | 127 | Metadata Only | Reviewed | Not Tested | |
 | Interior | PROPERTYGET | Interior | declared | 129 | Implemented | Reviewed | Live Tested | |
-| Orientation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 134 | Metadata Only | Reviewed | Not Tested | |
+| Orientation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 134 | Implemented | Reviewed | Blocked | |
 | HorizontalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 136 | Implemented | Reviewed | Live Tested | |
 | VerticalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 137 | Implemented | Reviewed | Live Tested | |
 | Text | PROPERTYGET | AutomationValue | declared | 138 | Metadata Only | Reviewed | Not Tested | |
@@ -146,9 +146,9 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Item | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 170 | Implemented | Reviewed | Live Tested | |
 | NumberFormat | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 193 | Implemented | Reviewed | Live Tested | |
 | Range | PROPERTYGET | Range | declared | 197 | Metadata Only | Reviewed | Not Tested | |
-| IndentLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 201 | Metadata Only | Reviewed | Not Tested | |
-| MergeCells | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 208 | Metadata Only | Reviewed | Not Tested | |
-| ShrinkToFit | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 209 | Metadata Only | Reviewed | Not Tested | |
+| IndentLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 201 | Implemented | Reviewed | Blocked | |
+| MergeCells | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 208 | Implemented | Reviewed | Blocked | |
+| ShrinkToFit | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 209 | Implemented | Reviewed | Blocked | |
 | Address | PROPERTYGET | String | declared | 236 | Implemented | Reviewed | Live Tested | |
 | Cells | PROPERTYGET | Range | declared | 238 | Implemented | Reviewed | Live Tested | |
 | Column | PROPERTYGET | i32 | declared | 240 | Implemented | Reviewed | Live Tested | |
@@ -164,14 +164,14 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Rows | PROPERTYGET | Range | declared | 258 | Implemented | Reviewed | Live Tested | |
 | Style | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 260 | Metadata Only | Reviewed | Not Tested | |
 | Formula | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 261 | Implemented | Reviewed | Live Tested | |
-| FormulaHidden | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 262 | Metadata Only | Reviewed | Not Tested | |
+| FormulaHidden | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 262 | Implemented | Reviewed | Blocked | |
 | FormulaLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 263 | Implemented | Reviewed | Live Tested | |
 | FormulaR1C1 | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 264 | Implemented | Reviewed | Live Tested | |
 | FormulaR1C1Local | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 265 | Implemented | Reviewed | Live Tested | |
 | HasArray | PROPERTYGET | AutomationValue | declared | 266 | Implemented | Reviewed | Live Tested | |
 | HasFormula | PROPERTYGET | AutomationValue | declared | 267 | Implemented | Reviewed | Live Tested | |
 | Hidden | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 268 | Implemented | Reviewed | Live Tested | |
-| Locked | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 269 | Metadata Only | Reviewed | Not Tested | |
+| Locked | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 269 | Implemented | Reviewed | Blocked | |
 | OutlineLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 271 | Metadata Only | Reviewed | Not Tested | |
 | RowHeight | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 272 | Implemented | Reviewed | Live Tested | |
 | Summary | PROPERTYGET | AutomationValue | declared | 273 | Metadata Only | Reviewed | Not Tested | |
@@ -191,7 +191,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | DirectDependents | PROPERTYGET | Range | declared | 545 | Implemented | Reviewed | Live Tested | |
 | DirectPrecedents | PROPERTYGET | Range | declared | 546 | Implemented | Reviewed | Live Tested | |
 | Areas | PROPERTYGET | Areas | declared | 568 | Implemented | Reviewed | Live Tested | |
-| ShowDetail | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 585 | Metadata Only | Reviewed | Not Tested | |
+| ShowDetail | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 585 | Implemented | Reviewed | Blocked | |
 | FormulaArray | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 586 | Implemented | Reviewed | Live Tested | |
 | Characters | PROPERTYGET | Characters | declared | 603 | Metadata Only | Reviewed | Not Tested | |
 | DisplayFormat | PROPERTYGET | DisplayFormat | declared | 666 | Metadata Only | Reviewed | Not Tested | |
@@ -201,12 +201,12 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | PivotItem | PROPERTYGET | PivotItem | declared | 740 | Metadata Only | Reviewed | Not Tested | |
 | Comment | PROPERTYGET | Comment | declared | 910 | Metadata Only | Reviewed | Not Tested | |
 | SoundNote | PROPERTYGET | SoundNote | declared | 916 | Metadata Only | Reviewed | Not Tested | |
-| ReadingOrder | PROPERTYGET/PROPERTYPUT | i32 | declared | 975 | Metadata Only | Reviewed | Not Tested | |
+| ReadingOrder | PROPERTYGET/PROPERTYPUT | i32 | declared | 975 | Implemented | Reviewed | Blocked | |
 | AddIndent | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1063 | Metadata Only | Reviewed | Not Tested | |
 | NumberFormatLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1097 | Metadata Only | Reviewed | Not Tested | |
 | ListHeaderRows | PROPERTYGET | i32 | declared | 1187 | Metadata Only | Reviewed | Not Tested | |
 | FormulaLabel | PROPERTYGET/PROPERTYPUT | XlFormulaLabel | declared | 1380 | Metadata Only | Reviewed | Not Tested | |
-| MergeArea | PROPERTYGET | Range | declared | 1385 | Metadata Only | Reviewed | Not Tested | |
+| MergeArea | PROPERTYGET | Range | declared | 1385 | Implemented | Reviewed | Blocked | |
 | QueryTable | PROPERTYGET | QueryTable | declared | 1386 | Metadata Only | Reviewed | Not Tested | |
 | Validation | PROPERTYGET | Validation | declared | 1387 | Implemented | Reviewed | Live Tested | |
 | Value2 | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1388 | Implemented | Reviewed | Live Tested | |
@@ -242,7 +242,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 
 | Method | Return | Arguments | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---:|---|---:|---|---|---|---|
-| Group | AutomationValue | 4 | declared | 46 | Metadata Only | Reviewed | Not Tested | |
+| Group | AutomationValue | 4 | declared | 46 | Implemented | Reviewed | Blocked | |
 | Clear | AutomationValue | 0 | declared | 111 | Implemented | Reviewed | Live Tested | |
 | ClearFormats | AutomationValue | 0 | declared | 112 | Implemented | Reviewed | Live Tested | |
 | _ClearContents | AutomationValue | 0 | declared | 113 | Implemented | Reviewed | Live Tested | |
@@ -250,10 +250,10 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Delete | AutomationValue | 1 | declared | 117 | Implemented | Reviewed | Live Tested | |
 | CopyPicture | AutomationValue | 2 | declared | 213 | Metadata Only | Reviewed | Not Tested | |
 | _Replace | bool | 8 | declared | 226 | Metadata Only | Reviewed | Not Tested | |
-| Select | AutomationValue | 0 | declared | 235 | Metadata Only | Reviewed | Not Tested | |
+| Select | AutomationValue | 0 | declared | 235 | Implemented | Reviewed | Blocked | |
 | AutoFit | AutomationValue | 0 | declared | 237 | Implemented | Reviewed | Live Tested | |
 | ClearNotes | AutomationValue | 0 | declared | 239 | Metadata Only | Reviewed | Not Tested | |
-| Ungroup | AutomationValue | 0 | declared | 244 | Metadata Only | Reviewed | Not Tested | |
+| Ungroup | AutomationValue | 0 | declared | 244 | Implemented | Reviewed | Blocked | |
 | DialogBox | AutomationValue | 0 | declared | 245 | Metadata Only | Reviewed | Not Tested | |
 | FillDown | AutomationValue | 0 | declared | 248 | Metadata Only | Reviewed | Not Tested | |
 | FillLeft | AutomationValue | 0 | declared | 249 | Metadata Only | Reviewed | Not Tested | |
@@ -263,8 +263,8 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ListNames | AutomationValue | 0 | declared | 253 | Metadata Only | Reviewed | Not Tested | |
 | Run | AutomationValue | 30 | declared | 259 | Metadata Only | Reviewed | Not Tested | |
 | Calculate | AutomationValue | 0 | declared | 279 | Implemented | Reviewed | Live Tested | |
-| PrintPreview | AutomationValue | 1 | declared | 281 | Metadata Only | Reviewed | Not Tested | |
-| Activate | AutomationValue | 0 | declared | 304 | Metadata Only | Reviewed | Not Tested | |
+| PrintPreview | AutomationValue | 1 | declared | 281 | Implemented | Reviewed | Blocked | |
+| Activate | AutomationValue | 0 | declared | 304 | Implemented | Reviewed | Blocked | |
 | Find | Range | 9 | declared | 398 | Implemented | Reviewed | Live Tested | |
 | FindNext | Range | 1 | declared | 399 | Implemented | Reviewed | Live Tested | |
 | FindPrevious | Range | 1 | declared | 400 | Implemented | Reviewed | Live Tested | |
@@ -286,7 +286,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ColumnDifferences | Range | 1 | declared | 510 | Metadata Only | Reviewed | Not Tested | |
 | RowDifferences | Range | 1 | declared | 511 | Metadata Only | Reviewed | Not Tested | |
 | Copy | AutomationValue | 1 | declared | 551 | Implemented | Reviewed | Live Tested | |
-| Merge | Unknown | 1 | declared | 564 | Metadata Only | Reviewed | Not Tested | |
+| Merge | Unknown | 1 | declared | 564 | Implemented | Reviewed | Blocked | |
 | Cut | AutomationValue | 1 | declared | 565 | Implemented | Reviewed | Live Tested | |
 | FunctionWizard | AutomationValue | 0 | declared | 571 | Metadata Only | Reviewed | Not Tested | |
 | _AutoFilter | AutomationValue | 5 | declared | 793 | Metadata Only | Reviewed | Not Tested | |
@@ -310,7 +310,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | CopyFromRecordset | i32 | 3 | declared | 1152 | Metadata Only | Reviewed | Not Tested | |
 | AutoComplete | String | 1 | declared | 1185 | Metadata Only | Reviewed | Not Tested | |
 | InsertIndent | Unknown | 1 | declared | 1381 | Metadata Only | Reviewed | Not Tested | |
-| UnMerge | Unknown | 0 | declared | 1384 | Metadata Only | Reviewed | Not Tested | |
+| UnMerge | Unknown | 0 | declared | 1384 | Implemented | Reviewed | Blocked | |
 | AddComment | Comment | 1 | declared | 1389 | Metadata Only | Reviewed | Not Tested | |
 | ClearComments | Unknown | 0 | declared | 1390 | Implemented | Reviewed | Live Tested | |
 | _PrintOut | AutomationValue | 8 | declared | 1772 | Metadata Only | Reviewed | Not Tested | |
@@ -318,7 +318,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | PasteSpecial | AutomationValue | 4 | declared | 1928 | Implemented | Reviewed | Live Tested | |
 | Dirty | Unknown | 0 | declared | 2014 | Implemented | Reviewed | Live Tested | |
 | Speak | Unknown | 2 | declared | 2017 | Metadata Only | Reviewed | Not Tested | |
-| PrintOut | AutomationValue | 8 | declared | 2361 | Metadata Only | Reviewed | Not Tested | |
+| PrintOut | AutomationValue | 8 | declared | 2361 | Implemented | Reviewed | Blocked | |
 | CalculateRowMajorOrder | AutomationValue | 0 | declared | 2364 | Metadata Only | Reviewed | Not Tested | |
 | RemoveDuplicates | Unknown | 2 | declared | 2492 | Implemented | Reviewed | Live Tested | |
 | _ExportAsFixedFormat | Unknown | 9 | declared | 2493 | Metadata Only | Reviewed | Not Tested | |
@@ -327,7 +327,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | AllocateChanges | Unknown | 0 | declared | 2855 | Metadata Only | Reviewed | Not Tested | |
 | DiscardChanges | Unknown | 0 | declared | 2856 | Metadata Only | Reviewed | Not Tested | |
 | FlashFill | Unknown | 0 | declared | 2996 | Metadata Only | Reviewed | Not Tested | |
-| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Metadata Only | Reviewed | Not Tested | |
+| ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Implemented | Reviewed | Blocked | |
 | ShowCard | Unknown | 0 | declared | 3274 | Metadata Only | Reviewed | Not Tested | |
 | AddCommentThreaded | CommentThreaded | 1 | declared | 3280 | Metadata Only | Reviewed | Not Tested | |
 | Sort | AutomationValue | 16 | declared | 3288 | Metadata Only | Reviewed | Not Tested | |

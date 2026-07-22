@@ -12,6 +12,7 @@ mod formula;
 mod interior;
 mod name;
 mod names;
+mod presentation;
 mod range;
 mod range_structure;
 mod reference;
@@ -48,6 +49,14 @@ pub use formula::FormulaValue;
 pub use interior::Interior;
 pub use name::Name;
 pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
+pub use presentation::{
+    AutomationSecurity, AutomationSecurityGuard, FixedFormatOptions, FixedFormatQuality,
+    FixedFormatType, HPageBreak, HPageBreaks, Outline, PageBreakType, PageFit, PageOrientation,
+    PageSetup, PageZoom, PaperSize, PrintErrors, PrintLocation, PrintOrder, PrintOutOptions,
+    ReadingOrder, SafeWorkbookOpenOptions, Sheet, SheetDestination, SheetObject, SheetView, Sheets,
+    SheetsIter, SummaryColumn, SummaryRow, Tab, VPageBreak, VPageBreaks, Window, WindowView,
+    Windows, WorkbookProtectOptions, WorksheetProtectOptions,
+};
 pub use range::Range;
 pub use range_structure::{
     DeleteShiftDirection, InsertFormatOrigin, InsertShiftDirection, PasteOperation,
@@ -74,8 +83,10 @@ pub use validation::{
 };
 pub use workbook::Workbook;
 pub use workbooks::{Workbooks, WorkbooksIter};
-pub use worksheet::{Worksheet, XlSheetVisibility};
-pub use worksheets::{Worksheets, WorksheetsAddOptions, WorksheetsIter};
+pub use worksheet::{SheetVisibility, Worksheet, XlSheetVisibility};
+pub use worksheets::{
+    SheetType, WorksheetAddOptions, Worksheets, WorksheetsAddOptions, WorksheetsIter,
+};
 
 use crate::internal::{ComPtr, Dispatch};
 use std::fmt::{Debug, Formatter};

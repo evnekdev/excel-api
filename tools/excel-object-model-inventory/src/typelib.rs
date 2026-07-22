@@ -303,11 +303,12 @@ fn object_record(
         let id = member["id"].as_str().unwrap().to_owned();
         let target = member["return_type"].as_str().map(str::to_owned);
         let selected = !event_interface && implemented.contains(id.as_str());
+        let runtime_blocked = selected && model::runtime_blocked_member(&id);
         if event_interface {
             member["kind"] = Value::String("event".to_owned());
         }
         member["typelib_invoke_kinds"] = member["invoke_kinds"].clone();
-        member["runtime_confirmed_invoke_kinds"] = Value::Array(if selected {
+        member["runtime_confirmed_invoke_kinds"] = Value::Array(if selected && !runtime_blocked {
             crate_policy(&id)
                 .iter()
                 .map(|value| Value::String((*value).to_owned()))
@@ -321,7 +322,7 @@ fn object_record(
             Vec::new()
         });
         member["chosen_crate_invoke_kinds"] = member["runtime_confirmed_invoke_kinds"].clone();
-        member["source"] = json!({"typelib":true,"microsoft_docs":model::documentation_url(raw_name).is_some(),"runtime_verified":selected});
+        member["source"] = json!({"typelib":true,"microsoft_docs":model::documentation_url(raw_name).is_some(),"runtime_verified":selected && !runtime_blocked});
         member["implementation_status"] = Value::String(
             if event_interface {
                 "not-started"
@@ -341,7 +342,9 @@ fn object_record(
             .to_owned(),
         );
         member["test_status"] = Value::String(
-            if selected {
+            if selected && runtime_blocked {
+                "blocked"
+            } else if selected {
                 "live-tested"
             } else {
                 "not-tested"
@@ -349,7 +352,9 @@ fn object_record(
             .to_owned(),
         );
         member["source_confidence"] = Value::String(
-            if selected {
+            if selected && runtime_blocked {
+                "typelib-and-docs"
+            } else if selected {
                 "runtime-confirmed"
             } else {
                 "typelib-only"
@@ -490,7 +495,7 @@ fn object_record(
     } else {
         None
     };
-    let mut record = json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "members": members});
+    let mut record = json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, kind, event_interface, attr.wTypeFlags), "roadmap_class": model::roadmap_class(raw_name, kind, event_interface), "typelib_type_flags": attr.wTypeFlags, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if model::runtime_blocked_object(raw_name) { "blocked" } else if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "members": members});
     let capabilities = reference_capabilities(raw_name);
     if !capabilities.is_null() {
         record["reference_capabilities"] = capabilities;

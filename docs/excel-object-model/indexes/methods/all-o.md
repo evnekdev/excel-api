@@ -156,7 +156,7 @@
 | OptionButtons | GetTypeInfo | 1610678273 | Metadata Only |
 | OptionButtons | GetIDsOfNames | 1610678274 | Metadata Only |
 | OptionButtons | Invoke | 1610678275 | Metadata Only |
-| Outline | ShowLevels | 960 | Metadata Only |
+| Outline | ShowLevels | 960 | Implemented |
 | Outline | QueryInterface | 1610612736 | Metadata Only |
 | Outline | AddRef | 1610612737 | Metadata Only |
 | Outline | Release | 1610612738 | Metadata Only |

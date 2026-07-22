@@ -40,7 +40,7 @@
 | Window | Close | 277 | Metadata Only |
 | Window | NewWindow | 280 | Metadata Only |
 | Window | PrintPreview | 281 | Metadata Only |
-| Window | Activate | 304 | Metadata Only |
+| Window | Activate | 304 | Implemented |
 | Window | LargeScroll | 547 | Metadata Only |
 | Window | SmallScroll | 548 | Metadata Only |
 | Window | ScrollWorkbookTabs | 662 | Metadata Only |
@@ -73,12 +73,12 @@
 | Workbook | SaveCopyAs | 175 | Implemented |
 | Workbook | Close | 277 | Implemented |
 | Workbook | NewWindow | 280 | Metadata Only |
-| Workbook | PrintPreview | 281 | Metadata Only |
+| Workbook | PrintPreview | 281 | Implemented |
 | Workbook | _Protect | 282 | Metadata Only |
 | Workbook | Save | 283 | Implemented |
 | Workbook | __SaveAs | 284 | Metadata Only |
-| Workbook | Unprotect | 285 | Metadata Only |
-| Workbook | Activate | 304 | Metadata Only |
+| Workbook | Unprotect | 285 | Implemented |
+| Workbook | Activate | 304 | Implemented |
 | Workbook | DeleteNumberFormat | 397 | Metadata Only |
 | Workbook | RunAutoMacros | 634 | Metadata Only |
 | Workbook | PivotTableWizard | 684 | Metadata Only |
@@ -117,7 +117,7 @@
 | Workbook | ReloadAs | 1821 | Metadata Only |
 | Workbook | sblt | 1826 | Metadata Only |
 | Workbook | _SaveAs | 1925 | Metadata Only |
-| Workbook | Protect | 2029 | Metadata Only |
+| Workbook | Protect | 2029 | Implemented |
 | Workbook | Dummy17 | 2044 | Metadata Only |
 | Workbook | BreakLink | 2047 | Metadata Only |
 | Workbook | Dummy16 | 2048 | Metadata Only |
@@ -133,7 +133,7 @@
 | Workbook | XmlImportXml | 2277 | Metadata Only |
 | Workbook | SaveAsXMLData | 2278 | Metadata Only |
 | Workbook | ToggleFormsDesign | 2279 | Metadata Only |
-| Workbook | PrintOut | 2361 | Metadata Only |
+| Workbook | PrintOut | 2361 | Implemented |
 | Workbook | _ExportAsFixedFormat | 2493 | Metadata Only |
 | Workbook | RemoveDocumentInformation | 2514 | Metadata Only |
 | Workbook | CheckInWithVersion | 2517 | Metadata Only |
@@ -147,7 +147,7 @@
 | Workbook | Dummy27 | 2870 | Metadata Only |
 | Workbook | CreateForecastSheet | 3167 | Metadata Only |
 | Workbook | SaveAs | 3174 | Implemented |
-| Workbook | ExportAsFixedFormat | 3175 | Metadata Only |
+| Workbook | ExportAsFixedFormat | 3175 | Implemented |
 | Workbook | PublishToPBI | 3257 | Metadata Only |
 | Workbook | ConvertComments | 3279 | Metadata Only |
 | Workbook | PublishToDocs | 3334 | Metadata Only |
@@ -199,20 +199,20 @@
 | Worksheet | _Evaluate | -5 | Metadata Only |
 | Worksheet | Evaluate | 1 | Implemented |
 | Worksheet | DrawingObjects | 88 | Metadata Only |
-| Worksheet | Delete | 117 | Metadata Only |
+| Worksheet | Delete | 117 | Implemented |
 | Worksheet | Paste | 211 | Metadata Only |
-| Worksheet | Select | 235 | Metadata Only |
+| Worksheet | Select | 235 | Implemented |
 | Worksheet | Calculate | 279 | Implemented |
-| Worksheet | PrintPreview | 281 | Metadata Only |
+| Worksheet | PrintPreview | 281 | Implemented |
 | Worksheet | _Protect | 282 | Metadata Only |
 | Worksheet | __SaveAs | 284 | Metadata Only |
-| Worksheet | Unprotect | 285 | Metadata Only |
-| Worksheet | Activate | 304 | Metadata Only |
+| Worksheet | Unprotect | 285 | Implemented |
+| Worksheet | Activate | 304 | Implemented |
 | Worksheet | ShowDataForm | 409 | Metadata Only |
 | Worksheet | CheckSpelling | 505 | Metadata Only |
-| Worksheet | Copy | 551 | Metadata Only |
+| Worksheet | Copy | 551 | Implemented |
 | Worksheet | Buttons | 557 | Metadata Only |
-| Worksheet | Move | 637 | Metadata Only |
+| Worksheet | Move | 637 | Implemented |
 | Worksheet | PivotTableWizard | 684 | Metadata Only |
 | Worksheet | PivotTables | 690 | Metadata Only |
 | Worksheet | Arcs | 760 | Metadata Only |
@@ -239,20 +239,20 @@
 | Worksheet | ChartObjects | 1060 | Metadata Only |
 | Worksheet | GroupObjects | 1113 | Metadata Only |
 | Worksheet | SetBackgroundPicture | 1188 | Metadata Only |
-| Worksheet | ResetAllPageBreaks | 1426 | Metadata Only |
+| Worksheet | ResetAllPageBreaks | 1426 | Implemented |
 | Worksheet | ClearCircles | 1436 | Metadata Only |
 | Worksheet | CircleInvalid | 1437 | Metadata Only |
 | Worksheet | _PrintOut | 1772 | Metadata Only |
 | Worksheet | _CheckSpelling | 1817 | Metadata Only |
 | Worksheet | _SaveAs | 1925 | Metadata Only |
 | Worksheet | PasteSpecial | 1928 | Metadata Only |
-| Worksheet | Protect | 2029 | Metadata Only |
+| Worksheet | Protect | 2029 | Implemented |
 | Worksheet | XmlDataQuery | 2260 | Metadata Only |
 | Worksheet | XmlMapQuery | 2263 | Metadata Only |
-| Worksheet | PrintOut | 2361 | Metadata Only |
+| Worksheet | PrintOut | 2361 | Implemented |
 | Worksheet | _ExportAsFixedFormat | 2493 | Metadata Only |
 | Worksheet | SaveAs | 3174 | Metadata Only |
-| Worksheet | ExportAsFixedFormat | 3175 | Metadata Only |
+| Worksheet | ExportAsFixedFormat | 3175 | Implemented |
 | Worksheet | QueryInterface | 1610612736 | Metadata Only |
 | Worksheet | AddRef | 1610612737 | Metadata Only |
 | Worksheet | Release | 1610612738 | Metadata Only |

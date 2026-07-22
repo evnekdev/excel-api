@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Range | Group | 46 | Metadata Only |
+| Range | Group | 46 | Implemented |
 | Range | Clear | 111 | Implemented |
 | Range | ClearFormats | 112 | Implemented |
 | Range | _ClearContents | 113 | Implemented |
@@ -10,10 +10,10 @@
 | Range | Delete | 117 | Implemented |
 | Range | CopyPicture | 213 | Metadata Only |
 | Range | _Replace | 226 | Metadata Only |
-| Range | Select | 235 | Metadata Only |
+| Range | Select | 235 | Implemented |
 | Range | AutoFit | 237 | Implemented |
 | Range | ClearNotes | 239 | Metadata Only |
-| Range | Ungroup | 244 | Metadata Only |
+| Range | Ungroup | 244 | Implemented |
 | Range | DialogBox | 245 | Metadata Only |
 | Range | FillDown | 248 | Metadata Only |
 | Range | FillLeft | 249 | Metadata Only |
@@ -23,8 +23,8 @@
 | Range | ListNames | 253 | Metadata Only |
 | Range | Run | 259 | Metadata Only |
 | Range | Calculate | 279 | Implemented |
-| Range | PrintPreview | 281 | Metadata Only |
-| Range | Activate | 304 | Metadata Only |
+| Range | PrintPreview | 281 | Implemented |
+| Range | Activate | 304 | Implemented |
 | Range | Find | 398 | Implemented |
 | Range | FindNext | 399 | Implemented |
 | Range | FindPrevious | 400 | Implemented |
@@ -46,7 +46,7 @@
 | Range | ColumnDifferences | 510 | Metadata Only |
 | Range | RowDifferences | 511 | Metadata Only |
 | Range | Copy | 551 | Implemented |
-| Range | Merge | 564 | Metadata Only |
+| Range | Merge | 564 | Implemented |
 | Range | Cut | 565 | Implemented |
 | Range | FunctionWizard | 571 | Metadata Only |
 | Range | _AutoFilter | 793 | Metadata Only |
@@ -70,7 +70,7 @@
 | Range | CopyFromRecordset | 1152 | Metadata Only |
 | Range | AutoComplete | 1185 | Metadata Only |
 | Range | InsertIndent | 1381 | Metadata Only |
-| Range | UnMerge | 1384 | Metadata Only |
+| Range | UnMerge | 1384 | Implemented |
 | Range | AddComment | 1389 | Metadata Only |
 | Range | ClearComments | 1390 | Implemented |
 | Range | _PrintOut | 1772 | Metadata Only |
@@ -78,7 +78,7 @@
 | Range | PasteSpecial | 1928 | Implemented |
 | Range | Dirty | 2014 | Implemented |
 | Range | Speak | 2017 | Metadata Only |
-| Range | PrintOut | 2361 | Metadata Only |
+| Range | PrintOut | 2361 | Implemented |
 | Range | CalculateRowMajorOrder | 2364 | Metadata Only |
 | Range | RemoveDuplicates | 2492 | Implemented |
 | Range | _ExportAsFixedFormat | 2493 | Metadata Only |
@@ -87,7 +87,7 @@
 | Range | AllocateChanges | 2855 | Metadata Only |
 | Range | DiscardChanges | 2856 | Metadata Only |
 | Range | FlashFill | 2996 | Metadata Only |
-| Range | ExportAsFixedFormat | 3175 | Metadata Only |
+| Range | ExportAsFixedFormat | 3175 | Implemented |
 | Range | ShowCard | 3274 | Metadata Only |
 | Range | AddCommentThreaded | 3280 | Metadata Only |
 | Range | Sort | 3288 | Metadata Only |

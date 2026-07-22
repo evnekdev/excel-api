@@ -199,9 +199,9 @@
 | Outline | Application | 148 | Metadata Only |
 | Outline | Creator | 149 | Metadata Only |
 | Outline | Parent | 150 | Metadata Only |
-| Outline | SummaryRow | 902 | Metadata Only |
-| Outline | AutomaticStyles | 959 | Metadata Only |
-| Outline | SummaryColumn | 961 | Metadata Only |
+| Outline | SummaryRow | 902 | Implemented |
+| Outline | AutomaticStyles | 959 | Implemented |
+| Outline | SummaryColumn | 961 | Implemented |
 | Oval | Shadow | 103 | Metadata Only |
 | Oval | Name | 110 | Metadata Only |
 | Oval | Width | 122 | Metadata Only |

@@ -55,29 +55,29 @@
 | Window | UsableHeight | 389 | Metadata Only |
 | Window | UsableWidth | 390 | Metadata Only |
 | Window | WindowState | 396 | Metadata Only |
-| Window | Index | 486 | Metadata Only |
+| Window | Index | 486 | Implemented |
 | Window | Visible | 558 | Metadata Only |
 | Window | OnWindow | 623 | Metadata Only |
 | Window | ActivePane | 642 | Metadata Only |
 | Window | DisplayFormulas | 644 | Metadata Only |
-| Window | DisplayGridlines | 645 | Metadata Only |
-| Window | DisplayHeadings | 646 | Metadata Only |
+| Window | DisplayGridlines | 645 | Implemented |
+| Window | DisplayHeadings | 646 | Implemented |
 | Window | DisplayOutline | 647 | Metadata Only |
 | Window | _DisplayRightToLeft | 648 | Metadata Only |
-| Window | DisplayZeros | 649 | Metadata Only |
-| Window | FreezePanes | 650 | Metadata Only |
+| Window | DisplayZeros | 649 | Implemented |
+| Window | FreezePanes | 650 | Implemented |
 | Window | GridlineColor | 651 | Metadata Only |
 | Window | GridlineColorIndex | 652 | Metadata Only |
 | Window | Panes | 653 | Metadata Only |
-| Window | ScrollColumn | 654 | Metadata Only |
-| Window | ScrollRow | 655 | Metadata Only |
+| Window | ScrollColumn | 654 | Implemented |
+| Window | ScrollRow | 655 | Implemented |
 | Window | SelectedSheets | 656 | Metadata Only |
 | Window | Split | 657 | Metadata Only |
-| Window | SplitColumn | 658 | Metadata Only |
-| Window | SplitHorizontal | 659 | Metadata Only |
-| Window | SplitRow | 660 | Metadata Only |
-| Window | SplitVertical | 661 | Metadata Only |
-| Window | Zoom | 663 | Metadata Only |
+| Window | SplitColumn | 658 | Implemented |
+| Window | SplitHorizontal | 659 | Implemented |
+| Window | SplitRow | 660 | Implemented |
+| Window | SplitVertical | 661 | Implemented |
+| Window | Zoom | 663 | Implemented |
 | Window | TabRatio | 673 | Metadata Only |
 | Window | DisplayHorizontalScrollBar | 921 | Metadata Only |
 | Window | DisplayVerticalScrollBar | 922 | Metadata Only |
@@ -86,7 +86,7 @@
 | Window | WindowNumber | 1119 | Metadata Only |
 | Window | RangeSelection | 1189 | Metadata Only |
 | Window | EnableResize | 1192 | Metadata Only |
-| Window | View | 1194 | Metadata Only |
+| Window | View | 1194 | Implemented |
 | Window | DisplayRightToLeft | 1774 | Metadata Only |
 | Window | Hwnd | 1950 | Metadata Only |
 | Window | SheetViews | 2368 | Metadata Only |
@@ -95,13 +95,13 @@
 | Window | AutoFilterDateGrouping | 2371 | Metadata Only |
 | Window | DisplayWhitespace | 2372 | Metadata Only |
 | Window | DisplayDataTypeIcons | 3418 | Metadata Only |
-| Windows | _NewEnum | -4 | Metadata Only |
+| Windows | _NewEnum | -4 | Implemented |
 | Windows | _Default | 0 | Metadata Only |
-| Windows | Count | 118 | Metadata Only |
+| Windows | Count | 118 | Implemented |
 | Windows | Application | 148 | Metadata Only |
 | Windows | Creator | 149 | Metadata Only |
 | Windows | Parent | 150 | Metadata Only |
-| Windows | Item | 170 | Metadata Only |
+| Windows | Item | 170 | Implemented |
 | Windows | SyncScrollingSideBySide | 2249 | Metadata Only |
 | Workbook | _CodeName | -2147418112 | Metadata Only |
 | Workbook | Name | 110 | Implemented |
@@ -117,22 +117,22 @@
 | Workbook | FullName | 289 | Implemented |
 | Workbook | HasPassword | 290 | Metadata Only |
 | Workbook | Path | 291 | Implemented |
-| Workbook | ProtectWindows | 295 | Metadata Only |
+| Workbook | ProtectWindows | 295 | Implemented |
 | Workbook | ReadOnly | 296 | Implemented |
 | Workbook | _ReadOnlyRecommended | 297 | Metadata Only |
 | Workbook | Saved | 298 | Implemented |
 | Workbook | WriteReserved | 299 | Metadata Only |
 | Workbook | WriteReservedBy | 300 | Metadata Only |
-| Workbook | ActiveSheet | 307 | Metadata Only |
+| Workbook | ActiveSheet | 307 | Implemented |
 | Workbook | Date1904 | 403 | Metadata Only |
 | Workbook | DisplayDrawingObjects | 404 | Metadata Only |
 | Workbook | PrecisionAsDisplayed | 405 | Metadata Only |
 | Workbook | SaveLinkValues | 406 | Metadata Only |
 | Workbook | UpdateRemoteReferences | 411 | Metadata Only |
 | Workbook | Password | 429 | Metadata Only |
-| Workbook | Windows | 430 | Metadata Only |
+| Workbook | Windows | 430 | Implemented |
 | Workbook | Names | 442 | Implemented |
-| Workbook | Sheets | 485 | Metadata Only |
+| Workbook | Sheets | 485 | Implemented |
 | Workbook | Styles | 493 | Metadata Only |
 | Workbook | Worksheets | 494 | Implemented |
 | Workbook | Author | 574 | Metadata Only |
@@ -141,7 +141,7 @@
 | Workbook | Excel4MacroSheets | 579 | Metadata Only |
 | Workbook | Excel4IntlMacroSheets | 581 | Metadata Only |
 | Workbook | Modules | 582 | Metadata Only |
-| Workbook | ProtectStructure | 588 | Metadata Only |
+| Workbook | ProtectStructure | 588 | Implemented |
 | Workbook | PivotTables | 690 | Metadata Only |
 | Workbook | DialogSheets | 764 | Metadata Only |
 | Workbook | UpdateLinks | 864 | Metadata Only |
@@ -215,7 +215,7 @@
 | Workbook | DefaultTableStyle | 2526 | Metadata Only |
 | Workbook | DefaultPivotTableStyle | 2527 | Metadata Only |
 | Workbook | CheckCompatibility | 2528 | Metadata Only |
-| Workbook | HasVBProject | 2529 | Metadata Only |
+| Workbook | HasVBProject | 2529 | Implemented |
 | Workbook | CustomXMLParts | 2530 | Metadata Only |
 | Workbook | Final | 2531 | Metadata Only |
 | Workbook | Research | 2532 | Metadata Only |
@@ -270,13 +270,13 @@
 | Workbooks | _NewEnum | -4 | Implemented |
 | Workbooks | _Default | 0 | Metadata Only |
 | Workbooks | Count | 118 | Implemented |
-| Workbooks | Application | 148 | Metadata Only |
+| Workbooks | Application | 148 | Implemented |
 | Workbooks | Creator | 149 | Metadata Only |
 | Workbooks | Parent | 150 | Metadata Only |
 | Workbooks | Item | 170 | Implemented |
 | Worksheet | _CodeName | -2147418112 | Metadata Only |
-| Worksheet | Outline | 102 | Metadata Only |
-| Worksheet | Type | 108 | Metadata Only |
+| Worksheet | Outline | 102 | Implemented |
+| Worksheet | Type | 108 | Implemented |
 | Worksheet | Name | 110 | Implemented |
 | Worksheet | Application | 148 | Implemented |
 | Worksheet | Creator | 149 | Metadata Only |
@@ -286,9 +286,9 @@
 | Worksheet | Cells | 238 | Implemented |
 | Worksheet | Columns | 241 | Metadata Only |
 | Worksheet | Rows | 258 | Metadata Only |
-| Worksheet | ProtectContents | 292 | Metadata Only |
-| Worksheet | ProtectDrawingObjects | 293 | Metadata Only |
-| Worksheet | ProtectScenarios | 294 | Metadata Only |
+| Worksheet | ProtectContents | 292 | Implemented |
+| Worksheet | ProtectDrawingObjects | 293 | Implemented |
+| Worksheet | ProtectScenarios | 294 | Implemented |
 | Worksheet | TransitionExpEval | 401 | Metadata Only |
 | Worksheet | TransitionFormEntry | 402 | Metadata Only |
 | Worksheet | StandardHeight | 407 | Metadata Only |
@@ -313,20 +313,20 @@
 | Worksheet | _AutoFilter | 793 | Metadata Only |
 | Worksheet | FilterMode | 800 | Implemented |
 | Worksheet | _Sort | 880 | Metadata Only |
-| Worksheet | PageSetup | 998 | Metadata Only |
+| Worksheet | PageSetup | 998 | Implemented |
 | Worksheet | OnSheetActivate | 1031 | Metadata Only |
-| Worksheet | Tab | 1041 | Metadata Only |
+| Worksheet | Tab | 1041 | Implemented |
 | Worksheet | CircularReference | 1069 | Metadata Only |
 | Worksheet | OnSheetDeactivate | 1081 | Metadata Only |
 | Worksheet | EnableAutoFilter | 1156 | Metadata Only |
 | Worksheet | EnableOutlining | 1157 | Metadata Only |
 | Worksheet | EnablePivotTable | 1158 | Metadata Only |
-| Worksheet | ProtectionMode | 1159 | Metadata Only |
+| Worksheet | ProtectionMode | 1159 | Implemented |
 | Worksheet | CodeName | 1373 | Metadata Only |
 | Worksheet | Shapes | 1377 | Metadata Only |
 | Worksheet | Hyperlinks | 1393 | Metadata Only |
-| Worksheet | HPageBreaks | 1418 | Metadata Only |
-| Worksheet | VPageBreaks | 1419 | Metadata Only |
+| Worksheet | HPageBreaks | 1418 | Implemented |
+| Worksheet | VPageBreaks | 1419 | Implemented |
 | Worksheet | EnableCalculation | 1424 | Metadata Only |
 | Worksheet | EnableSelection | 1425 | Metadata Only |
 | Worksheet | ScrollArea | 1433 | Metadata Only |

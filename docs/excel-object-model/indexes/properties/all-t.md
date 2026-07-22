@@ -2,8 +2,8 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Tab | ColorIndex | 97 | Metadata Only |
-| Tab | Color | 99 | Metadata Only |
+| Tab | ColorIndex | 97 | Implemented |
+| Tab | Color | 99 | Implemented |
 | Tab | Application | 148 | Metadata Only |
 | Tab | Creator | 149 | Metadata Only |
 | Tab | Parent | 150 | Metadata Only |

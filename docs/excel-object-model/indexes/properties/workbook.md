@@ -16,22 +16,22 @@
 | Workbook | FullName | 289 | Implemented |
 | Workbook | HasPassword | 290 | Metadata Only |
 | Workbook | Path | 291 | Implemented |
-| Workbook | ProtectWindows | 295 | Metadata Only |
+| Workbook | ProtectWindows | 295 | Implemented |
 | Workbook | ReadOnly | 296 | Implemented |
 | Workbook | _ReadOnlyRecommended | 297 | Metadata Only |
 | Workbook | Saved | 298 | Implemented |
 | Workbook | WriteReserved | 299 | Metadata Only |
 | Workbook | WriteReservedBy | 300 | Metadata Only |
-| Workbook | ActiveSheet | 307 | Metadata Only |
+| Workbook | ActiveSheet | 307 | Implemented |
 | Workbook | Date1904 | 403 | Metadata Only |
 | Workbook | DisplayDrawingObjects | 404 | Metadata Only |
 | Workbook | PrecisionAsDisplayed | 405 | Metadata Only |
 | Workbook | SaveLinkValues | 406 | Metadata Only |
 | Workbook | UpdateRemoteReferences | 411 | Metadata Only |
 | Workbook | Password | 429 | Metadata Only |
-| Workbook | Windows | 430 | Metadata Only |
+| Workbook | Windows | 430 | Implemented |
 | Workbook | Names | 442 | Implemented |
-| Workbook | Sheets | 485 | Metadata Only |
+| Workbook | Sheets | 485 | Implemented |
 | Workbook | Styles | 493 | Metadata Only |
 | Workbook | Worksheets | 494 | Implemented |
 | Workbook | Author | 574 | Metadata Only |
@@ -40,7 +40,7 @@
 | Workbook | Excel4MacroSheets | 579 | Metadata Only |
 | Workbook | Excel4IntlMacroSheets | 581 | Metadata Only |
 | Workbook | Modules | 582 | Metadata Only |
-| Workbook | ProtectStructure | 588 | Metadata Only |
+| Workbook | ProtectStructure | 588 | Implemented |
 | Workbook | PivotTables | 690 | Metadata Only |
 | Workbook | DialogSheets | 764 | Metadata Only |
 | Workbook | UpdateLinks | 864 | Metadata Only |
@@ -114,7 +114,7 @@
 | Workbook | DefaultTableStyle | 2526 | Metadata Only |
 | Workbook | DefaultPivotTableStyle | 2527 | Metadata Only |
 | Workbook | CheckCompatibility | 2528 | Metadata Only |
-| Workbook | HasVBProject | 2529 | Metadata Only |
+| Workbook | HasVBProject | 2529 | Implemented |
 | Workbook | CustomXMLParts | 2530 | Metadata Only |
 | Workbook | Final | 2531 | Metadata Only |
 | Workbook | Research | 2532 | Metadata Only |

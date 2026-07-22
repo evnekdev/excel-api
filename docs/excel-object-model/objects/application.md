@@ -44,8 +44,8 @@ The root Automation object for a locally activated Excel instance. The bounded c
 
 | Relationship | Target | Status |
 |---|---|---|
-| `ActiveCell` | `excel.range` | Metadata Only |
-| `ActiveWorkbook` | `excel.workbook` | Metadata Only |
+| `ActiveCell` | `excel.range` | Implemented |
+| `ActiveWorkbook` | `excel.workbook` | Implemented |
 | `Application` | `excel.application` | Metadata Only |
 | `Cells` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Metadata Only |
@@ -73,7 +73,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Top | PROPERTYGET/PROPERTYPUT | f64 | declared | 126 | Metadata Only | Reviewed | Not Tested | |
 | Left | PROPERTYGET/PROPERTYPUT | f64 | declared | 127 | Metadata Only | Reviewed | Not Tested | |
 | Caption | PROPERTYGET/PROPERTYPUT | String | declared | 139 | Metadata Only | Reviewed | Not Tested | |
-| Selection | PROPERTYGET | Object | declared | 147 | Metadata Only | Reviewed | Not Tested | |
+| Selection | PROPERTYGET | Object | declared | 147 | Implemented | Reviewed | Blocked | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Application | declared | 150 | Metadata Only | Reviewed | Not Tested | |
@@ -86,10 +86,10 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Columns | PROPERTYGET | Range | declared | 241 | Metadata Only | Reviewed | Not Tested | |
 | Rows | PROPERTYGET | Range | declared | 258 | Metadata Only | Reviewed | Not Tested | |
 | Path | PROPERTYGET | String | declared | 291 | Metadata Only | Reviewed | Not Tested | |
-| ActiveCell | PROPERTYGET | Range | declared | 305 | Metadata Only | Reviewed | Not Tested | |
+| ActiveCell | PROPERTYGET | Range | declared | 305 | Implemented | Reviewed | Blocked | |
 | ActivePrinter | PROPERTYGET/PROPERTYPUT | String | declared | 306 | Metadata Only | Reviewed | Not Tested | |
-| ActiveSheet | PROPERTYGET | Object | declared | 307 | Metadata Only | Reviewed | Not Tested | |
-| ActiveWorkbook | PROPERTYGET | Workbook | declared | 308 | Metadata Only | Reviewed | Not Tested | |
+| ActiveSheet | PROPERTYGET | Object | declared | 307 | Implemented | Reviewed | Blocked | |
+| ActiveWorkbook | PROPERTYGET | Workbook | declared | 308 | Implemented | Reviewed | Blocked | |
 | TransitionMenuKey | PROPERTYGET/PROPERTYPUT | String | declared | 310 | Metadata Only | Reviewed | Not Tested | |
 | TransitionMenuKeyAction | PROPERTYGET/PROPERTYPUT | i32 | declared | 311 | Metadata Only | Reviewed | Not Tested | |
 | TransitionNavigKeys | PROPERTYGET/PROPERTYPUT | bool | declared | 312 | Metadata Only | Reviewed | Not Tested | |
@@ -148,10 +148,10 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Version | PROPERTYGET | String | declared | 392 | Implemented | Reviewed | Live Tested | |
 | WindowsForPens | PROPERTYGET | bool | declared | 395 | Metadata Only | Reviewed | Not Tested | |
 | WindowState | PROPERTYGET/PROPERTYPUT | XlWindowState | declared | 396 | Metadata Only | Reviewed | Not Tested | |
-| Windows | PROPERTYGET | Windows | declared | 430 | Metadata Only | Reviewed | Not Tested | |
+| Windows | PROPERTYGET | Windows | declared | 430 | Implemented | Reviewed | Blocked | |
 | Names | PROPERTYGET | Names | declared | 442 | Metadata Only | Reviewed | Not Tested | |
-| Sheets | PROPERTYGET | Sheets | declared | 485 | Metadata Only | Reviewed | Not Tested | |
-| Worksheets | PROPERTYGET | Sheets | declared | 494 | Metadata Only | Reviewed | Not Tested | |
+| Sheets | PROPERTYGET | Sheets | declared | 485 | Implemented | Reviewed | Blocked | |
+| Worksheets | PROPERTYGET | Sheets | declared | 494 | Implemented | Reviewed | Blocked | |
 | AddIns | PROPERTYGET | AddIns | declared | 549 | Metadata Only | Reviewed | Not Tested | |
 | Toolbars | PROPERTYGET | Toolbars | declared | 552 | Metadata Only | Reviewed | Not Tested | |
 | Visible | PROPERTYGET/PROPERTYPUT | bool | declared | 558 | Implemented | Reviewed | Live Tested | |
@@ -166,7 +166,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | OnDoubleClick | PROPERTYGET/PROPERTYPUT | String | declared | 628 | Metadata Only | Reviewed | Not Tested | |
 | OnData | PROPERTYGET/PROPERTYPUT | String | declared | 629 | Metadata Only | Reviewed | Not Tested | |
 | ActiveMenuBar | PROPERTYGET | MenuBar | declared | 758 | Metadata Only | Reviewed | Not Tested | |
-| ActiveWindow | PROPERTYGET | Window | declared | 759 | Metadata Only | Reviewed | Not Tested | |
+| ActiveWindow | PROPERTYGET | Window | declared | 759 | Implemented | Reviewed | Blocked | |
 | Dialogs | PROPERTYGET | Dialogs | declared | 761 | Metadata Only | Reviewed | Not Tested | |
 | DialogSheets | PROPERTYGET | Sheets | declared | 764 | Metadata Only | Reviewed | Not Tested | |
 | RegisteredFunctions | PROPERTYGET | AutomationValue | declared | 775 | Metadata Only | Reviewed | Not Tested | |
@@ -241,7 +241,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | CalculationInterruptKey | PROPERTYGET/PROPERTYPUT | XlCalculationInterruptKey | declared | 1938 | Metadata Only | Reviewed | Not Tested | |
 | Watches | PROPERTYGET | Watches | declared | 1939 | Metadata Only | Reviewed | Not Tested | |
 | DisplayFunctionToolTips | PROPERTYGET/PROPERTYPUT | bool | declared | 1940 | Metadata Only | Reviewed | Not Tested | |
-| AutomationSecurity | PROPERTYGET/PROPERTYPUT | MsoAutomationSecurity | declared | 1941 | Metadata Only | Reviewed | Not Tested | |
+| AutomationSecurity | PROPERTYGET/PROPERTYPUT | MsoAutomationSecurity | declared | 1941 | Implemented | Reviewed | Blocked | |
 | FileDialog | PROPERTYGET | FileDialog | declared | 1942 | Metadata Only | Reviewed | Not Tested | |
 | DisplayPasteOptions | PROPERTYGET/PROPERTYPUT | bool | declared | 1946 | Metadata Only | Reviewed | Not Tested | |
 | DisplayInsertOptions | PROPERTYGET/PROPERTYPUT | bool | declared | 1947 | Metadata Only | Reviewed | Not Tested | |
@@ -329,7 +329,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | AddChartAutoFormat | Unknown | 3 | declared | 216 | Metadata Only | Reviewed | Not Tested | |
 | DeleteChartAutoFormat | Unknown | 1 | declared | 217 | Metadata Only | Reviewed | Not Tested | |
 | SetDefaultChart | Unknown | 2 | declared | 219 | Metadata Only | Reviewed | Not Tested | |
-| Run | AutomationValue | 31 | declared | 259 | Metadata Only | Reviewed | Not Tested | |
+| Run | AutomationValue | 31 | declared | 259 | Implemented | Reviewed | Blocked | |
 | Calculate | Unknown | 0 | declared | 279 | Implemented | Reviewed | Live Tested | |
 | Save | Unknown | 1 | declared | 283 | Metadata Only | Reviewed | Not Tested | |
 | Repeat | Unknown | 0 | declared | 301 | Metadata Only | Reviewed | Not Tested | |
@@ -347,7 +347,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | InputBox | AutomationValue | 8 | declared | 357 | Metadata Only | Reviewed | Not Tested | |
 | SendKeys | Unknown | 2 | declared | 383 | Metadata Only | Reviewed | Not Tested | |
 | _Wait | Unknown | 1 | declared | 393 | Metadata Only | Reviewed | Not Tested | |
-| Goto | Unknown | 2 | declared | 475 | Metadata Only | Reviewed | Not Tested | |
+| Goto | Unknown | 2 | declared | 475 | Implemented | Reviewed | Blocked | |
 | CheckSpelling | bool | 3 | declared | 505 | Metadata Only | Reviewed | Not Tested | |
 | OnTime | Unknown | 4 | declared | 624 | Metadata Only | Reviewed | Not Tested | |
 | OnKey | Unknown | 2 | declared | 626 | Metadata Only | Reviewed | Not Tested | |

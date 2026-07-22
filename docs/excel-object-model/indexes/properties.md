@@ -30,6 +30,16 @@ The complete inventory is sharded alphabetically by owning object; the core wrap
 - [SortFields](properties/sortfields.md)
 - [SortField](properties/sortfield.md)
 - [Validation](properties/validation.md)
+- [Sheets](properties/sheets.md)
+- [Windows](properties/windows.md)
+- [Window](properties/window.md)
+- [PageSetup](properties/pagesetup.md)
+- [Tab](properties/tab.md)
+- [Outline](properties/outline.md)
+- [HPageBreaks](properties/hpagebreaks.md)
+- [HPageBreak](properties/hpagebreak.md)
+- [VPageBreaks](properties/vpagebreaks.md)
+- [VPageBreak](properties/vpagebreak.md)
 
 ## Complete alphabetical inventory
 

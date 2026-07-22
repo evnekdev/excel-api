@@ -5,12 +5,12 @@
 | Workbook | SaveCopyAs | 175 | Implemented |
 | Workbook | Close | 277 | Implemented |
 | Workbook | NewWindow | 280 | Metadata Only |
-| Workbook | PrintPreview | 281 | Metadata Only |
+| Workbook | PrintPreview | 281 | Implemented |
 | Workbook | _Protect | 282 | Metadata Only |
 | Workbook | Save | 283 | Implemented |
 | Workbook | __SaveAs | 284 | Metadata Only |
-| Workbook | Unprotect | 285 | Metadata Only |
-| Workbook | Activate | 304 | Metadata Only |
+| Workbook | Unprotect | 285 | Implemented |
+| Workbook | Activate | 304 | Implemented |
 | Workbook | DeleteNumberFormat | 397 | Metadata Only |
 | Workbook | RunAutoMacros | 634 | Metadata Only |
 | Workbook | PivotTableWizard | 684 | Metadata Only |
@@ -49,7 +49,7 @@
 | Workbook | ReloadAs | 1821 | Metadata Only |
 | Workbook | sblt | 1826 | Metadata Only |
 | Workbook | _SaveAs | 1925 | Metadata Only |
-| Workbook | Protect | 2029 | Metadata Only |
+| Workbook | Protect | 2029 | Implemented |
 | Workbook | Dummy17 | 2044 | Metadata Only |
 | Workbook | BreakLink | 2047 | Metadata Only |
 | Workbook | Dummy16 | 2048 | Metadata Only |
@@ -65,7 +65,7 @@
 | Workbook | XmlImportXml | 2277 | Metadata Only |
 | Workbook | SaveAsXMLData | 2278 | Metadata Only |
 | Workbook | ToggleFormsDesign | 2279 | Metadata Only |
-| Workbook | PrintOut | 2361 | Metadata Only |
+| Workbook | PrintOut | 2361 | Implemented |
 | Workbook | _ExportAsFixedFormat | 2493 | Metadata Only |
 | Workbook | RemoveDocumentInformation | 2514 | Metadata Only |
 | Workbook | CheckInWithVersion | 2517 | Metadata Only |
@@ -79,7 +79,7 @@
 | Workbook | Dummy27 | 2870 | Metadata Only |
 | Workbook | CreateForecastSheet | 3167 | Metadata Only |
 | Workbook | SaveAs | 3174 | Implemented |
-| Workbook | ExportAsFixedFormat | 3175 | Metadata Only |
+| Workbook | ExportAsFixedFormat | 3175 | Implemented |
 | Workbook | PublishToPBI | 3257 | Metadata Only |
 | Workbook | ConvertComments | 3279 | Metadata Only |
 | Workbook | PublishToDocs | 3334 | Metadata Only |
