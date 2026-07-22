@@ -12,6 +12,19 @@ use std::path::{Path, PathBuf};
 
 pub mod raw;
 pub mod python_differential;
+pub(crate) mod automation;
+
+/// Validates Prompt 06's internal Automation-value evidence without opening
+/// Excel. The semantic types themselves remain crate-internal.
+pub fn automation_value_check(root: &Path) -> Result<(), String> {
+    automation::check_evidence(root)
+}
+
+/// Runs Prompt 06's explicit, opt-in L-mode compatibility suite. It refuses
+/// to start while any Excel process is already present.
+pub fn automation_value_live(root: &Path, only_case: Option<&str>) -> Result<String, String> {
+    automation::live_compatibility(root, only_case)
+}
 
 const PROBE_VERSION: u32 = 2;
 const MOJIBAKE_PATTERNS: &[&str] = &["â", "ï¿½", "\u{FFFD}"];

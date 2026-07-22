@@ -1,0 +1,4 @@
+{"id":"codec.scalars","schema_version":1,"supports":["VT_EMPTY","VT_NULL","VT_BOOL","VT_I2","VT_I4","VT_I8-exact","VT_R4","VT_R8","VT_BSTR","VT_ERROR","VT_DATE","VT_CY"]}
+{"id":"codec.errors","schema_version":1,"summary":"All seven conventional Excel error SCODEs and unknown negative SCODEs round-trip without replacing the signed payload."}
+{"id":"codec.arrays","schema_version":1,"summary":"Only rank-2 VT_ARRAY|VT_VARIANT decodes to AutomationArray; encoding uses one-based rank-2 SAFEARRAY(VARIANT)."}
+{"id":"codec.failures","schema_version":1,"summary":"Strict codecs reject non-finite numbers, embedded NUL, over-limit strings, lossy I8 conversion, short Excel error numbers, rank-1 arrays, nested arrays, and negative DateVariant."}

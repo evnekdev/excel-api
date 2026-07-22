@@ -1,0 +1,5 @@
+schema_version = 1
+name = "excel-internal-automation-value-layer"
+classification = "research-tool internal implementation evidence"
+source = "Prompt 06; consumes Prompt 05H, 05I, and 05J findings"
+baseline_origin_master = "8627b81077d796c4e879d0a7bfd6fdbc15f488c0"

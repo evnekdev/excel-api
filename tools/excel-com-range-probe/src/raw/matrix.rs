@@ -24,6 +24,99 @@ struct ScalarCase {
     input: OwnedVariant,
 }
 
+/// Result of a single semantic-layer live round trip. This is deliberately a
+/// raw transport object: no semantic values enter the raw module.
+pub(crate) struct SemanticRoundTrip {
+    pub(crate) value: OwnedVariant,
+    pub(crate) write_hresult: i32,
+    pub(crate) read_hresult: i32,
+    pub(crate) clear_hresult: i32,
+    pub(crate) owned_process_exit_verified: bool,
+}
+
+/// Writes one already-owned `VARIANT`, reads the requested member back, then
+/// clears, closes, quits, and verifies the exact owned Excel child exits.
+///
+/// It intentionally does not persist evidence: the semantic caller records
+/// copied observations in its own Prompt 06 evidence tree.
+pub(crate) fn semantic_round_trip(
+    mode: &str,
+    member: &str,
+    address: &str,
+    input: OwnedVariant,
+) -> Result<SemanticRoundTrip, String> {
+    if !matches!(member, "Value" | "Value2") {
+        return Err("semantic round trip member must be Value or Value2".to_owned());
+    }
+    let mode = Mode::parse(mode)?
+        .into_iter()
+        .next()
+        .ok_or("semantic round trip requires one activation mode")?;
+    let _apartment = ComApartment::initialize()?;
+    let app = activate(mode)?;
+    let lcid = if matches!(mode, Mode::L) { 0x0400 } else { 0 };
+    let owned = OwnedProcess::from_app(&app, lcid)?;
+    let mut workbook = None;
+    let operation = (|| -> Result<(OwnedVariant, i32, i32, i32), String> {
+        let workbooks = get(&app, "Workbooks", lcid, vec![])?;
+        let add = call(&workbooks, "Add", DISPATCH_METHOD, lcid, Frame::empty());
+        if add.hr != 0 {
+            return Err(format!(
+                "Workbooks.Add failed: {}; EXCEPINFO={}",
+                add.hr, add.exception
+            ));
+        }
+        let book = add
+            .result
+            .dispatch()
+            .ok_or_else(|| "Workbooks.Add returned no VT_DISPATCH workbook".to_owned())?;
+        workbook = Some(book);
+        let sheet = get(&app, "ActiveSheet", lcid, vec![])?;
+        let target = get(&sheet, "Range", lcid, vec![OwnedVariant::bstr(address)?])?;
+        let clear_before = call(&target, "ClearContents", DISPATCH_METHOD, lcid, Frame::empty());
+        if clear_before.hr != 0 {
+            return Err(format!("ClearContents before write failed: {}", clear_before.hr));
+        }
+        let write = call(
+            &target,
+            member,
+            DISPATCH_PROPERTYPUT,
+            lcid,
+            Frame::put(input),
+        );
+        let read = call(&target, member, DISPATCH_PROPERTYGET, lcid, Frame::empty());
+        let clear_after = call(&target, "ClearContents", DISPATCH_METHOD, lcid, Frame::empty());
+        Ok((read.result, write.hr, read.hr, clear_after.hr))
+    })();
+    let close_hresult = workbook.as_ref().map_or(0, |book| {
+        call(
+            book,
+            "Close",
+            DISPATCH_METHOD,
+            lcid,
+            Frame::positional(vec![OwnedVariant::boolean(false)]),
+        )
+        .hr
+    });
+    let quit_hresult = call(&app, "Quit", DISPATCH_METHOD, lcid, Frame::empty()).hr;
+    drop(workbook);
+    drop(app);
+    let exited = owned.wait();
+    let (value, write_hresult, read_hresult, clear_hresult) = operation?;
+    if close_hresult != 0 || quit_hresult != 0 || !exited {
+        return Err(format!(
+            "semantic round-trip cleanup failed: Close={close_hresult}, Quit={quit_hresult}, exited={exited}"
+        ));
+    }
+    Ok(SemanticRoundTrip {
+        value,
+        write_hresult,
+        read_hresult,
+        clear_hresult,
+        owned_process_exit_verified: exited,
+    })
+}
+
 /// Runs the required Value2 scalar writes in one owned workbook and returns
 /// only copied, pointer-free observations.
 pub(super) fn scalar_value2_case_ids() -> &'static [&'static str] {

@@ -710,7 +710,7 @@ fn child(root: &Path, backend: &str, mode: Mode, fixture: &Path) -> Result<Value
     Ok(result)
 }
 
-fn excel_process_count() -> Result<usize, String> {
+pub(crate) fn excel_process_count() -> Result<usize, String> {
     let output = Command::new("powershell.exe")
         .args([
             "-NoProfile",
@@ -961,15 +961,15 @@ mod excel;
 #[cfg(windows)]
 mod excepinfo;
 #[cfg(windows)]
-mod matrix;
+pub(crate) mod matrix;
 #[cfg(windows)]
 mod observation;
 #[cfg(windows)]
 mod process;
 #[cfg(windows)]
-mod safearray;
+pub(crate) mod safearray;
 #[cfg(windows)]
-mod variant;
+pub(crate) mod variant;
 
 #[cfg(windows)]
 fn execute(
