@@ -3,7 +3,10 @@ use crate::automation::{
     property_get, property_put,
 };
 use crate::excel::text::text_bstr;
-use crate::excel::{DispatchObject, FormulaConversionOptions, Range, ReferenceStyle, Workbooks};
+use crate::excel::{
+    CalculationMode, CalculationState, DispatchObject, FormulaConversionOptions, Range,
+    ReferenceStyle, Workbooks,
+};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
 use crate::{ComApartment, ConversionError, ExcelComError};
@@ -30,6 +33,17 @@ pub struct ReferenceStyleGuard<'a> {
     active: bool,
 }
 
+/// Restores an [`Application`]'s prior global calculation mode on drop.
+///
+/// Calculation mode affects the entire Excel Application, not only the
+/// workbook or Range that created this guard. Call [`Self::restore`] when a
+/// restoration failure must be observed directly.
+pub struct CalculationModeGuard<'a> {
+    application: &'a Application,
+    previous: CalculationMode,
+    active: bool,
+}
+
 impl Debug for ReferenceStyleGuard<'_> {
     fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
         formatter
@@ -53,6 +67,34 @@ impl Drop for ReferenceStyleGuard<'_> {
     fn drop(&mut self) {
         if self.active {
             let _ = self.application.set_reference_style(self.previous);
+        }
+    }
+}
+
+impl Debug for CalculationModeGuard<'_> {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("CalculationModeGuard")
+            .field("previous", &self.previous)
+            .field("active", &self.active)
+            .finish()
+    }
+}
+
+impl CalculationModeGuard<'_> {
+    /// Restores the prior calculation mode and disarms the guard.
+    pub fn restore(mut self) -> Result<(), ExcelComError> {
+        self.application.set_calculation_mode(self.previous)?;
+        self.active = false;
+        Ok(())
+    }
+}
+
+impl Drop for CalculationModeGuard<'_> {
+    fn drop(&mut self) {
+        if self.active {
+            let _ = self.application.set_calculation_mode(self.previous);
+            self.active = false;
         }
     }
 }
@@ -192,6 +234,7 @@ impl Application {
         )?;
         result
             .as_i32()
+            .or_else(|| result.as_scode())
             .map(ReferenceStyle::from_raw)
             .ok_or(ExcelComError::Conversion(
                 ConversionError::UnsupportedVariantType {
@@ -221,6 +264,131 @@ impl Application {
             previous,
             active: true,
         })
+    }
+
+    /// Returns Excel's process-wide calculation mode.
+    pub fn calculation_mode(&self) -> Result<CalculationMode, ExcelComError> {
+        let result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.calculation"), false),
+            vec![],
+        )?;
+        result
+            .as_i32()
+            .map(CalculationMode::from_raw)
+            .ok_or(ExcelComError::Conversion(
+                ConversionError::UnsupportedVariantType {
+                    vartype: result.vt(),
+                },
+            ))
+    }
+
+    fn set_calculation_mode(&self, mode: CalculationMode) -> Result<(), ExcelComError> {
+        let _ = property_put(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.calculation"), true),
+            OwnedVariant::i32(mode.raw()),
+        )?;
+        Ok(())
+    }
+
+    /// Sets a temporary global calculation mode and returns a restoring guard.
+    ///
+    /// Prefer this scoped mutation to persistent mode changes. The guard makes
+    /// a best-effort restoration on drop and exposes [`CalculationModeGuard::restore`]
+    /// for callers that need the restoration error.
+    ///
+    /// ```no_run
+    /// # fn example(application: &excel_com::Application, range: &excel_com::Range) -> Result<(), excel_com::ExcelComError> {
+    /// use excel_com::{AutomationValue, CalculationMode};
+    /// let guard = application.calculation_mode_guard(CalculationMode::MANUAL)?;
+    /// range.set_value2(AutomationValue::Number(10.0))?;
+    /// range.calculate()?;
+    /// guard.restore()?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn calculation_mode_guard(
+        &self,
+        mode: CalculationMode,
+    ) -> Result<CalculationModeGuard<'_>, ExcelComError> {
+        let previous = self.calculation_mode()?;
+        self.set_calculation_mode(mode)?;
+        Ok(CalculationModeGuard {
+            application: self,
+            previous,
+            active: true,
+        })
+    }
+
+    /// Returns Excel's current calculation-state snapshot.
+    ///
+    /// A `DONE` snapshot after a calculation call is an observation, not a
+    /// general promise that every future calculation completes synchronously.
+    pub fn calculation_state(&self) -> Result<CalculationState, ExcelComError> {
+        let result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.calculationstate"), false),
+            vec![],
+        )?;
+        result
+            .as_i32()
+            .map(CalculationState::from_raw)
+            .ok_or(ExcelComError::Conversion(
+                ConversionError::UnsupportedVariantType {
+                    vartype: result.vt(),
+                },
+            ))
+    }
+
+    /// Returns Excel's calculation-engine version number.
+    pub fn calculation_version(&self) -> Result<i32, ExcelComError> {
+        let result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.calculationversion"), false),
+            vec![],
+        )?;
+        result.as_i32().ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType {
+                vartype: result.vt(),
+            },
+        ))
+    }
+
+    /// Returns whether Excel calculates workbooks before saving in manual mode.
+    pub fn calculate_before_save(&self) -> Result<bool, ExcelComError> {
+        self.bool_property("excel.application.calculatebeforesave")
+    }
+
+    /// Changes Excel's calculate-before-save setting.
+    ///
+    /// This global setting is not mutated by [`Self::calculation_mode_guard`];
+    /// callers that change it are responsible for restoring its prior value.
+    pub fn set_calculate_before_save(&self, enabled: bool) -> Result<(), ExcelComError> {
+        let _ = property_put(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.calculatebeforesave"), true),
+            OwnedVariant::bool(enabled),
+        )?;
+        Ok(())
+    }
+
+    /// Calculates all open workbooks through Excel.
+    pub fn calculate(&self) -> Result<(), ExcelComError> {
+        self.calculation_method("excel.application.calculate")
+    }
+
+    /// Forces a full calculation of all open workbooks through Excel.
+    pub fn calculate_full(&self) -> Result<(), ExcelComError> {
+        self.calculation_method("excel.application.calculatefull")
+    }
+
+    /// Forces a full calculation and dependency rebuild of all open workbooks.
+    ///
+    /// This can be expensive and is normally appropriate only for controlled
+    /// maintenance or compatibility operations.
+    pub fn calculate_full_rebuild(&self) -> Result<(), ExcelComError> {
+        self.calculation_method("excel.application.calculatefullrebuild")
     }
 
     /// Converts a formula or address through Excel's `ConvertFormula` engine.
@@ -311,6 +479,29 @@ impl Application {
             vec![text_bstr(expression)?],
             false,
         )
+    }
+
+    fn bool_property(&self, id: &'static str) -> Result<bool, ExcelComError> {
+        let result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new(id), false),
+            vec![],
+        )?;
+        result.as_bool().ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType {
+                vartype: result.vt(),
+            },
+        ))
+    }
+
+    fn calculation_method(&self, id: &'static str) -> Result<(), ExcelComError> {
+        let _ = invoke(
+            &self.inner.dispatch,
+            member(MemberId::new(id), false),
+            vec![],
+            false,
+        )?;
+        Ok(())
     }
     /// Returns the application's `Workbooks` collection.
     pub fn workbooks(&self) -> Result<Workbooks, ExcelComError> {

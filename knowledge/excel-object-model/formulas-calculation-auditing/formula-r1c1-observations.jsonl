@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"formula-r1c1-scalar","member":"Range.FormulaR1C1","formula":"=RC[-3]*2","calculated_result":4.0,"model":"FormulaValue::Text","relative_reference_interpreted_by":"Excel"}

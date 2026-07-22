@@ -1,0 +1,3 @@
+{"schema_version":1,"topic":"physical-variant-capture","status":"deferred","reason":"public FormulaValue intentionally hides raw VARIANT; functional live cases and private decoder coverage establish semantic results without committing raw runtime representation"}
+{"schema_version":1,"topic":"cross-workbook-precedents","status":"not-tested","reason":"bounded live test intentionally avoids external workbook links"}
+{"schema_version":1,"topic":"locale-formula-separators-and-function-names","status":"not-generalized","reason":"only separator-free local formula text was deterministic under the installed locale"}

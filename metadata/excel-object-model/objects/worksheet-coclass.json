@@ -1,5 +1,8 @@
 {
   "alias_target": null,
+  "calculation_capability": {
+    "calculate": true
+  },
   "collection": null,
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet",

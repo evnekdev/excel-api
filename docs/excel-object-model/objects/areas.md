@@ -24,6 +24,11 @@ The typed collection of contiguous ranges produced by a multi-area Range.
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

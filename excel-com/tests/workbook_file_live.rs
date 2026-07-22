@@ -91,8 +91,7 @@ fn workbook_file_lifecycle_naturally_exits() -> Result<(), Box<dyn std::error::E
         let worksheets = workbook.worksheets()?;
         let worksheet = worksheets.item_by_index(1)?;
         range(&worksheet, "A1")?.set_value2(AutomationValue::Text("saved value".to_owned()))?;
-        range(&worksheet, "B1")?
-            .set_formula2(AutomationValue::Text("=SEQUENCE(2,2)".to_owned()))?;
+        range(&worksheet, "B1")?.set_formula2("=SEQUENCE(2,2)")?;
         workbook.save_as(
             &primary,
             WorkbookSaveAsOptions {

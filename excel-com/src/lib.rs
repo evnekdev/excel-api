@@ -85,6 +85,53 @@
 //! Equal addresses, names, and formula strings do not imply canonical COM
 //! object identity.
 //!
+//! # Formula, calculation, and auditing
+//!
+//! [`Range::formula`] and [`Range::formula2`] return [`FormulaValue`]: scalar
+//! text, an exact rectangular [`AutomationArray`], `Mixed`, or `Empty`. Scalar
+//! formula setters require a 1x1 receiver; rectangular setters require exactly
+//! matching dimensions before COM. Excel remains the formula parser and
+//! calculation engine—this crate neither parses formulas nor recalculates them
+//! in Rust. [`Range::formula2`] and [`Range::set_formula2`] preserve Excel's
+//! dynamic-array behavior, while [`Range::formula_array`] and
+//! [`Range::set_formula_array`] expose Excel's legacy array-formula member.
+//! Spill and legacy-array restrictions remain Excel-owned and are returned as
+//! structured Automation failures where Excel reports one.
+//!
+//! [`Application::calculation_mode_guard`] temporarily changes the process-wide
+//! calculation mode and restores it on drop. [`Application::calculate`],
+//! [`Application::calculate_full`], [`Application::calculate_full_rebuild`],
+//! [`Worksheet::calculate`], and [`Range::calculate`] delegate directly to
+//! Excel. [`Range::mark_dirty`] asks Excel to mark a range for recalculation.
+//! Do not rely on a calculation-state snapshot as a general asynchronous
+//! completion guarantee.
+//!
+//! [`Range::special_cells`], [`Range::find`], [`Range::find_all`], and
+//! [`Range::replace`] supply typed Excel-backed discovery. Find defaults send
+//! every remembered search option explicitly; [`RangeFindIter`] detects
+//! wraparound from normalized external addresses instead of COM identity.
+//!
+//! ```no_run
+//! # fn example(application: &excel_com::Application, range: &excel_com::Range) -> Result<(), excel_com::ExcelComError> {
+//! use excel_com::{
+//!     AutomationValue, CalculationMode, FindOptions, FormulaValue, SpecialCellType,
+//! };
+//! range.set_formula("=SUM(A1:A10)")?;
+//! assert!(matches!(range.formula()?, FormulaValue::Text(_)));
+//! range.set_formula2("=SEQUENCE(2,2)")?;
+//! let spill = range.spilling_to_range()?;
+//! let guard = application.calculation_mode_guard(CalculationMode::MANUAL)?;
+//! spill.calculate()?;
+//! guard.restore()?;
+//! let formulas = spill.special_cells(SpecialCellType::FORMULAS, None)?;
+//! let matches = formulas
+//!     .find_all(&AutomationValue::Text("SUM".to_owned()), &FindOptions::default())?
+//!     .collect::<Result<Vec<_>, _>>()?;
+//! # drop(matches);
+//! # Ok(())
+//! # }
+//! ```
+//!
 //! # Formatting ranges
 //!
 //! Formatting wrappers preserve Excel's mixed-selection results: a getter that
@@ -220,14 +267,16 @@ pub use automation::{
 pub use error::ExcelComError;
 pub use excel::{
     Application, Areas, AreasIter, Border, BorderIndex, BorderLineStyle, BorderWeight, Borders,
-    BordersIter, DisplayAlertsGuard, ExcelColor, ExcelColorIndex, FillPattern, Font,
-    FormulaConversionOptions, HorizontalAlignment, Interior, MixedValue, Name, NameAddOptions,
-    NameRefersTo, Names, NamesIter, Range, RangeAddressOptions, ReferenceAbsoluteMode,
-    ReferenceStyle, ReferenceStyleGuard, SaveChanges, UnderlineStyle, VerticalAlignment, Workbook,
-    WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions,
-    Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions, WorksheetsIter,
-    XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,
-    XlSheetVisibility, XlUpdateLinks,
+    BordersIter, CalculationMode, CalculationModeGuard, CalculationState, DisplayAlertsGuard,
+    ExcelColor, ExcelColorIndex, FillPattern, FindLookIn, FindMatchMode, FindOptions, Font,
+    FormulaConversionOptions, FormulaValue, HorizontalAlignment, Interior, MixedValue, Name,
+    NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions, RangeFindIter,
+    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, ReplaceOptions, SaveChanges,
+    SearchDirection, SearchOrder, SpecialCellType, SpecialCellValueMask, UnderlineStyle,
+    VerticalAlignment, Workbook, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
+    WorkbookSaveAsOptions, Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions,
+    WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
+    XlSaveConflictResolution, XlSheetVisibility, XlUpdateLinks,
 };
 pub use internal::ComApartment;
 pub use object_model::{

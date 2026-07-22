@@ -24,6 +24,16 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+### Calculation
+
+| Capability | Available |
+|---|---|
+| `calculate` | true |
+
+
+
 ## Relationships
 
 | Relationship | Target | Status |
@@ -123,7 +133,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Delete | Unknown | 0 | declared | 117 | Metadata Only | Reviewed | Not Tested | |
 | Paste | Unknown | 2 | declared | 211 | Metadata Only | Reviewed | Not Tested | |
 | Select | Unknown | 1 | declared | 235 | Metadata Only | Reviewed | Not Tested | |
-| Calculate | Unknown | 0 | declared | 279 | Metadata Only | Reviewed | Not Tested | |
+| Calculate | Unknown | 0 | declared | 279 | Implemented | Reviewed | Live Tested | |
 | PrintPreview | Unknown | 1 | declared | 281 | Metadata Only | Reviewed | Not Tested | |
 | _Protect | Unknown | 5 | declared | 282 | Metadata Only | Reviewed | Not Tested | |
 | __SaveAs | Unknown | 9 | declared | 284 | Metadata Only | Reviewed | Not Tested | |

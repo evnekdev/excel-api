@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"formula-calculation-live","harness":"excel-com formula_calculation_live","workbook":"fresh-unsaved","visibility":"true","cleanup":"close-without-saving then Application.Quit","preexisting_excel_processes":0,"calculation_mode_restored":true,"display_alerts_restored":true,"reference_style_unchanged":true}

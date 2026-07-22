@@ -5,7 +5,7 @@ use std::time::{Duration, Instant};
 
 use excel_com::{
     Application, AutomationArray, AutomationValue, ComApartment, ConversionError, Currency,
-    ExcelComError, ExcelError, OaDate, Worksheet, WorksheetsAddOptions,
+    ExcelComError, ExcelError, FormulaValue, OaDate, Worksheet, WorksheetsAddOptions,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -127,13 +127,13 @@ fn worksheet_range_core_live_slice_naturally_exits() -> Result<(), Box<dyn std::
     assert_eq!(error_matrix.value2()?, AutomationValue::Array(errors));
 
     let formula = range(&worksheet, "H1")?;
-    formula.set_formula(AutomationValue::Text("=1+1".to_owned()))?;
-    assert_eq!(formula.formula()?, AutomationValue::Text("=1+1".to_owned()));
+    formula.set_formula("=1+1")?;
+    assert_eq!(formula.formula()?, FormulaValue::Text("=1+1".to_owned()));
     let sequence = range(&worksheet, "H3")?;
-    sequence.set_formula2(AutomationValue::Text("=SEQUENCE(2,3)".to_owned()))?;
+    sequence.set_formula2("=SEQUENCE(2,3)")?;
     assert_eq!(
         sequence.formula2()?,
-        AutomationValue::Text("=SEQUENCE(2,3)".to_owned())
+        FormulaValue::Text("=SEQUENCE(2,3)".to_owned())
     );
     let spill = range(&worksheet, "H3:J4")?;
     assert_eq!(

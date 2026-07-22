@@ -24,6 +24,11 @@ The enum-keyed, apartment-bound collection of Excel Border objects for a Range.
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

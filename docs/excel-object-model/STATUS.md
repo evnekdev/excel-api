@@ -40,24 +40,24 @@
 | Raw type-library members | 17828 |
 | Declared Excel members | 15112 |
 | Inherited COM members | 2716 |
-| Implemented declared Excel members | 105 |
+| Implemented declared Excel members | 135 |
 
 Only declared Excel members are included in the human coverage table below.
 
 | Member type | Declared total | Implemented | Partial | Metadata only | Not started |
 |---|---:|---:|---:|---:|---:|
-| Properties | 10388 | 88 | 0 | 10300 | 0 |
-| Methods | 4440 | 17 | 0 | 4423 | 0 |
+| Properties | 10388 | 107 | 0 | 10281 | 0 |
+| Methods | 4440 | 28 | 0 | 4412 | 0 |
 | Events | 284 | 0 | 0 | 0 | 284 |
 
 ## Test coverage
 
 | Test status | Count |
 |---|---:|
-| Live Tested | 118 |
+| Live Tested | 148 |
 | Integration Tested | 0 |
 | Unit Tested | 0 |
-| Not Tested | 15748 |
+| Not Tested | 15718 |
 | Blocked | 0 |
 
 ## Priority objects

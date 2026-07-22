@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"formula2-sequence","member":"Range.Formula2","formula":"=SEQUENCE(2,2)","origin":"F1","spill_range":"F1:G2","has_spill_origin":true,"has_spill_child":true}

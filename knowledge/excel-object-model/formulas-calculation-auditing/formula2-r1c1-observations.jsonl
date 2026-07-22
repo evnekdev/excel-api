@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"formula2-r1c1-sequence","member":"Range.Formula2R1C1","available":true,"formula":"=SEQUENCE(2,2)","spill_range":"I1:J2","version_sensitive":true}

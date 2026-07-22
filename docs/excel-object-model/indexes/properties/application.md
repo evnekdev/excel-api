@@ -34,8 +34,8 @@
 | Application | TransitionNavigKeys | 312 | Metadata Only |
 | Application | AltStartupPath | 313 | Metadata Only |
 | Application | Build | 314 | Metadata Only |
-| Application | CalculateBeforeSave | 315 | Metadata Only |
-| Application | Calculation | 316 | Metadata Only |
+| Application | CalculateBeforeSave | 315 | Implemented |
+| Application | Calculation | 316 | Implemented |
 | Application | Caller | 317 | Metadata Only |
 | Application | CanPlaySounds | 318 | Metadata Only |
 | Application | CanRecordSounds | 319 | Metadata Only |
@@ -167,7 +167,7 @@
 | Application | LanguageSettings | 1801 | Metadata Only |
 | Application | Dummy101 | 1802 | Metadata Only |
 | Application | AnswerWizard | 1804 | Metadata Only |
-| Application | CalculationVersion | 1806 | Metadata Only |
+| Application | CalculationVersion | 1806 | Implemented |
 | Application | ShowWindowsInTaskbar | 1807 | Metadata Only |
 | Application | FeatureInstall | 1808 | Metadata Only |
 | Application | DecimalSeparator | 1809 | Metadata Only |
@@ -176,7 +176,7 @@
 | Application | FindFormat | 1934 | Metadata Only |
 | Application | ReplaceFormat | 1935 | Metadata Only |
 | Application | UsedObjects | 1936 | Metadata Only |
-| Application | CalculationState | 1937 | Metadata Only |
+| Application | CalculationState | 1937 | Implemented |
 | Application | CalculationInterruptKey | 1938 | Metadata Only |
 | Application | Watches | 1939 | Metadata Only |
 | Application | DisplayFunctionToolTips | 1940 | Metadata Only |

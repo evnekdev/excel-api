@@ -43,7 +43,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, Names, and Borders iteration plus core Range navigation, references, formula conversion, typed evaluation, Font, Interior, Borders, dimensions, and AutoFit. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed Workbooks, Worksheets, Areas, Names, and Borders iteration plus core Range navigation, references, formula conversion, typed evaluation, formula and dynamic-array operations, calculation control, precedents/dependents, SpecialCells, Find/Replace, Font, Interior, Borders, dimensions, and AutoFit. Structured collection metadata and its [dashboard](indexes/collections.md) are planning data, not a generic public collection API. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -99,7 +99,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         collection_index(&objects),
     );
     output.insert(docs.join("indexes/enums.md"), enum_index(&enums));
-    output.insert(docs.join("indexes/unsupported.md"), "# Unsupported and deferred inventory\n\nThe initial crate intentionally defers range wrappers, worksheet wrappers, charts, events, macros, connection points, generic collections, cross-apartment marshaling, and stable API commitments. Their metadata remains structurally inventoried.\n".to_owned());
+    output.insert(docs.join("indexes/unsupported.md"), "# Unsupported and deferred inventory\n\nThe initial crate intentionally defers broad and generic Range/Worksheet coverage, charts, events, macros, connection points, generic collections, cross-apartment marshaling, and stable API commitments. Their metadata remains structurally inventoried.\n".to_owned());
     output.insert(docs.join("STATUS.md"), status(&objects));
     for enumeration in &enums {
         let file = docs.join("enums").join(format!(
@@ -122,7 +122,7 @@ fn object_page(object: &Value, relationships: &[Value], existing: Option<&str>) 
         summary(object["name"].as_str().unwrap()),
     );
     let generated = format!(
-        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Surface class | {} |\n| Roadmap class | {} |\n| Type flags | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
+        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Surface class | {} |\n| Roadmap class | {} |\n| Type flags | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Capabilities\n\n{}\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
         object["source_interface"].as_str().unwrap_or("--"),
         object["guid"].as_str().unwrap_or("--"),
         object["kind"].as_str().unwrap_or("--"),
@@ -133,12 +133,40 @@ fn object_page(object: &Value, relationships: &[Value], existing: Option<&str>) 
         title(&object["implemented_status"]),
         title(&object["documentation_status"]),
         title(&object["test_status"]),
+        capability_table(object),
         relationship_table(object, relationships),
         member_table(object, true),
         member_table(object, false),
         event_table(object)
     );
     replace_region(&manual, &generated)
+}
+
+fn capability_table(object: &Value) -> String {
+    let groups = [
+        ("Formula", "formula_capability"),
+        ("Calculation", "calculation_capability"),
+        ("Auditing and search", "auditing_search_capability"),
+        ("Formatting", "formatting_capability"),
+    ];
+    let mut text = String::new();
+    for (label, field) in groups {
+        let Some(capabilities) = object[field].as_object() else {
+            continue;
+        };
+        text.push_str(&format!(
+            "### {label}\n\n| Capability | Available |\n|---|---|\n"
+        ));
+        for (capability, available) in capabilities {
+            text.push_str(&format!("| `{capability}` | {} |\n", available));
+        }
+        text.push('\n');
+    }
+    if text.is_empty() {
+        "No capability metadata is recorded for this surface.\n".to_owned()
+    } else {
+        text
+    }
 }
 fn summary(name: &str) -> &'static str {
     match name {

@@ -24,6 +24,11 @@ One Excel defined name, which may resolve to a Range, scalar, formula, or invali
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

@@ -42,11 +42,11 @@
 | Range | Style | 260 | Metadata Only |
 | Range | Formula | 261 | Implemented |
 | Range | FormulaHidden | 262 | Metadata Only |
-| Range | FormulaLocal | 263 | Metadata Only |
-| Range | FormulaR1C1 | 264 | Metadata Only |
-| Range | FormulaR1C1Local | 265 | Metadata Only |
-| Range | HasArray | 266 | Metadata Only |
-| Range | HasFormula | 267 | Metadata Only |
+| Range | FormulaLocal | 263 | Implemented |
+| Range | FormulaR1C1 | 264 | Implemented |
+| Range | FormulaR1C1Local | 265 | Implemented |
+| Range | HasArray | 266 | Implemented |
+| Range | HasFormula | 267 | Implemented |
 | Range | Hidden | 268 | Metadata Only |
 | Range | Locked | 269 | Metadata Only |
 | Range | OutlineLevel | 271 | Metadata Only |
@@ -59,17 +59,17 @@
 | Range | Borders | 435 | Implemented |
 | Range | AddressLocal | 437 | Metadata Only |
 | Range | End | 500 | Metadata Only |
-| Range | CurrentArray | 501 | Metadata Only |
+| Range | CurrentArray | 501 | Implemented |
 | Range | Next | 502 | Metadata Only |
 | Range | Previous | 503 | Metadata Only |
 | Range | PrefixCharacter | 504 | Metadata Only |
-| Range | Dependents | 543 | Metadata Only |
-| Range | Precedents | 544 | Metadata Only |
-| Range | DirectDependents | 545 | Metadata Only |
-| Range | DirectPrecedents | 546 | Metadata Only |
+| Range | Dependents | 543 | Implemented |
+| Range | Precedents | 544 | Implemented |
+| Range | DirectDependents | 545 | Implemented |
+| Range | DirectPrecedents | 546 | Implemented |
 | Range | Areas | 568 | Implemented |
 | Range | ShowDetail | 585 | Metadata Only |
-| Range | FormulaArray | 586 | Metadata Only |
+| Range | FormulaArray | 586 | Implemented |
 | Range | Characters | 603 | Metadata Only |
 | Range | DisplayFormat | 666 | Metadata Only |
 | Range | LocationInTable | 691 | Metadata Only |
@@ -105,11 +105,11 @@
 | Range | SparklineGroups | 2853 | Metadata Only |
 | Range | CommentThreaded | 3281 | Metadata Only |
 | Range | LinkedDataTypeState | 3291 | Metadata Only |
-| Range | HasSpill | 3295 | Metadata Only |
-| Range | SpillingToRange | 3296 | Metadata Only |
-| Range | SpillParent | 3297 | Metadata Only |
+| Range | HasSpill | 3295 | Implemented |
+| Range | SpillingToRange | 3296 | Implemented |
+| Range | SpillParent | 3297 | Implemented |
 | Range | Formula2Local | 3300 | Metadata Only |
-| Range | Formula2R1C1 | 3301 | Metadata Only |
+| Range | Formula2R1C1 | 3301 | Implemented |
 | Range | Formula2R1C1Local | 3302 | Metadata Only |
 | Range | SavedAsArray | 3303 | Metadata Only |
 | Range | HasRichDataType | 3326 | Metadata Only |

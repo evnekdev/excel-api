@@ -85,7 +85,7 @@
 | Application | DeleteChartAutoFormat | 217 | Metadata Only |
 | Application | SetDefaultChart | 219 | Metadata Only |
 | Application | Run | 259 | Metadata Only |
-| Application | Calculate | 279 | Metadata Only |
+| Application | Calculate | 279 | Implemented |
 | Application | Save | 283 | Metadata Only |
 | Application | Repeat | 301 | Metadata Only |
 | Application | Quit | 302 | Implemented |
@@ -143,10 +143,10 @@
 | Application | Dummy11 | 1792 | Metadata Only |
 | Application | GetPhonetic | 1795 | Metadata Only |
 | Application | Dummy12 | 1803 | Metadata Only |
-| Application | CalculateFull | 1805 | Metadata Only |
+| Application | CalculateFull | 1805 | Implemented |
 | Application | Dummy13 | 1933 | Metadata Only |
 | Application | Dummy14 | 1944 | Metadata Only |
-| Application | CalculateFullRebuild | 1945 | Metadata Only |
+| Application | CalculateFullRebuild | 1945 | Implemented |
 | Application | CheckAbort | 1952 | Metadata Only |
 | Application | DisplayXMLSourcePane | 2252 | Metadata Only |
 | Application | Support | 2255 | Metadata Only |

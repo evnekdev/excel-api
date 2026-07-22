@@ -132,6 +132,44 @@ widths are Excel character-width units based on the Normal style font, and row
 heights are in points. The crate exposes invariant `NumberFormat`, not
 `NumberFormatLocal`.
 
+## Formulas, calculation, and auditing
+
+Formula text is deliberately distinct from evaluated `AutomationValue` data.
+`FormulaValue` reports a scalar formula string, an exact rectangular formula
+array, `Mixed`, or `Empty`; it never silently turns a mixed selection into a
+scalar. `set_formula`, `set_formula2`, `set_formula_r1c1`, and the local
+variants accept scalar text only on a 1x1 Range. The corresponding array
+setters require an `AutomationArray` whose dimensions exactly match the Range
+before COM is called.
+
+`Formula2` and `Formula2R1C1` are the dynamic-array-aware Excel members.
+`has_spill`, `spilling_to_range`, and `spill_parent` are transparent Excel
+queries. `FormulaArray` remains the separate legacy array-formula operation:
+the crate does not emulate Ctrl+Shift+Enter or manufacture its historical
+length and partial-edit restrictions. Excel errors remain structured results.
+
+| Need | API |
+|---|---|
+| A1 formula | `Range::formula` / `set_formula` |
+| Dynamic-array formula | `Range::formula2` / `set_formula2` |
+| R1C1 formula | `Range::formula_r1c1` / `set_formula_r1c1` |
+| Legacy array formula | `Range::formula_array` / `set_formula_array` |
+| Formula presence | `Range::has_formula` |
+| Spill ownership | `Range::has_spill`, `spilling_to_range`, `spill_parent` |
+| Scoped calculation mode | `Application::calculation_mode_guard` |
+| Recalculate | `Application`, `Worksheet`, or `Range` `calculate` |
+| Precedents/dependents | `Range::direct_precedents`, `direct_dependents`, `precedents`, `dependents` |
+| Cell discovery | `Range::special_cells` |
+| Deterministic search | `Range::find`, `find_all`, `find_next`, `find_previous` |
+| Explicit replacement | `Range::replace` |
+
+Excel remains the parser and calculation engine. In particular, the crate does
+not implement a formula parser, a Rust calculation engine, or any event-based
+recalculation model. Find and Replace defaults send concrete remembered search
+settings so they do not inherit state from an Excel Find dialog or prior call.
+The `find_all` iterator detects Excel's wraparound with normalized external
+addresses rather than COM identity.
+
 ## API documentation
 
 Rustdoc describes the public wrapper and Automation-value contracts; the

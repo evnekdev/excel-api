@@ -22,13 +22,13 @@
 | Range | Insert | 252 | Metadata Only |
 | Range | ListNames | 253 | Metadata Only |
 | Range | Run | 259 | Metadata Only |
-| Range | Calculate | 279 | Metadata Only |
+| Range | Calculate | 279 | Implemented |
 | Range | PrintPreview | 281 | Metadata Only |
 | Range | Activate | 304 | Metadata Only |
-| Range | Find | 398 | Metadata Only |
-| Range | FindNext | 399 | Metadata Only |
-| Range | FindPrevious | 400 | Metadata Only |
-| Range | SpecialCells | 410 | Metadata Only |
+| Range | Find | 398 | Implemented |
+| Range | FindNext | 399 | Implemented |
+| Range | FindPrevious | 400 | Implemented |
+| Range | SpecialCells | 410 | Implemented |
 | Range | ApplyNames | 441 | Metadata Only |
 | Range | ApplyOutlineStyles | 448 | Metadata Only |
 | Range | AutoFill | 449 | Metadata Only |
@@ -76,7 +76,7 @@
 | Range | _PrintOut | 1772 | Metadata Only |
 | Range | SetPhonetic | 1812 | Metadata Only |
 | Range | PasteSpecial | 1928 | Metadata Only |
-| Range | Dirty | 2014 | Metadata Only |
+| Range | Dirty | 2014 | Implemented |
 | Range | Speak | 2017 | Metadata Only |
 | Range | PrintOut | 2361 | Metadata Only |
 | Range | CalculateRowMajorOrder | 2364 | Metadata Only |
@@ -96,7 +96,7 @@
 | Range | SetCellDataTypeFromCell | 3293 | Metadata Only |
 | Range | DataTypeToText | 3294 | Metadata Only |
 | Range | RefreshLinkedDataType | 3299 | Metadata Only |
-| Range | Replace | 3305 | Metadata Only |
+| Range | Replace | 3305 | Implemented |
 | Range | InsertPictureInCell | 3402 | Metadata Only |
 | Range | PastePictureInCell | 3405 | Metadata Only |
 | Range | PlacePictureOverCells | 3407 | Metadata Only |
