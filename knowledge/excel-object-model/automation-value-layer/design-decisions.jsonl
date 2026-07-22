@@ -1,0 +1,4 @@
+{"decision":"internal-only","detail":"AutomationValue and its codecs are crate-internal; no stable Excel API or wrapper is introduced.","id":"design.internal-only","schema_version":1}
+{"decision":"absence","detail":"Empty, Null, Text(empty), and Missing argument remain separate concepts.","id":"design.absence-distinct","schema_version":1}
+{"decision":"numbers","detail":"Ordinary worksheet numerics normalize to Number(f64); integral raw values are accepted only when exactly representable under strict policy.","id":"design.number-normalization","schema_version":1}
+{"decision":"arrays","detail":"Semantic arrays are zero-based row-major; SAFEARRAY dimension 1 maps to rows and dimension 2 maps to columns.","id":"design.array-mapping","schema_version":1}

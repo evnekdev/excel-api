@@ -1,0 +1,3 @@
+# Live compatibility
+
+The opt-in suite uses only the raw L-mode backend, requires no existing `EXCEL.EXE`, and exercises scalars, dates, currency, mixed arrays, errors, rows, and columns through semantic encode/write/read/decode. Before Office repair, both the raw suite and PowerShell Automation failed document operations with Excel's misleading resource message. After repair and cold reboot, PowerShell `Workbooks.Add` succeeds, while the raw L/S controls and a standalone high-level Rust IDispatch reproduction still fail `Workbooks.Add` with `DISP_E_EXCEPTION` (`0x80020009`) and detailed EXCEPINFO SCODE `0x800A03EC`. No semantic value was written by the raw suite and every owned Excel process exited naturally.

@@ -1,0 +1,2 @@
+{"date_write":"DateVariant","id":"policy.strict-default","integer_conversion":"exact-only","non_finite_numbers":"reject","null_in_text":"reject","schema_version":1,"shape":"Exact","summary":"The strict default encodes positive finite OA dates as VT_DATE."}
+{"date_write":"Value2Serial","id":"policy.value2-date","schema_version":1,"summary":"An explicit policy encodes an OA date serial as VT_R8 for Value2-style storage, including negative serials."}

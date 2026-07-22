@@ -117,6 +117,17 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
             excel_com_range_probe::raw::error_scode_check(&root)?;
             println!("error-SCODE evidence and reports are current and deterministic");
         }
+        "automation-value-check" => {
+            excel_com_range_probe::automation_value_check(&root)?;
+            println!("automation value-layer evidence and reports are current and deterministic");
+        }
+        "automation-value-live" => {
+            let summary = excel_com_range_probe::automation_value_live(
+                &root,
+                options.get("case").map(String::as_str),
+            )?;
+            println!("{summary}");
+        }
         "python-differential" => {
             let python = options
                 .get("python")
@@ -189,6 +200,6 @@ fn parse_options(arguments: &[String]) -> Result<BTreeMap<String, String>, Strin
 }
 
 fn usage() -> String {
-    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check|error-scode|error-scode-refresh|error-scode-python|error-scode-check|python-differential|python-differential-raw|python-differential-refresh|python-differential-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>] [--python <path> --client <pywin32|comtypes> --wrapper <dynamic|generated|all> --family <all|mixed|date|shape|dynamic> --environment-id <id> --cache-dir <path>]"
+    "usage: excel-com-range-probe <live|diagnose|parity|refresh|check|kernel-init|kernel|kernel-check|value-matrix|value-matrix-refresh|value-matrix-check|error-scode|error-scode-refresh|error-scode-python|error-scode-check|automation-value-check|automation-value-live|python-differential|python-differential-raw|python-differential-refresh|python-differential-check> --root <knowledge-root> [--control-script <path>] [--mode <rust-baseline|pywin32-dynamic|pywin32-generated|comtypes-dynamic|comtypes-generated|L|S|X|all>] [--backend <raw-windows-sys|high-level-windows>] [--action <single|repeatability|compare|retry|scalar-value2>] [--fixture <controlled-fixture>] [--case <case-id>] [--run-id <id>] [--python <path> --client <pywin32|comtypes> --wrapper <dynamic|generated|all> --family <all|mixed|date|shape|dynamic> --environment-id <id> --cache-dir <path>]"
         .to_owned()
 }

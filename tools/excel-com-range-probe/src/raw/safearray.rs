@@ -15,22 +15,22 @@ use super::variant::OwnedVariant;
 
 /// Bounds and element VARTYPE copied from the SDK APIs without pointer values.
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
-pub(super) struct ObservedSafeArray {
-    pub(super) rank: u32,
-    pub(super) dimensions: Vec<ObservedSafeArrayDimension>,
-    pub(super) element_vartype: Option<u16>,
-    pub(super) metadata_dimension_order: &'static str,
-    pub(super) storage_traversal: &'static str,
-    pub(super) access_balanced: bool,
+pub(crate) struct ObservedSafeArray {
+    pub(crate) rank: u32,
+    pub(crate) dimensions: Vec<ObservedSafeArrayDimension>,
+    pub(crate) element_vartype: Option<u16>,
+    pub(crate) metadata_dimension_order: &'static str,
+    pub(crate) storage_traversal: &'static str,
+    pub(crate) access_balanced: bool,
 }
 
 /// One SAFEARRAY dimension in physical COM order.
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
-pub(super) struct ObservedSafeArrayDimension {
-    pub(super) physical_dimension: u32,
-    pub(super) lower_bound: i32,
-    pub(super) upper_bound: i32,
-    pub(super) element_count: u32,
+pub(crate) struct ObservedSafeArrayDimension {
+    pub(crate) physical_dimension: u32,
+    pub(crate) lower_bound: i32,
+    pub(crate) upper_bound: i32,
+    pub(crate) element_count: u32,
 }
 
 impl ObservedSafeArray {
@@ -38,7 +38,7 @@ impl ObservedSafeArray {
     ///
     /// `value` must be null or point to a valid SAFEARRAY for the duration of
     /// this call. The method never takes ownership of the descriptor.
-    pub(super) unsafe fn inspect(value: *mut SAFEARRAY) -> Option<Self> {
+    pub(crate) unsafe fn inspect(value: *mut SAFEARRAY) -> Option<Self> {
         if value.is_null() {
             return None;
         }
@@ -86,14 +86,14 @@ impl ObservedSafeArray {
 
 /// Owns a SAFEARRAY returned with transferable ownership by Automation.
 #[allow(dead_code)]
-pub(super) struct OwnedSafeArray(*mut SAFEARRAY);
+pub(crate) struct OwnedSafeArray(*mut SAFEARRAY);
 
 #[allow(dead_code)]
 impl OwnedSafeArray {
     /// Creates an owned `SAFEARRAY(VARIANT)`. Its elements are initialized by
     /// `SafeArrayPutElement`; a partial construction is still destroyed by
     /// this owner's `Drop` implementation.
-    pub(super) fn create_variant(bounds: &[SAFEARRAYBOUND]) -> Result<Self, String> {
+    pub(crate) fn create_variant(bounds: &[SAFEARRAYBOUND]) -> Result<Self, String> {
         let rank = u32::try_from(bounds.len()).map_err(|_| "SAFEARRAY rank overflow")?;
         if rank == 0 {
             return Err("SAFEARRAY rank must be at least one".to_owned());
@@ -104,7 +104,7 @@ impl OwnedSafeArray {
 
     /// Creates a one-dimensional `SAFEARRAY(VARIANT)` through the SDK vector
     /// constructor, retaining the explicit lower bound.
-    pub(super) fn create_variant_vector(lower_bound: i32, element_count: u32) -> Result<Self, String> {
+    pub(crate) fn create_variant_vector(lower_bound: i32, element_count: u32) -> Result<Self, String> {
         let value = unsafe { SafeArrayCreateVector(VT_VARIANT, lower_bound, element_count) };
         unsafe { Self::from_owned(value) }
             .ok_or_else(|| "SafeArrayCreateVector returned null".to_owned())
@@ -113,15 +113,15 @@ impl OwnedSafeArray {
     /// Takes ownership of a SAFEARRAY pointer returned by Automation.
     ///
     /// `value` must be null or be destroyable exactly once with `SafeArrayDestroy`.
-    pub(super) unsafe fn from_owned(value: *mut SAFEARRAY) -> Option<Self> {
+    pub(crate) unsafe fn from_owned(value: *mut SAFEARRAY) -> Option<Self> {
         (!value.is_null()).then_some(Self(value))
     }
 
-    pub(super) fn as_ptr(&self) -> *mut SAFEARRAY {
+    pub(crate) fn as_ptr(&self) -> *mut SAFEARRAY {
         self.0
     }
 
-    pub(super) fn into_raw(mut self) -> *mut SAFEARRAY {
+    pub(crate) fn into_raw(mut self) -> *mut SAFEARRAY {
         let value = self.0;
         self.0 = std::ptr::null_mut();
         value
@@ -130,7 +130,7 @@ impl OwnedSafeArray {
     /// Writes a fully initialized `VARIANT` through the SDK API. `indices`
     /// are ordered by physical SAFEARRAY dimension, never by a guessed Excel
     /// row/column convention.
-    pub(super) fn put_variant(
+    pub(crate) fn put_variant(
         &self,
         indices: &[i32],
         value: &OwnedVariant,
@@ -148,22 +148,35 @@ impl OwnedSafeArray {
     }
 
     /// Retrieves a copied, initialized `VARIANT` through the SDK API.
-    pub(super) fn get_variant(&self, indices: &[i32]) -> Result<OwnedVariant, String> {
-        let mut value = OwnedVariant::empty();
-        let result = unsafe {
-            SafeArrayGetElement(
-                self.0,
-                indices.as_ptr(),
-                &mut value.0 as *mut VARIANT as *mut c_void,
-            )
-        };
-        (result == 0)
-            .then_some(value)
-            .ok_or_else(|| format!("SafeArrayGetElement failed with 0x{:08X}", result as u32))
+    pub(crate) fn get_variant(&self, indices: &[i32]) -> Result<OwnedVariant, String> {
+        get_variant_borrowed(self.0, indices)
     }
 }
 
-pub(super) fn checked_element_count(dimensions: &[ObservedSafeArrayDimension]) -> Option<usize> {
+/// Retrieves one copied `VARIANT` from a borrowed descriptor. The caller
+/// retains ownership of `value`; the returned `OwnedVariant` owns only the
+/// copied element and clears it exactly once.
+pub(crate) fn get_variant_borrowed(
+    value: *mut SAFEARRAY,
+    indices: &[i32],
+) -> Result<OwnedVariant, String> {
+    if value.is_null() {
+        return Err("SAFEARRAY pointer was null".to_owned());
+    }
+    let mut result_value = OwnedVariant::empty();
+    let result = unsafe {
+        SafeArrayGetElement(
+            value,
+            indices.as_ptr(),
+            &mut result_value.0 as *mut VARIANT as *mut c_void,
+        )
+    };
+    (result == 0).then_some(result_value).ok_or_else(|| {
+        format!("SafeArrayGetElement failed with 0x{:08X}", result as u32)
+    })
+}
+
+pub(crate) fn checked_element_count(dimensions: &[ObservedSafeArrayDimension]) -> Option<usize> {
     dimensions.iter().try_fold(1_usize, |total, dimension| {
         total.checked_mul(usize::try_from(dimension.element_count).ok()?)
     })
@@ -172,7 +185,7 @@ pub(super) fn checked_element_count(dimensions: &[ObservedSafeArrayDimension]) -
 /// Converts a zero-based logical row/column position into physical SAFEARRAY
 /// indices only after the caller has established that physical dimension one
 /// maps to rows and dimension two maps to columns.
-pub(super) fn row_column_indices(
+pub(crate) fn row_column_indices(
     dimensions: &[ObservedSafeArrayDimension],
     row: u32,
     column: u32,

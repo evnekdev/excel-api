@@ -11,65 +11,65 @@ use super::com_ptr::{ComPtr, Dispatch};
 use super::safearray::OwnedSafeArray;
 
 /// Owns one initialized Automation `VARIANT`.
-pub(super) struct OwnedVariant(pub(super) VARIANT);
+pub(crate) struct OwnedVariant(pub(crate) VARIANT);
 
 #[allow(dead_code)]
 impl OwnedVariant {
-    pub(super) fn empty() -> Self {
+    pub(crate) fn empty() -> Self {
         let mut value = VARIANT::default();
         unsafe { VariantInit(&mut value) };
         Self(value)
     }
 
-    pub(super) fn boolean(value: bool) -> Self {
+    pub(crate) fn boolean(value: bool) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_BOOL;
         result.0.Anonymous.Anonymous.Anonymous.boolVal = if value { -1 } else { 0 };
         result
     }
 
-    pub(super) fn null() -> Self {
+    pub(crate) fn null() -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_NULL;
         result
     }
 
-    pub(super) fn i2(value: i16) -> Self {
+    pub(crate) fn i2(value: i16) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_I2;
         result.0.Anonymous.Anonymous.Anonymous.iVal = value;
         result
     }
 
-    pub(super) fn i4(value: i32) -> Self {
+    pub(crate) fn i4(value: i32) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_I4;
         result.0.Anonymous.Anonymous.Anonymous.lVal = value;
         result
     }
 
-    pub(super) fn i8(value: i64) -> Self {
+    pub(crate) fn i8(value: i64) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_I8;
         result.0.Anonymous.Anonymous.Anonymous.llVal = value;
         result
     }
 
-    pub(super) fn r4(value: f32) -> Self {
+    pub(crate) fn r4(value: f32) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_R4;
         result.0.Anonymous.Anonymous.Anonymous.fltVal = value;
         result
     }
 
-    pub(super) fn r8(value: f64) -> Self {
+    pub(crate) fn r8(value: f64) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_R8;
         result.0.Anonymous.Anonymous.Anonymous.dblVal = value;
         result
     }
 
-    pub(super) fn error(scode: i32) -> Self {
+    pub(crate) fn error(scode: i32) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_ERROR;
         result.0.Anonymous.Anonymous.Anonymous.scode = scode;
@@ -79,7 +79,7 @@ impl OwnedVariant {
     /// Copies the Automation value with `VariantCopy`.  Prompt 05J uses this
     /// for formula-returned `VT_ERROR` values so the source union bits are not
     /// reconstructed or normalized before a direct write experiment.
-    pub(super) fn copy(&self) -> Result<Self, String> {
+    pub(crate) fn copy(&self) -> Result<Self, String> {
         let mut result = Self::empty();
         let status = unsafe { VariantCopy(&mut result.0, &self.0) };
         (status == 0)
@@ -87,14 +87,14 @@ impl OwnedVariant {
             .ok_or_else(|| format!("VariantCopy failed with 0x{:08X}", status as u32))
     }
 
-    pub(super) fn date(value: f64) -> Self {
+    pub(crate) fn date(value: f64) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_DATE;
         result.0.Anonymous.Anonymous.Anonymous.date = value;
         result
     }
 
-    pub(super) fn currency(scaled_value: i64) -> Self {
+    pub(crate) fn currency(scaled_value: i64) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_CY;
         result.0.Anonymous.Anonymous.Anonymous.cyVal = CY {
@@ -103,7 +103,7 @@ impl OwnedVariant {
         result
     }
 
-    pub(super) fn bstr(text: &str) -> Result<Self, String> {
+    pub(crate) fn bstr(text: &str) -> Result<Self, String> {
         let bstr = OwnedBstr::from_text(text)?;
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_BSTR;
@@ -114,7 +114,7 @@ impl OwnedVariant {
 
     /// Transfers a `SAFEARRAY(VARIANT)` to the VARIANT owner, which destroys
     /// it through `VariantClear` exactly once.
-    pub(super) fn array(array: OwnedSafeArray) -> Self {
+    pub(crate) fn array(array: OwnedSafeArray) -> Self {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = windows_sys::Win32::System::Variant::VT_ARRAY
             | windows_sys::Win32::System::Variant::VT_VARIANT;
@@ -122,11 +122,11 @@ impl OwnedVariant {
         result
     }
 
-    pub(super) fn vt(&self) -> u16 {
+    pub(crate) fn vt(&self) -> u16 {
         unsafe { self.0.Anonymous.Anonymous.vt }
     }
 
-    pub(super) fn i4_value(&self) -> Option<i32> {
+    pub(crate) fn i4_value(&self) -> Option<i32> {
         if self.vt() == VT_I4 {
             Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.lVal })
         } else {
@@ -134,7 +134,7 @@ impl OwnedVariant {
         }
     }
 
-    pub(super) fn error_scode(&self) -> Option<i32> {
+    pub(crate) fn error_scode(&self) -> Option<i32> {
         if self.vt() == VT_ERROR {
             Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.scode })
         } else {
@@ -142,7 +142,7 @@ impl OwnedVariant {
         }
     }
 
-    pub(super) fn is_exact_42(&self) -> bool {
+    pub(crate) fn is_exact_42(&self) -> bool {
         match self.vt() {
             value if value == VT_I4 => self.i4_value() == Some(42),
             value if value == VT_R8 => unsafe { self.0.Anonymous.Anonymous.Anonymous.dblVal == 42.0 },
