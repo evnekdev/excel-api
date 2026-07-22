@@ -36,6 +36,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Default",
       "notes": [],
@@ -77,6 +78,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Shadow",
       "notes": [],
@@ -118,6 +120,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Name",
       "notes": [],
@@ -158,6 +161,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Delete",
       "notes": [],
@@ -198,6 +202,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Width",
       "notes": [],
@@ -239,6 +244,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Height",
       "notes": [],
@@ -280,6 +286,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Top",
       "notes": [],
@@ -321,6 +328,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Left",
       "notes": [],
@@ -361,6 +369,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Border",
       "notes": [],
@@ -400,6 +409,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Interior",
       "notes": [],
@@ -440,6 +450,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Orientation",
       "notes": [],
@@ -481,6 +492,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "HorizontalAlignment",
       "notes": [],
@@ -522,6 +534,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "VerticalAlignment",
       "notes": [],
@@ -562,6 +575,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Font",
       "notes": [],
@@ -601,6 +615,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -640,6 +655,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -679,6 +695,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -734,6 +751,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CopyPicture",
       "notes": [],
@@ -781,6 +799,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Select",
       "notes": [],
@@ -820,6 +839,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Ungroup",
       "notes": [],
@@ -860,6 +880,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Locked",
       "notes": [],
@@ -900,6 +921,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Index",
       "notes": [],
@@ -971,6 +993,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CheckSpelling",
       "notes": [],
@@ -1010,6 +1033,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Copy",
       "notes": [],
@@ -1050,6 +1074,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Visible",
       "notes": [],
@@ -1090,6 +1115,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Cut",
       "notes": [],
@@ -1130,6 +1156,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnAction",
       "notes": [],
@@ -1171,6 +1198,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Enabled",
       "notes": [],
@@ -1211,6 +1239,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BringToFront",
       "notes": [],
@@ -1250,6 +1279,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SendToBack",
       "notes": [],
@@ -1290,6 +1320,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ArrowHeadLength",
       "notes": [],
@@ -1331,6 +1362,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ArrowHeadStyle",
       "notes": [],
@@ -1372,6 +1404,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ArrowHeadWidth",
       "notes": [],
@@ -1413,6 +1446,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoSize",
       "notes": [],
@@ -1453,6 +1487,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BottomRightCell",
       "notes": [],
@@ -1493,6 +1528,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Placement",
       "notes": [],
@@ -1534,6 +1570,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PrintObject",
       "notes": [],
@@ -1575,6 +1612,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RoundedCorners",
       "notes": [],
@@ -1615,6 +1653,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TopLeftCell",
       "notes": [],
@@ -1654,6 +1693,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ZOrder",
       "notes": [],
@@ -1694,6 +1734,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ReadingOrder",
       "notes": [],
@@ -1734,6 +1775,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Duplicate",
       "notes": [],
@@ -1774,6 +1816,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddIndent",
       "notes": [],
@@ -1814,6 +1857,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ShapeRange",
       "notes": [],
@@ -1844,6 +1888,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy27",
       "notes": [],
@@ -1874,6 +1919,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy28",
       "notes": [],
@@ -1904,6 +1950,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy30",
       "notes": [],
@@ -1934,6 +1981,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy36",
       "notes": [],
@@ -1964,6 +2012,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy37",
       "notes": [],
@@ -1994,6 +2043,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy38",
       "notes": [],
@@ -2024,6 +2074,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy41",
       "notes": [],
@@ -2054,6 +2105,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy42",
       "notes": [],
@@ -2084,6 +2136,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy43",
       "notes": [],
@@ -2114,6 +2167,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy44",
       "notes": [],
@@ -2144,6 +2198,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy45",
       "notes": [],
@@ -2174,6 +2229,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy47",
       "notes": [],
@@ -2204,6 +2260,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy48",
       "notes": [],
@@ -2234,6 +2291,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy50",
       "notes": [],
@@ -2264,6 +2322,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy52",
       "notes": [],
@@ -2294,6 +2353,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy53",
       "notes": [],
@@ -2324,6 +2384,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy54",
       "notes": [],
@@ -2354,6 +2415,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy55",
       "notes": [],
@@ -2384,6 +2446,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy56",
       "notes": [],
@@ -2414,6 +2477,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy57",
       "notes": [],
@@ -2444,6 +2508,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy58",
       "notes": [],
@@ -2474,6 +2539,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy59",
       "notes": [],
@@ -2504,6 +2570,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy60",
       "notes": [],
@@ -2534,6 +2601,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy61",
       "notes": [],
@@ -2564,6 +2632,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy62",
       "notes": [],
@@ -2594,6 +2663,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy63",
       "notes": [],
@@ -2624,6 +2694,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy65",
       "notes": [],
@@ -2654,6 +2725,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy66",
       "notes": [],
@@ -2684,6 +2756,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy67",
       "notes": [],
@@ -2714,6 +2787,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy68",
       "notes": [],
@@ -2744,6 +2818,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy70",
       "notes": [],
@@ -2774,6 +2849,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy72",
       "notes": [],
@@ -2804,6 +2880,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy73",
       "notes": [],
@@ -2834,6 +2911,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy75",
       "notes": [],
@@ -2864,6 +2942,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Dummy77",
       "notes": [],
@@ -2885,10 +2964,12 @@
     }
   ],
   "name": "IGroupObject",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "IGroupObject",
-  "surface_class": "deferred-inventory",
+  "surface_class": "hidden",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

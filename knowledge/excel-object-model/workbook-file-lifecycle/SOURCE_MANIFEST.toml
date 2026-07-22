@@ -1,0 +1,29 @@
+schema_version = 1
+name = "excel-com-workbook-file-lifecycle"
+classification = "experimental wrapper implementation evidence"
+source = "Prompt 09; registered Excel 1.9 typelib and owned-process live test"
+baseline_origin_master = "3cd492949f106fdaf18845bee423aa5182589b73"
+raw_pointer_values_recorded = false
+process_identifiers_recorded = false
+user_paths_recorded = false
+passwords_recorded = false
+
+[selection]
+include = [
+    "Application.DisplayAlerts",
+    "Workbooks.Open",
+    "Workbook.FullName",
+    "Workbook.Path",
+    "Workbook.FileFormat",
+    "Workbook.ReadOnly",
+    "Workbook.Save",
+    "Workbook.SaveAs",
+    "Workbook.SaveCopyAs",
+    "Workbook.Close",
+]
+exclude = [
+    "user paths",
+    "process identifiers",
+    "raw pointers",
+    "passwords",
+]

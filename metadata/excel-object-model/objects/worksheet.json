@@ -36,6 +36,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_CodeName",
       "notes": [],
@@ -76,6 +77,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Evaluate",
       "notes": [],
@@ -115,6 +117,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Evaluate",
       "notes": [],
@@ -154,6 +157,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DrawingObjects",
       "notes": [],
@@ -184,6 +188,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Outline",
       "notes": [],
@@ -214,6 +219,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Type",
       "notes": [],
@@ -257,6 +263,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Name",
       "notes": [],
@@ -291,6 +298,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Delete",
       "notes": [],
@@ -321,6 +329,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -351,6 +360,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -381,6 +391,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -411,6 +422,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Protection",
       "notes": [],
@@ -460,6 +472,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Range",
       "notes": [],
@@ -509,6 +522,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Paste",
       "notes": [],
@@ -548,6 +562,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Select",
       "notes": [],
@@ -578,6 +593,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Cells",
       "notes": [],
@@ -608,6 +624,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Columns",
       "notes": [],
@@ -638,6 +655,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Rows",
       "notes": [],
@@ -668,6 +686,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Calculate",
       "notes": [],
@@ -707,6 +726,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PrintPreview",
       "notes": [],
@@ -778,6 +798,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Protect",
       "notes": [],
@@ -881,6 +902,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "__SaveAs",
       "notes": [],
@@ -920,6 +942,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Unprotect",
       "notes": [],
@@ -950,6 +973,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectContents",
       "notes": [],
@@ -980,6 +1004,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectDrawingObjects",
       "notes": [],
@@ -1010,6 +1035,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectScenarios",
       "notes": [],
@@ -1040,6 +1066,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Activate",
       "notes": [],
@@ -1080,6 +1107,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TransitionExpEval",
       "notes": [],
@@ -1121,6 +1149,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TransitionFormEntry",
       "notes": [],
@@ -1152,6 +1181,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "StandardHeight",
       "notes": [],
@@ -1192,6 +1222,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "StandardWidth",
       "notes": [],
@@ -1223,6 +1254,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ShowDataForm",
       "notes": [],
@@ -1255,6 +1287,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "UsedRange",
       "notes": [],
@@ -1287,6 +1320,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Names",
       "notes": [],
@@ -1319,6 +1353,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Index",
       "notes": [],
@@ -1351,6 +1386,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Next",
       "notes": [],
@@ -1381,6 +1417,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Previous",
       "notes": [],
@@ -1444,6 +1481,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CheckSpelling",
       "notes": [],
@@ -1491,6 +1529,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Copy",
       "notes": [],
@@ -1530,6 +1569,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Buttons",
       "notes": [],
@@ -1573,6 +1613,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Visible",
       "notes": [],
@@ -1607,6 +1648,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Comments",
       "notes": [],
@@ -1647,6 +1689,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnCalculate",
       "notes": [],
@@ -1688,6 +1731,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnEntry",
       "notes": [],
@@ -1729,6 +1773,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnDoubleClick",
       "notes": [],
@@ -1770,6 +1815,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnData",
       "notes": [],
@@ -1818,6 +1864,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Move",
       "notes": [],
@@ -1858,6 +1905,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DisplayAutomaticPageBreaks",
       "notes": [],
@@ -1899,6 +1947,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_DisplayRightToLeft",
       "notes": [],
@@ -2059,6 +2108,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableWizard",
       "notes": [],
@@ -2098,6 +2148,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTables",
       "notes": [],
@@ -2137,6 +2188,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Arcs",
       "notes": [],
@@ -2176,6 +2228,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Lines",
       "notes": [],
@@ -2215,6 +2268,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Pictures",
       "notes": [],
@@ -2254,6 +2308,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Drawings",
       "notes": [],
@@ -2293,6 +2348,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Rectangles",
       "notes": [],
@@ -2332,6 +2388,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TextBoxes",
       "notes": [],
@@ -2362,6 +2419,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ConsolidationFunction",
       "notes": [],
@@ -2392,6 +2450,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ConsolidationOptions",
       "notes": [],
@@ -2422,6 +2481,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ConsolidationSources",
       "notes": [],
@@ -2462,6 +2522,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoFilterMode",
       "notes": [],
@@ -2493,6 +2554,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_AutoFilter",
       "notes": [],
@@ -2523,6 +2585,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ShowAllData",
       "notes": [],
@@ -2562,6 +2625,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OLEObjects",
       "notes": [],
@@ -2592,6 +2656,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "FilterMode",
       "notes": [],
@@ -2631,6 +2696,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Ovals",
       "notes": [],
@@ -2670,6 +2736,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CheckBoxes",
       "notes": [],
@@ -2709,6 +2776,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OptionButtons",
       "notes": [],
@@ -2748,6 +2816,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ScrollBars",
       "notes": [],
@@ -2787,6 +2856,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ListBoxes",
       "notes": [],
@@ -2826,6 +2896,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "GroupBoxes",
       "notes": [],
@@ -2865,6 +2936,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DropDowns",
       "notes": [],
@@ -2904,6 +2976,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Spinners",
       "notes": [],
@@ -2943,6 +3016,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Labels",
       "notes": [],
@@ -2973,6 +3047,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Sort",
       "notes": [],
@@ -3060,6 +3135,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "__PrintOut",
       "notes": [],
@@ -3099,6 +3175,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Scenarios",
       "notes": [],
@@ -3129,6 +3206,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ClearArrows",
       "notes": [],
@@ -3159,6 +3237,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PageSetup",
       "notes": [],
@@ -3238,6 +3317,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_PasteSpecial",
       "notes": [],
@@ -3278,6 +3358,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnSheetActivate",
       "notes": [],
@@ -3309,6 +3390,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Tab",
       "notes": [],
@@ -3348,6 +3430,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ChartObjects",
       "notes": [],
@@ -3378,6 +3461,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CircularReference",
       "notes": [],
@@ -3418,6 +3502,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OnSheetDeactivate",
       "notes": [],
@@ -3458,6 +3543,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "GroupObjects",
       "notes": [],
@@ -3498,6 +3584,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnableAutoFilter",
       "notes": [],
@@ -3539,6 +3626,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnableOutlining",
       "notes": [],
@@ -3580,6 +3668,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnablePivotTable",
       "notes": [],
@@ -3611,6 +3700,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectionMode",
       "notes": [],
@@ -3650,6 +3740,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SetBackgroundPicture",
       "notes": [],
@@ -3680,6 +3771,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CodeName",
       "notes": [],
@@ -3710,6 +3802,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Shapes",
       "notes": [],
@@ -3740,6 +3833,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Hyperlinks",
       "notes": [],
@@ -3770,6 +3864,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "HPageBreaks",
       "notes": [],
@@ -3800,6 +3895,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "VPageBreaks",
       "notes": [],
@@ -3840,6 +3936,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnableCalculation",
       "notes": [],
@@ -3881,6 +3978,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnableSelection",
       "notes": [],
@@ -3912,6 +4010,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ResetAllPageBreaks",
       "notes": [],
@@ -3952,6 +4051,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ScrollArea",
       "notes": [],
@@ -3983,6 +4083,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryTables",
       "notes": [],
@@ -4023,6 +4124,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DisplayPageBreaks",
       "notes": [],
@@ -4054,6 +4156,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ClearCircles",
       "notes": [],
@@ -4084,6 +4187,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CircleInvalid",
       "notes": [],
@@ -4179,6 +4283,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_PrintOut",
       "notes": [],
@@ -4219,6 +4324,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DisplayRightToLeft",
       "notes": [],
@@ -4250,6 +4356,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Scripts",
       "notes": [],
@@ -4329,6 +4436,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_CheckSpelling",
       "notes": [],
@@ -4440,6 +4548,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_SaveAs",
       "notes": [],
@@ -4527,6 +4636,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PasteSpecial",
       "notes": [],
@@ -4557,6 +4667,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SmartTags",
       "notes": [],
@@ -4587,6 +4698,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MailEnvelope",
       "notes": [],
@@ -4746,6 +4858,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Protect",
       "notes": [],
@@ -4776,6 +4889,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CustomProperties",
       "notes": [],
@@ -4806,6 +4920,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ListObjects",
       "notes": [],
@@ -4861,6 +4976,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "XmlDataQuery",
       "notes": [],
@@ -4916,6 +5032,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "XmlMapQuery",
       "notes": [],
@@ -5019,6 +5136,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PrintOut",
       "notes": [],
@@ -5122,6 +5240,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_ExportAsFixedFormat",
       "notes": [],
@@ -5162,6 +5281,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EnableFormatConditionsCalculation",
       "notes": [],
@@ -5193,6 +5313,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PrintedCommentPages",
       "notes": [],
@@ -5304,6 +5425,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SaveAs",
       "notes": [],
@@ -5415,6 +5537,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ExportAsFixedFormat",
       "notes": [],
@@ -5445,6 +5568,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CommentsThreaded",
       "notes": [],
@@ -5475,6 +5599,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Sort",
       "notes": [],
@@ -5505,6 +5630,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoFilter",
       "notes": [],
@@ -5535,6 +5661,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NamedSheetViews",
       "notes": [],
@@ -5582,6 +5709,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -5612,6 +5740,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -5642,6 +5771,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -5681,6 +5811,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -5736,6 +5867,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -5807,6 +5939,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -5902,6 +6035,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -5923,10 +6057,12 @@
     }
   ],
   "name": "Worksheet",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "_Worksheet",
-  "surface_class": "implemented-wrapper",
+  "surface_class": "primary-object-model",
   "test_status": "live-tested",
+  "typelib_type_flags": 4288,
   "typelib_version": {
     "major": 1,
     "minor": 9

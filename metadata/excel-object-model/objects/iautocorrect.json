@@ -33,6 +33,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -72,6 +73,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -111,6 +113,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -166,6 +169,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddReplacement",
       "notes": [],
@@ -213,6 +217,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DeleteReplacement",
       "notes": [],
@@ -253,6 +258,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ReplaceText",
       "notes": [],
@@ -294,6 +300,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TwoInitialCapitals",
       "notes": [],
@@ -335,6 +342,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CapitalizeNamesOfDays",
       "notes": [],
@@ -384,6 +392,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ReplacementList",
       "notes": [],
@@ -425,6 +434,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CorrectSentenceCap",
       "notes": [],
@@ -466,6 +476,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CorrectCapsLock",
       "notes": [],
@@ -507,6 +518,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DisplayAutoCorrectOptions",
       "notes": [],
@@ -548,6 +560,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoExpandListRange",
       "notes": [],
@@ -589,6 +602,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoFillFormulasInLists",
       "notes": [],
@@ -630,6 +644,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TruncateLeadingZeros",
       "notes": [],
@@ -671,6 +686,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TruncateLargeNumbers",
       "notes": [],
@@ -712,6 +728,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ConvertNumbersWithECharacter",
       "notes": [],
@@ -734,10 +751,12 @@
     }
   ],
   "name": "IAutoCorrect",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "IAutoCorrect",
-  "surface_class": "deferred-inventory",
+  "surface_class": "hidden",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

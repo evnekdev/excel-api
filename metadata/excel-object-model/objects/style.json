@@ -26,6 +26,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "_Default",
       "notes": [],
@@ -56,6 +57,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Value",
       "notes": [],
@@ -86,6 +88,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Name",
       "notes": [],
@@ -116,6 +119,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Delete",
       "notes": [],
@@ -146,6 +150,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Interior",
       "notes": [],
@@ -186,6 +191,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Orientation",
       "notes": [],
@@ -227,6 +233,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "HorizontalAlignment",
       "notes": [],
@@ -268,6 +275,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "VerticalAlignment",
       "notes": [],
@@ -299,6 +307,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Font",
       "notes": [],
@@ -329,6 +338,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -359,6 +369,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -389,6 +400,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -429,6 +441,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NumberFormat",
       "notes": [],
@@ -470,6 +483,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IndentLevel",
       "notes": [],
@@ -511,6 +525,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MergeCells",
       "notes": [],
@@ -552,6 +567,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ShrinkToFit",
       "notes": [],
@@ -593,6 +609,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "FormulaHidden",
       "notes": [],
@@ -634,6 +651,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Locked",
       "notes": [],
@@ -675,6 +693,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WrapText",
       "notes": [],
@@ -716,6 +735,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludeAlignment",
       "notes": [],
@@ -757,6 +777,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludeBorder",
       "notes": [],
@@ -798,6 +819,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludeFont",
       "notes": [],
@@ -839,6 +861,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludeNumber",
       "notes": [],
@@ -880,6 +903,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludePatterns",
       "notes": [],
@@ -921,6 +945,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncludeProtection",
       "notes": [],
@@ -952,6 +977,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Borders",
       "notes": [],
@@ -982,6 +1008,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BuiltIn",
       "notes": [],
@@ -1012,6 +1039,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NameLocal",
       "notes": [],
@@ -1052,6 +1080,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ReadingOrder",
       "notes": [],
@@ -1093,6 +1122,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddIndent",
       "notes": [],
@@ -1134,6 +1164,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NumberFormatLocal",
       "notes": [],
@@ -1182,6 +1213,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -1212,6 +1244,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -1242,6 +1275,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -1281,6 +1315,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -1336,6 +1371,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -1407,6 +1443,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -1502,6 +1539,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -1523,10 +1561,12 @@
     }
   ],
   "name": "Style",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Style",
-  "surface_class": "deferred-inventory",
+  "surface_class": "secondary-public",
   "test_status": "not-tested",
+  "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,
     "minor": 9

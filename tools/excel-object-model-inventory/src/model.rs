@@ -28,12 +28,30 @@ pub const CONFIDENCE_STATUSES: &[&str] = &[
     "conflicting",
     "unknown",
 ];
-/// Controlled classification of how broadly an object belongs to the initial wrapper surface.
+/// Controlled classification of an object's type-library surface.
 pub const SURFACE_CLASSES: &[&str] = &[
+    "primary-object-model",
+    "secondary-public",
+    "hidden",
+    "restricted",
+    "event-interface",
+    "coclass",
+    "legacy",
+    "internal",
+    "unknown",
+];
+/// Controlled implementation-roadmap classification independent of type-library surface.
+pub const ROADMAP_CLASSES: &[&str] = &[
     "implemented-wrapper",
     "priority-inventory",
     "deferred-inventory",
-    "event-surface",
+];
+/// Controlled provenance for a member listed by a type library.
+pub const MEMBER_ORIGINS: &[&str] = &[
+    "declared",
+    "inherited-iunknown",
+    "inherited-idispatch",
+    "inherited-base-interface",
 ];
 
 pub fn slug(value: &str) -> String {
@@ -87,15 +105,48 @@ pub fn wrapper_object(name: &str) -> bool {
         "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range"
     )
 }
-pub fn surface_class(name: &str, event_interface: bool) -> &'static str {
+pub fn surface_class(
+    name: &str,
+    kind: &str,
+    event_interface: bool,
+    type_flags: u16,
+) -> &'static str {
     if event_interface {
-        "event-surface"
+        "event-interface"
+    } else if kind == "coclass" {
+        "coclass"
+    } else if type_flags & 0x0200 != 0 {
+        "restricted"
+    } else if type_flags & 0x0010 != 0 {
+        "hidden"
     } else if wrapper_object(name) {
+        "primary-object-model"
+    } else if kind == "alias" {
+        "internal"
+    } else if name.starts_with('_') {
+        "legacy"
+    } else if matches!(kind, "dispatch-interface" | "interface") {
+        "secondary-public"
+    } else {
+        "unknown"
+    }
+}
+pub fn roadmap_class(name: &str, kind: &str, event_interface: bool) -> &'static str {
+    if event_interface || kind == "coclass" || kind == "alias" {
+        "deferred-inventory"
+    } else if wrapper_object(name) && kind == "dispatch-interface" {
         "implemented-wrapper"
     } else if priority_object(name) {
         "priority-inventory"
     } else {
         "deferred-inventory"
+    }
+}
+pub fn member_origin(name: &str) -> &'static str {
+    match name {
+        "QueryInterface" | "AddRef" | "Release" => "inherited-iunknown",
+        "GetTypeInfoCount" | "GetTypeInfo" | "GetIDsOfNames" | "Invoke" => "inherited-idispatch",
+        _ => "declared",
     }
 }
 pub fn implemented_member_ids() -> BTreeSet<&'static str> {

@@ -58,6 +58,12 @@ impl<T> ComPtr<T> {
     pub(crate) fn raw(&self) -> *mut c_void {
         self.raw.as_ptr()
     }
+    /// Transfers this one owned COM reference to an ABI owner such as VARIANT.
+    pub(crate) fn into_raw(self) -> *mut c_void {
+        let raw = self.raw();
+        std::mem::forget(self);
+        raw
+    }
     pub(crate) unsafe fn vtbl(&self) -> &DispatchVtbl {
         // SAFETY: constructors require an owned generic IDispatch pointer with this vtable layout.
         unsafe { &**(self.raw() as *const *const DispatchVtbl) }

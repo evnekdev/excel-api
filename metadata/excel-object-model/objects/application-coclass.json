@@ -14,10 +14,12 @@
   "kind": "coclass",
   "members": [],
   "name": "Application",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Application",
-  "surface_class": "implemented-wrapper",
+  "surface_class": "coclass",
   "test_status": "not-tested",
+  "typelib_type_flags": 2,
   "typelib_version": {
     "major": 1,
     "minor": 9

@@ -24,6 +24,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -64,6 +65,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AutoFit",
       "notes": [],
@@ -105,6 +107,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RotationX",
       "notes": [],
@@ -146,6 +149,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RotationY",
       "notes": [],
@@ -187,6 +191,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RotationZ",
       "notes": [],
@@ -228,6 +233,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "FieldOfView",
       "notes": [],
@@ -269,6 +275,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CameraPositionX",
       "notes": [],
@@ -310,6 +317,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CameraPositionY",
       "notes": [],
@@ -351,6 +359,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "CameraPositionZ",
       "notes": [],
@@ -392,6 +401,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "LookAtPointX",
       "notes": [],
@@ -433,6 +443,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "LookAtPointY",
       "notes": [],
@@ -474,6 +485,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "LookAtPointZ",
       "notes": [],
@@ -514,6 +526,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ResetModel",
       "notes": [],
@@ -553,6 +566,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncrementRotationX",
       "notes": [],
@@ -592,6 +606,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncrementRotationY",
       "notes": [],
@@ -631,6 +646,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IncrementRotationZ",
       "notes": [],
@@ -678,6 +694,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -708,6 +725,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -738,6 +756,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -777,6 +796,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -832,6 +852,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -903,6 +924,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -998,6 +1020,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -1028,6 +1051,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -1058,6 +1082,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -1079,10 +1104,12 @@
     }
   ],
   "name": "Model3DFormat",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "Model3DFormat",
-  "surface_class": "deferred-inventory",
+  "surface_class": "secondary-public",
   "test_status": "not-tested",
+  "typelib_type_flags": 4288,
   "typelib_version": {
     "major": 1,
     "minor": 9

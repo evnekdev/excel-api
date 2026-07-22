@@ -24,6 +24,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Application",
       "notes": [],
@@ -54,6 +55,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Creator",
       "notes": [],
@@ -84,6 +86,7 @@
         "PROPERTYGET"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Parent",
       "notes": [],
@@ -124,6 +127,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BackgroundChecking",
       "notes": [],
@@ -165,6 +169,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "IndicatorColorIndex",
       "notes": [],
@@ -206,6 +211,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EvaluateToError",
       "notes": [],
@@ -247,6 +253,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TextDate",
       "notes": [],
@@ -288,6 +295,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NumberAsText",
       "notes": [],
@@ -329,6 +337,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "InconsistentFormula",
       "notes": [],
@@ -370,6 +379,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OmittedCells",
       "notes": [],
@@ -411,6 +421,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "UnlockedFormulaCells",
       "notes": [],
@@ -452,6 +463,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "EmptyCellReferences",
       "notes": [],
@@ -493,6 +505,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ListDataValidation",
       "notes": [],
@@ -534,6 +547,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "InconsistentTableFormula",
       "notes": [],
@@ -575,6 +589,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MisleadingNumberFormats",
       "notes": [],
@@ -616,6 +631,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "OutdatedLinkedDataType",
       "notes": [],
@@ -664,6 +680,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -694,6 +711,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -724,6 +742,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -763,6 +782,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -818,6 +838,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -889,6 +910,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -984,6 +1006,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -1005,10 +1028,12 @@
     }
   ],
   "name": "ErrorCheckingOptions",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "ErrorCheckingOptions",
-  "surface_class": "deferred-inventory",
+  "surface_class": "secondary-public",
   "test_status": "not-tested",
+  "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,
     "minor": 9

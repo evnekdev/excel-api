@@ -12,12 +12,12 @@
 | Workbook | Title | 199 | Metadata Only |
 | Workbook | Colors | 286 | Metadata Only |
 | Workbook | CreateBackup | 287 | Metadata Only |
-| Workbook | FileFormat | 288 | Metadata Only |
-| Workbook | FullName | 289 | Metadata Only |
+| Workbook | FileFormat | 288 | Implemented |
+| Workbook | FullName | 289 | Implemented |
 | Workbook | HasPassword | 290 | Metadata Only |
-| Workbook | Path | 291 | Metadata Only |
+| Workbook | Path | 291 | Implemented |
 | Workbook | ProtectWindows | 295 | Metadata Only |
-| Workbook | ReadOnly | 296 | Metadata Only |
+| Workbook | ReadOnly | 296 | Implemented |
 | Workbook | _ReadOnlyRecommended | 297 | Metadata Only |
 | Workbook | Saved | 298 | Implemented |
 | Workbook | WriteReserved | 299 | Metadata Only |

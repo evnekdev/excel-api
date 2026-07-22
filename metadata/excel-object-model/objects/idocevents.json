@@ -24,6 +24,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Calculate",
       "notes": [],
@@ -54,6 +55,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Activate",
       "notes": [],
@@ -93,6 +95,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "FollowHyperlink",
       "notes": [],
@@ -123,6 +126,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Deactivate",
       "notes": [],
@@ -170,6 +174,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeRightClick",
       "notes": [],
@@ -217,6 +222,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeDoubleClick",
       "notes": [],
@@ -256,6 +262,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SelectionChange",
       "notes": [],
@@ -295,6 +302,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Change",
       "notes": [],
@@ -334,6 +342,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableUpdate",
       "notes": [],
@@ -381,6 +390,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableAfterValueChange",
       "notes": [],
@@ -444,6 +454,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableBeforeAllocateChanges",
       "notes": [],
@@ -507,6 +518,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableBeforeCommitChanges",
       "notes": [],
@@ -562,6 +574,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableBeforeDiscardChanges",
       "notes": [],
@@ -601,6 +614,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "PivotTableChangeSync",
       "notes": [],
@@ -631,6 +645,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "LensGalleryRenderComplete",
       "notes": [],
@@ -670,6 +685,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "TableUpdate",
       "notes": [],
@@ -700,6 +716,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeDelete",
       "notes": [],
@@ -739,6 +756,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteChange",
       "notes": [],
@@ -769,6 +787,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteBeforeDelete",
       "notes": [],
@@ -808,6 +827,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemotePivotTableUpdate",
       "notes": [],
@@ -847,6 +867,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemotePivotTableChangeSync",
       "notes": [],
@@ -868,10 +889,12 @@
     }
   ],
   "name": "IDocEvents",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "IDocEvents",
-  "surface_class": "event-surface",
+  "surface_class": "event-interface",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

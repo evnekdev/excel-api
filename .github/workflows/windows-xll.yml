@@ -24,6 +24,8 @@ jobs:
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Tests
         run: cargo test --workspace --all-features
+      - name: Experimental Excel COM unit and integration tests
+        run: cargo test -p excel-com
       - name: Core without default macros
         run: cargo test -p excel-api --no-default-features
       - name: Doctests
@@ -36,6 +38,10 @@ jobs:
         env:
           RUSTDOCFLAGS: -D warnings
         run: cargo doc -p excel-com --all-features --no-deps
+      - name: Excel object-model inventory checker
+        run: cargo run --offline -p excel-object-model-inventory -- check --root .
+      - name: Excel object-model registered-typelib diff
+        run: cargo run --offline -p excel-object-model-inventory -- diff --root .
       - name: ABI checker
         run: cargo run --manifest-path tools/abi-check/Cargo.toml
       - name: Build release XLL

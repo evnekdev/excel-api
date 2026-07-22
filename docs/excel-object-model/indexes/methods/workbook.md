@@ -2,12 +2,12 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Workbook | SaveCopyAs | 175 | Metadata Only |
+| Workbook | SaveCopyAs | 175 | Implemented |
 | Workbook | Close | 277 | Implemented |
 | Workbook | NewWindow | 280 | Metadata Only |
 | Workbook | PrintPreview | 281 | Metadata Only |
 | Workbook | _Protect | 282 | Metadata Only |
-| Workbook | Save | 283 | Metadata Only |
+| Workbook | Save | 283 | Implemented |
 | Workbook | __SaveAs | 284 | Metadata Only |
 | Workbook | Unprotect | 285 | Metadata Only |
 | Workbook | Activate | 304 | Metadata Only |
@@ -78,7 +78,7 @@
 | Workbook | Dummy26 | 2869 | Metadata Only |
 | Workbook | Dummy27 | 2870 | Metadata Only |
 | Workbook | CreateForecastSheet | 3167 | Metadata Only |
-| Workbook | SaveAs | 3174 | Metadata Only |
+| Workbook | SaveAs | 3174 | Implemented |
 | Workbook | ExportAsFixedFormat | 3175 | Metadata Only |
 | Workbook | PublishToPBI | 3257 | Metadata Only |
 | Workbook | ConvertComments | 3279 | Metadata Only |

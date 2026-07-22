@@ -13,6 +13,7 @@ mod value;
 mod variant;
 
 pub use argument::AutomationArgument;
+pub(crate) use argument::{PositionalArguments, reverse_for_com};
 pub use array::AutomationArray;
 pub use conversion_error::ConversionError;
 pub use currency::Currency;

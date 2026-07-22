@@ -34,6 +34,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Direction",
       "notes": [],
@@ -98,6 +99,7 @@
         "METHOD"
       ],
       "kind": "METHOD",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Speak",
       "notes": [],
@@ -138,6 +140,7 @@
         "PROPERTYPUT"
       ],
       "kind": "PROPERTYGET",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SpeakCellOnEnter",
       "notes": [],
@@ -160,10 +163,12 @@
     }
   ],
   "name": "ISpeech",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "ISpeech",
-  "surface_class": "deferred-inventory",
+  "surface_class": "hidden",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

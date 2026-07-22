@@ -11,6 +11,12 @@ impl Bstr {
             return Err(ExcelComError::Conversion(ConversionError::EmbeddedNul));
         }
         let units: Vec<u16> = text.encode_utf16().collect();
+        Self::from_wide(&units)
+    }
+    pub(crate) fn from_wide(units: &[u16]) -> Result<Self, ExcelComError> {
+        if units.contains(&0) {
+            return Err(ExcelComError::Conversion(ConversionError::EmbeddedNul));
+        }
         // SAFETY: `units` is valid UTF-16 storage for the duration of this allocation call.
         let pointer = unsafe { SysAllocStringLen(units.as_ptr(), units.len() as u32) };
         (!pointer.is_null())

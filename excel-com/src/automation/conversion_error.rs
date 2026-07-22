@@ -56,4 +56,11 @@ pub enum ConversionError {
     },
     /// A returned BSTR did not contain valid UTF-16.
     InvalidUtf16String,
+    /// An argument conversion failed before a positional Automation call.
+    ArgumentConversion {
+        /// Zero-based position in the wrapper's logical Excel argument order.
+        position: usize,
+        /// The underlying conversion failure.
+        source: Box<ConversionError>,
+    },
 }

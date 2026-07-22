@@ -24,6 +24,8 @@ pub enum ExcelComError {
     },
     /// Calling an Automation member failed.
     Invocation {
+        /// The Excel wrapper object receiving the call.
+        object_type: &'static str,
         /// The invoked member name.
         member: &'static str,
         /// The resolved member DISPID.
@@ -34,12 +36,19 @@ pub enum ExcelComError {
         exception_scode: Option<i32>,
         /// The Automation argument index reported by COM, if any.
         argument_index: Option<u32>,
+        /// The `DISPATCH_*` flags supplied to `IDispatch::Invoke`.
+        dispatch_flags: u16,
     },
     /// A value could not be converted before or after an Automation call.
     Conversion(ConversionError),
     /// A COM ownership invariant was violated.
     Ownership {
         /// A static description of the invariant.
+        detail: &'static str,
+    },
+    /// A Windows path cannot be represented safely at the BSTR boundary.
+    InvalidPath {
+        /// A static description that intentionally excludes the caller path.
         detail: &'static str,
     },
     /// The requested operation is intentionally outside this crate's slice.
@@ -74,20 +83,23 @@ impl Display for ExcelComError {
                 *hresult as u32
             ),
             Self::Invocation {
+                object_type,
                 member,
                 dispid,
                 hresult,
                 exception_scode,
                 argument_index,
+                dispatch_flags,
             } => write!(
                 formatter,
-                "invocation of {member} (DISPID {dispid}) failed (0x{:08X}, EXCEPINFO {:?}, argument {:?})",
+                "invocation of {object_type}.{member} (DISPID {dispid}, flags {dispatch_flags}) failed (0x{:08X}, EXCEPINFO {:?}, argument {:?})",
                 *hresult as u32,
                 exception_scode.map(|value| format!("0x{:08X}", value as u32)),
                 argument_index
             ),
             Self::Conversion(error) => write!(formatter, "Automation conversion failed: {error:?}"),
             Self::Ownership { detail } => write!(formatter, "COM ownership failure: {detail}"),
+            Self::InvalidPath { detail } => write!(formatter, "invalid Windows path: {detail}"),
             Self::Unsupported { detail } => {
                 write!(formatter, "unsupported Automation operation: {detail}")
             }
@@ -103,11 +115,13 @@ mod tests {
     #[test]
     fn formatting_keeps_hresult_and_omits_addresses() {
         let error = ExcelComError::Invocation {
+            object_type: "Application",
             member: "Quit",
             dispid: 302,
             hresult: -1,
             exception_scode: Some(0x800A_03EC_u32 as i32),
             argument_index: None,
+            dispatch_flags: 1,
         };
         let text = error.to_string();
         assert!(text.contains("0xFFFFFFFF"));

@@ -40,7 +40,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nThe experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Status values and surface classes are controlled and machine-readable. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -115,11 +115,13 @@ fn object_page(object: &Value, relationships: &[Value], existing: Option<&str>) 
         summary(object["name"].as_str().unwrap()),
     );
     let generated = format!(
-        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Surface class | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
+        "## Identity\n\n| Field | Value |\n|---|---|\n| Interface | `{}` |\n| GUID | `{}` |\n| Object kind | {} |\n| Surface class | {} |\n| Roadmap class | {} |\n| Type flags | {} |\n| Crate type | `excel_com::{}` |\n| Implementation | {} |\n| Documentation | {} |\n| Tests | {} |\n\n## Relationships\n\n{}\n\n## Properties\n\n{}\n\n## Methods\n\n{}\n\n## Events\n\n{}\n\n## Unsupported or deferred behaviour\n\nSee the global unsupported index for unimplemented object-model areas.\n",
         object["source_interface"].as_str().unwrap_or("--"),
         object["guid"].as_str().unwrap_or("--"),
         object["kind"].as_str().unwrap_or("--"),
         object["surface_class"].as_str().unwrap_or("--"),
+        object["roadmap_class"].as_str().unwrap_or("--"),
+        object["typelib_type_flags"],
         object["name"].as_str().unwrap_or("Object"),
         title(&object["implemented_status"]),
         title(&object["documentation_status"]),
@@ -190,15 +192,15 @@ fn relationship_table(object: &Value, relationships: &[Value]) -> String {
 fn member_table(object: &Value, property: bool) -> String {
     let mut lines = vec![
         if property {
-            "| Property | Access | Type | DISPID | Implementation | Docs | Tests | Notes |"
+            "| Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |"
         } else {
-            "| Method | Return | Arguments | DISPID | Implementation | Docs | Tests | Notes |"
+            "| Method | Return | Arguments | Origin | DISPID | Implementation | Docs | Tests | Notes |"
         }
         .to_owned(),
         if property {
-            "|---|---|---|---:|---|---|---|---|"
+            "|---|---|---|---|---:|---|---|---|---|"
         } else {
-            "|---|---|---:|---:|---|---|---|---|"
+            "|---|---|---:|---|---:|---|---|---|---|"
         }
         .to_owned(),
     ];
@@ -222,8 +224,9 @@ fn member_table(object: &Value, property: bool) -> String {
             .unwrap_or_default();
         if property {
             lines.push(format!(
-                "| {name} | {kind} | {} | {} | {} | {} | {} | |",
+                "| {name} | {kind} | {} | {} | {} | {} | {} | {} | |",
                 member["return_type"].as_str().unwrap_or("--"),
+                member["member_origin"].as_str().unwrap_or("--"),
                 member["dispid"],
                 title(&member["implementation_status"]),
                 title(&member["documentation_status"]),
@@ -231,8 +234,9 @@ fn member_table(object: &Value, property: bool) -> String {
             ));
         } else {
             lines.push(format!(
-                "| {name} | {} | {args} | {} | {} | {} | {} | |",
+                "| {name} | {} | {args} | {} | {} | {} | {} | {} | |",
                 member["return_type"].as_str().unwrap_or("--"),
+                member["member_origin"].as_str().unwrap_or("--"),
                 member["dispid"],
                 title(&member["implementation_status"]),
                 title(&member["documentation_status"]),
@@ -241,7 +245,7 @@ fn member_table(object: &Value, property: bool) -> String {
         }
     }
     if lines.len() == 2 {
-        lines.push("| -- | -- | -- | -- | -- | -- | -- | -- |".to_owned());
+        lines.push("| -- | -- | -- | -- | -- | -- | -- | -- | -- |".to_owned());
     }
     lines.join("\n")
 }
@@ -425,6 +429,11 @@ fn status(objects: &[Value]) -> String {
     let mut member_counts = BTreeMap::new();
     let mut test_counts = BTreeMap::new();
     let mut surface_counts = BTreeMap::new();
+    let mut roadmap_counts = BTreeMap::new();
+    let mut raw_member_count = 0usize;
+    let mut declared_member_count = 0usize;
+    let mut inherited_member_count = 0usize;
+    let mut implemented_declared_count = 0usize;
     for object in objects {
         *object_counts
             .entry(object["implemented_status"].as_str().unwrap_or("unknown"))
@@ -432,10 +441,22 @@ fn status(objects: &[Value]) -> String {
         *surface_counts
             .entry(object["surface_class"].as_str().unwrap_or("unknown"))
             .or_insert(0usize) += 1;
+        *roadmap_counts
+            .entry(object["roadmap_class"].as_str().unwrap_or("unknown"))
+            .or_insert(0usize) += 1;
         *test_counts
             .entry(object["test_status"].as_str().unwrap_or("unknown"))
             .or_insert(0usize) += 1;
         for member in object["members"].as_array().into_iter().flatten() {
+            raw_member_count += 1;
+            if member["member_origin"].as_str() != Some("declared") {
+                inherited_member_count += 1;
+                continue;
+            }
+            declared_member_count += 1;
+            if member["implementation_status"].as_str() == Some("implemented") {
+                implemented_declared_count += 1;
+            }
             let kind = if member["kind"].as_str() == Some("event") {
                 "Events"
             } else if is_property(member) {
@@ -473,14 +494,27 @@ fn status(objects: &[Value]) -> String {
             object_counts.get(status).unwrap_or(&0)
         ));
     }
-    text.push_str("\n## Surface classes\n\n| Surface class | Object count |\n|---|---:|\n");
+    text.push_str(
+        "\n## Type-library surface classes\n\n| Surface class | Object count |\n|---|---:|\n",
+    );
     for class in model::SURFACE_CLASSES {
         text.push_str(&format!(
             "| {class} | {} |\n",
             surface_counts.get(class).unwrap_or(&0)
         ));
     }
-    text.push_str("\n## Member coverage\n\n| Member type | Total | Implemented | Partial | Metadata only | Not started |\n|---|---:|---:|---:|---:|---:|\n");
+    text.push_str("\n## Roadmap classes\n\n| Roadmap class | Object count |\n|---|---:|\n");
+    for class in model::ROADMAP_CLASSES {
+        text.push_str(&format!(
+            "| {class} | {} |\n",
+            roadmap_counts.get(class).unwrap_or(&0)
+        ));
+    }
+    text.push_str("\n## Member coverage\n\n| Coverage basis | Count |\n|---|---:|\n");
+    text.push_str(&format!(
+        "| Raw type-library members | {raw_member_count} |\n| Declared Excel members | {declared_member_count} |\n| Inherited COM members | {inherited_member_count} |\n| Implemented declared Excel members | {implemented_declared_count} |\n"
+    ));
+    text.push_str("\nOnly declared Excel members are included in the human coverage table below.\n\n| Member type | Declared total | Implemented | Partial | Metadata only | Not started |\n|---|---:|---:|---:|---:|---:|\n");
     for kind in ["Properties", "Methods", "Events"] {
         let total: usize = member_counts
             .iter()
