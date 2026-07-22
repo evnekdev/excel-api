@@ -1,0 +1,8 @@
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[255,0,0],"excel_raw":255,"channels_round_trip":true}
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[0,255,0],"excel_raw":65280,"channels_round_trip":true}
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[0,0,255],"excel_raw":16711680,"channels_round_trip":true}
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[0,0,0],"excel_raw":0,"channels_round_trip":true}
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[255,255,255],"excel_raw":16777215,"channels_round_trip":true}
+{"schema_version":1,"case_id":"range-formatting-live","rgb":[12,34,56],"excel_raw":3678732,"hex":"0x0038220C","channels_round_trip":true,"packing":"red-low-byte green-next blue-third; hexadecimal form 0x00BBGGRR"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Font.Color","automatic_color_raw":0,"color_vartype":"VT_R8"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Interior.Color","automatic_color_raw":16777215,"color_vartype":"VT_R8"}

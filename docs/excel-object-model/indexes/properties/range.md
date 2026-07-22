@@ -11,17 +11,17 @@
 | Range | Height | 123 | Metadata Only |
 | Range | Top | 126 | Metadata Only |
 | Range | Left | 127 | Metadata Only |
-| Range | Interior | 129 | Metadata Only |
+| Range | Interior | 129 | Implemented |
 | Range | Orientation | 134 | Metadata Only |
-| Range | HorizontalAlignment | 136 | Metadata Only |
-| Range | VerticalAlignment | 137 | Metadata Only |
+| Range | HorizontalAlignment | 136 | Implemented |
+| Range | VerticalAlignment | 137 | Implemented |
 | Range | Text | 138 | Metadata Only |
-| Range | Font | 146 | Metadata Only |
+| Range | Font | 146 | Implemented |
 | Range | Application | 148 | Metadata Only |
 | Range | Creator | 149 | Metadata Only |
 | Range | Parent | 150 | Metadata Only |
 | Range | Item | 170 | Implemented |
-| Range | NumberFormat | 193 | Metadata Only |
+| Range | NumberFormat | 193 | Implemented |
 | Range | Range | 197 | Metadata Only |
 | Range | IndentLevel | 201 | Metadata Only |
 | Range | MergeCells | 208 | Metadata Only |
@@ -30,7 +30,7 @@
 | Range | Cells | 238 | Implemented |
 | Range | Column | 240 | Implemented |
 | Range | Columns | 241 | Implemented |
-| Range | ColumnWidth | 242 | Metadata Only |
+| Range | ColumnWidth | 242 | Implemented |
 | Range | CurrentRegion | 243 | Metadata Only |
 | Range | EntireColumn | 246 | Implemented |
 | Range | EntireRow | 247 | Implemented |
@@ -50,13 +50,13 @@
 | Range | Hidden | 268 | Metadata Only |
 | Range | Locked | 269 | Metadata Only |
 | Range | OutlineLevel | 271 | Metadata Only |
-| Range | RowHeight | 272 | Metadata Only |
+| Range | RowHeight | 272 | Implemented |
 | Range | Summary | 273 | Metadata Only |
 | Range | UseStandardHeight | 274 | Metadata Only |
 | Range | UseStandardWidth | 275 | Metadata Only |
-| Range | WrapText | 276 | Metadata Only |
+| Range | WrapText | 276 | Implemented |
 | Range | Worksheet | 348 | Metadata Only |
-| Range | Borders | 435 | Metadata Only |
+| Range | Borders | 435 | Implemented |
 | Range | AddressLocal | 437 | Metadata Only |
 | Range | End | 500 | Metadata Only |
 | Range | CurrentArray | 501 | Metadata Only |

@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.interior",
   "guid": "{00020870-0000-0000-c000-000000000046}",
   "id": "excel.interior",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -20,11 +20,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 95,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.pattern",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -32,20 +35,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "Pattern",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -62,11 +69,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 97,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.colorindex",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -74,20 +84,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "ColorIndex",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -104,11 +118,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 98,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.patterncolorindex",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -116,20 +133,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "PatternColorIndex",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -146,11 +167,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 99,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.color",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -158,20 +182,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "Color",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -188,11 +216,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 100,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.patterncolor",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -200,20 +231,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "PatternColor",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -232,7 +267,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 132,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.invertifnegative",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -250,7 +285,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -265,7 +300,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -282,7 +317,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -296,7 +331,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -313,7 +348,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -327,7 +362,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -344,7 +379,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -367,7 +402,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2365,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.themecolor",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -385,7 +420,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -409,7 +444,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2366,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.tintandshade",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -427,7 +462,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -451,7 +486,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2643,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.patternthemecolor",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -469,7 +504,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -493,7 +528,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2644,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.patterntintandshade",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -511,7 +546,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -526,7 +561,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2645,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.gradient",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -543,7 +578,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -574,7 +609,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -591,7 +626,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -605,7 +640,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -622,7 +657,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -636,7 +671,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -653,7 +688,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -676,7 +711,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -693,7 +728,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -732,7 +767,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -749,7 +784,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -804,7 +839,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -821,7 +856,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -900,7 +935,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.interior.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -917,7 +952,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -929,11 +964,11 @@
     }
   ],
   "name": "Interior",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Interior",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "live-tested",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

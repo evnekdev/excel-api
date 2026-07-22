@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"range-formatting-live","input":"RowHeight NaN","result":"rejected before COM"}
+{"schema_version":1,"case_id":"range-formatting-live","input":"ColumnWidth positive infinity","result":"rejected before COM"}
+{"schema_version":1,"case_id":"range-formatting-live","input":"NumberFormat embedded NUL","result":"rejected before COM"}
+{"schema_version":1,"case_id":"range-formatting-live","input":"Font.Name embedded NUL","result":"rejected before COM"}

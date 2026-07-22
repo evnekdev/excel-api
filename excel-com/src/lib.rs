@@ -6,7 +6,7 @@
 //! `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range`.
 //! It starts a local Excel Automation server; it does not attach to an
 //! existing session, marshal interfaces, expose raw COM pointers, or offer a
-//! generic collection, formatting, chart, macro, or event API. The public API
+//! generic collection, chart, macro, or event API. The public API
 //! remains experimental and may change before a first release.
 //!
 //! # Apartments and lifetime
@@ -84,6 +84,53 @@
 //! array, whereas [`Application::evaluate_range`] requires a Range object.
 //! Equal addresses, names, and formula strings do not imply canonical COM
 //! object identity.
+//!
+//! # Formatting ranges
+//!
+//! Formatting wrappers preserve Excel's mixed-selection results: a getter that
+//! sees a concrete common value returns [`MixedValue::Uniform`], whereas an
+//! Excel `Null` result becomes [`MixedValue::Mixed`] and `Empty` becomes
+//! [`MixedValue::Empty`]. RGB values use [`ExcelColor`] and Excel's low-byte
+//! red, then green, then blue integer order. Every formatting wrapper remains
+//! apartment-bound and is neither `Send` nor `Sync`.
+//!
+//! | Need | API |
+//! |---|---|
+//! | Font | [`Range::font`] |
+//! | Fill | [`Range::interior`] |
+//! | Borders | [`Range::borders`] |
+//! | Number format | [`Range::set_number_format`] |
+//! | Horizontal alignment | [`Range::set_horizontal_alignment`] |
+//! | Vertical alignment | [`Range::set_vertical_alignment`] |
+//! | Wrap text | [`Range::set_wrap_text`] |
+//! | Row height | [`Range::set_row_height`] |
+//! | Column width | [`Range::set_column_width`] |
+//! | AutoFit | [`Range::auto_fit`] |
+//!
+//! ```no_run
+//! # fn example(range: &excel_com::Range) -> Result<(), excel_com::ExcelComError> {
+//! use excel_com::{
+//!     BorderIndex, BorderLineStyle, BorderWeight, ExcelColor, HorizontalAlignment, MixedValue,
+//! };
+//! let font = range.font()?;
+//! font.set_bold(true)?;
+//! font.set_size(12.0)?;
+//! font.set_color(ExcelColor::from_rgb(20, 40, 180))?;
+//! range.interior()?.set_color(ExcelColor::from_rgb(240, 240, 200))?;
+//! range.set_number_format("0.00")?;
+//! range.set_horizontal_alignment(HorizontalAlignment::CENTER)?;
+//! let bottom = range.borders()?.item(BorderIndex::EDGE_BOTTOM)?;
+//! bottom.set_line_style(BorderLineStyle::CONTINUOUS)?;
+//! bottom.set_weight(BorderWeight::THIN)?;
+//! range.entire_column()?.auto_fit()?;
+//! match range.font()?.bold()? {
+//!     MixedValue::Uniform(value) => println!("{value}"),
+//!     MixedValue::Mixed => println!("selection uses mixed bold formatting"),
+//!     MixedValue::Empty => println!("no concrete value"),
+//! }
+//! # Ok(())
+//! # }
+//! ```
 //!
 //! | Need | API |
 //! |---|---|
@@ -172,9 +219,11 @@ pub use automation::{
 };
 pub use error::ExcelComError;
 pub use excel::{
-    Application, Areas, AreasIter, DisplayAlertsGuard, FormulaConversionOptions, Name,
-    NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions,
-    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, SaveChanges, Workbook,
+    Application, Areas, AreasIter, Border, BorderIndex, BorderLineStyle, BorderWeight, Borders,
+    BordersIter, DisplayAlertsGuard, ExcelColor, ExcelColorIndex, FillPattern, Font,
+    FormulaConversionOptions, HorizontalAlignment, Interior, MixedValue, Name, NameAddOptions,
+    NameRefersTo, Names, NamesIter, Range, RangeAddressOptions, ReferenceAbsoluteMode,
+    ReferenceStyle, ReferenceStyleGuard, SaveChanges, UnderlineStyle, VerticalAlignment, Workbook,
     WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions,
     Workbooks, WorkbooksIter, Worksheet, Worksheets, WorksheetsAddOptions, WorksheetsIter,
     XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,

@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"range-formatting-live","preexisting_excel_processes":0,"cleanup":"workbook close without saving then Application.Quit","post_cleanup_excel_processes":0,"termination_policy":"no process-name-wide termination"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","preexisting_excel_processes":0,"cleanup":"workbook close without saving then Application.Quit","post_cleanup_excel_processes":0,"termination_policy":"no process-name-wide termination"}

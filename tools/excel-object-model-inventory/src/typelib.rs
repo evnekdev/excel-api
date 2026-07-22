@@ -356,6 +356,9 @@ fn object_record(
             }
             .to_owned(),
         );
+        if mixed_value_possible(&id) {
+            member["mixed_value_possible"] = Value::Bool(true);
+        }
         let target = target
             .filter(|target| {
                 matches!(
@@ -367,6 +370,10 @@ fn object_record(
                         | "Worksheet"
                         | "Range"
                         | "Areas"
+                        | "Font"
+                        | "Interior"
+                        | "Borders"
+                        | "Border"
                 )
             })
             .or_else(|| relationship_fallback(&id).map(str::to_owned));
@@ -390,6 +397,7 @@ fn object_record(
         "Worksheets" => Some("Worksheet"),
         "Areas" => Some("Range"),
         "Names" => Some("Name"),
+        "Borders" => Some("Border"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -402,11 +410,12 @@ fn object_record(
     let index_kinds = match model::canonical_name(raw_name) {
         "Workbooks" | "Worksheets" | "Names" => vec!["one-based-integer", "string-key"],
         "Areas" => vec!["one-based-integer"],
+        "Borders" => vec!["enum-key"],
         _ if is_collection => vec!["variant-key"],
         _ => vec!["no-index"],
     };
     let iterator_status = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" | "Areas" | "Names" => "implemented",
+        "Workbooks" | "Worksheets" | "Areas" | "Names" | "Borders" => "implemented",
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
@@ -444,6 +453,10 @@ fn object_record(
     let categories = evaluation_result_categories(raw_name);
     if !categories.is_null() {
         record["evaluation_result_categories"] = categories;
+    }
+    let formatting = formatting_capability(raw_name);
+    if !formatting.is_null() {
+        record["formatting_capability"] = formatting;
     }
     Ok(record)
 }
@@ -501,7 +514,34 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.range.value"
         | "excel.range.value2"
         | "excel.range.formula"
-        | "excel.range.formula2" => &["PROPERTYGET", "PROPERTYPUT"],
+        | "excel.range.formula2"
+        | "excel.range.numberformat"
+        | "excel.range.horizontalalignment"
+        | "excel.range.verticalalignment"
+        | "excel.range.wraptext"
+        | "excel.range.rowheight"
+        | "excel.range.columnwidth"
+        | "excel.font.name"
+        | "excel.font.size"
+        | "excel.font.bold"
+        | "excel.font.italic"
+        | "excel.font.underline"
+        | "excel.font.strikethrough"
+        | "excel.font.color"
+        | "excel.font.colorindex"
+        | "excel.interior.color"
+        | "excel.interior.colorindex"
+        | "excel.interior.pattern"
+        | "excel.interior.patterncolor"
+        | "excel.interior.patterncolorindex"
+        | "excel.borders.color"
+        | "excel.borders.colorindex"
+        | "excel.borders.linestyle"
+        | "excel.borders.weight"
+        | "excel.border.color"
+        | "excel.border.colorindex"
+        | "excel.border.linestyle"
+        | "excel.border.weight" => &["PROPERTYGET", "PROPERTYPUT"],
         "excel.application.convertformula"
         | "excel.application.evaluate-1"
         | "excel.worksheet.evaluate-1"
@@ -515,7 +555,7 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.workbook.saveas-3174"
         | "excel.workbook.savecopyas" => &["METHOD"],
         "excel.workbooks.add" => &["PROPERTYGET"],
-        "excel.worksheets.add" | "excel.range.clearcontents" => &["METHOD"],
+        "excel.worksheets.add" | "excel.range.clearcontents" | "excel.range.autofit" => &["METHOD"],
         "excel.application.version"
         | "excel.application.workbooks"
         | "excel.workbook.names"
@@ -540,6 +580,12 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.range.count"
         | "excel.range.rows"
         | "excel.range.columns"
+        | "excel.range.font"
+        | "excel.range.interior"
+        | "excel.range.borders"
+        | "excel.borders.count"
+        | "excel.borders.item"
+        | "excel.borders.newenum"
         | "excel.names.count"
         | "excel.names.newenum"
         | "excel.name.name"
@@ -577,6 +623,55 @@ fn evaluation_result_categories(name: &str) -> Value {
         _ => Value::Null,
     }
 }
+
+fn formatting_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Range" => json!({
+            "font": true,
+            "fill": true,
+            "borders": true,
+            "number_format": true,
+            "alignment": true,
+            "dimensions": true,
+            "autofit": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn mixed_value_possible(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.numberformat"
+            | "excel.range.horizontalalignment"
+            | "excel.range.verticalalignment"
+            | "excel.range.wraptext"
+            | "excel.range.rowheight"
+            | "excel.range.columnwidth"
+            | "excel.font.name"
+            | "excel.font.size"
+            | "excel.font.bold"
+            | "excel.font.italic"
+            | "excel.font.underline"
+            | "excel.font.strikethrough"
+            | "excel.font.color"
+            | "excel.font.colorindex"
+            | "excel.interior.color"
+            | "excel.interior.colorindex"
+            | "excel.interior.pattern"
+            | "excel.interior.patterncolor"
+            | "excel.interior.patterncolorindex"
+            | "excel.borders.color"
+            | "excel.borders.colorindex"
+            | "excel.borders.linestyle"
+            | "excel.borders.weight"
+            | "excel.border.color"
+            | "excel.border.colorindex"
+            | "excel.border.linestyle"
+            | "excel.border.weight"
+    )
+}
+
 fn relationship_fallback(id: &str) -> Option<&'static str> {
     match id {
         "excel.workbook.worksheets" => Some("Worksheets"),

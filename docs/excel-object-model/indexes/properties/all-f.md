@@ -68,15 +68,15 @@
 | Floor | PictureType | 161 | Metadata Only |
 | Floor | Fill | 1663 | Metadata Only |
 | Floor | Thickness | 2652 | Metadata Only |
-| Font | Bold | 96 | Metadata Only |
-| Font | ColorIndex | 97 | Metadata Only |
-| Font | Color | 99 | Metadata Only |
-| Font | Italic | 101 | Metadata Only |
+| Font | Bold | 96 | Implemented |
+| Font | ColorIndex | 97 | Implemented |
+| Font | Color | 99 | Implemented |
+| Font | Italic | 101 | Implemented |
 | Font | Shadow | 103 | Metadata Only |
-| Font | Size | 104 | Metadata Only |
-| Font | Strikethrough | 105 | Metadata Only |
-| Font | Underline | 106 | Metadata Only |
-| Font | Name | 110 | Metadata Only |
+| Font | Size | 104 | Implemented |
+| Font | Strikethrough | 105 | Implemented |
+| Font | Underline | 106 | Implemented |
+| Font | Name | 110 | Implemented |
 | Font | Application | 148 | Metadata Only |
 | Font | Creator | 149 | Metadata Only |
 | Font | Parent | 150 | Metadata Only |

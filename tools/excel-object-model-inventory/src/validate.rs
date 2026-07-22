@@ -98,6 +98,23 @@ pub fn check(root: &Path) -> Result<(), String> {
         } else if !object["evaluation_result_categories"].is_null() {
             return Err("evaluation_result_categories must be an array or null".to_owned());
         }
+        if let Some(capabilities) = object["formatting_capability"].as_object() {
+            for field in [
+                "font",
+                "fill",
+                "borders",
+                "number_format",
+                "alignment",
+                "dimensions",
+                "autofit",
+            ] {
+                if !capabilities[field].is_boolean() {
+                    return Err(format!("formatting capability {field} must be boolean"));
+                }
+            }
+        } else if !object["formatting_capability"].is_null() {
+            return Err("formatting_capability must be an object or null".to_owned());
+        }
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?
@@ -116,6 +133,11 @@ pub fn check(root: &Path) -> Result<(), String> {
             }
             if member["dispid"].as_i64().is_none() {
                 return Err(format!("member {id} has invalid DISPID"));
+            }
+            if !member["mixed_value_possible"].is_null()
+                && !member["mixed_value_possible"].is_boolean()
+            {
+                return Err(format!("member {id} has invalid mixed_value_possible"));
             }
             let code_mapping = model::implemented_member_ids().contains(id);
             let metadata_implemented =

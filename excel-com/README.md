@@ -53,8 +53,8 @@ cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
 ```
 
 Events, charts, macros, existing-session attachment, marshaling, generic
-collections, formatting, and a stable public API are intentionally out of
-scope for this first crate slice.
+collections, conditional formatting, styles, themes, and a stable public API
+are intentionally out of scope for this first crate slice.
 
 ## Typed collections and Range navigation
 
@@ -104,6 +104,33 @@ scope behavior; a valid Name does not necessarily resolve to a Range.
 `Worksheet::range` changed from its earlier `AutomationArgument` plus optional
 second-argument form to `range(&str)`. Use `range_between` for separate A1
 corners instead.
+
+## Range formatting
+
+Core Range formatting uses apartment-bound `Font`, `Interior`, `Borders`, and
+`Border` wrappers. Formatting getters return `MixedValue<T>` so an Excel mixed
+selection is never silently coerced to a scalar default. `ExcelColor` follows
+Excel's COLORREF byte order: `ExcelColor::from_rgb(12, 34, 56).raw()` is
+`3678732`.
+
+| Need | API |
+|---|---|
+| Font | `Range::font` |
+| Fill | `Range::interior` |
+| Borders | `Range::borders` |
+| Number format | `Range::set_number_format` |
+| Horizontal alignment | `Range::set_horizontal_alignment` |
+| Vertical alignment | `Range::set_vertical_alignment` |
+| Wrap text | `Range::set_wrap_text` |
+| Row height | `Range::set_row_height` |
+| Column width | `Range::set_column_width` |
+| AutoFit | `Range::auto_fit` |
+
+Use `range.entire_column()?.auto_fit()?` or
+`range.entire_row()?.auto_fit()?` for Excel's supported AutoFit shapes. Column
+widths are Excel character-width units based on the Normal style font, and row
+heights are in points. The crate exposes invariant `NumberFormat`, not
+`NumberFormatLocal`.
 
 ## API documentation
 

@@ -12,6 +12,15 @@
   },
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.range(object)",
+  "formatting_capability": {
+    "alignment": true,
+    "autofit": true,
+    "borders": true,
+    "dimensions": true,
+    "fill": true,
+    "font": true,
+    "number_format": true
+  },
   "guid": "{00020846-0000-0000-c000-000000000046}",
   "id": "excel.range",
   "implemented_interface_count": 1,
@@ -639,11 +648,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 129,
       "documentation_status": "reviewed",
       "id": "excel.range.interior",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -655,15 +666,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Interior))",
       "return_type": "Interior",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -721,11 +734,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 136,
       "documentation_status": "reviewed",
       "id": "excel.range.horizontalalignment",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -733,20 +749,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "HorizontalAlignment",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -763,11 +783,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 137,
       "documentation_status": "reviewed",
       "id": "excel.range.verticalalignment",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -775,20 +798,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "VerticalAlignment",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -827,11 +854,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 146,
       "documentation_status": "reviewed",
       "id": "excel.range.font",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -843,15 +872,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Font))",
       "return_type": "Font",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -1010,11 +1041,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 193,
       "documentation_status": "reviewed",
       "id": "excel.range.numberformat",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1022,20 +1056,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "NumberFormat",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1468,11 +1506,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "METHOD"
+      ],
       "dispid": 237,
       "documentation_status": "reviewed",
       "id": "excel.range.autofit",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -1484,15 +1524,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "METHOD"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -1640,11 +1682,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 242,
       "documentation_status": "reviewed",
       "id": "excel.range.columnwidth",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1652,20 +1697,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "ColumnWidth",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2966,11 +3015,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 272,
       "documentation_status": "reviewed",
       "id": "excel.range.rowheight",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -2978,20 +3030,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "RowHeight",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3123,11 +3179,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 276,
       "documentation_status": "reviewed",
       "id": "excel.range.wraptext",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3135,20 +3194,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "WrapText",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -3521,11 +3584,13 @@
     },
     {
       "arguments": [],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "dispid": 435,
       "documentation_status": "reviewed",
       "id": "excel.range.borders",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -3537,15 +3602,17 @@
       "optional_argument_count": 0,
       "raw_return_type": "VT_PTR(VT_USERDEFINED(Borders))",
       "return_type": "Borders",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET"
+      ],
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]

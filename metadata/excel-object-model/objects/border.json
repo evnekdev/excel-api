@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.border",
   "guid": "{00020854-0000-0000-c000-000000000046}",
   "id": "excel.border",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -20,11 +20,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 97,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.colorindex",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -32,20 +35,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "ColorIndex",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -62,11 +69,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 99,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.color",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -74,20 +84,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "Color",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -104,11 +118,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 119,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.linestyle",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -116,20 +133,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "LineStyle",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -146,11 +167,14 @@
           "raw_com_type": "VT_AutomationValue (12)"
         }
       ],
-      "chosen_crate_invoke_kinds": [],
+      "chosen_crate_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "dispid": 120,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.weight",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -158,20 +182,24 @@
       "kind": "PROPERTYGET",
       "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
+      "mixed_value_possible": true,
       "name": "Weight",
       "notes": [],
       "optional_argument_count": 0,
       "raw_return_type": "VT_AutomationValue (12)",
       "return_type": "AutomationValue",
-      "runtime_confirmed_invoke_kinds": [],
+      "runtime_confirmed_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -181,7 +209,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -198,7 +226,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -212,7 +240,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -229,7 +257,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -243,7 +271,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -260,7 +288,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -283,7 +311,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2365,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.themecolor",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -301,7 +329,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -325,7 +353,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2366,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.tintandshade",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -343,7 +371,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -375,7 +403,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -392,7 +420,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -406,7 +434,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -423,7 +451,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -437,7 +465,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -454,7 +482,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -477,7 +505,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -494,7 +522,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -533,7 +561,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -550,7 +578,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -605,7 +633,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -622,7 +650,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -701,7 +729,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.border.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -718,7 +746,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -730,11 +758,11 @@
     }
   ],
   "name": "Border",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Border",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "live-tested",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"range-formatting-live","property":"Range.WrapText","set":true,"readback":true,"result":"uniform","vartype":"VT_BOOL"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Range.WrapText","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}

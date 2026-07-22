@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"range-formatting-live","property":"Interior.Color","set_raw":7915760,"readback_raw":7915760,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Interior.Pattern","set_raw":1,"readback_raw":1,"result":"uniform"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Interior.PatternColor","set_raw":2168331,"readback_raw":2168331,"result":"uniform"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Interior.Color","uniform_vartype":"VT_R8","automatic_color_raw":16777215,"automatic_result":"uniform"}

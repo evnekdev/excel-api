@@ -1,0 +1,4 @@
+{"schema_version":1,"case_id":"range-formatting-live","edges":["bottom","top","left","right"],"line_style_raw":1,"weight_raw":2,"color_raw":4608090,"readback":"uniform per edge"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"Border.LineStyle","uniform_vartype":"VT_I4","continuous_raw":1}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Border.LineStyle","set_raw":-4142,"readback_raw":-4142,"meaning":"removed border"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"Borders.LineStyle","aggregate_set_raw":1,"observed_effect":"all four outer edges read continuous"}

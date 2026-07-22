@@ -1,0 +1,3 @@
+{"schema_version":1,"case_id":"range-formatting-live","property":"HorizontalAlignment","set_raw":-4108,"readback_raw":-4108,"result":"uniform","vartype":"VT_I4"}
+{"schema_version":1,"case_id":"range-formatting-live","property":"VerticalAlignment","set_raw":-4108,"readback_raw":-4108,"result":"uniform"}
+{"schema_version":1,"case_id":"formatting-variant-diagnostic","property":"HorizontalAlignment","mixed_vartype":"VT_NULL","public_mixed_value":"Mixed"}
