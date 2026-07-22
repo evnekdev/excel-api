@@ -1,0 +1,45 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpivottablesourcetype",
+  "implementation_status": "not-started",
+  "name": "XlPivotTableSourceType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConsolidation",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDatabase",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExternal",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTable",
+      "numeric_value": -4148
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlScenario",
+      "numeric_value": 4
+    }
+  ]
+}

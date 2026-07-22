@@ -1,0 +1,577 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlcharttype",
+  "implementation_status": "not-started",
+  "name": "XlChartType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741893,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DArea",
+      "numeric_value": -4098
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DAreaStacked",
+      "numeric_value": 78
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DAreaStacked100",
+      "numeric_value": 79
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DBarClustered",
+      "numeric_value": 60
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DBarStacked",
+      "numeric_value": 61
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DBarStacked100",
+      "numeric_value": 62
+    },
+    {
+      "dispid": 1073741887,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DColumn",
+      "numeric_value": -4100
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DColumnClustered",
+      "numeric_value": 54
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DColumnStacked",
+      "numeric_value": 55
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DColumnStacked100",
+      "numeric_value": 56
+    },
+    {
+      "dispid": 1073741889,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DLine",
+      "numeric_value": -4101
+    },
+    {
+      "dispid": 1073741890,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DPie",
+      "numeric_value": -4102
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xl3DPieExploded",
+      "numeric_value": 70
+    },
+    {
+      "dispid": 1073741894,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlArea",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAreaStacked",
+      "numeric_value": 76
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAreaStacked100",
+      "numeric_value": 77
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBarClustered",
+      "numeric_value": 57
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBarOfPie",
+      "numeric_value": 71
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBarStacked",
+      "numeric_value": 58
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBarStacked100",
+      "numeric_value": 59
+    },
+    {
+      "dispid": 1073741901,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBoxwhisker",
+      "numeric_value": 121
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBubble",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlBubble3DEffect",
+      "numeric_value": 87
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColumnClustered",
+      "numeric_value": 51
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColumnStacked",
+      "numeric_value": 52
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlColumnStacked100",
+      "numeric_value": 53
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeBarClustered",
+      "numeric_value": 102
+    },
+    {
+      "dispid": 1073741877,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeBarStacked",
+      "numeric_value": 103
+    },
+    {
+      "dispid": 1073741878,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeBarStacked100",
+      "numeric_value": 104
+    },
+    {
+      "dispid": 1073741879,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeCol",
+      "numeric_value": 105
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeColClustered",
+      "numeric_value": 99
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeColStacked",
+      "numeric_value": 100
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlConeColStacked100",
+      "numeric_value": 101
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderBarClustered",
+      "numeric_value": 95
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderBarStacked",
+      "numeric_value": 96
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderBarStacked100",
+      "numeric_value": 97
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderCol",
+      "numeric_value": 98
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderColClustered",
+      "numeric_value": 92
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderColStacked",
+      "numeric_value": 93
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCylinderColStacked100",
+      "numeric_value": 94
+    },
+    {
+      "dispid": 1073741895,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoughnut",
+      "numeric_value": -4120
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDoughnutExploded",
+      "numeric_value": 80
+    },
+    {
+      "dispid": 1073741903,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFunnel",
+      "numeric_value": 123
+    },
+    {
+      "dispid": 1073741898,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlHistogram",
+      "numeric_value": 118
+    },
+    {
+      "dispid": 1073741888,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLine",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLineMarkers",
+      "numeric_value": 65
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLineMarkersStacked",
+      "numeric_value": 66
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLineMarkersStacked100",
+      "numeric_value": 67
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLineStacked",
+      "numeric_value": 63
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLineStacked100",
+      "numeric_value": 64
+    },
+    {
+      "dispid": 1073741902,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPareto",
+      "numeric_value": 122
+    },
+    {
+      "dispid": 1073741891,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPie",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPieExploded",
+      "numeric_value": 69
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPieOfPie",
+      "numeric_value": 68
+    },
+    {
+      "dispid": 1073741883,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidBarClustered",
+      "numeric_value": 109
+    },
+    {
+      "dispid": 1073741884,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidBarStacked",
+      "numeric_value": 110
+    },
+    {
+      "dispid": 1073741885,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidBarStacked100",
+      "numeric_value": 111
+    },
+    {
+      "dispid": 1073741886,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidCol",
+      "numeric_value": 112
+    },
+    {
+      "dispid": 1073741880,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidColClustered",
+      "numeric_value": 106
+    },
+    {
+      "dispid": 1073741881,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidColStacked",
+      "numeric_value": 107
+    },
+    {
+      "dispid": 1073741882,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPyramidColStacked100",
+      "numeric_value": 108
+    },
+    {
+      "dispid": 1073741896,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRadar",
+      "numeric_value": -4151
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRadarFilled",
+      "numeric_value": 82
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRadarMarkers",
+      "numeric_value": 81
+    },
+    {
+      "dispid": 1073741904,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRegionMap",
+      "numeric_value": 140
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStockHLC",
+      "numeric_value": 88
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStockOHLC",
+      "numeric_value": 89
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStockVHLC",
+      "numeric_value": 90
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlStockVOHLC",
+      "numeric_value": 91
+    },
+    {
+      "dispid": 1073741900,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSunburst",
+      "numeric_value": 120
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSurface",
+      "numeric_value": 83
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSurfaceTopView",
+      "numeric_value": 85
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSurfaceTopViewWireframe",
+      "numeric_value": 86
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSurfaceWireframe",
+      "numeric_value": 84
+    },
+    {
+      "dispid": 1073741897,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTreemap",
+      "numeric_value": 117
+    },
+    {
+      "dispid": 1073741899,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWaterfall",
+      "numeric_value": 119
+    },
+    {
+      "dispid": 1073741892,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXYScatter",
+      "numeric_value": -4169
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXYScatterLines",
+      "numeric_value": 74
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXYScatterLinesNoMarkers",
+      "numeric_value": 75
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXYScatterSmooth",
+      "numeric_value": 72
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXYScatterSmoothNoMarkers",
+      "numeric_value": 73
+    }
+  ]
+}

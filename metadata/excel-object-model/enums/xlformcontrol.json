@@ -1,0 +1,80 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlformcontrol",
+  "implementation_status": "not-started",
+  "name": "XlFormControl",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlButtonControl",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCheckBox",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDropDown",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlEditBox",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGroupBox",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLabel",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlListBox",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOptionButton",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlScrollBar",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSpinner",
+      "numeric_value": 9
+    }
+  ]
+}

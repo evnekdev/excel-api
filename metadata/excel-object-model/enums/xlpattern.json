@@ -1,0 +1,164 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpattern",
+  "implementation_status": "not-started",
+  "name": "XlPattern",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternAutomatic",
+      "numeric_value": -4105
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternChecker",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternCrissCross",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternDown",
+      "numeric_value": -4121
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGray16",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGray25",
+      "numeric_value": -4124
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGray50",
+      "numeric_value": -4125
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGray75",
+      "numeric_value": -4126
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGray8",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternGrid",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternHorizontal",
+      "numeric_value": -4128
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternLightDown",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternLightHorizontal",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternLightUp",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternLightVertical",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternLinearGradient",
+      "numeric_value": 4000
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternNone",
+      "numeric_value": -4142
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternRectangularGradient",
+      "numeric_value": 4001
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternSemiGray75",
+      "numeric_value": 10
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternSolid",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternUp",
+      "numeric_value": -4162
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPatternVertical",
+      "numeric_value": -4166
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.application(object)",
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00024500-0000-0000-c000-000000000046}",
+  "id": "excel.application.coclass",
+  "implemented_interface_count": 2,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "coclass",
+  "members": [],
+  "name": "Application",
+  "schema_version": 1,
+  "source_interface": "Application",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

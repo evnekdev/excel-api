@@ -1,0 +1,3635 @@
+[
+  {
+    "member_id": "excel.aboveaverage.application",
+    "schema_version": 1,
+    "source": "excel.aboveaverage",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.aboveaverage.appliesto",
+    "schema_version": 1,
+    "source": "excel.aboveaverage",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.action.application",
+    "schema_version": 1,
+    "source": "excel.action",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.actions.application",
+    "schema_version": 1,
+    "source": "excel.actions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.addin.application",
+    "schema_version": 1,
+    "source": "excel.addin",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.addins.application",
+    "schema_version": 1,
+    "source": "excel.addins",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.addins2.application",
+    "schema_version": 1,
+    "source": "excel.addins2",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.alloweditrange.range",
+    "schema_version": 1,
+    "source": "excel.alloweditrange",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.activecell",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.activeworkbook",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.application.application",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.application.cells",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.columns",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.intersect",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.nextletter",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.application.parent",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.application.range",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.rows",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.thiscell",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.thisworkbook",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.application.union",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.application.workbooks",
+    "schema_version": 1,
+    "source": "excel.application",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbooks"
+  },
+  {
+    "member_id": "excel.arc.application",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.arc.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.arc.topleftcell",
+    "schema_version": 1,
+    "source": "excel.arc",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.arcs.application",
+    "schema_version": 1,
+    "source": "excel.arcs",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.areas.application",
+    "schema_version": 1,
+    "source": "excel.areas",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.areas.default",
+    "schema_version": 1,
+    "source": "excel.areas",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.areas.item",
+    "schema_version": 1,
+    "source": "excel.areas",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.author.application",
+    "schema_version": 1,
+    "source": "excel.author",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.autocorrect.application",
+    "schema_version": 1,
+    "source": "excel.autocorrect",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.autofilter.application",
+    "schema_version": 1,
+    "source": "excel.autofilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.autofilter.range",
+    "schema_version": 1,
+    "source": "excel.autofilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.autorecover.application",
+    "schema_version": 1,
+    "source": "excel.autorecover",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.axes.application",
+    "schema_version": 1,
+    "source": "excel.axes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.axis.application",
+    "schema_version": 1,
+    "source": "excel.axis",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.axistitle.application",
+    "schema_version": 1,
+    "source": "excel.axistitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.border.application",
+    "schema_version": 1,
+    "source": "excel.border",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.borders.application",
+    "schema_version": 1,
+    "source": "excel.borders",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.button.application",
+    "schema_version": 1,
+    "source": "excel.button",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.button.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.button",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.button.topleftcell",
+    "schema_version": 1,
+    "source": "excel.button",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.buttons.application",
+    "schema_version": 1,
+    "source": "excel.buttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.calculatedfields.application",
+    "schema_version": 1,
+    "source": "excel.calculatedfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.calculateditems.application",
+    "schema_version": 1,
+    "source": "excel.calculateditems",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.calculatedmember.application",
+    "schema_version": 1,
+    "source": "excel.calculatedmember",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.calculatedmembers.application",
+    "schema_version": 1,
+    "source": "excel.calculatedmembers",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.categorycollection.application",
+    "schema_version": 1,
+    "source": "excel.categorycollection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.cellcontrol.application",
+    "schema_version": 1,
+    "source": "excel.cellcontrol",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.cellformat.application",
+    "schema_version": 1,
+    "source": "excel.cellformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.characters.application",
+    "schema_version": 1,
+    "source": "excel.characters",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chart.application",
+    "schema_version": 1,
+    "source": "excel.chart",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartarea.application",
+    "schema_version": 1,
+    "source": "excel.chartarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartcategory.application",
+    "schema_version": 1,
+    "source": "excel.chartcategory",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartcolorformat.application",
+    "schema_version": 1,
+    "source": "excel.chartcolorformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartfillformat.application",
+    "schema_version": 1,
+    "source": "excel.chartfillformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartformat.application",
+    "schema_version": 1,
+    "source": "excel.chartformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartgroup.application",
+    "schema_version": 1,
+    "source": "excel.chartgroup",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartgroups.application",
+    "schema_version": 1,
+    "source": "excel.chartgroups",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartobject.application",
+    "schema_version": 1,
+    "source": "excel.chartobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartobject.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.chartobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.chartobject.topleftcell",
+    "schema_version": 1,
+    "source": "excel.chartobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.chartobjects.application",
+    "schema_version": 1,
+    "source": "excel.chartobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.charts.application",
+    "schema_version": 1,
+    "source": "excel.charts",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartseriesgradientstopdata.application",
+    "schema_version": 1,
+    "source": "excel.chartseriesgradientstopdata",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.charttitle.application",
+    "schema_version": 1,
+    "source": "excel.charttitle",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.chartview.application",
+    "schema_version": 1,
+    "source": "excel.chartview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.checkbox.application",
+    "schema_version": 1,
+    "source": "excel.checkbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.checkbox.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.checkbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.checkbox.topleftcell",
+    "schema_version": 1,
+    "source": "excel.checkbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.checkboxes.application",
+    "schema_version": 1,
+    "source": "excel.checkboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.colorscale.application",
+    "schema_version": 1,
+    "source": "excel.colorscale",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.colorscale.appliesto",
+    "schema_version": 1,
+    "source": "excel.colorscale",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.colorstop.application",
+    "schema_version": 1,
+    "source": "excel.colorstop",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.colorstops.application",
+    "schema_version": 1,
+    "source": "excel.colorstops",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.comment.application",
+    "schema_version": 1,
+    "source": "excel.comment",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.comments.application",
+    "schema_version": 1,
+    "source": "excel.comments",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.commentsthreaded.application",
+    "schema_version": 1,
+    "source": "excel.commentsthreaded",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.commentthreaded.application",
+    "schema_version": 1,
+    "source": "excel.commentthreaded",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.conditionvalue.application",
+    "schema_version": 1,
+    "source": "excel.conditionvalue",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.connections.application",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.connectorformat.application",
+    "schema_version": 1,
+    "source": "excel.connectorformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.controlformat.application",
+    "schema_version": 1,
+    "source": "excel.controlformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.corners.application",
+    "schema_version": 1,
+    "source": "excel.corners",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.cubefield.application",
+    "schema_version": 1,
+    "source": "excel.cubefield",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.cubefields.application",
+    "schema_version": 1,
+    "source": "excel.cubefields",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.customproperties.application",
+    "schema_version": 1,
+    "source": "excel.customproperties",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.customproperty.application",
+    "schema_version": 1,
+    "source": "excel.customproperty",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.customview.application",
+    "schema_version": 1,
+    "source": "excel.customview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.customviews.application",
+    "schema_version": 1,
+    "source": "excel.customviews",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.databar.application",
+    "schema_version": 1,
+    "source": "excel.databar",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.databar.appliesto",
+    "schema_version": 1,
+    "source": "excel.databar",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.databarborder.application",
+    "schema_version": 1,
+    "source": "excel.databarborder",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.datafeedconnection.application",
+    "schema_version": 1,
+    "source": "excel.datafeedconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.datalabel.application",
+    "schema_version": 1,
+    "source": "excel.datalabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.datalabels.application",
+    "schema_version": 1,
+    "source": "excel.datalabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.datatable.application",
+    "schema_version": 1,
+    "source": "excel.datatable",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.defaultpivottablelayoutoptions.application",
+    "schema_version": 1,
+    "source": "excel.defaultpivottablelayoutoptions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.defaultweboptions.application",
+    "schema_version": 1,
+    "source": "excel.defaultweboptions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.diagram.application",
+    "schema_version": 1,
+    "source": "excel.diagram",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialog.application",
+    "schema_version": 1,
+    "source": "excel.dialog",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialogframe.application",
+    "schema_version": 1,
+    "source": "excel.dialogframe",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialogs.application",
+    "schema_version": 1,
+    "source": "excel.dialogs",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialogsheet.application",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialogsheets.application",
+    "schema_version": 1,
+    "source": "excel.dialogsheets",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dialogsheetview.application",
+    "schema_version": 1,
+    "source": "excel.dialogsheetview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.displayformat.application",
+    "schema_version": 1,
+    "source": "excel.displayformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.displayunitlabel.application",
+    "schema_version": 1,
+    "source": "excel.displayunitlabel",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.downbars.application",
+    "schema_version": 1,
+    "source": "excel.downbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.drawing.application",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.drawing.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.drawing.topleftcell",
+    "schema_version": 1,
+    "source": "excel.drawing",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.drawingobjects.application",
+    "schema_version": 1,
+    "source": "excel.drawingobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.drawings.application",
+    "schema_version": 1,
+    "source": "excel.drawings",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dropdown.application",
+    "schema_version": 1,
+    "source": "excel.dropdown",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.dropdown.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.dropdown",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.dropdown.topleftcell",
+    "schema_version": 1,
+    "source": "excel.dropdown",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.dropdowns.application",
+    "schema_version": 1,
+    "source": "excel.dropdowns",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.droplines.application",
+    "schema_version": 1,
+    "source": "excel.droplines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.editbox.application",
+    "schema_version": 1,
+    "source": "excel.editbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.editbox.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.editbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.editbox.topleftcell",
+    "schema_version": 1,
+    "source": "excel.editbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.editboxes.application",
+    "schema_version": 1,
+    "source": "excel.editboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.error.application",
+    "schema_version": 1,
+    "source": "excel.error",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.errorbars.application",
+    "schema_version": 1,
+    "source": "excel.errorbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.errorcheckingoptions.application",
+    "schema_version": 1,
+    "source": "excel.errorcheckingoptions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.errors.application",
+    "schema_version": 1,
+    "source": "excel.errors",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.fileexportconverter.application",
+    "schema_version": 1,
+    "source": "excel.fileexportconverter",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.fileexportconverters.application",
+    "schema_version": 1,
+    "source": "excel.fileexportconverters",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.filter.application",
+    "schema_version": 1,
+    "source": "excel.filter",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.filters.application",
+    "schema_version": 1,
+    "source": "excel.filters",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.floor.application",
+    "schema_version": 1,
+    "source": "excel.floor",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.font.application",
+    "schema_version": 1,
+    "source": "excel.font",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.formatcolor.application",
+    "schema_version": 1,
+    "source": "excel.formatcolor",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.formatcondition.application",
+    "schema_version": 1,
+    "source": "excel.formatcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.formatcondition.appliesto",
+    "schema_version": 1,
+    "source": "excel.formatcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.formatconditions.application",
+    "schema_version": 1,
+    "source": "excel.formatconditions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.freeformbuilder.application",
+    "schema_version": 1,
+    "source": "excel.freeformbuilder",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.fullseriescollection.application",
+    "schema_version": 1,
+    "source": "excel.fullseriescollection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.global.activecell",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.activeworkbook",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.global.application",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.global.cells",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.columns",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.intersect",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.parent",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.global.range",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.rows",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.thisworkbook",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.global.union",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.global.workbooks",
+    "schema_version": 1,
+    "source": "excel.global",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbooks"
+  },
+  {
+    "member_id": "excel.graphic.application",
+    "schema_version": 1,
+    "source": "excel.graphic",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.gridlines.application",
+    "schema_version": 1,
+    "source": "excel.gridlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.groupbox.application",
+    "schema_version": 1,
+    "source": "excel.groupbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.groupbox.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.groupbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.groupbox.topleftcell",
+    "schema_version": 1,
+    "source": "excel.groupbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.groupboxes.application",
+    "schema_version": 1,
+    "source": "excel.groupboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.groupobject.application",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.groupobject.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.groupobject.topleftcell",
+    "schema_version": 1,
+    "source": "excel.groupobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.groupobjects.application",
+    "schema_version": 1,
+    "source": "excel.groupobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.groupshapes.application",
+    "schema_version": 1,
+    "source": "excel.groupshapes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hilolines.application",
+    "schema_version": 1,
+    "source": "excel.hilolines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hpagebreak.application",
+    "schema_version": 1,
+    "source": "excel.hpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hpagebreak.location",
+    "schema_version": 1,
+    "source": "excel.hpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.hpagebreak.parent",
+    "schema_version": 1,
+    "source": "excel.hpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.worksheet"
+  },
+  {
+    "member_id": "excel.hpagebreaks.application",
+    "schema_version": 1,
+    "source": "excel.hpagebreaks",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hyperlink.application",
+    "schema_version": 1,
+    "source": "excel.hyperlink",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.hyperlink.range",
+    "schema_version": 1,
+    "source": "excel.hyperlink",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.hyperlinks.application",
+    "schema_version": 1,
+    "source": "excel.hyperlinks",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.icon.application",
+    "schema_version": 1,
+    "source": "excel.icon",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.iconset.application",
+    "schema_version": 1,
+    "source": "excel.iconset",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.iconsetcondition.application",
+    "schema_version": 1,
+    "source": "excel.iconsetcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.iconsetcondition.appliesto",
+    "schema_version": 1,
+    "source": "excel.iconsetcondition",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.iconsets.application",
+    "schema_version": 1,
+    "source": "excel.iconsets",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.interior.application",
+    "schema_version": 1,
+    "source": "excel.interior",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.label.application",
+    "schema_version": 1,
+    "source": "excel.label",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.label.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.label",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.label.topleftcell",
+    "schema_version": 1,
+    "source": "excel.label",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.labels.application",
+    "schema_version": 1,
+    "source": "excel.labels",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.leaderlines.application",
+    "schema_version": 1,
+    "source": "excel.leaderlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.legend.application",
+    "schema_version": 1,
+    "source": "excel.legend",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.legendentries.application",
+    "schema_version": 1,
+    "source": "excel.legendentries",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.legendentry.application",
+    "schema_version": 1,
+    "source": "excel.legendentry",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.legendkey.application",
+    "schema_version": 1,
+    "source": "excel.legendkey",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.line.application",
+    "schema_version": 1,
+    "source": "excel.line",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.line.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.line",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.line.topleftcell",
+    "schema_version": 1,
+    "source": "excel.line",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.lineargradient.application",
+    "schema_version": 1,
+    "source": "excel.lineargradient",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.lines.application",
+    "schema_version": 1,
+    "source": "excel.lines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.linkformat.application",
+    "schema_version": 1,
+    "source": "excel.linkformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listbox.application",
+    "schema_version": 1,
+    "source": "excel.listbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listbox.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.listbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listbox.topleftcell",
+    "schema_version": 1,
+    "source": "excel.listbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listboxes.application",
+    "schema_version": 1,
+    "source": "excel.listboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listcolumn.application",
+    "schema_version": 1,
+    "source": "excel.listcolumn",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listcolumn.databodyrange",
+    "schema_version": 1,
+    "source": "excel.listcolumn",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listcolumn.range",
+    "schema_version": 1,
+    "source": "excel.listcolumn",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listcolumn.total",
+    "schema_version": 1,
+    "source": "excel.listcolumn",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listcolumns.application",
+    "schema_version": 1,
+    "source": "excel.listcolumns",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listdataformat.application",
+    "schema_version": 1,
+    "source": "excel.listdataformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listobject.application",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listobject.databodyrange",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.headerrowrange",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.insertrowrange",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.range",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.totalsrowrange",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobjects.application",
+    "schema_version": 1,
+    "source": "excel.listobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listrow.application",
+    "schema_version": 1,
+    "source": "excel.listrow",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.listrow.range",
+    "schema_version": 1,
+    "source": "excel.listrow",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listrows.application",
+    "schema_version": 1,
+    "source": "excel.listrows",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.mailer.application",
+    "schema_version": 1,
+    "source": "excel.mailer",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menu.application",
+    "schema_version": 1,
+    "source": "excel.menu",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menubar.application",
+    "schema_version": 1,
+    "source": "excel.menubar",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menubars.application",
+    "schema_version": 1,
+    "source": "excel.menubars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menuitem.application",
+    "schema_version": 1,
+    "source": "excel.menuitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menuitems.application",
+    "schema_version": 1,
+    "source": "excel.menuitems",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.menus.application",
+    "schema_version": 1,
+    "source": "excel.menus",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.model.application",
+    "schema_version": 1,
+    "source": "excel.model",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelchanges.application",
+    "schema_version": 1,
+    "source": "excel.modelchanges",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelcolumnchange.application",
+    "schema_version": 1,
+    "source": "excel.modelcolumnchange",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelcolumnchanges.application",
+    "schema_version": 1,
+    "source": "excel.modelcolumnchanges",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelcolumnname.application",
+    "schema_version": 1,
+    "source": "excel.modelcolumnname",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelcolumnnames.application",
+    "schema_version": 1,
+    "source": "excel.modelcolumnnames",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelconnection.application",
+    "schema_version": 1,
+    "source": "excel.modelconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatboolean.application",
+    "schema_version": 1,
+    "source": "excel.modelformatboolean",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatcurrency.application",
+    "schema_version": 1,
+    "source": "excel.modelformatcurrency",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatdate.application",
+    "schema_version": 1,
+    "source": "excel.modelformatdate",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatdecimalnumber.application",
+    "schema_version": 1,
+    "source": "excel.modelformatdecimalnumber",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatgeneral.application",
+    "schema_version": 1,
+    "source": "excel.modelformatgeneral",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatpercentagenumber.application",
+    "schema_version": 1,
+    "source": "excel.modelformatpercentagenumber",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatscientificnumber.application",
+    "schema_version": 1,
+    "source": "excel.modelformatscientificnumber",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelformatwholenumber.application",
+    "schema_version": 1,
+    "source": "excel.modelformatwholenumber",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelmeasure.application",
+    "schema_version": 1,
+    "source": "excel.modelmeasure",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelmeasurename.application",
+    "schema_version": 1,
+    "source": "excel.modelmeasurename",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelmeasurenames.application",
+    "schema_version": 1,
+    "source": "excel.modelmeasurenames",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelmeasures.application",
+    "schema_version": 1,
+    "source": "excel.modelmeasures",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelrelationship.application",
+    "schema_version": 1,
+    "source": "excel.modelrelationship",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modelrelationships.application",
+    "schema_version": 1,
+    "source": "excel.modelrelationships",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltable.application",
+    "schema_version": 1,
+    "source": "excel.modeltable",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltablecolumn.application",
+    "schema_version": 1,
+    "source": "excel.modeltablecolumn",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltablecolumns.application",
+    "schema_version": 1,
+    "source": "excel.modeltablecolumns",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltablenamechange.application",
+    "schema_version": 1,
+    "source": "excel.modeltablenamechange",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltablenamechanges.application",
+    "schema_version": 1,
+    "source": "excel.modeltablenamechanges",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltablenames.application",
+    "schema_version": 1,
+    "source": "excel.modeltablenames",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltables.application",
+    "schema_version": 1,
+    "source": "excel.modeltables",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.module.application",
+    "schema_version": 1,
+    "source": "excel.module",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modules.application",
+    "schema_version": 1,
+    "source": "excel.modules",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.moduleview.application",
+    "schema_version": 1,
+    "source": "excel.moduleview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.multithreadedcalculation.application",
+    "schema_version": 1,
+    "source": "excel.multithreadedcalculation",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.name.application",
+    "schema_version": 1,
+    "source": "excel.name",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.name.referstorange",
+    "schema_version": 1,
+    "source": "excel.name",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.namedsheetview.application",
+    "schema_version": 1,
+    "source": "excel.namedsheetview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.namedsheetviewcollection.application",
+    "schema_version": 1,
+    "source": "excel.namedsheetviewcollection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.names.application",
+    "schema_version": 1,
+    "source": "excel.names",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.negativebarformat.application",
+    "schema_version": 1,
+    "source": "excel.negativebarformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.odbcconnection.application",
+    "schema_version": 1,
+    "source": "excel.odbcconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.odbcerror.application",
+    "schema_version": 1,
+    "source": "excel.odbcerror",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.odbcerrors.application",
+    "schema_version": 1,
+    "source": "excel.odbcerrors",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oledbconnection.application",
+    "schema_version": 1,
+    "source": "excel.oledbconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oledberror.application",
+    "schema_version": 1,
+    "source": "excel.oledberror",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oledberrors.application",
+    "schema_version": 1,
+    "source": "excel.oledberrors",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oleformat.application",
+    "schema_version": 1,
+    "source": "excel.oleformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oleobject.application",
+    "schema_version": 1,
+    "source": "excel.oleobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oleobject.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.oleobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.oleobject.topleftcell",
+    "schema_version": 1,
+    "source": "excel.oleobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.oleobjects.application",
+    "schema_version": 1,
+    "source": "excel.oleobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.optionbutton.application",
+    "schema_version": 1,
+    "source": "excel.optionbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.optionbutton.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.optionbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.optionbutton.topleftcell",
+    "schema_version": 1,
+    "source": "excel.optionbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.optionbuttons.application",
+    "schema_version": 1,
+    "source": "excel.optionbuttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.outline.application",
+    "schema_version": 1,
+    "source": "excel.outline",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oval.application",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.oval.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.oval.topleftcell",
+    "schema_version": 1,
+    "source": "excel.oval",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.ovals.application",
+    "schema_version": 1,
+    "source": "excel.ovals",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pagesetup.application",
+    "schema_version": 1,
+    "source": "excel.pagesetup",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pane.application",
+    "schema_version": 1,
+    "source": "excel.pane",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pane.visiblerange",
+    "schema_version": 1,
+    "source": "excel.pane",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.panes.application",
+    "schema_version": 1,
+    "source": "excel.panes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.parameter.application",
+    "schema_version": 1,
+    "source": "excel.parameter",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.parameter.sourcerange",
+    "schema_version": 1,
+    "source": "excel.parameter",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.parameters.application",
+    "schema_version": 1,
+    "source": "excel.parameters",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.phonetic.application",
+    "schema_version": 1,
+    "source": "excel.phonetic",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.phonetics.application",
+    "schema_version": 1,
+    "source": "excel.phonetics",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.picture.application",
+    "schema_version": 1,
+    "source": "excel.picture",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.picture.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.picture",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.picture.topleftcell",
+    "schema_version": 1,
+    "source": "excel.picture",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pictures.application",
+    "schema_version": 1,
+    "source": "excel.pictures",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotaxis.application",
+    "schema_version": 1,
+    "source": "excel.pivotaxis",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotcache.application",
+    "schema_version": 1,
+    "source": "excel.pivotcache",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotcaches.application",
+    "schema_version": 1,
+    "source": "excel.pivotcaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotcell.application",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotcell.range",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivotfield.application",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotfield.datarange",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivotfield.labelrange",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivotfields.application",
+    "schema_version": 1,
+    "source": "excel.pivotfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotfilter.application",
+    "schema_version": 1,
+    "source": "excel.pivotfilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotfilters.application",
+    "schema_version": 1,
+    "source": "excel.pivotfilters",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotformula.application",
+    "schema_version": 1,
+    "source": "excel.pivotformula",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotformulas.application",
+    "schema_version": 1,
+    "source": "excel.pivotformulas",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotitem.application",
+    "schema_version": 1,
+    "source": "excel.pivotitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotitem.datarange",
+    "schema_version": 1,
+    "source": "excel.pivotitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivotitem.labelrange",
+    "schema_version": 1,
+    "source": "excel.pivotitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivotitemlist.application",
+    "schema_version": 1,
+    "source": "excel.pivotitemlist",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotitems.application",
+    "schema_version": 1,
+    "source": "excel.pivotitems",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotlayout.application",
+    "schema_version": 1,
+    "source": "excel.pivotlayout",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotline.application",
+    "schema_version": 1,
+    "source": "excel.pivotline",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotlinecells.application",
+    "schema_version": 1,
+    "source": "excel.pivotlinecells",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotlines.application",
+    "schema_version": 1,
+    "source": "excel.pivotlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivottable.application",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivottable.columnrange",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.databodyrange",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.datalabelrange",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.getpivotdata",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.pagerange",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.pagerangecells",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.rowrange",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.tablerange1",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.tablerange2",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottablechangelist.application",
+    "schema_version": 1,
+    "source": "excel.pivottablechangelist",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivottables.application",
+    "schema_version": 1,
+    "source": "excel.pivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotvaluecell.application",
+    "schema_version": 1,
+    "source": "excel.pivotvaluecell",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.plotarea.application",
+    "schema_version": 1,
+    "source": "excel.plotarea",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.point.application",
+    "schema_version": 1,
+    "source": "excel.point",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.points.application",
+    "schema_version": 1,
+    "source": "excel.points",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.protectedviewwindow.edit",
+    "schema_version": 1,
+    "source": "excel.protectedviewwindow",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.protectedviewwindow.workbook",
+    "schema_version": 1,
+    "source": "excel.protectedviewwindow",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.protectedviewwindows.application",
+    "schema_version": 1,
+    "source": "excel.protectedviewwindows",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.publisheddoc.application",
+    "schema_version": 1,
+    "source": "excel.publisheddoc",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.publisheddocs.application",
+    "schema_version": 1,
+    "source": "excel.publisheddocs",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.publishobject.application",
+    "schema_version": 1,
+    "source": "excel.publishobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.publishobjects.application",
+    "schema_version": 1,
+    "source": "excel.publishobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.queries.application",
+    "schema_version": 1,
+    "source": "excel.queries",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.querytable.application",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.querytable.destination",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.querytable.resultrange",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.querytables.application",
+    "schema_version": 1,
+    "source": "excel.querytables",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.quickanalysis.application",
+    "schema_version": 1,
+    "source": "excel.quickanalysis",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.range.application",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.range.cells",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.columndifferences",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.columns",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.currentarray",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.currentregion",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.dependents",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.directdependents",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.directprecedents",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.end",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.entirecolumn",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.entirerow",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.find",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.findnext",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.findprevious",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.mergearea",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.next",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.offset",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.precedents",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.previous",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.range",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.resize",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.rowdifferences",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.rows",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.specialcells",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.spillingtorange",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.spillparent",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.worksheet",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.worksheet"
+  },
+  {
+    "member_id": "excel.ranges.application",
+    "schema_version": 1,
+    "source": "excel.ranges",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.ranges.default",
+    "schema_version": 1,
+    "source": "excel.ranges",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.ranges.item",
+    "schema_version": 1,
+    "source": "excel.ranges",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.recentfile.application",
+    "schema_version": 1,
+    "source": "excel.recentfile",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.recentfile.open",
+    "schema_version": 1,
+    "source": "excel.recentfile",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.recentfiles.application",
+    "schema_version": 1,
+    "source": "excel.recentfiles",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.rectangle.application",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.rectangle.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.rectangle.topleftcell",
+    "schema_version": 1,
+    "source": "excel.rectangle",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.rectangles.application",
+    "schema_version": 1,
+    "source": "excel.rectangles",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.rectangulargradient.application",
+    "schema_version": 1,
+    "source": "excel.rectangulargradient",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.research.application",
+    "schema_version": 1,
+    "source": "excel.research",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.routingslip.application",
+    "schema_version": 1,
+    "source": "excel.routingslip",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.scenario.application",
+    "schema_version": 1,
+    "source": "excel.scenario",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.scenario.changingcells",
+    "schema_version": 1,
+    "source": "excel.scenario",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.scenarios.application",
+    "schema_version": 1,
+    "source": "excel.scenarios",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.scrollbar.application",
+    "schema_version": 1,
+    "source": "excel.scrollbar",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.scrollbar.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.scrollbar",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.scrollbar.topleftcell",
+    "schema_version": 1,
+    "source": "excel.scrollbar",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.scrollbars.application",
+    "schema_version": 1,
+    "source": "excel.scrollbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.series.application",
+    "schema_version": 1,
+    "source": "excel.series",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.seriescollection.application",
+    "schema_version": 1,
+    "source": "excel.seriescollection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.seriesgradientstopcolorformat.application",
+    "schema_version": 1,
+    "source": "excel.seriesgradientstopcolorformat",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.serieslines.application",
+    "schema_version": 1,
+    "source": "excel.serieslines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.serverviewableitems.application",
+    "schema_version": 1,
+    "source": "excel.serverviewableitems",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.shape.application",
+    "schema_version": 1,
+    "source": "excel.shape",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.shape.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.shape",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.shape.topleftcell",
+    "schema_version": 1,
+    "source": "excel.shape",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.shaperange.application",
+    "schema_version": 1,
+    "source": "excel.shaperange",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.shapes.application",
+    "schema_version": 1,
+    "source": "excel.shapes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sheets.application",
+    "schema_version": 1,
+    "source": "excel.sheets",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sheetviews.application",
+    "schema_version": 1,
+    "source": "excel.sheetviews",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicer.application",
+    "schema_version": 1,
+    "source": "excel.slicer",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicercache.application",
+    "schema_version": 1,
+    "source": "excel.slicercache",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicercachelevel.application",
+    "schema_version": 1,
+    "source": "excel.slicercachelevel",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicercachelevels.application",
+    "schema_version": 1,
+    "source": "excel.slicercachelevels",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicercaches.application",
+    "schema_version": 1,
+    "source": "excel.slicercaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sliceritem.application",
+    "schema_version": 1,
+    "source": "excel.sliceritem",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sliceritems.application",
+    "schema_version": 1,
+    "source": "excel.sliceritems",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicerpivottables.application",
+    "schema_version": 1,
+    "source": "excel.slicerpivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicers.application",
+    "schema_version": 1,
+    "source": "excel.slicers",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttag.application",
+    "schema_version": 1,
+    "source": "excel.smarttag",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttag.range",
+    "schema_version": 1,
+    "source": "excel.smarttag",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.smarttagaction.application",
+    "schema_version": 1,
+    "source": "excel.smarttagaction",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttagactions.application",
+    "schema_version": 1,
+    "source": "excel.smarttagactions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttagoptions.application",
+    "schema_version": 1,
+    "source": "excel.smarttagoptions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttagrecognizer.application",
+    "schema_version": 1,
+    "source": "excel.smarttagrecognizer",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttagrecognizers.application",
+    "schema_version": 1,
+    "source": "excel.smarttagrecognizers",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.smarttags.application",
+    "schema_version": 1,
+    "source": "excel.smarttags",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sort.application",
+    "schema_version": 1,
+    "source": "excel.sort",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sort.rng",
+    "schema_version": 1,
+    "source": "excel.sort",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.sortfield.application",
+    "schema_version": 1,
+    "source": "excel.sortfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sortfield.key",
+    "schema_version": 1,
+    "source": "excel.sortfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.sortfields.application",
+    "schema_version": 1,
+    "source": "excel.sortfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.soundnote.application",
+    "schema_version": 1,
+    "source": "excel.soundnote",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkaxes.application",
+    "schema_version": 1,
+    "source": "excel.sparkaxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkcolor.application",
+    "schema_version": 1,
+    "source": "excel.sparkcolor",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkhorizontalaxis.application",
+    "schema_version": 1,
+    "source": "excel.sparkhorizontalaxis",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkline.application",
+    "schema_version": 1,
+    "source": "excel.sparkline",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkline.location",
+    "schema_version": 1,
+    "source": "excel.sparkline",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.sparklinegroup.application",
+    "schema_version": 1,
+    "source": "excel.sparklinegroup",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparklinegroup.location",
+    "schema_version": 1,
+    "source": "excel.sparklinegroup",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.sparklinegroups.application",
+    "schema_version": 1,
+    "source": "excel.sparklinegroups",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkpoints.application",
+    "schema_version": 1,
+    "source": "excel.sparkpoints",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparkverticalaxis.application",
+    "schema_version": 1,
+    "source": "excel.sparkverticalaxis",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.spinner.application",
+    "schema_version": 1,
+    "source": "excel.spinner",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.spinner.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.spinner",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.spinner.topleftcell",
+    "schema_version": 1,
+    "source": "excel.spinner",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.spinners.application",
+    "schema_version": 1,
+    "source": "excel.spinners",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.style.application",
+    "schema_version": 1,
+    "source": "excel.style",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.styles.application",
+    "schema_version": 1,
+    "source": "excel.styles",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tab.application",
+    "schema_version": 1,
+    "source": "excel.tab",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tableobject.application",
+    "schema_version": 1,
+    "source": "excel.tableobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tableobject.destination",
+    "schema_version": 1,
+    "source": "excel.tableobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.tableobject.resultrange",
+    "schema_version": 1,
+    "source": "excel.tableobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.tablestyle.application",
+    "schema_version": 1,
+    "source": "excel.tablestyle",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tablestyleelement.application",
+    "schema_version": 1,
+    "source": "excel.tablestyleelement",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tablestyleelements.application",
+    "schema_version": 1,
+    "source": "excel.tablestyleelements",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.tablestyles.application",
+    "schema_version": 1,
+    "source": "excel.tablestyles",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.textbox.application",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.textbox.bottomrightcell",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.textbox.topleftcell",
+    "schema_version": 1,
+    "source": "excel.textbox",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.textboxes.application",
+    "schema_version": 1,
+    "source": "excel.textboxes",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.textconnection.application",
+    "schema_version": 1,
+    "source": "excel.textconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.textframe.application",
+    "schema_version": 1,
+    "source": "excel.textframe",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.ticklabels.application",
+    "schema_version": 1,
+    "source": "excel.ticklabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.timelinestate.application",
+    "schema_version": 1,
+    "source": "excel.timelinestate",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.timelineviewstate.application",
+    "schema_version": 1,
+    "source": "excel.timelineviewstate",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.toolbar.application",
+    "schema_version": 1,
+    "source": "excel.toolbar",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.toolbarbutton.application",
+    "schema_version": 1,
+    "source": "excel.toolbarbutton",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.toolbarbuttons.application",
+    "schema_version": 1,
+    "source": "excel.toolbarbuttons",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.toolbars.application",
+    "schema_version": 1,
+    "source": "excel.toolbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.top10.application",
+    "schema_version": 1,
+    "source": "excel.top10",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.top10.appliesto",
+    "schema_version": 1,
+    "source": "excel.top10",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.treeviewcontrol.application",
+    "schema_version": 1,
+    "source": "excel.treeviewcontrol",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.trendline.application",
+    "schema_version": 1,
+    "source": "excel.trendline",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.trendlines.application",
+    "schema_version": 1,
+    "source": "excel.trendlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.uniquevalues.application",
+    "schema_version": 1,
+    "source": "excel.uniquevalues",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.uniquevalues.appliesto",
+    "schema_version": 1,
+    "source": "excel.uniquevalues",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.upbars.application",
+    "schema_version": 1,
+    "source": "excel.upbars",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.usedobjects.application",
+    "schema_version": 1,
+    "source": "excel.usedobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.validation.application",
+    "schema_version": 1,
+    "source": "excel.validation",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.valuechange.application",
+    "schema_version": 1,
+    "source": "excel.valuechange",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.vpagebreak.application",
+    "schema_version": 1,
+    "source": "excel.vpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.vpagebreak.location",
+    "schema_version": 1,
+    "source": "excel.vpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.vpagebreak.parent",
+    "schema_version": 1,
+    "source": "excel.vpagebreak",
+    "source_confidence": "typelib-only",
+    "target": "excel.worksheet"
+  },
+  {
+    "member_id": "excel.vpagebreaks.application",
+    "schema_version": 1,
+    "source": "excel.vpagebreaks",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.walls.application",
+    "schema_version": 1,
+    "source": "excel.walls",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.watch.application",
+    "schema_version": 1,
+    "source": "excel.watch",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.watches.application",
+    "schema_version": 1,
+    "source": "excel.watches",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.weboptions.application",
+    "schema_version": 1,
+    "source": "excel.weboptions",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.window.activecell",
+    "schema_version": 1,
+    "source": "excel.window",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.window.application",
+    "schema_version": 1,
+    "source": "excel.window",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.window.rangeselection",
+    "schema_version": 1,
+    "source": "excel.window",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.window.visiblerange",
+    "schema_version": 1,
+    "source": "excel.window",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.windows.application",
+    "schema_version": 1,
+    "source": "excel.windows",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbook.application",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbook.worksheets",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.worksheets"
+  },
+  {
+    "member_id": "excel.workbookconnection.application",
+    "schema_version": 1,
+    "source": "excel.workbookconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbookquery.application",
+    "schema_version": 1,
+    "source": "excel.workbookquery",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbooks.add",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.application",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbooks.default",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.item",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.open",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.open-1923",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.opendatabase",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.openxml",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.workbooks.openxml-2280",
+    "schema_version": 1,
+    "source": "excel.workbooks",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbook"
+  },
+  {
+    "member_id": "excel.worksheet.application",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.worksheet.cells",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.circularreference",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.columns",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.range",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.rows",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.usedrange",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.xmldataquery",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheet.xmlmapquery",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.range"
+  },
+  {
+    "member_id": "excel.worksheetdataconnection.application",
+    "schema_version": 1,
+    "source": "excel.worksheetdataconnection",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.worksheetfunction.application",
+    "schema_version": 1,
+    "source": "excel.worksheetfunction",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.worksheets.application",
+    "schema_version": 1,
+    "source": "excel.worksheets",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.worksheets.item",
+    "schema_version": 1,
+    "source": "excel.worksheets",
+    "source_confidence": "typelib-only",
+    "target": "excel.worksheet"
+  },
+  {
+    "member_id": "excel.worksheetview.application",
+    "schema_version": 1,
+    "source": "excel.worksheetview",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmldatabinding.application",
+    "schema_version": 1,
+    "source": "excel.xmldatabinding",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlmap.application",
+    "schema_version": 1,
+    "source": "excel.xmlmap",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlmaps.application",
+    "schema_version": 1,
+    "source": "excel.xmlmaps",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlnamespace.application",
+    "schema_version": 1,
+    "source": "excel.xmlnamespace",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlnamespaces.application",
+    "schema_version": 1,
+    "source": "excel.xmlnamespaces",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlschema.application",
+    "schema_version": 1,
+    "source": "excel.xmlschema",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlschemas.application",
+    "schema_version": 1,
+    "source": "excel.xmlschemas",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xpath.application",
+    "schema_version": 1,
+    "source": "excel.xpath",
+    "source_confidence": "typelib-only",
+    "target": "excel.application"
+  }
+]

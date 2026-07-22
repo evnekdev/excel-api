@@ -1,0 +1,108 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlcverror",
+  "implementation_status": "not-started",
+  "name": "XlCVError",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrBlocked",
+      "numeric_value": 2047
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrCalc",
+      "numeric_value": 2050
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrConnect",
+      "numeric_value": 2046
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrDiv0",
+      "numeric_value": 2007
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrField",
+      "numeric_value": 2049
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrGettingData",
+      "numeric_value": 2043
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrNA",
+      "numeric_value": 2042
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrName",
+      "numeric_value": 2029
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrNull",
+      "numeric_value": 2000
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrNum",
+      "numeric_value": 2036
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrRef",
+      "numeric_value": 2023
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrSpill",
+      "numeric_value": 2045
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrUnknown",
+      "numeric_value": 2048
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlErrValue",
+      "numeric_value": 2015
+    }
+  ]
+}

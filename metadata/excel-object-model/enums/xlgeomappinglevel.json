@@ -1,0 +1,66 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlgeomappinglevel",
+  "implementation_status": "not-started",
+  "name": "XlGeoMappingLevel",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelAutomatic",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelCountryRegion",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelCountryRegionList",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelCounty",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelDataOnly",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelPostalCode",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelState",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlGeoMappingLevelWorld",
+      "numeric_value": 7
+    }
+  ]
+}

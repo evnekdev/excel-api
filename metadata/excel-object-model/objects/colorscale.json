@@ -1,0 +1,886 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [
+    "Delete"
+  ],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00024493-0000-0000-c000-000000000046}",
+  "id": "excel.colorscale",
+  "implemented_interface_count": 1,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "dispatch-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 108,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.type",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Type",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_i32 (3)",
+      "return_type": "i32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 117,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.delete",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Delete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 148,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.application",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Application",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Application))",
+      "return_type": "Application",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 149,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.creator",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Creator",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(XlCreator)",
+      "return_type": "XlCreator",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 150,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.parent",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Parent",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Object (9)",
+      "return_type": "Object",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 261,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.formula",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Formula",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 985,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.priority",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Priority",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_i32 (3)",
+      "return_type": "i32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XlPivotConditionScope",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(XlPivotConditionScope)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2615,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.scopetype",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ScopeType",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(XlPivotConditionScope)",
+      "return_type": "XlPivotConditionScope",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2625,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.stopiftrue",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "StopIfTrue",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_bool (11)",
+      "return_type": "bool",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2626,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.appliesto",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AppliesTo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
+      "return_type": "Range",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Range",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(Range))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2627,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.modifyappliestorange",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ModifyAppliesToRange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2629,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.setfirstpriority",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SetFirstPriority",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2630,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.setlastpriority",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "SetLastPriority",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2631,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.ptcondition",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PTCondition",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_bool (11)",
+      "return_type": "bool",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2716,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.colorscalecriteria",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ColorScaleCriteria",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(ColorScaleCriteria))",
+      "return_type": "ColorScaleCriteria",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612736,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.queryinterface",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "QueryInterface",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612737,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.addref",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddRef",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612738,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.release",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Release",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678272,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.gettypeinfocount",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfoCount",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678273,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.gettypeinfo",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (16)))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_i32 (3))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678274,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.getidsofnames",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetIDsOfNames",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (18)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "DISPPARAMS",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(DISPPARAMS))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 5,
+          "raw_com_type": "VT_PTR(VT_AutomationValue (12))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "EXCEPINFO",
+          "optional": false,
+          "position": 6,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(EXCEPINFO))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 7,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678275,
+      "documentation_status": "generated",
+      "id": "excel.colorscale.invoke",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Invoke",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "ColorScale",
+  "schema_version": 1,
+  "source_interface": "ColorScale",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

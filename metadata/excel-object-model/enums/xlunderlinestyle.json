@@ -1,0 +1,45 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlunderlinestyle",
+  "implementation_status": "not-started",
+  "name": "XlUnderlineStyle",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnderlineStyleDouble",
+      "numeric_value": -4119
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnderlineStyleDoubleAccounting",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnderlineStyleNone",
+      "numeric_value": -4142
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnderlineStyleSingle",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnderlineStyleSingleAccounting",
+      "numeric_value": 4
+    }
+  ]
+}

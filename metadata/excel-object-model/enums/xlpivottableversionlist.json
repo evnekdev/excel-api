@@ -1,0 +1,59 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpivottableversionlist",
+  "implementation_status": "not-started",
+  "name": "XlPivotTableVersionList",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion10",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion11",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion12",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion14",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion15",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersion2000",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPivotTableVersionCurrent",
+      "numeric_value": -1
+    }
+  ]
+}

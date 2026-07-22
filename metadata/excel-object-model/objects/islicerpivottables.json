@@ -1,0 +1,396 @@
+{
+  "alias_target": null,
+  "collection": true,
+  "collection_capabilities": [
+    "Count",
+    "Item",
+    "_NewEnum"
+  ],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": "_NewEnum",
+  "guid": "{000244cb-0001-0000-c000-000000000046}",
+  "id": "excel.islicerpivottables",
+  "implemented_interface_count": 1,
+  "implemented_status": "metadata-only",
+  "index_member": "Item",
+  "kind": "interface",
+  "members": [
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Unknown (13))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": -4,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.newenum",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "_NewEnum",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_USERDEFINED(PivotTable)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 0,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.default",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "_Default",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_i32 (3))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 118,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.count",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Count",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Application",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_USERDEFINED(Application)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 148,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.application",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Application",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "XlCreator",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(XlCreator))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 149,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.creator",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Creator",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Object",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Object (9))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 150,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.parent",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Parent",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_USERDEFINED(PivotTable)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 170,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.item",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Item",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "PivotTable",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(PivotTable))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2990,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.addpivottable",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddPivotTable",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2991,
+      "documentation_status": "generated",
+      "id": "excel.islicerpivottables.removepivottable",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RemovePivotTable",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (25)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "ISlicerPivotTables",
+  "schema_version": 1,
+  "source_interface": "ISlicerPivotTables",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

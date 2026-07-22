@@ -1,0 +1,381 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlicon",
+  "implementation_status": "not-started",
+  "name": "XlIcon",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon0Bars",
+      "numeric_value": 37
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon0FilledBoxes",
+      "numeric_value": 52
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon1Bar",
+      "numeric_value": 38
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon1FilledBox",
+      "numeric_value": 51
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon2Bars",
+      "numeric_value": 39
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon2FilledBoxes",
+      "numeric_value": 50
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon3Bars",
+      "numeric_value": 40
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon3FilledBoxes",
+      "numeric_value": 49
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon4Bars",
+      "numeric_value": 41
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIcon4FilledBoxes",
+      "numeric_value": 48
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconBlackCircle",
+      "numeric_value": 32
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconBlackCircleWithBorder",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconCircleWithOneWhiteQuarter",
+      "numeric_value": 33
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconCircleWithThreeWhiteQuarters",
+      "numeric_value": 35
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconCircleWithTwoWhiteQuarters",
+      "numeric_value": 34
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGoldStar",
+      "numeric_value": 42
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGrayCircle",
+      "numeric_value": 31
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGrayDownArrow",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGrayDownInclineArrow",
+      "numeric_value": 28
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGraySideArrow",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGrayUpArrow",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGrayUpInclineArrow",
+      "numeric_value": 27
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenCheck",
+      "numeric_value": 22
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenCheckSymbol",
+      "numeric_value": 19
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenCircle",
+      "numeric_value": 10
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenFlag",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenTrafficLight",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenUpArrow",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconGreenUpTriangle",
+      "numeric_value": 45
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconHalfGoldStar",
+      "numeric_value": 43
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconNoCellIcon",
+      "numeric_value": -1
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconPinkCircle",
+      "numeric_value": 30
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedCircle",
+      "numeric_value": 29
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedCircleWithBorder",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedCross",
+      "numeric_value": 24
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedCrossSymbol",
+      "numeric_value": 21
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedDiamond",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedDownArrow",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedDownTriangle",
+      "numeric_value": 47
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedFlag",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconRedTrafficLight",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconSilverStar",
+      "numeric_value": 44
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconWhiteCircleAllWhiteQuarters",
+      "numeric_value": 36
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowCircle",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowDash",
+      "numeric_value": 46
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowDownInclineArrow",
+      "numeric_value": 26
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowExclamation",
+      "numeric_value": 23
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowExclamationSymbol",
+      "numeric_value": 20
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowFlag",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowSideArrow",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowTrafficLight",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowTriangle",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIconYellowUpInclineArrow",
+      "numeric_value": 25
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+# XlIcon
+
+| Variant | Numeric value | Documentation | Crate status |
+|---|---:|---|---|
+| xlIcon0Bars | 37 | Generated | Not started |
+| xlIcon0FilledBoxes | 52 | Generated | Not started |
+| xlIcon1Bar | 38 | Generated | Not started |
+| xlIcon1FilledBox | 51 | Generated | Not started |
+| xlIcon2Bars | 39 | Generated | Not started |
+| xlIcon2FilledBoxes | 50 | Generated | Not started |
+| xlIcon3Bars | 40 | Generated | Not started |
+| xlIcon3FilledBoxes | 49 | Generated | Not started |
+| xlIcon4Bars | 41 | Generated | Not started |
+| xlIcon4FilledBoxes | 48 | Generated | Not started |
+| xlIconBlackCircle | 32 | Generated | Not started |
+| xlIconBlackCircleWithBorder | 13 | Generated | Not started |
+| xlIconCircleWithOneWhiteQuarter | 33 | Generated | Not started |
+| xlIconCircleWithThreeWhiteQuarters | 35 | Generated | Not started |
+| xlIconCircleWithTwoWhiteQuarters | 34 | Generated | Not started |
+| xlIconGoldStar | 42 | Generated | Not started |
+| xlIconGrayCircle | 31 | Generated | Not started |
+| xlIconGrayDownArrow | 6 | Generated | Not started |
+| xlIconGrayDownInclineArrow | 28 | Generated | Not started |
+| xlIconGraySideArrow | 5 | Generated | Not started |
+| xlIconGrayUpArrow | 4 | Generated | Not started |
+| xlIconGrayUpInclineArrow | 27 | Generated | Not started |
+| xlIconGreenCheck | 22 | Generated | Not started |
+| xlIconGreenCheckSymbol | 19 | Generated | Not started |
+| xlIconGreenCircle | 10 | Generated | Not started |
+| xlIconGreenFlag | 7 | Generated | Not started |
+| xlIconGreenTrafficLight | 14 | Generated | Not started |
+| xlIconGreenUpArrow | 1 | Generated | Not started |
+| xlIconGreenUpTriangle | 45 | Generated | Not started |
+| xlIconHalfGoldStar | 43 | Generated | Not started |
+| xlIconNoCellIcon | -1 | Generated | Not started |
+| xlIconPinkCircle | 30 | Generated | Not started |
+| xlIconRedCircle | 29 | Generated | Not started |
+| xlIconRedCircleWithBorder | 12 | Generated | Not started |
+| xlIconRedCross | 24 | Generated | Not started |
+| xlIconRedCrossSymbol | 21 | Generated | Not started |
+| xlIconRedDiamond | 18 | Generated | Not started |
+| xlIconRedDownArrow | 3 | Generated | Not started |
+| xlIconRedDownTriangle | 47 | Generated | Not started |
+| xlIconRedFlag | 9 | Generated | Not started |
+| xlIconRedTrafficLight | 16 | Generated | Not started |
+| xlIconSilverStar | 44 | Generated | Not started |
+| xlIconWhiteCircleAllWhiteQuarters | 36 | Generated | Not started |
+| xlIconYellowCircle | 11 | Generated | Not started |
+| xlIconYellowDash | 46 | Generated | Not started |
+| xlIconYellowDownInclineArrow | 26 | Generated | Not started |
+| xlIconYellowExclamation | 23 | Generated | Not started |
+| xlIconYellowExclamationSymbol | 20 | Generated | Not started |
+| xlIconYellowFlag | 8 | Generated | Not started |
+| xlIconYellowSideArrow | 2 | Generated | Not started |
+| xlIconYellowTrafficLight | 15 | Generated | Not started |
+| xlIconYellowTriangle | 17 | Generated | Not started |
+| xlIconYellowUpInclineArrow | 25 | Generated | Not started |

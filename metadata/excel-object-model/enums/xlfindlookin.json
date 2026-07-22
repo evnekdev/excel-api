@@ -1,0 +1,45 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlfindlookin",
+  "implementation_status": "not-started",
+  "name": "XlFindLookIn",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlComments",
+      "numeric_value": -4144
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCommentsThreaded",
+      "numeric_value": -4184
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFormulas",
+      "numeric_value": -4123
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFormulas2",
+      "numeric_value": -4185
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlValues",
+      "numeric_value": -4163
+    }
+  ]
+}

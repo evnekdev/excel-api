@@ -1,0 +1,45 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlsheettype",
+  "implementation_status": "not-started",
+  "name": "XlSheetType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlChart",
+      "numeric_value": -4109
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDialogSheet",
+      "numeric_value": -4116
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel4IntlMacroSheet",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel4MacroSheet",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorksheet",
+      "numeric_value": -4167
+    }
+  ]
+}

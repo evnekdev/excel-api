@@ -1,0 +1,45 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xllinkeddatatypestate",
+  "implementation_status": "not-started",
+  "name": "XlLinkedDataTypeState",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLinkedDataTypeStateBrokenLinkedData",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLinkedDataTypeStateDisambiguationNeeded",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLinkedDataTypeStateFetchingData",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLinkedDataTypeStateNone",
+      "numeric_value": 0
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlLinkedDataTypeStateValidLinkedData",
+      "numeric_value": 1
+    }
+  ]
+}

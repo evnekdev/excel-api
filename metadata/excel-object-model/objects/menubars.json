@@ -1,0 +1,664 @@
+{
+  "alias_target": null,
+  "collection": true,
+  "collection_capabilities": [
+    "Count",
+    "Item",
+    "_NewEnum",
+    "Add"
+  ],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": "_NewEnum",
+  "guid": "{00020863-0000-0000-c000-000000000046}",
+  "id": "excel.menubars",
+  "implemented_interface_count": 1,
+  "implemented_status": "metadata-only",
+  "index_member": "Item",
+  "kind": "dispatch-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": -4,
+      "documentation_status": "generated",
+      "id": "excel.menubars.newenum",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "_NewEnum",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (13)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 0,
+      "documentation_status": "generated",
+      "id": "excel.menubars.default",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "_Default",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(MenuBar))",
+      "return_type": "MenuBar",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 118,
+      "documentation_status": "generated",
+      "id": "excel.menubars.count",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Count",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_i32 (3)",
+      "return_type": "i32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 148,
+      "documentation_status": "generated",
+      "id": "excel.menubars.application",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Application",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Application))",
+      "return_type": "Application",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 149,
+      "documentation_status": "generated",
+      "id": "excel.menubars.creator",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Creator",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(XlCreator)",
+      "return_type": "XlCreator",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 150,
+      "documentation_status": "generated",
+      "id": "excel.menubars.parent",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Parent",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Object (9)",
+      "return_type": "Object",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 170,
+      "documentation_status": "generated",
+      "id": "excel.menubars.item",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Item",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(MenuBar))",
+      "return_type": "MenuBar",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": true,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 181,
+      "documentation_status": "generated",
+      "id": "excel.menubars.add",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Add",
+      "notes": [],
+      "optional_argument_count": 1,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(MenuBar))",
+      "return_type": "MenuBar",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612736,
+      "documentation_status": "generated",
+      "id": "excel.menubars.queryinterface",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "QueryInterface",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612737,
+      "documentation_status": "generated",
+      "id": "excel.menubars.addref",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddRef",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612738,
+      "documentation_status": "generated",
+      "id": "excel.menubars.release",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Release",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678272,
+      "documentation_status": "generated",
+      "id": "excel.menubars.gettypeinfocount",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfoCount",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678273,
+      "documentation_status": "generated",
+      "id": "excel.menubars.gettypeinfo",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (16)))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_i32 (3))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678274,
+      "documentation_status": "generated",
+      "id": "excel.menubars.getidsofnames",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetIDsOfNames",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (18)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "DISPPARAMS",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(DISPPARAMS))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 5,
+          "raw_com_type": "VT_PTR(VT_AutomationValue (12))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "EXCEPINFO",
+          "optional": false,
+          "position": 6,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(EXCEPINFO))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 7,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678275,
+      "documentation_status": "generated",
+      "id": "excel.menubars.invoke",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Invoke",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "MenuBars",
+  "schema_version": 1,
+  "source_interface": "MenuBars",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

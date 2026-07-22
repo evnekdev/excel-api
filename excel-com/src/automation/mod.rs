@@ -1,0 +1,23 @@
+mod argument;
+mod array;
+mod bstr;
+mod currency;
+mod date;
+mod dispatch;
+mod excel_error;
+mod invocation;
+mod policy;
+mod safearray;
+mod value;
+mod variant;
+
+pub use argument::AutomationArgument;
+pub use array::AutomationArray;
+pub use currency::Currency;
+pub use date::OaDate;
+pub(crate) use dispatch::{activate_excel, invoke, property_get, property_put};
+pub use excel_error::ExcelError;
+pub(crate) use invocation::{MemberDescriptor, MemberKind};
+pub use policy::ConversionPolicy;
+pub use value::AutomationValue;
+pub(crate) use variant::OwnedVariant;

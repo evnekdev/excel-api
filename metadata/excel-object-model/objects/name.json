@@ -1,0 +1,1208 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [
+    "Delete"
+  ],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{000208b9-0000-0000-c000-000000000046}",
+  "id": "excel.name",
+  "implemented_interface_count": 1,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "dispatch-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 0,
+      "documentation_status": "generated",
+      "id": "excel.name.default",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "_Default",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 6,
+      "documentation_status": "generated",
+      "id": "excel.name.value",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Value",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 110,
+      "documentation_status": "generated",
+      "id": "excel.name.name",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Name",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 117,
+      "documentation_status": "generated",
+      "id": "excel.name.delete",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Delete",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 148,
+      "documentation_status": "generated",
+      "id": "excel.name.application",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Application",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Application))",
+      "return_type": "Application",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 149,
+      "documentation_status": "generated",
+      "id": "excel.name.creator",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Creator",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(XlCreator)",
+      "return_type": "XlCreator",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 150,
+      "documentation_status": "generated",
+      "id": "excel.name.parent",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Parent",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Object (9)",
+      "return_type": "Object",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 486,
+      "documentation_status": "generated",
+      "id": "excel.name.index",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Index",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_i32 (3)",
+      "return_type": "i32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_bool (11)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 558,
+      "documentation_status": "generated",
+      "id": "excel.name.visible",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Visible",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_bool (11)",
+      "return_type": "bool",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 597,
+      "documentation_status": "generated",
+      "id": "excel.name.shortcutkey",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ShortcutKey",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 910,
+      "documentation_status": "generated",
+      "id": "excel.name.comment",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Comment",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 934,
+      "documentation_status": "generated",
+      "id": "excel.name.category",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Category",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 935,
+      "documentation_status": "generated",
+      "id": "excel.name.categorylocal",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "CategoryLocal",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "XlXLMMacroType",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(XlXLMMacroType)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 936,
+      "documentation_status": "generated",
+      "id": "excel.name.macrotype",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MacroType",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(XlXLMMacroType)",
+      "return_type": "XlXLMMacroType",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "String",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_String (8)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 937,
+      "documentation_status": "generated",
+      "id": "excel.name.namelocal",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "NameLocal",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_String (8)",
+      "return_type": "String",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 938,
+      "documentation_status": "generated",
+      "id": "excel.name.refersto",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RefersTo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_AutomationValue (12)",
+      "return_type": "AutomationValue",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 939,
+      "documentation_status": "generated",
+      "id": "excel.name.referstolocal",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RefersToLocal",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_AutomationValue (12)",
+      "return_type": "AutomationValue",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 940,
+      "documentation_status": "generated",
+      "id": "excel.name.referstor1c1",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RefersToR1C1",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_AutomationValue (12)",
+      "return_type": "AutomationValue",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_AutomationValue (12)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 941,
+      "documentation_status": "generated",
+      "id": "excel.name.referstor1c1local",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RefersToR1C1Local",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_AutomationValue (12)",
+      "return_type": "AutomationValue",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1160,
+      "documentation_status": "generated",
+      "id": "excel.name.referstorange",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "RefersToRange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Range))",
+      "return_type": "Range",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "bool",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_bool (11)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2607,
+      "documentation_status": "generated",
+      "id": "excel.name.workbookparameter",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WorkbookParameter",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_bool (11)",
+      "return_type": "bool",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 2608,
+      "documentation_status": "generated",
+      "id": "excel.name.validworkbookparameter",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ValidWorkbookParameter",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_bool (11)",
+      "return_type": "bool",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612736,
+      "documentation_status": "generated",
+      "id": "excel.name.queryinterface",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "QueryInterface",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612737,
+      "documentation_status": "generated",
+      "id": "excel.name.addref",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddRef",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612738,
+      "documentation_status": "generated",
+      "id": "excel.name.release",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Release",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678272,
+      "documentation_status": "generated",
+      "id": "excel.name.gettypeinfocount",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfoCount",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678273,
+      "documentation_status": "generated",
+      "id": "excel.name.gettypeinfo",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (16)))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_i32 (3))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678274,
+      "documentation_status": "generated",
+      "id": "excel.name.getidsofnames",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetIDsOfNames",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (18)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "DISPPARAMS",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(DISPPARAMS))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 5,
+          "raw_com_type": "VT_PTR(VT_AutomationValue (12))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "EXCEPINFO",
+          "optional": false,
+          "position": 6,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(EXCEPINFO))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 7,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678275,
+      "documentation_status": "generated",
+      "id": "excel.name.invoke",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Invoke",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    }
+  ],
+  "name": "Name",
+  "schema_version": 1,
+  "source_interface": "Name",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

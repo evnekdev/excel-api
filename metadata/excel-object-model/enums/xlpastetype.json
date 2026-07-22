@@ -1,0 +1,94 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpastetype",
+  "implementation_status": "not-started",
+  "name": "XlPasteType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteAll",
+      "numeric_value": -4104
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteAllExceptBorders",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteAllMergingConditionalFormats",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteAllUsingSourceTheme",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteColumnWidths",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteComments",
+      "numeric_value": -4144
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteFormats",
+      "numeric_value": -4122
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteFormulas",
+      "numeric_value": -4123
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteFormulasAndNumberFormats",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteValidation",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteValues",
+      "numeric_value": -4163
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPasteValuesAndNumberFormats",
+      "numeric_value": 12
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlcelltype",
+  "implementation_status": "not-started",
+  "name": "XlCellType",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeAllFormatConditions",
+      "numeric_value": -4172
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeAllValidation",
+      "numeric_value": -4174
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeBlanks",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeComments",
+      "numeric_value": -4144
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeConstants",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeDirtyFormulas",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeFormulas",
+      "numeric_value": -4123
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeLastCell",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeSameFormatConditions",
+      "numeric_value": -4173
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeSameValidation",
+      "numeric_value": -4175
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCellTypeVisible",
+      "numeric_value": 12
+    }
+  ]
+}

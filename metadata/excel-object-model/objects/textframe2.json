@@ -1,0 +1,1195 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": null,
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{000c0398-0000-0000-c000-000000000046}",
+  "id": "excel.textframe2",
+  "implemented_interface_count": 1,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "dispatch-interface",
+  "members": [
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.parent",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Parent",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Object (9)",
+      "return_type": "Object",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "f32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_f32 (4)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 100,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.marginbottom",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MarginBottom",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_f32 (4)",
+      "return_type": "f32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "f32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_f32 (4)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 101,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.marginleft",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MarginLeft",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_f32 (4)",
+      "return_type": "f32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "f32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_f32 (4)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 102,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.marginright",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MarginRight",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_f32 (4)",
+      "return_type": "f32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "f32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_f32 (4)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 103,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.margintop",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "MarginTop",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_f32 (4)",
+      "return_type": "f32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoTextOrientation",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoTextOrientation)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 104,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.orientation",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Orientation",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoTextOrientation)",
+      "return_type": "MsoTextOrientation",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoHorizontalAnchor",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoHorizontalAnchor)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 105,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.horizontalanchor",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "HorizontalAnchor",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoHorizontalAnchor)",
+      "return_type": "MsoHorizontalAnchor",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoVerticalAnchor",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoVerticalAnchor)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 106,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.verticalanchor",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "VerticalAnchor",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoVerticalAnchor)",
+      "return_type": "MsoVerticalAnchor",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoPathFormat",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoPathFormat)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 107,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.pathformat",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "PathFormat",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoPathFormat)",
+      "return_type": "MsoPathFormat",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoWarpFormat",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoWarpFormat)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 108,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.warpformat",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WarpFormat",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoWarpFormat)",
+      "return_type": "MsoWarpFormat",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoPresetTextEffect",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoPresetTextEffect)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 109,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.wordartformat",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WordArtformat",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoPresetTextEffect)",
+      "return_type": "MsoPresetTextEffect",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoTriState",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoTriState)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 110,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.wordwrap",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "WordWrap",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoTriState)",
+      "return_type": "MsoTriState",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoAutoSize",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoAutoSize)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 111,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.autosize",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AutoSize",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoAutoSize)",
+      "return_type": "MsoAutoSize",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 112,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.threed",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "ThreeD",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(ThreeDFormat))",
+      "return_type": "ThreeDFormat",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 113,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.hastext",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "HasText",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoTriState)",
+      "return_type": "MsoTriState",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 114,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.textrange",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "TextRange",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(TextRange2))",
+      "return_type": "TextRange2",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 115,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.column",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Column",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(TextColumn2))",
+      "return_type": "TextColumn2",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 116,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.ruler",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Ruler",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_PTR(VT_USERDEFINED(Ruler2))",
+      "return_type": "Ruler2",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 117,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.deletetext",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "DeleteText",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "MsoTriState",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_USERDEFINED(MsoTriState)"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 118,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.notextrotation",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "NoTextRotation",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_USERDEFINED(MsoTriState)",
+      "return_type": "MsoTriState",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET",
+        "PROPERTYPUT"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612736,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.queryinterface",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "QueryInterface",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612737,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.addref",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "AddRef",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610612738,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.release",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Release",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (19)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678272,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.gettypeinfocount",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfoCount",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (24)))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678273,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.gettypeinfo",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetTypeInfo",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_PTR(VT_Unknown (16)))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (23)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_i32 (3))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678274,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.getidsofnames",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "GetIDsOfNames",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "i32",
+          "optional": false,
+          "position": 0,
+          "raw_com_type": "VT_i32 (3)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "GUID",
+          "optional": false,
+          "position": 1,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(GUID))"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 2,
+          "raw_com_type": "VT_Unknown (19)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 3,
+          "raw_com_type": "VT_Unknown (18)"
+        },
+        {
+          "default": null,
+          "direction": "in",
+          "normalized_type": "DISPPARAMS",
+          "optional": false,
+          "position": 4,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(DISPPARAMS))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "AutomationValue",
+          "optional": false,
+          "position": 5,
+          "raw_com_type": "VT_PTR(VT_AutomationValue (12))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "EXCEPINFO",
+          "optional": false,
+          "position": 6,
+          "raw_com_type": "VT_PTR(VT_USERDEFINED(EXCEPINFO))"
+        },
+        {
+          "default": null,
+          "direction": "out",
+          "normalized_type": "Unknown",
+          "optional": false,
+          "position": 7,
+          "raw_com_type": "VT_PTR(VT_Unknown (23))"
+        }
+      ],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610678275,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.invoke",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "METHOD"
+      ],
+      "kind": "METHOD",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Invoke",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Unknown (24)",
+      "return_type": "Unknown",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "METHOD"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610743808,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.application",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Application",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_Object (9)",
+      "return_type": "Object",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    },
+    {
+      "arguments": [],
+      "chosen_crate_invoke_kinds": [],
+      "dispid": 1610743809,
+      "documentation_status": "generated",
+      "id": "excel.textframe2.creator",
+      "implementation_status": "metadata-only",
+      "invoke_kinds": [
+        "PROPERTYGET"
+      ],
+      "kind": "PROPERTYGET",
+      "microsoft_sample_invoke_kinds": [],
+      "name": "Creator",
+      "notes": [],
+      "optional_argument_count": 0,
+      "raw_return_type": "VT_i32 (3)",
+      "return_type": "i32",
+      "runtime_confirmed_invoke_kinds": [],
+      "schema_version": 1,
+      "source": {
+        "microsoft_docs": false,
+        "runtime_verified": false,
+        "typelib": true
+      },
+      "source_confidence": "typelib-only",
+      "test_status": "not-tested",
+      "typelib_invoke_kinds": [
+        "PROPERTYGET"
+      ]
+    }
+  ],
+  "name": "TextFrame2",
+  "schema_version": 1,
+  "source_interface": "TextFrame2",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}

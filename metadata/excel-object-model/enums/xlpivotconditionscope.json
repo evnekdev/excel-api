@@ -1,0 +1,31 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpivotconditionscope",
+  "implementation_status": "not-started",
+  "name": "XlPivotConditionScope",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDataFieldScope",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlFieldsScope",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSelectionScope",
+      "numeric_value": 0
+    }
+  ]
+}

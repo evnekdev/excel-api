@@ -1,0 +1,17 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlcreator",
+  "implementation_status": "not-started",
+  "name": "XlCreator",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCreatorCode",
+      "numeric_value": 1480803660
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlcellinsertionmode",
+  "implementation_status": "not-started",
+  "name": "XlCellInsertionMode",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInsertDeleteCells",
+      "numeric_value": 1
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInsertEntireRows",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOverwriteCells",
+      "numeric_value": 0
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpivotfieldcalculation",
+  "implementation_status": "not-started",
+  "name": "XlPivotFieldCalculation",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDifferenceFrom",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIndex",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlNoAdditionalCalculation",
+      "numeric_value": -4143
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentDifferenceFrom",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOf",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfColumn",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfParent",
+      "numeric_value": 12
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfParentColumn",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfParentRow",
+      "numeric_value": 10
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfRow",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentOfTotal",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlPercentRunningTotal",
+      "numeric_value": 13
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRankAscending",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRankDecending",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlRunningTotal",
+      "numeric_value": 5
+    }
+  ]
+}

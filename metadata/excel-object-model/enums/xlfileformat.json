@@ -1,0 +1,402 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlfileformat",
+  "implementation_status": "not-started",
+  "name": "XlFileFormat",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAddIn",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741873,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlAddIn8",
+      "numeric_value": 18
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCSV",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCSVMSDOS",
+      "numeric_value": 24
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCSVMac",
+      "numeric_value": 22
+    },
+    {
+      "dispid": 1073741878,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCSVUTF8",
+      "numeric_value": 62
+    },
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCSVWindows",
+      "numeric_value": 23
+    },
+    {
+      "dispid": 1073741846,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCurrentPlatformText",
+      "numeric_value": -4158
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDBF2",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDBF3",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDBF4",
+      "numeric_value": 11
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlDIF",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741867,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel12",
+      "numeric_value": 50
+    },
+    {
+      "dispid": 1073741833,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel2",
+      "numeric_value": 16
+    },
+    {
+      "dispid": 1073741834,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel2FarEast",
+      "numeric_value": 27
+    },
+    {
+      "dispid": 1073741835,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel3",
+      "numeric_value": 29
+    },
+    {
+      "dispid": 1073741836,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel4",
+      "numeric_value": 33
+    },
+    {
+      "dispid": 1073741840,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel4Workbook",
+      "numeric_value": 35
+    },
+    {
+      "dispid": 1073741837,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel5",
+      "numeric_value": 39
+    },
+    {
+      "dispid": 1073741838,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel7",
+      "numeric_value": 39
+    },
+    {
+      "dispid": 1073741875,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel8",
+      "numeric_value": 56
+    },
+    {
+      "dispid": 1073741839,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlExcel9795",
+      "numeric_value": 43
+    },
+    {
+      "dispid": 1073741864,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlHtml",
+      "numeric_value": 44
+    },
+    {
+      "dispid": 1073741841,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIntlAddIn",
+      "numeric_value": 26
+    },
+    {
+      "dispid": 1073741842,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlIntlMacro",
+      "numeric_value": 25
+    },
+    {
+      "dispid": 1073741876,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenDocumentSpreadsheet",
+      "numeric_value": 60
+    },
+    {
+      "dispid": 1073741874,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLAddIn",
+      "numeric_value": 55
+    },
+    {
+      "dispid": 1073741877,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLStrictWorkbook",
+      "numeric_value": 61
+    },
+    {
+      "dispid": 1073741872,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLTemplate",
+      "numeric_value": 54
+    },
+    {
+      "dispid": 1073741870,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLTemplateMacroEnabled",
+      "numeric_value": 53
+    },
+    {
+      "dispid": 1073741868,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLWorkbook",
+      "numeric_value": 51
+    },
+    {
+      "dispid": 1073741869,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOpenXMLWorkbookMacroEnabled",
+      "numeric_value": 52
+    },
+    {
+      "dispid": 1073741844,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlSYLK",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741845,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTemplate",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741871,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTemplate8",
+      "numeric_value": 17
+    },
+    {
+      "dispid": 1073741848,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextMSDOS",
+      "numeric_value": 21
+    },
+    {
+      "dispid": 1073741847,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextMac",
+      "numeric_value": 19
+    },
+    {
+      "dispid": 1073741849,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextPrinter",
+      "numeric_value": 36
+    },
+    {
+      "dispid": 1073741850,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlTextWindows",
+      "numeric_value": 20
+    },
+    {
+      "dispid": 1073741863,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlUnicodeText",
+      "numeric_value": 42
+    },
+    {
+      "dispid": 1073741851,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWJ2WD1",
+      "numeric_value": 14
+    },
+    {
+      "dispid": 1073741861,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWJ3",
+      "numeric_value": 40
+    },
+    {
+      "dispid": 1073741862,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWJ3FJ3",
+      "numeric_value": 41
+    },
+    {
+      "dispid": 1073741852,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK1",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741853,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK1ALL",
+      "numeric_value": 31
+    },
+    {
+      "dispid": 1073741854,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK1FMT",
+      "numeric_value": 30
+    },
+    {
+      "dispid": 1073741855,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK3",
+      "numeric_value": 15
+    },
+    {
+      "dispid": 1073741857,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK3FM3",
+      "numeric_value": 32
+    },
+    {
+      "dispid": 1073741856,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWK4",
+      "numeric_value": 38
+    },
+    {
+      "dispid": 1073741858,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWKS",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741860,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWQ1",
+      "numeric_value": 34
+    },
+    {
+      "dispid": 1073741865,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWebArchive",
+      "numeric_value": 45
+    },
+    {
+      "dispid": 1073741879,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorkbookDefault",
+      "numeric_value": 51
+    },
+    {
+      "dispid": 1073741843,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorkbookNormal",
+      "numeric_value": -4143
+    },
+    {
+      "dispid": 1073741859,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlWorks2FarEast",
+      "numeric_value": 28
+    },
+    {
+      "dispid": 1073741866,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlXMLSpreadsheet",
+      "numeric_value": 46
+    }
+  ]
+}

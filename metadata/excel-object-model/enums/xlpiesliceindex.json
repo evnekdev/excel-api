@@ -1,0 +1,73 @@
+{
+  "documentation_status": "generated",
+  "guid": "{00000000-0000-0000-0000-000000000000}",
+  "id": "excel.enum.xlpiesliceindex",
+  "implementation_status": "not-started",
+  "name": "XlPieSliceIndex",
+  "schema_version": 1,
+  "variants": [
+    {
+      "dispid": 1073741828,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlCenterPoint",
+      "numeric_value": 5
+    },
+    {
+      "dispid": 1073741831,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInnerCenterPoint",
+      "numeric_value": 8
+    },
+    {
+      "dispid": 1073741830,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInnerClockwisePoint",
+      "numeric_value": 7
+    },
+    {
+      "dispid": 1073741832,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlInnerCounterClockwisePoint",
+      "numeric_value": 9
+    },
+    {
+      "dispid": 1073741827,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMidClockwiseRadiusPoint",
+      "numeric_value": 4
+    },
+    {
+      "dispid": 1073741829,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlMidCounterClockwiseRadiusPoint",
+      "numeric_value": 6
+    },
+    {
+      "dispid": 1073741825,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOuterCenterPoint",
+      "numeric_value": 2
+    },
+    {
+      "dispid": 1073741826,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOuterClockwisePoint",
+      "numeric_value": 3
+    },
+    {
+      "dispid": 1073741824,
+      "documentation_status": "generated",
+      "implementation_status": "not-started",
+      "name": "xlOuterCounterClockwisePoint",
+      "numeric_value": 1
+    }
+  ]
+}

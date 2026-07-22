@@ -1,0 +1,24 @@
+{
+  "alias_target": null,
+  "collection": false,
+  "collection_capabilities": [],
+  "documentation_status": "generated",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbook",
+  "element_type": null,
+  "enumerator_member": null,
+  "guid": "{00020819-0000-0000-c000-000000000046}",
+  "id": "excel.workbook.coclass",
+  "implemented_interface_count": 2,
+  "implemented_status": "metadata-only",
+  "index_member": null,
+  "kind": "coclass",
+  "members": [],
+  "name": "Workbook",
+  "schema_version": 1,
+  "source_interface": "Workbook",
+  "test_status": "not-tested",
+  "typelib_version": {
+    "major": 1,
+    "minor": 9
+  }
+}
