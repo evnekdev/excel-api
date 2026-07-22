@@ -5,8 +5,8 @@ use std::slice;
 use windows_sys::Win32::Foundation::SysStringLen;
 use windows_sys::Win32::System::Com::CY;
 use windows_sys::Win32::System::Variant::{
-    VARIANT, VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_ERROR, VT_I4, VT_NULL,
-    VT_R8, VT_UNKNOWN, VT_VARIANT, VariantClear, VariantInit,
+    VARIANT, VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_EMPTY, VT_ERROR, VT_I4,
+    VT_NULL, VT_R8, VT_UNKNOWN, VT_VARIANT, VariantClear, VariantInit,
 };
 
 use super::SafeArray;
@@ -130,7 +130,6 @@ impl OwnedVariant {
         Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.dblVal })
     }
 
-    #[cfg(test)]
     pub(crate) fn as_scode(&self) -> Option<i32> {
         if self.vt() != VT_ERROR {
             return None;
@@ -171,6 +170,34 @@ impl OwnedVariant {
         self.0.Anonymous.Anonymous.vt = 0;
         // SAFETY: ownership moved out by clearing the tag and pointer slot above.
         unsafe { ComPtr::from_owned(raw) }
+    }
+
+    /// Moves out a dispatch result, treating an Automation null result as no object.
+    ///
+    /// Excel's `Range.Find` family reports a no-match result without a Range
+    /// object. Both null/empty variants and a null `VT_DISPATCH` pointer are
+    /// accepted here; every other VARTYPE remains a structured conversion
+    /// failure.
+    pub(crate) fn take_optional_dispatch(
+        &mut self,
+    ) -> Result<Option<ComPtr<Dispatch>>, ExcelComError> {
+        if matches!(self.vt(), VT_EMPTY | VT_NULL) {
+            return Ok(None);
+        }
+        if self.vt() != VT_DISPATCH {
+            return Err(ExcelComError::Conversion(
+                ConversionError::UnsupportedVariantType { vartype: self.vt() },
+            ));
+        }
+        // SAFETY: the checked VT_DISPATCH tag selects pdispVal in the VARIANT union.
+        let raw = unsafe { self.0.Anonymous.Anonymous.Anonymous.pdispVal };
+        self.0.Anonymous.Anonymous.Anonymous.pdispVal = std::ptr::null_mut();
+        self.0.Anonymous.Anonymous.vt = 0;
+        if raw.is_null() {
+            return Ok(None);
+        }
+        // SAFETY: ownership moved out by clearing the tag and pointer slot above.
+        unsafe { ComPtr::from_owned(raw).map(Some) }
     }
 
     pub(crate) fn take_unknown(&mut self) -> Result<ComPtr<Unknown>, ExcelComError> {

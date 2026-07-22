@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"dynamic-array-origin-and-child","origin":"F1","child":"F2","spilling_to_range":"F1:G2","spill_parent":"F1","origin_has_spill":true,"child_has_spill":true,"inferred_addresses":false}

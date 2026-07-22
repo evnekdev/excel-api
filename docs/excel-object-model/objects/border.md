@@ -24,6 +24,11 @@ One apartment-bound Excel border selected from a Borders collection.
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

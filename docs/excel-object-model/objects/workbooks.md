@@ -24,6 +24,11 @@ The typed collection through which an Application exposes open workbooks. The bo
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

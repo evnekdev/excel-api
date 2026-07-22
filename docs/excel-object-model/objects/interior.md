@@ -24,6 +24,11 @@ The apartment-bound Excel formatting object for a Range's fill properties.
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

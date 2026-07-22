@@ -1,5 +1,14 @@
 {
   "alias_target": null,
+  "calculation_capability": {
+    "before_save": true,
+    "calculate": true,
+    "full": true,
+    "full_rebuild": true,
+    "mode": true,
+    "state": true,
+    "version": true
+  },
   "collection": null,
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.application(object)",

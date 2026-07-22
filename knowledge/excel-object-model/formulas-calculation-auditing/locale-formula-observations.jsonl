@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"locale-formula-literal","members":["Range.FormulaLocal","Range.FormulaR1C1Local"],"culture":"en-AU","ui_culture":"en-GB","input":"=1+1","readback":"=1+1","deterministic_scope":"separator-free literal only","function_name_or_separator_translation":"not performed by Rust"}

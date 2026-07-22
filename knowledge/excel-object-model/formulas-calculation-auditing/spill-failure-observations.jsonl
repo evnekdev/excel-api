@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"blocked-dynamic-spill","formula":"=SEQUENCE(2,2)","blocker":"occupied spill output cell","observed_result":"AutomationValue::Error","recovery":"clear blocker then Range.Calculate restores spill","error_code":"not normalized from public value model"}

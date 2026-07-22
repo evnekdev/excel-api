@@ -24,6 +24,22 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+### Calculation
+
+| Capability | Available |
+|---|---|
+| `before_save` | true |
+| `calculate` | true |
+| `full` | true |
+| `full_rebuild` | true |
+| `mode` | true |
+| `state` | true |
+| `version` | true |
+
+
+
 ## Relationships
 
 | Relationship | Target | Status |
@@ -79,8 +95,8 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | TransitionNavigKeys | PROPERTYGET/PROPERTYPUT | bool | declared | 312 | Metadata Only | Reviewed | Not Tested | |
 | AltStartupPath | PROPERTYGET/PROPERTYPUT | String | declared | 313 | Metadata Only | Reviewed | Not Tested | |
 | Build | PROPERTYGET | i32 | declared | 314 | Metadata Only | Reviewed | Not Tested | |
-| CalculateBeforeSave | PROPERTYGET/PROPERTYPUT | bool | declared | 315 | Metadata Only | Reviewed | Not Tested | |
-| Calculation | PROPERTYGET/PROPERTYPUT | XlCalculation | declared | 316 | Metadata Only | Reviewed | Not Tested | |
+| CalculateBeforeSave | PROPERTYGET/PROPERTYPUT | bool | declared | 315 | Implemented | Reviewed | Live Tested | |
+| Calculation | PROPERTYGET/PROPERTYPUT | XlCalculation | declared | 316 | Implemented | Reviewed | Live Tested | |
 | Caller | PROPERTYGET | AutomationValue | declared | 317 | Metadata Only | Reviewed | Not Tested | |
 | CanPlaySounds | PROPERTYGET | bool | declared | 318 | Metadata Only | Reviewed | Not Tested | |
 | CanRecordSounds | PROPERTYGET | bool | declared | 319 | Metadata Only | Reviewed | Not Tested | |
@@ -212,7 +228,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | LanguageSettings | PROPERTYGET | LanguageSettings | declared | 1801 | Metadata Only | Reviewed | Not Tested | |
 | Dummy101 | PROPERTYGET | Object | declared | 1802 | Metadata Only | Reviewed | Not Tested | |
 | AnswerWizard | PROPERTYGET | AnswerWizard | declared | 1804 | Metadata Only | Reviewed | Not Tested | |
-| CalculationVersion | PROPERTYGET | i32 | declared | 1806 | Metadata Only | Reviewed | Not Tested | |
+| CalculationVersion | PROPERTYGET | i32 | declared | 1806 | Implemented | Reviewed | Live Tested | |
 | ShowWindowsInTaskbar | PROPERTYGET/PROPERTYPUT | bool | declared | 1807 | Metadata Only | Reviewed | Not Tested | |
 | FeatureInstall | PROPERTYGET/PROPERTYPUT | MsoFeatureInstall | declared | 1808 | Metadata Only | Reviewed | Not Tested | |
 | DecimalSeparator | PROPERTYGET/PROPERTYPUT | String | declared | 1809 | Metadata Only | Reviewed | Not Tested | |
@@ -221,7 +237,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | FindFormat | PROPERTYGET/PROPERTYPUTREF | CellFormat | declared | 1934 | Metadata Only | Reviewed | Not Tested | |
 | ReplaceFormat | PROPERTYGET/PROPERTYPUTREF | CellFormat | declared | 1935 | Metadata Only | Reviewed | Not Tested | |
 | UsedObjects | PROPERTYGET | UsedObjects | declared | 1936 | Metadata Only | Reviewed | Not Tested | |
-| CalculationState | PROPERTYGET | XlCalculationState | declared | 1937 | Metadata Only | Reviewed | Not Tested | |
+| CalculationState | PROPERTYGET | XlCalculationState | declared | 1937 | Implemented | Reviewed | Live Tested | |
 | CalculationInterruptKey | PROPERTYGET/PROPERTYPUT | XlCalculationInterruptKey | declared | 1938 | Metadata Only | Reviewed | Not Tested | |
 | Watches | PROPERTYGET | Watches | declared | 1939 | Metadata Only | Reviewed | Not Tested | |
 | DisplayFunctionToolTips | PROPERTYGET/PROPERTYPUT | bool | declared | 1940 | Metadata Only | Reviewed | Not Tested | |
@@ -314,7 +330,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | DeleteChartAutoFormat | Unknown | 1 | declared | 217 | Metadata Only | Reviewed | Not Tested | |
 | SetDefaultChart | Unknown | 2 | declared | 219 | Metadata Only | Reviewed | Not Tested | |
 | Run | AutomationValue | 31 | declared | 259 | Metadata Only | Reviewed | Not Tested | |
-| Calculate | Unknown | 0 | declared | 279 | Metadata Only | Reviewed | Not Tested | |
+| Calculate | Unknown | 0 | declared | 279 | Implemented | Reviewed | Live Tested | |
 | Save | Unknown | 1 | declared | 283 | Metadata Only | Reviewed | Not Tested | |
 | Repeat | Unknown | 0 | declared | 301 | Metadata Only | Reviewed | Not Tested | |
 | Quit | Unknown | 0 | declared | 302 | Implemented | Reviewed | Live Tested | |
@@ -372,10 +388,10 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | Dummy11 | Unknown | 0 | declared | 1792 | Metadata Only | Reviewed | Not Tested | |
 | GetPhonetic | String | 1 | declared | 1795 | Metadata Only | Reviewed | Not Tested | |
 | Dummy12 | Unknown | 2 | declared | 1803 | Metadata Only | Reviewed | Not Tested | |
-| CalculateFull | Unknown | 0 | declared | 1805 | Metadata Only | Reviewed | Not Tested | |
+| CalculateFull | Unknown | 0 | declared | 1805 | Implemented | Reviewed | Live Tested | |
 | Dummy13 | AutomationValue | 30 | declared | 1933 | Metadata Only | Reviewed | Not Tested | |
 | Dummy14 | Unknown | 0 | declared | 1944 | Metadata Only | Reviewed | Not Tested | |
-| CalculateFullRebuild | Unknown | 0 | declared | 1945 | Metadata Only | Reviewed | Not Tested | |
+| CalculateFullRebuild | Unknown | 0 | declared | 1945 | Implemented | Reviewed | Live Tested | |
 | CheckAbort | Unknown | 1 | declared | 1952 | Metadata Only | Reviewed | Not Tested | |
 | DisplayXMLSourcePane | Unknown | 1 | declared | 2252 | Metadata Only | Reviewed | Not Tested | |
 | Support | AutomationValue | 3 | declared | 2255 | Metadata Only | Reviewed | Not Tested | |

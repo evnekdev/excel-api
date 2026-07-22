@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"special-cells","formula_cells":true,"constants_with_text_and_numbers":true,"blanks":true,"visible_cells":true,"multi_area_result_preserved":true}
+{"schema_version":1,"case_id":"special-cells-no-match","receiver":"blank multi-cell range","result":"structured Excel invocation error","hresult":"0x80020009","exception_scode":"0x800A03EC","single_cell_expansion_avoided":true}

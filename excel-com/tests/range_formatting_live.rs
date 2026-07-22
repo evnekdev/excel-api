@@ -100,9 +100,7 @@ fn range_formatting_naturally_exits() -> Result<(), Box<dyn std::error::Error>> 
                     AutomationValue::Number(9.0),
                 ],
             )?))?;
-            worksheet
-                .range("C1")?
-                .set_formula(AutomationValue::Text("=SUM(A2:B2)".to_owned()))?;
+            worksheet.range("C1")?.set_formula("=SUM(A2:B2)")?;
             assert_eq!(uniform(range.number_format()?)?, "General");
 
             let font = range.font()?;

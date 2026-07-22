@@ -202,7 +202,7 @@
 | Worksheet | Delete | 117 | Metadata Only |
 | Worksheet | Paste | 211 | Metadata Only |
 | Worksheet | Select | 235 | Metadata Only |
-| Worksheet | Calculate | 279 | Metadata Only |
+| Worksheet | Calculate | 279 | Implemented |
 | Worksheet | PrintPreview | 281 | Metadata Only |
 | Worksheet | _Protect | 282 | Metadata Only |
 | Worksheet | __SaveAs | 284 | Metadata Only |

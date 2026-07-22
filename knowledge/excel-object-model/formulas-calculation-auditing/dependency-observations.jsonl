@@ -1,0 +1,2 @@
+{"schema_version":1,"case_id":"same-sheet-dependencies","direct_precedents":"A12","precedents":"A12:B12","direct_dependents":"B12","dependents":"B12:C12","address_kind":"normalized qualified external address"}
+{"schema_version":1,"case_id":"cross-sheet-direct-precedents","formula":"=Sheet1!A12","result":"structured Excel invocation error","hresult":"0x80020009","exception_scode":"0x800A03EC","version_sensitive":true}

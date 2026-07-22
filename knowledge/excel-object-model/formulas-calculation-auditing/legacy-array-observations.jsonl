@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"legacy-array-formula","member":"Range.FormulaArray","formula":"=A6:A8*B6:B8","array_range":"C6:C8","has_array":true,"current_array":"C6:C8","values":[10.0,40.0,90.0],"formula_text":"=A6:A8*B6:B8","formula_length_note":"Excel legacy FormulaArray retains its documented 255-character limit"}

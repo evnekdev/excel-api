@@ -359,6 +359,15 @@ fn object_record(
         if mixed_value_possible(&id) {
             member["mixed_value_possible"] = Value::Bool(true);
         }
+        if version_sensitive(&id) {
+            member["version_sensitive"] = Value::Bool(true);
+        }
+        if returns_range_or_nothing(&id) {
+            member["returns_range_or_nothing"] = Value::Bool(true);
+        }
+        if stateful_search(&id) {
+            member["stateful_search"] = Value::Bool(true);
+        }
         let target = target
             .filter(|target| {
                 matches!(
@@ -458,6 +467,18 @@ fn object_record(
     if !formatting.is_null() {
         record["formatting_capability"] = formatting;
     }
+    let formulas = formula_capability(raw_name);
+    if !formulas.is_null() {
+        record["formula_capability"] = formulas;
+    }
+    let calculation = calculation_capability(raw_name);
+    if !calculation.is_null() {
+        record["calculation_capability"] = calculation;
+    }
+    let auditing_search = auditing_search_capability(raw_name);
+    if !auditing_search.is_null() {
+        record["auditing_search_capability"] = auditing_search;
+    }
     Ok(record)
 }
 
@@ -508,6 +529,8 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         "excel.application.visible"
         | "excel.application.displayalerts"
         | "excel.application.referencestyle"
+        | "excel.application.calculation"
+        | "excel.application.calculatebeforesave"
         | "excel.workbook.saved"
         | "excel.worksheet.name"
         | "excel.worksheet.visible"
@@ -515,6 +538,11 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.range.value2"
         | "excel.range.formula"
         | "excel.range.formula2"
+        | "excel.range.formular1c1"
+        | "excel.range.formula2r1c1"
+        | "excel.range.formulalocal"
+        | "excel.range.formular1c1local"
+        | "excel.range.formulaarray"
         | "excel.range.numberformat"
         | "excel.range.horizontalalignment"
         | "excel.range.verticalalignment"
@@ -545,6 +573,21 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         "excel.application.convertformula"
         | "excel.application.evaluate-1"
         | "excel.worksheet.evaluate-1"
+        | "excel.application.calculate"
+        | "excel.application.calculatefull"
+        | "excel.application.calculatefullrebuild"
+        | "excel.worksheet.calculate"
+        | "excel.range.calculate"
+        | "excel.range.dirty"
+        | "excel.range.directprecedents"
+        | "excel.range.directdependents"
+        | "excel.range.precedents"
+        | "excel.range.dependents"
+        | "excel.range.specialcells"
+        | "excel.range.find"
+        | "excel.range.findnext"
+        | "excel.range.findprevious"
+        | "excel.range.replace-3305"
         | "excel.names.item"
         | "excel.names.add"
         | "excel.name.delete" => &["METHOD"],
@@ -558,6 +601,8 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         "excel.worksheets.add" | "excel.range.clearcontents" | "excel.range.autofit" => &["METHOD"],
         "excel.application.version"
         | "excel.application.workbooks"
+        | "excel.application.calculationstate"
+        | "excel.application.calculationversion"
         | "excel.workbook.names"
         | "excel.workbooks.count"
         | "excel.workbook.name"
@@ -580,6 +625,12 @@ fn crate_policy(id: &str) -> &'static [&'static str] {
         | "excel.range.count"
         | "excel.range.rows"
         | "excel.range.columns"
+        | "excel.range.hasformula"
+        | "excel.range.hasarray"
+        | "excel.range.currentarray"
+        | "excel.range.hasspill"
+        | "excel.range.spillingtorange"
+        | "excel.range.spillparent"
         | "excel.range.font"
         | "excel.range.interior"
         | "excel.range.borders"
@@ -639,6 +690,53 @@ fn formatting_capability(name: &str) -> Value {
     }
 }
 
+fn formula_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Range" => json!({
+            "a1": true,
+            "r1c1": true,
+            "formula2": true,
+            "formula2_r1c1": true,
+            "dynamic_array": true,
+            "legacy_array": true,
+            "locale_formula": true,
+            "mixed_values": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn calculation_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Application" => json!({
+            "mode": true,
+            "state": true,
+            "version": true,
+            "before_save": true,
+            "calculate": true,
+            "full": true,
+            "full_rebuild": true,
+        }),
+        "Worksheet" => json!({"calculate": true}),
+        "Range" => json!({"calculate": true, "mark_dirty": true}),
+        _ => Value::Null,
+    }
+}
+
+fn auditing_search_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Range" => json!({
+            "precedents": true,
+            "dependents": true,
+            "special_cells": true,
+            "find": true,
+            "replace": true,
+            "wrap_safe_iterator": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
 fn mixed_value_possible(id: &str) -> bool {
     matches!(
         id,
@@ -648,6 +746,13 @@ fn mixed_value_possible(id: &str) -> bool {
             | "excel.range.wraptext"
             | "excel.range.rowheight"
             | "excel.range.columnwidth"
+            | "excel.range.formula"
+            | "excel.range.formula2"
+            | "excel.range.formular1c1"
+            | "excel.range.formula2r1c1"
+            | "excel.range.formulalocal"
+            | "excel.range.formular1c1local"
+            | "excel.range.hasformula"
             | "excel.font.name"
             | "excel.font.size"
             | "excel.font.bold"
@@ -669,6 +774,34 @@ fn mixed_value_possible(id: &str) -> bool {
             | "excel.border.colorindex"
             | "excel.border.linestyle"
             | "excel.border.weight"
+    )
+}
+
+fn version_sensitive(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.formula2"
+            | "excel.range.formula2r1c1"
+            | "excel.range.hasspill"
+            | "excel.range.spillingtorange"
+            | "excel.range.spillparent"
+    )
+}
+
+fn returns_range_or_nothing(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.find" | "excel.range.findnext" | "excel.range.findprevious"
+    )
+}
+
+fn stateful_search(id: &str) -> bool {
+    matches!(
+        id,
+        "excel.range.find"
+            | "excel.range.findnext"
+            | "excel.range.findprevious"
+            | "excel.range.replace-3305"
     )
 }
 

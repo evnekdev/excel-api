@@ -1,0 +1,1 @@
+{"schema_version":1,"case_id":"formula-a1-scalar-and-array","member":"Range.Formula","scalar_formula":"=A1+B1","scalar_result":5.0,"scalar_model":"FormulaValue::Text","rectangular_model":"FormulaValue::Array","exact_shape_required":true}

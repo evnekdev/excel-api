@@ -239,26 +239,6 @@ impl Range {
         self.value_put("excel.range.value2", value, DateWriteMode::Value2)
     }
 
-    /// Gets `Range.Formula` as a semantic Automation value.
-    pub fn formula(&self) -> Result<AutomationValue, ExcelComError> {
-        self.value_get("excel.range.formula")
-    }
-
-    /// Sets `Range.Formula` after exact shape validation.
-    pub fn set_formula(&self, value: AutomationValue) -> Result<(), ExcelComError> {
-        self.value_put("excel.range.formula", value, DateWriteMode::Value)
-    }
-
-    /// Gets `Range.Formula2` as a semantic Automation value.
-    pub fn formula2(&self) -> Result<AutomationValue, ExcelComError> {
-        self.value_get("excel.range.formula2")
-    }
-
-    /// Sets `Range.Formula2` after exact shape validation.
-    pub fn set_formula2(&self, value: AutomationValue) -> Result<(), ExcelComError> {
-        self.value_put("excel.range.formula2", value, DateWriteMode::Value)
-    }
-
     /// Removes formulas and values while leaving formatting untouched.
     pub fn clear_contents(&self) -> Result<(), ExcelComError> {
         let _ = invoke(
@@ -301,7 +281,7 @@ impl Range {
         Ok(Self::from_dispatch(result.take_dispatch()?))
     }
 
-    fn dimensions(&self) -> Result<(usize, usize), ExcelComError> {
+    pub(crate) fn dimensions(&self) -> Result<(usize, usize), ExcelComError> {
         let rows = usize::try_from(self.row_count()?).map_err(|_| ExcelComError::Unsupported {
             detail: "negative Range row count",
         })?;

@@ -24,6 +24,11 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | Documentation | Reviewed |
 | Tests | Live Tested |
 
+## Capabilities
+
+No capability metadata is recorded for this surface.
+
+
 ## Relationships
 
 | Relationship | Target | Status |

@@ -278,6 +278,20 @@ impl Worksheet {
         Ok(Range::from_dispatch(result.take_dispatch()?))
     }
 
+    /// Calculates this worksheet through Excel.
+    ///
+    /// Excel defines the dependency scope and completion behavior. Use
+    /// [`Application::calculation_state`] when a state snapshot is needed.
+    pub fn calculate(&self) -> Result<(), ExcelComError> {
+        let _ = invoke(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.worksheet.calculate"), false),
+            vec![],
+            false,
+        )?;
+        Ok(())
+    }
+
     fn range_with_arguments(&self, arguments: Vec<OwnedVariant>) -> Result<Range, ExcelComError> {
         let mut result = property_get(
             &self.inner.dispatch,

@@ -115,6 +115,46 @@ pub fn check(root: &Path) -> Result<(), String> {
         } else if !object["formatting_capability"].is_null() {
             return Err("formatting_capability must be an object or null".to_owned());
         }
+        validate_boolean_capability(
+            object,
+            "formula_capability",
+            &[
+                "a1",
+                "r1c1",
+                "formula2",
+                "formula2_r1c1",
+                "dynamic_array",
+                "legacy_array",
+                "locale_formula",
+                "mixed_values",
+            ],
+        )?;
+        validate_boolean_capability(
+            object,
+            "calculation_capability",
+            &[
+                "mode",
+                "state",
+                "version",
+                "before_save",
+                "calculate",
+                "full",
+                "full_rebuild",
+                "mark_dirty",
+            ],
+        )?;
+        validate_boolean_capability(
+            object,
+            "auditing_search_capability",
+            &[
+                "precedents",
+                "dependents",
+                "special_cells",
+                "find",
+                "replace",
+                "wrap_safe_iterator",
+            ],
+        )?;
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?
@@ -138,6 +178,15 @@ pub fn check(root: &Path) -> Result<(), String> {
                 && !member["mixed_value_possible"].is_boolean()
             {
                 return Err(format!("member {id} has invalid mixed_value_possible"));
+            }
+            for field in [
+                "version_sensitive",
+                "returns_range_or_nothing",
+                "stateful_search",
+            ] {
+                if !member[field].is_null() && !member[field].is_boolean() {
+                    return Err(format!("member {id} has invalid {field}"));
+                }
             }
             let code_mapping = model::implemented_member_ids().contains(id);
             let metadata_implemented =
@@ -246,6 +295,30 @@ fn validate_status(value: &Value) -> Result<(), String> {
     }
     Ok(())
 }
+fn validate_boolean_capability(
+    object: &Value,
+    capability_name: &str,
+    allowed_fields: &[&str],
+) -> Result<(), String> {
+    match object[capability_name].as_object() {
+        Some(capabilities) => {
+            for (field, value) in capabilities {
+                if !allowed_fields.contains(&field.as_str()) {
+                    return Err(format!(
+                        "{capability_name} has unrecognized capability {field}"
+                    ));
+                }
+                if !value.is_boolean() {
+                    return Err(format!("{capability_name} {field} must be boolean"));
+                }
+            }
+            Ok(())
+        }
+        None if object[capability_name].is_null() => Ok(()),
+        None => Err(format!("{capability_name} must be an object or null")),
+    }
+}
+
 fn records(directory: &Path) -> Result<Vec<Value>, String> {
     let mut values = Vec::new();
     for entry in fs::read_dir(directory).map_err(|error| error.to_string())? {
