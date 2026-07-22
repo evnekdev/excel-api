@@ -2497,6 +2497,7 @@
   "name": "WorkbookEvents",
   "schema_version": 1,
   "source_interface": "WorkbookEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

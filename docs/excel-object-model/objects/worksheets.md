@@ -16,17 +16,18 @@ The workbook worksheet collection. It is structurally inventoried but has no pro
 | Interface | `Worksheets` |
 | GUID | `{000208b1-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Worksheets` |
-| Implementation | Metadata Only |
+| Implementation | Partial |
 | Documentation | Reviewed |
-| Tests | Not Tested |
+| Tests | Live Tested |
 
 ## Relationships
 
 | Relationship | Target | Status |
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
-| `Item` | `excel.worksheet` | Metadata Only |
+| `Item` | `excel.worksheet` | Implemented |
 
 ## Properties
 
@@ -34,11 +35,11 @@ The workbook worksheet collection. It is structurally inventoried but has no pro
 |---|---|---|---:|---|---|---|---|
 | _NewEnum | PROPERTYGET | Unknown | -4 | Metadata Only | Reviewed | Not Tested | |
 | _Default | PROPERTYGET | Object | 0 | Metadata Only | Reviewed | Not Tested | |
-| Count | PROPERTYGET | i32 | 118 | Metadata Only | Reviewed | Not Tested | |
+| Count | PROPERTYGET | i32 | 118 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | 150 | Metadata Only | Reviewed | Not Tested | |
-| Item | PROPERTYGET | Object | 170 | Metadata Only | Reviewed | Not Tested | |
+| Item | PROPERTYGET | Object | 170 | Implemented | Reviewed | Live Tested | |
 | Visible | PROPERTYGET/PROPERTYPUT | AutomationValue | 558 | Metadata Only | Reviewed | Not Tested | |
 | HPageBreaks | PROPERTYGET | HPageBreaks | 1418 | Metadata Only | Reviewed | Not Tested | |
 | VPageBreaks | PROPERTYGET | VPageBreaks | 1419 | Metadata Only | Reviewed | Not Tested | |
@@ -48,7 +49,7 @@ The workbook worksheet collection. It is structurally inventoried but has no pro
 | Method | Return | Arguments | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---:|---:|---|---|---|---|
 | Delete | Unknown | 0 | 117 | Metadata Only | Reviewed | Not Tested | |
-| Add | Object | 4 | 181 | Metadata Only | Reviewed | Not Tested | |
+| Add | Object | 4 | 181 | Implemented | Reviewed | Live Tested | |
 | Select | Unknown | 1 | 235 | Metadata Only | Reviewed | Not Tested | |
 | PrintPreview | Unknown | 1 | 281 | Metadata Only | Reviewed | Not Tested | |
 | FillAcrossSheets | Unknown | 2 | 469 | Metadata Only | Reviewed | Not Tested | |

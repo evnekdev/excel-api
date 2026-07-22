@@ -1198,6 +1198,7 @@
   "name": "Validation",
   "schema_version": 1,
   "source_interface": "Validation",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

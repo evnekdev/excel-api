@@ -3,10 +3,11 @@
 `excel-com` is an experimental, unpublished foundation for safe Excel COM
 Automation. Its semantic and wrapper APIs may change before a first release.
 
-The initial implemented path is `Application -> Workbooks -> Workbook`. It
-supports creating a local Excel instance, inspecting and setting visibility,
-getting the version, creating a workbook, and closing or quitting explicitly.
-It does not claim complete Excel object-model support.
+The implemented path is `Application -> Workbooks -> Workbook -> Worksheets
+-> Worksheet -> Range`. It supports creating a local Excel instance,
+inspecting and setting visibility, creating a workbook, navigating worksheets,
+and reading or writing a bounded Range value/formula surface. It does not claim
+complete Excel object-model support.
 
 The crate is layered as Excel wrappers, object-model member descriptors,
 Automation values and dispatch invocation, then private `windows-sys` COM
@@ -32,6 +33,16 @@ Live tests are opt-in because they launch a new Excel process:
 cargo test -p excel-com --test live -- --ignored --test-threads=1
 ```
 
-Worksheets, ranges, events, charts, macros, existing-session attachment,
-marshaling, generic collections, and a stable public API are intentionally out
-of scope for this first crate slice.
+Events, charts, macros, existing-session attachment, marshaling, generic
+collections, formatting, and a stable public API are intentionally out of
+scope for this first crate slice.
+
+## API documentation
+
+Rustdoc describes the public wrapper and Automation-value contracts; the
+generated object-model inventory describes the much larger Excel type library
+and is not API documentation. Build the local crate documentation with:
+
+```powershell
+cargo doc -p excel-com --all-features --no-deps --open
+```

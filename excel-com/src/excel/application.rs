@@ -1,7 +1,7 @@
 use crate::automation::{OwnedVariant, activate_excel, invoke, property_get, property_put};
 use crate::excel::{DispatchObject, Workbooks};
 use crate::object_model::{MemberId, member};
-use crate::{ComApartment, ExcelComError};
+use crate::{ComApartment, ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
 
 /// Experimental wrapper for a crate-created local Excel Application instance.
@@ -24,6 +24,7 @@ impl Clone for Application {
     }
 }
 impl Application {
+    /// Starts a fresh local Excel `Application` in the supplied STA apartment.
     pub fn new(apartment: &ComApartment) -> Result<Self, ExcelComError> {
         apartment.assert_current()?;
         Ok(Self {
@@ -33,6 +34,7 @@ impl Application {
             },
         })
     }
+    /// Returns the server's Excel version string.
     pub fn version(&self) -> Result<String, ExcelComError> {
         property_get(
             &self.inner.dispatch,
@@ -41,6 +43,7 @@ impl Application {
         )?
         .as_string()
     }
+    /// Returns the current visibility of the crate-created Excel window.
     pub fn visible(&self) -> Result<bool, ExcelComError> {
         property_get(
             &self.inner.dispatch,
@@ -48,10 +51,11 @@ impl Application {
             vec![],
         )?
         .as_bool()
-        .ok_or(ExcelComError::Conversion {
-            detail: "Visible did not return VT_BOOL",
-        })
+        .ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType { vartype: 0 },
+        ))
     }
+    /// Sets the visibility of the crate-created Excel window.
     pub fn set_visible(&self, value: bool) -> Result<(), ExcelComError> {
         let _ = property_put(
             &self.inner.dispatch,
@@ -60,6 +64,7 @@ impl Application {
         )?;
         Ok(())
     }
+    /// Returns the application's `Workbooks` collection.
     pub fn workbooks(&self) -> Result<Workbooks, ExcelComError> {
         let mut result = property_get(
             &self.inner.dispatch,

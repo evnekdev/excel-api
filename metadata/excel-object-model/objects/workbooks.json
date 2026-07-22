@@ -1710,6 +1710,7 @@
   "name": "Workbooks",
   "schema_version": 1,
   "source_interface": "Workbooks",
+  "surface_class": "implemented-wrapper",
   "test_status": "live-tested",
   "typelib_version": {
     "major": 1,

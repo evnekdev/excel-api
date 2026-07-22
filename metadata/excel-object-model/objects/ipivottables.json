@@ -343,6 +343,7 @@
   "name": "IPivotTables",
   "schema_version": 1,
   "source_interface": "IPivotTables",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

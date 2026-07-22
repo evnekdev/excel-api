@@ -28,6 +28,13 @@ pub const CONFIDENCE_STATUSES: &[&str] = &[
     "conflicting",
     "unknown",
 ];
+/// Controlled classification of how broadly an object belongs to the initial wrapper surface.
+pub const SURFACE_CLASSES: &[&str] = &[
+    "implemented-wrapper",
+    "priority-inventory",
+    "deferred-inventory",
+    "event-surface",
+];
 
 pub fn slug(value: &str) -> String {
     let mut result = String::new();
@@ -77,8 +84,19 @@ pub fn priority_object(name: &str) -> bool {
 pub fn wrapper_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
-        "Application" | "Workbooks" | "Workbook"
+        "Application" | "Workbooks" | "Workbook" | "Worksheets" | "Worksheet" | "Range"
     )
+}
+pub fn surface_class(name: &str, event_interface: bool) -> &'static str {
+    if event_interface {
+        "event-surface"
+    } else if wrapper_object(name) {
+        "implemented-wrapper"
+    } else if priority_object(name) {
+        "priority-inventory"
+    } else {
+        "deferred-inventory"
+    }
 }
 pub fn implemented_member_ids() -> BTreeSet<&'static str> {
     excel_com::IMPLEMENTED_MEMBER_IDS.iter().copied().collect()

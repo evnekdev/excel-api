@@ -16,10 +16,11 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Interface | `Range` |
 | GUID | `{00020846-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Range` |
-| Implementation | Metadata Only |
+| Implementation | Partial |
 | Documentation | Reviewed |
-| Tests | Not Tested |
+| Tests | Live Tested |
 
 ## Relationships
 
@@ -28,7 +29,7 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | `Application` | `excel.application` | Metadata Only |
 | `Cells` | `excel.range` | Metadata Only |
 | `ColumnDifferences` | `excel.range` | Metadata Only |
-| `Columns` | `excel.range` | Metadata Only |
+| `Columns` | `excel.range` | Implemented |
 | `CurrentArray` | `excel.range` | Metadata Only |
 | `CurrentRegion` | `excel.range` | Metadata Only |
 | `Dependents` | `excel.range` | Metadata Only |
@@ -48,7 +49,7 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | `Range` | `excel.range` | Metadata Only |
 | `Resize` | `excel.range` | Metadata Only |
 | `RowDifferences` | `excel.range` | Metadata Only |
-| `Rows` | `excel.range` | Metadata Only |
+| `Rows` | `excel.range` | Implemented |
 | `SpecialCells` | `excel.range` | Metadata Only |
 | `SpillingToRange` | `excel.range` | Metadata Only |
 | `SpillParent` | `excel.range` | Metadata Only |
@@ -60,9 +61,9 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 |---|---|---|---:|---|---|---|---|
 | _NewEnum | PROPERTYGET | Unknown | -4 | Metadata Only | Reviewed | Not Tested | |
 | _Default | PROPERTYGET/PROPERTYPUT | AutomationValue | 0 | Metadata Only | Reviewed | Not Tested | |
-| Value | PROPERTYGET/PROPERTYPUT | AutomationValue | 6 | Metadata Only | Reviewed | Not Tested | |
+| Value | PROPERTYGET/PROPERTYPUT | AutomationValue | 6 | Implemented | Reviewed | Live Tested | |
 | Name | PROPERTYGET/PROPERTYPUT | AutomationValue | 110 | Metadata Only | Reviewed | Not Tested | |
-| Count | PROPERTYGET | i32 | 118 | Metadata Only | Reviewed | Not Tested | |
+| Count | PROPERTYGET | i32 | 118 | Implemented | Reviewed | Live Tested | |
 | Width | PROPERTYGET | AutomationValue | 122 | Metadata Only | Reviewed | Not Tested | |
 | Height | PROPERTYGET | AutomationValue | 123 | Metadata Only | Reviewed | Not Tested | |
 | Top | PROPERTYGET | AutomationValue | 126 | Metadata Only | Reviewed | Not Tested | |
@@ -82,10 +83,10 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | IndentLevel | PROPERTYGET/PROPERTYPUT | AutomationValue | 201 | Metadata Only | Reviewed | Not Tested | |
 | MergeCells | PROPERTYGET/PROPERTYPUT | AutomationValue | 208 | Metadata Only | Reviewed | Not Tested | |
 | ShrinkToFit | PROPERTYGET/PROPERTYPUT | AutomationValue | 209 | Metadata Only | Reviewed | Not Tested | |
-| Address | PROPERTYGET | String | 236 | Metadata Only | Reviewed | Not Tested | |
+| Address | PROPERTYGET | String | 236 | Implemented | Reviewed | Live Tested | |
 | Cells | PROPERTYGET | Range | 238 | Metadata Only | Reviewed | Not Tested | |
-| Column | PROPERTYGET | i32 | 240 | Metadata Only | Reviewed | Not Tested | |
-| Columns | PROPERTYGET | Range | 241 | Metadata Only | Reviewed | Not Tested | |
+| Column | PROPERTYGET | i32 | 240 | Implemented | Reviewed | Live Tested | |
+| Columns | PROPERTYGET | Range | 241 | Implemented | Reviewed | Live Tested | |
 | ColumnWidth | PROPERTYGET/PROPERTYPUT | AutomationValue | 242 | Metadata Only | Reviewed | Not Tested | |
 | CurrentRegion | PROPERTYGET | Range | 243 | Metadata Only | Reviewed | Not Tested | |
 | EntireColumn | PROPERTYGET | Range | 246 | Metadata Only | Reviewed | Not Tested | |
@@ -93,10 +94,10 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Offset | PROPERTYGET | Range | 254 | Metadata Only | Reviewed | Not Tested | |
 | PageBreak | PROPERTYGET/PROPERTYPUT | i32 | 255 | Metadata Only | Reviewed | Not Tested | |
 | Resize | PROPERTYGET | Range | 256 | Metadata Only | Reviewed | Not Tested | |
-| Row | PROPERTYGET | i32 | 257 | Metadata Only | Reviewed | Not Tested | |
-| Rows | PROPERTYGET | Range | 258 | Metadata Only | Reviewed | Not Tested | |
+| Row | PROPERTYGET | i32 | 257 | Implemented | Reviewed | Live Tested | |
+| Rows | PROPERTYGET | Range | 258 | Implemented | Reviewed | Live Tested | |
 | Style | PROPERTYGET/PROPERTYPUT | AutomationValue | 260 | Metadata Only | Reviewed | Not Tested | |
-| Formula | PROPERTYGET/PROPERTYPUT | AutomationValue | 261 | Metadata Only | Reviewed | Not Tested | |
+| Formula | PROPERTYGET/PROPERTYPUT | AutomationValue | 261 | Implemented | Reviewed | Live Tested | |
 | FormulaHidden | PROPERTYGET/PROPERTYPUT | AutomationValue | 262 | Metadata Only | Reviewed | Not Tested | |
 | FormulaLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | 263 | Metadata Only | Reviewed | Not Tested | |
 | FormulaR1C1 | PROPERTYGET/PROPERTYPUT | AutomationValue | 264 | Metadata Only | Reviewed | Not Tested | |
@@ -142,11 +143,11 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | MergeArea | PROPERTYGET | Range | 1385 | Metadata Only | Reviewed | Not Tested | |
 | QueryTable | PROPERTYGET | QueryTable | 1386 | Metadata Only | Reviewed | Not Tested | |
 | Validation | PROPERTYGET | Validation | 1387 | Metadata Only | Reviewed | Not Tested | |
-| Value2 | PROPERTYGET/PROPERTYPUT | AutomationValue | 1388 | Metadata Only | Reviewed | Not Tested | |
+| Value2 | PROPERTYGET/PROPERTYPUT | AutomationValue | 1388 | Implemented | Reviewed | Live Tested | |
 | Phonetic | PROPERTYGET | Phonetic | 1391 | Metadata Only | Reviewed | Not Tested | |
 | FormatConditions | PROPERTYGET | FormatConditions | 1392 | Metadata Only | Reviewed | Not Tested | |
 | Hyperlinks | PROPERTYGET | Hyperlinks | 1393 | Metadata Only | Reviewed | Not Tested | |
-| Formula2 | PROPERTYGET/PROPERTYPUT | AutomationValue | 1580 | Metadata Only | Reviewed | Not Tested | |
+| Formula2 | PROPERTYGET/PROPERTYPUT | AutomationValue | 1580 | Implemented | Reviewed | Live Tested | |
 | Phonetics | PROPERTYGET | Phonetics | 1811 | Metadata Only | Reviewed | Not Tested | |
 | ID | PROPERTYGET/PROPERTYPUT | String | 1813 | Metadata Only | Reviewed | Not Tested | |
 | PivotCell | PROPERTYGET | PivotCell | 2013 | Metadata Only | Reviewed | Not Tested | |
@@ -178,7 +179,7 @@ The cell and rectangular-value object. It is structurally inventoried; productio
 | Group | AutomationValue | 4 | 46 | Metadata Only | Reviewed | Not Tested | |
 | Clear | AutomationValue | 0 | 111 | Metadata Only | Reviewed | Not Tested | |
 | ClearFormats | AutomationValue | 0 | 112 | Metadata Only | Reviewed | Not Tested | |
-| _ClearContents | AutomationValue | 0 | 113 | Metadata Only | Reviewed | Not Tested | |
+| _ClearContents | AutomationValue | 0 | 113 | Implemented | Reviewed | Live Tested | |
 | AutoFormat | AutomationValue | 7 | 114 | Metadata Only | Reviewed | Not Tested | |
 | Delete | AutomationValue | 1 | 117 | Metadata Only | Reviewed | Not Tested | |
 | CopyPicture | AutomationValue | 2 | 213 | Metadata Only | Reviewed | Not Tested | |

@@ -1,8 +1,8 @@
-use crate::ExcelComError;
 use crate::automation::{OwnedVariant, invoke, property_get, property_put};
-use crate::excel::DispatchObject;
+use crate::excel::{DispatchObject, Worksheets};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
+use crate::{ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
 
 /// Experimental wrapper for a single Excel Workbook.
@@ -33,6 +33,7 @@ impl Workbook {
             },
         }
     }
+    /// Returns the workbook name reported by Excel.
     pub fn name(&self) -> Result<String, ExcelComError> {
         property_get(
             &self.inner.dispatch,
@@ -41,6 +42,16 @@ impl Workbook {
         )?
         .as_string()
     }
+    /// Returns the workbook's worksheet collection.
+    pub fn worksheets(&self) -> Result<Worksheets, ExcelComError> {
+        let mut result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbook.worksheets"), false),
+            vec![],
+        )?;
+        Ok(Worksheets::from_dispatch(result.take_dispatch()?))
+    }
+    /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {
         property_get(
             &self.inner.dispatch,
@@ -48,10 +59,11 @@ impl Workbook {
             vec![],
         )?
         .as_bool()
-        .ok_or(ExcelComError::Conversion {
-            detail: "Saved did not return VT_BOOL",
-        })
+        .ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType { vartype: 0 },
+        ))
     }
+    /// Sets Excel's saved-state flag without saving a file.
     pub fn set_saved(&self, value: bool) -> Result<(), ExcelComError> {
         let _ = property_put(
             &self.inner.dispatch,
@@ -60,6 +72,7 @@ impl Workbook {
         )?;
         Ok(())
     }
+    /// Closes this workbook while explicitly declining to save changes.
     pub fn close_without_saving(self) -> Result<(), ExcelComError> {
         let _ = invoke(
             &self.inner.dispatch,

@@ -545,6 +545,7 @@
   "name": "DataBarBorder",
   "schema_version": 1,
   "source_interface": "DataBarBorder",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

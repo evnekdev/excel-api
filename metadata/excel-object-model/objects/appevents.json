@@ -2953,6 +2953,7 @@
   "name": "AppEvents",
   "schema_version": 1,
   "source_interface": "AppEvents",
+  "surface_class": "event-surface",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

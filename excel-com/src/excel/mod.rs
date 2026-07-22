@@ -1,10 +1,16 @@
 mod application;
+mod range;
 mod workbook;
 mod workbooks;
+mod worksheet;
+mod worksheets;
 
 pub use application::Application;
+pub use range::Range;
 pub use workbook::Workbook;
 pub use workbooks::Workbooks;
+pub use worksheet::{Worksheet, XlSheetVisibility};
+pub use worksheets::{Worksheets, WorksheetsAddOptions};
 
 use crate::internal::{ComPtr, Dispatch};
 use std::fmt::{Debug, Formatter};

@@ -2024,6 +2024,7 @@
   "name": "Arc",
   "schema_version": 1,
   "source_interface": "Arc",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

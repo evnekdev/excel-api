@@ -1,6 +1,7 @@
 mod argument;
 mod array;
 mod bstr;
+mod conversion_error;
 mod currency;
 mod date;
 mod dispatch;
@@ -13,11 +14,14 @@ mod variant;
 
 pub use argument::AutomationArgument;
 pub use array::AutomationArray;
+pub use conversion_error::ConversionError;
 pub use currency::Currency;
 pub use date::OaDate;
 pub(crate) use dispatch::{activate_excel, invoke, property_get, property_put};
 pub use excel_error::ExcelError;
 pub(crate) use invocation::{MemberDescriptor, MemberKind};
 pub use policy::ConversionPolicy;
+pub(crate) use safearray::SafeArray;
 pub use value::AutomationValue;
+pub(crate) use value::{DateWriteMode, decode_variant, encode_variant, validate_range_shape};
 pub(crate) use variant::OwnedVariant;

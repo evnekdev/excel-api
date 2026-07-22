@@ -16,6 +16,7 @@ An Excel workbook object. The initial crate supports basic identity, saved-state
 | Interface | `_Workbook` |
 | GUID | `{000208da-0000-0000-c000-000000000046}` |
 | Object kind | dispatch-interface |
+| Surface class | implemented-wrapper |
 | Crate type | `excel_com::Workbook` |
 | Implementation | Partial |
 | Documentation | Reviewed |
@@ -26,7 +27,7 @@ An Excel workbook object. The initial crate supports basic identity, saved-state
 | Relationship | Target | Status |
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
-| `Worksheets` | `excel.worksheets` | Metadata Only |
+| `Worksheets` | `excel.worksheets` | Implemented |
 
 ## Properties
 
@@ -63,7 +64,7 @@ An Excel workbook object. The initial crate supports basic identity, saved-state
 | Names | PROPERTYGET | Names | 442 | Metadata Only | Reviewed | Not Tested | |
 | Sheets | PROPERTYGET | Sheets | 485 | Metadata Only | Reviewed | Not Tested | |
 | Styles | PROPERTYGET | Styles | 493 | Metadata Only | Reviewed | Not Tested | |
-| Worksheets | PROPERTYGET | Sheets | 494 | Metadata Only | Reviewed | Not Tested | |
+| Worksheets | PROPERTYGET | Sheets | 494 | Implemented | Reviewed | Live Tested | |
 | Author | PROPERTYGET/PROPERTYPUT | String | 574 | Metadata Only | Reviewed | Not Tested | |
 | Comments | PROPERTYGET/PROPERTYPUT | String | 575 | Metadata Only | Reviewed | Not Tested | |
 | Keywords | PROPERTYGET/PROPERTYPUT | String | 577 | Metadata Only | Reviewed | Not Tested | |

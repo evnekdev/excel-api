@@ -201,7 +201,7 @@ pub fn extract(root: &Path) -> Result<Summary, String> {
             attribute_value.lcid
         ),
     )?;
-    Ok(Summary {
+    let summary = Summary {
         type_infos: count as usize,
         objects: objects.len(),
         members: objects
@@ -209,7 +209,19 @@ pub fn extract(root: &Path) -> Result<Summary, String> {
             .map(|object| object["members"].as_array().map_or(0, Vec::len))
             .sum(),
         enums: enums.len(),
-    })
+    };
+    write_json(
+        &metadata.join("baseline.json"),
+        &json!({
+            "schema_version": SCHEMA_VERSION,
+            "type_infos": summary.type_infos,
+            "objects": summary.objects,
+            "members": summary.members,
+            "enums": summary.enums,
+            "source": "registered-typelib structural baseline",
+        }),
+    )?;
+    Ok(summary)
 }
 
 fn object_record(
@@ -397,7 +409,7 @@ fn object_record(
         None
     };
     Ok(
-        json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "collection_capabilities": collection_capabilities, "element_type": collection_element, "index_member": if collection { Some("Item") } else { None::<&str> }, "enumerator_member": if members.iter().any(|member| member["name"].as_str() == Some("_NewEnum")) { Some("_NewEnum") } else { None::<&str> }, "members": members}),
+        json!({"schema_version": SCHEMA_VERSION, "id": object_id, "name": model::canonical_name(raw_name), "kind": if event_interface { "event-interface" } else { kind }, "surface_class": model::surface_class(raw_name, event_interface), "guid": guid(&attr.guid), "source_interface": raw_name, "typelib_version": {"major":1,"minor":9}, "documentation_url": model::documentation_url(raw_name), "implemented_status": if event_interface { "not-started" } else if wrapper_object { "partial" } else { "metadata-only" }, "documentation_status": if priority_documentation { "reviewed" } else { "generated" }, "test_status": if wrapper_object { "live-tested" } else { "not-tested" }, "implemented_interface_count": attr.cImplTypes, "alias_target": alias_target, "collection": collection, "collection_capabilities": collection_capabilities, "element_type": collection_element, "index_member": if collection { Some("Item") } else { None::<&str> }, "enumerator_member": if members.iter().any(|member| member["name"].as_str() == Some("_NewEnum")) { Some("_NewEnum") } else { None::<&str> }, "members": members}),
     )
 }
 
@@ -445,13 +457,33 @@ fn enum_numeric(value: &VARIANT) -> Value {
 
 fn crate_policy(id: &str) -> &'static [&'static str] {
     match id {
-        "excel.application.visible" | "excel.workbook.saved" => &["PROPERTYGET", "PROPERTYPUT"],
+        "excel.application.visible"
+        | "excel.workbook.saved"
+        | "excel.worksheet.name"
+        | "excel.worksheet.visible"
+        | "excel.range.value"
+        | "excel.range.value2"
+        | "excel.range.formula"
+        | "excel.range.formula2" => &["PROPERTYGET", "PROPERTYPUT"],
         "excel.application.quit" | "excel.workbook.close" => &["METHOD"],
         "excel.workbooks.add" => &["PROPERTYGET"],
+        "excel.worksheets.add" | "excel.range.clearcontents" => &["METHOD"],
         "excel.application.version"
         | "excel.application.workbooks"
         | "excel.workbooks.count"
-        | "excel.workbook.name" => &["PROPERTYGET"],
+        | "excel.workbook.name"
+        | "excel.workbook.worksheets"
+        | "excel.worksheets.count"
+        | "excel.worksheets.item"
+        | "excel.worksheet.index"
+        | "excel.worksheet.range"
+        | "excel.worksheet.usedrange"
+        | "excel.range.address"
+        | "excel.range.row"
+        | "excel.range.column"
+        | "excel.range.count"
+        | "excel.range.rows"
+        | "excel.range.columns" => &["PROPERTYGET"],
         _ => &[],
     }
 }

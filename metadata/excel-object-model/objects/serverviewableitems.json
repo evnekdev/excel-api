@@ -726,6 +726,7 @@
   "name": "ServerViewableItems",
   "schema_version": 1,
   "source_interface": "ServerViewableItems",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

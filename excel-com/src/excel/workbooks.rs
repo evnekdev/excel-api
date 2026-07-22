@@ -1,8 +1,8 @@
-use crate::ExcelComError;
 use crate::automation::property_get;
 use crate::excel::{DispatchObject, Workbook};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
+use crate::{ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
 
 /// Experimental wrapper for an Excel Workbooks collection.
@@ -33,6 +33,7 @@ impl Workbooks {
             },
         }
     }
+    /// Returns the number of open workbooks.
     pub fn count(&self) -> Result<i32, ExcelComError> {
         property_get(
             &self.inner.dispatch,
@@ -40,10 +41,11 @@ impl Workbooks {
             vec![],
         )?
         .as_i32()
-        .ok_or(ExcelComError::Conversion {
-            detail: "Count did not return VT_I4",
-        })
+        .ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType { vartype: 0 },
+        ))
     }
+    /// Adds a default workbook using Excel's proven property-get invocation form.
     pub fn add(&self) -> Result<Workbook, ExcelComError> {
         let mut result = property_get(
             &self.inner.dispatch,

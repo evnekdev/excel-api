@@ -973,6 +973,7 @@
   "name": "TableObject",
   "schema_version": 1,
   "source_interface": "TableObject",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

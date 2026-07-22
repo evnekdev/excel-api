@@ -1345,6 +1345,7 @@
   "name": "Modules",
   "schema_version": 1,
   "source_interface": "Modules",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

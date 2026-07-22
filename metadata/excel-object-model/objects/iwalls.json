@@ -560,6 +560,7 @@
   "name": "IWalls",
   "schema_version": 1,
   "source_interface": "IWalls",
+  "surface_class": "deferred-inventory",
   "test_status": "not-tested",
   "typelib_version": {
     "major": 1,

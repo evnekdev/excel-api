@@ -1,8 +1,9 @@
 # Excel COM project layout
 
 `excel-com/` is the experimental reusable library. It owns apartment-bound
-COM wrappers, generic Automation values, invocation policy, and the narrow
-`Application -> Workbooks -> Workbook` path. It depends only on `windows-sys`.
+COM wrappers, generic Automation values, invocation policy, and the bounded
+`Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range`
+path. It depends only on `windows-sys`.
 
 `tools/excel-com-range-probe/` remains runtime research and compatibility
 evidence. `tools/excel-com-microsoft-sample/` is the Microsoft-reference

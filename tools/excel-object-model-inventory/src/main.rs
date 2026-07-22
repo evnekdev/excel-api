@@ -1,5 +1,6 @@
 #![cfg(windows)]
 
+mod diff;
 mod markdown;
 mod model;
 mod typelib;
@@ -42,11 +43,15 @@ fn run(arguments: Vec<String>) -> Result<(), String> {
                 "Excel object-model metadata and generated documentation are current and deterministic"
             );
         }
+        "diff" => {
+            diff::check_current_against_committed(&root)?;
+            println!("registered Excel type library matches the committed structural inventory");
+        }
         _ => return Err(usage()),
     }
     Ok(())
 }
 
 fn usage() -> String {
-    "usage: cargo run -p excel-object-model-inventory -- <extract|generate|check> [--root <repository-root>]".to_owned()
+    "usage: cargo run -p excel-object-model-inventory -- <extract|generate|check|diff> [--root <repository-root>]".to_owned()
 }
