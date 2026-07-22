@@ -1,11 +1,17 @@
 mod application;
+mod file_lifecycle;
 mod range;
 mod workbook;
 mod workbooks;
 mod worksheet;
 mod worksheets;
 
-pub use application::Application;
+pub use application::{Application, DisplayAlertsGuard};
+pub use file_lifecycle::{
+    SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
+    WorkbookSaveAsOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
+    XlSaveConflictResolution, XlUpdateLinks,
+};
 pub use range::Range;
 pub use workbook::Workbook;
 pub use workbooks::Workbooks;

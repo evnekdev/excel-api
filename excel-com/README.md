@@ -5,9 +5,10 @@ Automation. Its semantic and wrapper APIs may change before a first release.
 
 The implemented path is `Application -> Workbooks -> Workbook -> Worksheets
 -> Worksheet -> Range`. It supports creating a local Excel instance,
-inspecting and setting visibility, creating a workbook, navigating worksheets,
-and reading or writing a bounded Range value/formula surface. It does not claim
-complete Excel object-model support.
+inspecting and setting visibility, controlling `DisplayAlerts` with restoration,
+creating or opening a workbook, saving it or a copy, closing it with typed
+options, navigating worksheets, and reading or writing a bounded Range
+value/formula surface. It does not claim complete Excel object-model support.
 
 The crate is layered as Excel wrappers, object-model member descriptors,
 Automation values and dispatch invocation, then private `windows-sys` COM
@@ -24,6 +25,23 @@ not exposed by the ordinary API.
 arrays. `ExcelComError` preserves HRESULT and invocation context without
 recording pointer addresses.
 
+## File lifecycle
+
+`Workbooks::open` sends the complete 15-position Excel signature and
+`Workbook::save_as` sends all 13 positions. Omitted positions are retained as
+`VT_ERROR` / `DISP_E_PARAMNOTFOUND`; argument order is reversed once at the
+private dispatch boundary. `WorkbookOpenOptions` and `WorkbookSaveAsOptions`
+are typed, preserve their logical argument positions, and redact passwords in
+their `Debug` implementations. File paths accept `Path`/`OsStr` input directly
+as Windows UTF-16 units: the wrapper neither canonicalizes nor performs a
+lossy string conversion, and rejects embedded NULs before COM.
+
+Use `Application::display_alerts_guard` for temporary alert suppression. The
+guard restores the prior setting on drop, and `restore` exposes an explicit
+restoration result. `Workbook::close` consumes the wrapper and uses
+`SaveChanges::{Prompt, Save, Discard}`; `close_without_saving` delegates to
+the explicit discard form.
+
 See `../docs/excel-object-model/README.md` for the generated inventory and
 `../docs/architecture/excel-com-project-layout.md` for repository boundaries.
 
@@ -31,6 +49,7 @@ Live tests are opt-in because they launch a new Excel process:
 
 ```powershell
 cargo test -p excel-com --test live -- --ignored --test-threads=1
+cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
 ```
 
 Events, charts, macros, existing-session attachment, marshaling, generic

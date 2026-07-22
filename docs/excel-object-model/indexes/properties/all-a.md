@@ -119,7 +119,7 @@
 | Application | CutCopyMode | 330 | Metadata Only |
 | Application | DataEntryMode | 331 | Metadata Only |
 | Application | DDEAppReturnCode | 332 | Metadata Only |
-| Application | DisplayAlerts | 343 | Metadata Only |
+| Application | DisplayAlerts | 343 | Implemented |
 | Application | DisplayFormulaBar | 344 | Metadata Only |
 | Application | DisplayNoteIndicator | 345 | Metadata Only |
 | Application | DisplayScrollBars | 346 | Metadata Only |

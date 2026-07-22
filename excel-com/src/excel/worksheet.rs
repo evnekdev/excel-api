@@ -65,6 +65,9 @@ impl Worksheet {
             },
         }
     }
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        &self.inner
+    }
 
     /// Returns the worksheet name.
     pub fn name(&self) -> Result<String, ExcelComError> {

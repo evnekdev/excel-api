@@ -70,12 +70,12 @@
 | Windows | GetTypeInfo | 1610678273 | Metadata Only |
 | Windows | GetIDsOfNames | 1610678274 | Metadata Only |
 | Windows | Invoke | 1610678275 | Metadata Only |
-| Workbook | SaveCopyAs | 175 | Metadata Only |
+| Workbook | SaveCopyAs | 175 | Implemented |
 | Workbook | Close | 277 | Implemented |
 | Workbook | NewWindow | 280 | Metadata Only |
 | Workbook | PrintPreview | 281 | Metadata Only |
 | Workbook | _Protect | 282 | Metadata Only |
-| Workbook | Save | 283 | Metadata Only |
+| Workbook | Save | 283 | Implemented |
 | Workbook | __SaveAs | 284 | Metadata Only |
 | Workbook | Unprotect | 285 | Metadata Only |
 | Workbook | Activate | 304 | Metadata Only |
@@ -146,7 +146,7 @@
 | Workbook | Dummy26 | 2869 | Metadata Only |
 | Workbook | Dummy27 | 2870 | Metadata Only |
 | Workbook | CreateForecastSheet | 3167 | Metadata Only |
-| Workbook | SaveAs | 3174 | Metadata Only |
+| Workbook | SaveAs | 3174 | Implemented |
 | Workbook | ExportAsFixedFormat | 3175 | Metadata Only |
 | Workbook | PublishToPBI | 3257 | Metadata Only |
 | Workbook | ConvertComments | 3279 | Metadata Only |
@@ -182,7 +182,7 @@
 | Workbooks | _Open | 682 | Metadata Only |
 | Workbooks | __OpenText | 683 | Metadata Only |
 | Workbooks | _OpenText | 1773 | Metadata Only |
-| Workbooks | Open | 1923 | Metadata Only |
+| Workbooks | Open | 1923 | Implemented |
 | Workbooks | OpenText | 1924 | Metadata Only |
 | Workbooks | OpenDatabase | 2067 | Metadata Only |
 | Workbooks | CheckOut | 2069 | Metadata Only |

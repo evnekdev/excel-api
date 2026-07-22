@@ -41,6 +41,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WindowResize",
       "notes": [],
@@ -88,6 +89,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WindowActivate",
       "notes": [],
@@ -135,6 +137,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WindowDeactivate",
       "notes": [],
@@ -182,6 +185,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetSelectionChange",
       "notes": [],
@@ -237,6 +241,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetBeforeDoubleClick",
       "notes": [],
@@ -292,6 +297,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetBeforeRightClick",
       "notes": [],
@@ -331,6 +337,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetActivate",
       "notes": [],
@@ -370,6 +377,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetDeactivate",
       "notes": [],
@@ -409,6 +417,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetCalculate",
       "notes": [],
@@ -456,6 +465,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetChange",
       "notes": [],
@@ -495,6 +505,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "NewWorkbook",
       "notes": [],
@@ -534,6 +545,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookOpen",
       "notes": [],
@@ -573,6 +585,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookActivate",
       "notes": [],
@@ -612,6 +625,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookDeactivate",
       "notes": [],
@@ -659,6 +673,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforeClose",
       "notes": [],
@@ -714,6 +729,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforeSave",
       "notes": [],
@@ -761,6 +777,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforePrint",
       "notes": [],
@@ -808,6 +825,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookNewSheet",
       "notes": [],
@@ -847,6 +865,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAddinInstall",
       "notes": [],
@@ -886,6 +905,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAddinUninstall",
       "notes": [],
@@ -933,6 +953,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetFollowHyperlink",
       "notes": [],
@@ -980,6 +1001,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetPivotTableUpdate",
       "notes": [],
@@ -1027,6 +1049,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookPivotTableCloseConnection",
       "notes": [],
@@ -1074,6 +1097,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookPivotTableOpenConnection",
       "notes": [],
@@ -1121,6 +1145,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookSync",
       "notes": [],
@@ -1192,6 +1217,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforeXmlImport",
       "notes": [],
@@ -1255,6 +1281,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAfterXmlImport",
       "notes": [],
@@ -1318,6 +1345,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforeXmlExport",
       "notes": [],
@@ -1381,6 +1409,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAfterXmlExport",
       "notes": [],
@@ -1444,6 +1473,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookRowsetComplete",
       "notes": [],
@@ -1474,6 +1504,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AfterCalculate",
       "notes": [],
@@ -1529,6 +1560,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetPivotTableAfterValueChange",
       "notes": [],
@@ -1600,6 +1632,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetPivotTableBeforeAllocateChanges",
       "notes": [],
@@ -1671,6 +1704,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetPivotTableBeforeCommitChanges",
       "notes": [],
@@ -1734,6 +1768,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetPivotTableBeforeDiscardChanges",
       "notes": [],
@@ -1773,6 +1808,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowOpen",
       "notes": [],
@@ -1820,6 +1856,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowBeforeEdit",
       "notes": [],
@@ -1875,6 +1912,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowBeforeClose",
       "notes": [],
@@ -1914,6 +1952,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowResize",
       "notes": [],
@@ -1953,6 +1992,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowActivate",
       "notes": [],
@@ -1992,6 +2032,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "ProtectedViewWindowDeactivate",
       "notes": [],
@@ -2039,6 +2080,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAfterSave",
       "notes": [],
@@ -2086,6 +2128,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookNewChart",
       "notes": [],
@@ -2125,6 +2168,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetLensGalleryRenderComplete",
       "notes": [],
@@ -2172,6 +2216,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetTableUpdate",
       "notes": [],
@@ -2211,6 +2256,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SheetBeforeDelete",
       "notes": [],
@@ -2258,6 +2304,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookModelChange",
       "notes": [],
@@ -2305,6 +2352,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteSheetChange",
       "notes": [],
@@ -2344,6 +2392,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteSheetBeforeDelete",
       "notes": [],
@@ -2391,6 +2440,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteSheetPivotTableUpdate",
       "notes": [],
@@ -2430,6 +2480,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookBeforeRemoteChange",
       "notes": [],
@@ -2469,6 +2520,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "WorkbookAfterRemoteChange",
       "notes": [],
@@ -2516,6 +2568,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteWorkbookNewSheet",
       "notes": [],
@@ -2563,6 +2616,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteWorkbookNewChart",
       "notes": [],
@@ -2610,6 +2664,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -2640,6 +2695,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -2670,6 +2726,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -2709,6 +2766,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -2764,6 +2822,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -2835,6 +2894,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -2930,6 +2990,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -2951,10 +3012,12 @@
     }
   ],
   "name": "AppEvents",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "AppEvents",
-  "surface_class": "event-surface",
+  "surface_class": "event-interface",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

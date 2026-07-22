@@ -7,7 +7,7 @@
 | Workbooks | _Open | 682 | Metadata Only |
 | Workbooks | __OpenText | 683 | Metadata Only |
 | Workbooks | _OpenText | 1773 | Metadata Only |
-| Workbooks | Open | 1923 | Metadata Only |
+| Workbooks | Open | 1923 | Implemented |
 | Workbooks | OpenText | 1924 | Metadata Only |
 | Workbooks | OpenDatabase | 2067 | Metadata Only |
 | Workbooks | CheckOut | 2069 | Metadata Only |

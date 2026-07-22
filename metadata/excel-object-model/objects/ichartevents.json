@@ -49,6 +49,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Select",
       "notes": [],
@@ -79,6 +80,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Resize",
       "notes": [],
@@ -109,6 +111,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Calculate",
       "notes": [],
@@ -139,6 +142,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Activate",
       "notes": [],
@@ -169,6 +173,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "Deactivate",
       "notes": [],
@@ -232,6 +237,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MouseDown",
       "notes": [],
@@ -295,6 +301,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MouseUp",
       "notes": [],
@@ -358,6 +365,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "MouseMove",
       "notes": [],
@@ -397,6 +405,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeRightClick",
       "notes": [],
@@ -427,6 +436,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DragPlot",
       "notes": [],
@@ -457,6 +467,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "DragOver",
       "notes": [],
@@ -520,6 +531,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeDoubleClick",
       "notes": [],
@@ -567,6 +579,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "SeriesChange",
       "notes": [],
@@ -597,6 +610,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteResize",
       "notes": [],
@@ -644,6 +658,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "RemoteSeriesChange",
       "notes": [],
@@ -665,10 +680,12 @@
     }
   ],
   "name": "IChartEvents",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "IChartEvents",
-  "surface_class": "event-surface",
+  "surface_class": "event-interface",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

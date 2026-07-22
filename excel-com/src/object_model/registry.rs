@@ -16,6 +16,16 @@ const APPLICATION_VISIBLE_PUT: MemberDescriptor = MemberDescriptor {
     name: "Visible",
     kind: MemberKind::PropertyPut,
 };
+const APPLICATION_DISPLAY_ALERTS_GET: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.displayalerts"),
+    name: "DisplayAlerts",
+    kind: MemberKind::PropertyGet,
+};
+const APPLICATION_DISPLAY_ALERTS_PUT: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.displayalerts"),
+    name: "DisplayAlerts",
+    kind: MemberKind::PropertyPut,
+};
 const APPLICATION_WORKBOOKS: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.application.workbooks"),
     name: "Workbooks",
@@ -37,6 +47,11 @@ const WORKBOOKS_ADD: MemberDescriptor = MemberDescriptor {
     name: "Add",
     kind: MemberKind::PropertyGet,
 };
+const WORKBOOKS_OPEN: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbooks.open-1923"),
+    name: "Open",
+    kind: MemberKind::Method,
+};
 const WORKBOOK_NAME: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.workbook.name"),
     name: "Name",
@@ -55,6 +70,41 @@ const WORKBOOK_SAVED_PUT: MemberDescriptor = MemberDescriptor {
 const WORKBOOK_CLOSE: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.workbook.close"),
     name: "Close",
+    kind: MemberKind::Method,
+};
+const WORKBOOK_FULL_NAME: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.fullname"),
+    name: "FullName",
+    kind: MemberKind::PropertyGet,
+};
+const WORKBOOK_PATH: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.path"),
+    name: "Path",
+    kind: MemberKind::PropertyGet,
+};
+const WORKBOOK_FILE_FORMAT: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.fileformat"),
+    name: "FileFormat",
+    kind: MemberKind::PropertyGet,
+};
+const WORKBOOK_READ_ONLY: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.readonly"),
+    name: "ReadOnly",
+    kind: MemberKind::PropertyGet,
+};
+const WORKBOOK_SAVE: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.save"),
+    name: "Save",
+    kind: MemberKind::Method,
+};
+const WORKBOOK_SAVE_AS: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.saveas-3174"),
+    name: "SaveAs",
+    kind: MemberKind::Method,
+};
+const WORKBOOK_SAVE_COPY_AS: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.workbook.savecopyas"),
+    name: "SaveCopyAs",
     kind: MemberKind::Method,
 };
 const WORKBOOK_WORKSHEETS: MemberDescriptor = MemberDescriptor {
@@ -192,13 +242,22 @@ const RANGE_CLEAR_CONTENTS: MemberDescriptor = MemberDescriptor {
 pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.application.version",
     "excel.application.visible",
+    "excel.application.displayalerts",
     "excel.application.workbooks",
     "excel.application.quit",
     "excel.workbooks.count",
     "excel.workbooks.add",
+    "excel.workbooks.open-1923",
     "excel.workbook.name",
     "excel.workbook.saved",
     "excel.workbook.close",
+    "excel.workbook.fullname",
+    "excel.workbook.path",
+    "excel.workbook.fileformat",
+    "excel.workbook.readonly",
+    "excel.workbook.save",
+    "excel.workbook.saveas-3174",
+    "excel.workbook.savecopyas",
     "excel.workbook.worksheets",
     "excel.worksheets.count",
     "excel.worksheets.item",
@@ -226,14 +285,24 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.application.version", _) => APPLICATION_VERSION,
         ("excel.application.visible", false) => APPLICATION_VISIBLE_GET,
         ("excel.application.visible", true) => APPLICATION_VISIBLE_PUT,
+        ("excel.application.displayalerts", false) => APPLICATION_DISPLAY_ALERTS_GET,
+        ("excel.application.displayalerts", true) => APPLICATION_DISPLAY_ALERTS_PUT,
         ("excel.application.workbooks", _) => APPLICATION_WORKBOOKS,
         ("excel.application.quit", _) => APPLICATION_QUIT,
         ("excel.workbooks.count", _) => WORKBOOKS_COUNT,
         ("excel.workbooks.add", _) => WORKBOOKS_ADD,
+        ("excel.workbooks.open-1923", _) => WORKBOOKS_OPEN,
         ("excel.workbook.name", _) => WORKBOOK_NAME,
         ("excel.workbook.saved", false) => WORKBOOK_SAVED_GET,
         ("excel.workbook.saved", true) => WORKBOOK_SAVED_PUT,
         ("excel.workbook.close", _) => WORKBOOK_CLOSE,
+        ("excel.workbook.fullname", _) => WORKBOOK_FULL_NAME,
+        ("excel.workbook.path", _) => WORKBOOK_PATH,
+        ("excel.workbook.fileformat", _) => WORKBOOK_FILE_FORMAT,
+        ("excel.workbook.readonly", _) => WORKBOOK_READ_ONLY,
+        ("excel.workbook.save", _) => WORKBOOK_SAVE,
+        ("excel.workbook.saveas-3174", _) => WORKBOOK_SAVE_AS,
+        ("excel.workbook.savecopyas", _) => WORKBOOK_SAVE_COPY_AS,
         ("excel.workbook.worksheets", _) => WORKBOOK_WORKSHEETS,
         ("excel.worksheets.count", _) => WORKSHEETS_COUNT,
         ("excel.worksheets.item", _) => WORKSHEETS_ITEM,

@@ -19,6 +19,12 @@ pub fn check(root: &Path) -> Result<(), String> {
         if !model::SURFACE_CLASSES.contains(&surface_class) {
             return Err(format!("invalid surface class {surface_class}"));
         }
+        let roadmap_class = object["roadmap_class"]
+            .as_str()
+            .ok_or("object lacks roadmap class")?;
+        if !model::ROADMAP_CLASSES.contains(&roadmap_class) {
+            return Err(format!("invalid roadmap class {roadmap_class}"));
+        }
         let id = object["id"].as_str().ok_or("object lacks id")?;
         if !ids.insert(id.to_owned()) {
             return Err(format!("duplicate object id {id}"));
@@ -29,6 +35,12 @@ pub fn check(root: &Path) -> Result<(), String> {
         {
             validate_schema_version(member, "member")?;
             validate_status(member)?;
+            let origin = member["member_origin"]
+                .as_str()
+                .ok_or("member lacks origin")?;
+            if !model::MEMBER_ORIGINS.contains(&origin) {
+                return Err(format!("member has invalid origin {origin}"));
+            }
             let id = member["id"].as_str().ok_or("member lacks id")?;
             if !members.insert(id.to_owned()) {
                 return Err(format!("duplicate member id {id}"));

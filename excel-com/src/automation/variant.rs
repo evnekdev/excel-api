@@ -76,10 +76,22 @@ impl OwnedVariant {
     }
 
     pub(crate) fn bstr(value: &str) -> Result<Self, ExcelComError> {
+        Self::bstr_wide(&value.encode_utf16().collect::<Vec<_>>())
+    }
+
+    pub(crate) fn bstr_wide(value: &[u16]) -> Result<Self, ExcelComError> {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_BSTR;
-        result.0.Anonymous.Anonymous.Anonymous.bstrVal = Bstr::new(value)?.into_raw();
+        result.0.Anonymous.Anonymous.Anonymous.bstrVal = Bstr::from_wide(value)?.into_raw();
         Ok(result)
+    }
+
+    /// Encodes a borrowed `IDispatch` while giving the VARIANT its own COM reference.
+    pub(crate) fn dispatch_borrowed(value: &ComPtr<Dispatch>) -> Self {
+        let mut result = Self::empty();
+        result.0.Anonymous.Anonymous.vt = VT_DISPATCH;
+        result.0.Anonymous.Anonymous.Anonymous.pdispVal = value.clone().into_raw();
+        result
     }
 
     pub(crate) fn array(value: SafeArray) -> Self {
@@ -108,6 +120,23 @@ impl OwnedVariant {
         }
         // SAFETY: the checked VT_I4 tag selects lVal in the VARIANT union.
         Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.lVal })
+    }
+
+    pub(crate) fn as_f64(&self) -> Option<f64> {
+        if self.vt() != VT_R8 {
+            return None;
+        }
+        // SAFETY: the checked VT_R8 tag selects dblVal in the VARIANT union.
+        Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.dblVal })
+    }
+
+    #[cfg(test)]
+    pub(crate) fn as_scode(&self) -> Option<i32> {
+        if self.vt() != VT_ERROR {
+            return None;
+        }
+        // SAFETY: the checked VT_ERROR tag selects scode in the VARIANT union.
+        Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.scode })
     }
 
     pub(crate) fn as_string(&self) -> Result<String, ExcelComError> {

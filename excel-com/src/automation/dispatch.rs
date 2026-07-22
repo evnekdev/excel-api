@@ -6,7 +6,7 @@ use windows_sys::Win32::System::Com::{
 };
 use windows_sys::core::GUID;
 
-use super::{MemberDescriptor, OwnedVariant};
+use super::{MemberDescriptor, OwnedVariant, reverse_for_com};
 use crate::{
     ExcelComError,
     internal::{ComPtr, Dispatch, wide_nul},
@@ -87,7 +87,7 @@ pub(crate) fn invoke(
         });
     }
     if !property_put {
-        args.reverse();
+        reverse_for_com(&mut args);
     }
     let mut named = DISPID_PROPERTYPUT;
     let params = DISPPARAMS {
@@ -137,14 +137,34 @@ pub(crate) fn invoke(
     }
     if ExcelComError::failed(status) {
         return Err(ExcelComError::Invocation {
+            object_type: object_type(descriptor.id.as_str()),
             member,
             dispid,
             hresult: status,
             exception_scode: (scode != 0).then_some(scode),
             argument_index: (argument != u32::MAX).then_some(argument),
+            dispatch_flags: descriptor.kind.flags(),
         });
     }
     Ok(result)
+}
+
+fn object_type(id: &str) -> &'static str {
+    if id.starts_with("excel.application.") {
+        "Application"
+    } else if id.starts_with("excel.workbooks.") {
+        "Workbooks"
+    } else if id.starts_with("excel.workbook.") {
+        "Workbook"
+    } else if id.starts_with("excel.worksheets.") {
+        "Worksheets"
+    } else if id.starts_with("excel.worksheet.") {
+        "Worksheet"
+    } else if id.starts_with("excel.range.") {
+        "Range"
+    } else {
+        "IDispatch"
+    }
 }
 
 #[cfg(test)]

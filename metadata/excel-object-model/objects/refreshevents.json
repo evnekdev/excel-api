@@ -33,6 +33,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "BeforeRefresh",
       "notes": [],
@@ -72,6 +73,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "declared",
       "microsoft_sample_invoke_kinds": [],
       "name": "AfterRefresh",
       "notes": [],
@@ -119,6 +121,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "QueryInterface",
       "notes": [],
@@ -149,6 +152,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "AddRef",
       "notes": [],
@@ -179,6 +183,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-iunknown",
       "microsoft_sample_invoke_kinds": [],
       "name": "Release",
       "notes": [],
@@ -218,6 +223,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfoCount",
       "notes": [],
@@ -273,6 +279,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetTypeInfo",
       "notes": [],
@@ -344,6 +351,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "GetIDsOfNames",
       "notes": [],
@@ -439,6 +447,7 @@
         "METHOD"
       ],
       "kind": "event",
+      "member_origin": "inherited-idispatch",
       "microsoft_sample_invoke_kinds": [],
       "name": "Invoke",
       "notes": [],
@@ -460,10 +469,12 @@
     }
   ],
   "name": "RefreshEvents",
+  "roadmap_class": "deferred-inventory",
   "schema_version": 1,
   "source_interface": "RefreshEvents",
-  "surface_class": "event-surface",
+  "surface_class": "event-interface",
   "test_status": "not-tested",
+  "typelib_type_flags": 4112,
   "typelib_version": {
     "major": 1,
     "minor": 9

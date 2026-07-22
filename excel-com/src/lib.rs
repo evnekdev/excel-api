@@ -35,28 +35,52 @@
 //! `VT_ERROR` / `DISP_E_PARAMNOTFOUND` optional-argument marker. Unsupported
 //! features are intentionally reported rather than guessed.
 //!
+//! # Workbook file lifecycle
+//!
+//! [`Workbooks::open`] and [`Workbook::save_as`] retain every declared
+//! optional position as an explicit [`AutomationArgument::Missing`] marker;
+//! the private dispatch layer performs the one required COM-order reversal.
+//! Their typed options redact passwords in `Debug`. Input paths use Windows
+//! [`std::path::Path`] / `OsStr` UTF-16 units directly, with no
+//! canonicalization or lossy conversion; an embedded NUL returns
+//! [`ExcelComError::InvalidPath`]. [`Application::display_alerts_guard`]
+//! restores the previous `DisplayAlerts` value when dropped (or explicitly
+//! through [`DisplayAlertsGuard::restore`]). [`Workbook::close`] consumes its
+//! wrapper and takes [`WorkbookCloseOptions`] with [`SaveChanges`].
+//!
 //! # Example
 //!
 //! ```no_run
 //! use excel_com::{
 //!     Application, AutomationArgument, AutomationValue, ComApartment,
-//!     WorksheetsAddOptions,
+//!     SaveChanges, WorkbookCloseOptions, WorkbookOpenOptions,
+//!     WorkbookSaveAsOptions, XlFileFormat,
 //! };
+//! use std::path::Path;
 //!
 //! # fn main() -> Result<(), excel_com::ExcelComError> {
 //! let apartment = ComApartment::sta()?;
 //! let application = Application::new(&apartment)?;
-//! let workbook = application.workbooks()?.add()?;
-//! let worksheet = workbook.worksheets()?.add(WorksheetsAddOptions::new())?;
-//! let cell = worksheet.range(
-//!     AutomationArgument::Value(AutomationValue::Text("A1".to_owned())),
-//!     None,
+//! let workbooks = application.workbooks()?;
+//! let alerts = application.display_alerts_guard(false)?;
+//! let workbook = workbooks.open(
+//!     Path::new("read-only.xlsx"),
+//!     WorkbookOpenOptions { read_only: Some(true), ..WorkbookOpenOptions::new() },
 //! )?;
-//! cell.set_value2(AutomationValue::Number(42.0))?;
+//! workbook.save_copy_as(Path::new("backup.xlsx"))?;
+//! workbook.close(WorkbookCloseOptions {
+//!     save_changes: SaveChanges::Discard,
+//!     ..WorkbookCloseOptions::new()
+//! })?;
+//! alerts.restore()?;
 //! application.quit()?;
 //! # Ok(())
 //! # }
 //! ```
+//!
+//! To save a workbook as `.xlsx`, use
+//! `WorkbookSaveAsOptions { file_format: Some(XlFileFormat::OPEN_XML_WORKBOOK),
+//! ..WorkbookSaveAsOptions::new() }` with [`Workbook::save_as`].
 
 #![cfg(windows)]
 #![deny(missing_docs)]
@@ -75,8 +99,10 @@ pub use automation::{
 };
 pub use error::ExcelComError;
 pub use excel::{
-    Application, Range, Workbook, Workbooks, Worksheet, Worksheets, WorksheetsAddOptions,
-    XlSheetVisibility,
+    Application, DisplayAlertsGuard, Range, SaveChanges, Workbook, WorkbookCloseOptions,
+    WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions, Workbooks, Worksheet,
+    Worksheets, WorksheetsAddOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
+    XlSaveConflictResolution, XlSheetVisibility, XlUpdateLinks,
 };
 pub use internal::ComApartment;
 pub use object_model::{

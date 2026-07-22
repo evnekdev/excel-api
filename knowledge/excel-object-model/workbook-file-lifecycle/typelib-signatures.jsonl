@@ -1,0 +1,4 @@
+{"schema_version":1,"id":"excel.application.displayalerts","member":"Application.DisplayAlerts","dispid":343,"invoke_kinds":["PROPERTYGET","PROPERTYPUT"],"return_type":"bool"}
+{"schema_version":1,"id":"excel.workbooks.open-1923","member":"Workbooks.Open","dispid":1923,"invoke_kinds":["METHOD"],"logical_argument_count":15,"optional_argument_count":14,"return_type":"Workbook"}
+{"schema_version":1,"id":"excel.workbook.saveas-3174","member":"Workbook.SaveAs","dispid":3174,"invoke_kinds":["METHOD"],"logical_argument_count":13,"optional_argument_count":13,"return_type":"Unknown"}
+{"schema_version":1,"id":"excel.workbook.file-lifecycle","members":["Workbook.FullName","Workbook.Path","Workbook.FileFormat","Workbook.ReadOnly","Workbook.Save","Workbook.SaveCopyAs","Workbook.Close"],"source":"registered Excel 1.9 typelib"}

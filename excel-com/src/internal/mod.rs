@@ -1,7 +1,9 @@
 mod apartment;
 mod com_ptr;
+mod path;
 mod utf16;
 
 pub use apartment::ComApartment;
 pub(crate) use com_ptr::{ComPtr, Dispatch};
+pub(crate) use path::path_bstr;
 pub(crate) use utf16::wide_nul;
