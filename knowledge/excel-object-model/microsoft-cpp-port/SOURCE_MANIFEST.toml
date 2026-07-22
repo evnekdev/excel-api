@@ -1,0 +1,4 @@
+schema_version = 1
+name = "microsoft-cpp-port"
+classification = "research-only"
+source = "Microsoft Learn previous-versions article; independently written C++ and Rust controls"

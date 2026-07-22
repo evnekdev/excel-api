@@ -76,6 +76,12 @@ The deterministic range-probe crate test and Clippy checks pass after the implem
 
 The current L-mode raw smoke and full semantic suite are blocked at `Workbooks.Add` by inner Excel SCODE `0x800A03EC`, so neither can establish live codec compatibility. The Office repair corrected the prior general COM document-operation failure: PowerShell Automation now creates a workbook successfully. The remaining post-repair condition is narrower—direct raw and high-level Rust IDispatch controls fail while PowerShell's COM binder succeeds. All attempts began with zero Excel processes and exited without a remaining process. The next step is a bounded direct-IDispatch binding differential, not another Office repair or a semantic-codec change.
 
-## 20. Recommended Prompt 07 scope
+## 20. Prompt 06A follow-up (historical evidence retained)
+
+Prompt 06A retains the historical observations above and records later evidence separately in `knowledge/excel-object-model/microsoft-cpp-port/`. The independent native C++ and `windows-sys` Rust controls each completed 20 fresh visible Excel runs, then the unchanged raw scalar smoke and isolated semantic live suite completed. This establishes a later successful state but does not explain or erase the earlier `0x800A03EC` observation.
+
+Generic BSTR conversion now permits text above Excel's 32,767-character cell limit; the Excel range-write boundary alone enforces that limit. Embedded NUL remains rejected. The live observer used for Prompt 06A writes only its new evidence file and does not modify this Prompt 06 historical record.
+
+## 21. Recommended Prompt 07 scope
 
 Prompt 07 can consume these internal codecs through a narrowly designed, non-public transport façade, after reviewing live compatibility evidence and deciding the public-API boundary independently.

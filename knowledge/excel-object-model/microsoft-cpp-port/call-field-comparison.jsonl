@@ -1,0 +1,15 @@
+{"classification":"confirmed-identical","cpp":"CoInitialize(NULL)","field":"COM initialization","rust":"CoInitialize(NULL)","schema_version":1}
+{"classification":"confirmed-identical","cpp":"CLSIDFromProgID(Excel.Application), CLSCTX_LOCAL_SERVER","field":"activation","rust":"CLSIDFromProgID(Excel.Application), CLSCTX_LOCAL_SERVER","schema_version":1}
+{"classification":"confirmed-identical","cpp":"IID_IDispatch","field":"requested IID","rust":"IID_IDispatch","schema_version":1}
+{"classification":"confirmed-identical","cpp":1024,"field":"GetIDsOfNames LCID","rust":1024,"schema_version":1}
+{"classification":"confirmed-identical","cpp":2048,"field":"Invoke LCID","rust":2048,"schema_version":1}
+{"classification":"confirmed-identical","cpp":"IID_NULL","field":"GetIDsOfNames and Invoke RIID","rust":"IID_NULL","schema_version":1}
+{"classification":"confirmed-identical","cpp":"Visible=PROPERTYPUT; Workbooks=PROPERTYGET; Add=PROPERTYGET; ActiveSheet=PROPERTYGET; Range=PROPERTYGET; Value=PROPERTYPUT; Saved=PROPERTYPUT; Quit=METHOD","field":"member flags","rust":"Visible=PROPERTYPUT; Workbooks=PROPERTYGET; Add=PROPERTYGET; ActiveSheet=PROPERTYGET; Range=PROPERTYGET; Value=PROPERTYPUT; Saved=PROPERTYPUT; Quit=METHOD","schema_version":1}
+{"classification":"confirmed-identical","cpp":"zero-argument rgvarg=null, rgdispidNamedArgs=null, cArgs=0, cNamedArgs=0","field":"zero-argument DISPPARAMS","rust":"zero-argument rgvarg=null, rgdispidNamedArgs=null, cArgs=0, cNamedArgs=0","schema_version":1}
+{"classification":"confirmed-identical","cpp":"PROPERTYPUT uses one DISPID_PROPERTYPUT named argument","field":"property-put DISPPARAMS","rust":"PROPERTYPUT uses one DISPID_PROPERTYPUT named argument","schema_version":1}
+{"classification":"confirmed-identical","cpp":"caller supplies COM reverse argument order","field":"argument order","rust":"caller supplies COM reverse argument order","schema_version":1}
+{"classification":"confirmed-identical","cpp":"VariantInit before each requested result","field":"result initialization","rust":"VariantInit before each requested result","schema_version":1}
+{"classification":"confirmed-identical","cpp":"EXCEPINFO=null; puArgErr=null","field":"faithful output pointers","rust":"EXCEPINFO=null; puArgErr=null","schema_version":1}
+{"classification":"confirmed-identical","cpp":"result.pdispVal ownership is released once as Range, Sheet, Workbook, Workbooks, Application","field":"interface ownership and release order","rust":"result.pdispVal ownership is transferred once and released as Range, Sheet, Workbook, Workbooks, Application","schema_version":1}
+{"classification":"confirmed-identical","cpp":"VariantClear SAFEARRAY after interface release","field":"SAFEARRAY cleanup","rust":"VariantClear-equivalent owner drop after interface release","schema_version":1}
+{"classification":"confirmed-identical","cpp":"CoUninitialize after releases and SAFEARRAY clear","field":"CoUninitialize timing","rust":"CoUninitialize after releases and SAFEARRAY clear","schema_version":1}

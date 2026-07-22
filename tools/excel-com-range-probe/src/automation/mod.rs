@@ -3,14 +3,10 @@
 //! This layer owns no COM pointers. It consumes the raw ownership layer and
 //! deliberately makes no stable public API commitment.
 
-#![allow(dead_code)] // The transport-facing entry points land in Prompt 07.
-
 use std::fs;
 use std::path::Path;
-use std::slice;
 
 use serde_json::json;
-use windows_sys::Win32::Foundation::{SysStringLen, DISP_E_PARAMNOTFOUND};
 use windows_sys::Win32::System::Com::SAFEARRAYBOUND;
 use windows_sys::Win32::System::Variant::{
     VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_EMPTY, VT_ERROR, VT_I2, VT_I4, VT_I8,
@@ -23,316 +19,29 @@ use crate::raw::safearray::{
 };
 use crate::raw::variant::OwnedVariant;
 
-const EXCEL_CELL_STRING_LIMIT: usize = 32_767;
+mod conversion_error;
+mod currency;
+mod date;
+mod evidence;
+mod excel_error;
+mod encode;
+mod decode;
+mod array;
+mod argument;
+mod policy;
+mod value;
 
-/// A lossless physical Excel error SCODE, not an Excel worksheet error number.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-pub(crate) struct ExcelError(i32);
+pub(crate) use array::AutomationArray;
+pub(crate) use conversion_error::ConversionError;
+pub(crate) use currency::Currency;
+pub(crate) use date::OaDate;
+pub(crate) use evidence::check_evidence;
+pub(crate) use excel_error::ExcelError;
+pub(crate) use encode::validate_excel_range_write;
+pub(crate) use policy::{ConversionPolicy, DateWritePolicy};
+pub(crate) use value::AutomationValue;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-pub(crate) enum ExcelErrorKind {
-    Null,
-    Div0,
-    Value,
-    Ref,
-    Name,
-    Num,
-    NotAvailable,
-    Other(i32),
-}
-
-impl ExcelError {
-    pub(crate) const NULL: Self = Self(0x800A_07D0_u32 as i32);
-    pub(crate) const DIV0: Self = Self(0x800A_07D7_u32 as i32);
-    pub(crate) const VALUE: Self = Self(0x800A_07DF_u32 as i32);
-    pub(crate) const REF: Self = Self(0x800A_07E7_u32 as i32);
-    pub(crate) const NAME: Self = Self(0x800A_07ED_u32 as i32);
-    pub(crate) const NUM: Self = Self(0x800A_07F4_u32 as i32);
-    pub(crate) const NOT_AVAILABLE: Self = Self(0x800A_07FA_u32 as i32);
-
-    pub(crate) const fn from_scode(scode: i32) -> Self {
-        Self(scode)
-    }
-
-    pub(crate) const fn scode(self) -> i32 {
-        self.0
-    }
-
-    pub(crate) fn kind(self) -> ExcelErrorKind {
-        match self {
-            Self::NULL => ExcelErrorKind::Null,
-            Self::DIV0 => ExcelErrorKind::Div0,
-            Self::VALUE => ExcelErrorKind::Value,
-            Self::REF => ExcelErrorKind::Ref,
-            Self::NAME => ExcelErrorKind::Name,
-            Self::NUM => ExcelErrorKind::Num,
-            Self::NOT_AVAILABLE => ExcelErrorKind::NotAvailable,
-            Self(value) => ExcelErrorKind::Other(value),
-        }
-    }
-
-    /// Returns the familiar Excel error number only for an `0x800Axxxx` SCODE.
-    pub(crate) fn excel_number(self) -> Option<u16> {
-        ((self.0 as u32 & 0xffff_0000) == 0x800A_0000)
-            .then_some((self.0 as u32 & 0xffff) as u16)
-    }
-
-    fn valid_for_direct_write(self) -> bool {
-        self.0 < 0
-    }
-}
-
-/// A finite OLE Automation date serial. It intentionally is not a calendar
-/// type: Excel date-system interpretation belongs at a higher layer.
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub(crate) struct OaDate(f64);
-
-impl OaDate {
-    pub(crate) fn new(serial: f64) -> Result<Self, ConversionError> {
-        serial
-            .is_finite()
-            .then_some(Self(serial))
-            .ok_or(ConversionError::NonFiniteNumber)
-    }
-
-    pub(crate) const fn serial(self) -> f64 {
-        self.0
-    }
-}
-
-/// Exact COM `CY` storage, whose fixed scale is 10,000.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-pub(crate) struct Currency(i64);
-
-impl Currency {
-    pub(crate) const SCALE: i64 = 10_000;
-
-    pub(crate) const fn from_scaled(scaled: i64) -> Self {
-        Self(scaled)
-    }
-
-    pub(crate) const fn scaled(self) -> i64 {
-        self.0
-    }
-
-    pub(crate) fn from_decimal_parts(
-        whole: i64,
-        fractional_ten_thousandths: u16,
-    ) -> Result<Self, ConversionError> {
-        if fractional_ten_thousandths >= Self::SCALE as u16 {
-            return Err(ConversionError::CurrencyOverflow);
-        }
-        whole
-            .checked_mul(Self::SCALE)
-            .and_then(|scaled| {
-                scaled.checked_add(if whole < 0 {
-                    -(fractional_ten_thousandths as i64)
-                } else {
-                    fractional_ten_thousandths as i64
-                })
-            })
-            .map(Self)
-            .ok_or(ConversionError::CurrencyOverflow)
-    }
-}
-
-/// Worksheet values. `Missing` is intentionally absent: it belongs only to
-/// invocation arguments, never a cell or SAFEARRAY element.
-#[derive(Clone, Debug, PartialEq)]
-pub(crate) enum AutomationValue {
-    Empty,
-    Null,
-    Bool(bool),
-    Number(f64),
-    Text(String),
-    Error(ExcelError),
-    Date(OaDate),
-    Currency(Currency),
-    Array(AutomationArray),
-}
-
-/// A zero-based, row-major semantic rectangle. COM bounds stay at the codec
-/// boundary; observed SAFEARRAY dimension one maps to rows, two to columns.
-#[derive(Clone, Debug, PartialEq)]
-pub(crate) struct AutomationArray {
-    rows: usize,
-    columns: usize,
-    values: Vec<AutomationValue>,
-}
-
-impl AutomationArray {
-    pub(crate) fn new(
-        rows: usize,
-        columns: usize,
-        values: Vec<AutomationValue>,
-    ) -> Result<Self, ConversionError> {
-        (rows.checked_mul(columns) == Some(values.len()))
-            .then_some(Self {
-                rows,
-                columns,
-                values,
-            })
-            .ok_or(ConversionError::InvalidElementCount)
-    }
-
-    pub(crate) fn row(values: Vec<AutomationValue>) -> Result<Self, ConversionError> {
-        Self::new(1, values.len(), values)
-    }
-
-    pub(crate) fn column(values: Vec<AutomationValue>) -> Result<Self, ConversionError> {
-        let rows = values.len();
-        Self::new(rows, 1, values)
-    }
-
-    pub(crate) fn from_rows(rows: Vec<Vec<AutomationValue>>) -> Result<Self, ConversionError> {
-        let row_count = rows.len();
-        let columns = rows.first().map_or(0, Vec::len);
-        if rows.iter().any(|row| row.len() != columns) {
-            return Err(ConversionError::InvalidElementCount);
-        }
-        let values = rows.into_iter().flatten().collect();
-        Self::new(row_count, columns, values)
-    }
-
-    pub(crate) const fn rows(&self) -> usize {
-        self.rows
-    }
-
-    pub(crate) const fn columns(&self) -> usize {
-        self.columns
-    }
-
-    pub(crate) const fn len(&self) -> usize {
-        self.values.len()
-    }
-
-    pub(crate) const fn is_empty(&self) -> bool {
-        self.values.is_empty()
-    }
-
-    pub(crate) fn get(&self, row: usize, column: usize) -> Option<&AutomationValue> {
-        self.index(row, column).and_then(|index| self.values.get(index))
-    }
-
-    pub(crate) fn get_mut(
-        &mut self,
-        row: usize,
-        column: usize,
-    ) -> Option<&mut AutomationValue> {
-        self.index(row, column)
-            .and_then(|index| self.values.get_mut(index))
-    }
-
-    pub(crate) fn values(&self) -> &[AutomationValue] {
-        &self.values
-    }
-
-    pub(crate) fn into_values(self) -> Vec<AutomationValue> {
-        self.values
-    }
-
-    fn index(&self, row: usize, column: usize) -> Option<usize> {
-        (row < self.rows && column < self.columns)
-            .then(|| row.checked_mul(self.columns)?.checked_add(column))
-            .flatten()
-    }
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub(crate) enum DateWritePolicy {
-    DateVariant,
-    Value2Serial,
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub(crate) enum ShapePolicy {
-    Exact,
-}
-
-impl ShapePolicy {
-    pub(crate) fn validate(
-        self,
-        source: &AutomationArray,
-        target_rows: usize,
-        target_columns: usize,
-    ) -> Result<(), ConversionError> {
-        match self {
-            Self::Exact
-                if source.rows == target_rows && source.columns == target_columns => Ok(()),
-            Self::Exact => Err(ConversionError::ShapeMismatch {
-                source_rows: source.rows,
-                source_columns: source.columns,
-                target_rows,
-                target_columns,
-            }),
-        }
-    }
-}
-
-/// Explicit pre-COM conversion behavior. The strict default encodes only
-/// deterministic, non-lossy representations proven by the Prompt 05 matrix.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub(crate) struct ConversionPolicy {
-    pub(crate) date_write: DateWritePolicy,
-    pub(crate) reject_non_finite_numbers: bool,
-    pub(crate) reject_embedded_nul: bool,
-    pub(crate) require_exact_integer_conversion: bool,
-    pub(crate) shape: ShapePolicy,
-}
-
-impl Default for ConversionPolicy {
-    fn default() -> Self {
-        Self {
-            date_write: DateWritePolicy::DateVariant,
-            reject_non_finite_numbers: true,
-            reject_embedded_nul: true,
-            require_exact_integer_conversion: true,
-            shape: ShapePolicy::Exact,
-        }
-    }
-}
-
-/// Pre-COM failures. COM `HRESULT`, `EXCEPINFO`, and Excel application errors
-/// deliberately remain in the raw transport layer.
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub(crate) enum ConversionError {
-    UnsupportedVariantType { vartype: u16 },
-    UnsupportedSafeArrayRank { rank: u32 },
-    UnsupportedSafeArrayElementType { vartype: u16 },
-    ShapeMismatch {
-        source_rows: usize,
-        source_columns: usize,
-        target_rows: usize,
-        target_columns: usize,
-    },
-    InvalidElementCount,
-    NumericPrecisionLoss,
-    NonFiniteNumber,
-    EmbeddedNul,
-    InvalidDateForPolicy,
-    CurrencyOverflow,
-    StringTooLong,
-    InvalidExcelErrorScode,
-    InvalidUtf16String,
-    SafeArrayConstructionFailed,
-    SafeArrayElementFailed { row: usize, column: usize },
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub(crate) enum AutomationArgument {
-    Value(AutomationValue),
-    Missing,
-}
-
-pub(crate) fn encode_argument(
-    argument: &AutomationArgument,
-    policy: &ConversionPolicy,
-) -> Result<OwnedVariant, ConversionError> {
-    match argument {
-        AutomationArgument::Value(value) => encode_variant(value, policy),
-        AutomationArgument::Missing => Ok(OwnedVariant::error(DISP_E_PARAMNOTFOUND)),
-    }
-}
+use decode::decode_bstr;
 
 /// Decodes a raw `VARIANT`, preserving only pointer-free semantic values.
 pub(crate) fn decode_variant(
@@ -531,23 +240,7 @@ fn require_finite(value: f64, policy: &ConversionPolicy) -> Result<(), Conversio
     }
 }
 
-fn decode_bstr(pointer: *const u16) -> Result<AutomationValue, ConversionError> {
-    let length = usize::try_from(unsafe { SysStringLen(pointer) })
-        .map_err(|_| ConversionError::StringTooLong)?;
-    let units = if pointer.is_null() {
-        &[]
-    } else {
-        unsafe { slice::from_raw_parts(pointer, length) }
-    };
-    String::from_utf16(units)
-        .map(AutomationValue::Text)
-        .map_err(|_| ConversionError::InvalidUtf16String)
-}
-
 fn encode_text(value: &str, policy: &ConversionPolicy) -> Result<OwnedVariant, ConversionError> {
-    if value.chars().count() > EXCEL_CELL_STRING_LIMIT {
-        return Err(ConversionError::StringTooLong);
-    }
     if value.contains('\0') && policy.reject_embedded_nul {
         return Err(ConversionError::EmbeddedNul);
     }
@@ -571,6 +264,32 @@ struct LiveCase {
 /// desktop, uses only L-mode raw transport, and records no process, HWND,
 /// pointer, workbook path, or user-session information.
 pub(crate) fn live_compatibility(root: &Path, only_case: Option<&str>) -> Result<String, String> {
+    let (rows, required_failures) = live_compatibility_observations(only_case)?;
+    write_jsonl(
+        &root.join("automation-value-layer/live-compatibility-observations.jsonl"),
+        &rows,
+    )?;
+    if required_failures.is_empty() {
+        Ok(format!(
+            "completed {} required live compatibility cases; optional unknown-SCODE result recorded",
+            rows.iter()
+                .filter(|row| row.get("classification").and_then(|value| value.as_str()) != Some("Optional-not-accepted"))
+                .count()
+        ))
+    } else {
+        Err(format!(
+            "live compatibility required failures: {}",
+            required_failures.join(", ")
+        ))
+    }
+}
+
+/// Executes the Prompt 06 semantic live cases without changing Prompt 06
+/// evidence. Prompt 06A uses this to retain its own independent observation
+/// record while preserving the original cold-session result.
+pub(crate) fn live_compatibility_observations(
+    only_case: Option<&str>,
+) -> Result<(Vec<serde_json::Value>, Vec<&'static str>), String> {
     if crate::raw::excel_process_count()? != 0 {
         return Err("live compatibility requires pre-existing EXCEL.EXE count = 0".to_owned());
     }
@@ -591,7 +310,7 @@ pub(crate) fn live_compatibility(root: &Path, only_case: Option<&str>) -> Result
             date_write: case.date_write,
             ..ConversionPolicy::default()
         };
-        let row = match encode_variant(&case.input, &policy) {
+        let row = match validate_excel_range_write(&case.input).and_then(|_| encode_variant(&case.input, &policy)) {
             Err(error) => json!({
                 "schema_version": 1,
                 "id": case.id,
@@ -648,23 +367,7 @@ pub(crate) fn live_compatibility(root: &Path, only_case: Option<&str>) -> Result
             return Err("an owned live-compatibility Excel child did not exit".to_owned());
         }
     }
-    write_jsonl(
-        &root.join("automation-value-layer/live-compatibility-observations.jsonl"),
-        &rows,
-    )?;
-    if required_failures.is_empty() {
-        Ok(format!(
-            "completed {} required live compatibility cases; optional unknown-SCODE result recorded",
-            rows.iter()
-                .filter(|row| row.get("classification").and_then(|value| value.as_str()) != Some("Optional-not-accepted"))
-                .count()
-        ))
-    } else {
-        Err(format!(
-            "live compatibility required failures: {}",
-            required_failures.join(", ")
-        ))
-    }
+    Ok((rows, required_failures))
 }
 
 fn live_cases() -> Vec<LiveCase> {
@@ -764,52 +467,13 @@ fn write_jsonl(path: &Path, rows: &[serde_json::Value]) -> Result<(), String> {
     fs::write(path, format!("{text}\n")).map_err(|error| error.to_string())
 }
 
-/// Checks static Prompt 06 evidence without opening Excel or mutating files.
-pub(crate) fn check_evidence(root: &Path) -> Result<(), String> {
-    let source = root.join("automation-value-layer");
-    let generated = root.join("generated/automation-value-layer");
-    for file in [
-        "SOURCE_MANIFEST.toml",
-        "design-decisions.jsonl",
-        "conversion-policies.jsonl",
-        "codec-cases.jsonl",
-        "live-compatibility-observations.jsonl",
-        "unresolved.jsonl",
-    ] {
-        let text = fs::read_to_string(source.join(file)).map_err(|error| error.to_string())?;
-        if text.contains('\r') || !text.ends_with('\n') {
-            return Err(format!("automation-value-layer/{file} must use LF and a final newline"));
-        }
-        if file.ends_with(".jsonl") {
-            for line in text.lines() {
-                serde_json::from_str::<serde_json::Value>(line)
-                    .map_err(|error| format!("automation-value-layer/{file}: {error}"))?;
-            }
-        }
-    }
-    for file in [
-        "value-model.md",
-        "excel-errors.md",
-        "dates.md",
-        "currency.md",
-        "arrays.md",
-        "conversion-policies.md",
-        "conversion-errors.md",
-        "codec-test-matrix.md",
-        "live-compatibility.md",
-        "remaining-blockers.md",
-    ] {
-        let text = fs::read_to_string(generated.join(file)).map_err(|error| error.to_string())?;
-        if text.contains('\r') || !text.ends_with('\n') || !text.starts_with("# ") {
-            return Err(format!("generated/automation-value-layer/{file} is not a valid deterministic report"));
-        }
-    }
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
+    use super::argument::{AutomationArgument, encode_argument};
+    use super::encode::EXCEL_CELL_STRING_LIMIT;
+    use super::excel_error::ExcelErrorKind;
+    use windows_sys::Win32::Foundation::DISP_E_PARAMNOTFOUND;
     use windows_sys::Win32::System::Com::SAFEARRAYBOUND;
 
     fn strict() -> ConversionPolicy {
@@ -894,11 +558,12 @@ mod tests {
             encode_variant(&AutomationValue::Text("left\0right".to_owned()), &strict()),
             Err(ConversionError::EmbeddedNul)
         ));
-        let too_long = "x".repeat(EXCEL_CELL_STRING_LIMIT + 1);
-        assert!(matches!(
-            encode_variant(&AutomationValue::Text(too_long), &strict()),
+        let too_long = AutomationValue::Text("x".repeat(EXCEL_CELL_STRING_LIMIT + 1));
+        assert!(encode_variant(&too_long, &strict()).is_ok());
+        assert_eq!(
+            validate_excel_range_write(&too_long),
             Err(ConversionError::StringTooLong)
-        ));
+        );
         assert_eq!(
             decode_variant(&OwnedVariant::i8(9_007_199_254_740_993), &strict()),
             Err(ConversionError::NumericPrecisionLoss)
