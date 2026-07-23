@@ -3,7 +3,7 @@
 //! Opt-in macro-safety acceptance coverage.
 
 use excel_com::{
-    Application, AutomationSecurity, AutomationValue, ComApartment, SafeWorkbookOpenOptions,
+    AutomationSecurity, AutomationValue, ComApartment, OwnedApplication, SafeWorkbookOpenOptions,
 };
 
 #[test]
@@ -11,7 +11,7 @@ use excel_com::{
 fn automation_security_guard_and_scalar_macro_return_live() -> Result<(), Box<dyn std::error::Error>>
 {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let previous = application.automation_security()?;
     let guard = application.automation_security_guard(AutomationSecurity::FORCE_DISABLE)?;

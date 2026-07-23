@@ -2,14 +2,14 @@
 
 //! WorkbookQuery inspection coverage for a reviewed, local Power Query fixture.
 
-use excel_com::{Application, ComApartment};
+use excel_com::{ComApartment, OwnedApplication};
 
 #[test]
 #[ignore = "fixture-blocked and runtime-blocked: no reviewed local Power Query workbook can be opened while Workbooks.Add returns 0x800A03EC"]
 fn workbook_queries_are_inspected_without_formula_logging() -> Result<(), Box<dyn std::error::Error>>
 {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     let mut workbook = None;
     let outcome = (|| -> Result<(), Box<dyn std::error::Error>> {
         let value = application.workbooks()?.add()?;

@@ -6,7 +6,7 @@ use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, ComApartment, ExcelComError, SaveChanges,
+    AutomationArray, AutomationValue, ComApartment, ExcelComError, OwnedApplication, SaveChanges,
     WorkbookCloseOptions, WorkbookOpenOptions, WorkbookSaveAsOptions, XlFileFormat,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
@@ -72,7 +72,7 @@ fn workbook_file_lifecycle_naturally_exits() -> Result<(), Box<dyn std::error::E
     let copy = directory.join("saved copy.xlsx");
 
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let outcome = (|| -> Result<(), Box<dyn std::error::Error>> {
         let original_alerts = application.display_alerts()?;

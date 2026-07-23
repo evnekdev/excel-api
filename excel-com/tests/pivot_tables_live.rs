@@ -3,7 +3,7 @@
 //! Range-backed PivotCache and PivotTable coverage for a functioning local Excel host.
 
 use excel_com::{
-    AggregationFunction, Application, AutomationArray, AutomationValue, ComApartment,
+    AggregationFunction, AutomationArray, AutomationValue, ComApartment, OwnedApplication,
     PivotDataField, PivotFieldOrientation, PivotFieldPlacement, PivotLayoutOptions,
     PivotTableCreateOptions,
 };
@@ -12,7 +12,7 @@ use excel_com::{
 #[ignore = "runtime-blocked: Prompt 19 baseline Workbooks.Add returned 0x800A03EC"]
 fn range_cache_pivot_layout_refreshes_and_cleans_up() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     let mut workbook = None;
     let outcome = (|| -> Result<(), Box<dyn std::error::Error>> {
         let value = application.workbooks()?.add()?;

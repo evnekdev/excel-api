@@ -3,7 +3,7 @@
 use std::thread;
 use std::time::{Duration, Instant};
 
-use excel_com::{Application, ComApartment};
+use excel_com::{ComApartment, OwnedApplication};
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
     CreateToolhelp32Snapshot, PROCESSENTRY32W, Process32FirstW, Process32NextW, TH32CS_SNAPPROCESS,
@@ -64,7 +64,7 @@ fn workbooks_add_baseline_naturally_exits() -> Result<(), Box<dyn std::error::Er
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     let state = format!(
         "application_created=true visible={:?} display_alerts={:?} calculation_mode={:?} reference_style={:?}",
         application.visible(),

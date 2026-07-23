@@ -2,11 +2,28 @@
 name = "excel-com"
 version = "0.1.0"
 edition = "2024"
-publish = false
-description = "Experimental internal foundation for Excel COM Automation"
+description = "Experimental Windows-only Excel COM Automation crate"
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+readme = "README.md"
+keywords = ["excel", "com", "automation", "windows", "office"]
+categories = ["api-bindings", "os::windows-apis"]
+include = [
+    "/Cargo.toml",
+    "/CHANGELOG.md",
+    "/LICENSE-APACHE",
+    "/LICENSE-MIT",
+    "/README.md",
+    "/examples/**",
+    "/src/**",
+]
+
+[features]
+default = []
+# Enables `Application::run_macro`. Macro execution is opt-in because it can
+# execute workbook-provided code in the active Excel process.
+macro-runtime = []
 
 [dependencies]
 windows-sys = { version = "=0.61.2", features = [
@@ -20,5 +37,13 @@ windows-sys = { version = "=0.61.2", features = [
     "Win32_UI_WindowsAndMessaging",
 ] }
 
+[dev-dependencies]
+static_assertions = "1.1"
+trybuild = "1.0"
+
 [lints]
 workspace = true
+
+[package.metadata.docs.rs]
+all-features = true
+targets = ["x86_64-pc-windows-msvc"]

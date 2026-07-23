@@ -4,14 +4,14 @@
 
 use std::time::Duration;
 
-use excel_com::{Application, ComApartment, RefreshWaitOptions};
+use excel_com::{ComApartment, OwnedApplication, RefreshWaitOptions};
 
 #[test]
 #[ignore = "runtime-blocked: Prompt 19 baseline Workbooks.Add returned 0x800A03EC"]
 fn workbook_refresh_operations_are_bounded_and_best_effort()
 -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     let mut workbook = None;
     let outcome = (|| -> Result<(), Box<dyn std::error::Error>> {
         let value = application.workbooks()?.add()?;

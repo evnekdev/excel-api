@@ -3,7 +3,7 @@
 use std::thread;
 use std::time::{Duration, Instant};
 
-use excel_com::{Application, ComApartment};
+use excel_com::{ComApartment, OwnedApplication};
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
     CreateToolhelp32Snapshot, PROCESSENTRY32W, Process32FirstW, Process32NextW, TH32CS_SNAPPROCESS,
@@ -46,7 +46,7 @@ fn application_workbooks_workbook_live_slice_naturally_exits()
         return Err("live test requires zero pre-existing EXCEL.EXE processes".into());
     }
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     assert!(!application.version()?.is_empty());
     application.set_visible(true)?;
     assert!(application.visible()?);

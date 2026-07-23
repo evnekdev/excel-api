@@ -127,13 +127,14 @@ impl Workbook {
         if let Some(value) = result.as_i32() {
             return Ok(XlFileFormat::from_raw(value));
         }
-        if let Some(value) = result.as_f64()
-            && value.is_finite()
-            && value.fract() == 0.0
-            && value >= i32::MIN as f64
-            && value <= i32::MAX as f64
-        {
-            return Ok(XlFileFormat::from_raw(value as i32));
+        if let Some(value) = result.as_f64() {
+            if value.is_finite()
+                && value.fract() == 0.0
+                && value >= i32::MIN as f64
+                && value <= i32::MAX as f64
+            {
+                return Ok(XlFileFormat::from_raw(value as i32));
+            }
         }
         Err(ExcelComError::Conversion(
             ConversionError::UnsupportedVariantType {

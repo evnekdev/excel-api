@@ -1,7 +1,10 @@
 # excel-com
 
-`excel-com` is an experimental, unpublished foundation for safe Excel COM
-Automation. Its semantic and wrapper APIs may change before a first release.
+`excel-com` is an experimental Windows-only Excel COM Automation crate. Version
+0.1 establishes the initial public API, but breaking changes remain possible
+before 1.0. It supports Windows desktop Excel through COM; it does not support
+macOS Excel, Excel Online, Linux-native Excel, LibreOffice, Office Scripts, or
+Microsoft Graph workbook APIs.
 
 The implemented path is `Application -> Workbooks -> Workbook -> Worksheets
 -> Worksheet -> Range`. It supports creating a local Excel instance,
@@ -16,10 +19,10 @@ ownership. Research tools exercise this crate but it does not depend on those
 tools or their evidence formats.
 
 Excel wrappers are apartment-bound and are neither `Send` nor `Sync`. Callers
-create an explicit `ComApartment::sta()` and pass it to `Application::new`.
-`Drop` releases COM references but never calls `Quit`; application shutdown is
-an explicit operation. Raw COM pointers, `VARIANT`, and `SAFEARRAY` values are
-not exposed by the ordinary API.
+create an explicit `ComApartment::sta()` and start a crate-owned session with
+`OwnedApplication::new`. `Drop` releases COM references but never calls
+`Quit`; application shutdown is an explicit operation. Raw COM pointers,
+`VARIANT`, and `SAFEARRAY` values are not exposed by the ordinary API.
 
 `AutomationValue` preserves Automation scalar distinctions and rectangular
 arrays. `ExcelComError` preserves HRESULT and invocation context without
@@ -52,9 +55,8 @@ cargo test -p excel-com --test live -- --ignored --test-threads=1
 cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
 ```
 
-Events, existing-session attachment, marshaling, generic collections, and a
-stable public API remain intentionally out of scope for this experimental crate
-slice.
+Events, COM marshaling, VBA source editing, ActiveX/Form controls, Data
+Model/DAX mutation, and a stable pre-1.0 API remain out of scope.
 
 ## Charts, drawings, pictures, and sparklines
 
@@ -271,3 +273,52 @@ and is not API documentation. Build the local crate documentation with:
 ```powershell
 cargo doc -p excel-com --all-features --no-deps --open
 ```
+
+## Quick start: copied fixture
+
+Use a workbook supplied by your application or a copied fixture; do not make
+`Workbooks.Add` part of unattended startup. The current development host has a
+machine-specific `0x800A03EC` Add limitation, so fixture opening is the
+release smoke-test path.
+
+```no_run
+use excel_com::{
+    AutomationValue, ComApartment, OwnedApplication, SaveChanges, WorkbookCloseOptions,
+    WorkbookOpenOptions,
+};
+use std::{env, time::Duration};
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let path = env::args().nth(1).expect("pass a copied .xlsx path");
+    let apartment = ComApartment::sta()?;
+    let excel = OwnedApplication::new(&apartment)?;
+    let workbook = excel.workbooks()?.open(path, WorkbookOpenOptions::new())?;
+    {
+        let sheet = workbook.worksheets()?.item_by_index(1)?;
+        let cell = sheet.range("A1")?;
+        cell.set_value(AutomationValue::Text("hello from excel-com".into()))?;
+    }
+    workbook.close(WorkbookCloseOptions { save_changes: SaveChanges::Discard, ..WorkbookCloseOptions::new() })?;
+    excel.quit_and_wait(Duration::from_secs(30))?;
+    Ok(())
+}
+```
+
+## Ownership, errors, and security
+
+`OwnedApplication` represents a server created by this crate and is the only
+type with `quit`. `AttachedApplication::attach` borrows an existing Excel
+session and never quits it or closes unrelated workbooks. Both require the
+creating STA thread to remain alive and, where Excel needs it, to pump messages.
+
+All operations return `ExcelComError`; invocation errors preserve object,
+member, DISPID, HRESULT, and available EXCEPINFO through stable accessors.
+Passwords and `SecretStringValue` diagnostics are redacted. External data,
+links, PDF export, file replacement prompts, and printer-dependent PageSetup
+are Excel/provider dependent. The optional `macro-runtime` feature enables
+`Application::run_macro`; only enable it for trusted workbooks.
+
+Specialized APIs are under `drawing`, `formatting`, `tables`, `presentation`,
+`data`, `external_data`, and `pivot`. Excel versions are expected to vary in
+their support for newer chart, provider, and workbook features. See the
+release notes and known limitations before relying on unattended automation.

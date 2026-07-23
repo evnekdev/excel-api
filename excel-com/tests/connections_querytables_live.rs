@@ -6,7 +6,8 @@ use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use excel_com::{
-    Application, ComApartment, TextDelimiter, TextParsingType, TextQualifier, TextQueryAddOptions,
+    ComApartment, OwnedApplication, TextDelimiter, TextParsingType, TextQualifier,
+    TextQueryAddOptions,
 };
 
 #[test]
@@ -21,7 +22,7 @@ fn local_text_querytable_is_owned_refreshable_and_removable()
     fs::write(&csv_path, "Region,Amount\nNorth,10\nSouth,20\n")?;
 
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     let mut workbook = None;
     let outcome = (|| -> Result<(), Box<dyn std::error::Error>> {
         let value = application.workbooks()?.add()?;

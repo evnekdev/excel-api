@@ -5,7 +5,7 @@
 use std::fs;
 
 use excel_com::{
-    Application, AutoShapeType, ComApartment, CopyPictureFormat, CopyPictureOptions,
+    AutoShapeType, ComApartment, CopyPictureFormat, CopyPictureOptions, OwnedApplication,
     PictureAddOptions, PictureAppearance, ShapeBounds, ShapePoint, ShapeType, TextBoxAddOptions,
     TextOrientation, ZOrderCommand,
 };
@@ -21,7 +21,7 @@ const OWNED_PNG_FIXTURE: &[u8] = &[
 #[ignore = "launches a fresh visible Excel process; run explicitly with one test thread"]
 fn shapes_images_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let fixture = std::env::temp_dir().join("excel-com-prompt17-owned-fixture.png");
     fs::write(&fixture, OWNED_PNG_FIXTURE)?;

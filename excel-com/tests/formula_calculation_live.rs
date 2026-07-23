@@ -4,9 +4,9 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, CalculationMode, CalculationState, ComApartment,
-    FindLookIn, FindOptions, FormulaValue, MixedValue, Range, ReplaceOptions, SpecialCellType,
-    SpecialCellValueMask,
+    AutomationArray, AutomationValue, CalculationMode, CalculationState, ComApartment, FindLookIn,
+    FindOptions, FormulaValue, MixedValue, OwnedApplication, Range, ReplaceOptions,
+    SpecialCellType, SpecialCellValueMask,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -78,7 +78,7 @@ fn formulas_calculation_and_auditing_naturally_exit() -> Result<(), Box<dyn std:
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let original_alerts = application.display_alerts()?;
     let original_reference_style = application.reference_style()?;

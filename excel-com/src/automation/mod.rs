@@ -25,10 +25,12 @@ pub(crate) use dispatch::{activate_excel, invoke, property_get, property_put};
 pub(crate) use enumerator::{EnumVariant, enumerated_dispatch};
 pub use excel_error::ExcelError;
 pub(crate) use invocation::{MemberDescriptor, MemberKind};
-pub use message_filter::ComMessageFilterGuard;
+pub(crate) use message_filter::ComMessageFilterGuard;
 pub use policy::ConversionPolicy;
-pub use retry::{ComCallDisposition, ComRetryPolicy, InvocationRetrySafety};
-pub(crate) use retry::{active_policy, classify_com_hresult};
+pub use retry::ComRetryPolicy;
+pub(crate) use retry::{
+    ComCallDisposition, InvocationRetrySafety, active_policy, classify_com_hresult,
+};
 pub(crate) use safearray::SafeArray;
 pub use value::AutomationValue;
 pub(crate) use value::{DateWriteMode, decode_variant, encode_variant, validate_range_shape};

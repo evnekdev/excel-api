@@ -4,8 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, ComApartment, ConversionError, Currency,
-    ExcelComError, ExcelError, FormulaValue, OaDate, Worksheet, WorksheetsAddOptions,
+    AutomationArray, AutomationValue, ComApartment, ConversionError, Currency, ExcelComError,
+    ExcelError, FormulaValue, OaDate, OwnedApplication, Worksheet, WorksheetsAddOptions,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -54,7 +54,7 @@ fn worksheet_range_core_live_slice_naturally_exits() -> Result<(), Box<dyn std::
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
 
     let workbooks = application.workbooks()?;

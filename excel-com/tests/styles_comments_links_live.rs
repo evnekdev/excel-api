@@ -2,13 +2,13 @@
 
 //! Opt-in, visible Styles, legacy Notes, and internal-hyperlink acceptance coverage.
 
-use excel_com::{Application, ComApartment, HyperlinkAddOptions};
+use excel_com::{ComApartment, HyperlinkAddOptions, OwnedApplication};
 
 #[test]
 #[ignore = "launches a fresh visible Excel process; run explicitly"]
 fn styles_comments_and_links_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let outcome = match application.workbooks()?.add() {
         Ok(workbook) => {

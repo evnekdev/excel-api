@@ -38,9 +38,6 @@ impl SheetVisibility {
     }
 }
 
-/// Compatibility alias for the former closed visibility type.
-pub type XlSheetVisibility = SheetVisibility;
-
 /// Experimental wrapper for an Excel `Worksheet`.
 pub struct Worksheet {
     inner: DispatchObject,

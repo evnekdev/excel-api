@@ -1,0 +1,12 @@
+error: lifetime may not live long enough
+  --> tests/ui/borrowed_options_cannot_outlive_range.rs:7:5
+   |
+ 6 |   fn invalid_options<'a>(source: &'a Range) -> ListObjectAddOptions<'static> {
+   |                      -- lifetime `'a` defined here
+ 7 | /     ListObjectAddOptions {
+ 8 | |         source: &source,
+ 9 | |         has_headers: TableHeaderMode::YES,
+10 | |         destination: None,
+11 | |         table_style_name: None,
+12 | |     }
+   | |_____^ returning this value requires that `'a` must outlive `'static`
