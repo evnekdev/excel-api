@@ -77,7 +77,7 @@
 | Application | DisplayXMLSourcePane | 2252 | Metadata Only |
 | Application | Support | 2255 | Metadata Only |
 | Application | Dummy20 | 2373 | Metadata Only |
-| Application | CalculateUntilAsyncQueriesDone | 2387 | Metadata Only |
+| Application | CalculateUntilAsyncQueriesDone | 2387 | Implemented |
 | Application | SharePointVersion | 2392 | Metadata Only |
 | Application | MacroOptions | 2770 | Metadata Only |
 | Application | QueryInterface | 1610612736 | Metadata Only |

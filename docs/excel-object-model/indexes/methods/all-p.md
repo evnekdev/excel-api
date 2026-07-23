@@ -134,9 +134,9 @@
 | PivotAxis | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotAxis | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotAxis | Invoke | 1610678275 | Metadata Only |
-| PivotCache | Refresh | 1417 | Metadata Only |
+| PivotCache | Refresh | 1417 | Implemented |
 | PivotCache | ResetTimer | 1834 | Metadata Only |
-| PivotCache | CreatePivotTable | 1836 | Metadata Only |
+| PivotCache | CreatePivotTable | 1836 | Implemented |
 | PivotCache | MakeConnection | 2076 | Metadata Only |
 | PivotCache | SaveAsODC | 2082 | Metadata Only |
 | PivotCache | CreatePivotChart | 3062 | Metadata Only |
@@ -147,10 +147,10 @@
 | PivotCache | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotCache | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotCache | Invoke | 1610678275 | Metadata Only |
-| PivotCaches | _NewEnum | -4 | Metadata Only |
-| PivotCaches | Item | 170 | Metadata Only |
+| PivotCaches | _NewEnum | -4 | Implemented |
+| PivotCaches | Item | 170 | Implemented |
 | PivotCaches | Add | 181 | Metadata Only |
-| PivotCaches | Create | 1896 | Metadata Only |
+| PivotCaches | Create | 1896 | Implemented |
 | PivotCaches | QueryInterface | 1610612736 | Metadata Only |
 | PivotCaches | AddRef | 1610612737 | Metadata Only |
 | PivotCaches | Release | 1610612738 | Metadata Only |
@@ -168,12 +168,12 @@
 | PivotCell | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotCell | Invoke | 1610678275 | Metadata Only |
 | PivotField | Delete | 117 | Metadata Only |
-| PivotField | PivotItems | 737 | Metadata Only |
+| PivotField | PivotItems | 737 | Implemented |
 | PivotField | CalculatedItems | 1507 | Metadata Only |
 | PivotField | AutoSort | 1514 | Metadata Only |
 | PivotField | AutoShow | 1515 | Metadata Only |
 | PivotField | AddPageItem | 2146 | Metadata Only |
-| PivotField | ClearAllFilters | 2561 | Metadata Only |
+| PivotField | ClearAllFilters | 2561 | Implemented |
 | PivotField | _AutoSort | 2579 | Metadata Only |
 | PivotField | DrillTo | 2580 | Metadata Only |
 | PivotField | ClearManualFilter | 2594 | Metadata Only |
@@ -187,8 +187,8 @@
 | PivotField | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotField | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotField | Invoke | 1610678275 | Metadata Only |
-| PivotFields | _NewEnum | -4 | Metadata Only |
-| PivotFields | Item | 170 | Metadata Only |
+| PivotFields | _NewEnum | -4 | Implemented |
+| PivotFields | Item | 170 | Implemented |
 | PivotFields | QueryInterface | 1610612736 | Metadata Only |
 | PivotFields | AddRef | 1610612737 | Metadata Only |
 | PivotFields | Release | 1610612738 | Metadata Only |
@@ -196,7 +196,7 @@
 | PivotFields | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotFields | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotFields | Invoke | 1610678275 | Metadata Only |
-| PivotFilter | Delete | 117 | Metadata Only |
+| PivotFilter | Delete | 117 | Implemented |
 | PivotFilter | QueryInterface | 1610612736 | Metadata Only |
 | PivotFilter | AddRef | 1610612737 | Metadata Only |
 | PivotFilter | Release | 1610612738 | Metadata Only |
@@ -204,7 +204,7 @@
 | PivotFilter | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotFilter | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotFilter | Invoke | 1610678275 | Metadata Only |
-| PivotFilters | Add | 181 | Metadata Only |
+| PivotFilters | Add | 181 | Implemented |
 | PivotFilters | Add2 | 3054 | Metadata Only |
 | PivotFilters | QueryInterface | 1610612736 | Metadata Only |
 | PivotFilters | AddRef | 1610612737 | Metadata Only |
@@ -250,8 +250,8 @@
 | PivotItemList | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotItemList | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotItemList | Invoke | 1610678275 | Metadata Only |
-| PivotItems | _NewEnum | -4 | Metadata Only |
-| PivotItems | Item | 170 | Metadata Only |
+| PivotItems | _NewEnum | -4 | Implemented |
+| PivotItems | Item | 170 | Implemented |
 | PivotItems | Add | 181 | Metadata Only |
 | PivotItems | QueryInterface | 1610612736 | Metadata Only |
 | PivotItems | AddRef | 1610612737 | Metadata Only |
@@ -290,31 +290,31 @@
 | PivotLines | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotLines | Invoke | 1610678275 | Metadata Only |
 | PivotTable | Format | 116 | Metadata Only |
-| PivotTable | Update | 680 | Metadata Only |
+| PivotTable | Update | 680 | Implemented |
 | PivotTable | PivotTableWizard | 684 | Metadata Only |
 | PivotTable | ShowPages | 706 | Metadata Only |
 | PivotTable | AddFields | 708 | Metadata Only |
-| PivotTable | RefreshTable | 717 | Metadata Only |
-| PivotTable | PivotFields | 718 | Metadata Only |
+| PivotTable | RefreshTable | 717 | Implemented |
+| PivotTable | PivotFields | 718 | Implemented |
 | PivotTable | CalculatedFields | 1484 | Metadata Only |
 | PivotTable | GetData | 1491 | Metadata Only |
 | PivotTable | ListFormulas | 1492 | Metadata Only |
-| PivotTable | PivotCache | 1496 | Metadata Only |
+| PivotTable | PivotCache | 1496 | Implemented |
 | PivotTable | PivotSelect | 1501 | Metadata Only |
 | PivotTable | Dummy2 | 1783 | Metadata Only |
 | PivotTable | _PivotSelect | 2087 | Metadata Only |
 | PivotTable | GetPivotData | 2090 | Metadata Only |
-| PivotTable | AddDataField | 2122 | Metadata Only |
+| PivotTable | AddDataField | 2122 | Implemented |
 | PivotTable | Dummy15 | 2127 | Metadata Only |
 | PivotTable | CreateCubeFile | 2131 | Metadata Only |
 | PivotTable | ApplyLayout | 2500 | Metadata Only |
-| PivotTable | ClearTable | 2552 | Metadata Only |
+| PivotTable | ClearTable | 2552 | Implemented |
 | PivotTable | RowAxisLayout | 2556 | Metadata Only |
 | PivotTable | SubtotalLocation | 2558 | Metadata Only |
 | PivotTable | ClearAllFilters | 2561 | Metadata Only |
 | PivotTable | ConvertToFormulas | 2568 | Metadata Only |
 | PivotTable | ChangeConnection | 2575 | Metadata Only |
-| PivotTable | ChangePivotCache | 2577 | Metadata Only |
+| PivotTable | ChangePivotCache | 2577 | Implemented |
 | PivotTable | DrillTo | 2580 | Metadata Only |
 | PivotTable | AllocateChanges | 2855 | Metadata Only |
 | PivotTable | DiscardChanges | 2856 | Metadata Only |
@@ -339,8 +339,8 @@
 | PivotTableChangeList | GetTypeInfo | 1610678273 | Metadata Only |
 | PivotTableChangeList | GetIDsOfNames | 1610678274 | Metadata Only |
 | PivotTableChangeList | Invoke | 1610678275 | Metadata Only |
-| PivotTables | _NewEnum | -4 | Metadata Only |
-| PivotTables | Item | 170 | Metadata Only |
+| PivotTables | _NewEnum | -4 | Implemented |
+| PivotTables | Item | 170 | Implemented |
 | PivotTables | Add | 181 | Metadata Only |
 | PivotTables | QueryInterface | 1610612736 | Metadata Only |
 | PivotTables | AddRef | 1610612737 | Metadata Only |

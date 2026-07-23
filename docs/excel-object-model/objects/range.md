@@ -142,8 +142,12 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `MergeArea` | `excel.range` | Implemented |
 | `Next` | `excel.range` | Metadata Only |
 | `Offset` | `excel.range` | Implemented |
+| `PivotField` | `excel.pivotfield` | Metadata Only |
+| `PivotItem` | `excel.pivotitem` | Metadata Only |
+| `PivotTable` | `excel.pivottable` | Metadata Only |
 | `Precedents` | `excel.range` | Implemented |
 | `Previous` | `excel.range` | Metadata Only |
+| `QueryTable` | `excel.querytable` | Metadata Only |
 | `Range` | `excel.range` | Metadata Only |
 | `Resize` | `excel.range` | Implemented |
 | `RowDifferences` | `excel.range` | Implemented |

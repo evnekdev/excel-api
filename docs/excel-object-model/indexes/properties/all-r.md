@@ -114,13 +114,13 @@
 | Range | SavedAsArray | 3303 | Metadata Only |
 | Range | HasRichDataType | 3326 | Metadata Only |
 | Range | CellControl | 3411 | Metadata Only |
-| Ranges | _NewEnum | -4 | Metadata Only |
+| Ranges | _NewEnum | -4 | Implemented |
 | Ranges | _Default | 0 | Metadata Only |
-| Ranges | Count | 118 | Metadata Only |
+| Ranges | Count | 118 | Implemented |
 | Ranges | Application | 148 | Metadata Only |
 | Ranges | Creator | 149 | Metadata Only |
 | Ranges | Parent | 150 | Metadata Only |
-| Ranges | Item | 170 | Metadata Only |
+| Ranges | Item | 170 | Implemented |
 | RecentFile | Name | 110 | Metadata Only |
 | RecentFile | Application | 148 | Metadata Only |
 | RecentFile | Creator | 149 | Metadata Only |

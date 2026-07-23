@@ -441,6 +441,20 @@
     "target": "excel.font"
   },
   {
+    "member_id": "excel.calculatedfields.add",
+    "schema_version": 1,
+    "source": "excel.calculatedfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.calculatedfields.add-2085",
+    "schema_version": 1,
+    "source": "excel.calculatedfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
     "member_id": "excel.calculatedfields.application",
     "schema_version": 1,
     "source": "excel.calculatedfields",
@@ -448,11 +462,53 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.calculatedfields.default",
+    "schema_version": 1,
+    "source": "excel.calculatedfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.calculatedfields.item",
+    "schema_version": 1,
+    "source": "excel.calculatedfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.calculateditems.add",
+    "schema_version": 1,
+    "source": "excel.calculateditems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.calculateditems.add-2085",
+    "schema_version": 1,
+    "source": "excel.calculateditems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
     "member_id": "excel.calculateditems.application",
     "schema_version": 1,
     "source": "excel.calculateditems",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.calculateditems.default",
+    "schema_version": 1,
+    "source": "excel.calculateditems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.calculateditems.item",
+    "schema_version": 1,
+    "source": "excel.calculateditems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
   },
   {
     "member_id": "excel.calculatedmember.application",
@@ -861,11 +917,53 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.connections.add",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.connections.add2",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.connections.addfromfile",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.connections.addfromfile-3107",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
     "member_id": "excel.connections.application",
     "schema_version": 1,
     "source": "excel.connections",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.connections.default",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.connections.item",
+    "schema_version": 1,
+    "source": "excel.connections",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.connectorformat.application",
@@ -894,6 +992,13 @@
     "source": "excel.cubefield",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.cubefield.pivotfields",
+    "schema_version": 1,
+    "source": "excel.cubefield",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfields"
   },
   {
     "member_id": "excel.cubefields.application",
@@ -1104,6 +1209,13 @@
     "source": "excel.dialogsheet",
     "source_confidence": "typelib-only",
     "target": "excel.autofilter"
+  },
+  {
+    "member_id": "excel.dialogsheet.querytables",
+    "schema_version": 1,
+    "source": "excel.dialogsheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytables"
   },
   {
     "member_id": "excel.dialogsheet.sort",
@@ -2191,11 +2303,25 @@
     "target": "excel.listrows"
   },
   {
+    "member_id": "excel.listobject.querytable",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytable"
+  },
+  {
     "member_id": "excel.listobject.range",
     "schema_version": 1,
     "source": "excel.listobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.listobject.slicers",
+    "schema_version": 1,
+    "source": "excel.listobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicers"
   },
   {
     "member_id": "excel.listobject.sort",
@@ -2352,11 +2478,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.model.addconnection",
+    "schema_version": 1,
+    "source": "excel.model",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
     "member_id": "excel.model.application",
     "schema_version": 1,
     "source": "excel.model",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.model.createmodelworkbookconnection",
+    "schema_version": 1,
+    "source": "excel.model",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.model.datamodelconnection",
+    "schema_version": 1,
+    "source": "excel.model",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.modelchanges.application",
@@ -2504,6 +2651,13 @@
     "source": "excel.modeltable",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.modeltable.sourceworkbookconnection",
+    "schema_version": 1,
+    "source": "excel.modeltable",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.modeltablecolumn.application",
@@ -3010,6 +3164,27 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivotcache.createpivottable",
+    "schema_version": 1,
+    "source": "excel.pivotcache",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
+    "member_id": "excel.pivotcache.workbookconnection",
+    "schema_version": 1,
+    "source": "excel.pivotcache",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.pivotcaches.add",
+    "schema_version": 1,
+    "source": "excel.pivotcaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
     "member_id": "excel.pivotcaches.application",
     "schema_version": 1,
     "source": "excel.pivotcaches",
@@ -3017,11 +3192,60 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivotcaches.create",
+    "schema_version": 1,
+    "source": "excel.pivotcaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
+    "member_id": "excel.pivotcaches.default",
+    "schema_version": 1,
+    "source": "excel.pivotcaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
+    "member_id": "excel.pivotcaches.item",
+    "schema_version": 1,
+    "source": "excel.pivotcaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
     "member_id": "excel.pivotcell.application",
     "schema_version": 1,
     "source": "excel.pivotcell",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotcell.datafield",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotcell.pivotfield",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotcell.pivotitem",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.pivotcell.pivottable",
+    "schema_version": 1,
+    "source": "excel.pivotcell",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
   },
   {
     "member_id": "excel.pivotcell.range",
@@ -3038,6 +3262,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivotfield.childfield",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
     "member_id": "excel.pivotfield.datarange",
     "schema_version": 1,
     "source": "excel.pivotfield",
@@ -3052,11 +3283,46 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.pivotfield.parentfield",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotfield.pivotfilters",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilters"
+  },
+  {
+    "member_id": "excel.pivotfield.propertyparentfield",
+    "schema_version": 1,
+    "source": "excel.pivotfield",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
     "member_id": "excel.pivotfields.application",
     "schema_version": 1,
     "source": "excel.pivotfields",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotfields.item",
+    "schema_version": 1,
+    "source": "excel.pivotfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotfields.parent",
+    "schema_version": 1,
+    "source": "excel.pivotfields",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
   },
   {
     "member_id": "excel.pivotfilter.application",
@@ -3066,11 +3332,60 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivotfilter.datafield",
+    "schema_version": 1,
+    "source": "excel.pivotfilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotfilter.memberpropertyfield",
+    "schema_version": 1,
+    "source": "excel.pivotfilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotfilter.pivotfield",
+    "schema_version": 1,
+    "source": "excel.pivotfilter",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotfilters.add",
+    "schema_version": 1,
+    "source": "excel.pivotfilters",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilter"
+  },
+  {
+    "member_id": "excel.pivotfilters.add2",
+    "schema_version": 1,
+    "source": "excel.pivotfilters",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilter"
+  },
+  {
     "member_id": "excel.pivotfilters.application",
     "schema_version": 1,
     "source": "excel.pivotfilters",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotfilters.default",
+    "schema_version": 1,
+    "source": "excel.pivotfilters",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilter"
+  },
+  {
+    "member_id": "excel.pivotfilters.item",
+    "schema_version": 1,
+    "source": "excel.pivotfilters",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilter"
   },
   {
     "member_id": "excel.pivotformula.application",
@@ -3108,11 +3423,39 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.pivotitem.parent",
+    "schema_version": 1,
+    "source": "excel.pivotitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.pivotitem.parentitem",
+    "schema_version": 1,
+    "source": "excel.pivotitem",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
     "member_id": "excel.pivotitemlist.application",
     "schema_version": 1,
     "source": "excel.pivotitemlist",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotitemlist.default",
+    "schema_version": 1,
+    "source": "excel.pivotitemlist",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.pivotitemlist.item",
+    "schema_version": 1,
+    "source": "excel.pivotitemlist",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
   },
   {
     "member_id": "excel.pivotitems.application",
@@ -3122,11 +3465,39 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivotitems.item",
+    "schema_version": 1,
+    "source": "excel.pivotitems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.pivotitems.parent",
+    "schema_version": 1,
+    "source": "excel.pivotitems",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
     "member_id": "excel.pivotlayout.application",
     "schema_version": 1,
     "source": "excel.pivotlayout",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivotlayout.pivotcache",
+    "schema_version": 1,
+    "source": "excel.pivotlayout",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
+    "member_id": "excel.pivotlayout.pivottable",
+    "schema_version": 1,
+    "source": "excel.pivotlayout",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
   },
   {
     "member_id": "excel.pivotline.application",
@@ -3148,6 +3519,20 @@
     "source": "excel.pivotlines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivottable.activefilters",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfilters"
+  },
+  {
+    "member_id": "excel.pivottable.adddatafield",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
   },
   {
     "member_id": "excel.pivottable.application",
@@ -3178,6 +3563,13 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.pivottable.datapivotfield",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
     "member_id": "excel.pivottable.getpivotdata",
     "schema_version": 1,
     "source": "excel.pivottable",
@@ -3199,11 +3591,25 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.pivottable.pivotcache",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcache"
+  },
+  {
     "member_id": "excel.pivottable.rowrange",
     "schema_version": 1,
     "source": "excel.pivottable",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.pivottable.slicers",
+    "schema_version": 1,
+    "source": "excel.pivottable",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicers"
   },
   {
     "member_id": "excel.pivottable.tablerange1",
@@ -3227,11 +3633,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.pivottables.add",
+    "schema_version": 1,
+    "source": "excel.pivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
     "member_id": "excel.pivottables.application",
     "schema_version": 1,
     "source": "excel.pivottables",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.pivottables.item",
+    "schema_version": 1,
+    "source": "excel.pivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
   },
   {
     "member_id": "excel.pivotvaluecell.application",
@@ -3339,11 +3759,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.queries.add",
+    "schema_version": 1,
+    "source": "excel.queries",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookquery"
+  },
+  {
     "member_id": "excel.queries.application",
     "schema_version": 1,
     "source": "excel.queries",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.queries.default",
+    "schema_version": 1,
+    "source": "excel.queries",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookquery"
+  },
+  {
+    "member_id": "excel.queries.item",
+    "schema_version": 1,
+    "source": "excel.queries",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookquery"
   },
   {
     "member_id": "excel.querytable.application",
@@ -3388,11 +3829,39 @@
     "target": "excel.sort"
   },
   {
+    "member_id": "excel.querytable.workbookconnection",
+    "schema_version": 1,
+    "source": "excel.querytable",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
+  },
+  {
+    "member_id": "excel.querytables.add",
+    "schema_version": 1,
+    "source": "excel.querytables",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytable"
+  },
+  {
     "member_id": "excel.querytables.application",
     "schema_version": 1,
     "source": "excel.querytables",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.querytables.default",
+    "schema_version": 1,
+    "source": "excel.querytables",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytable"
+  },
+  {
+    "member_id": "excel.querytables.item",
+    "schema_version": 1,
+    "source": "excel.querytables",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytable"
   },
   {
     "member_id": "excel.quickanalysis.application",
@@ -3563,6 +4032,27 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.range.pivotfield",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotfield"
+  },
+  {
+    "member_id": "excel.range.pivotitem",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotitem"
+  },
+  {
+    "member_id": "excel.range.pivottable",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
     "member_id": "excel.range.precedents",
     "schema_version": 1,
     "source": "excel.range",
@@ -3575,6 +4065,13 @@
     "source": "excel.range",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.range.querytable",
+    "schema_version": 1,
+    "source": "excel.range",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytable"
   },
   {
     "member_id": "excel.range.range",
@@ -3948,6 +4445,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.slicer.slicercache",
+    "schema_version": 1,
+    "source": "excel.slicer",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
+  },
+  {
     "member_id": "excel.slicercache.application",
     "schema_version": 1,
     "source": "excel.slicercache",
@@ -3960,6 +4464,20 @@
     "source": "excel.slicercache",
     "source_confidence": "typelib-only",
     "target": "excel.listobject"
+  },
+  {
+    "member_id": "excel.slicercache.slicers",
+    "schema_version": 1,
+    "source": "excel.slicercache",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicers"
+  },
+  {
+    "member_id": "excel.slicercache.workbookconnection",
+    "schema_version": 1,
+    "source": "excel.slicercache",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.slicercachelevel.application",
@@ -3976,6 +4494,20 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.slicercaches.add",
+    "schema_version": 1,
+    "source": "excel.slicercaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
+  },
+  {
+    "member_id": "excel.slicercaches.add2",
+    "schema_version": 1,
+    "source": "excel.slicercaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
+  },
+  {
     "member_id": "excel.slicercaches.application",
     "schema_version": 1,
     "source": "excel.slicercaches",
@@ -3983,11 +4515,32 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.slicercaches.default",
+    "schema_version": 1,
+    "source": "excel.slicercaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
+  },
+  {
+    "member_id": "excel.slicercaches.item",
+    "schema_version": 1,
+    "source": "excel.slicercaches",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
+  },
+  {
     "member_id": "excel.sliceritem.application",
     "schema_version": 1,
     "source": "excel.sliceritem",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sliceritem.parent",
+    "schema_version": 1,
+    "source": "excel.sliceritem",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercache"
   },
   {
     "member_id": "excel.sliceritems.application",
@@ -4004,11 +4557,46 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.slicerpivottables.default",
+    "schema_version": 1,
+    "source": "excel.slicerpivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
+    "member_id": "excel.slicerpivottables.item",
+    "schema_version": 1,
+    "source": "excel.slicerpivottables",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
+    "member_id": "excel.slicers.add",
+    "schema_version": 1,
+    "source": "excel.slicers",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicer"
+  },
+  {
     "member_id": "excel.slicers.application",
     "schema_version": 1,
     "source": "excel.slicers",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.slicers.default",
+    "schema_version": 1,
+    "source": "excel.slicers",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicer"
+  },
+  {
+    "member_id": "excel.slicers.item",
+    "schema_version": 1,
+    "source": "excel.slicers",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicer"
   },
   {
     "member_id": "excel.smarttag.application",
@@ -4324,6 +4912,13 @@
     "source": "excel.tableobject",
     "source_confidence": "typelib-only",
     "target": "excel.range"
+  },
+  {
+    "member_id": "excel.tableobject.workbookconnection",
+    "schema_version": 1,
+    "source": "excel.tableobject",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.tablestyle.application",
@@ -4767,11 +5362,46 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.workbook.activeslicer",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicer"
+  },
+  {
     "member_id": "excel.workbook.application",
     "schema_version": 1,
     "source": "excel.workbook",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.workbook.connections",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.connections"
+  },
+  {
+    "member_id": "excel.workbook.pivotcaches",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivotcaches"
+  },
+  {
+    "member_id": "excel.workbook.queries",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.queries"
+  },
+  {
+    "member_id": "excel.workbook.slicercaches",
+    "schema_version": 1,
+    "source": "excel.workbook",
+    "source_confidence": "typelib-only",
+    "target": "excel.slicercaches"
   },
   {
     "member_id": "excel.workbook.worksheets",
@@ -4907,6 +5537,20 @@
     "target": "excel.listobjects"
   },
   {
+    "member_id": "excel.worksheet.pivottablewizard",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.pivottable"
+  },
+  {
+    "member_id": "excel.worksheet.querytables",
+    "schema_version": 1,
+    "source": "excel.worksheet",
+    "source_confidence": "typelib-only",
+    "target": "excel.querytables"
+  },
+  {
     "member_id": "excel.worksheet.range",
     "schema_version": 1,
     "source": "excel.worksheet",
@@ -5003,6 +5647,13 @@
     "source": "excel.xmlmap",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.xmlmap.workbookconnection",
+    "schema_version": 1,
+    "source": "excel.xmlmap",
+    "source_confidence": "typelib-only",
+    "target": "excel.workbookconnection"
   },
   {
     "member_id": "excel.xmlmaps.application",

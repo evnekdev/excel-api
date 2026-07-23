@@ -20,7 +20,7 @@
 | Worksheet | Buttons | 557 | Metadata Only |
 | Worksheet | Move | 637 | Implemented |
 | Worksheet | PivotTableWizard | 684 | Metadata Only |
-| Worksheet | PivotTables | 690 | Metadata Only |
+| Worksheet | PivotTables | 690 | Implemented |
 | Worksheet | Arcs | 760 | Metadata Only |
 | Worksheet | Lines | 767 | Metadata Only |
 | Worksheet | Pictures | 771 | Metadata Only |

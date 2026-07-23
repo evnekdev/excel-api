@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"Connections","status":"implemented-source-derived","members":["Workbook.Connections","Connections.Count","Connections.Item","Connections._NewEnum"],"indexing":["one-based-integer","string-key"],"iterator":"typed-IEnumVARIANT-fallible-fused-apartment-bound"}

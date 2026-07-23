@@ -44,6 +44,14 @@ impl EnumVariant {
             crate::object_model::member(member, false),
             vec![],
         )?;
+        Self::from_variant(&mut result, collection)
+    }
+
+    /// Converts an owned `_NewEnum` invocation result into a private iterator.
+    pub(crate) fn from_variant(
+        result: &mut OwnedVariant,
+        collection: &'static str,
+    ) -> Result<Self, ExcelComError> {
         let enum_pointer = match result.vt() {
             windows_sys::Win32::System::Variant::VT_UNKNOWN => {
                 result.take_unknown()?.query_interface(&IID_IENUMVARIANT)?

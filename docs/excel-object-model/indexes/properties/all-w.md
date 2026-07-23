@@ -206,7 +206,7 @@
 | Workbook | InactiveListBorderVisible | 2275 | Metadata Only |
 | Workbook | DisplayInkComments | 2276 | Metadata Only |
 | Workbook | ContentTypeProperties | 2512 | Metadata Only |
-| Workbook | Connections | 2513 | Metadata Only |
+| Workbook | Connections | 2513 | Implemented |
 | Workbook | Signatures | 2516 | Metadata Only |
 | Workbook | ServerPolicy | 2519 | Metadata Only |
 | Workbook | DocumentInspectors | 2521 | Metadata Only |
@@ -227,7 +227,7 @@
 | Workbook | EncryptionProvider | 2540 | Metadata Only |
 | Workbook | DoNotPromptForConvert | 2541 | Metadata Only |
 | Workbook | ForceFullCalculation | 2542 | Metadata Only |
-| Workbook | SlicerCaches | 2866 | Metadata Only |
+| Workbook | SlicerCaches | 2866 | Implemented |
 | Workbook | ActiveSlicer | 2867 | Metadata Only |
 | Workbook | DefaultSlicerStyle | 2868 | Metadata Only |
 | Workbook | AccuracyVersion | 2871 | Metadata Only |
@@ -238,35 +238,35 @@
 | Workbook | Model | 3059 | Metadata Only |
 | Workbook | DefaultTimelineStyle | 3060 | Metadata Only |
 | Workbook | WorkIdentity | 3173 | Metadata Only |
-| Workbook | Queries | 3186 | Metadata Only |
+| Workbook | Queries | 3186 | Implemented |
 | Workbook | AutoSaveOn | 3232 | Metadata Only |
 | Workbook | SensitivityLabel | 3379 | Metadata Only |
 | Workbook | ExternalCodeServiceTimeout | 3406 | Metadata Only |
 | Workbook | CompatibilityVersion | 3416 | Metadata Only |
 | WorkbookConnection | _Default | 0 | Metadata Only |
-| WorkbookConnection | Type | 108 | Metadata Only |
-| WorkbookConnection | Name | 110 | Metadata Only |
+| WorkbookConnection | Type | 108 | Implemented |
+| WorkbookConnection | Name | 110 | Implemented |
 | WorkbookConnection | Application | 148 | Metadata Only |
 | WorkbookConnection | Creator | 149 | Metadata Only |
 | WorkbookConnection | Parent | 150 | Metadata Only |
-| WorkbookConnection | Description | 218 | Metadata Only |
-| WorkbookConnection | OLEDBConnection | 2697 | Metadata Only |
-| WorkbookConnection | ODBCConnection | 2698 | Metadata Only |
-| WorkbookConnection | Ranges | 2699 | Metadata Only |
+| WorkbookConnection | Description | 218 | Implemented |
+| WorkbookConnection | OLEDBConnection | 2697 | Implemented |
+| WorkbookConnection | ODBCConnection | 2698 | Implemented |
+| WorkbookConnection | Ranges | 2699 | Implemented |
 | WorkbookConnection | ModelConnection | 3100 | Metadata Only |
 | WorkbookConnection | WorksheetDataConnection | 3101 | Metadata Only |
-| WorkbookConnection | RefreshWithRefreshAll | 3102 | Metadata Only |
-| WorkbookConnection | TextConnection | 3103 | Metadata Only |
+| WorkbookConnection | RefreshWithRefreshAll | 3102 | Implemented |
+| WorkbookConnection | TextConnection | 3103 | Implemented |
 | WorkbookConnection | DataFeedConnection | 3104 | Metadata Only |
 | WorkbookConnection | InModel | 3105 | Metadata Only |
 | WorkbookConnection | ModelTables | 3106 | Metadata Only |
 | WorkbookQuery | _Default | 0 | Metadata Only |
-| WorkbookQuery | Name | 110 | Metadata Only |
+| WorkbookQuery | Name | 110 | Implemented |
 | WorkbookQuery | Application | 148 | Metadata Only |
 | WorkbookQuery | Creator | 149 | Metadata Only |
 | WorkbookQuery | Parent | 150 | Metadata Only |
-| WorkbookQuery | Description | 218 | Metadata Only |
-| WorkbookQuery | Formula | 261 | Metadata Only |
+| WorkbookQuery | Description | 218 | Implemented |
+| WorkbookQuery | Formula | 261 | Implemented |
 | Workbooks | _NewEnum | -4 | Implemented |
 | Workbooks | _Default | 0 | Metadata Only |
 | Workbooks | Count | 118 | Implemented |
@@ -330,7 +330,7 @@
 | Worksheet | EnableCalculation | 1424 | Metadata Only |
 | Worksheet | EnableSelection | 1425 | Metadata Only |
 | Worksheet | ScrollArea | 1433 | Metadata Only |
-| Worksheet | QueryTables | 1434 | Metadata Only |
+| Worksheet | QueryTables | 1434 | Implemented |
 | Worksheet | DisplayPageBreaks | 1435 | Metadata Only |
 | Worksheet | DisplayRightToLeft | 1774 | Metadata Only |
 | Worksheet | Scripts | 1816 | Metadata Only |

@@ -1,9 +1,32 @@
 //! Stable public facade for Excel charts, shapes, and sparklines.
 //!
-//! The retained implementation is isolated in `legacy` while the public
-//! names remain re-exported unchanged. New drawing work belongs in focused
-//! modules rather than extending this facade.
+//! The former monolithic implementation is split by responsibility. Public
+//! names are re-exported unchanged so existing users retain source compatibility.
 
-mod legacy;
+mod types;
+pub use types::*;
+mod chart_objects;
+mod helpers;
+pub use chart_objects::*;
+mod chart;
+pub use chart::*;
+mod export;
+mod labels;
+pub use labels::*;
+mod office_format;
+pub use office_format::*;
+mod series;
+pub use series::*;
+mod trendlines;
+pub use trendlines::*;
+mod axes;
+pub use axes::*;
+mod chart_sheets;
+pub use chart_sheets::*;
+mod shapes;
+pub use shapes::*;
+mod sparklines;
+pub use sparklines::*;
 
-pub use legacy::*;
+#[cfg(test)]
+mod tests;

@@ -316,7 +316,7 @@
 | SheetViews | Creator | 149 | Metadata Only |
 | SheetViews | Parent | 150 | Metadata Only |
 | SheetViews | Item | 170 | Metadata Only |
-| Slicer | Name | 110 | Metadata Only |
+| Slicer | Name | 110 | Implemented |
 | Slicer | Width | 122 | Metadata Only |
 | Slicer | Height | 123 | Metadata Only |
 | Slicer | Top | 126 | Metadata Only |
@@ -333,26 +333,26 @@
 | Slicer | DisableMoveResizeUI | 2983 | Metadata Only |
 | Slicer | NumberOfColumns | 2984 | Metadata Only |
 | Slicer | DisplayHeader | 2985 | Metadata Only |
-| Slicer | SlicerCache | 2986 | Metadata Only |
+| Slicer | SlicerCache | 2986 | Implemented |
 | Slicer | SlicerCacheLevel | 2987 | Metadata Only |
 | Slicer | ActiveItem | 2988 | Metadata Only |
 | Slicer | SlicerCacheType | 3111 | Metadata Only |
 | Slicer | TimelineViewState | 3116 | Metadata Only |
-| SlicerCache | Name | 110 | Metadata Only |
+| SlicerCache | Name | 110 | Implemented |
 | SlicerCache | Application | 148 | Metadata Only |
 | SlicerCache | Creator | 149 | Metadata Only |
 | SlicerCache | Parent | 150 | Metadata Only |
 | SlicerCache | ShowAllItems | 452 | Metadata Only |
 | SlicerCache | Index | 486 | Metadata Only |
 | SlicerCache | SourceType | 685 | Metadata Only |
-| SlicerCache | PivotTables | 690 | Metadata Only |
-| SlicerCache | SourceName | 721 | Metadata Only |
+| SlicerCache | PivotTables | 690 | Implemented |
+| SlicerCache | SourceName | 721 | Implemented |
 | SlicerCache | List | 861 | Metadata Only |
 | SlicerCache | OLAP | 2077 | Metadata Only |
 | SlicerCache | ListObject | 2257 | Metadata Only |
 | SlicerCache | WorkbookConnection | 2544 | Metadata Only |
 | SlicerCache | SortUsingCustomLists | 2574 | Metadata Only |
-| SlicerCache | Slicers | 2881 | Metadata Only |
+| SlicerCache | Slicers | 2881 | Implemented |
 | SlicerCache | SlicerCacheLevels | 2974 | Metadata Only |
 | SlicerCache | VisibleSlicerItems | 2975 | Metadata Only |
 | SlicerCache | VisibleSlicerItemsList | 2976 | Metadata Only |
@@ -380,13 +380,13 @@
 | SlicerCacheLevels | Creator | 149 | Metadata Only |
 | SlicerCacheLevels | Parent | 150 | Metadata Only |
 | SlicerCacheLevels | Item | 170 | Metadata Only |
-| SlicerCaches | _NewEnum | -4 | Metadata Only |
+| SlicerCaches | _NewEnum | -4 | Implemented |
 | SlicerCaches | _Default | 0 | Metadata Only |
-| SlicerCaches | Count | 118 | Metadata Only |
+| SlicerCaches | Count | 118 | Implemented |
 | SlicerCaches | Application | 148 | Metadata Only |
 | SlicerCaches | Creator | 149 | Metadata Only |
 | SlicerCaches | Parent | 150 | Metadata Only |
-| SlicerCaches | Item | 170 | Metadata Only |
+| SlicerCaches | Item | 170 | Implemented |
 | SlicerItem | Value | 6 | Metadata Only |
 | SlicerItem | Name | 110 | Metadata Only |
 | SlicerItem | Caption | 139 | Metadata Only |
@@ -411,13 +411,13 @@
 | SlicerPivotTables | Creator | 149 | Metadata Only |
 | SlicerPivotTables | Parent | 150 | Metadata Only |
 | SlicerPivotTables | Item | 170 | Metadata Only |
-| Slicers | _NewEnum | -4 | Metadata Only |
+| Slicers | _NewEnum | -4 | Implemented |
 | Slicers | _Default | 0 | Metadata Only |
-| Slicers | Count | 118 | Metadata Only |
+| Slicers | Count | 118 | Implemented |
 | Slicers | Application | 148 | Metadata Only |
 | Slicers | Creator | 149 | Metadata Only |
 | Slicers | Parent | 150 | Metadata Only |
-| Slicers | Item | 170 | Metadata Only |
+| Slicers | Item | 170 | Implemented |
 | SmartTag | _Default | 0 | Metadata Only |
 | SmartTag | Name | 110 | Metadata Only |
 | SmartTag | Application | 148 | Metadata Only |

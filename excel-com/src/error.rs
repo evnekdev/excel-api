@@ -72,6 +72,16 @@ pub enum ExcelComError {
         /// A static description of the unsupported operation.
         detail: &'static str,
     },
+    /// An operation and the state-restoration attempt both failed.
+    ///
+    /// Temporary Excel state guards return this variant so callers retain the
+    /// original failure as well as the error that prevented restoration.
+    StateRestoration {
+        /// The error from the protected operation.
+        operation: Box<ExcelComError>,
+        /// The error from restoring the previous Excel state.
+        restoration: Box<ExcelComError>,
+    },
 }
 
 impl ExcelComError {
@@ -134,6 +144,13 @@ impl Display for ExcelComError {
             Self::Unsupported { detail } => {
                 write!(formatter, "unsupported Automation operation: {detail}")
             }
+            Self::StateRestoration {
+                operation,
+                restoration,
+            } => write!(
+                formatter,
+                "Automation operation failed ({operation}); restoring Excel state also failed ({restoration})"
+            ),
         }
     }
 }
@@ -158,5 +175,20 @@ mod tests {
         assert!(text.contains("0xFFFFFFFF"));
         assert!(text.contains("Quit"));
         assert!(!text.contains("ptr="));
+    }
+
+    #[test]
+    fn state_restoration_retains_both_errors() {
+        let error = ExcelComError::StateRestoration {
+            operation: Box::new(ExcelComError::Unsupported {
+                detail: "operation failed",
+            }),
+            restoration: Box::new(ExcelComError::Unsupported {
+                detail: "restore failed",
+            }),
+        };
+        let text = error.to_string();
+        assert!(text.contains("operation failed"));
+        assert!(text.contains("restore failed"));
     }
 }

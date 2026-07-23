@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"owned-resource cleanup","status":"planned-live-test-contract","resources":["local temporary CSV","QueryTable","PivotTable","workbook","Excel application"],"policy":"delete or close owned resources; do not terminate unrelated Excel processes","observed_after_baseline":"transient Excel exited naturally"}

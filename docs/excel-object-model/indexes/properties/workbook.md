@@ -105,7 +105,7 @@
 | Workbook | InactiveListBorderVisible | 2275 | Metadata Only |
 | Workbook | DisplayInkComments | 2276 | Metadata Only |
 | Workbook | ContentTypeProperties | 2512 | Metadata Only |
-| Workbook | Connections | 2513 | Metadata Only |
+| Workbook | Connections | 2513 | Implemented |
 | Workbook | Signatures | 2516 | Metadata Only |
 | Workbook | ServerPolicy | 2519 | Metadata Only |
 | Workbook | DocumentInspectors | 2521 | Metadata Only |
@@ -126,7 +126,7 @@
 | Workbook | EncryptionProvider | 2540 | Metadata Only |
 | Workbook | DoNotPromptForConvert | 2541 | Metadata Only |
 | Workbook | ForceFullCalculation | 2542 | Metadata Only |
-| Workbook | SlicerCaches | 2866 | Metadata Only |
+| Workbook | SlicerCaches | 2866 | Implemented |
 | Workbook | ActiveSlicer | 2867 | Metadata Only |
 | Workbook | DefaultSlicerStyle | 2868 | Metadata Only |
 | Workbook | AccuracyVersion | 2871 | Metadata Only |
@@ -137,7 +137,7 @@
 | Workbook | Model | 3059 | Metadata Only |
 | Workbook | DefaultTimelineStyle | 3060 | Metadata Only |
 | Workbook | WorkIdentity | 3173 | Metadata Only |
-| Workbook | Queries | 3186 | Metadata Only |
+| Workbook | Queries | 3186 | Implemented |
 | Workbook | AutoSaveOn | 3232 | Metadata Only |
 | Workbook | SensitivityLabel | 3379 | Metadata Only |
 | Workbook | ExternalCodeServiceTimeout | 3406 | Metadata Only |

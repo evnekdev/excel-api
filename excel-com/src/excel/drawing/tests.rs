@@ -1,3 +1,4 @@
+use super::helpers::{chart_bounds, series_data, shape_bounds};
 use super::*;
 
 #[test]

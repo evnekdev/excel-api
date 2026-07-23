@@ -93,6 +93,8 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | `CircularReference` | `excel.range` | Metadata Only |
 | `Columns` | `excel.range` | Metadata Only |
 | `ListObjects` | `excel.listobjects` | Implemented |
+| `PivotTableWizard` | `excel.pivottable` | Metadata Only |
+| `QueryTables` | `excel.querytables` | Implemented |
 | `Range` | `excel.range` | Implemented |
 | `Rows` | `excel.range` | Metadata Only |
 | `_Sort` | `excel.sort` | Metadata Only |
@@ -161,7 +163,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | EnableCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 1424 | Metadata Only | Reviewed | Not Tested | |
 | EnableSelection | PROPERTYGET/PROPERTYPUT | XlEnableSelection | declared | 1425 | Metadata Only | Reviewed | Not Tested | |
 | ScrollArea | PROPERTYGET/PROPERTYPUT | String | declared | 1433 | Metadata Only | Reviewed | Not Tested | |
-| QueryTables | PROPERTYGET | QueryTables | declared | 1434 | Metadata Only | Reviewed | Not Tested | |
+| QueryTables | PROPERTYGET | QueryTables | declared | 1434 | Implemented | Reviewed | Live Tested | |
 | DisplayPageBreaks | PROPERTYGET/PROPERTYPUT | bool | declared | 1435 | Metadata Only | Reviewed | Not Tested | |
 | DisplayRightToLeft | PROPERTYGET/PROPERTYPUT | bool | declared | 1774 | Metadata Only | Reviewed | Not Tested | |
 | Scripts | PROPERTYGET | Scripts | declared | 1816 | Metadata Only | Reviewed | Not Tested | |
@@ -198,7 +200,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Buttons | Object | 1 | declared | 557 | Metadata Only | Reviewed | Not Tested | |
 | Move | Unknown | 2 | declared | 637 | Implemented | Reviewed | Blocked | |
 | PivotTableWizard | PivotTable | 16 | declared | 684 | Metadata Only | Reviewed | Not Tested | |
-| PivotTables | Object | 1 | declared | 690 | Metadata Only | Reviewed | Not Tested | |
+| PivotTables | Object | 1 | declared | 690 | Implemented | Reviewed | Live Tested | |
 | Arcs | Object | 1 | declared | 760 | Metadata Only | Reviewed | Not Tested | |
 | Lines | Object | 1 | declared | 767 | Metadata Only | Reviewed | Not Tested | |
 | Pictures | Object | 1 | declared | 771 | Metadata Only | Reviewed | Not Tested | |

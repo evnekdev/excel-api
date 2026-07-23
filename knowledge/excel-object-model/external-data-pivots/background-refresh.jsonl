@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"background refresh","status":"runtime-blocked","reason":"no workbook could be created","implementation":"QueryTable, OLE DB, ODBC, and PivotCache BackgroundQuery properties are typed; polling remains on the owning STA"}

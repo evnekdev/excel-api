@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"PivotCache.CreatePivotTable","status":"implemented-source-derived","typelib_arguments":["TableDestination","TableName","ReadData","DefaultVersion"],"version_policy":"version is an alias for DefaultVersion and conflicting values are rejected","runtime":"blocked before workbook creation"}

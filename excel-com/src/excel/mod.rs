@@ -7,6 +7,7 @@ mod calculation;
 mod collection;
 mod data;
 mod drawing;
+mod external_data;
 mod file_lifecycle;
 mod font;
 mod formatting;
@@ -14,6 +15,7 @@ mod formula;
 mod interior;
 mod name;
 mod names;
+mod pivot;
 mod presentation;
 mod range;
 mod range_structure;
@@ -40,6 +42,7 @@ pub use calculation::{CalculationMode, CalculationState};
 #[allow(unused_imports)]
 pub use data::*;
 pub use drawing::*;
+pub use external_data::*;
 pub use file_lifecycle::{
     SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
     WorkbookSaveAsOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
@@ -54,6 +57,7 @@ pub use formula::FormulaValue;
 pub use interior::Interior;
 pub use name::Name;
 pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
+pub use pivot::*;
 #[allow(unused_imports)]
 pub use presentation::{
     AboveAverage, AboveAverageOptions, AboveAverageRuleOptions, AboveBelowMode,

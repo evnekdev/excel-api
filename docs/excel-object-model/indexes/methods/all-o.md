@@ -3,7 +3,7 @@
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
 | ODBCConnection | Refresh | 1417 | Metadata Only |
-| ODBCConnection | CancelRefresh | 1589 | Metadata Only |
+| ODBCConnection | CancelRefresh | 1589 | Implemented |
 | ODBCConnection | SaveAsODC | 2082 | Metadata Only |
 | ODBCConnection | QueryInterface | 1610612736 | Metadata Only |
 | ODBCConnection | AddRef | 1610612737 | Metadata Only |
@@ -29,7 +29,7 @@
 | ODBCErrors | GetIDsOfNames | 1610678274 | Metadata Only |
 | ODBCErrors | Invoke | 1610678275 | Metadata Only |
 | OLEDBConnection | Refresh | 1417 | Metadata Only |
-| OLEDBConnection | CancelRefresh | 1589 | Metadata Only |
+| OLEDBConnection | CancelRefresh | 1589 | Implemented |
 | OLEDBConnection | MakeConnection | 2076 | Metadata Only |
 | OLEDBConnection | SaveAsODC | 2082 | Metadata Only |
 | OLEDBConnection | Reconnect | 2939 | Metadata Only |

@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"WorkbookConnection subtypes","status":"implemented-source-derived","variants":["OLE DB","ODBC","text","worksheet","model","unsupported"],"web":"unsupported-by-installed-typelib-surface","secret_policy":"connection strings are redacted by Debug and Display"}

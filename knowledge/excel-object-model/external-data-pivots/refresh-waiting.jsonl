@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"refresh waiting","status":"implemented-source-derived","method":"Workbook.wait_for_refresh","bounds":"caller supplies nonzero timeout and poll interval","timeout_result":"RefreshWaitReport completed=false instead of a synthetic COM error","threading":"no Rust background thread"}
