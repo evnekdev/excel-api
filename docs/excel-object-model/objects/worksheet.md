@@ -62,6 +62,24 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | `text_boxes` | true |
 | `trendlines` | true |
 
+### Data utility
+
+| Capability | Available |
+|---|---|
+| `advanced_filter` | false |
+| `autofill` | false |
+| `consolidate` | false |
+| `data_tables` | false |
+| `external_links` | false |
+| `fill` | false |
+| `flash_fill` | false |
+| `goal_seek` | false |
+| `open_text` | false |
+| `scenarios` | true |
+| `subtotal` | false |
+| `text_export` | false |
+| `text_to_columns` | false |
+
 
 
 ## Relationships
@@ -199,7 +217,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Spinners | Object | 1 | declared | 838 | Metadata Only | Reviewed | Not Tested | |
 | Labels | Object | 1 | declared | 841 | Metadata Only | Reviewed | Not Tested | |
 | __PrintOut | Unknown | 7 | declared | 905 | Metadata Only | Reviewed | Not Tested | |
-| Scenarios | Object | 1 | declared | 908 | Metadata Only | Reviewed | Not Tested | |
+| Scenarios | Object | 1 | declared | 908 | Implemented | Reviewed | Blocked | |
 | ClearArrows | Unknown | 0 | declared | 970 | Metadata Only | Reviewed | Not Tested | |
 | _PasteSpecial | Unknown | 6 | declared | 1027 | Metadata Only | Reviewed | Not Tested | |
 | ChartObjects | Object | 1 | declared | 1060 | Implemented | Reviewed | Live Tested | |

@@ -151,6 +151,7 @@ fn capability_table(object: &Value) -> String {
         ("Structured data", "structured_data_capability"),
         ("Advanced presentation", "advanced_presentation_capability"),
         ("Drawing", "drawing_capability"),
+        ("Data utility", "data_utility_capability"),
     ];
     let mut text = String::new();
     for (label, field) in groups {
@@ -727,6 +728,8 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "Worksheets",
         "Worksheet",
         "Range",
+        "Scenarios",
+        "Scenario",
         "Areas",
         "Names",
         "Name",

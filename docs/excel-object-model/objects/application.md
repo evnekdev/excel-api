@@ -184,7 +184,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | MailSession | PROPERTYGET | AutomationValue | declared | 942 | Metadata Only | Reviewed | Not Tested | |
 | MailSystem | PROPERTYGET | XlMailSystem | declared | 971 | Metadata Only | Reviewed | Not Tested | |
 | CopyObjectsWithCells | PROPERTYGET/PROPERTYPUT | bool | declared | 991 | Metadata Only | Reviewed | Not Tested | |
-| AskToUpdateLinks | PROPERTYGET/PROPERTYPUT | bool | declared | 992 | Metadata Only | Reviewed | Not Tested | |
+| AskToUpdateLinks | PROPERTYGET/PROPERTYPUT | bool | declared | 992 | Implemented | Reviewed | Blocked | |
 | SheetsInNewWorkbook | PROPERTYGET/PROPERTYPUT | i32 | declared | 993 | Metadata Only | Reviewed | Not Tested | |
 | OnSheetActivate | PROPERTYGET/PROPERTYPUT | String | declared | 1031 | Metadata Only | Reviewed | Not Tested | |
 | DefaultFilePath | PROPERTYGET/PROPERTYPUT | String | declared | 1038 | Metadata Only | Reviewed | Not Tested | |

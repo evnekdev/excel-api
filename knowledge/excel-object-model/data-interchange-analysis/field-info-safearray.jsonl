@@ -1,0 +1,1 @@
+{"operation":"OpenText|TextToColumns","layout":"rank-two VT_ARRAY|VT_VARIANT","rows":"one per TextColumnSpec","columns":["start","TextColumnType"],"bounds":"one-based","source":"repository AutomationArray encoder and registered Excel signature","runtime_status":"not-observed-runtime-blocked"}

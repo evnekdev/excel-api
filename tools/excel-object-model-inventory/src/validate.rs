@@ -229,6 +229,25 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "sparklines",
             ],
         )?;
+        validate_boolean_capability(
+            object,
+            "data_utility_capability",
+            &[
+                "open_text",
+                "text_export",
+                "text_to_columns",
+                "fill",
+                "autofill",
+                "flash_fill",
+                "advanced_filter",
+                "subtotal",
+                "consolidate",
+                "goal_seek",
+                "scenarios",
+                "data_tables",
+                "external_links",
+            ],
+        )?;
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?

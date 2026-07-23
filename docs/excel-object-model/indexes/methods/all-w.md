@@ -82,11 +82,11 @@
 | Workbook | DeleteNumberFormat | 397 | Metadata Only |
 | Workbook | RunAutoMacros | 634 | Metadata Only |
 | Workbook | PivotTableWizard | 684 | Metadata Only |
-| Workbook | ChangeLink | 802 | Metadata Only |
+| Workbook | ChangeLink | 802 | Implemented |
 | Workbook | OpenLinks | 803 | Metadata Only |
-| Workbook | UpdateLink | 804 | Metadata Only |
-| Workbook | LinkInfo | 807 | Metadata Only |
-| Workbook | LinkSources | 808 | Metadata Only |
+| Workbook | UpdateLink | 804 | Implemented |
+| Workbook | LinkInfo | 807 | Implemented |
+| Workbook | LinkSources | 808 | Implemented |
 | Workbook | SetLinkOnData | 809 | Metadata Only |
 | Workbook | __PrintOut | 905 | Metadata Only |
 | Workbook | Route | 946 | Metadata Only |
@@ -119,7 +119,7 @@
 | Workbook | _SaveAs | 1925 | Metadata Only |
 | Workbook | Protect | 2029 | Implemented |
 | Workbook | Dummy17 | 2044 | Metadata Only |
-| Workbook | BreakLink | 2047 | Metadata Only |
+| Workbook | BreakLink | 2047 | Implemented |
 | Workbook | Dummy16 | 2048 | Metadata Only |
 | Workbook | CheckIn | 2051 | Metadata Only |
 | Workbook | CanCheckIn | 2053 | Metadata Only |
@@ -183,7 +183,7 @@
 | Workbooks | __OpenText | 683 | Metadata Only |
 | Workbooks | _OpenText | 1773 | Metadata Only |
 | Workbooks | Open | 1923 | Implemented |
-| Workbooks | OpenText | 1924 | Metadata Only |
+| Workbooks | OpenText | 1924 | Implemented |
 | Workbooks | OpenDatabase | 2067 | Metadata Only |
 | Workbooks | CheckOut | 2069 | Metadata Only |
 | Workbooks | CanCheckOut | 2070 | Metadata Only |
@@ -233,7 +233,7 @@
 | Worksheet | Spinners | 838 | Metadata Only |
 | Worksheet | Labels | 841 | Metadata Only |
 | Worksheet | __PrintOut | 905 | Metadata Only |
-| Worksheet | Scenarios | 908 | Metadata Only |
+| Worksheet | Scenarios | 908 | Implemented |
 | Worksheet | ClearArrows | 970 | Metadata Only |
 | Worksheet | _PasteSpecial | 1027 | Metadata Only |
 | Worksheet | ChartObjects | 1060 | Implemented |

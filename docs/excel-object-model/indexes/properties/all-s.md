@@ -2,17 +2,17 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Scenario | Name | 110 | Metadata Only |
+| Scenario | Name | 110 | Implemented |
 | Scenario | Application | 148 | Metadata Only |
 | Scenario | Creator | 149 | Metadata Only |
 | Scenario | Parent | 150 | Metadata Only |
-| Scenario | Values | 164 | Metadata Only |
+| Scenario | Values | 164 | Implemented |
 | Scenario | Hidden | 268 | Metadata Only |
 | Scenario | Locked | 269 | Metadata Only |
 | Scenario | Index | 486 | Metadata Only |
-| Scenario | Comment | 910 | Metadata Only |
-| Scenario | ChangingCells | 911 | Metadata Only |
-| Scenarios | Count | 118 | Metadata Only |
+| Scenario | Comment | 910 | Implemented |
+| Scenario | ChangingCells | 911 | Implemented |
+| Scenarios | Count | 118 | Implemented |
 | Scenarios | Application | 148 | Metadata Only |
 | Scenarios | Creator | 149 | Metadata Only |
 | Scenarios | Parent | 150 | Metadata Only |

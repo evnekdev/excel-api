@@ -1,0 +1,4 @@
+{"topic":"OpenText runtime behaviour","status":"runtime-blocked","reason":"fresh Workbooks.Add returned 0x800A03EC and no documented repository-owned blank fixture exists"}
+{"topic":"CSV UTF-8 byte output","status":"runtime-blocked","reason":"controlled export could not be created"}
+{"topic":"FlashFill","status":"version-dependent","reason":"heuristic behaviour requires a supported Excel build and live observation"}
+{"topic":"external link lifecycle","status":"runtime-blocked","reason":"controlled owned workbooks could not be created"}

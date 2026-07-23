@@ -95,17 +95,35 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `theme_colors` | true |
 | `threaded_comment_inspection` | true |
 
+### Data utility
+
+| Capability | Available |
+|---|---|
+| `advanced_filter` | true |
+| `autofill` | true |
+| `consolidate` | true |
+| `data_tables` | true |
+| `external_links` | false |
+| `fill` | true |
+| `flash_fill` | true |
+| `goal_seek` | true |
+| `open_text` | false |
+| `scenarios` | false |
+| `subtotal` | true |
+| `text_export` | false |
+| `text_to_columns` | true |
+
 
 
 ## Relationships
 
 | Relationship | Target | Status |
 |---|---|---|
-| `Application` | `excel.application` | Metadata Only |
+| `Application` | `excel.application` | Implemented |
 | `Areas` | `excel.areas` | Implemented |
 | `Borders` | `excel.borders` | Implemented |
 | `Cells` | `excel.range` | Implemented |
-| `ColumnDifferences` | `excel.range` | Metadata Only |
+| `ColumnDifferences` | `excel.range` | Implemented |
 | `Columns` | `excel.range` | Implemented |
 | `CurrentArray` | `excel.range` | Implemented |
 | `CurrentRegion` | `excel.range` | Implemented |
@@ -128,7 +146,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `Previous` | `excel.range` | Metadata Only |
 | `Range` | `excel.range` | Metadata Only |
 | `Resize` | `excel.range` | Implemented |
-| `RowDifferences` | `excel.range` | Metadata Only |
+| `RowDifferences` | `excel.range` | Implemented |
 | `Rows` | `excel.range` | Implemented |
 | `SpecialCells` | `excel.range` | Implemented |
 | `SpillingToRange` | `excel.range` | Implemented |
@@ -155,7 +173,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | VerticalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 137 | Implemented | Reviewed | Live Tested | |
 | Text | PROPERTYGET | AutomationValue | declared | 138 | Metadata Only | Reviewed | Not Tested | |
 | Font | PROPERTYGET | Font | declared | 146 | Implemented | Reviewed | Live Tested | |
-| Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
+| Application | PROPERTYGET | Application | declared | 148 | Implemented | Reviewed | Blocked | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | Item | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 170 | Implemented | Reviewed | Live Tested | |
@@ -270,10 +288,10 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ClearNotes | AutomationValue | 0 | declared | 239 | Metadata Only | Reviewed | Not Tested | |
 | Ungroup | AutomationValue | 0 | declared | 244 | Implemented | Reviewed | Blocked | |
 | DialogBox | AutomationValue | 0 | declared | 245 | Metadata Only | Reviewed | Not Tested | |
-| FillDown | AutomationValue | 0 | declared | 248 | Metadata Only | Reviewed | Not Tested | |
-| FillLeft | AutomationValue | 0 | declared | 249 | Metadata Only | Reviewed | Not Tested | |
-| FillRight | AutomationValue | 0 | declared | 250 | Metadata Only | Reviewed | Not Tested | |
-| FillUp | AutomationValue | 0 | declared | 251 | Metadata Only | Reviewed | Not Tested | |
+| FillDown | AutomationValue | 0 | declared | 248 | Implemented | Reviewed | Blocked | |
+| FillLeft | AutomationValue | 0 | declared | 249 | Implemented | Reviewed | Blocked | |
+| FillRight | AutomationValue | 0 | declared | 250 | Implemented | Reviewed | Blocked | |
+| FillUp | AutomationValue | 0 | declared | 251 | Implemented | Reviewed | Blocked | |
 | Insert | AutomationValue | 2 | declared | 252 | Implemented | Reviewed | Live Tested | |
 | ListNames | AutomationValue | 0 | declared | 253 | Metadata Only | Reviewed | Not Tested | |
 | Run | AutomationValue | 30 | declared | 259 | Metadata Only | Reviewed | Not Tested | |
@@ -286,39 +304,39 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | SpecialCells | Range | 2 | declared | 410 | Implemented | Reviewed | Live Tested | |
 | ApplyNames | AutomationValue | 7 | declared | 441 | Metadata Only | Reviewed | Not Tested | |
 | ApplyOutlineStyles | AutomationValue | 0 | declared | 448 | Metadata Only | Reviewed | Not Tested | |
-| AutoFill | AutomationValue | 2 | declared | 449 | Metadata Only | Reviewed | Not Tested | |
+| AutoFill | AutomationValue | 2 | declared | 449 | Implemented | Reviewed | Blocked | |
 | CreateNames | AutomationValue | 4 | declared | 457 | Metadata Only | Reviewed | Not Tested | |
 | CreatePublisher | AutomationValue | 6 | declared | 458 | Metadata Only | Reviewed | Not Tested | |
-| DataSeries | AutomationValue | 6 | declared | 464 | Metadata Only | Reviewed | Not Tested | |
-| GoalSeek | bool | 2 | declared | 472 | Metadata Only | Reviewed | Not Tested | |
+| DataSeries | AutomationValue | 6 | declared | 464 | Implemented | Reviewed | Blocked | |
+| GoalSeek | bool | 2 | declared | 472 | Implemented | Reviewed | Blocked | |
 | Parse | AutomationValue | 2 | declared | 477 | Metadata Only | Reviewed | Not Tested | |
 | SubscribeTo | AutomationValue | 2 | declared | 481 | Metadata Only | Reviewed | Not Tested | |
-| Consolidate | AutomationValue | 5 | declared | 482 | Metadata Only | Reviewed | Not Tested | |
+| Consolidate | AutomationValue | 5 | declared | 482 | Implemented | Reviewed | Blocked | |
 | Justify | AutomationValue | 0 | declared | 495 | Metadata Only | Reviewed | Not Tested | |
 | Show | AutomationValue | 0 | declared | 496 | Metadata Only | Reviewed | Not Tested | |
-| Table | AutomationValue | 2 | declared | 497 | Metadata Only | Reviewed | Not Tested | |
+| Table | AutomationValue | 2 | declared | 497 | Implemented | Reviewed | Blocked | |
 | CheckSpelling | AutomationValue | 4 | declared | 505 | Metadata Only | Reviewed | Not Tested | |
-| ColumnDifferences | Range | 1 | declared | 510 | Metadata Only | Reviewed | Not Tested | |
-| RowDifferences | Range | 1 | declared | 511 | Metadata Only | Reviewed | Not Tested | |
+| ColumnDifferences | Range | 1 | declared | 510 | Implemented | Reviewed | Blocked | |
+| RowDifferences | Range | 1 | declared | 511 | Implemented | Reviewed | Blocked | |
 | Copy | AutomationValue | 1 | declared | 551 | Implemented | Reviewed | Live Tested | |
 | Merge | Unknown | 1 | declared | 564 | Implemented | Reviewed | Blocked | |
 | Cut | AutomationValue | 1 | declared | 565 | Implemented | Reviewed | Live Tested | |
 | FunctionWizard | AutomationValue | 0 | declared | 571 | Metadata Only | Reviewed | Not Tested | |
 | _AutoFilter | AutomationValue | 5 | declared | 793 | Metadata Only | Reviewed | Not Tested | |
-| AdvancedFilter | AutomationValue | 4 | declared | 876 | Metadata Only | Reviewed | Not Tested | |
+| AdvancedFilter | AutomationValue | 4 | declared | 876 | Implemented | Reviewed | Blocked | |
 | ShowDependents | AutomationValue | 1 | declared | 877 | Metadata Only | Reviewed | Not Tested | |
 | ShowErrors | AutomationValue | 0 | declared | 878 | Metadata Only | Reviewed | Not Tested | |
 | ShowPrecedents | AutomationValue | 1 | declared | 879 | Metadata Only | Reviewed | Not Tested | |
 | _Sort | AutomationValue | 15 | declared | 880 | Implemented | Reviewed | Live Tested | |
 | SortSpecial | AutomationValue | 15 | declared | 881 | Metadata Only | Reviewed | Not Tested | |
-| Subtotal | AutomationValue | 6 | declared | 882 | Metadata Only | Reviewed | Not Tested | |
-| RemoveSubtotal | AutomationValue | 0 | declared | 883 | Metadata Only | Reviewed | Not Tested | |
+| Subtotal | AutomationValue | 6 | declared | 882 | Implemented | Reviewed | Blocked | |
+| RemoveSubtotal | AutomationValue | 0 | declared | 883 | Implemented | Reviewed | Blocked | |
 | __PrintOut | AutomationValue | 7 | declared | 905 | Metadata Only | Reviewed | Not Tested | |
 | _PasteSpecial | AutomationValue | 4 | declared | 1027 | Metadata Only | Reviewed | Not Tested | |
 | NavigateArrow | AutomationValue | 3 | declared | 1032 | Metadata Only | Reviewed | Not Tested | |
 | AutoOutline | AutomationValue | 0 | declared | 1036 | Metadata Only | Reviewed | Not Tested | |
 | ClearOutline | AutomationValue | 0 | declared | 1037 | Metadata Only | Reviewed | Not Tested | |
-| TextToColumns | AutomationValue | 14 | declared | 1040 | Metadata Only | Reviewed | Not Tested | |
+| TextToColumns | AutomationValue | 14 | declared | 1040 | Implemented | Reviewed | Blocked | |
 | _BorderAround | AutomationValue | 4 | declared | 1067 | Metadata Only | Reviewed | Not Tested | |
 | NoteText | String | 3 | declared | 1127 | Metadata Only | Reviewed | Not Tested | |
 | EditionOptions | AutomationValue | 7 | declared | 1131 | Metadata Only | Reviewed | Not Tested | |
@@ -341,7 +359,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ClearHyperlinks | Unknown | 0 | declared | 2854 | Implemented | Reviewed | Live Tested | |
 | AllocateChanges | Unknown | 0 | declared | 2855 | Metadata Only | Reviewed | Not Tested | |
 | DiscardChanges | Unknown | 0 | declared | 2856 | Metadata Only | Reviewed | Not Tested | |
-| FlashFill | Unknown | 0 | declared | 2996 | Metadata Only | Reviewed | Not Tested | |
+| FlashFill | Unknown | 0 | declared | 2996 | Implemented | Reviewed | Blocked | |
 | ExportAsFixedFormat | Unknown | 10 | declared | 3175 | Implemented | Reviewed | Blocked | |
 | ShowCard | Unknown | 0 | declared | 3274 | Metadata Only | Reviewed | Not Tested | |
 | AddCommentThreaded | CommentThreaded | 1 | declared | 3280 | Metadata Only | Reviewed | Not Tested | |

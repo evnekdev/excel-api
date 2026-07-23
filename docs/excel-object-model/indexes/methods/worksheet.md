@@ -39,7 +39,7 @@
 | Worksheet | Spinners | 838 | Metadata Only |
 | Worksheet | Labels | 841 | Metadata Only |
 | Worksheet | __PrintOut | 905 | Metadata Only |
-| Worksheet | Scenarios | 908 | Metadata Only |
+| Worksheet | Scenarios | 908 | Implemented |
 | Worksheet | ClearArrows | 970 | Metadata Only |
 | Worksheet | _PasteSpecial | 1027 | Metadata Only |
 | Worksheet | ChartObjects | 1060 | Implemented |

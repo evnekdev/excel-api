@@ -1,6 +1,21 @@
 {
   "alias_target": null,
   "collection": null,
+  "data_utility_capability": {
+    "advanced_filter": false,
+    "autofill": false,
+    "consolidate": false,
+    "data_tables": false,
+    "external_links": true,
+    "fill": false,
+    "flash_fill": false,
+    "goal_seek": false,
+    "open_text": false,
+    "scenarios": false,
+    "subtotal": false,
+    "text_export": true,
+    "text_to_columns": false
+  },
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbook",
   "guid": "{00020819-0000-0000-c000-000000000046}",

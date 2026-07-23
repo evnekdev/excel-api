@@ -11,6 +11,21 @@
     "item_member_id": "excel.workbooks.item",
     "iterator_status": "implemented"
   },
+  "data_utility_capability": {
+    "advanced_filter": false,
+    "autofill": false,
+    "consolidate": false,
+    "data_tables": false,
+    "external_links": false,
+    "fill": false,
+    "flash_fill": false,
+    "goal_seek": false,
+    "open_text": true,
+    "scenarios": false,
+    "subtotal": false,
+    "text_export": false,
+    "text_to_columns": false
+  },
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbooks",
   "guid": "{000208db-0000-0000-c000-000000000046}",
@@ -1082,7 +1097,7 @@
       "dispid": 1924,
       "documentation_status": "reviewed",
       "id": "excel.workbooks.opentext-1924",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -1101,8 +1116,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

@@ -15,10 +15,10 @@
 | Range | ClearNotes | 239 | Metadata Only |
 | Range | Ungroup | 244 | Implemented |
 | Range | DialogBox | 245 | Metadata Only |
-| Range | FillDown | 248 | Metadata Only |
-| Range | FillLeft | 249 | Metadata Only |
-| Range | FillRight | 250 | Metadata Only |
-| Range | FillUp | 251 | Metadata Only |
+| Range | FillDown | 248 | Implemented |
+| Range | FillLeft | 249 | Implemented |
+| Range | FillRight | 250 | Implemented |
+| Range | FillUp | 251 | Implemented |
 | Range | Insert | 252 | Implemented |
 | Range | ListNames | 253 | Metadata Only |
 | Range | Run | 259 | Metadata Only |
@@ -31,39 +31,39 @@
 | Range | SpecialCells | 410 | Implemented |
 | Range | ApplyNames | 441 | Metadata Only |
 | Range | ApplyOutlineStyles | 448 | Metadata Only |
-| Range | AutoFill | 449 | Metadata Only |
+| Range | AutoFill | 449 | Implemented |
 | Range | CreateNames | 457 | Metadata Only |
 | Range | CreatePublisher | 458 | Metadata Only |
-| Range | DataSeries | 464 | Metadata Only |
-| Range | GoalSeek | 472 | Metadata Only |
+| Range | DataSeries | 464 | Implemented |
+| Range | GoalSeek | 472 | Implemented |
 | Range | Parse | 477 | Metadata Only |
 | Range | SubscribeTo | 481 | Metadata Only |
-| Range | Consolidate | 482 | Metadata Only |
+| Range | Consolidate | 482 | Implemented |
 | Range | Justify | 495 | Metadata Only |
 | Range | Show | 496 | Metadata Only |
-| Range | Table | 497 | Metadata Only |
+| Range | Table | 497 | Implemented |
 | Range | CheckSpelling | 505 | Metadata Only |
-| Range | ColumnDifferences | 510 | Metadata Only |
-| Range | RowDifferences | 511 | Metadata Only |
+| Range | ColumnDifferences | 510 | Implemented |
+| Range | RowDifferences | 511 | Implemented |
 | Range | Copy | 551 | Implemented |
 | Range | Merge | 564 | Implemented |
 | Range | Cut | 565 | Implemented |
 | Range | FunctionWizard | 571 | Metadata Only |
 | Range | _AutoFilter | 793 | Metadata Only |
-| Range | AdvancedFilter | 876 | Metadata Only |
+| Range | AdvancedFilter | 876 | Implemented |
 | Range | ShowDependents | 877 | Metadata Only |
 | Range | ShowErrors | 878 | Metadata Only |
 | Range | ShowPrecedents | 879 | Metadata Only |
 | Range | _Sort | 880 | Implemented |
 | Range | SortSpecial | 881 | Metadata Only |
-| Range | Subtotal | 882 | Metadata Only |
-| Range | RemoveSubtotal | 883 | Metadata Only |
+| Range | Subtotal | 882 | Implemented |
+| Range | RemoveSubtotal | 883 | Implemented |
 | Range | __PrintOut | 905 | Metadata Only |
 | Range | _PasteSpecial | 1027 | Metadata Only |
 | Range | NavigateArrow | 1032 | Metadata Only |
 | Range | AutoOutline | 1036 | Metadata Only |
 | Range | ClearOutline | 1037 | Metadata Only |
-| Range | TextToColumns | 1040 | Metadata Only |
+| Range | TextToColumns | 1040 | Implemented |
 | Range | _BorderAround | 1067 | Metadata Only |
 | Range | NoteText | 1127 | Metadata Only |
 | Range | EditionOptions | 1131 | Metadata Only |
@@ -86,7 +86,7 @@
 | Range | ClearHyperlinks | 2854 | Implemented |
 | Range | AllocateChanges | 2855 | Metadata Only |
 | Range | DiscardChanges | 2856 | Metadata Only |
-| Range | FlashFill | 2996 | Metadata Only |
+| Range | FlashFill | 2996 | Implemented |
 | Range | ExportAsFixedFormat | 3175 | Implemented |
 | Range | ShowCard | 3274 | Metadata Only |
 | Range | AddCommentThreaded | 3280 | Metadata Only |

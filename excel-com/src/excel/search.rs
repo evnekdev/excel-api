@@ -330,6 +330,34 @@ impl Range {
         self.required_search_range("excel.range.specialcells", arguments.into_inner())
     }
 
+    /// Returns matching formula cells, or `None` when Excel reports its documented no-match result.
+    /// The returned Range may contain multiple areas.
+    pub fn try_formula_cells(
+        &self,
+        mask: Option<SpecialCellValueMask>,
+    ) -> Result<Option<Range>, ExcelComError> {
+        self.try_special_cells(SpecialCellType::FORMULAS, mask)
+    }
+
+    /// Returns matching constant cells, or `None` when Excel reports its documented no-match result.
+    /// The returned Range may contain multiple areas.
+    pub fn try_constant_cells(
+        &self,
+        mask: Option<SpecialCellValueMask>,
+    ) -> Result<Option<Range>, ExcelComError> {
+        self.try_special_cells(SpecialCellType::CONSTANTS, mask)
+    }
+
+    /// Returns blank cells, or `None` when Excel reports its documented no-match result.
+    pub fn try_blank_cells(&self) -> Result<Option<Range>, ExcelComError> {
+        self.try_special_cells(SpecialCellType::BLANKS, None)
+    }
+
+    /// Returns visible cells, or `None` when Excel reports its documented no-match result.
+    pub fn try_visible_cells(&self) -> Result<Option<Range>, ExcelComError> {
+        self.try_special_cells(SpecialCellType::VISIBLE, None)
+    }
+
     /// Starts an Excel-backed search with explicit typed options.
     ///
     /// Text and finite numeric `AutomationValue` inputs are accepted. A
@@ -426,6 +454,18 @@ impl Range {
         Ok(Range::from_dispatch(value.take_dispatch()?))
     }
 
+    fn try_special_cells(
+        &self,
+        cell_type: SpecialCellType,
+        mask: Option<SpecialCellValueMask>,
+    ) -> Result<Option<Range>, ExcelComError> {
+        match self.special_cells(cell_type, mask) {
+            Ok(range) => Ok(Some(range)),
+            Err(error) if is_special_cells_no_match(&error) => Ok(None),
+            Err(error) => Err(error),
+        }
+    }
+
     fn find_relative(
         &self,
         id: &'static str,
@@ -443,6 +483,20 @@ impl Range {
             .take_optional_dispatch()
             .map(|value| value.map(Range::from_dispatch))
     }
+}
+
+/// Excel's `SpecialCells` no-match error is `0x800A03EC` in EXCEPINFO.
+/// This classifier is intentionally limited to `SpecialCells`; the same Excel
+/// error code has broader meanings for unrelated members.
+fn is_special_cells_no_match(error: &ExcelComError) -> bool {
+    matches!(
+        error,
+        ExcelComError::Invocation {
+            member: "SpecialCells",
+            exception_scode: Some(value),
+            ..
+        } if *value == 0x800A_03EC_u32 as i32
+    )
 }
 
 #[derive(Default)]

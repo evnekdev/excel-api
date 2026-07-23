@@ -131,6 +131,23 @@ it normally:
 cargo test -p excel-com --test structured_data_live -- --ignored --test-threads=1
 ```
 
+## Text interchange, analysis, and controlled links
+
+`Workbooks::open_text` delegates CSV, TSV, and fixed-width import directly to
+Excel: delimiter handling, quoted fields, type inference, and locale behaviour
+remain Excel-owned. `Workbook::save_as_text` uses `SaveAs` with exact text
+formats; Excel normally exports only its active worksheet. `Range` provides
+Text to Columns, directional fills, AutoFill, DataSeries, Flash Fill,
+Excel-native transpose, Advanced Filter, Subtotal, Consolidate, Goal Seek,
+What-if Data Tables, and `SpecialCells` convenience lookups.
+
+Scenarios are typed Excel collections. External-link APIs preserve exact source
+strings and require callers to name operations explicitly. `break_link` is
+destructive: Excel replaces link formulas with their current values.
+`AskToUpdateLinksGuard` controls link prompts only; macro security is a
+separate setting. The Prompt 18 live suites are intentionally ignored while a
+fresh `Workbooks.Add` baseline is runtime-blocked.
+
 ## Typed collections and Range navigation
 
 `Workbooks`, `Worksheets`, and `Areas` expose fallible `iter()` methods backed

@@ -38,11 +38,15 @@ impl Drop for AutomationSecurityGuard<'_> {
 #[derive(Clone, Default, PartialEq)]
 pub struct SafeWorkbookOpenOptions<'a> {
     pub open: WorkbookOpenOptions<'a>,
+    /// Optional temporary value for the separate Excel external-link prompt.
+    /// Macro execution remains controlled independently by `AutomationSecurity`.
+    pub link_prompt: Option<bool>,
 }
 impl Debug for SafeWorkbookOpenOptions<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("SafeWorkbookOpenOptions")
             .field("open", &self.open)
+            .field("link_prompt", &self.link_prompt)
             .finish()
     }
 }

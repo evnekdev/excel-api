@@ -26,7 +26,24 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 
 ## Capabilities
 
-No capability metadata is recorded for this surface.
+### Data utility
+
+| Capability | Available |
+|---|---|
+| `advanced_filter` | false |
+| `autofill` | false |
+| `consolidate` | false |
+| `data_tables` | false |
+| `external_links` | true |
+| `fill` | false |
+| `flash_fill` | false |
+| `goal_seek` | false |
+| `open_text` | false |
+| `scenarios` | false |
+| `subtotal` | false |
+| `text_export` | true |
+| `text_to_columns` | false |
+
 
 
 ## Relationships
@@ -197,11 +214,11 @@ No capability metadata is recorded for this surface.
 | DeleteNumberFormat | Unknown | 1 | declared | 397 | Metadata Only | Reviewed | Not Tested | |
 | RunAutoMacros | Unknown | 1 | declared | 634 | Metadata Only | Reviewed | Not Tested | |
 | PivotTableWizard | Unknown | 16 | declared | 684 | Metadata Only | Reviewed | Not Tested | |
-| ChangeLink | Unknown | 3 | declared | 802 | Metadata Only | Reviewed | Not Tested | |
+| ChangeLink | Unknown | 3 | declared | 802 | Implemented | Reviewed | Blocked | |
 | OpenLinks | Unknown | 3 | declared | 803 | Metadata Only | Reviewed | Not Tested | |
-| UpdateLink | Unknown | 2 | declared | 804 | Metadata Only | Reviewed | Not Tested | |
-| LinkInfo | AutomationValue | 4 | declared | 807 | Metadata Only | Reviewed | Not Tested | |
-| LinkSources | AutomationValue | 1 | declared | 808 | Metadata Only | Reviewed | Not Tested | |
+| UpdateLink | Unknown | 2 | declared | 804 | Implemented | Reviewed | Blocked | |
+| LinkInfo | AutomationValue | 4 | declared | 807 | Implemented | Reviewed | Blocked | |
+| LinkSources | AutomationValue | 1 | declared | 808 | Implemented | Reviewed | Blocked | |
 | SetLinkOnData | Unknown | 2 | declared | 809 | Metadata Only | Reviewed | Not Tested | |
 | __PrintOut | Unknown | 7 | declared | 905 | Metadata Only | Reviewed | Not Tested | |
 | Route | Unknown | 0 | declared | 946 | Metadata Only | Reviewed | Not Tested | |
@@ -234,7 +251,7 @@ No capability metadata is recorded for this surface.
 | _SaveAs | Unknown | 12 | declared | 1925 | Metadata Only | Reviewed | Not Tested | |
 | Protect | Unknown | 3 | declared | 2029 | Implemented | Reviewed | Blocked | |
 | Dummy17 | Unknown | 1 | declared | 2044 | Metadata Only | Reviewed | Not Tested | |
-| BreakLink | Unknown | 2 | declared | 2047 | Metadata Only | Reviewed | Not Tested | |
+| BreakLink | Unknown | 2 | declared | 2047 | Implemented | Reviewed | Blocked | |
 | Dummy16 | Unknown | 0 | declared | 2048 | Metadata Only | Reviewed | Not Tested | |
 | CheckIn | Unknown | 3 | declared | 2051 | Metadata Only | Reviewed | Not Tested | |
 | CanCheckIn | bool | 0 | declared | 2053 | Metadata Only | Reviewed | Not Tested | |
