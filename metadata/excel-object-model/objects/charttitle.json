@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{00020849-0000-0000-c000-000000000046}",
   "id": "excel.charttitle",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -22,7 +22,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 103,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.shadow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -55,7 +55,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.name",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -86,7 +86,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 116,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.format",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -117,7 +117,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -148,7 +148,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 122,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.width",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -179,7 +179,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 123,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.height",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -219,7 +219,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 126,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.top",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -261,7 +261,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 127,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.left",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -294,7 +294,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -325,7 +325,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 129,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.interior",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -365,7 +365,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 133,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.position",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -407,7 +407,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 134,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.orientation",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -449,7 +449,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 136,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.horizontalalignment",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -491,7 +491,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 137,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.verticalalignment",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -533,9 +533,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 138,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.text",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -552,11 +552,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -575,7 +575,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 139,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.caption",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -608,9 +608,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 146,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.font",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -626,11 +626,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -639,7 +639,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -670,7 +670,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -701,7 +701,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -732,7 +732,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -772,7 +772,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 261,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.formula",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -814,7 +814,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 263,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.formulalocal",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -856,7 +856,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 264,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.formular1c1",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -898,7 +898,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 265,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.formular1c1local",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -948,7 +948,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 603,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.characters",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -988,7 +988,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 975,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.readingorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1030,7 +1030,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1525,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.autoscalefont",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1063,7 +1063,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.fill",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1103,7 +1103,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2648,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.includeinlayout",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1153,7 +1153,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3253,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.setproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1193,7 +1193,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3256,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.getproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1241,7 +1241,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1272,7 +1272,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1303,7 +1303,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1343,7 +1343,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1399,7 +1399,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1471,7 +1471,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1567,7 +1567,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.charttitle.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1596,11 +1596,11 @@
     }
   ],
   "name": "ChartTitle",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "ChartTitle",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

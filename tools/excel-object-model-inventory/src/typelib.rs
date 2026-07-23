@@ -452,6 +452,13 @@ fn object_record(
         "Comments" => Some("Comment"),
         "CommentsThreaded" => Some("CommentThreaded"),
         "Hyperlinks" => Some("Hyperlink"),
+        "ChartObjects" => Some("ChartObject"),
+        "Charts" => Some("Chart"),
+        "SeriesCollection" => Some("Series"),
+        "DataLabels" => Some("DataLabel"),
+        "Trendlines" => Some("Trendline"),
+        "Shapes" => Some("Shape"),
+        "SparklineGroups" => Some("SparklineGroup"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -467,8 +474,10 @@ fn object_record(
         }
         "Areas" | "ListRows" | "Filters" | "SortFields" | "FormatConditions"
         | "ColorScaleCriteria" | "IconCriteria" | "Comments" | "CommentsThreaded"
-        | "Hyperlinks" => vec!["one-based-integer"],
-        "Styles" => vec!["one-based-integer", "string-key"],
+        | "Hyperlinks" | "DataLabels" | "Trendlines" | "SparklineGroups" => {
+            vec!["one-based-integer"]
+        }
+        "Styles" | "ChartObjects" | "Charts" | "Shapes" => vec!["one-based-integer", "string-key"],
         "Borders" => vec!["enum-key"],
         _ if is_collection => vec!["variant-key"],
         _ => vec!["no-index"],
@@ -476,9 +485,9 @@ fn object_record(
     let iterator_status = match model::canonical_name(raw_name) {
         "Workbooks" | "Worksheets" | "Areas" | "Names" | "Borders" | "ListObjects"
         | "ListColumns" | "ListRows" | "Filters" | "FormatConditions" | "ColorScaleCriteria"
-        | "IconCriteria" | "Styles" | "Comments" | "CommentsThreaded" | "Hyperlinks" => {
-            "implemented"
-        }
+        | "IconCriteria" | "Styles" | "Comments" | "CommentsThreaded" | "Hyperlinks"
+        | "ChartObjects" | "Charts" | "SeriesCollection" | "Trendlines" | "Shapes"
+        | "SparklineGroups" => "implemented",
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
@@ -558,6 +567,10 @@ fn object_record(
     let advanced_presentation = advanced_presentation_capability(raw_name);
     if !advanced_presentation.is_null() {
         record["advanced_presentation_capability"] = advanced_presentation;
+    }
+    let drawing = drawing_capability(raw_name);
+    if !drawing.is_null() {
+        record["drawing_capability"] = drawing;
     }
     Ok(record)
 }
@@ -924,6 +937,30 @@ fn advanced_presentation_capability(name: &str) -> Value {
             "legacy_comments": true,
             "threaded_comment_inspection": true,
             "hyperlinks": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn drawing_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Worksheet" => json!({
+            "embedded_charts": true,
+            "chart_sheets": true,
+            "series": true,
+            "axes": true,
+            "data_labels": true,
+            "trendlines": true,
+            "error_bars": true,
+            "shapes": true,
+            "text_boxes": true,
+            "pictures": true,
+            // Shape grouping remains deliberately unavailable until its Excel
+            // runtime ownership and return semantics have been exercised.
+            "grouping": false,
+            "chart_export": true,
+            "range_image_export": false,
+            "sparklines": true,
         }),
         _ => Value::Null,
     }

@@ -91,7 +91,7 @@
 | DataLabels | Type | 108 | Metadata Only |
 | DataLabels | Name | 110 | Metadata Only |
 | DataLabels | Format | 116 | Metadata Only |
-| DataLabels | Count | 118 | Metadata Only |
+| DataLabels | Count | 118 | Implemented |
 | DataLabels | Border | 128 | Metadata Only |
 | DataLabels | Interior | 129 | Metadata Only |
 | DataLabels | Position | 133 | Metadata Only |

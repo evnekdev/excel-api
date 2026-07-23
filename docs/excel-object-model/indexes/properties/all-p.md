@@ -541,7 +541,7 @@
 | PivotValueCell | PivotCell | 2013 | Metadata Only |
 | PivotValueCell | ServerActions | 2491 | Metadata Only |
 | PlotArea | Name | 110 | Metadata Only |
-| PlotArea | Format | 116 | Metadata Only |
+| PlotArea | Format | 116 | Implemented |
 | PlotArea | Width | 122 | Metadata Only |
 | PlotArea | Height | 123 | Metadata Only |
 | PlotArea | Top | 126 | Metadata Only |

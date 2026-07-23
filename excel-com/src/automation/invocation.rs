@@ -4,6 +4,7 @@ use crate::object_model::MemberId;
 pub(crate) enum MemberKind {
     PropertyGet,
     PropertyPut,
+    PropertyPutRef,
     Method,
 }
 impl MemberKind {
@@ -11,6 +12,7 @@ impl MemberKind {
         match self {
             Self::PropertyGet => 2,
             Self::PropertyPut => 4,
+            Self::PropertyPutRef => 8,
             Self::Method => 1,
         }
     }

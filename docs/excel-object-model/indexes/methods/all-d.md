@@ -44,7 +44,7 @@
 | DataLabels | _NewEnum | -4 | Metadata Only |
 | DataLabels | _Default | 0 | Metadata Only |
 | DataLabels | Delete | 117 | Metadata Only |
-| DataLabels | Item | 170 | Metadata Only |
+| DataLabels | Item | 170 | Implemented |
 | DataLabels | Select | 235 | Metadata Only |
 | DataLabels | Propagate | 3087 | Metadata Only |
 | DataLabels | SetProperty | 3253 | Metadata Only |

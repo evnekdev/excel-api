@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{000208be-0000-0000-c000-000000000046}",
   "id": "excel.trendline",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -22,9 +22,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.type",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -41,11 +41,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -64,7 +64,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.name",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -97,7 +97,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 112,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.clearformats",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -128,7 +128,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 116,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.format",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -159,9 +159,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.delete",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -177,11 +177,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -190,7 +190,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -221,7 +221,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -252,7 +252,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -283,7 +283,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -314,7 +314,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 158,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.datalabel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -354,7 +354,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 184,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.period",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -396,7 +396,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 185,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.backward",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -438,7 +438,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 186,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.intercept",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -480,7 +480,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 187,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.interceptisauto",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -522,7 +522,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 188,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.nameisauto",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -564,9 +564,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 189,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.displayrsquared",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -583,11 +583,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -606,9 +606,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 190,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.displayequation",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -625,11 +625,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -648,7 +648,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 191,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.forward",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -690,7 +690,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 192,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.order",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -723,7 +723,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -754,7 +754,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 486,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.index",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -794,7 +794,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2650,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.backward2",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -836,7 +836,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2651,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.forward2",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -886,7 +886,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3253,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.setproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -926,7 +926,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3256,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.getproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -974,7 +974,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1005,7 +1005,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1036,7 +1036,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1076,7 +1076,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1132,7 +1132,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1204,7 +1204,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1300,7 +1300,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.trendline.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1329,11 +1329,11 @@
     }
   ],
   "name": "Trendline",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Trendline",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

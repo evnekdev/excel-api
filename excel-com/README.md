@@ -52,9 +52,43 @@ cargo test -p excel-com --test live -- --ignored --test-threads=1
 cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
 ```
 
-Events, charts, existing-session attachment, marshaling, generic collections,
-and a stable public API remain intentionally out of scope for this first crate
+Events, existing-session attachment, marshaling, generic collections, and a
+stable public API remain intentionally out of scope for this experimental crate
 slice.
+
+## Charts, drawings, pictures, and sparklines
+
+`Worksheet::chart_objects` creates embedded charts from an Excel `Range` with
+explicit point bounds; `Workbook::charts` exposes chart sheets. `Chart` covers
+source data, series, axes, titles, legends, data labels, trendlines, error
+bars, and export through an installed Excel filter. Excel remains the chart
+calculation and rendering engine.
+
+`Worksheet::shapes` covers a deliberately bounded Office drawing surface:
+AutoShapes, lines, local file-backed pictures, text boxes, placement, z-order,
+and deletion. Shape grouping is intentionally unavailable pending controlled
+runtime evidence. `Range::copy_picture` uses Excel's cut/copy state and does
+not read the operating-system clipboard; use `Application::cut_copy_mode` and
+`clear_cut_copy_mode` to manage that state. `Range::sparkline_groups` creates
+line, column, and win/loss groups from Excel ranges.
+
+| Need | API |
+|---|---|
+| Embedded chart | `Worksheet::add_chart` / `Worksheet::chart_objects` |
+| Chart sheet | `Workbook::charts` |
+| Series and axes | `Chart::series_collection` / `Chart::axes` |
+| Shapes and pictures | `Worksheet::shapes` |
+| Excel-native picture copy | `Range::copy_picture` |
+| Sparklines | `Range::sparkline_groups` |
+
+The visible tests below each start and quit a local Excel server. They never
+attach to an existing interactive session:
+
+```powershell
+cargo test -p excel-com --test charts_live -- --ignored --test-threads=1
+cargo test -p excel-com --test shapes_images_live -- --ignored --test-threads=1
+cargo test -p excel-com --test sparklines_live -- --ignored --test-threads=1
+```
 
 ## Conditional formatting, styles, Notes, and hyperlinks
 

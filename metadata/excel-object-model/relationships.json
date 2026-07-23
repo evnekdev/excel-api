@@ -658,11 +658,25 @@
     "target": "excel.interior"
   },
   {
+    "member_id": "excel.chartobjects.item",
+    "schema_version": 1,
+    "source": "excel.chartobjects",
+    "source_confidence": "typelib-only",
+    "target": "excel.chartobject"
+  },
+  {
     "member_id": "excel.charts.application",
     "schema_version": 1,
     "source": "excel.charts",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.charts.item",
+    "schema_version": 1,
+    "source": "excel.charts",
+    "source_confidence": "typelib-only",
+    "target": "excel.chart"
   },
   {
     "member_id": "excel.chartseriesgradientstopdata.application",
@@ -999,6 +1013,13 @@
     "source": "excel.datalabels",
     "source_confidence": "typelib-only",
     "target": "excel.interior"
+  },
+  {
+    "member_id": "excel.datalabels.item",
+    "schema_version": 1,
+    "source": "excel.datalabels",
+    "source_confidence": "typelib-only",
+    "target": "excel.datalabel"
   },
   {
     "member_id": "excel.datatable.application",
@@ -3829,6 +3850,13 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.seriescollection.item",
+    "schema_version": 1,
+    "source": "excel.seriescollection",
+    "source_confidence": "typelib-only",
+    "target": "excel.series"
+  },
+  {
     "member_id": "excel.seriesgradientstopcolorformat.application",
     "schema_version": 1,
     "source": "excel.seriesgradientstopcolorformat",
@@ -3890,6 +3918,13 @@
     "source": "excel.shapes",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.shapes.item",
+    "schema_version": 1,
+    "source": "excel.shapes",
+    "source_confidence": "typelib-only",
+    "target": "excel.shape"
   },
   {
     "member_id": "excel.sheets.application",
@@ -4163,6 +4198,13 @@
     "source": "excel.sparklinegroups",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.sparklinegroups.item",
+    "schema_version": 1,
+    "source": "excel.sparklinegroups",
+    "source_confidence": "typelib-only",
+    "target": "excel.sparklinegroup"
   },
   {
     "member_id": "excel.sparkpoints.application",
@@ -4534,6 +4576,13 @@
     "source": "excel.trendlines",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.trendlines.item",
+    "schema_version": 1,
+    "source": "excel.trendlines",
+    "source_confidence": "typelib-only",
+    "target": "excel.trendline"
   },
   {
     "member_id": "excel.uniquevalues.application",

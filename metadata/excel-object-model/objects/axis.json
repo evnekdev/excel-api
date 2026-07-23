@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.axis",
   "guid": "{00020848-0000-0000-c000-000000000046}",
   "id": "excel.axis",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -22,7 +22,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 24,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.hasmajorgridlines",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -40,7 +40,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -64,7 +64,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 25,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.hasminorgridlines",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -82,7 +82,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -106,9 +106,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 26,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.majortickmark",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -124,12 +124,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -148,9 +148,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 27,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minortickmark",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -166,12 +166,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -190,9 +190,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 28,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.ticklabelposition",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -208,12 +208,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -232,7 +232,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 29,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.ticklabelspacing",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -250,7 +250,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -274,7 +274,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 31,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.tickmarkspacing",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -292,7 +292,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -316,9 +316,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 33,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minimumscale",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -334,12 +334,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -358,9 +358,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 34,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minimumscaleisauto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -376,12 +376,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -400,9 +400,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 35,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.maximumscale",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -418,12 +418,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -442,9 +442,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 36,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.maximumscaleisauto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -460,12 +460,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -484,9 +484,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 37,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.majorunit",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -502,12 +502,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -526,9 +526,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 38,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.majorunitisauto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -544,12 +544,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -568,7 +568,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 39,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minorunit",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -586,7 +586,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -610,7 +610,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 40,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minorunitisauto",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -628,7 +628,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -652,9 +652,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 41,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.scaletype",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -670,12 +670,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -694,7 +694,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 42,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.crosses",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -712,7 +712,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -736,7 +736,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 43,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.crossesat",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -754,7 +754,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -778,7 +778,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 44,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.reverseplotorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -796,7 +796,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -820,7 +820,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 45,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.axisbetweencategories",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -838,7 +838,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -853,7 +853,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 47,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.axisgroup",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -870,7 +870,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -893,9 +893,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 54,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.hastitle",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -911,12 +911,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -926,9 +926,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 82,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.axistitle",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -943,12 +943,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -957,7 +957,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 89,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.majorgridlines",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -974,7 +974,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -988,7 +988,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 90,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minorgridlines",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1005,7 +1005,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1019,9 +1019,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 91,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.ticklabels",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -1036,12 +1036,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -1059,7 +1059,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.type",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1077,7 +1077,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1092,7 +1092,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 116,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.format",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1109,7 +1109,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1123,7 +1123,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1140,7 +1140,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1154,7 +1154,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 122,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.width",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1171,7 +1171,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1185,7 +1185,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 123,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.height",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1202,7 +1202,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1216,7 +1216,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 126,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.top",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1233,7 +1233,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1247,7 +1247,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 127,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.left",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1264,7 +1264,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1278,7 +1278,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1295,7 +1295,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1309,7 +1309,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1326,7 +1326,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1340,7 +1340,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1357,7 +1357,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1371,7 +1371,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1388,7 +1388,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1411,7 +1411,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 156,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.categorynames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1429,7 +1429,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1444,7 +1444,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1461,7 +1461,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1484,7 +1484,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1647,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.baseunit",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1502,7 +1502,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1526,7 +1526,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1648,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.baseunitisauto",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1544,7 +1544,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1568,7 +1568,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1649,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.majorunitscale",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1586,7 +1586,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1610,7 +1610,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1650,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.minorunitscale",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1628,7 +1628,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1652,7 +1652,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1651,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.categorytype",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1670,7 +1670,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1694,7 +1694,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1886,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.displayunit",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1712,7 +1712,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1736,7 +1736,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1887,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.displayunitcustom",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1754,7 +1754,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1778,7 +1778,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1888,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.hasdisplayunitlabel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1796,7 +1796,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1811,7 +1811,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1889,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.displayunitlabel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1828,7 +1828,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1851,9 +1851,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2646,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.logbase",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1869,12 +1869,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1893,7 +1893,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2647,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.ticklabelspacingisauto",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1911,7 +1911,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1935,7 +1935,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3228,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.categorysortorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1953,7 +1953,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1985,7 +1985,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3253,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.setproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2002,7 +2002,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2025,7 +2025,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3256,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.getproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2042,7 +2042,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2073,7 +2073,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2090,7 +2090,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2104,7 +2104,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2121,7 +2121,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2135,7 +2135,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2152,7 +2152,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2175,7 +2175,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2192,7 +2192,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2231,7 +2231,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2248,7 +2248,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2303,7 +2303,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2320,7 +2320,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2399,7 +2399,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.axis.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2416,7 +2416,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2428,11 +2428,11 @@
     }
   ],
   "name": "Axis",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Axis",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

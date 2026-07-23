@@ -2,29 +2,30 @@
   "alias_target": null,
   "collection": {
     "count_member_id": "excel.shapes.count",
-    "element_type": "Unknown",
+    "element_type": "Shape",
     "enumerator_member_id": "excel.shapes.newenum",
     "index_kinds": [
-      "variant-key"
+      "one-based-integer",
+      "string-key"
     ],
     "item_member_id": "excel.shapes.item",
-    "iterator_status": "metadata-only"
+    "iterator_status": "implemented"
   },
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.shapes",
   "guid": "{0002443a-0000-0000-c000-000000000046}",
   "id": "excel.shapes",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -39,12 +40,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -62,7 +63,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -79,7 +80,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -93,9 +94,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -110,12 +111,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -124,7 +125,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -141,7 +142,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -155,7 +156,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -172,7 +173,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -186,7 +187,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -203,7 +204,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -226,9 +227,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -243,12 +244,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -266,7 +267,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 197,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.range",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -283,7 +284,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -338,7 +339,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1713,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addcallout",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -355,7 +356,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -410,7 +411,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1714,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addconnector",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -427,7 +428,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -450,7 +451,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1719,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addcurve",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -467,7 +468,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -522,7 +523,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1721,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addlabel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -539,7 +540,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -586,9 +587,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1722,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addline",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -603,12 +604,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -674,9 +675,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1723,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addpicture",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -691,12 +692,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -714,7 +715,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1726,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addpolyline",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -731,7 +732,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -786,9 +787,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1727,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addshape",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -803,12 +804,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -882,7 +883,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1728,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addtexteffect",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -899,7 +900,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -954,9 +955,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1734,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addtextbox",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -971,12 +972,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -1010,7 +1011,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1735,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.buildfreeform",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1027,7 +1028,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1041,7 +1042,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.selectall",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1058,7 +1059,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1113,7 +1114,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addformcontrol",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1130,7 +1131,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1233,7 +1234,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1739,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addoleobject",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1250,7 +1251,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1305,7 +1306,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2176,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.adddiagram",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1322,7 +1323,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1369,7 +1370,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2177,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addcanvas",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1386,7 +1387,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1441,7 +1442,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2665,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addchart",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1458,7 +1459,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1513,7 +1514,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2920,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addsmartart",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1530,7 +1531,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1601,7 +1602,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3088,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addchart2",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1618,7 +1619,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1697,7 +1698,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3159,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addpicture2",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1714,7 +1715,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1785,7 +1786,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3359,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.add3dmodel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1802,7 +1803,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1833,7 +1834,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1850,7 +1851,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1864,7 +1865,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1881,7 +1882,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1895,7 +1896,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1912,7 +1913,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1935,7 +1936,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1952,7 +1953,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1991,7 +1992,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2008,7 +2009,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2063,7 +2064,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2080,7 +2081,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2159,7 +2160,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shapes.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2176,7 +2177,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -2188,11 +2189,11 @@
     }
   ],
   "name": "Shapes",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Shapes",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

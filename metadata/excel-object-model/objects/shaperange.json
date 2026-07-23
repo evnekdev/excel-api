@@ -10,19 +10,19 @@
     "item_member_id": "excel.shaperange.item",
     "iterator_status": "metadata-only"
   },
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{0002443b-0000-0000-c000-000000000046}",
   "id": "excel.shaperange",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.newenum",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -62,7 +62,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -93,7 +93,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 7,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.chart",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -124,7 +124,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 46,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.group",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -164,7 +164,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 59,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.rotation",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -197,7 +197,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 103,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.shadow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -228,7 +228,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.type",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -268,7 +268,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.name",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -301,7 +301,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -332,7 +332,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.count",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -372,7 +372,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 122,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.width",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -414,7 +414,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 123,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.height",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -456,7 +456,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 126,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.top",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -498,7 +498,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 127,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.left",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -531,7 +531,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -562,7 +562,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -593,7 +593,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -633,7 +633,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.item",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -673,7 +673,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 199,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.title",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -715,7 +715,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -746,7 +746,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 244,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.ungroup",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -786,7 +786,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 558,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.visible",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -819,7 +819,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 570,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.id",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -850,7 +850,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 621,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.vertices",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -890,7 +890,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 622,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.zorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -921,7 +921,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 817,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.line",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -952,7 +952,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1039,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.duplicate",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -983,7 +983,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1631,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.pictureformat",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1014,7 +1014,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.fill",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1045,7 +1045,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1675,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.apply",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1085,7 +1085,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1676,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.flip",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1125,7 +1125,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1678,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.incrementleft",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1165,7 +1165,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1680,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.incrementrotation",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1205,7 +1205,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1681,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.incrementtop",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1236,7 +1236,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1682,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.pickup",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1267,7 +1267,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1683,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.rerouteconnections",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1323,7 +1323,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1684,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.scaleheight",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1379,7 +1379,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1688,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.scalewidth",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1410,7 +1410,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1689,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.setshapesdefaultproperties",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1441,7 +1441,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1691,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.adjustments",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1472,7 +1472,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1692,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.textframe",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1512,7 +1512,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1693,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.autoshapetype",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1545,7 +1545,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1694,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.callout",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1576,7 +1576,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1695,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.connectionsitecount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1607,7 +1607,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1696,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.connector",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1638,7 +1638,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1697,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.connectorformat",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1669,7 +1669,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1698,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.groupitems",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1700,7 +1700,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1699,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.horizontalflip",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1740,7 +1740,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1700,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.lockaspectratio",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1773,7 +1773,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1701,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.nodes",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1804,7 +1804,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1702,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.texteffect",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1835,7 +1835,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1703,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.threed",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1866,7 +1866,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1704,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.verticalflip",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1897,7 +1897,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1705,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.zorderposition",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1937,7 +1937,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1707,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.blackwhitemode",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1987,7 +1987,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1740,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.align",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2035,7 +2035,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1742,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.distribute",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2066,7 +2066,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1744,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.regroup",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2106,7 +2106,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1891,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.alternativetext",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2139,7 +2139,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2165,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.diagramnode",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2170,7 +2170,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2166,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.hasdiagramnode",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2201,7 +2201,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2167,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.diagram",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2232,7 +2232,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2168,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.hasdiagram",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2263,7 +2263,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2169,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.child",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2294,7 +2294,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.parentgroup",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2325,7 +2325,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2171,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.canvasitems",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2365,7 +2365,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2172,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.canvascropleft",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2405,7 +2405,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2173,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.canvascroptop",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2445,7 +2445,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2174,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.canvascropright",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2485,7 +2485,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2175,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.canvascropbottom",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2516,7 +2516,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2658,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.haschart",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2547,7 +2547,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2659,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.textframe2",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2587,7 +2587,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2660,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.shapestyle",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2629,7 +2629,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2661,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.backgroundstyle",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2662,7 +2662,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2662,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.softedge",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2693,7 +2693,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.glow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2724,7 +2724,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2664,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.reflection",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2764,7 +2764,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.graphicstyle",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2797,7 +2797,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3357,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.model3d",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2837,7 +2837,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3358,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.decorative",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2887,7 +2887,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2918,7 +2918,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2949,7 +2949,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2989,7 +2989,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -3045,7 +3045,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -3117,7 +3117,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -3213,7 +3213,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.shaperange.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -3242,11 +3242,11 @@
     }
   ],
   "name": "ShapeRange",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "ShapeRange",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

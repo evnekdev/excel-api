@@ -1,0 +1,2 @@
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"chart title and legend position","result":"success","implemented":true,"observed":true}
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"axis title","result":"not-observed-in-current-live-case","implemented":true,"observed":false}

@@ -95,18 +95,18 @@
 | Chart | Elevation | 49 | Metadata Only |
 | Chart | GapDepth | 50 | Metadata Only |
 | Chart | HasAxis | 52 | Metadata Only |
-| Chart | HasLegend | 53 | Metadata Only |
-| Chart | HasTitle | 54 | Metadata Only |
+| Chart | HasLegend | 53 | Implemented |
+| Chart | HasTitle | 54 | Implemented |
 | Chart | HeightPercent | 55 | Metadata Only |
 | Chart | Perspective | 57 | Metadata Only |
 | Chart | RightAngleAxes | 58 | Metadata Only |
 | Chart | Rotation | 59 | Metadata Only |
 | Chart | Corners | 79 | Metadata Only |
-| Chart | ChartArea | 80 | Metadata Only |
-| Chart | ChartTitle | 81 | Metadata Only |
+| Chart | ChartArea | 80 | Implemented |
+| Chart | ChartTitle | 81 | Implemented |
 | Chart | Floor | 83 | Metadata Only |
-| Chart | Legend | 84 | Metadata Only |
-| Chart | PlotArea | 85 | Metadata Only |
+| Chart | Legend | 84 | Implemented |
+| Chart | PlotArea | 85 | Implemented |
 | Chart | Walls | 86 | Metadata Only |
 | Chart | PlotVisibleOnly | 92 | Metadata Only |
 | Chart | DisplayBlanksAs | 93 | Metadata Only |
@@ -114,15 +114,15 @@
 | Chart | AutoScaling | 107 | Metadata Only |
 | Chart | Type | 108 | Metadata Only |
 | Chart | SubType | 109 | Metadata Only |
-| Chart | Name | 110 | Metadata Only |
+| Chart | Name | 110 | Implemented |
 | Chart | Application | 148 | Metadata Only |
 | Chart | Creator | 149 | Metadata Only |
 | Chart | Parent | 150 | Metadata Only |
-| Chart | PlotBy | 202 | Metadata Only |
+| Chart | PlotBy | 202 | Implemented |
 | Chart | WallsAndGridlines2D | 210 | Metadata Only |
 | Chart | ProtectContents | 292 | Metadata Only |
 | Chart | ProtectDrawingObjects | 293 | Metadata Only |
-| Chart | Index | 486 | Metadata Only |
+| Chart | Index | 486 | Implemented |
 | Chart | Next | 502 | Metadata Only |
 | Chart | Previous | 503 | Metadata Only |
 | Chart | Visible | 558 | Metadata Only |
@@ -133,12 +133,12 @@
 | Chart | OnSheetDeactivate | 1081 | Metadata Only |
 | Chart | ProtectionMode | 1159 | Metadata Only |
 | Chart | CodeName | 1373 | Metadata Only |
-| Chart | Shapes | 1377 | Metadata Only |
+| Chart | Shapes | 1377 | Implemented |
 | Chart | Hyperlinks | 1393 | Metadata Only |
 | Chart | DataTable | 1395 | Metadata Only |
 | Chart | HasDataTable | 1396 | Metadata Only |
 | Chart | ShowWindow | 1399 | Metadata Only |
-| Chart | ChartType | 1400 | Metadata Only |
+| Chart | ChartType | 1400 | Implemented |
 | Chart | BarShape | 1403 | Metadata Only |
 | Chart | ProtectFormatting | 1405 | Metadata Only |
 | Chart | ProtectData | 1406 | Metadata Only |
@@ -168,7 +168,7 @@
 | Chart | DisplayValueNotAvailableAsBlank | 3333 | Metadata Only |
 | ChartArea | Shadow | 103 | Metadata Only |
 | ChartArea | Name | 110 | Metadata Only |
-| ChartArea | Format | 116 | Metadata Only |
+| ChartArea | Format | 116 | Implemented |
 | ChartArea | Width | 122 | Metadata Only |
 | ChartArea | Height | 123 | Metadata Only |
 | ChartArea | Top | 126 | Metadata Only |
@@ -214,9 +214,9 @@
 | ChartFormat | Application | 148 | Metadata Only |
 | ChartFormat | Creator | 149 | Metadata Only |
 | ChartFormat | Parent | 150 | Metadata Only |
-| ChartFormat | Line | 817 | Metadata Only |
+| ChartFormat | Line | 817 | Implemented |
 | ChartFormat | PictureFormat | 1631 | Metadata Only |
-| ChartFormat | Fill | 1663 | Metadata Only |
+| ChartFormat | Fill | 1663 | Implemented |
 | ChartFormat | Adjustments | 1691 | Metadata Only |
 | ChartFormat | AutoShapeType | 1693 | Metadata Only |
 | ChartFormat | ThreeD | 1703 | Metadata Only |
@@ -264,13 +264,13 @@
 | ChartGroups | Application | 148 | Metadata Only |
 | ChartGroups | Creator | 149 | Metadata Only |
 | ChartGroups | Parent | 150 | Metadata Only |
-| ChartObject | Chart | 7 | Metadata Only |
+| ChartObject | Chart | 7 | Implemented |
 | ChartObject | Shadow | 103 | Metadata Only |
-| ChartObject | Name | 110 | Metadata Only |
-| ChartObject | Width | 122 | Metadata Only |
-| ChartObject | Height | 123 | Metadata Only |
-| ChartObject | Top | 126 | Metadata Only |
-| ChartObject | Left | 127 | Metadata Only |
+| ChartObject | Name | 110 | Implemented |
+| ChartObject | Width | 122 | Implemented |
+| ChartObject | Height | 123 | Implemented |
+| ChartObject | Top | 126 | Implemented |
+| ChartObject | Left | 127 | Implemented |
 | ChartObject | Border | 128 | Metadata Only |
 | ChartObject | Interior | 129 | Metadata Only |
 | ChartObject | Application | 148 | Metadata Only |
@@ -278,11 +278,11 @@
 | ChartObject | Parent | 150 | Metadata Only |
 | ChartObject | Locked | 269 | Metadata Only |
 | ChartObject | Index | 486 | Metadata Only |
-| ChartObject | Visible | 558 | Metadata Only |
+| ChartObject | Visible | 558 | Implemented |
 | ChartObject | OnAction | 596 | Metadata Only |
 | ChartObject | Enabled | 600 | Metadata Only |
 | ChartObject | BottomRightCell | 615 | Metadata Only |
-| ChartObject | Placement | 617 | Metadata Only |
+| ChartObject | Placement | 617 | Implemented |
 | ChartObject | PrintObject | 618 | Metadata Only |
 | ChartObject | RoundedCorners | 619 | Metadata Only |
 | ChartObject | TopLeftCell | 620 | Metadata Only |
@@ -290,7 +290,7 @@
 | ChartObject | ShapeRange | 1528 | Metadata Only |
 | ChartObject | ProtectChartObject | 1529 | Metadata Only |
 | ChartObjects | Shadow | 103 | Metadata Only |
-| ChartObjects | Count | 118 | Metadata Only |
+| ChartObjects | Count | 118 | Implemented |
 | ChartObjects | Width | 122 | Metadata Only |
 | ChartObjects | Height | 123 | Metadata Only |
 | ChartObjects | Top | 126 | Metadata Only |
@@ -309,13 +309,13 @@
 | ChartObjects | RoundedCorners | 619 | Metadata Only |
 | ChartObjects | ShapeRange | 1528 | Metadata Only |
 | ChartObjects | ProtectChartObject | 1529 | Metadata Only |
-| Charts | _NewEnum | -4 | Metadata Only |
+| Charts | _NewEnum | -4 | Implemented |
 | Charts | _Default | 0 | Metadata Only |
-| Charts | Count | 118 | Metadata Only |
+| Charts | Count | 118 | Implemented |
 | Charts | Application | 148 | Metadata Only |
 | Charts | Creator | 149 | Metadata Only |
 | Charts | Parent | 150 | Metadata Only |
-| Charts | Item | 170 | Metadata Only |
+| Charts | Item | 170 | Implemented |
 | Charts | Visible | 558 | Metadata Only |
 | Charts | HPageBreaks | 1418 | Metadata Only |
 | Charts | VPageBreaks | 1419 | Metadata Only |
@@ -338,9 +338,9 @@
 | ChartTitle | Orientation | 134 | Metadata Only |
 | ChartTitle | HorizontalAlignment | 136 | Metadata Only |
 | ChartTitle | VerticalAlignment | 137 | Metadata Only |
-| ChartTitle | Text | 138 | Metadata Only |
+| ChartTitle | Text | 138 | Implemented |
 | ChartTitle | Caption | 139 | Metadata Only |
-| ChartTitle | Font | 146 | Metadata Only |
+| ChartTitle | Font | 146 | Implemented |
 | ChartTitle | Application | 148 | Metadata Only |
 | ChartTitle | Creator | 149 | Metadata Only |
 | ChartTitle | Parent | 150 | Metadata Only |

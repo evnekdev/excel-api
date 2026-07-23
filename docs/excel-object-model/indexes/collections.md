@@ -11,8 +11,8 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Areas | implemented |
 | Names | implemented |
 | Borders | implemented |
-| Charts | metadata-only |
-| Shapes | metadata-only |
+| Charts | implemented |
+| Shapes | implemented |
 | ListObjects | implemented |
 | FormatConditions | implemented |
 | ColorScaleCriteria | implemented |
@@ -41,8 +41,8 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | CalculatedMembers | Unknown | excel.calculatedmembers.count | excel.calculatedmembers.item | excel.calculatedmembers.newenum | variant-key | metadata-only |
 | CategoryCollection | Unknown | excel.categorycollection.count | excel.categorycollection.item | -- | variant-key | metadata-only |
 | ChartGroups | Unknown | excel.chartgroups.count | excel.chartgroups.item | excel.chartgroups.newenum | variant-key | metadata-only |
-| ChartObjects | Unknown | excel.chartobjects.count | excel.chartobjects.item | excel.chartobjects.newenum | variant-key | metadata-only |
-| Charts | Unknown | excel.charts.count | excel.charts.item | excel.charts.newenum | variant-key | metadata-only |
+| ChartObjects | ChartObject | excel.chartobjects.count | excel.chartobjects.item | excel.chartobjects.newenum | one-based-integer, string-key | implemented |
+| Charts | Chart | excel.charts.count | excel.charts.item | excel.charts.newenum | one-based-integer, string-key | implemented |
 | CheckBoxes | Unknown | excel.checkboxes.count | excel.checkboxes.item | excel.checkboxes.newenum | variant-key | metadata-only |
 | ColorScaleCriteria | ColorScaleCriterion | excel.colorscalecriteria.count | excel.colorscalecriteria.item | excel.colorscalecriteria.newenum | one-based-integer | implemented |
 | ColorStops | Unknown | excel.colorstops.count | excel.colorstops.item | excel.colorstops.newenum | variant-key | metadata-only |
@@ -52,7 +52,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | CubeFields | Unknown | excel.cubefields.count | excel.cubefields.item | excel.cubefields.newenum | variant-key | metadata-only |
 | CustomProperties | Unknown | excel.customproperties.count | excel.customproperties.item | excel.customproperties.newenum | variant-key | metadata-only |
 | CustomViews | Unknown | excel.customviews.count | excel.customviews.item | excel.customviews.newenum | variant-key | metadata-only |
-| DataLabels | Unknown | excel.datalabels.count | excel.datalabels.item | excel.datalabels.newenum | variant-key | metadata-only |
+| DataLabels | DataLabel | excel.datalabels.count | excel.datalabels.item | excel.datalabels.newenum | one-based-integer | metadata-only |
 | DiagramNodeChildren | Unknown | excel.diagramnodechildren.count | excel.diagramnodechildren.item | excel.diagramnodechildren.newenum | variant-key | metadata-only |
 | DiagramNodes | Unknown | excel.diagramnodes.count | excel.diagramnodes.item | excel.diagramnodes.newenum | variant-key | metadata-only |
 | Dialogs | Unknown | excel.dialogs.count | excel.dialogs.item | excel.dialogs.newenum | variant-key | metadata-only |
@@ -254,11 +254,11 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Rectangles | Unknown | excel.rectangles.count | excel.rectangles.item | excel.rectangles.newenum | variant-key | metadata-only |
 | Scenarios | Unknown | excel.scenarios.count | excel.scenarios.item | excel.scenarios.newenum | variant-key | metadata-only |
 | ScrollBars | Unknown | excel.scrollbars.count | excel.scrollbars.item | excel.scrollbars.newenum | variant-key | metadata-only |
-| SeriesCollection | Unknown | excel.seriescollection.count | excel.seriescollection.item | excel.seriescollection.newenum | variant-key | metadata-only |
+| SeriesCollection | Series | excel.seriescollection.count | excel.seriescollection.item | excel.seriescollection.newenum | variant-key | implemented |
 | ServerViewableItems | Unknown | excel.serverviewableitems.count | excel.serverviewableitems.item | excel.serverviewableitems.newenum | variant-key | metadata-only |
 | ShapeNodes | Unknown | excel.shapenodes.count | excel.shapenodes.item | excel.shapenodes.newenum | variant-key | metadata-only |
 | ShapeRange | Unknown | excel.shaperange.count | excel.shaperange.item | excel.shaperange.newenum | variant-key | metadata-only |
-| Shapes | Unknown | excel.shapes.count | excel.shapes.item | excel.shapes.newenum | variant-key | metadata-only |
+| Shapes | Shape | excel.shapes.count | excel.shapes.item | excel.shapes.newenum | one-based-integer, string-key | implemented |
 | Sheets | Unknown | excel.sheets.count | excel.sheets.item | excel.sheets.newenum | variant-key | metadata-only |
 | SheetViews | Unknown | excel.sheetviews.count | excel.sheetviews.item | excel.sheetviews.newenum | variant-key | metadata-only |
 | SlicerCacheLevels | Unknown | excel.slicercachelevels.count | excel.slicercachelevels.item | excel.slicercachelevels.newenum | variant-key | metadata-only |
@@ -270,7 +270,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | SmartTagRecognizers | Unknown | excel.smarttagrecognizers.count | excel.smarttagrecognizers.item | excel.smarttagrecognizers.newenum | variant-key | metadata-only |
 | SortFields | SortField | excel.sortfields.count | excel.sortfields.item | excel.sortfields.newenum | one-based-integer | metadata-only |
 | SparklineGroup | Unknown | excel.sparklinegroup.count | excel.sparklinegroup.item | excel.sparklinegroup.newenum | variant-key | metadata-only |
-| SparklineGroups | Unknown | excel.sparklinegroups.count | excel.sparklinegroups.item | excel.sparklinegroups.newenum | variant-key | metadata-only |
+| SparklineGroups | SparklineGroup | excel.sparklinegroups.count | excel.sparklinegroups.item | excel.sparklinegroups.newenum | one-based-integer | implemented |
 | Spinners | Unknown | excel.spinners.count | excel.spinners.item | excel.spinners.newenum | variant-key | metadata-only |
 | Styles | Style | excel.styles.count | excel.styles.item | excel.styles.newenum | one-based-integer, string-key | implemented |
 | TableStyleElements | Unknown | excel.tablestyleelements.count | excel.tablestyleelements.item | excel.tablestyleelements.newenum | variant-key | metadata-only |
@@ -278,7 +278,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | TextBoxes | Unknown | excel.textboxes.count | excel.textboxes.item | excel.textboxes.newenum | variant-key | metadata-only |
 | ToolbarButtons | Unknown | excel.toolbarbuttons.count | excel.toolbarbuttons.item | excel.toolbarbuttons.newenum | variant-key | metadata-only |
 | Toolbars | Unknown | excel.toolbars.count | excel.toolbars.item | excel.toolbars.newenum | variant-key | metadata-only |
-| Trendlines | Unknown | excel.trendlines.count | excel.trendlines.item | excel.trendlines.newenum | variant-key | metadata-only |
+| Trendlines | Trendline | excel.trendlines.count | excel.trendlines.item | excel.trendlines.newenum | one-based-integer | implemented |
 | UsedObjects | Unknown | excel.usedobjects.count | excel.usedobjects.item | excel.usedobjects.newenum | variant-key | metadata-only |
 | UserAccessList | Unknown | excel.useraccesslist.count | excel.useraccesslist.item | excel.useraccesslist.newenum | variant-key | metadata-only |
 | VPageBreaks | Unknown | excel.vpagebreaks.count | excel.vpagebreaks.item | excel.vpagebreaks.newenum | variant-key | metadata-only |

@@ -1,0 +1,2 @@
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"primary value-axis selection","result":"success","implemented":true,"observed":true}
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"secondary axes and scale properties","result":"not-observed-in-current-live-case","implemented":true,"observed":false}

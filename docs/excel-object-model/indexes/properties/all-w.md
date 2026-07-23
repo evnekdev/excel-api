@@ -105,7 +105,7 @@
 | Windows | SyncScrollingSideBySide | 2249 | Metadata Only |
 | Workbook | _CodeName | -2147418112 | Metadata Only |
 | Workbook | Name | 110 | Implemented |
-| Workbook | Charts | 121 | Metadata Only |
+| Workbook | Charts | 121 | Implemented |
 | Workbook | Application | 148 | Metadata Only |
 | Workbook | Creator | 149 | Metadata Only |
 | Workbook | Parent | 150 | Metadata Only |
@@ -323,7 +323,7 @@
 | Worksheet | EnablePivotTable | 1158 | Metadata Only |
 | Worksheet | ProtectionMode | 1159 | Implemented |
 | Worksheet | CodeName | 1373 | Metadata Only |
-| Worksheet | Shapes | 1377 | Metadata Only |
+| Worksheet | Shapes | 1377 | Implemented |
 | Worksheet | Hyperlinks | 1393 | Implemented |
 | Worksheet | HPageBreaks | 1418 | Implemented |
 | Worksheet | VPageBreaks | 1419 | Implemented |

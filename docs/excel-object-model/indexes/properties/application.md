@@ -44,7 +44,7 @@
 | Application | DisplayClipboardWindow | 322 | Metadata Only |
 | Application | CommandUnderlines | 323 | Metadata Only |
 | Application | ConstrainNumeric | 324 | Metadata Only |
-| Application | CutCopyMode | 330 | Metadata Only |
+| Application | CutCopyMode | 330 | Implemented |
 | Application | DataEntryMode | 331 | Metadata Only |
 | Application | DDEAppReturnCode | 332 | Metadata Only |
 | Application | DisplayAlerts | 343 | Implemented |

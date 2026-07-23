@@ -145,10 +145,10 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Value | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 6 | Implemented | Reviewed | Live Tested | |
 | Name | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 110 | Metadata Only | Reviewed | Not Tested | |
 | Count | PROPERTYGET | i32 | declared | 118 | Implemented | Reviewed | Live Tested | |
-| Width | PROPERTYGET | AutomationValue | declared | 122 | Metadata Only | Reviewed | Not Tested | |
-| Height | PROPERTYGET | AutomationValue | declared | 123 | Metadata Only | Reviewed | Not Tested | |
-| Top | PROPERTYGET | AutomationValue | declared | 126 | Metadata Only | Reviewed | Not Tested | |
-| Left | PROPERTYGET | AutomationValue | declared | 127 | Metadata Only | Reviewed | Not Tested | |
+| Width | PROPERTYGET | AutomationValue | declared | 122 | Implemented | Reviewed | Live Tested | |
+| Height | PROPERTYGET | AutomationValue | declared | 123 | Implemented | Reviewed | Live Tested | |
+| Top | PROPERTYGET | AutomationValue | declared | 126 | Implemented | Reviewed | Live Tested | |
+| Left | PROPERTYGET | AutomationValue | declared | 127 | Implemented | Reviewed | Live Tested | |
 | Interior | PROPERTYGET | Interior | declared | 129 | Implemented | Reviewed | Live Tested | |
 | Orientation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 134 | Implemented | Reviewed | Blocked | |
 | HorizontalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 136 | Implemented | Reviewed | Live Tested | |
@@ -240,7 +240,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | XPath | PROPERTYGET | XPath | declared | 2258 | Metadata Only | Reviewed | Not Tested | |
 | ServerActions | PROPERTYGET | Actions | declared | 2491 | Metadata Only | Reviewed | Not Tested | |
 | CountLarge | PROPERTYGET | AutomationValue | declared | 2499 | Metadata Only | Reviewed | Not Tested | |
-| SparklineGroups | PROPERTYGET | SparklineGroups | declared | 2853 | Metadata Only | Reviewed | Not Tested | |
+| SparklineGroups | PROPERTYGET | SparklineGroups | declared | 2853 | Implemented | Reviewed | Live Tested | |
 | CommentThreaded | PROPERTYGET | CommentThreaded | declared | 3281 | Implemented | Reviewed | Live Tested | |
 | LinkedDataTypeState | PROPERTYGET | AutomationValue | declared | 3291 | Metadata Only | Reviewed | Not Tested | |
 | HasSpill | PROPERTYGET | AutomationValue | declared | 3295 | Implemented | Reviewed | Live Tested | |
@@ -263,7 +263,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | _ClearContents | AutomationValue | 0 | declared | 113 | Implemented | Reviewed | Live Tested | |
 | AutoFormat | AutomationValue | 7 | declared | 114 | Metadata Only | Reviewed | Not Tested | |
 | Delete | AutomationValue | 1 | declared | 117 | Implemented | Reviewed | Live Tested | |
-| CopyPicture | AutomationValue | 2 | declared | 213 | Metadata Only | Reviewed | Not Tested | |
+| CopyPicture | AutomationValue | 2 | declared | 213 | Implemented | Reviewed | Live Tested | |
 | _Replace | bool | 8 | declared | 226 | Metadata Only | Reviewed | Not Tested | |
 | Select | AutomationValue | 0 | declared | 235 | Implemented | Reviewed | Blocked | |
 | AutoFit | AutomationValue | 0 | declared | 237 | Implemented | Reviewed | Live Tested | |

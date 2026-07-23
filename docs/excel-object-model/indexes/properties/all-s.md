@@ -67,8 +67,8 @@
 | ScrollBars | LinkedCell | 1058 | Metadata Only |
 | ScrollBars | Display3DShading | 1122 | Metadata Only |
 | ScrollBars | ShapeRange | 1528 | Metadata Only |
-| Series | AxisGroup | 47 | Metadata Only |
-| Series | MarkerStyle | 72 | Metadata Only |
+| Series | AxisGroup | 47 | Implemented |
+| Series | MarkerStyle | 72 | Implemented |
 | Series | MarkerBackgroundColor | 73 | Metadata Only |
 | Series | MarkerBackgroundColorIndex | 74 | Metadata Only |
 | Series | MarkerForegroundColor | 75 | Metadata Only |
@@ -76,8 +76,8 @@
 | Series | HasDataLabels | 78 | Metadata Only |
 | Series | Shadow | 103 | Metadata Only |
 | Series | Type | 108 | Metadata Only |
-| Series | Name | 110 | Metadata Only |
-| Series | Format | 116 | Metadata Only |
+| Series | Name | 110 | Implemented |
+| Series | Format | 116 | Implemented |
 | Series | Border | 128 | Metadata Only |
 | Series | Interior | 129 | Metadata Only |
 | Series | InvertIfNegative | 132 | Metadata Only |
@@ -85,21 +85,21 @@
 | Series | Creator | 149 | Metadata Only |
 | Series | Parent | 150 | Metadata Only |
 | Series | ErrorBars | 159 | Metadata Only |
-| Series | HasErrorBars | 160 | Metadata Only |
+| Series | HasErrorBars | 160 | Implemented |
 | Series | PictureType | 161 | Metadata Only |
 | Series | PictureUnit | 162 | Metadata Only |
 | Series | Smooth | 163 | Metadata Only |
-| Series | Values | 164 | Metadata Only |
+| Series | Values | 164 | Implemented |
 | Series | Explosion | 182 | Metadata Only |
 | Series | PlotOrder | 228 | Metadata Only |
-| Series | MarkerSize | 231 | Metadata Only |
-| Series | Formula | 261 | Metadata Only |
+| Series | MarkerSize | 231 | Implemented |
+| Series | Formula | 261 | Implemented |
 | Series | FormulaLocal | 263 | Metadata Only |
 | Series | FormulaR1C1 | 264 | Metadata Only |
 | Series | FormulaR1C1Local | 265 | Metadata Only |
-| Series | XValues | 1111 | Metadata Only |
+| Series | XValues | 1111 | Implemented |
 | Series | HasLeaderLines | 1394 | Metadata Only |
-| Series | ChartType | 1400 | Metadata Only |
+| Series | ChartType | 1400 | Implemented |
 | Series | BarShape | 1403 | Metadata Only |
 | Series | ApplyPictToSides | 1659 | Metadata Only |
 | Series | ApplyPictToFront | 1660 | Metadata Only |
@@ -123,7 +123,7 @@
 | Series | SeriesColorMinGradientStop | 3262 | Metadata Only |
 | Series | SeriesColorMidGradientStop | 3263 | Metadata Only |
 | Series | SeriesColorMaxGradientStop | 3264 | Metadata Only |
-| SeriesCollection | Count | 118 | Metadata Only |
+| SeriesCollection | Count | 118 | Implemented |
 | SeriesCollection | Application | 148 | Metadata Only |
 | SeriesCollection | Creator | 149 | Metadata Only |
 | SeriesCollection | Parent | 150 | Metadata Only |
@@ -162,29 +162,29 @@
 | ShadowFormat | Application | 1610743808 | Metadata Only |
 | ShadowFormat | Creator | 1610743809 | Metadata Only |
 | Shape | Chart | 7 | Metadata Only |
-| Shape | Rotation | 59 | Metadata Only |
+| Shape | Rotation | 59 | Implemented |
 | Shape | Shadow | 103 | Metadata Only |
-| Shape | Type | 108 | Metadata Only |
-| Shape | Name | 110 | Metadata Only |
-| Shape | Width | 122 | Metadata Only |
-| Shape | Height | 123 | Metadata Only |
-| Shape | Top | 126 | Metadata Only |
-| Shape | Left | 127 | Metadata Only |
+| Shape | Type | 108 | Implemented |
+| Shape | Name | 110 | Implemented |
+| Shape | Width | 122 | Implemented |
+| Shape | Height | 123 | Implemented |
+| Shape | Top | 126 | Implemented |
+| Shape | Left | 127 | Implemented |
 | Shape | Application | 148 | Metadata Only |
 | Shape | Creator | 149 | Metadata Only |
 | Shape | Parent | 150 | Metadata Only |
 | Shape | Title | 199 | Metadata Only |
 | Shape | Locked | 269 | Metadata Only |
-| Shape | Visible | 558 | Metadata Only |
+| Shape | Visible | 558 | Implemented |
 | Shape | ID | 570 | Metadata Only |
 | Shape | OnAction | 596 | Metadata Only |
 | Shape | BottomRightCell | 615 | Metadata Only |
-| Shape | Placement | 617 | Metadata Only |
+| Shape | Placement | 617 | Implemented |
 | Shape | TopLeftCell | 620 | Metadata Only |
 | Shape | Vertices | 621 | Metadata Only |
-| Shape | Line | 817 | Metadata Only |
+| Shape | Line | 817 | Implemented |
 | Shape | PictureFormat | 1631 | Metadata Only |
-| Shape | Fill | 1663 | Metadata Only |
+| Shape | Fill | 1663 | Implemented |
 | Shape | Adjustments | 1691 | Metadata Only |
 | Shape | TextFrame | 1692 | Metadata Only |
 | Shape | AutoShapeType | 1693 | Metadata Only |
@@ -194,7 +194,7 @@
 | Shape | ConnectorFormat | 1697 | Metadata Only |
 | Shape | GroupItems | 1698 | Metadata Only |
 | Shape | HorizontalFlip | 1699 | Metadata Only |
-| Shape | LockAspectRatio | 1700 | Metadata Only |
+| Shape | LockAspectRatio | 1700 | Implemented |
 | Shape | Nodes | 1701 | Metadata Only |
 | Shape | TextEffect | 1702 | Metadata Only |
 | Shape | ThreeD | 1703 | Metadata Only |
@@ -217,7 +217,7 @@
 | Shape | ParentGroup | 2170 | Metadata Only |
 | Shape | CanvasItems | 2171 | Metadata Only |
 | Shape | HasChart | 2658 | Metadata Only |
-| Shape | TextFrame2 | 2659 | Metadata Only |
+| Shape | TextFrame2 | 2659 | Implemented |
 | Shape | ShapeStyle | 2660 | Metadata Only |
 | Shape | BackgroundStyle | 2661 | Metadata Only |
 | Shape | SoftEdge | 2662 | Metadata Only |
@@ -294,8 +294,8 @@
 | ShapeRange | GraphicStyle | 3272 | Metadata Only |
 | ShapeRange | Model3D | 3357 | Metadata Only |
 | ShapeRange | Decorative | 3358 | Metadata Only |
-| Shapes | _NewEnum | -4 | Metadata Only |
-| Shapes | Count | 118 | Metadata Only |
+| Shapes | _NewEnum | -4 | Implemented |
+| Shapes | Count | 118 | Implemented |
 | Shapes | Application | 148 | Metadata Only |
 | Shapes | Creator | 149 | Metadata Only |
 | Shapes | Parent | 150 | Metadata Only |
@@ -529,26 +529,26 @@
 | SparklineGroup | Axes | 23 | Metadata Only |
 | SparklineGroup | Points | 70 | Metadata Only |
 | SparklineGroup | DisplayBlanksAs | 93 | Metadata Only |
-| SparklineGroup | Type | 108 | Metadata Only |
+| SparklineGroup | Type | 108 | Implemented |
 | SparklineGroup | Count | 118 | Metadata Only |
 | SparklineGroup | Application | 148 | Metadata Only |
 | SparklineGroup | Creator | 149 | Metadata Only |
 | SparklineGroup | Parent | 150 | Metadata Only |
 | SparklineGroup | Item | 170 | Metadata Only |
 | SparklineGroup | PlotBy | 202 | Metadata Only |
-| SparklineGroup | SourceData | 686 | Metadata Only |
-| SparklineGroup | Location | 1397 | Metadata Only |
+| SparklineGroup | SourceData | 686 | Implemented |
+| SparklineGroup | Location | 1397 | Implemented |
 | SparklineGroup | DateRange | 2948 | Metadata Only |
 | SparklineGroup | SeriesColor | 2952 | Metadata Only |
 | SparklineGroup | DisplayHidden | 2953 | Metadata Only |
 | SparklineGroup | LineWeight | 2954 | Metadata Only |
-| SparklineGroups | _NewEnum | -4 | Metadata Only |
+| SparklineGroups | _NewEnum | -4 | Implemented |
 | SparklineGroups | _Default | 0 | Metadata Only |
-| SparklineGroups | Count | 118 | Metadata Only |
+| SparklineGroups | Count | 118 | Implemented |
 | SparklineGroups | Application | 148 | Metadata Only |
 | SparklineGroups | Creator | 149 | Metadata Only |
 | SparklineGroups | Parent | 150 | Metadata Only |
-| SparklineGroups | Item | 170 | Metadata Only |
+| SparklineGroups | Item | 170 | Implemented |
 | SparkPoints | Application | 148 | Metadata Only |
 | SparkPoints | Creator | 149 | Metadata Only |
 | SparkPoints | Parent | 150 | Metadata Only |

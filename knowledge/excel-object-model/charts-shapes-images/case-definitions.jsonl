@@ -1,0 +1,4 @@
+{"case_id":"workbooks-add-baseline","scope":"fresh local Excel process","expected":"one Workbooks.Add call followed by natural application exit"}
+{"case_id":"charts-live","scope":"embedded chart, series, axes, export, and chart-sheet operations","expected":"live only when the local automation host permits workbook creation"}
+{"case_id":"shapes-images-live","scope":"AutoShape, line, text box, range CopyPicture, and cleanup","expected":"live only when the local automation host permits workbook creation"}
+{"case_id":"sparklines-live","scope":"SparklineGroups creation, source data, and cleanup","expected":"live only when the local automation host permits workbook creation"}

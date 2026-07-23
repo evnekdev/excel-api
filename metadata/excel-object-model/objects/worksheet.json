@@ -6,6 +6,22 @@
   "collection": null,
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet",
+  "drawing_capability": {
+    "axes": true,
+    "chart_export": true,
+    "chart_sheets": true,
+    "data_labels": true,
+    "embedded_charts": true,
+    "error_bars": true,
+    "grouping": false,
+    "pictures": true,
+    "range_image_export": false,
+    "series": true,
+    "shapes": true,
+    "sparklines": true,
+    "text_boxes": true,
+    "trendlines": true
+  },
   "evaluation_result_categories": [
     "automation-value",
     "range-object",
@@ -3463,7 +3479,7 @@
       "dispid": 1060,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.chartobjects",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -3479,11 +3495,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -3835,7 +3851,7 @@
       "dispid": 1377,
       "documentation_status": "reviewed",
       "id": "excel.worksheet.shapes",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -3851,11 +3867,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]

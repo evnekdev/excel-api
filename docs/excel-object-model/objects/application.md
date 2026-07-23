@@ -105,7 +105,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | DisplayClipboardWindow | PROPERTYGET/PROPERTYPUT | bool | declared | 322 | Metadata Only | Reviewed | Not Tested | |
 | CommandUnderlines | PROPERTYGET/PROPERTYPUT | XlCommandUnderlines | declared | 323 | Metadata Only | Reviewed | Not Tested | |
 | ConstrainNumeric | PROPERTYGET/PROPERTYPUT | bool | declared | 324 | Metadata Only | Reviewed | Not Tested | |
-| CutCopyMode | PROPERTYGET/PROPERTYPUT | XlCutCopyMode | declared | 330 | Metadata Only | Reviewed | Not Tested | |
+| CutCopyMode | PROPERTYGET/PROPERTYPUT | XlCutCopyMode | declared | 330 | Implemented | Reviewed | Live Tested | |
 | DataEntryMode | PROPERTYGET/PROPERTYPUT | i32 | declared | 331 | Metadata Only | Reviewed | Not Tested | |
 | DDEAppReturnCode | PROPERTYGET | i32 | declared | 332 | Metadata Only | Reviewed | Not Tested | |
 | DisplayAlerts | PROPERTYGET/PROPERTYPUT | bool | declared | 343 | Implemented | Reviewed | Live Tested | |

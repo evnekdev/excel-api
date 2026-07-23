@@ -2,7 +2,7 @@
   "alias_target": null,
   "collection": null,
   "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.chart(object)",
   "guid": "{00020821-0000-0000-c000-000000000046}",
   "id": "excel.chart.coclass",
   "implemented_interface_count": 2,
@@ -14,7 +14,7 @@
   "schema_version": 1,
   "source_interface": "Chart",
   "surface_class": "coclass",
-  "test_status": "not-tested",
+  "test_status": "blocked",
   "typelib_type_flags": 2,
   "typelib_version": {
     "major": 1,

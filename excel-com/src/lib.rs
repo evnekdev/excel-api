@@ -287,6 +287,37 @@
 //! `WorkbookSaveAsOptions { file_format: Some(XlFileFormat::OPEN_XML_WORKBOOK),
 //! ..WorkbookSaveAsOptions::new() }` with [`Workbook::save_as`].
 //!
+//! # Charts, drawings, pictures, and sparklines
+//!
+//! [`Worksheet::chart_objects`] creates embedded charts with explicit
+//! point-based [`ChartBounds`], while [`Workbook::charts`] exposes chart
+//! sheets. [`Chart`] offers source-data, series, axes, labels, trendlines,
+//! error bars, titles, legend, and installed-filter export operations. Excel
+//! interprets source data and owns chart calculation; this crate does not
+//! implement a chart renderer.
+//!
+//! [`Worksheet::shapes`] supports a bounded drawing surface: AutoShapes,
+//! lines, local file-backed pictures, text boxes, ordering, placement, and
+//! deletion. Shape grouping is deliberately unavailable. `Range::copy_picture`
+//! uses Excel's own copy state rather than reading the operating-system
+//! clipboard, and [`Application::cut_copy_mode`] exposes only Excel's
+//! enum-like state. [`Range::sparkline_groups`] creates line, column, and
+//! win/loss sparkline groups from Excel ranges.
+//!
+//! | Need | API |
+//! |---|---|
+//! | Embedded chart | [`Worksheet::add_chart`] / [`Worksheet::chart_objects`] |
+//! | Chart sheet | [`Workbook::charts`] |
+//! | Series and axes | [`Chart::series_collection`] / [`Chart::axes`] |
+//! | Shapes and pictures | [`Worksheet::shapes`] |
+//! | Excel-native picture copy | [`Range::copy_picture`] |
+//! | Sparklines | [`Range::sparkline_groups`] |
+//!
+//! These wrappers are visible opt-in integration-test surfaces because their
+//! result depends on the installed Excel version and its rendering stack. They
+//! require an explicitly created local application and should be followed by
+//! [`Application::quit`]; they never attach to an existing Excel session.
+//!
 //! # Conditional formatting, styles, comments, and hyperlinks
 //!
 //! The advanced-presentation surface remains apartment-bound and is neither
@@ -381,6 +412,19 @@ pub use excel::{
     Workbooks, WorkbooksIter, Worksheet, WorksheetAddOptions, WorksheetProtectOptions, Worksheets,
     WorksheetsAddOptions, WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform,
     XlSaveAsAccessMode, XlSaveConflictResolution, XlSheetVisibility, XlUpdateLinks,
+};
+pub use excel::{
+    AutoShapeType, Axes, Axis, AxisGroup, AxisScaleType, AxisTitle, AxisType, Chart, ChartArea,
+    ChartBounds, ChartCreateOptions, ChartExportOptions, ChartFormat, ChartObject, ChartObjects,
+    ChartObjectsIter, ChartSheet, ChartSheetDestination, ChartTitle, ChartType, Charts, ChartsIter,
+    CopyPictureFormat, CopyPictureOptions, CutCopyMode, DataLabel, DataLabelOptions, DataLabelType,
+    DataLabels, ErrorBarDirection, ErrorBarInclude, ErrorBarOptions, ErrorBarType, FillFormat,
+    Legend, LegendPosition, LineFormat, MarkerStyle, PictureAddOptions, PictureAppearance,
+    PlotArea, PlotBy, Series, SeriesAddOptions, SeriesCollection, SeriesCollectionIter, SeriesData,
+    Shape, ShapeBounds, ShapePlacement, ShapePoint, ShapeType, Shapes, ShapesIter, SparkScale,
+    SparklineGroup, SparklineGroups, SparklineGroupsIter, SparklineType, TextBoxAddOptions,
+    TextFrame, TextOrientation, TextRange, TickLabelPosition, TickLabels, TickMark, Trendline,
+    TrendlineAddOptions, TrendlineType, Trendlines, TrendlinesIter, ZOrderCommand,
 };
 pub use internal::ComApartment;
 pub use object_model::{

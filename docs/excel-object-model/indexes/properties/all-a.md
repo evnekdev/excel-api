@@ -116,7 +116,7 @@
 | Application | DisplayClipboardWindow | 322 | Metadata Only |
 | Application | CommandUnderlines | 323 | Metadata Only |
 | Application | ConstrainNumeric | 324 | Metadata Only |
-| Application | CutCopyMode | 330 | Metadata Only |
+| Application | CutCopyMode | 330 | Implemented |
 | Application | DataEntryMode | 331 | Metadata Only |
 | Application | DDEAppReturnCode | 332 | Metadata Only |
 | Application | DisplayAlerts | 343 | Implemented |
@@ -440,30 +440,30 @@
 | Axes | Parent | 150 | Metadata Only |
 | Axis | HasMajorGridlines | 24 | Metadata Only |
 | Axis | HasMinorGridlines | 25 | Metadata Only |
-| Axis | MajorTickMark | 26 | Metadata Only |
-| Axis | MinorTickMark | 27 | Metadata Only |
-| Axis | TickLabelPosition | 28 | Metadata Only |
+| Axis | MajorTickMark | 26 | Implemented |
+| Axis | MinorTickMark | 27 | Implemented |
+| Axis | TickLabelPosition | 28 | Implemented |
 | Axis | TickLabelSpacing | 29 | Metadata Only |
 | Axis | TickMarkSpacing | 31 | Metadata Only |
-| Axis | MinimumScale | 33 | Metadata Only |
-| Axis | MinimumScaleIsAuto | 34 | Metadata Only |
-| Axis | MaximumScale | 35 | Metadata Only |
-| Axis | MaximumScaleIsAuto | 36 | Metadata Only |
-| Axis | MajorUnit | 37 | Metadata Only |
-| Axis | MajorUnitIsAuto | 38 | Metadata Only |
+| Axis | MinimumScale | 33 | Implemented |
+| Axis | MinimumScaleIsAuto | 34 | Implemented |
+| Axis | MaximumScale | 35 | Implemented |
+| Axis | MaximumScaleIsAuto | 36 | Implemented |
+| Axis | MajorUnit | 37 | Implemented |
+| Axis | MajorUnitIsAuto | 38 | Implemented |
 | Axis | MinorUnit | 39 | Metadata Only |
 | Axis | MinorUnitIsAuto | 40 | Metadata Only |
-| Axis | ScaleType | 41 | Metadata Only |
+| Axis | ScaleType | 41 | Implemented |
 | Axis | Crosses | 42 | Metadata Only |
 | Axis | CrossesAt | 43 | Metadata Only |
 | Axis | ReversePlotOrder | 44 | Metadata Only |
 | Axis | AxisBetweenCategories | 45 | Metadata Only |
 | Axis | AxisGroup | 47 | Metadata Only |
-| Axis | HasTitle | 54 | Metadata Only |
-| Axis | AxisTitle | 82 | Metadata Only |
+| Axis | HasTitle | 54 | Implemented |
+| Axis | AxisTitle | 82 | Implemented |
 | Axis | MajorGridlines | 89 | Metadata Only |
 | Axis | MinorGridlines | 90 | Metadata Only |
-| Axis | TickLabels | 91 | Metadata Only |
+| Axis | TickLabels | 91 | Implemented |
 | Axis | Type | 108 | Metadata Only |
 | Axis | Format | 116 | Metadata Only |
 | Axis | Width | 122 | Metadata Only |
@@ -484,7 +484,7 @@
 | Axis | DisplayUnitCustom | 1887 | Metadata Only |
 | Axis | HasDisplayUnitLabel | 1888 | Metadata Only |
 | Axis | DisplayUnitLabel | 1889 | Metadata Only |
-| Axis | LogBase | 2646 | Metadata Only |
+| Axis | LogBase | 2646 | Implemented |
 | Axis | TickLabelSpacingIsAuto | 2647 | Metadata Only |
 | Axis | CategorySortOrder | 3228 | Metadata Only |
 | AxisTitle | Shadow | 103 | Metadata Only |
@@ -500,9 +500,9 @@
 | AxisTitle | Orientation | 134 | Metadata Only |
 | AxisTitle | HorizontalAlignment | 136 | Metadata Only |
 | AxisTitle | VerticalAlignment | 137 | Metadata Only |
-| AxisTitle | Text | 138 | Metadata Only |
+| AxisTitle | Text | 138 | Implemented |
 | AxisTitle | Caption | 139 | Metadata Only |
-| AxisTitle | Font | 146 | Metadata Only |
+| AxisTitle | Font | 146 | Implemented |
 | AxisTitle | Application | 148 | Metadata Only |
 | AxisTitle | Creator | 149 | Metadata Only |
 | AxisTitle | Parent | 150 | Metadata Only |
