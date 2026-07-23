@@ -1,0 +1,2 @@
+{"environment_id":"prompt16-conditional-first-run","member":"AddIconSetCondition","result":"Excel rejected the argument-bearing call","remediation":"Call AddIconSetCondition without arguments, then set IconSet on the returned object."}
+{"environment_id":"prompt16-corrected-retest","member":"Workbooks.Add","hresult":"0x800A03EC","result":"runtime-blocked","policy":"No repeat or host-configuration investigation was performed."}

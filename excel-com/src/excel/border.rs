@@ -4,11 +4,11 @@ use std::fmt::{Debug, Formatter};
 
 use crate::ExcelComError;
 use crate::automation::OwnedVariant;
-use crate::excel::DispatchObject;
 use crate::excel::formatting::{
-    BorderLineStyle, BorderWeight, ExcelColor, ExcelColorIndex, MixedValue, map_mixed, mixed_i32,
-    property_mixed_get, property_put_value,
+    BorderLineStyle, BorderWeight, ExcelColor, ExcelColorIndex, MixedValue, finite, map_mixed,
+    mixed_f64, mixed_i32, property_mixed_get, property_put_value,
 };
+use crate::excel::{DispatchObject, ThemeColor};
 use crate::internal::{ComPtr, Dispatch};
 
 /// An apartment-bound Excel Border object returned by [`crate::Borders::item`].
@@ -106,6 +106,39 @@ impl Border {
             &self.inner,
             "excel.border.weight",
             OwnedVariant::i32(weight.raw()),
+        )
+    }
+
+    /// Returns the border theme color or a mixed result.
+    pub fn theme_color(&self) -> Result<MixedValue<ThemeColor>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.border.themecolor", |value| {
+            mixed_i32(value).map(|result| map_mixed(result, ThemeColor::from_raw))
+        })
+    }
+    /// Sets the border theme color.
+    pub fn set_theme_color(&self, value: ThemeColor) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.border.themecolor",
+            OwnedVariant::i32(value.raw()),
+        )
+    }
+    /// Returns the border theme tint or a mixed result.
+    pub fn tint_and_shade(&self) -> Result<MixedValue<f64>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.border.tintandshade", mixed_f64)
+    }
+    /// Sets the border theme tint.
+    pub fn set_tint_and_shade(&self, value: f64) -> Result<(), ExcelComError> {
+        finite(value)?;
+        if !(-1.0..=1.0).contains(&value) {
+            return Err(ExcelComError::Unsupported {
+                detail: "TintAndShade must be between -1.0 and 1.0",
+            });
+        }
+        property_put_value(
+            &self.inner,
+            "excel.border.tintandshade",
+            OwnedVariant::f64(value),
         )
     }
 }

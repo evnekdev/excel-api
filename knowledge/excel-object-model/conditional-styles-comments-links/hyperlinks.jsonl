@@ -1,0 +1,1 @@
+{"objects":["Hyperlinks","Hyperlink"],"implementation":"typed wrapper","members":["Count","Item","_NewEnum","Add","Address","SubAddress","ScreenTip","TextToDisplay","Range","Delete"],"safety":"No Follow method is exposed or invoked. The live test uses only an internal SubAddress and no external URL.","test":"unit-compiled; live pending"}

@@ -35,7 +35,7 @@
 | HPageBreaks | GetTypeInfo | 1610678273 | Metadata Only |
 | HPageBreaks | GetIDsOfNames | 1610678274 | Metadata Only |
 | HPageBreaks | Invoke | 1610678275 | Metadata Only |
-| Hyperlink | Delete | 117 | Metadata Only |
+| Hyperlink | Delete | 117 | Implemented |
 | Hyperlink | AddToFavorites | 1476 | Metadata Only |
 | Hyperlink | Follow | 1616 | Metadata Only |
 | Hyperlink | CreateNewDocument | 1884 | Metadata Only |
@@ -47,7 +47,7 @@
 | Hyperlink | GetIDsOfNames | 1610678274 | Metadata Only |
 | Hyperlink | Invoke | 1610678275 | Metadata Only |
 | Hyperlinks | Delete | 117 | Metadata Only |
-| Hyperlinks | Add | 181 | Metadata Only |
+| Hyperlinks | Add | 181 | Implemented |
 | Hyperlinks | QueryInterface | 1610612736 | Metadata Only |
 | Hyperlinks | AddRef | 1610612737 | Metadata Only |
 | Hyperlinks | Release | 1610612738 | Metadata Only |

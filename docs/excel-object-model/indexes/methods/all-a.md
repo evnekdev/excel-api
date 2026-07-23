@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| AboveAverage | Delete | 117 | Metadata Only |
+| AboveAverage | Delete | 117 | Implemented |
 | AboveAverage | ModifyAppliesToRange | 2627 | Metadata Only |
 | AboveAverage | SetFirstPriority | 2629 | Metadata Only |
 | AboveAverage | SetLastPriority | 2630 | Metadata Only |

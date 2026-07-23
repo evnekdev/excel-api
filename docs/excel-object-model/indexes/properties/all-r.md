@@ -39,7 +39,7 @@
 | Range | Resize | 256 | Implemented |
 | Range | Row | 257 | Implemented |
 | Range | Rows | 258 | Implemented |
-| Range | Style | 260 | Metadata Only |
+| Range | Style | 260 | Implemented |
 | Range | Formula | 261 | Implemented |
 | Range | FormulaHidden | 262 | Implemented |
 | Range | FormulaLocal | 263 | Implemented |
@@ -71,12 +71,12 @@
 | Range | ShowDetail | 585 | Implemented |
 | Range | FormulaArray | 586 | Implemented |
 | Range | Characters | 603 | Metadata Only |
-| Range | DisplayFormat | 666 | Metadata Only |
+| Range | DisplayFormat | 666 | Implemented |
 | Range | LocationInTable | 691 | Metadata Only |
 | Range | PivotTable | 716 | Metadata Only |
 | Range | PivotField | 731 | Metadata Only |
 | Range | PivotItem | 740 | Metadata Only |
-| Range | Comment | 910 | Metadata Only |
+| Range | Comment | 910 | Implemented |
 | Range | SoundNote | 916 | Metadata Only |
 | Range | ReadingOrder | 975 | Implemented |
 | Range | AddIndent | 1063 | Metadata Only |
@@ -88,8 +88,8 @@
 | Range | Validation | 1387 | Implemented |
 | Range | Value2 | 1388 | Implemented |
 | Range | Phonetic | 1391 | Metadata Only |
-| Range | FormatConditions | 1392 | Metadata Only |
-| Range | Hyperlinks | 1393 | Metadata Only |
+| Range | FormatConditions | 1392 | Implemented |
+| Range | Hyperlinks | 1393 | Implemented |
 | Range | Formula2 | 1580 | Implemented |
 | Range | Phonetics | 1811 | Metadata Only |
 | Range | ID | 1813 | Metadata Only |
@@ -103,7 +103,7 @@
 | Range | ServerActions | 2491 | Metadata Only |
 | Range | CountLarge | 2499 | Metadata Only |
 | Range | SparklineGroups | 2853 | Metadata Only |
-| Range | CommentThreaded | 3281 | Metadata Only |
+| Range | CommentThreaded | 3281 | Implemented |
 | Range | LinkedDataTypeState | 3291 | Metadata Only |
 | Range | HasSpill | 3295 | Implemented |
 | Range | SpillingToRange | 3296 | Implemented |

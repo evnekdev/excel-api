@@ -249,7 +249,7 @@
 | IconSet | GetTypeInfo | 1610678273 | Metadata Only |
 | IconSet | GetIDsOfNames | 1610678274 | Metadata Only |
 | IconSet | Invoke | 1610678275 | Metadata Only |
-| IconSetCondition | Delete | 117 | Metadata Only |
+| IconSetCondition | Delete | 117 | Implemented |
 | IconSetCondition | ModifyAppliesToRange | 2627 | Metadata Only |
 | IconSetCondition | SetFirstPriority | 2629 | Metadata Only |
 | IconSetCondition | SetLastPriority | 2630 | Metadata Only |

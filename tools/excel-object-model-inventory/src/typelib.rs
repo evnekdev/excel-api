@@ -445,6 +445,13 @@ fn object_record(
         "ListRows" => Some("ListRow"),
         "Filters" => Some("Filter"),
         "SortFields" => Some("SortField"),
+        "FormatConditions" => Some("ConditionalFormat"),
+        "ColorScaleCriteria" => Some("ColorScaleCriterion"),
+        "IconCriteria" => Some("IconCriterion"),
+        "Styles" => Some("Style"),
+        "Comments" => Some("Comment"),
+        "CommentsThreaded" => Some("CommentThreaded"),
+        "Hyperlinks" => Some("Hyperlink"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -458,28 +465,52 @@ fn object_record(
         "Workbooks" | "Worksheets" | "Names" | "ListObjects" | "ListColumns" => {
             vec!["one-based-integer", "string-key"]
         }
-        "Areas" | "ListRows" | "Filters" | "SortFields" => vec!["one-based-integer"],
+        "Areas" | "ListRows" | "Filters" | "SortFields" | "FormatConditions"
+        | "ColorScaleCriteria" | "IconCriteria" | "Comments" | "CommentsThreaded"
+        | "Hyperlinks" => vec!["one-based-integer"],
+        "Styles" => vec!["one-based-integer", "string-key"],
         "Borders" => vec!["enum-key"],
         _ if is_collection => vec!["variant-key"],
         _ => vec!["no-index"],
     };
     let iterator_status = match model::canonical_name(raw_name) {
         "Workbooks" | "Worksheets" | "Areas" | "Names" | "Borders" | "ListObjects"
-        | "ListColumns" | "ListRows" | "Filters" => "implemented",
+        | "ListColumns" | "ListRows" | "Filters" | "FormatConditions" | "ColorScaleCriteria"
+        | "IconCriteria" | "Styles" | "Comments" | "CommentsThreaded" | "Hyperlinks" => {
+            "implemented"
+        }
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
     let collection = is_collection.then(|| {
-        json!({
+        let mut collection = json!({
             "element_type": collection_element.unwrap_or("Unknown"),
             "count_member_id": member_id("Count"),
             "item_member_id": member_id("Item"),
             "enumerator_member_id": member_id("_NewEnum"),
             "index_kinds": index_kinds,
             "iterator_status": iterator_status,
-        })
+        });
+        if matches!(
+            model::canonical_name(raw_name),
+            "FormatConditions"
+                | "ColorScaleCriteria"
+                | "IconCriteria"
+                | "Styles"
+                | "Comments"
+                | "CommentsThreaded"
+                | "Hyperlinks"
+        ) {
+            collection["heterogeneous_policy"] =
+                json!(if model::canonical_name(raw_name) == "FormatConditions" {
+                    "typed-subtype-by-type-property"
+                } else {
+                    "homogeneous"
+                });
+        }
+        collection
     });
-    if let Some(element) = collection_element {
+    if let Some(element) = collection_element.filter(|element| *element != "ConditionalFormat") {
         if let Some(item) = members
             .iter()
             .find(|member| member["name"].as_str() == Some("Item"))
@@ -523,6 +554,10 @@ fn object_record(
     let structured_data = structured_data_capability(raw_name);
     if !structured_data.is_null() {
         record["structured_data_capability"] = structured_data;
+    }
+    let advanced_presentation = advanced_presentation_capability(raw_name);
+    if !advanced_presentation.is_null() {
+        record["advanced_presentation_capability"] = advanced_presentation;
     }
     Ok(record)
 }
@@ -871,6 +906,24 @@ fn auditing_search_capability(name: &str) -> Value {
             "find": true,
             "replace": true,
             "wrap_safe_iterator": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn advanced_presentation_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Range" => json!({
+            "conditional_formatting": true,
+            "color_scales": true,
+            "data_bars": true,
+            "icon_sets": true,
+            "styles": true,
+            "theme_colors": true,
+            "display_format": true,
+            "legacy_comments": true,
+            "threaded_comment_inspection": true,
+            "hyperlinks": true,
         }),
         _ => Value::Null,
     }

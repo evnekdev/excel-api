@@ -777,6 +777,13 @@
     "target": "excel.range"
   },
   {
+    "member_id": "excel.colorscalecriteria.item",
+    "schema_version": 1,
+    "source": "excel.colorscalecriteria",
+    "source_confidence": "typelib-only",
+    "target": "excel.colorscalecriterion"
+  },
+  {
     "member_id": "excel.colorstop.application",
     "schema_version": 1,
     "source": "excel.colorstop",
@@ -805,11 +812,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.comments.item",
+    "schema_version": 1,
+    "source": "excel.comments",
+    "source_confidence": "typelib-only",
+    "target": "excel.comment"
+  },
+  {
     "member_id": "excel.commentsthreaded.application",
     "schema_version": 1,
     "source": "excel.commentsthreaded",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.commentsthreaded.item",
+    "schema_version": 1,
+    "source": "excel.commentsthreaded",
+    "source_confidence": "typelib-only",
+    "target": "excel.commentthreaded"
   },
   {
     "member_id": "excel.commentthreaded.application",
@@ -1778,11 +1799,25 @@
     "target": "excel.application"
   },
   {
+    "member_id": "excel.hyperlinks.item",
+    "schema_version": 1,
+    "source": "excel.hyperlinks",
+    "source_confidence": "typelib-only",
+    "target": "excel.hyperlink"
+  },
+  {
     "member_id": "excel.icon.application",
     "schema_version": 1,
     "source": "excel.icon",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.iconcriteria.item",
+    "schema_version": 1,
+    "source": "excel.iconcriteria",
+    "source_confidence": "typelib-only",
+    "target": "excel.iconcriterion"
   },
   {
     "member_id": "excel.iconset.application",
@@ -4205,6 +4240,13 @@
     "source": "excel.styles",
     "source_confidence": "typelib-only",
     "target": "excel.application"
+  },
+  {
+    "member_id": "excel.styles.item",
+    "schema_version": 1,
+    "source": "excel.styles",
+    "source_confidence": "typelib-only",
+    "target": "excel.style"
   },
   {
     "member_id": "excel.tab.application",

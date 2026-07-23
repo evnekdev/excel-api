@@ -133,7 +133,7 @@
 | Workbook | Windows | 430 | Implemented |
 | Workbook | Names | 442 | Implemented |
 | Workbook | Sheets | 485 | Implemented |
-| Workbook | Styles | 493 | Metadata Only |
+| Workbook | Styles | 493 | Implemented |
 | Workbook | Worksheets | 494 | Implemented |
 | Workbook | Author | 574 | Metadata Only |
 | Workbook | Comments | 575 | Metadata Only |
@@ -299,7 +299,7 @@
 | Worksheet | Next | 502 | Metadata Only |
 | Worksheet | Previous | 503 | Metadata Only |
 | Worksheet | Visible | 558 | Implemented |
-| Worksheet | Comments | 575 | Metadata Only |
+| Worksheet | Comments | 575 | Implemented |
 | Worksheet | OnCalculate | 625 | Metadata Only |
 | Worksheet | OnEntry | 627 | Metadata Only |
 | Worksheet | OnDoubleClick | 628 | Metadata Only |
@@ -324,7 +324,7 @@
 | Worksheet | ProtectionMode | 1159 | Implemented |
 | Worksheet | CodeName | 1373 | Metadata Only |
 | Worksheet | Shapes | 1377 | Metadata Only |
-| Worksheet | Hyperlinks | 1393 | Metadata Only |
+| Worksheet | Hyperlinks | 1393 | Implemented |
 | Worksheet | HPageBreaks | 1418 | Implemented |
 | Worksheet | VPageBreaks | 1419 | Implemented |
 | Worksheet | EnableCalculation | 1424 | Metadata Only |
@@ -340,7 +340,7 @@
 | Worksheet | ListObjects | 2259 | Implemented |
 | Worksheet | EnableFormatConditionsCalculation | 2511 | Metadata Only |
 | Worksheet | PrintedCommentPages | 2857 | Metadata Only |
-| Worksheet | CommentsThreaded | 3282 | Metadata Only |
+| Worksheet | CommentsThreaded | 3282 | Implemented |
 | Worksheet | Sort | 3288 | Metadata Only |
 | Worksheet | AutoFilter | 3289 | Implemented |
 | Worksheet | NamedSheetViews | 3309 | Metadata Only |

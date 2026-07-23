@@ -8,7 +8,7 @@ use crate::excel::formatting::{
     ExcelColor, ExcelColorIndex, MixedValue, UnderlineStyle, finite, map_mixed, mixed_bool,
     mixed_f64, mixed_i32, mixed_string, property_mixed_get, property_put_value,
 };
-use crate::excel::{DispatchObject, text::text_bstr};
+use crate::excel::{DispatchObject, ThemeColor, ThemeFont, text::text_bstr};
 use crate::internal::{ComPtr, Dispatch};
 
 /// An apartment-bound Excel Font object returned by [`crate::Range::font`].
@@ -146,6 +146,105 @@ impl Font {
             &self.inner,
             "excel.font.colorindex",
             OwnedVariant::i32(index.raw()),
+        )
+    }
+
+    /// Returns the subscript setting or a mixed result.
+    pub fn subscript(&self) -> Result<MixedValue<bool>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.subscript", mixed_bool)
+    }
+    /// Sets the subscript setting.
+    pub fn set_subscript(&self, value: bool) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.font.subscript",
+            OwnedVariant::bool(value),
+        )
+    }
+    /// Returns the superscript setting or a mixed result.
+    pub fn superscript(&self) -> Result<MixedValue<bool>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.superscript", mixed_bool)
+    }
+    /// Sets the superscript setting.
+    pub fn set_superscript(&self, value: bool) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.font.superscript",
+            OwnedVariant::bool(value),
+        )
+    }
+    /// Returns the shadow setting or a mixed result.
+    pub fn shadow(&self) -> Result<MixedValue<bool>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.shadow", mixed_bool)
+    }
+    /// Sets the shadow setting.
+    pub fn set_shadow(&self, value: bool) -> Result<(), ExcelComError> {
+        property_put_value(&self.inner, "excel.font.shadow", OwnedVariant::bool(value))
+    }
+    /// Returns the outline setting or a mixed result.
+    pub fn outline_font(&self) -> Result<MixedValue<bool>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.outlinefont", mixed_bool)
+    }
+    /// Sets the outline setting.
+    pub fn set_outline_font(&self, value: bool) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.font.outlinefont",
+            OwnedVariant::bool(value),
+        )
+    }
+    /// Returns Excel's font-style text or a mixed result.
+    pub fn font_style(&self) -> Result<MixedValue<String>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.fontstyle", mixed_string)
+    }
+    /// Sets Excel's font-style text.
+    pub fn set_font_style(&self, value: &str) -> Result<(), ExcelComError> {
+        property_put_value(&self.inner, "excel.font.fontstyle", text_bstr(value)?)
+    }
+    /// Returns the theme-font choice or a mixed result.
+    pub fn theme_font(&self) -> Result<MixedValue<ThemeFont>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.themefont", |value| {
+            mixed_i32(value).map(|result| map_mixed(result, ThemeFont::from_raw))
+        })
+    }
+    /// Sets the theme-font choice.
+    pub fn set_theme_font(&self, value: ThemeFont) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.font.themefont",
+            OwnedVariant::i32(value.raw()),
+        )
+    }
+    /// Returns the theme color or a mixed result.
+    pub fn theme_color(&self) -> Result<MixedValue<ThemeColor>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.themecolor", |value| {
+            mixed_i32(value).map(|result| map_mixed(result, ThemeColor::from_raw))
+        })
+    }
+    /// Sets the theme color.
+    pub fn set_theme_color(&self, value: ThemeColor) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.font.themecolor",
+            OwnedVariant::i32(value.raw()),
+        )
+    }
+    /// Returns theme tint or a mixed result.
+    pub fn tint_and_shade(&self) -> Result<MixedValue<f64>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.font.tintandshade", mixed_f64)
+    }
+    /// Sets the theme tint in Excel's inclusive `-1.0..=1.0` range.
+    pub fn set_tint_and_shade(&self, value: f64) -> Result<(), ExcelComError> {
+        finite(value)?;
+        if !(-1.0..=1.0).contains(&value) {
+            return Err(ExcelComError::Unsupported {
+                detail: "TintAndShade must be between -1.0 and 1.0",
+            });
+        }
+        property_put_value(
+            &self.inner,
+            "excel.font.tintandshade",
+            OwnedVariant::f64(value),
         )
     }
 }

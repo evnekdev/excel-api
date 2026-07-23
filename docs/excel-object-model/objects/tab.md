@@ -44,8 +44,8 @@ No capability metadata is recorded for this surface.
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| ThemeColor | PROPERTYGET/PROPERTYPUT | XlThemeColor | declared | 2365 | Metadata Only | Reviewed | Not Tested | |
-| TintAndShade | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2366 | Metadata Only | Reviewed | Not Tested | |
+| ThemeColor | PROPERTYGET/PROPERTYPUT | XlThemeColor | declared | 2365 | Implemented | Reviewed | Blocked | |
+| TintAndShade | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2366 | Implemented | Reviewed | Blocked | |
 
 ## Methods
 

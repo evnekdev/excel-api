@@ -11,8 +11,8 @@
 | Interior | Application | 148 | Metadata Only |
 | Interior | Creator | 149 | Metadata Only |
 | Interior | Parent | 150 | Metadata Only |
-| Interior | ThemeColor | 2365 | Metadata Only |
-| Interior | TintAndShade | 2366 | Metadata Only |
+| Interior | ThemeColor | 2365 | Implemented |
+| Interior | TintAndShade | 2366 | Implemented |
 | Interior | PatternThemeColor | 2643 | Metadata Only |
-| Interior | PatternTintAndShade | 2644 | Metadata Only |
+| Interior | PatternTintAndShade | 2644 | Implemented |
 | Interior | Gradient | 2645 | Metadata Only |

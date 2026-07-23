@@ -1,0 +1,2 @@
+{"environment_id":"prompt16-fresh-add-baseline","source":"controlled-live-test","pre_existing_excel_processes":0,"workbooks_add_baseline":"passed","visibility":"test-controlled","cleanup":"owned workbook closed without saving; application exited naturally"}
+{"environment_id":"prompt16-corrected-retest","source":"controlled-live-test","pre_existing_excel_processes":0,"workbooks_add_baseline":"failed","hresult":"0x800A03EC","result":"runtime-blocked","notes":"The corrected conditional-formatting test was not retried after this baseline failure."}

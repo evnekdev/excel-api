@@ -637,38 +637,38 @@
 | Spinners | ShapeRange | 1528 | Metadata Only |
 | Style | _Default | 0 | Metadata Only |
 | Style | Value | 6 | Metadata Only |
-| Style | Name | 110 | Metadata Only |
-| Style | Interior | 129 | Metadata Only |
+| Style | Name | 110 | Implemented |
+| Style | Interior | 129 | Implemented |
 | Style | Orientation | 134 | Metadata Only |
 | Style | HorizontalAlignment | 136 | Metadata Only |
 | Style | VerticalAlignment | 137 | Metadata Only |
-| Style | Font | 146 | Metadata Only |
+| Style | Font | 146 | Implemented |
 | Style | Application | 148 | Metadata Only |
 | Style | Creator | 149 | Metadata Only |
 | Style | Parent | 150 | Metadata Only |
-| Style | NumberFormat | 193 | Metadata Only |
+| Style | NumberFormat | 193 | Implemented |
 | Style | IndentLevel | 201 | Metadata Only |
 | Style | MergeCells | 208 | Metadata Only |
 | Style | ShrinkToFit | 209 | Metadata Only |
 | Style | FormulaHidden | 262 | Metadata Only |
 | Style | Locked | 269 | Metadata Only |
 | Style | WrapText | 276 | Metadata Only |
-| Style | IncludeAlignment | 413 | Metadata Only |
-| Style | IncludeBorder | 414 | Metadata Only |
-| Style | IncludeFont | 415 | Metadata Only |
-| Style | IncludeNumber | 416 | Metadata Only |
-| Style | IncludePatterns | 417 | Metadata Only |
-| Style | IncludeProtection | 418 | Metadata Only |
-| Style | Borders | 435 | Metadata Only |
-| Style | BuiltIn | 553 | Metadata Only |
+| Style | IncludeAlignment | 413 | Implemented |
+| Style | IncludeBorder | 414 | Implemented |
+| Style | IncludeFont | 415 | Implemented |
+| Style | IncludeNumber | 416 | Implemented |
+| Style | IncludePatterns | 417 | Implemented |
+| Style | IncludeProtection | 418 | Implemented |
+| Style | Borders | 435 | Implemented |
+| Style | BuiltIn | 553 | Implemented |
 | Style | NameLocal | 937 | Metadata Only |
 | Style | ReadingOrder | 975 | Metadata Only |
 | Style | AddIndent | 1063 | Metadata Only |
 | Style | NumberFormatLocal | 1097 | Metadata Only |
-| Styles | _NewEnum | -4 | Metadata Only |
+| Styles | _NewEnum | -4 | Implemented |
 | Styles | _Default | 0 | Metadata Only |
-| Styles | Count | 118 | Metadata Only |
+| Styles | Count | 118 | Implemented |
 | Styles | Application | 148 | Metadata Only |
 | Styles | Creator | 149 | Metadata Only |
 | Styles | Parent | 150 | Metadata Only |
-| Styles | Item | 170 | Metadata Only |
+| Styles | Item | 170 | Implemented |

@@ -52,9 +52,28 @@ cargo test -p excel-com --test live -- --ignored --test-threads=1
 cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
 ```
 
-Events, charts, macros, existing-session attachment, marshaling, generic
-collections, conditional formatting, styles, themes, and a stable public API
-are intentionally out of scope for this first crate slice.
+Events, charts, existing-session attachment, marshaling, generic collections,
+and a stable public API remain intentionally out of scope for this first crate
+slice.
+
+## Conditional formatting, styles, Notes, and hyperlinks
+
+`Range::format_conditions` exposes typed conditional-format rule families;
+Excel continues to evaluate formulas, ordering, priority, and `StopIfTrue`.
+`Range::display_format` is a read-only view of effective displayed formatting,
+not an alias for ordinary Range formatting. `Workbook::styles` provides
+workbook Styles, and Range assignment supports both names and a Style object.
+
+Theme colours use `ThemeColor`; direct `ExcelColor` values and theme values are
+both left to Excel's own precedence rules. Tint and shade values are checked in
+the inclusive `-1.0..=1.0` range before COM.
+
+Modern Excel calls its legacy `Comment` objects Notes. The crate keeps them
+separate from read-only, account-dependent threaded comments. Hyperlinks carry
+an external `Address` and/or internal workbook `SubAddress`; the crate does
+not validate or follow targets, and live coverage creates no external link.
+The visible acceptance tests are opt-in and their partial/runtime-blocked
+observations are recorded under `knowledge/excel-object-model/`.
 
 ## Structured data operations
 

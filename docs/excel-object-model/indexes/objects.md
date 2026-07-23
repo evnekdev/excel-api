@@ -2,7 +2,7 @@
 
 | Object | Kind | Implementation | Documentation | Tests |
 |---|---|---|---|---|
-| AboveAverage | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [AboveAverage](../objects/aboveaverage.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Action | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Actions | dispatch-interface | Metadata Only | Generated | Not Tested |
 | AddIn | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -17,7 +17,7 @@
 | Arc | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Arcs | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Areas](../objects/areas.md) | dispatch-interface | Partial | Reviewed | Live Tested |
-| Author | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Author](../objects/author.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | AutoCorrect | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [AutoFilter](../objects/autofilter.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | AutoRecover | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -56,16 +56,16 @@
 | CheckBox | dispatch-interface | Metadata Only | Generated | Not Tested |
 | CheckBoxes | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ColorFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ColorScale | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ColorScaleCriteria | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ColorScaleCriterion | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ColorScale](../objects/colorscale.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [ColorScaleCriteria](../objects/colorscalecriteria.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [ColorScaleCriterion](../objects/colorscalecriterion.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | ColorStop | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ColorStops | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Comment | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Comments | dispatch-interface | Metadata Only | Generated | Not Tested |
-| CommentsThreaded | dispatch-interface | Metadata Only | Generated | Not Tested |
-| CommentThreaded | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ConditionValue | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Comment](../objects/comment.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Comments](../objects/comments.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [CommentsThreaded](../objects/commentsthreaded.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [CommentThreaded](../objects/commentthreaded.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [ConditionValue](../objects/conditionvalue.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Connections | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ConnectorFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ControlFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -94,7 +94,7 @@
 | DialogSheet | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DialogSheets | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DialogSheetView | dispatch-interface | Metadata Only | Generated | Not Tested |
-| DisplayFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [DisplayFormat](../objects/displayformat.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | DisplayUnitLabel | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DocEvents | event-interface | Not Started | Generated | Not Tested |
 | DownBars | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -117,9 +117,9 @@
 | [Filters](../objects/filters.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Floor | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Font](../objects/font.md) | dispatch-interface | Partial | Reviewed | Live Tested |
-| FormatColor | dispatch-interface | Metadata Only | Generated | Not Tested |
-| FormatCondition | dispatch-interface | Metadata Only | Generated | Not Tested |
-| FormatConditions | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [FormatColor](../objects/formatcolor.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [FormatCondition](../objects/formatcondition.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [FormatConditions](../objects/formatconditions.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | FreeformBuilder | dispatch-interface | Metadata Only | Generated | Not Tested |
 | FullSeriesCollection | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Global | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -135,8 +135,8 @@
 | HiLoLines | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [HPageBreak](../objects/hpagebreak.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [HPageBreaks](../objects/hpagebreaks.md) | dispatch-interface | Partial | Reviewed | Blocked |
-| Hyperlink | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Hyperlinks | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Hyperlink](../objects/hyperlink.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Hyperlinks](../objects/hyperlinks.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | IAboveAverage | interface | Metadata Only | Generated | Not Tested |
 | IAction | interface | Metadata Only | Generated | Not Tested |
 | IActions | interface | Metadata Only | Generated | Not Tested |
@@ -195,13 +195,13 @@
 | ICommentsThreaded | interface | Metadata Only | Generated | Not Tested |
 | ICommentThreaded | interface | Metadata Only | Generated | Not Tested |
 | Icon | dispatch-interface | Metadata Only | Generated | Not Tested |
-| IconCriteria | dispatch-interface | Metadata Only | Generated | Not Tested |
-| IconCriterion | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [IconCriteria](../objects/iconcriteria.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [IconCriterion](../objects/iconcriterion.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | IConditionValue | interface | Metadata Only | Generated | Not Tested |
 | IConnections | interface | Metadata Only | Generated | Not Tested |
 | IConnectorFormat | interface | Metadata Only | Generated | Not Tested |
 | IconSet | dispatch-interface | Metadata Only | Generated | Not Tested |
-| IconSetCondition | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [IconSetCondition](../objects/iconsetcondition.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | IconSets | dispatch-interface | Metadata Only | Generated | Not Tested |
 | IControlFormat | interface | Metadata Only | Generated | Not Tested |
 | ICorners | interface | Metadata Only | Generated | Not Tested |
@@ -695,8 +695,8 @@
 | SpellingOptions | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Spinner | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Spinners | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Style | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Styles | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Style](../objects/style.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Styles](../objects/styles.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [Tab](../objects/tab.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | TableObject | dispatch-interface | Metadata Only | Generated | Not Tested |
 | TableStyle | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -717,11 +717,11 @@
 | ToolbarButton | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ToolbarButtons | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Toolbars | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Top10 | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Top10](../objects/top10.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | TreeviewControl | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Trendline | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Trendlines | dispatch-interface | Metadata Only | Generated | Not Tested |
-| UniqueValues | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [UniqueValues](../objects/uniquevalues.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | UpBars | dispatch-interface | Metadata Only | Generated | Not Tested |
 | UsedObjects | dispatch-interface | Metadata Only | Generated | Not Tested |
 | UserAccess | dispatch-interface | Metadata Only | Generated | Not Tested |

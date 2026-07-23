@@ -80,6 +80,21 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | `tables` | true |
 | `validation` | true |
 
+### Advanced presentation
+
+| Capability | Available |
+|---|---|
+| `color_scales` | true |
+| `conditional_formatting` | true |
+| `data_bars` | true |
+| `display_format` | true |
+| `hyperlinks` | true |
+| `icon_sets` | true |
+| `legacy_comments` | true |
+| `styles` | true |
+| `theme_colors` | true |
+| `threaded_comment_inspection` | true |
+
 
 
 ## Relationships
@@ -162,7 +177,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Resize | PROPERTYGET | Range | declared | 256 | Implemented | Reviewed | Live Tested | |
 | Row | PROPERTYGET | i32 | declared | 257 | Implemented | Reviewed | Live Tested | |
 | Rows | PROPERTYGET | Range | declared | 258 | Implemented | Reviewed | Live Tested | |
-| Style | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 260 | Metadata Only | Reviewed | Not Tested | |
+| Style | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 260 | Implemented | Reviewed | Live Tested | |
 | Formula | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 261 | Implemented | Reviewed | Live Tested | |
 | FormulaHidden | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 262 | Implemented | Reviewed | Blocked | |
 | FormulaLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 263 | Implemented | Reviewed | Live Tested | |
@@ -194,12 +209,12 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ShowDetail | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 585 | Implemented | Reviewed | Blocked | |
 | FormulaArray | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 586 | Implemented | Reviewed | Live Tested | |
 | Characters | PROPERTYGET | Characters | declared | 603 | Metadata Only | Reviewed | Not Tested | |
-| DisplayFormat | PROPERTYGET | DisplayFormat | declared | 666 | Metadata Only | Reviewed | Not Tested | |
+| DisplayFormat | PROPERTYGET | DisplayFormat | declared | 666 | Implemented | Reviewed | Live Tested | |
 | LocationInTable | PROPERTYGET | XlLocationInTable | declared | 691 | Metadata Only | Reviewed | Not Tested | |
 | PivotTable | PROPERTYGET | PivotTable | declared | 716 | Metadata Only | Reviewed | Not Tested | |
 | PivotField | PROPERTYGET | PivotField | declared | 731 | Metadata Only | Reviewed | Not Tested | |
 | PivotItem | PROPERTYGET | PivotItem | declared | 740 | Metadata Only | Reviewed | Not Tested | |
-| Comment | PROPERTYGET | Comment | declared | 910 | Metadata Only | Reviewed | Not Tested | |
+| Comment | PROPERTYGET | Comment | declared | 910 | Implemented | Reviewed | Live Tested | |
 | SoundNote | PROPERTYGET | SoundNote | declared | 916 | Metadata Only | Reviewed | Not Tested | |
 | ReadingOrder | PROPERTYGET/PROPERTYPUT | i32 | declared | 975 | Implemented | Reviewed | Blocked | |
 | AddIndent | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1063 | Metadata Only | Reviewed | Not Tested | |
@@ -211,8 +226,8 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | Validation | PROPERTYGET | Validation | declared | 1387 | Implemented | Reviewed | Live Tested | |
 | Value2 | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1388 | Implemented | Reviewed | Live Tested | |
 | Phonetic | PROPERTYGET | Phonetic | declared | 1391 | Metadata Only | Reviewed | Not Tested | |
-| FormatConditions | PROPERTYGET | FormatConditions | declared | 1392 | Metadata Only | Reviewed | Not Tested | |
-| Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Metadata Only | Reviewed | Not Tested | |
+| FormatConditions | PROPERTYGET | FormatConditions | declared | 1392 | Implemented | Reviewed | Live Tested | |
+| Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Implemented | Reviewed | Live Tested | |
 | Formula2 | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1580 | Implemented | Reviewed | Live Tested | |
 | Phonetics | PROPERTYGET | Phonetics | declared | 1811 | Metadata Only | Reviewed | Not Tested | |
 | ID | PROPERTYGET/PROPERTYPUT | String | declared | 1813 | Metadata Only | Reviewed | Not Tested | |
@@ -226,7 +241,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | ServerActions | PROPERTYGET | Actions | declared | 2491 | Metadata Only | Reviewed | Not Tested | |
 | CountLarge | PROPERTYGET | AutomationValue | declared | 2499 | Metadata Only | Reviewed | Not Tested | |
 | SparklineGroups | PROPERTYGET | SparklineGroups | declared | 2853 | Metadata Only | Reviewed | Not Tested | |
-| CommentThreaded | PROPERTYGET | CommentThreaded | declared | 3281 | Metadata Only | Reviewed | Not Tested | |
+| CommentThreaded | PROPERTYGET | CommentThreaded | declared | 3281 | Implemented | Reviewed | Live Tested | |
 | LinkedDataTypeState | PROPERTYGET | AutomationValue | declared | 3291 | Metadata Only | Reviewed | Not Tested | |
 | HasSpill | PROPERTYGET | AutomationValue | declared | 3295 | Implemented | Reviewed | Live Tested | |
 | SpillingToRange | PROPERTYGET | Range | declared | 3296 | Implemented | Reviewed | Live Tested | |
@@ -311,7 +326,7 @@ The cell and rectangular-value object. The bounded crate slice supports values, 
 | AutoComplete | String | 1 | declared | 1185 | Metadata Only | Reviewed | Not Tested | |
 | InsertIndent | Unknown | 1 | declared | 1381 | Metadata Only | Reviewed | Not Tested | |
 | UnMerge | Unknown | 0 | declared | 1384 | Implemented | Reviewed | Blocked | |
-| AddComment | Comment | 1 | declared | 1389 | Metadata Only | Reviewed | Not Tested | |
+| AddComment | Comment | 1 | declared | 1389 | Implemented | Reviewed | Live Tested | |
 | ClearComments | Unknown | 0 | declared | 1390 | Implemented | Reviewed | Live Tested | |
 | _PrintOut | AutomationValue | 8 | declared | 1772 | Metadata Only | Reviewed | Not Tested | |
 | SetPhonetic | Unknown | 0 | declared | 1812 | Metadata Only | Reviewed | Not Tested | |

@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| UniqueValues | Delete | 117 | Metadata Only |
+| UniqueValues | Delete | 117 | Implemented |
 | UniqueValues | ModifyAppliesToRange | 2627 | Metadata Only |
 | UniqueValues | SetFirstPriority | 2629 | Metadata Only |
 | UniqueValues | SetLastPriority | 2630 | Metadata Only |

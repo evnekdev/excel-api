@@ -1,0 +1,1 @@
+{"environment_id":"prompt16-conditional-first-run","result":"failed-before-creation","member":"AddIconSetCondition","cause":"The initial wrapper supplied an argument. The implementation now calls the no-argument member and assigns IconSet afterward.","retest":"pending-clean-Excel-state"}

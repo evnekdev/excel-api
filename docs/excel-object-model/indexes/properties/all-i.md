@@ -733,15 +733,15 @@
 | Icon | Creator | 149 | Metadata Only |
 | Icon | Parent | 150 | Metadata Only |
 | Icon | Index | 486 | Metadata Only |
-| IconCriteria | _NewEnum | -4 | Metadata Only |
+| IconCriteria | _NewEnum | -4 | Implemented |
 | IconCriteria | _Default | 0 | Metadata Only |
-| IconCriteria | Count | 118 | Metadata Only |
-| IconCriteria | Item | 170 | Metadata Only |
-| IconCriterion | Value | 6 | Metadata Only |
-| IconCriterion | Type | 108 | Metadata Only |
+| IconCriteria | Count | 118 | Implemented |
+| IconCriteria | Item | 170 | Implemented |
+| IconCriterion | Value | 6 | Implemented |
+| IconCriterion | Type | 108 | Implemented |
 | IconCriterion | Index | 486 | Metadata Only |
 | IconCriterion | Operator | 797 | Metadata Only |
-| IconCriterion | Icon | 2747 | Metadata Only |
+| IconCriterion | Icon | 2747 | Implemented |
 | IConditionValue | Value | 6 | Metadata Only |
 | IConditionValue | Type | 108 | Metadata Only |
 | IConditionValue | Application | 148 | Metadata Only |
@@ -776,16 +776,16 @@
 | IconSetCondition | Creator | 149 | Metadata Only |
 | IconSetCondition | Parent | 150 | Metadata Only |
 | IconSetCondition | Formula | 261 | Metadata Only |
-| IconSetCondition | Priority | 985 | Metadata Only |
+| IconSetCondition | Priority | 985 | Implemented |
 | IconSetCondition | ScopeType | 2615 | Metadata Only |
 | IconSetCondition | StopIfTrue | 2625 | Metadata Only |
-| IconSetCondition | AppliesTo | 2626 | Metadata Only |
+| IconSetCondition | AppliesTo | 2626 | Implemented |
 | IconSetCondition | PTCondition | 2631 | Metadata Only |
-| IconSetCondition | ReverseOrder | 2723 | Metadata Only |
+| IconSetCondition | ReverseOrder | 2723 | Implemented |
 | IconSetCondition | PercentileValues | 2724 | Metadata Only |
-| IconSetCondition | ShowIconOnly | 2725 | Metadata Only |
-| IconSetCondition | IconSet | 2726 | Metadata Only |
-| IconSetCondition | IconCriteria | 2727 | Metadata Only |
+| IconSetCondition | ShowIconOnly | 2725 | Implemented |
+| IconSetCondition | IconSet | 2726 | Implemented |
+| IconSetCondition | IconCriteria | 2727 | Implemented |
 | IconSets | _NewEnum | -4 | Metadata Only |
 | IconSets | _Default | 0 | Metadata Only |
 | IconSets | Count | 118 | Metadata Only |
@@ -2405,10 +2405,10 @@
 | Interior | Application | 148 | Metadata Only |
 | Interior | Creator | 149 | Metadata Only |
 | Interior | Parent | 150 | Metadata Only |
-| Interior | ThemeColor | 2365 | Metadata Only |
-| Interior | TintAndShade | 2366 | Metadata Only |
+| Interior | ThemeColor | 2365 | Implemented |
+| Interior | TintAndShade | 2366 | Implemented |
 | Interior | PatternThemeColor | 2643 | Metadata Only |
-| Interior | PatternTintAndShade | 2644 | Metadata Only |
+| Interior | PatternTintAndShade | 2644 | Implemented |
 | Interior | Gradient | 2645 | Metadata Only |
 | IODBCConnection | Application | 148 | Metadata Only |
 | IODBCConnection | Creator | 149 | Metadata Only |

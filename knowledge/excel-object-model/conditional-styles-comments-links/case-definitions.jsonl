@@ -1,0 +1,3 @@
+{"case_id":"fresh-add-baseline","purpose":"Confirm one fresh Workbooks.Add invocation and natural owned-workbook cleanup before Prompt 16 live coverage.","external_network":false}
+{"case_id":"conditional-formatting","purpose":"Exercise rule construction, subtype inspection, priority, display format, deletion, and persistence in an owned unsaved workbook.","external_network":false}
+{"case_id":"styles-comments-links","purpose":"Exercise custom styles, Notes, internal hyperlinks, and persistence without following targets.","external_network":false}

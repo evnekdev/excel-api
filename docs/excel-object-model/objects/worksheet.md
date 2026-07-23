@@ -93,7 +93,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Next | PROPERTYGET | Object | declared | 502 | Metadata Only | Reviewed | Not Tested | |
 | Previous | PROPERTYGET | Object | declared | 503 | Metadata Only | Reviewed | Not Tested | |
 | Visible | PROPERTYGET/PROPERTYPUT | XlSheetVisibility | declared | 558 | Implemented | Reviewed | Live Tested | |
-| Comments | PROPERTYGET | Comments | declared | 575 | Metadata Only | Reviewed | Not Tested | |
+| Comments | PROPERTYGET | Comments | declared | 575 | Implemented | Reviewed | Live Tested | |
 | OnCalculate | PROPERTYGET/PROPERTYPUT | String | declared | 625 | Metadata Only | Reviewed | Not Tested | |
 | OnEntry | PROPERTYGET/PROPERTYPUT | String | declared | 627 | Metadata Only | Reviewed | Not Tested | |
 | OnDoubleClick | PROPERTYGET/PROPERTYPUT | String | declared | 628 | Metadata Only | Reviewed | Not Tested | |
@@ -118,7 +118,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | ProtectionMode | PROPERTYGET | bool | declared | 1159 | Implemented | Reviewed | Blocked | |
 | CodeName | PROPERTYGET | String | declared | 1373 | Metadata Only | Reviewed | Not Tested | |
 | Shapes | PROPERTYGET | Shapes | declared | 1377 | Metadata Only | Reviewed | Not Tested | |
-| Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Metadata Only | Reviewed | Not Tested | |
+| Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Implemented | Reviewed | Live Tested | |
 | HPageBreaks | PROPERTYGET | HPageBreaks | declared | 1418 | Implemented | Reviewed | Blocked | |
 | VPageBreaks | PROPERTYGET | VPageBreaks | declared | 1419 | Implemented | Reviewed | Blocked | |
 | EnableCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 1424 | Metadata Only | Reviewed | Not Tested | |
@@ -134,7 +134,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | ListObjects | PROPERTYGET | ListObjects | declared | 2259 | Implemented | Reviewed | Live Tested | |
 | EnableFormatConditionsCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 2511 | Metadata Only | Reviewed | Not Tested | |
 | PrintedCommentPages | PROPERTYGET | i32 | declared | 2857 | Metadata Only | Reviewed | Not Tested | |
-| CommentsThreaded | PROPERTYGET | CommentsThreaded | declared | 3282 | Metadata Only | Reviewed | Not Tested | |
+| CommentsThreaded | PROPERTYGET | CommentsThreaded | declared | 3282 | Implemented | Reviewed | Live Tested | |
 | Sort | PROPERTYGET | Sort | declared | 3288 | Metadata Only | Reviewed | Not Tested | |
 | AutoFilter | PROPERTYGET | AutoFilter | declared | 3289 | Implemented | Reviewed | Live Tested | |
 | NamedSheetViews | PROPERTYGET | NamedSheetViewCollection | declared | 3309 | Metadata Only | Reviewed | Not Tested | |

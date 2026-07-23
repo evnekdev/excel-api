@@ -10,12 +10,12 @@
 | UniqueValues | Parent | 150 | Metadata Only |
 | UniqueValues | NumberFormat | 193 | Metadata Only |
 | UniqueValues | Borders | 435 | Metadata Only |
-| UniqueValues | Priority | 985 | Metadata Only |
+| UniqueValues | Priority | 985 | Implemented |
 | UniqueValues | ScopeType | 2615 | Metadata Only |
 | UniqueValues | StopIfTrue | 2625 | Metadata Only |
-| UniqueValues | AppliesTo | 2626 | Metadata Only |
+| UniqueValues | AppliesTo | 2626 | Implemented |
 | UniqueValues | PTCondition | 2631 | Metadata Only |
-| UniqueValues | DupeUnique | 2733 | Metadata Only |
+| UniqueValues | DupeUnique | 2733 | Implemented |
 | UpBars | Name | 110 | Metadata Only |
 | UpBars | Format | 116 | Metadata Only |
 | UpBars | Border | 128 | Metadata Only |
