@@ -130,7 +130,7 @@
       "dispid": 116,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.format",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -146,11 +146,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -431,7 +431,7 @@
       "dispid": 133,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.position",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -448,11 +448,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -641,7 +641,7 @@
       "dispid": 138,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.text",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -658,11 +658,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -716,7 +716,7 @@
       "dispid": 146,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.font",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -732,11 +732,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -849,7 +849,7 @@
       "dispid": 171,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showlegendkey",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -866,11 +866,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -891,7 +891,7 @@
       "dispid": 193,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.numberformat",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -908,11 +908,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1379,7 +1379,7 @@
       "dispid": 2022,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showseriesname",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1396,11 +1396,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1421,7 +1421,7 @@
       "dispid": 2023,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showcategoryname",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1438,11 +1438,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1463,7 +1463,7 @@
       "dispid": 2024,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showvalue",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1480,11 +1480,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1505,7 +1505,7 @@
       "dispid": 2025,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showpercentage",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1522,11 +1522,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1547,7 +1547,7 @@
       "dispid": 2026,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.showbubblesize",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1564,11 +1564,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1589,7 +1589,7 @@
       "dispid": 2027,
       "documentation_status": "reviewed",
       "id": "excel.datalabel.separator",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -1606,11 +1606,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"

@@ -1295,12 +1295,9 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.series.bubblesizes",
     "excel.series.markerforegroundcolor",
     "excel.series.markerbackgroundcolor",
-    "excel.series.markertransparency",
     "excel.series.errorbars",
     "excel.errorbars.format",
     "excel.errorbars.border",
-    "excel.errorbars.direction",
-    "excel.errorbars.include",
     "excel.axis.minorunit",
     "excel.axis.minorunitisauto",
     "excel.axis.crosses",
@@ -1316,6 +1313,84 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.ticklabels.font",
     "excel.gridlines.format",
     "excel.gridlines.border",
+    "excel.datalabels.newenum",
+    "excel.datalabels.position",
+    "excel.datalabels.separator",
+    "excel.datalabels.showseriesname",
+    "excel.datalabels.showcategoryname",
+    "excel.datalabels.showvalue",
+    "excel.datalabels.showpercentage",
+    "excel.datalabels.showbubblesize",
+    "excel.datalabels.showlegendkey",
+    "excel.series.hasleaderlines",
+    "excel.datalabels.numberformat",
+    "excel.datalabels.font",
+    "excel.datalabels.format",
+    "excel.datalabel.position",
+    "excel.datalabel.separator",
+    "excel.datalabel.showseriesname",
+    "excel.datalabel.showcategoryname",
+    "excel.datalabel.showvalue",
+    "excel.datalabel.showpercentage",
+    "excel.datalabel.showbubblesize",
+    "excel.datalabel.showlegendkey",
+    "excel.datalabel.numberformat",
+    "excel.datalabel.font",
+    "excel.datalabel.format",
+    "excel.datalabel.text",
+    "excel.trendline.name",
+    "excel.trendline.order",
+    "excel.trendline.period",
+    "excel.trendline.forward",
+    "excel.trendline.backward",
+    "excel.trendline.intercept",
+    "excel.trendline.datalabel",
+    "excel.trendline.format",
+    "excel.chart.applylayout",
+    "excel.chart.chartstyle",
+    "excel.chart.applycharttemplate",
+    "excel.chart.savecharttemplate",
+    "excel.chart.elevation",
+    "excel.chart.rotation",
+    "excel.chart.perspective",
+    "excel.chart.rightangleaxes",
+    "excel.chart.heightpercent",
+    "excel.chart.depthpercent",
+    "excel.chart.autoscaling",
+    "excel.chart.gapdepth",
+    "excel.chart.walls",
+    "excel.chart.floor",
+    "excel.chartarea.left",
+    "excel.chartarea.top",
+    "excel.chartarea.width",
+    "excel.chartarea.height",
+    "excel.plotarea.left",
+    "excel.plotarea.top",
+    "excel.plotarea.width",
+    "excel.plotarea.height",
+    "excel.plotarea.insideleft",
+    "excel.plotarea.insidetop",
+    "excel.plotarea.insidewidth",
+    "excel.plotarea.insideheight",
+    "excel.walls.format",
+    "excel.floor.format",
+    "excel.fillformat.solid",
+    "excel.fillformat.visible",
+    "excel.fillformat.forecolor",
+    "excel.fillformat.backcolor",
+    "excel.fillformat.transparency",
+    "excel.fillformat.onecolorgradient",
+    "excel.fillformat.twocolorgradient",
+    "excel.fillformat.presetgradient",
+    "excel.fillformat.patterned",
+    "excel.lineformat.visible",
+    "excel.lineformat.forecolor",
+    "excel.lineformat.transparency",
+    "excel.lineformat.weight",
+    "excel.lineformat.dashstyle",
+    "excel.colorformat.rgb",
+    "excel.colorformat.objectthemecolor",
+    "excel.colorformat.tintandshade",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
@@ -1326,6 +1401,9 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         return descriptor;
     }
     if let Some(descriptor) = drawing_member(id, put) {
+        return descriptor;
+    }
+    if let Some(descriptor) = chart_completeness_member(id, put) {
         return descriptor;
     }
     if let Some(descriptor) = presentation_member(id, put) {
@@ -2174,7 +2252,7 @@ fn external_data_pivot_member(id: MemberId, put: bool) -> Option<MemberDescripto
         ("excel.slicers.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
         ("excel.slicer.name", _) => ("Name", MemberKind::PropertyGet),
         ("excel.slicer.slicercache", _) => ("SlicerCache", MemberKind::PropertyGet),
-        _ => return chart_completeness_member(id, put),
+        _ => return None,
     };
     Some(MemberDescriptor { id, name, kind })
 }
@@ -2185,9 +2263,7 @@ fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor
         ("excel.chartgroups.count", _) | ("excel.points.count", _) => {
             ("Count", MemberKind::PropertyGet)
         }
-        ("excel.chartgroups.item", _) | ("excel.points.item", _) => {
-            ("Item", MemberKind::Method)
-        }
+        ("excel.chartgroups.item", _) | ("excel.points.item", _) => ("Item", MemberKind::Method),
         ("excel.chartgroups.newenum", _) | ("excel.points.newenum", _) => {
             ("_NewEnum", MemberKind::PropertyGet)
         }
@@ -2202,12 +2278,8 @@ fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor
         ("excel.chartgroup.varybycategories", true) => {
             ("VaryByCategories", MemberKind::PropertyPut)
         }
-        ("excel.chartgroup.firstsliceangle", false) => {
-            ("FirstSliceAngle", MemberKind::PropertyGet)
-        }
-        ("excel.chartgroup.firstsliceangle", true) => {
-            ("FirstSliceAngle", MemberKind::PropertyPut)
-        }
+        ("excel.chartgroup.firstsliceangle", false) => ("FirstSliceAngle", MemberKind::PropertyGet),
+        ("excel.chartgroup.firstsliceangle", true) => ("FirstSliceAngle", MemberKind::PropertyPut),
         ("excel.chartgroup.doughnutholesize", false) => {
             ("DoughnutHoleSize", MemberKind::PropertyGet)
         }
@@ -2231,17 +2303,21 @@ fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor
         ("excel.series.plotorder", true) => ("PlotOrder", MemberKind::PropertyPut),
         ("excel.series.bubblesizes", false) => ("BubbleSizes", MemberKind::PropertyGet),
         ("excel.series.bubblesizes", true) => ("BubbleSizes", MemberKind::PropertyPut),
-        ("excel.series.markerforegroundcolor", false) => ("MarkerForegroundColor", MemberKind::PropertyGet),
-        ("excel.series.markerforegroundcolor", true) => ("MarkerForegroundColor", MemberKind::PropertyPut),
-        ("excel.series.markerbackgroundcolor", false) => ("MarkerBackgroundColor", MemberKind::PropertyGet),
-        ("excel.series.markerbackgroundcolor", true) => ("MarkerBackgroundColor", MemberKind::PropertyPut),
-        ("excel.series.markertransparency", false) => ("MarkerTransparency", MemberKind::PropertyGet),
-        ("excel.series.markertransparency", true) => ("MarkerTransparency", MemberKind::PropertyPut),
+        ("excel.series.markerforegroundcolor", false) => {
+            ("MarkerForegroundColor", MemberKind::PropertyGet)
+        }
+        ("excel.series.markerforegroundcolor", true) => {
+            ("MarkerForegroundColor", MemberKind::PropertyPut)
+        }
+        ("excel.series.markerbackgroundcolor", false) => {
+            ("MarkerBackgroundColor", MemberKind::PropertyGet)
+        }
+        ("excel.series.markerbackgroundcolor", true) => {
+            ("MarkerBackgroundColor", MemberKind::PropertyPut)
+        }
         ("excel.series.errorbars", _) => ("ErrorBars", MemberKind::PropertyGet),
         ("excel.errorbars.format", _) => ("Format", MemberKind::PropertyGet),
         ("excel.errorbars.border", _) => ("Border", MemberKind::PropertyGet),
-        ("excel.errorbars.direction", _) => ("Direction", MemberKind::PropertyGet),
-        ("excel.errorbars.include", _) => ("Include", MemberKind::PropertyGet),
         ("excel.axis.minorunit", false) => ("MinorUnit", MemberKind::PropertyGet),
         ("excel.axis.minorunit", true) => ("MinorUnit", MemberKind::PropertyPut),
         ("excel.axis.minorunitisauto", false) => ("MinorUnitIsAuto", MemberKind::PropertyGet),
@@ -2266,6 +2342,157 @@ fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor
         ("excel.ticklabels.font", _) => ("Font", MemberKind::PropertyGet),
         ("excel.gridlines.format", _) => ("Format", MemberKind::PropertyGet),
         ("excel.gridlines.border", _) => ("Border", MemberKind::PropertyGet),
+        ("excel.datalabels.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.datalabels.position", false) | ("excel.datalabel.position", false) => {
+            ("Position", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.position", true) | ("excel.datalabel.position", true) => {
+            ("Position", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.separator", false) | ("excel.datalabel.separator", false) => {
+            ("Separator", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.separator", true) | ("excel.datalabel.separator", true) => {
+            ("Separator", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showseriesname", false) | ("excel.datalabel.showseriesname", false) => {
+            ("ShowSeriesName", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showseriesname", true) | ("excel.datalabel.showseriesname", true) => {
+            ("ShowSeriesName", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showcategoryname", false)
+        | ("excel.datalabel.showcategoryname", false) => {
+            ("ShowCategoryName", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showcategoryname", true)
+        | ("excel.datalabel.showcategoryname", true) => {
+            ("ShowCategoryName", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showvalue", false) | ("excel.datalabel.showvalue", false) => {
+            ("ShowValue", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showvalue", true) | ("excel.datalabel.showvalue", true) => {
+            ("ShowValue", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showpercentage", false) | ("excel.datalabel.showpercentage", false) => {
+            ("ShowPercentage", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showpercentage", true) | ("excel.datalabel.showpercentage", true) => {
+            ("ShowPercentage", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showbubblesize", false) | ("excel.datalabel.showbubblesize", false) => {
+            ("ShowBubbleSize", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showbubblesize", true) | ("excel.datalabel.showbubblesize", true) => {
+            ("ShowBubbleSize", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.showlegendkey", false) | ("excel.datalabel.showlegendkey", false) => {
+            ("ShowLegendKey", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.showlegendkey", true) | ("excel.datalabel.showlegendkey", true) => {
+            ("ShowLegendKey", MemberKind::PropertyPut)
+        }
+        ("excel.series.hasleaderlines", false) => ("HasLeaderLines", MemberKind::PropertyGet),
+        ("excel.series.hasleaderlines", true) => ("HasLeaderLines", MemberKind::PropertyPut),
+        ("excel.datalabels.numberformat", false) | ("excel.datalabel.numberformat", false) => {
+            ("NumberFormat", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.numberformat", true) | ("excel.datalabel.numberformat", true) => {
+            ("NumberFormat", MemberKind::PropertyPut)
+        }
+        ("excel.datalabels.font", _) | ("excel.datalabel.font", _) => {
+            ("Font", MemberKind::PropertyGet)
+        }
+        ("excel.datalabels.format", _) | ("excel.datalabel.format", _) => {
+            ("Format", MemberKind::PropertyGet)
+        }
+        ("excel.datalabel.text", false) => ("Text", MemberKind::PropertyGet),
+        ("excel.datalabel.text", true) => ("Text", MemberKind::PropertyPut),
+        ("excel.trendline.name", false) => ("Name", MemberKind::PropertyGet),
+        ("excel.trendline.name", true) => ("Name", MemberKind::PropertyPut),
+        ("excel.trendline.order", false) => ("Order", MemberKind::PropertyGet),
+        ("excel.trendline.order", true) => ("Order", MemberKind::PropertyPut),
+        ("excel.trendline.period", false) => ("Period", MemberKind::PropertyGet),
+        ("excel.trendline.period", true) => ("Period", MemberKind::PropertyPut),
+        ("excel.trendline.forward", false) => ("Forward", MemberKind::PropertyGet),
+        ("excel.trendline.forward", true) => ("Forward", MemberKind::PropertyPut),
+        ("excel.trendline.backward", false) => ("Backward", MemberKind::PropertyGet),
+        ("excel.trendline.backward", true) => ("Backward", MemberKind::PropertyPut),
+        ("excel.trendline.intercept", false) => ("Intercept", MemberKind::PropertyGet),
+        ("excel.trendline.intercept", true) => ("Intercept", MemberKind::PropertyPut),
+        ("excel.trendline.datalabel", _) => ("DataLabel", MemberKind::PropertyGet),
+        ("excel.trendline.format", _) => ("Format", MemberKind::PropertyGet),
+        ("excel.chart.applylayout", _) => ("ApplyLayout", MemberKind::Method),
+        ("excel.chart.chartstyle", false) => ("ChartStyle", MemberKind::PropertyGet),
+        ("excel.chart.chartstyle", true) => ("ChartStyle", MemberKind::PropertyPut),
+        ("excel.chart.applycharttemplate", _) => ("ApplyChartTemplate", MemberKind::Method),
+        ("excel.chart.savecharttemplate", _) => ("SaveChartTemplate", MemberKind::Method),
+        ("excel.chart.elevation", false) => ("Elevation", MemberKind::PropertyGet),
+        ("excel.chart.elevation", true) => ("Elevation", MemberKind::PropertyPut),
+        ("excel.chart.rotation", false) => ("Rotation", MemberKind::PropertyGet),
+        ("excel.chart.rotation", true) => ("Rotation", MemberKind::PropertyPut),
+        ("excel.chart.perspective", false) => ("Perspective", MemberKind::PropertyGet),
+        ("excel.chart.perspective", true) => ("Perspective", MemberKind::PropertyPut),
+        ("excel.chart.rightangleaxes", false) => ("RightAngleAxes", MemberKind::PropertyGet),
+        ("excel.chart.rightangleaxes", true) => ("RightAngleAxes", MemberKind::PropertyPut),
+        ("excel.chart.heightpercent", false) => ("HeightPercent", MemberKind::PropertyGet),
+        ("excel.chart.heightpercent", true) => ("HeightPercent", MemberKind::PropertyPut),
+        ("excel.chart.depthpercent", false) => ("DepthPercent", MemberKind::PropertyGet),
+        ("excel.chart.depthpercent", true) => ("DepthPercent", MemberKind::PropertyPut),
+        ("excel.chart.autoscaling", false) => ("AutoScaling", MemberKind::PropertyGet),
+        ("excel.chart.autoscaling", true) => ("AutoScaling", MemberKind::PropertyPut),
+        ("excel.chart.gapdepth", false) => ("GapDepth", MemberKind::PropertyGet),
+        ("excel.chart.gapdepth", true) => ("GapDepth", MemberKind::PropertyPut),
+        ("excel.chart.walls", _) => ("Walls", MemberKind::PropertyGet),
+        ("excel.chart.floor", _) => ("Floor", MemberKind::PropertyGet),
+        ("excel.chartarea.left", _) | ("excel.plotarea.left", _) => {
+            ("Left", MemberKind::PropertyGet)
+        }
+        ("excel.chartarea.top", _) | ("excel.plotarea.top", _) => ("Top", MemberKind::PropertyGet),
+        ("excel.chartarea.width", _) | ("excel.plotarea.width", _) => {
+            ("Width", MemberKind::PropertyGet)
+        }
+        ("excel.chartarea.height", _) | ("excel.plotarea.height", _) => {
+            ("Height", MemberKind::PropertyGet)
+        }
+        ("excel.plotarea.insideleft", _) => ("InsideLeft", MemberKind::PropertyGet),
+        ("excel.plotarea.insidetop", _) => ("InsideTop", MemberKind::PropertyGet),
+        ("excel.plotarea.insidewidth", _) => ("InsideWidth", MemberKind::PropertyGet),
+        ("excel.plotarea.insideheight", _) => ("InsideHeight", MemberKind::PropertyGet),
+        ("excel.walls.format", _) | ("excel.floor.format", _) => {
+            ("Format", MemberKind::PropertyGet)
+        }
+        ("excel.fillformat.solid", _) => ("Solid", MemberKind::Method),
+        ("excel.fillformat.visible", false) => ("Visible", MemberKind::PropertyGet),
+        ("excel.fillformat.visible", true) => ("Visible", MemberKind::PropertyPut),
+        ("excel.fillformat.forecolor", _) => ("ForeColor", MemberKind::PropertyGet),
+        ("excel.fillformat.backcolor", _) => ("BackColor", MemberKind::PropertyGet),
+        ("excel.fillformat.transparency", false) => ("Transparency", MemberKind::PropertyGet),
+        ("excel.fillformat.transparency", true) => ("Transparency", MemberKind::PropertyPut),
+        ("excel.fillformat.onecolorgradient", _) => ("OneColorGradient", MemberKind::Method),
+        ("excel.fillformat.twocolorgradient", _) => ("TwoColorGradient", MemberKind::Method),
+        ("excel.fillformat.presetgradient", _) => ("PresetGradient", MemberKind::Method),
+        ("excel.fillformat.patterned", _) => ("Patterned", MemberKind::Method),
+        ("excel.lineformat.visible", false) => ("Visible", MemberKind::PropertyGet),
+        ("excel.lineformat.visible", true) => ("Visible", MemberKind::PropertyPut),
+        ("excel.lineformat.forecolor", _) => ("ForeColor", MemberKind::PropertyGet),
+        ("excel.lineformat.transparency", false) => ("Transparency", MemberKind::PropertyGet),
+        ("excel.lineformat.transparency", true) => ("Transparency", MemberKind::PropertyPut),
+        ("excel.lineformat.weight", false) => ("Weight", MemberKind::PropertyGet),
+        ("excel.lineformat.weight", true) => ("Weight", MemberKind::PropertyPut),
+        ("excel.lineformat.dashstyle", false) => ("DashStyle", MemberKind::PropertyGet),
+        ("excel.lineformat.dashstyle", true) => ("DashStyle", MemberKind::PropertyPut),
+        ("excel.colorformat.rgb", false) => ("RGB", MemberKind::PropertyGet),
+        ("excel.colorformat.rgb", true) => ("RGB", MemberKind::PropertyPut),
+        ("excel.colorformat.objectthemecolor", false) => {
+            ("ObjectThemeColor", MemberKind::PropertyGet)
+        }
+        ("excel.colorformat.objectthemecolor", true) => {
+            ("ObjectThemeColor", MemberKind::PropertyPut)
+        }
+        ("excel.colorformat.tintandshade", false) => ("TintAndShade", MemberKind::PropertyGet),
+        ("excel.colorformat.tintandshade", true) => ("TintAndShade", MemberKind::PropertyPut),
         ("excel.point.hasdatalabel", false) => ("HasDataLabel", MemberKind::PropertyGet),
         ("excel.point.hasdatalabel", true) => ("HasDataLabel", MemberKind::PropertyPut),
         ("excel.point.datalabel", _) => ("DataLabel", MemberKind::PropertyGet),
@@ -2276,12 +2503,8 @@ fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor
         ("excel.point.markersize", true) => ("MarkerSize", MemberKind::PropertyPut),
         ("excel.point.explosion", false) => ("Explosion", MemberKind::PropertyGet),
         ("excel.point.explosion", true) => ("Explosion", MemberKind::PropertyPut),
-        ("excel.point.invertifnegative", false) => {
-            ("InvertIfNegative", MemberKind::PropertyGet)
-        }
-        ("excel.point.invertifnegative", true) => {
-            ("InvertIfNegative", MemberKind::PropertyPut)
-        }
+        ("excel.point.invertifnegative", false) => ("InvertIfNegative", MemberKind::PropertyGet),
+        ("excel.point.invertifnegative", true) => ("InvertIfNegative", MemberKind::PropertyPut),
         _ => return None,
     };
     Some(MemberDescriptor { id, name, kind })

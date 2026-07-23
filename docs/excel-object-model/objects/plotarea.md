@@ -43,10 +43,10 @@ No capability metadata is recorded for this surface.
 |---|---|---|---|---:|---|---|---|---|
 | Name | PROPERTYGET | String | declared | 110 | Metadata Only | Reviewed | Not Tested | |
 | Format | PROPERTYGET | ChartFormat | declared | 116 | Implemented | Reviewed | Live Tested | |
-| Width | PROPERTYGET/PROPERTYPUT | f64 | declared | 122 | Metadata Only | Reviewed | Not Tested | |
-| Height | PROPERTYGET/PROPERTYPUT | f64 | declared | 123 | Metadata Only | Reviewed | Not Tested | |
-| Top | PROPERTYGET/PROPERTYPUT | f64 | declared | 126 | Metadata Only | Reviewed | Not Tested | |
-| Left | PROPERTYGET/PROPERTYPUT | f64 | declared | 127 | Metadata Only | Reviewed | Not Tested | |
+| Width | PROPERTYGET/PROPERTYPUT | f64 | declared | 122 | Implemented | Reviewed | Live Tested | |
+| Height | PROPERTYGET/PROPERTYPUT | f64 | declared | 123 | Implemented | Reviewed | Live Tested | |
+| Top | PROPERTYGET/PROPERTYPUT | f64 | declared | 126 | Implemented | Reviewed | Live Tested | |
+| Left | PROPERTYGET/PROPERTYPUT | f64 | declared | 127 | Implemented | Reviewed | Live Tested | |
 | Border | PROPERTYGET | Border | declared | 128 | Metadata Only | Reviewed | Not Tested | |
 | Interior | PROPERTYGET | Interior | declared | 129 | Metadata Only | Reviewed | Not Tested | |
 | Position | PROPERTYGET/PROPERTYPUT | XlChartElementPosition | declared | 133 | Metadata Only | Reviewed | Not Tested | |
@@ -54,10 +54,10 @@ No capability metadata is recorded for this surface.
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | Fill | PROPERTYGET | ChartFillFormat | declared | 1663 | Metadata Only | Reviewed | Not Tested | |
-| InsideLeft | PROPERTYGET/PROPERTYPUT | f64 | declared | 1667 | Metadata Only | Reviewed | Not Tested | |
-| InsideTop | PROPERTYGET/PROPERTYPUT | f64 | declared | 1668 | Metadata Only | Reviewed | Not Tested | |
-| InsideWidth | PROPERTYGET/PROPERTYPUT | f64 | declared | 1669 | Metadata Only | Reviewed | Not Tested | |
-| InsideHeight | PROPERTYGET/PROPERTYPUT | f64 | declared | 1670 | Metadata Only | Reviewed | Not Tested | |
+| InsideLeft | PROPERTYGET/PROPERTYPUT | f64 | declared | 1667 | Implemented | Reviewed | Live Tested | |
+| InsideTop | PROPERTYGET/PROPERTYPUT | f64 | declared | 1668 | Implemented | Reviewed | Live Tested | |
+| InsideWidth | PROPERTYGET/PROPERTYPUT | f64 | declared | 1669 | Implemented | Reviewed | Live Tested | |
+| InsideHeight | PROPERTYGET/PROPERTYPUT | f64 | declared | 1670 | Implemented | Reviewed | Live Tested | |
 | _InsideLeft | PROPERTYGET | f64 | declared | 2654 | Metadata Only | Reviewed | Not Tested | |
 | _InsideTop | PROPERTYGET | f64 | declared | 2655 | Metadata Only | Reviewed | Not Tested | |
 | _InsideWidth | PROPERTYGET | f64 | declared | 2656 | Metadata Only | Reviewed | Not Tested | |

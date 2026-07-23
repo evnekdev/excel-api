@@ -230,14 +230,14 @@
 | ThreeDFormat | Creator | 1610743809 | Metadata Only |
 | TickLabels | Name | 110 | Metadata Only |
 | TickLabels | Format | 116 | Metadata Only |
-| TickLabels | Orientation | 134 | Metadata Only |
-| TickLabels | Font | 146 | Metadata Only |
+| TickLabels | Orientation | 134 | Implemented |
+| TickLabels | Font | 146 | Implemented |
 | TickLabels | Application | 148 | Metadata Only |
 | TickLabels | Creator | 149 | Metadata Only |
 | TickLabels | Parent | 150 | Metadata Only |
 | TickLabels | NumberFormat | 193 | Implemented |
 | TickLabels | NumberFormatLinked | 194 | Metadata Only |
-| TickLabels | Offset | 254 | Metadata Only |
+| TickLabels | Offset | 254 | Implemented |
 | TickLabels | Alignment | 453 | Metadata Only |
 | TickLabels | ReadingOrder | 975 | Metadata Only |
 | TickLabels | NumberFormatLocal | 1097 | Metadata Only |
@@ -326,22 +326,22 @@
 | TreeviewControl | Hidden | 268 | Metadata Only |
 | TreeviewControl | Drilled | 1917 | Metadata Only |
 | Trendline | Type | 108 | Implemented |
-| Trendline | Name | 110 | Metadata Only |
-| Trendline | Format | 116 | Metadata Only |
+| Trendline | Name | 110 | Implemented |
+| Trendline | Format | 116 | Implemented |
 | Trendline | Border | 128 | Metadata Only |
 | Trendline | Application | 148 | Metadata Only |
 | Trendline | Creator | 149 | Metadata Only |
 | Trendline | Parent | 150 | Metadata Only |
-| Trendline | DataLabel | 158 | Metadata Only |
-| Trendline | Period | 184 | Metadata Only |
-| Trendline | Backward | 185 | Metadata Only |
-| Trendline | Intercept | 186 | Metadata Only |
+| Trendline | DataLabel | 158 | Implemented |
+| Trendline | Period | 184 | Implemented |
+| Trendline | Backward | 185 | Implemented |
+| Trendline | Intercept | 186 | Implemented |
 | Trendline | InterceptIsAuto | 187 | Metadata Only |
 | Trendline | NameIsAuto | 188 | Metadata Only |
 | Trendline | DisplayRSquared | 189 | Implemented |
 | Trendline | DisplayEquation | 190 | Implemented |
-| Trendline | Forward | 191 | Metadata Only |
-| Trendline | Order | 192 | Metadata Only |
+| Trendline | Forward | 191 | Implemented |
+| Trendline | Order | 192 | Implemented |
 | Trendline | Index | 486 | Metadata Only |
 | Trendline | Backward2 | 2650 | Metadata Only |
 | Trendline | Forward2 | 2651 | Metadata Only |

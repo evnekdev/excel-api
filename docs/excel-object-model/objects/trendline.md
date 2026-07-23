@@ -41,22 +41,22 @@ No capability metadata is recorded for this surface.
 | Property | Access | Type | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---|---|---:|---|---|---|---|
 | Type | PROPERTYGET/PROPERTYPUT | XlTrendlineType | declared | 108 | Implemented | Reviewed | Live Tested | |
-| Name | PROPERTYGET/PROPERTYPUT | String | declared | 110 | Metadata Only | Reviewed | Not Tested | |
-| Format | PROPERTYGET | ChartFormat | declared | 116 | Metadata Only | Reviewed | Not Tested | |
+| Name | PROPERTYGET/PROPERTYPUT | String | declared | 110 | Implemented | Reviewed | Live Tested | |
+| Format | PROPERTYGET | ChartFormat | declared | 116 | Implemented | Reviewed | Live Tested | |
 | Border | PROPERTYGET | Border | declared | 128 | Metadata Only | Reviewed | Not Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| DataLabel | PROPERTYGET | DataLabel | declared | 158 | Metadata Only | Reviewed | Not Tested | |
-| Period | PROPERTYGET/PROPERTYPUT | i32 | declared | 184 | Metadata Only | Reviewed | Not Tested | |
-| Backward | PROPERTYGET/PROPERTYPUT | i32 | declared | 185 | Metadata Only | Reviewed | Not Tested | |
-| Intercept | PROPERTYGET/PROPERTYPUT | f64 | declared | 186 | Metadata Only | Reviewed | Not Tested | |
+| DataLabel | PROPERTYGET | DataLabel | declared | 158 | Implemented | Reviewed | Live Tested | |
+| Period | PROPERTYGET/PROPERTYPUT | i32 | declared | 184 | Implemented | Reviewed | Live Tested | |
+| Backward | PROPERTYGET/PROPERTYPUT | i32 | declared | 185 | Implemented | Reviewed | Live Tested | |
+| Intercept | PROPERTYGET/PROPERTYPUT | f64 | declared | 186 | Implemented | Reviewed | Live Tested | |
 | InterceptIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 187 | Metadata Only | Reviewed | Not Tested | |
 | NameIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 188 | Metadata Only | Reviewed | Not Tested | |
 | DisplayRSquared | PROPERTYGET/PROPERTYPUT | bool | declared | 189 | Implemented | Reviewed | Live Tested | |
 | DisplayEquation | PROPERTYGET/PROPERTYPUT | bool | declared | 190 | Implemented | Reviewed | Live Tested | |
-| Forward | PROPERTYGET/PROPERTYPUT | i32 | declared | 191 | Metadata Only | Reviewed | Not Tested | |
-| Order | PROPERTYGET/PROPERTYPUT | i32 | declared | 192 | Metadata Only | Reviewed | Not Tested | |
+| Forward | PROPERTYGET/PROPERTYPUT | i32 | declared | 191 | Implemented | Reviewed | Live Tested | |
+| Order | PROPERTYGET/PROPERTYPUT | i32 | declared | 192 | Implemented | Reviewed | Live Tested | |
 | Index | PROPERTYGET | i32 | declared | 486 | Metadata Only | Reviewed | Not Tested | |
 | Backward2 | PROPERTYGET/PROPERTYPUT | f64 | declared | 2650 | Metadata Only | Reviewed | Not Tested | |
 | Forward2 | PROPERTYGET/PROPERTYPUT | f64 | declared | 2651 | Metadata Only | Reviewed | Not Tested | |

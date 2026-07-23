@@ -153,6 +153,113 @@ impl Trendline {
             "Trendline.Type was not an integer",
         )?))
     }
+    /// Returns the trendline's display name.
+    pub fn name(&self) -> Result<String, ExcelComError> {
+        get_text(&self.inner, "excel.trendline.name")
+    }
+    /// Sets the trendline's display name.
+    pub fn set_name(&self, value: &str) -> Result<(), ExcelComError> {
+        put(&self.inner, "excel.trendline.name", text_bstr(value)?)
+    }
+    /// Returns the polynomial order for an applicable trendline.
+    pub fn order(&self) -> Result<usize, ExcelComError> {
+        usize::try_from(get_i32(
+            &self.inner,
+            "excel.trendline.order",
+            "Trendline.Order was not an integer",
+        )?)
+        .map_err(|_| ExcelComError::Unsupported {
+            detail: "Trendline.Order was negative",
+        })
+    }
+    /// Sets an applicable polynomial order from 2 through 6.
+    pub fn set_order(&self, value: usize) -> Result<(), ExcelComError> {
+        if !(2..=6).contains(&value) {
+            return Err(ExcelComError::Unsupported {
+                detail: "polynomial Trendline.Order must be between 2 and 6",
+            });
+        }
+        put(
+            &self.inner,
+            "excel.trendline.order",
+            one_based(value, "trendline order must be positive")?,
+        )
+    }
+    /// Returns the moving-average period for an applicable trendline.
+    pub fn period(&self) -> Result<usize, ExcelComError> {
+        usize::try_from(get_i32(
+            &self.inner,
+            "excel.trendline.period",
+            "Trendline.Period was not an integer",
+        )?)
+        .map_err(|_| ExcelComError::Unsupported {
+            detail: "Trendline.Period was negative",
+        })
+    }
+    /// Sets an applicable moving-average period of at least 2.
+    pub fn set_period(&self, value: usize) -> Result<(), ExcelComError> {
+        if value < 2 {
+            return Err(ExcelComError::Unsupported {
+                detail: "moving-average Trendline.Period must be at least 2",
+            });
+        }
+        put(
+            &self.inner,
+            "excel.trendline.period",
+            one_based(value, "trendline period must be positive")?,
+        )
+    }
+    /// Returns the finite forward forecast amount for this trendline.
+    pub fn forward(&self) -> Result<f64, ExcelComError> {
+        get_f64(
+            &self.inner,
+            "excel.trendline.forward",
+            "Trendline.Forward was not numeric",
+        )
+    }
+    /// Sets a finite forward forecast amount.
+    pub fn set_forward(&self, value: f64) -> Result<(), ExcelComError> {
+        finite(value, "Trendline.Forward must be finite")?;
+        put(
+            &self.inner,
+            "excel.trendline.forward",
+            OwnedVariant::f64(value),
+        )
+    }
+    /// Returns the finite backward forecast amount for this trendline.
+    pub fn backward(&self) -> Result<f64, ExcelComError> {
+        get_f64(
+            &self.inner,
+            "excel.trendline.backward",
+            "Trendline.Backward was not numeric",
+        )
+    }
+    /// Sets a finite backward forecast amount.
+    pub fn set_backward(&self, value: f64) -> Result<(), ExcelComError> {
+        finite(value, "Trendline.Backward must be finite")?;
+        put(
+            &self.inner,
+            "excel.trendline.backward",
+            OwnedVariant::f64(value),
+        )
+    }
+    /// Returns the finite intercept for an applicable trendline.
+    pub fn intercept(&self) -> Result<f64, ExcelComError> {
+        get_f64(
+            &self.inner,
+            "excel.trendline.intercept",
+            "Trendline.Intercept was not numeric",
+        )
+    }
+    /// Sets a finite intercept for an applicable trendline.
+    pub fn set_intercept(&self, value: f64) -> Result<(), ExcelComError> {
+        finite(value, "Trendline.Intercept must be finite")?;
+        put(
+            &self.inner,
+            "excel.trendline.intercept",
+            OwnedVariant::f64(value),
+        )
+    }
     pub fn display_equation(&self) -> Result<bool, ExcelComError> {
         get_bool(&self.inner, "excel.trendline.displayequation")
     }
@@ -171,6 +278,22 @@ impl Trendline {
             &self.inner,
             "excel.trendline.displayrsquared",
             OwnedVariant::bool(value),
+        )
+    }
+    /// Returns the trendline's data label when Excel exposes one.
+    pub fn data_label(&self) -> Result<Option<DataLabel>, ExcelComError> {
+        optional_dispatch(
+            &self.inner,
+            "excel.trendline.datalabel",
+            DataLabel::from_dispatch,
+        )
+    }
+    /// Returns Office drawing formatting for this trendline.
+    pub fn format(&self) -> Result<ChartFormat, ExcelComError> {
+        get_dispatch(
+            &self.inner,
+            "excel.trendline.format",
+            ChartFormat::from_dispatch,
         )
     }
     pub fn delete(self) -> Result<(), ExcelComError> {

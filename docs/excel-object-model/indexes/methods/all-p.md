@@ -385,9 +385,9 @@
 | Point | GetTypeInfo | 1610678273 | Metadata Only |
 | Point | GetIDsOfNames | 1610678274 | Metadata Only |
 | Point | Invoke | 1610678275 | Metadata Only |
-| Points | _NewEnum | -4 | Metadata Only |
+| Points | _NewEnum | -4 | Implemented |
 | Points | _Default | 0 | Metadata Only |
-| Points | Item | 170 | Metadata Only |
+| Points | Item | 170 | Implemented |
 | Points | QueryInterface | 1610612736 | Metadata Only |
 | Points | AddRef | 1610612737 | Metadata Only |
 | Points | Release | 1610612738 | Metadata Only |

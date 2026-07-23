@@ -1,0 +1,4 @@
+schema_version = 1
+prompt = "20-chart-completeness-runtime"
+source = "installed-excel-typelib, controlled local runtime, repository fixture generator"
+privacy = "No raw COM pointers, process handles, unrelated PIDs, machine paths, or user workbook names."

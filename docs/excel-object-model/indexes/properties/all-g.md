@@ -52,8 +52,8 @@
 | Graphic | CropRight | 2199 | Metadata Only |
 | Graphic | CropTop | 2200 | Metadata Only |
 | Gridlines | Name | 110 | Metadata Only |
-| Gridlines | Format | 116 | Metadata Only |
-| Gridlines | Border | 128 | Metadata Only |
+| Gridlines | Format | 116 | Implemented |
+| Gridlines | Border | 128 | Implemented |
 | Gridlines | Application | 148 | Metadata Only |
 | Gridlines | Creator | 149 | Metadata Only |
 | Gridlines | Parent | 150 | Metadata Only |

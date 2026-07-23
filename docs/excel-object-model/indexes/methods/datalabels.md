@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| DataLabels | _NewEnum | -4 | Metadata Only |
+| DataLabels | _NewEnum | -4 | Implemented |
 | DataLabels | _Default | 0 | Metadata Only |
 | DataLabels | Delete | 117 | Metadata Only |
 | DataLabels | Item | 170 | Implemented |

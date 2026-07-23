@@ -1,0 +1,5 @@
+{"schema_version":1,"fixture":"blank.xlsx","sha256":"0E635B45583C00955F95A44AAC95BC4CE12B28DF8DC659B388E32604B4957FB8","purpose":"owned blank workbook fallback","external_links":false,"connections":false,"macros":false}
+{"schema_version":1,"fixture":"blank.xlsm","sha256":"0DEF27553F11F38009ED95619F38BBBB3CDFE8C97BF80F32CABFFB5E747B7820","purpose":"macro-enabled lifecycle fallback without VBA","external_links":false,"connections":false,"macros":false}
+{"schema_version":1,"fixture":"chart-source.xlsx","sha256":"E03895C5E903B68F9519782BAD9C1B0288A303DF125F722DD21C8A95329C9C04","purpose":"chart source range","external_links":false,"connections":false,"macros":false}
+{"schema_version":1,"fixture":"pivot-source.xlsx","sha256":"680CE55DB1919C4E8A682F242E176A43AACC03DFAD77B07A8DABF9BB55B60B6F","purpose":"local PivotTable source","external_links":false,"connections":false,"macros":false}
+{"schema_version":1,"fixture":"local-query-source.xlsx","sha256":"37821CB413F9C6A26B48F0923DFDA3B36398E28DCA08B48550D284A14CF6E3E8","purpose":"provider-free local query input","external_links":false,"connections":false,"macros":false}

@@ -491,11 +491,9 @@ impl Range {
 fn is_special_cells_no_match(error: &ExcelComError) -> bool {
     matches!(
         error,
-        ExcelComError::Invocation {
-            member: "SpecialCells",
-            exception_scode: Some(value),
-            ..
-        } if *value == 0x800A_03EC_u32 as i32
+        ExcelComError::Invocation(error)
+            if error.member == "SpecialCells"
+                && error.exception_scode == Some(0x800A_03EC_u32 as i32)
     )
 }
 

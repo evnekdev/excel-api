@@ -4,7 +4,7 @@
 |---|---|---:|---|
 | Chart | _Evaluate | -5 | Metadata Only |
 | Chart | Evaluate | 1 | Metadata Only |
-| Chart | ChartGroups | 8 | Metadata Only |
+| Chart | ChartGroups | 8 | Implemented |
 | Chart | AreaGroups | 9 | Metadata Only |
 | Chart | BarGroups | 10 | Metadata Only |
 | Chart | ColumnGroups | 11 | Metadata Only |
@@ -68,10 +68,10 @@
 | Chart | Protect | 2029 | Metadata Only |
 | Chart | PrintOut | 2361 | Metadata Only |
 | Chart | _ExportAsFixedFormat | 2493 | Metadata Only |
-| Chart | ApplyLayout | 2500 | Metadata Only |
+| Chart | ApplyLayout | 2500 | Implemented |
 | Chart | SetElement | 2502 | Metadata Only |
-| Chart | ApplyChartTemplate | 2507 | Metadata Only |
-| Chart | SaveChartTemplate | 2508 | Metadata Only |
+| Chart | ApplyChartTemplate | 2507 | Implemented |
+| Chart | SaveChartTemplate | 2508 | Implemented |
 | Chart | ClearToMatchStyle | 2510 | Metadata Only |
 | Chart | FullSeriesCollection | 3047 | Metadata Only |
 | Chart | DeleteHiddenContent | 3051 | Metadata Only |

@@ -127,7 +127,7 @@
 | Application | FixedDecimal | 351 | Metadata Only |
 | Application | FixedDecimalPlaces | 352 | Metadata Only |
 | Application | IgnoreRemoteRequests | 356 | Metadata Only |
-| Application | Interactive | 361 | Metadata Only |
+| Application | Interactive | 361 | Implemented |
 | Application | International | 362 | Metadata Only |
 | Application | Iteration | 363 | Metadata Only |
 | Application | LargeButtons | 364 | Metadata Only |
@@ -244,7 +244,7 @@
 | Application | FeatureInstall | 1808 | Metadata Only |
 | Application | DecimalSeparator | 1809 | Metadata Only |
 | Application | ThousandsSeparator | 1810 | Metadata Only |
-| Application | Ready | 1932 | Metadata Only |
+| Application | Ready | 1932 | Implemented |
 | Application | FindFormat | 1934 | Metadata Only |
 | Application | ReplaceFormat | 1935 | Metadata Only |
 | Application | UsedObjects | 1936 | Metadata Only |
@@ -258,7 +258,7 @@
 | Application | DisplayInsertOptions | 1947 | Metadata Only |
 | Application | GenerateGetPivotData | 1948 | Metadata Only |
 | Application | AutoRecover | 1949 | Metadata Only |
-| Application | Hwnd | 1950 | Metadata Only |
+| Application | Hwnd | 1950 | Implemented |
 | Application | Hinstance | 1951 | Metadata Only |
 | Application | ErrorCheckingOptions | 1954 | Metadata Only |
 | Application | AutoFormatAsYouTypeReplaceHyperlinks | 1955 | Metadata Only |
@@ -451,21 +451,21 @@
 | Axis | MaximumScaleIsAuto | 36 | Implemented |
 | Axis | MajorUnit | 37 | Implemented |
 | Axis | MajorUnitIsAuto | 38 | Implemented |
-| Axis | MinorUnit | 39 | Metadata Only |
-| Axis | MinorUnitIsAuto | 40 | Metadata Only |
+| Axis | MinorUnit | 39 | Implemented |
+| Axis | MinorUnitIsAuto | 40 | Implemented |
 | Axis | ScaleType | 41 | Implemented |
-| Axis | Crosses | 42 | Metadata Only |
-| Axis | CrossesAt | 43 | Metadata Only |
-| Axis | ReversePlotOrder | 44 | Metadata Only |
+| Axis | Crosses | 42 | Implemented |
+| Axis | CrossesAt | 43 | Implemented |
+| Axis | ReversePlotOrder | 44 | Implemented |
 | Axis | AxisBetweenCategories | 45 | Metadata Only |
 | Axis | AxisGroup | 47 | Metadata Only |
 | Axis | HasTitle | 54 | Implemented |
 | Axis | AxisTitle | 82 | Implemented |
-| Axis | MajorGridlines | 89 | Metadata Only |
-| Axis | MinorGridlines | 90 | Metadata Only |
+| Axis | MajorGridlines | 89 | Implemented |
+| Axis | MinorGridlines | 90 | Implemented |
 | Axis | TickLabels | 91 | Implemented |
 | Axis | Type | 108 | Metadata Only |
-| Axis | Format | 116 | Metadata Only |
+| Axis | Format | 116 | Implemented |
 | Axis | Width | 122 | Metadata Only |
 | Axis | Height | 123 | Metadata Only |
 | Axis | Top | 126 | Metadata Only |
@@ -475,11 +475,11 @@
 | Axis | Creator | 149 | Metadata Only |
 | Axis | Parent | 150 | Metadata Only |
 | Axis | CategoryNames | 156 | Metadata Only |
-| Axis | BaseUnit | 1647 | Metadata Only |
+| Axis | BaseUnit | 1647 | Implemented |
 | Axis | BaseUnitIsAuto | 1648 | Metadata Only |
 | Axis | MajorUnitScale | 1649 | Metadata Only |
 | Axis | MinorUnitScale | 1650 | Metadata Only |
-| Axis | CategoryType | 1651 | Metadata Only |
+| Axis | CategoryType | 1651 | Implemented |
 | Axis | DisplayUnit | 1886 | Metadata Only |
 | Axis | DisplayUnitCustom | 1887 | Metadata Only |
 | Axis | HasDisplayUnitLabel | 1888 | Metadata Only |

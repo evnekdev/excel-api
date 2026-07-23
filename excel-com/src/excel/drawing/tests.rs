@@ -8,6 +8,18 @@ fn drawing_values_preserve_unknown_values() {
 }
 
 #[test]
+fn chart_type_constants_match_the_installed_typelib_inventory() {
+    assert_eq!(ChartType::LINE_3D.raw(), -4101);
+    assert_eq!(ChartType::PIE_3D.raw(), -4102);
+    assert_eq!(ChartType::PIE_3D_EXPLODED.raw(), 70);
+    assert_eq!(ChartType::CYLINDER_COLUMN_CLUSTERED.raw(), 92);
+    assert_eq!(ChartType::PYRAMID_COLUMN_3D.raw(), 112);
+    assert_eq!(ChartType::FUNNEL.raw(), 123);
+    assert_eq!(ChartType::XY_SCATTER_SMOOTH.raw(), 72);
+    assert_eq!(ChartType::REGION_MAP.raw(), 140);
+}
+
+#[test]
 fn geometry_validation_rejects_invalid_values() {
     assert!(
         chart_bounds(ChartBounds {

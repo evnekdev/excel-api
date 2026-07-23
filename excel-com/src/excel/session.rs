@@ -68,14 +68,14 @@ pub enum ExistingInstanceSelection {
 }
 
 /// A non-owning view of the Excel session held by an owned or attached handle.
-pub enum ExcelSession {
+pub enum ExcelSession<'apartment> {
     /// A crate-created Excel server that can be explicitly shut down.
-    Owned(OwnedApplication),
+    Owned(OwnedApplication<'apartment>),
     /// A user or other-process Excel server that can only be observed or used.
-    Attached(AttachedApplication),
+    Attached(AttachedApplication<'apartment>),
 }
 
-impl ExcelSession {
+impl ExcelSession<'_> {
     /// Returns the shared, apartment-bound Application surface.
     pub fn application(&self) -> &Application {
         match self {
@@ -94,14 +94,31 @@ impl ExcelSession {
 }
 
 /// A crate-created Excel session. Only this type can request Excel shutdown.
-pub struct OwnedApplication {
+///
+/// The type is both apartment-bound and deliberately not thread-safe:
+///
+/// ```compile_fail
+/// fn require_send<T: Send>() {}
+/// require_send::<excel_com::OwnedApplication<'static>>();
+/// ```
+///
+/// It also cannot outlive its COM apartment:
+///
+/// ```compile_fail
+/// fn invalid() -> excel_com::OwnedApplication<'static> {
+///     let apartment = excel_com::ComApartment::sta().unwrap();
+///     excel_com::OwnedApplication::new(&apartment).unwrap()
+/// }
+/// ```
+pub struct OwnedApplication<'apartment> {
     inner: Application,
     process: OwnedExcelProcess,
     message_filter: Option<ComMessageFilterGuard>,
+    _apartment: PhantomData<&'apartment ComApartment>,
     _not_send_or_sync: PhantomData<Rc<()>>,
 }
 
-impl std::fmt::Debug for OwnedApplication {
+impl std::fmt::Debug for OwnedApplication<'_> {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         formatter
             .debug_struct("OwnedApplication")
@@ -112,16 +129,16 @@ impl std::fmt::Debug for OwnedApplication {
     }
 }
 
-impl OwnedApplication {
+impl<'apartment> OwnedApplication<'apartment> {
     /// Activates a fresh local Excel server without a retry policy.
-    pub fn new(apartment: &ComApartment) -> Result<Self, ExcelComError> {
+    pub fn new(apartment: &'apartment ComApartment) -> Result<Self, ExcelComError> {
         Self::new_inner(apartment, None)
     }
 
     /// Activates a fresh local Excel server and installs an STA-local policy
     /// for safe COM retry operations.
     pub fn new_with_retry_policy(
-        apartment: &ComApartment,
+        apartment: &'apartment ComApartment,
         policy: ComRetryPolicy,
     ) -> Result<Self, ExcelComError> {
         let filter = ComMessageFilterGuard::install(apartment, policy)?;
@@ -129,7 +146,7 @@ impl OwnedApplication {
     }
 
     fn new_inner(
-        apartment: &ComApartment,
+        apartment: &'apartment ComApartment,
         message_filter: Option<ComMessageFilterGuard>,
     ) -> Result<Self, ExcelComError> {
         apartment.assert_current()?;
@@ -139,6 +156,7 @@ impl OwnedApplication {
             inner,
             process,
             message_filter,
+            _apartment: PhantomData,
             _not_send_or_sync: PhantomData,
         })
     }
@@ -150,7 +168,11 @@ impl OwnedApplication {
 
     /// Captures process and Excel-state diagnostics for this owned session.
     pub fn diagnostics(&self) -> Result<ExcelSessionDiagnostics, ExcelComError> {
-        collect_diagnostics(&self.inner, SessionOwnership::Owned, self.process.process_id)
+        collect_diagnostics(
+            &self.inner,
+            SessionOwnership::Owned,
+            self.process.process_id,
+        )
     }
 
     /// Waits for the exact owned process observed from this server's own window.
@@ -179,7 +201,7 @@ impl OwnedApplication {
     }
 }
 
-impl Deref for OwnedApplication {
+impl Deref for OwnedApplication<'_> {
     type Target = Application;
 
     fn deref(&self) -> &Self::Target {
@@ -188,25 +210,43 @@ impl Deref for OwnedApplication {
 }
 
 /// A shared reference to an existing Excel server. It never owns shutdown.
-pub struct AttachedApplication {
+///
+/// Attached sessions are apartment-bound, not transferable between threads,
+/// and intentionally have no `quit` method:
+///
+/// ```compile_fail
+/// fn require_sync<T: Sync>() {}
+/// require_sync::<excel_com::AttachedApplication<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn must_not_quit(session: excel_com::AttachedApplication<'_>) {
+///     session.quit();
+/// }
+/// ```
+pub struct AttachedApplication<'apartment> {
     inner: Application,
+    _apartment: PhantomData<&'apartment ComApartment>,
     _not_send_or_sync: PhantomData<Rc<()>>,
 }
 
-impl std::fmt::Debug for AttachedApplication {
+impl std::fmt::Debug for AttachedApplication<'_> {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter.debug_tuple("AttachedApplication").field(&self.inner).finish()
+        formatter
+            .debug_tuple("AttachedApplication")
+            .field(&self.inner)
+            .finish()
     }
 }
 
-impl AttachedApplication {
+impl<'apartment> AttachedApplication<'apartment> {
     /// Attaches through Excel's active-object registration on `apartment`'s STA.
     ///
     /// Excel does not expose a reliable process-id selection through this
     /// registration. The API intentionally omits a `ProcessId` selector rather
     /// than guessing from process names or arbitrary window enumeration.
     pub fn attach(
-        apartment: &ComApartment,
+        apartment: &'apartment ComApartment,
         _options: &AttachOptions,
     ) -> Result<Self, ExcelComError> {
         apartment.assert_current()?;
@@ -235,6 +275,7 @@ impl AttachedApplication {
         let dispatch = unknown.query_interface::<Dispatch>(&IID_IDISPATCH)?;
         Ok(Self {
             inner: Application::from_dispatch(dispatch),
+            _apartment: PhantomData,
             _not_send_or_sync: PhantomData,
         })
     }
@@ -250,7 +291,7 @@ impl AttachedApplication {
     }
 }
 
-impl Deref for AttachedApplication {
+impl Deref for AttachedApplication<'_> {
     type Target = Application;
 
     fn deref(&self) -> &Self::Target {
@@ -325,7 +366,9 @@ impl OwnedExcelProcess {
             )
         };
         if handle.is_null() {
-            return Err(ExcelComError::Runtime(ExcelRuntimeError::SessionDisappeared));
+            return Err(ExcelComError::Runtime(
+                ExcelRuntimeError::SessionDisappeared,
+            ));
         }
         let milliseconds = timeout.as_millis().min(u128::from(u32::MAX)) as u32;
         // SAFETY: `handle` is a valid process handle and the bounded timeout is valid.
@@ -339,10 +382,12 @@ impl OwnedExcelProcess {
                 timeout,
             });
         }
-        Err(ExcelComError::Runtime(ExcelRuntimeError::ProcessExitTimeout {
-            process_id: Some(process_id),
-            timeout,
-        }))
+        Err(ExcelComError::Runtime(
+            ExcelRuntimeError::ProcessExitTimeout {
+                process_id: Some(process_id),
+                timeout,
+            },
+        ))
     }
 }
 

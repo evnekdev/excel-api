@@ -17,12 +17,12 @@
 | FileExportConverters | GetIDsOfNames | 1610678274 | Metadata Only |
 | FileExportConverters | Invoke | 1610678275 | Metadata Only |
 | FillFormat | Background | 10 | Metadata Only |
-| FillFormat | OneColorGradient | 11 | Metadata Only |
-| FillFormat | Patterned | 12 | Metadata Only |
-| FillFormat | PresetGradient | 13 | Metadata Only |
+| FillFormat | OneColorGradient | 11 | Implemented |
+| FillFormat | Patterned | 12 | Implemented |
+| FillFormat | PresetGradient | 13 | Implemented |
 | FillFormat | PresetTextured | 14 | Metadata Only |
-| FillFormat | Solid | 15 | Metadata Only |
-| FillFormat | TwoColorGradient | 16 | Metadata Only |
+| FillFormat | Solid | 15 | Implemented |
+| FillFormat | TwoColorGradient | 16 | Implemented |
 | FillFormat | UserPicture | 17 | Metadata Only |
 | FillFormat | UserTextured | 18 | Metadata Only |
 | FillFormat | QueryInterface | 1610612736 | Metadata Only |

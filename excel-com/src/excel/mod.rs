@@ -32,11 +32,6 @@ mod worksheet;
 mod worksheets;
 
 pub use application::{Application, CalculationModeGuard, DisplayAlertsGuard, ReferenceStyleGuard};
-pub use session::{
-    AttachOptions, AttachedApplication, ExcelSession, ExcelSessionDiagnostics,
-    ExistingInstanceSelection, OfficeBitness, OwnedApplication, ProcessExitReport,
-    SessionOwnership,
-};
 pub use areas::{Areas, AreasIter};
 pub use autofilter::{
     AutoFilter, AutoFilterOperator, AutoFilterOptions, DynamicFilterCriteria, Filter,
@@ -97,6 +92,11 @@ pub use reference::{
 pub use search::{
     FindLookIn, FindMatchMode, FindOptions, RangeFindIter, ReplaceOptions, SearchDirection,
     SearchOrder, SpecialCellType, SpecialCellValueMask,
+};
+pub use session::{
+    AttachOptions, AttachedApplication, ExcelSession, ExcelSessionDiagnostics,
+    ExistingInstanceSelection, OfficeBitness, OwnedApplication, ProcessExitReport,
+    SessionOwnership,
 };
 pub use sort::{
     RangeSortOptions, Sort, SortDataOption, SortField, SortFields, SortMethod, SortOrder,

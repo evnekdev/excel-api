@@ -46,27 +46,27 @@ No capability metadata is recorded for this surface.
 | Line3DGroup | PROPERTYGET | ChartGroup | declared | 20 | Metadata Only | Reviewed | Not Tested | |
 | Pie3DGroup | PROPERTYGET | ChartGroup | declared | 21 | Metadata Only | Reviewed | Not Tested | |
 | SurfaceGroup | PROPERTYGET | ChartGroup | declared | 22 | Metadata Only | Reviewed | Not Tested | |
-| DepthPercent | PROPERTYGET/PROPERTYPUT | i32 | declared | 48 | Metadata Only | Reviewed | Not Tested | |
-| Elevation | PROPERTYGET/PROPERTYPUT | i32 | declared | 49 | Metadata Only | Reviewed | Not Tested | |
-| GapDepth | PROPERTYGET/PROPERTYPUT | i32 | declared | 50 | Metadata Only | Reviewed | Not Tested | |
+| DepthPercent | PROPERTYGET/PROPERTYPUT | i32 | declared | 48 | Implemented | Reviewed | Live Tested | |
+| Elevation | PROPERTYGET/PROPERTYPUT | i32 | declared | 49 | Implemented | Reviewed | Live Tested | |
+| GapDepth | PROPERTYGET/PROPERTYPUT | i32 | declared | 50 | Implemented | Reviewed | Live Tested | |
 | HasAxis | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 52 | Metadata Only | Reviewed | Not Tested | |
 | HasLegend | PROPERTYGET/PROPERTYPUT | bool | declared | 53 | Implemented | Reviewed | Live Tested | |
 | HasTitle | PROPERTYGET/PROPERTYPUT | bool | declared | 54 | Implemented | Reviewed | Live Tested | |
-| HeightPercent | PROPERTYGET/PROPERTYPUT | i32 | declared | 55 | Metadata Only | Reviewed | Not Tested | |
-| Perspective | PROPERTYGET/PROPERTYPUT | i32 | declared | 57 | Metadata Only | Reviewed | Not Tested | |
-| RightAngleAxes | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 58 | Metadata Only | Reviewed | Not Tested | |
-| Rotation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 59 | Metadata Only | Reviewed | Not Tested | |
+| HeightPercent | PROPERTYGET/PROPERTYPUT | i32 | declared | 55 | Implemented | Reviewed | Live Tested | |
+| Perspective | PROPERTYGET/PROPERTYPUT | i32 | declared | 57 | Implemented | Reviewed | Live Tested | |
+| RightAngleAxes | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 58 | Implemented | Reviewed | Live Tested | |
+| Rotation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 59 | Implemented | Reviewed | Live Tested | |
 | Corners | PROPERTYGET | Corners | declared | 79 | Metadata Only | Reviewed | Not Tested | |
 | ChartArea | PROPERTYGET | ChartArea | declared | 80 | Implemented | Reviewed | Live Tested | |
 | ChartTitle | PROPERTYGET | ChartTitle | declared | 81 | Implemented | Reviewed | Live Tested | |
-| Floor | PROPERTYGET | Floor | declared | 83 | Metadata Only | Reviewed | Not Tested | |
+| Floor | PROPERTYGET | Floor | declared | 83 | Implemented | Reviewed | Live Tested | |
 | Legend | PROPERTYGET | Legend | declared | 84 | Implemented | Reviewed | Live Tested | |
 | PlotArea | PROPERTYGET | PlotArea | declared | 85 | Implemented | Reviewed | Live Tested | |
-| Walls | PROPERTYGET | Walls | declared | 86 | Metadata Only | Reviewed | Not Tested | |
+| Walls | PROPERTYGET | Walls | declared | 86 | Implemented | Reviewed | Live Tested | |
 | PlotVisibleOnly | PROPERTYGET/PROPERTYPUT | bool | declared | 92 | Metadata Only | Reviewed | Not Tested | |
 | DisplayBlanksAs | PROPERTYGET/PROPERTYPUT | XlDisplayBlanksAs | declared | 93 | Metadata Only | Reviewed | Not Tested | |
 | SizeWithWindow | PROPERTYGET/PROPERTYPUT | bool | declared | 94 | Metadata Only | Reviewed | Not Tested | |
-| AutoScaling | PROPERTYGET/PROPERTYPUT | bool | declared | 107 | Metadata Only | Reviewed | Not Tested | |
+| AutoScaling | PROPERTYGET/PROPERTYPUT | bool | declared | 107 | Implemented | Reviewed | Live Tested | |
 | Type | PROPERTYGET/PROPERTYPUT | i32 | declared | 108 | Metadata Only | Reviewed | Not Tested | |
 | SubType | PROPERTYGET/PROPERTYPUT | i32 | declared | 109 | Metadata Only | Reviewed | Not Tested | |
 | Name | PROPERTYGET/PROPERTYPUT | String | declared | 110 | Implemented | Reviewed | Live Tested | |
@@ -106,7 +106,7 @@ No capability metadata is recorded for this surface.
 | ShowDataLabelsOverMaximum | PROPERTYGET/PROPERTYPUT | bool | declared | 2504 | Metadata Only | Reviewed | Not Tested | |
 | SideWall | PROPERTYGET | Walls | declared | 2505 | Metadata Only | Reviewed | Not Tested | |
 | BackWall | PROPERTYGET | Walls | declared | 2506 | Metadata Only | Reviewed | Not Tested | |
-| ChartStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2509 | Metadata Only | Reviewed | Not Tested | |
+| ChartStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2509 | Implemented | Reviewed | Live Tested | |
 | PrintedCommentPages | PROPERTYGET | i32 | declared | 2857 | Metadata Only | Reviewed | Not Tested | |
 | Dummy24 | PROPERTYGET/PROPERTYPUT | bool | declared | 2858 | Metadata Only | Reviewed | Not Tested | |
 | Dummy25 | PROPERTYGET/PROPERTYPUT | bool | declared | 2859 | Metadata Only | Reviewed | Not Tested | |
@@ -128,7 +128,7 @@ No capability metadata is recorded for this surface.
 |---|---|---:|---|---:|---|---|---|---|
 | _Evaluate | AutomationValue | 1 | declared | -5 | Metadata Only | Reviewed | Not Tested | |
 | Evaluate | AutomationValue | 1 | declared | 1 | Metadata Only | Reviewed | Not Tested | |
-| ChartGroups | Object | 1 | declared | 8 | Metadata Only | Reviewed | Not Tested | |
+| ChartGroups | Object | 1 | declared | 8 | Implemented | Reviewed | Live Tested | |
 | AreaGroups | Object | 1 | declared | 9 | Metadata Only | Reviewed | Not Tested | |
 | BarGroups | Object | 1 | declared | 10 | Metadata Only | Reviewed | Not Tested | |
 | ColumnGroups | Object | 1 | declared | 11 | Metadata Only | Reviewed | Not Tested | |
@@ -192,10 +192,10 @@ No capability metadata is recorded for this surface.
 | Protect | Unknown | 5 | declared | 2029 | Metadata Only | Reviewed | Not Tested | |
 | PrintOut | Unknown | 8 | declared | 2361 | Metadata Only | Reviewed | Not Tested | |
 | _ExportAsFixedFormat | Unknown | 9 | declared | 2493 | Metadata Only | Reviewed | Not Tested | |
-| ApplyLayout | Unknown | 2 | declared | 2500 | Metadata Only | Reviewed | Not Tested | |
+| ApplyLayout | Unknown | 2 | declared | 2500 | Implemented | Reviewed | Live Tested | |
 | SetElement | Unknown | 1 | declared | 2502 | Metadata Only | Reviewed | Not Tested | |
-| ApplyChartTemplate | Unknown | 1 | declared | 2507 | Metadata Only | Reviewed | Not Tested | |
-| SaveChartTemplate | Unknown | 1 | declared | 2508 | Metadata Only | Reviewed | Not Tested | |
+| ApplyChartTemplate | Unknown | 1 | declared | 2507 | Implemented | Reviewed | Live Tested | |
+| SaveChartTemplate | Unknown | 1 | declared | 2508 | Implemented | Reviewed | Live Tested | |
 | ClearToMatchStyle | Unknown | 0 | declared | 2510 | Metadata Only | Reviewed | Not Tested | |
 | FullSeriesCollection | Object | 1 | declared | 3047 | Metadata Only | Reviewed | Not Tested | |
 | DeleteHiddenContent | Unknown | 0 | declared | 3051 | Metadata Only | Reviewed | Not Tested | |

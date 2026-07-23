@@ -5,10 +5,10 @@
 | ChartArea | Shadow | 103 | Metadata Only |
 | ChartArea | Name | 110 | Metadata Only |
 | ChartArea | Format | 116 | Implemented |
-| ChartArea | Width | 122 | Metadata Only |
-| ChartArea | Height | 123 | Metadata Only |
-| ChartArea | Top | 126 | Metadata Only |
-| ChartArea | Left | 127 | Metadata Only |
+| ChartArea | Width | 122 | Implemented |
+| ChartArea | Height | 123 | Implemented |
+| ChartArea | Top | 126 | Implemented |
+| ChartArea | Left | 127 | Implemented |
 | ChartArea | Border | 128 | Metadata Only |
 | ChartArea | Interior | 129 | Metadata Only |
 | ChartArea | Font | 146 | Metadata Only |

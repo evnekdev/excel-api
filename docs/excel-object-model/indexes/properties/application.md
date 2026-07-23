@@ -55,7 +55,7 @@
 | Application | FixedDecimal | 351 | Metadata Only |
 | Application | FixedDecimalPlaces | 352 | Metadata Only |
 | Application | IgnoreRemoteRequests | 356 | Metadata Only |
-| Application | Interactive | 361 | Metadata Only |
+| Application | Interactive | 361 | Implemented |
 | Application | International | 362 | Metadata Only |
 | Application | Iteration | 363 | Metadata Only |
 | Application | LargeButtons | 364 | Metadata Only |
@@ -172,7 +172,7 @@
 | Application | FeatureInstall | 1808 | Metadata Only |
 | Application | DecimalSeparator | 1809 | Metadata Only |
 | Application | ThousandsSeparator | 1810 | Metadata Only |
-| Application | Ready | 1932 | Metadata Only |
+| Application | Ready | 1932 | Implemented |
 | Application | FindFormat | 1934 | Metadata Only |
 | Application | ReplaceFormat | 1935 | Metadata Only |
 | Application | UsedObjects | 1936 | Metadata Only |
@@ -186,7 +186,7 @@
 | Application | DisplayInsertOptions | 1947 | Metadata Only |
 | Application | GenerateGetPivotData | 1948 | Metadata Only |
 | Application | AutoRecover | 1949 | Metadata Only |
-| Application | Hwnd | 1950 | Metadata Only |
+| Application | Hwnd | 1950 | Implemented |
 | Application | Hinstance | 1951 | Metadata Only |
 | Application | ErrorCheckingOptions | 1954 | Metadata Only |
 | Application | AutoFormatAsYouTypeReplaceHyperlinks | 1955 | Metadata Only |

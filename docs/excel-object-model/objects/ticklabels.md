@@ -34,7 +34,7 @@ No capability metadata is recorded for this surface.
 | Relationship | Target | Status |
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
-| `Font` | `excel.font` | Metadata Only |
+| `Font` | `excel.font` | Implemented |
 
 ## Properties
 
@@ -42,14 +42,14 @@ No capability metadata is recorded for this surface.
 |---|---|---|---|---:|---|---|---|---|
 | Name | PROPERTYGET | String | declared | 110 | Metadata Only | Generated | Not Tested | |
 | Format | PROPERTYGET | ChartFormat | declared | 116 | Metadata Only | Generated | Not Tested | |
-| Orientation | PROPERTYGET/PROPERTYPUT | XlTickLabelOrientation | declared | 134 | Metadata Only | Generated | Not Tested | |
-| Font | PROPERTYGET | Font | declared | 146 | Metadata Only | Generated | Not Tested | |
+| Orientation | PROPERTYGET/PROPERTYPUT | XlTickLabelOrientation | declared | 134 | Implemented | Generated | Live Tested | |
+| Font | PROPERTYGET | Font | declared | 146 | Implemented | Generated | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Generated | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Generated | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Generated | Not Tested | |
 | NumberFormat | PROPERTYGET/PROPERTYPUT | String | declared | 193 | Implemented | Generated | Live Tested | |
 | NumberFormatLinked | PROPERTYGET/PROPERTYPUT | bool | declared | 194 | Metadata Only | Generated | Not Tested | |
-| Offset | PROPERTYGET/PROPERTYPUT | i32 | declared | 254 | Metadata Only | Generated | Not Tested | |
+| Offset | PROPERTYGET/PROPERTYPUT | i32 | declared | 254 | Implemented | Generated | Live Tested | |
 | Alignment | PROPERTYGET/PROPERTYPUT | i32 | declared | 453 | Metadata Only | Generated | Not Tested | |
 | ReadingOrder | PROPERTYGET/PROPERTYPUT | i32 | declared | 975 | Metadata Only | Generated | Not Tested | |
 | NumberFormatLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1097 | Metadata Only | Generated | Not Tested | |

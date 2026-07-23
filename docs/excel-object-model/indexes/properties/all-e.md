@@ -60,8 +60,8 @@
 | Error | Parent | 150 | Metadata Only |
 | Error | Ignore | 2210 | Metadata Only |
 | ErrorBars | Name | 110 | Metadata Only |
-| ErrorBars | Format | 116 | Metadata Only |
-| ErrorBars | Border | 128 | Metadata Only |
+| ErrorBars | Format | 116 | Implemented |
+| ErrorBars | Border | 128 | Implemented |
 | ErrorBars | Application | 148 | Metadata Only |
 | ErrorBars | Creator | 149 | Metadata Only |
 | ErrorBars | Parent | 150 | Metadata Only |

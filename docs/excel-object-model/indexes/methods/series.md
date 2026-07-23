@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Series | Points | 70 | Metadata Only |
+| Series | Points | 70 | Implemented |
 | Series | ClearFormats | 112 | Metadata Only |
 | Series | Delete | 117 | Implemented |
 | Series | _ApplyDataLabels | 151 | Implemented |

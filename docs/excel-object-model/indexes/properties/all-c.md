@@ -91,27 +91,27 @@
 | Chart | Line3DGroup | 20 | Metadata Only |
 | Chart | Pie3DGroup | 21 | Metadata Only |
 | Chart | SurfaceGroup | 22 | Metadata Only |
-| Chart | DepthPercent | 48 | Metadata Only |
-| Chart | Elevation | 49 | Metadata Only |
-| Chart | GapDepth | 50 | Metadata Only |
+| Chart | DepthPercent | 48 | Implemented |
+| Chart | Elevation | 49 | Implemented |
+| Chart | GapDepth | 50 | Implemented |
 | Chart | HasAxis | 52 | Metadata Only |
 | Chart | HasLegend | 53 | Implemented |
 | Chart | HasTitle | 54 | Implemented |
-| Chart | HeightPercent | 55 | Metadata Only |
-| Chart | Perspective | 57 | Metadata Only |
-| Chart | RightAngleAxes | 58 | Metadata Only |
-| Chart | Rotation | 59 | Metadata Only |
+| Chart | HeightPercent | 55 | Implemented |
+| Chart | Perspective | 57 | Implemented |
+| Chart | RightAngleAxes | 58 | Implemented |
+| Chart | Rotation | 59 | Implemented |
 | Chart | Corners | 79 | Metadata Only |
 | Chart | ChartArea | 80 | Implemented |
 | Chart | ChartTitle | 81 | Implemented |
-| Chart | Floor | 83 | Metadata Only |
+| Chart | Floor | 83 | Implemented |
 | Chart | Legend | 84 | Implemented |
 | Chart | PlotArea | 85 | Implemented |
-| Chart | Walls | 86 | Metadata Only |
+| Chart | Walls | 86 | Implemented |
 | Chart | PlotVisibleOnly | 92 | Metadata Only |
 | Chart | DisplayBlanksAs | 93 | Metadata Only |
 | Chart | SizeWithWindow | 94 | Metadata Only |
-| Chart | AutoScaling | 107 | Metadata Only |
+| Chart | AutoScaling | 107 | Implemented |
 | Chart | Type | 108 | Metadata Only |
 | Chart | SubType | 109 | Metadata Only |
 | Chart | Name | 110 | Implemented |
@@ -151,7 +151,7 @@
 | Chart | ShowDataLabelsOverMaximum | 2504 | Metadata Only |
 | Chart | SideWall | 2505 | Metadata Only |
 | Chart | BackWall | 2506 | Metadata Only |
-| Chart | ChartStyle | 2509 | Metadata Only |
+| Chart | ChartStyle | 2509 | Implemented |
 | Chart | PrintedCommentPages | 2857 | Metadata Only |
 | Chart | Dummy24 | 2858 | Metadata Only |
 | Chart | Dummy25 | 2859 | Metadata Only |
@@ -169,10 +169,10 @@
 | ChartArea | Shadow | 103 | Metadata Only |
 | ChartArea | Name | 110 | Metadata Only |
 | ChartArea | Format | 116 | Implemented |
-| ChartArea | Width | 122 | Metadata Only |
-| ChartArea | Height | 123 | Metadata Only |
-| ChartArea | Top | 126 | Metadata Only |
-| ChartArea | Left | 127 | Metadata Only |
+| ChartArea | Width | 122 | Implemented |
+| ChartArea | Height | 123 | Implemented |
+| ChartArea | Top | 126 | Implemented |
+| ChartArea | Left | 127 | Implemented |
 | ChartArea | Border | 128 | Metadata Only |
 | ChartArea | Interior | 129 | Metadata Only |
 | ChartArea | Font | 146 | Metadata Only |
@@ -223,13 +223,13 @@
 | ChartFormat | TextFrame2 | 2659 | Metadata Only |
 | ChartFormat | SoftEdge | 2662 | Metadata Only |
 | ChartFormat | Glow | 2663 | Metadata Only |
-| ChartGroup | AxisGroup | 47 | Metadata Only |
-| ChartGroup | GapWidth | 51 | Metadata Only |
-| ChartGroup | Overlap | 56 | Metadata Only |
-| ChartGroup | VaryByCategories | 60 | Metadata Only |
+| ChartGroup | AxisGroup | 47 | Implemented |
+| ChartGroup | GapWidth | 51 | Implemented |
+| ChartGroup | Overlap | 56 | Implemented |
+| ChartGroup | VaryByCategories | 60 | Implemented |
 | ChartGroup | HasDropLines | 61 | Metadata Only |
 | ChartGroup | HasHiLoLines | 62 | Metadata Only |
-| ChartGroup | FirstSliceAngle | 63 | Metadata Only |
+| ChartGroup | FirstSliceAngle | 63 | Implemented |
 | ChartGroup | HasRadarAxisLabels | 64 | Metadata Only |
 | ChartGroup | HasSeriesLines | 65 | Metadata Only |
 | ChartGroup | HasUpDownBars | 66 | Metadata Only |
@@ -245,10 +245,10 @@
 | ChartGroup | Creator | 149 | Metadata Only |
 | ChartGroup | Parent | 150 | Metadata Only |
 | ChartGroup | Index | 486 | Metadata Only |
-| ChartGroup | DoughnutHoleSize | 1126 | Metadata Only |
+| ChartGroup | DoughnutHoleSize | 1126 | Implemented |
 | ChartGroup | SizeRepresents | 1652 | Metadata Only |
-| ChartGroup | BubbleScale | 1653 | Metadata Only |
-| ChartGroup | ShowNegativeBubbles | 1654 | Metadata Only |
+| ChartGroup | BubbleScale | 1653 | Implemented |
+| ChartGroup | ShowNegativeBubbles | 1654 | Implemented |
 | ChartGroup | SplitType | 1655 | Metadata Only |
 | ChartGroup | SplitValue | 1656 | Metadata Only |
 | ChartGroup | SecondPlotSize | 1657 | Metadata Only |
@@ -260,7 +260,7 @@
 | ChartGroup | BinsOverflowValue | 3200 | Metadata Only |
 | ChartGroup | BinsUnderflowEnabled | 3201 | Metadata Only |
 | ChartGroup | BinsUnderflowValue | 3202 | Metadata Only |
-| ChartGroups | Count | 118 | Metadata Only |
+| ChartGroups | Count | 118 | Implemented |
 | ChartGroups | Application | 148 | Metadata Only |
 | ChartGroups | Creator | 149 | Metadata Only |
 | ChartGroups | Parent | 150 | Metadata Only |
@@ -416,12 +416,12 @@
 | CheckBoxes | PhoneticAccelerator | 1121 | Metadata Only |
 | CheckBoxes | Display3DShading | 1122 | Metadata Only |
 | CheckBoxes | ShapeRange | 1528 | Metadata Only |
-| ColorFormat | RGB | 0 | Metadata Only |
+| ColorFormat | RGB | 0 | Implemented |
 | ColorFormat | Parent | 1 | Metadata Only |
 | ColorFormat | SchemeColor | 100 | Metadata Only |
 | ColorFormat | Type | 101 | Metadata Only |
-| ColorFormat | TintAndShade | 102 | Metadata Only |
-| ColorFormat | ObjectThemeColor | 104 | Metadata Only |
+| ColorFormat | TintAndShade | 102 | Implemented |
+| ColorFormat | ObjectThemeColor | 104 | Implemented |
 | ColorFormat | Brightness | 105 | Metadata Only |
 | ColorFormat | Application | 1610743808 | Metadata Only |
 | ColorFormat | Creator | 1610743809 | Metadata Only |

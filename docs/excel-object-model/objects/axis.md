@@ -53,21 +53,21 @@ No capability metadata is recorded for this surface.
 | MaximumScaleIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 36 | Implemented | Reviewed | Live Tested | |
 | MajorUnit | PROPERTYGET/PROPERTYPUT | f64 | declared | 37 | Implemented | Reviewed | Live Tested | |
 | MajorUnitIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 38 | Implemented | Reviewed | Live Tested | |
-| MinorUnit | PROPERTYGET/PROPERTYPUT | f64 | declared | 39 | Metadata Only | Reviewed | Not Tested | |
-| MinorUnitIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 40 | Metadata Only | Reviewed | Not Tested | |
+| MinorUnit | PROPERTYGET/PROPERTYPUT | f64 | declared | 39 | Implemented | Reviewed | Live Tested | |
+| MinorUnitIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 40 | Implemented | Reviewed | Live Tested | |
 | ScaleType | PROPERTYGET/PROPERTYPUT | XlScaleType | declared | 41 | Implemented | Reviewed | Live Tested | |
-| Crosses | PROPERTYGET/PROPERTYPUT | XlAxisCrosses | declared | 42 | Metadata Only | Reviewed | Not Tested | |
-| CrossesAt | PROPERTYGET/PROPERTYPUT | f64 | declared | 43 | Metadata Only | Reviewed | Not Tested | |
-| ReversePlotOrder | PROPERTYGET/PROPERTYPUT | bool | declared | 44 | Metadata Only | Reviewed | Not Tested | |
+| Crosses | PROPERTYGET/PROPERTYPUT | XlAxisCrosses | declared | 42 | Implemented | Reviewed | Live Tested | |
+| CrossesAt | PROPERTYGET/PROPERTYPUT | f64 | declared | 43 | Implemented | Reviewed | Live Tested | |
+| ReversePlotOrder | PROPERTYGET/PROPERTYPUT | bool | declared | 44 | Implemented | Reviewed | Live Tested | |
 | AxisBetweenCategories | PROPERTYGET/PROPERTYPUT | bool | declared | 45 | Metadata Only | Reviewed | Not Tested | |
 | AxisGroup | PROPERTYGET | XlAxisGroup | declared | 47 | Metadata Only | Reviewed | Not Tested | |
 | HasTitle | PROPERTYGET/PROPERTYPUT | bool | declared | 54 | Implemented | Reviewed | Live Tested | |
 | AxisTitle | PROPERTYGET | AxisTitle | declared | 82 | Implemented | Reviewed | Live Tested | |
-| MajorGridlines | PROPERTYGET | Gridlines | declared | 89 | Metadata Only | Reviewed | Not Tested | |
-| MinorGridlines | PROPERTYGET | Gridlines | declared | 90 | Metadata Only | Reviewed | Not Tested | |
+| MajorGridlines | PROPERTYGET | Gridlines | declared | 89 | Implemented | Reviewed | Live Tested | |
+| MinorGridlines | PROPERTYGET | Gridlines | declared | 90 | Implemented | Reviewed | Live Tested | |
 | TickLabels | PROPERTYGET | TickLabels | declared | 91 | Implemented | Reviewed | Live Tested | |
 | Type | PROPERTYGET/PROPERTYPUT | XlAxisType | declared | 108 | Metadata Only | Reviewed | Not Tested | |
-| Format | PROPERTYGET | ChartFormat | declared | 116 | Metadata Only | Reviewed | Not Tested | |
+| Format | PROPERTYGET | ChartFormat | declared | 116 | Implemented | Reviewed | Live Tested | |
 | Width | PROPERTYGET | f64 | declared | 122 | Metadata Only | Reviewed | Not Tested | |
 | Height | PROPERTYGET | f64 | declared | 123 | Metadata Only | Reviewed | Not Tested | |
 | Top | PROPERTYGET | f64 | declared | 126 | Metadata Only | Reviewed | Not Tested | |
@@ -77,11 +77,11 @@ No capability metadata is recorded for this surface.
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
 | CategoryNames | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 156 | Metadata Only | Reviewed | Not Tested | |
-| BaseUnit | PROPERTYGET/PROPERTYPUT | XlTimeUnit | declared | 1647 | Metadata Only | Reviewed | Not Tested | |
+| BaseUnit | PROPERTYGET/PROPERTYPUT | XlTimeUnit | declared | 1647 | Implemented | Reviewed | Live Tested | |
 | BaseUnitIsAuto | PROPERTYGET/PROPERTYPUT | bool | declared | 1648 | Metadata Only | Reviewed | Not Tested | |
 | MajorUnitScale | PROPERTYGET/PROPERTYPUT | XlTimeUnit | declared | 1649 | Metadata Only | Reviewed | Not Tested | |
 | MinorUnitScale | PROPERTYGET/PROPERTYPUT | XlTimeUnit | declared | 1650 | Metadata Only | Reviewed | Not Tested | |
-| CategoryType | PROPERTYGET/PROPERTYPUT | XlCategoryType | declared | 1651 | Metadata Only | Reviewed | Not Tested | |
+| CategoryType | PROPERTYGET/PROPERTYPUT | XlCategoryType | declared | 1651 | Implemented | Reviewed | Live Tested | |
 | DisplayUnit | PROPERTYGET/PROPERTYPUT | XlDisplayUnit | declared | 1886 | Metadata Only | Reviewed | Not Tested | |
 | DisplayUnitCustom | PROPERTYGET/PROPERTYPUT | f64 | declared | 1887 | Metadata Only | Reviewed | Not Tested | |
 | HasDisplayUnitLabel | PROPERTYGET/PROPERTYPUT | bool | declared | 1888 | Metadata Only | Reviewed | Not Tested | |
