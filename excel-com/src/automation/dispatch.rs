@@ -1,12 +1,16 @@
 use std::ffi::c_void;
+use std::time::Instant;
 
-use windows_sys::Win32::Foundation::SysFreeString;
+use windows_sys::Win32::Foundation::{SysFreeString, SysStringLen};
 use windows_sys::Win32::System::Com::{
     CLSCTX_LOCAL_SERVER, CLSIDFromProgID, CoCreateInstance, DISPPARAMS, EXCEPINFO,
 };
 use windows_sys::core::GUID;
 
-use super::{MemberDescriptor, OwnedVariant, reverse_for_com};
+use super::{
+    InvocationRetrySafety, MemberDescriptor, MemberKind, OwnedVariant, active_policy,
+    classify_com_hresult, reverse_for_com,
+};
 use crate::{
     ExcelComError,
     internal::{ComPtr, Dispatch, wide_nul},
@@ -50,6 +54,7 @@ pub(crate) fn property_get(
 ) -> Result<OwnedVariant, ExcelComError> {
     invoke(target, descriptor, args, false)
 }
+
 pub(crate) fn property_put(
     target: &ComPtr<Dispatch>,
     descriptor: MemberDescriptor,
@@ -89,54 +94,67 @@ pub(crate) fn invoke(
     if !property_put {
         reverse_for_com(&mut args);
     }
-    let mut named = DISPID_PROPERTYPUT;
-    let params = DISPPARAMS {
-        rgvarg: if args.is_empty() {
-            std::ptr::null_mut()
-        } else {
-            args.as_mut_ptr().cast()
-        },
-        rgdispidNamedArgs: if property_put {
-            &mut named
-        } else {
-            std::ptr::null_mut()
-        },
-        cArgs: args.len() as u32,
-        cNamedArgs: u32::from(property_put),
-    };
-    let mut result = OwnedVariant::empty();
-    let mut exception = EXCEPINFO::default();
-    let mut argument = u32::MAX;
-    // SAFETY: DISPPARAMS, result, EXCEPINFO, and argument-error storage remain valid through Invoke.
-    let status = unsafe {
-        (target.vtbl().invoke)(
-            target.raw(),
-            dispid,
-            &GUID::default(),
-            LOCALE_SYSTEM_DEFAULT,
-            descriptor.kind.flags(),
-            &params,
-            &mut result.0,
-            &mut exception,
-            &mut argument,
-        )
-    };
-    let scode = exception.scode;
-    // SAFETY: EXCEPINFO BSTR fields are owned by this call result and are released exactly once.
-    unsafe {
-        for value in [
-            &mut exception.bstrSource,
-            &mut exception.bstrDescription,
-            &mut exception.bstrHelpFile,
-        ] {
-            if !(*value).is_null() {
-                SysFreeString(*value);
-                *value = std::ptr::null_mut();
+
+    let retry_safety = retry_safety(descriptor.kind, property_put);
+    let policy = active_policy();
+    let started = Instant::now();
+    let mut attempts = 0;
+    loop {
+        attempts += 1;
+        let mut named = DISPID_PROPERTYPUT;
+        let params = DISPPARAMS {
+            rgvarg: if args.is_empty() {
+                std::ptr::null_mut()
+            } else {
+                args.as_mut_ptr().cast()
+            },
+            rgdispidNamedArgs: if property_put {
+                &mut named
+            } else {
+                std::ptr::null_mut()
+            },
+            cArgs: args.len() as u32,
+            cNamedArgs: u32::from(property_put),
+        };
+        let mut result = OwnedVariant::empty();
+        let mut exception = EXCEPINFO::default();
+        let mut argument = u32::MAX;
+        // SAFETY: DISPPARAMS, result, EXCEPINFO, and argument-error storage remain valid through Invoke.
+        let status = unsafe {
+            (target.vtbl().invoke)(
+                target.raw(),
+                dispid,
+                &GUID::default(),
+                LOCALE_SYSTEM_DEFAULT,
+                descriptor.kind.flags(),
+                &params,
+                &mut result.0,
+                &mut exception,
+                &mut argument,
+            )
+        };
+        let exception_source = bstr_text(exception.bstrSource);
+        let exception_description = bstr_text(exception.bstrDescription);
+        let scode = exception.scode;
+        // SAFETY: EXCEPINFO BSTR fields are owned by this call result and are released exactly once.
+        unsafe {
+            for value in [
+                &mut exception.bstrSource,
+                &mut exception.bstrDescription,
+                &mut exception.bstrHelpFile,
+            ] {
+                if !(*value).is_null() {
+                    SysFreeString(*value);
+                    *value = std::ptr::null_mut();
+                }
             }
         }
-    }
-    if ExcelComError::failed(status) {
-        return Err(ExcelComError::Invocation {
+        if !ExcelComError::failed(status) {
+            return Ok(result);
+        }
+        let elapsed = started.elapsed();
+        let disposition = classify_com_hresult(status);
+        let error = ExcelComError::Invocation {
             object_type: object_type(descriptor.id.as_str()),
             member,
             dispid,
@@ -144,9 +162,60 @@ pub(crate) fn invoke(
             exception_scode: (scode != 0).then_some(scode),
             argument_index: (argument != u32::MAX).then_some(argument),
             dispatch_flags: descriptor.kind.flags(),
-        });
+            disposition,
+            retry_safety,
+            attempts,
+            elapsed,
+            exception_source,
+            exception_description,
+        };
+        let Some(policy) = policy.as_ref() else {
+            return Err(error);
+        };
+        let safe = matches!(
+            retry_safety,
+            InvocationRetrySafety::SafeRead | InvocationRetrySafety::IdempotentWrite
+        );
+        let permitted = match disposition {
+            super::ComCallDisposition::RetryableBusy => policy.retry_server_busy,
+            super::ComCallDisposition::RetryableRejected => policy.retry_call_rejected,
+            super::ComCallDisposition::PermanentFailure | super::ComCallDisposition::Unknown => {
+                false
+            }
+        };
+        let delay = policy.delay_for_retry(attempts);
+        if !safe
+            || !permitted
+            || attempts >= policy.max_attempts.max(1)
+            || elapsed.saturating_add(delay) > policy.total_timeout
+        {
+            return Err(error);
+        }
+        std::thread::sleep(delay);
     }
-    Ok(result)
+}
+
+fn retry_safety(kind: MemberKind, property_put: bool) -> InvocationRetrySafety {
+    match (kind, property_put) {
+        (MemberKind::PropertyGet, false) => InvocationRetrySafety::SafeRead,
+        (MemberKind::PropertyPut | MemberKind::PropertyPutRef, true) => {
+            InvocationRetrySafety::IdempotentWrite
+        }
+        (MemberKind::Method, _) => InvocationRetrySafety::NonIdempotentWrite,
+        _ => InvocationRetrySafety::Unknown,
+    }
+}
+
+fn bstr_text(value: *const u16) -> Option<String> {
+    if value.is_null() {
+        return None;
+    }
+    // SAFETY: the BSTR belongs to the current EXCEPINFO until SysFreeString;
+    // SysStringLen gives the exact UTF-16 length including embedded NULs.
+    let length = unsafe { SysStringLen(value) } as usize;
+    // SAFETY: BSTR storage remains valid until the caller frees EXCEPINFO.
+    let units = unsafe { std::slice::from_raw_parts(value, length) };
+    Some(String::from_utf16_lossy(units))
 }
 
 fn object_type(id: &str) -> &'static str {
@@ -166,6 +235,10 @@ fn object_type(id: &str) -> &'static str {
         "Names"
     } else if id.starts_with("excel.name.") {
         "Name"
+    } else if id.starts_with("excel.chartgroup.") {
+        "ChartGroup"
+    } else if id.starts_with("excel.point.") {
+        "Point"
     } else {
         "IDispatch"
     }
@@ -173,10 +246,28 @@ fn object_type(id: &str) -> &'static str {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn positional_argument_order_is_com_reverse_order() {
         let mut values = [1, 2, 3];
         values.reverse();
         assert_eq!(values, [3, 2, 1]);
+    }
+
+    #[test]
+    fn only_reads_and_property_puts_are_retry_safe() {
+        assert_eq!(
+            retry_safety(MemberKind::PropertyGet, false),
+            InvocationRetrySafety::SafeRead
+        );
+        assert_eq!(
+            retry_safety(MemberKind::PropertyPut, true),
+            InvocationRetrySafety::IdempotentWrite
+        );
+        assert_eq!(
+            retry_safety(MemberKind::Method, false),
+            InvocationRetrySafety::NonIdempotentWrite
+        );
     }
 }

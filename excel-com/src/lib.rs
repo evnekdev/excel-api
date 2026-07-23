@@ -370,9 +370,10 @@ mod object_model;
 
 pub use automation::{
     AutomationArgument, AutomationArray, AutomationValue, ConversionError, ConversionPolicy,
-    Currency, ExcelError, OaDate,
+    ComCallDisposition, ComMessageFilterGuard, ComRetryPolicy, Currency, ExcelError,
+    InvocationRetrySafety, OaDate,
 };
-pub use error::ExcelComError;
+pub use error::{ExcelComError, ExcelRuntimeError};
 pub use excel::{
     AboveAverage, AboveAverageOptions, AboveAverageRuleOptions, AboveBelowMode,
     CellValueRuleOptions, ColorScale, ColorScaleCriteria, ColorScaleCriterion, Comment,
@@ -419,6 +420,11 @@ pub use excel::{
     WorksheetAddOptions, WorksheetProtectOptions, Worksheets, WorksheetsAddOptions, WorksheetsIter,
     XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,
     XlSheetVisibility, XlUpdateLinks,
+};
+pub use excel::{
+    AttachOptions, AttachedApplication, ExcelSession, ExcelSessionDiagnostics,
+    ExistingInstanceSelection, OfficeBitness, OwnedApplication, ProcessExitReport,
+    SessionOwnership,
 };
 pub use excel::{
     AutoShapeType, Axes, Axis, AxisGroup, AxisScaleType, AxisTitle, AxisType, Chart, ChartArea,

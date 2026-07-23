@@ -1,5 +1,5 @@
 use crate::automation::{
-    ConversionPolicy, OwnedVariant, PositionalArguments, activate_excel, decode_variant, invoke,
+    ConversionPolicy, OwnedVariant, PositionalArguments, decode_variant, invoke,
     property_get, property_put,
 };
 use crate::excel::text::text_bstr;
@@ -9,7 +9,7 @@ use crate::excel::{
 };
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
-use crate::{ComApartment, ConversionError, ExcelComError};
+use crate::{ComApartment, ConversionError, ExcelComError, OwnedApplication};
 use std::fmt::{Debug, Formatter};
 
 /// Restores an [`Application`]'s prior `DisplayAlerts` value on drop.
@@ -158,10 +158,14 @@ impl Application {
         &self.inner
     }
 
-    /// Starts a fresh local Excel `Application` in the supplied STA apartment.
-    pub fn new(apartment: &ComApartment) -> Result<Self, ExcelComError> {
-        apartment.assert_current()?;
-        Ok(Self::from_dispatch(activate_excel()?))
+    /// Starts a fresh local Excel process with explicit ownership semantics.
+    ///
+    /// New code should call [`OwnedApplication::new`] directly. This retained
+    /// associated constructor returns `OwnedApplication`, not a shared
+    /// `Application`, so callers cannot accidentally gain shutdown authority
+    /// from a wrapper obtained through another object.
+    pub fn new(apartment: &ComApartment) -> Result<OwnedApplication, ExcelComError> {
+        OwnedApplication::new(apartment)
     }
     /// Returns the server's Excel version string.
     pub fn version(&self) -> Result<String, ExcelComError> {
@@ -515,6 +519,45 @@ impl Application {
         )?;
         Ok(Workbooks::from_dispatch(result.take_dispatch()?))
     }
+    pub(crate) fn hwnd(&self) -> Result<i32, ExcelComError> {
+        get_i32_property(&self.inner, "excel.application.hwnd", "Application.Hwnd was not an integer")
+    }
+
+    pub(crate) fn ready(&self) -> Result<bool, ExcelComError> {
+        self.bool_property("excel.application.ready")
+    }
+
+    pub(crate) fn interactive(&self) -> Result<bool, ExcelComError> {
+        self.bool_property("excel.application.interactive")
+    }
+
+    pub(crate) fn workbook_count(&self) -> Result<usize, ExcelComError> {
+        self.collection_count("excel.application.workbooks", "excel.workbooks.count")
+    }
+
+    pub(crate) fn window_count(&self) -> Result<usize, ExcelComError> {
+        self.collection_count("excel.application.windows", "excel.windows.count")
+    }
+
+    fn collection_count(
+        &self,
+        collection_id: &'static str,
+        count_id: &'static str,
+    ) -> Result<usize, ExcelComError> {
+        let mut collection = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new(collection_id), false),
+            vec![],
+        )?;
+        let dispatch = collection.take_dispatch()?;
+        let value = property_get(&dispatch, member(MemberId::new(count_id), false), vec![])?;
+        let count = value.as_i32().ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType { vartype: value.vt() },
+        ))?;
+        usize::try_from(count).map_err(|_| ExcelComError::Unsupported {
+            detail: "Excel collection count was negative",
+        })
+    }
     /// Returns the union of two ranges from this Application's Excel server.
     ///
     /// Both Range values must belong to compatible workbooks in the same Excel
@@ -531,8 +574,7 @@ impl Application {
         )?;
         Ok(Range::from_dispatch(result.take_dispatch()?))
     }
-    /// Explicitly asks the crate-created application to quit. `Drop` never does this.
-    pub fn quit(self) -> Result<(), ExcelComError> {
+    pub(crate) fn request_quit(&self) -> Result<(), ExcelComError> {
         let _ = invoke(
             &self.inner.dispatch,
             member(MemberId::new("excel.application.quit"), false),
@@ -541,6 +583,22 @@ impl Application {
         )?;
         Ok(())
     }
+}
+
+fn get_i32_property(
+    target: &DispatchObject,
+    id: &'static str,
+    detail: &'static str,
+) -> Result<i32, ExcelComError> {
+    let value = property_get(&target.dispatch, member(MemberId::new(id), false), vec![])?;
+    value.as_i32().ok_or(ExcelComError::Conversion(
+        ConversionError::UnsupportedVariantType { vartype: value.vt() },
+    )).map_err(|error| match error {
+        ExcelComError::Conversion(ConversionError::UnsupportedVariantType { .. }) => {
+            ExcelComError::Unsupported { detail }
+        }
+        other => other,
+    })
 }
 
 fn convert_formula_arguments(

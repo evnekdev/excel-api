@@ -414,6 +414,10 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.application.visible",
     "excel.application.displayalerts",
     "excel.application.workbooks",
+    "excel.application.hwnd",
+    "excel.application.ready",
+    "excel.application.interactive",
+    "excel.application.windows",
     "excel.application.quit",
     "excel.application.union",
     "excel.application.referencestyle",
@@ -427,6 +431,7 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.application.convertformula",
     "excel.application.evaluate-1",
     "excel.workbooks.count",
+    "excel.windows.count",
     "excel.workbooks.item",
     "excel.workbooks.newenum",
     "excel.workbooks.add",
@@ -1261,6 +1266,56 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.workbookquery.refresh",
     "excel.worksheet.pivottables",
     "excel.worksheet.querytables",
+    "excel.chart.chartgroups",
+    "excel.chartgroups.count",
+    "excel.chartgroups.item",
+    "excel.chartgroups.newenum",
+    "excel.chartgroup.axisgroup",
+    "excel.chartgroup.gapwidth",
+    "excel.chartgroup.overlap",
+    "excel.chartgroup.varybycategories",
+    "excel.chartgroup.firstsliceangle",
+    "excel.chartgroup.doughnutholesize",
+    "excel.chartgroup.bubblescale",
+    "excel.chartgroup.shownegativebubbles",
+    "excel.series.points",
+    "excel.points.count",
+    "excel.points.item",
+    "excel.points.newenum",
+    "excel.point.hasdatalabel",
+    "excel.point.datalabel",
+    "excel.point.format",
+    "excel.point.markerstyle",
+    "excel.point.markersize",
+    "excel.point.explosion",
+    "excel.point.invertifnegative",
+    "excel.series.smooth",
+    "excel.series.invertifnegative",
+    "excel.series.plotorder",
+    "excel.series.bubblesizes",
+    "excel.series.markerforegroundcolor",
+    "excel.series.markerbackgroundcolor",
+    "excel.series.markertransparency",
+    "excel.series.errorbars",
+    "excel.errorbars.format",
+    "excel.errorbars.border",
+    "excel.errorbars.direction",
+    "excel.errorbars.include",
+    "excel.axis.minorunit",
+    "excel.axis.minorunitisauto",
+    "excel.axis.crosses",
+    "excel.axis.crossesat",
+    "excel.axis.reverseplotorder",
+    "excel.axis.categorytype",
+    "excel.axis.baseunit",
+    "excel.axis.format",
+    "excel.axis.majorgridlines",
+    "excel.axis.minorgridlines",
+    "excel.ticklabels.orientation",
+    "excel.ticklabels.offset",
+    "excel.ticklabels.font",
+    "excel.gridlines.format",
+    "excel.gridlines.border",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
@@ -2119,6 +2174,114 @@ fn external_data_pivot_member(id: MemberId, put: bool) -> Option<MemberDescripto
         ("excel.slicers.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
         ("excel.slicer.name", _) => ("Name", MemberKind::PropertyGet),
         ("excel.slicer.slicercache", _) => ("SlicerCache", MemberKind::PropertyGet),
+        _ => return chart_completeness_member(id, put),
+    };
+    Some(MemberDescriptor { id, name, kind })
+}
+
+fn chart_completeness_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {
+    let (name, kind) = match (id.as_str(), put) {
+        ("excel.chart.chartgroups", _) => ("ChartGroups", MemberKind::PropertyGet),
+        ("excel.chartgroups.count", _) | ("excel.points.count", _) => {
+            ("Count", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroups.item", _) | ("excel.points.item", _) => {
+            ("Item", MemberKind::Method)
+        }
+        ("excel.chartgroups.newenum", _) | ("excel.points.newenum", _) => {
+            ("_NewEnum", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroup.axisgroup", _) => ("AxisGroup", MemberKind::PropertyGet),
+        ("excel.chartgroup.gapwidth", false) => ("GapWidth", MemberKind::PropertyGet),
+        ("excel.chartgroup.gapwidth", true) => ("GapWidth", MemberKind::PropertyPut),
+        ("excel.chartgroup.overlap", false) => ("Overlap", MemberKind::PropertyGet),
+        ("excel.chartgroup.overlap", true) => ("Overlap", MemberKind::PropertyPut),
+        ("excel.chartgroup.varybycategories", false) => {
+            ("VaryByCategories", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroup.varybycategories", true) => {
+            ("VaryByCategories", MemberKind::PropertyPut)
+        }
+        ("excel.chartgroup.firstsliceangle", false) => {
+            ("FirstSliceAngle", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroup.firstsliceangle", true) => {
+            ("FirstSliceAngle", MemberKind::PropertyPut)
+        }
+        ("excel.chartgroup.doughnutholesize", false) => {
+            ("DoughnutHoleSize", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroup.doughnutholesize", true) => {
+            ("DoughnutHoleSize", MemberKind::PropertyPut)
+        }
+        ("excel.chartgroup.bubblescale", false) => ("BubbleScale", MemberKind::PropertyGet),
+        ("excel.chartgroup.bubblescale", true) => ("BubbleScale", MemberKind::PropertyPut),
+        ("excel.chartgroup.shownegativebubbles", false) => {
+            ("ShowNegativeBubbles", MemberKind::PropertyGet)
+        }
+        ("excel.chartgroup.shownegativebubbles", true) => {
+            ("ShowNegativeBubbles", MemberKind::PropertyPut)
+        }
+        ("excel.series.points", _) => ("Points", MemberKind::PropertyGet),
+        ("excel.series.smooth", false) => ("Smooth", MemberKind::PropertyGet),
+        ("excel.series.smooth", true) => ("Smooth", MemberKind::PropertyPut),
+        ("excel.series.invertifnegative", false) => ("InvertIfNegative", MemberKind::PropertyGet),
+        ("excel.series.invertifnegative", true) => ("InvertIfNegative", MemberKind::PropertyPut),
+        ("excel.series.plotorder", false) => ("PlotOrder", MemberKind::PropertyGet),
+        ("excel.series.plotorder", true) => ("PlotOrder", MemberKind::PropertyPut),
+        ("excel.series.bubblesizes", false) => ("BubbleSizes", MemberKind::PropertyGet),
+        ("excel.series.bubblesizes", true) => ("BubbleSizes", MemberKind::PropertyPut),
+        ("excel.series.markerforegroundcolor", false) => ("MarkerForegroundColor", MemberKind::PropertyGet),
+        ("excel.series.markerforegroundcolor", true) => ("MarkerForegroundColor", MemberKind::PropertyPut),
+        ("excel.series.markerbackgroundcolor", false) => ("MarkerBackgroundColor", MemberKind::PropertyGet),
+        ("excel.series.markerbackgroundcolor", true) => ("MarkerBackgroundColor", MemberKind::PropertyPut),
+        ("excel.series.markertransparency", false) => ("MarkerTransparency", MemberKind::PropertyGet),
+        ("excel.series.markertransparency", true) => ("MarkerTransparency", MemberKind::PropertyPut),
+        ("excel.series.errorbars", _) => ("ErrorBars", MemberKind::PropertyGet),
+        ("excel.errorbars.format", _) => ("Format", MemberKind::PropertyGet),
+        ("excel.errorbars.border", _) => ("Border", MemberKind::PropertyGet),
+        ("excel.errorbars.direction", _) => ("Direction", MemberKind::PropertyGet),
+        ("excel.errorbars.include", _) => ("Include", MemberKind::PropertyGet),
+        ("excel.axis.minorunit", false) => ("MinorUnit", MemberKind::PropertyGet),
+        ("excel.axis.minorunit", true) => ("MinorUnit", MemberKind::PropertyPut),
+        ("excel.axis.minorunitisauto", false) => ("MinorUnitIsAuto", MemberKind::PropertyGet),
+        ("excel.axis.minorunitisauto", true) => ("MinorUnitIsAuto", MemberKind::PropertyPut),
+        ("excel.axis.crosses", false) => ("Crosses", MemberKind::PropertyGet),
+        ("excel.axis.crosses", true) => ("Crosses", MemberKind::PropertyPut),
+        ("excel.axis.crossesat", false) => ("CrossesAt", MemberKind::PropertyGet),
+        ("excel.axis.crossesat", true) => ("CrossesAt", MemberKind::PropertyPut),
+        ("excel.axis.reverseplotorder", false) => ("ReversePlotOrder", MemberKind::PropertyGet),
+        ("excel.axis.reverseplotorder", true) => ("ReversePlotOrder", MemberKind::PropertyPut),
+        ("excel.axis.categorytype", false) => ("CategoryType", MemberKind::PropertyGet),
+        ("excel.axis.categorytype", true) => ("CategoryType", MemberKind::PropertyPut),
+        ("excel.axis.baseunit", false) => ("BaseUnit", MemberKind::PropertyGet),
+        ("excel.axis.baseunit", true) => ("BaseUnit", MemberKind::PropertyPut),
+        ("excel.axis.format", _) => ("Format", MemberKind::PropertyGet),
+        ("excel.axis.majorgridlines", _) => ("MajorGridlines", MemberKind::PropertyGet),
+        ("excel.axis.minorgridlines", _) => ("MinorGridlines", MemberKind::PropertyGet),
+        ("excel.ticklabels.orientation", false) => ("Orientation", MemberKind::PropertyGet),
+        ("excel.ticklabels.orientation", true) => ("Orientation", MemberKind::PropertyPut),
+        ("excel.ticklabels.offset", false) => ("Offset", MemberKind::PropertyGet),
+        ("excel.ticklabels.offset", true) => ("Offset", MemberKind::PropertyPut),
+        ("excel.ticklabels.font", _) => ("Font", MemberKind::PropertyGet),
+        ("excel.gridlines.format", _) => ("Format", MemberKind::PropertyGet),
+        ("excel.gridlines.border", _) => ("Border", MemberKind::PropertyGet),
+        ("excel.point.hasdatalabel", false) => ("HasDataLabel", MemberKind::PropertyGet),
+        ("excel.point.hasdatalabel", true) => ("HasDataLabel", MemberKind::PropertyPut),
+        ("excel.point.datalabel", _) => ("DataLabel", MemberKind::PropertyGet),
+        ("excel.point.format", _) => ("Format", MemberKind::PropertyGet),
+        ("excel.point.markerstyle", false) => ("MarkerStyle", MemberKind::PropertyGet),
+        ("excel.point.markerstyle", true) => ("MarkerStyle", MemberKind::PropertyPut),
+        ("excel.point.markersize", false) => ("MarkerSize", MemberKind::PropertyGet),
+        ("excel.point.markersize", true) => ("MarkerSize", MemberKind::PropertyPut),
+        ("excel.point.explosion", false) => ("Explosion", MemberKind::PropertyGet),
+        ("excel.point.explosion", true) => ("Explosion", MemberKind::PropertyPut),
+        ("excel.point.invertifnegative", false) => {
+            ("InvertIfNegative", MemberKind::PropertyGet)
+        }
+        ("excel.point.invertifnegative", true) => {
+            ("InvertIfNegative", MemberKind::PropertyPut)
+        }
         _ => return None,
     };
     Some(MemberDescriptor { id, name, kind })
@@ -2275,6 +2438,10 @@ fn presentation_member_tail(id: MemberId, put: bool) -> Option<MemberDescriptor>
         ("excel.application.selection", _) => ("Selection", MemberKind::PropertyGet),
         ("excel.application.activewindow", _) => ("ActiveWindow", MemberKind::PropertyGet),
         ("excel.application.windows", _) => ("Windows", MemberKind::PropertyGet),
+        ("excel.application.hwnd", _) => ("Hwnd", MemberKind::PropertyGet),
+        ("excel.application.ready", _) => ("Ready", MemberKind::PropertyGet),
+        ("excel.application.interactive", _) => ("Interactive", MemberKind::PropertyGet),
+        ("excel.windows.count", _) => ("Count", MemberKind::PropertyGet),
         ("excel.application.sheets", _) => ("Sheets", MemberKind::PropertyGet),
         ("excel.application.worksheets", _) => ("Worksheets", MemberKind::PropertyGet),
         ("excel.application.goto", _) => ("Goto", MemberKind::Method),

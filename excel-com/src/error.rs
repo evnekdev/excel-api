@@ -1,6 +1,51 @@
 use crate::automation::ConversionError;
+use crate::automation::{ComCallDisposition, InvocationRetrySafety};
 use std::error::Error;
 use std::fmt::{Display, Formatter};
+use std::time::Duration;
+
+/// Runtime-specific failure that remains separate from Automation conversion
+/// and invocation errors.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ExcelRuntimeError {
+    /// No Excel instance is registered in the Running Object Table.
+    NoRunningInstance,
+    /// The Running Object Table exposed more than one indistinguishable target.
+    AmbiguousRunningInstances,
+    /// Excel disappeared while an attachment or owned-session operation ran.
+    SessionDisappeared,
+    /// A bounded retry sequence observed a busy server without a safe result.
+    ExcelBusy {
+        /// Number of calls attempted.
+        attempts: u32,
+        /// Time spent in the retry sequence.
+        elapsed: Duration,
+    },
+    /// The original operation was retryable but not safe to replay.
+    RetryUnsafe {
+        /// Excel wrapper receiving the call.
+        object: &'static str,
+        /// Excel member that was not replayed.
+        member: &'static str,
+    },
+    /// Registering or restoring a thread-local message filter failed.
+    MessageFilterRegistrationFailed {
+        /// The HRESULT returned by `CoRegisterMessageFilter`.
+        hresult: i32,
+    },
+    /// The owned Excel process did not naturally exit before the timeout.
+    ProcessExitTimeout {
+        /// The owned Excel process id, when it was observed from its own window.
+        process_id: Option<u32>,
+        /// Requested wait duration.
+        timeout: Duration,
+    },
+    /// Accessing the Running Object Table or active-object registration failed.
+    RotAccessFailed {
+        /// The HRESULT returned by the COM API.
+        hresult: i32,
+    },
+}
 
 /// Production-facing Automation failure without raw address disclosure.
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -54,7 +99,21 @@ pub enum ExcelComError {
         argument_index: Option<u32>,
         /// The `DISPATCH_*` flags supplied to `IDispatch::Invoke`.
         dispatch_flags: u16,
+        /// Classifies the original HRESULT without replacing it.
+        disposition: ComCallDisposition,
+        /// Whether repeating this exact invocation is safe after ambiguity.
+        retry_safety: InvocationRetrySafety,
+        /// Number of attempts made for this invocation.
+        attempts: u32,
+        /// Time spent in the invocation, including retry delays.
+        elapsed: Duration,
+        /// Optional server-provided EXCEPINFO source.
+        exception_source: Option<String>,
+        /// Optional server-provided EXCEPINFO description.
+        exception_description: Option<String>,
     },
+    /// An attachment, ownership, message-filter, or process runtime failure.
+    Runtime(ExcelRuntimeError),
     /// A value could not be converted before or after an Automation call.
     Conversion(ConversionError),
     /// A COM ownership invariant was violated.
@@ -131,13 +190,34 @@ impl Display for ExcelComError {
                 exception_scode,
                 argument_index,
                 dispatch_flags,
+                disposition,
+                retry_safety,
+                attempts,
+                elapsed,
+                exception_source,
+                exception_description,
             } => write!(
                 formatter,
-                "invocation of {object_type}.{member} (DISPID {dispid}, flags {dispatch_flags}) failed (0x{:08X}, EXCEPINFO {:?}, argument {:?})",
+                "invocation of {object_type}.{member} (DISPID {dispid}, flags {dispatch_flags}) failed (0x{:08X}, EXCEPINFO {:?}, source {:?}, description {:?}, argument {:?}, disposition {:?}, retry safety {:?}, attempts {attempts}, elapsed {:?})",
                 *hresult as u32,
                 exception_scode.map(|value| format!("0x{:08X}", value as u32)),
-                argument_index
+                exception_source,
+                exception_description,
+                argument_index,
+                disposition,
+                retry_safety,
+                elapsed,
             ),
+            Self::Runtime(error) => match error {
+                ExcelRuntimeError::NoRunningInstance => write!(formatter, "no running Excel instance is registered"),
+                ExcelRuntimeError::AmbiguousRunningInstances => write!(formatter, "multiple ambiguous Excel instances are registered"),
+                ExcelRuntimeError::SessionDisappeared => write!(formatter, "Excel session disappeared during the operation"),
+                ExcelRuntimeError::ExcelBusy { attempts, elapsed } => write!(formatter, "Excel remained busy after {attempts} attempts over {elapsed:?}"),
+                ExcelRuntimeError::RetryUnsafe { object, member } => write!(formatter, "retry of {object}.{member} is unsafe because it may have mutated Excel"),
+                ExcelRuntimeError::MessageFilterRegistrationFailed { hresult } => write!(formatter, "COM message-filter registration failed (0x{:08X})", *hresult as u32),
+                ExcelRuntimeError::ProcessExitTimeout { process_id, timeout } => write!(formatter, "owned Excel process {:?} did not exit within {timeout:?}", process_id),
+                ExcelRuntimeError::RotAccessFailed { hresult } => write!(formatter, "Excel active-object lookup failed (0x{:08X})", *hresult as u32),
+            },
             Self::Conversion(error) => write!(formatter, "Automation conversion failed: {error:?}"),
             Self::Ownership { detail } => write!(formatter, "COM ownership failure: {detail}"),
             Self::InvalidPath { detail } => write!(formatter, "invalid Windows path: {detail}"),
@@ -170,6 +250,12 @@ mod tests {
             exception_scode: Some(0x800A_03EC_u32 as i32),
             argument_index: None,
             dispatch_flags: 1,
+            disposition: ComCallDisposition::PermanentFailure,
+            retry_safety: InvocationRetrySafety::NonIdempotentWrite,
+            attempts: 1,
+            elapsed: Duration::ZERO,
+            exception_source: None,
+            exception_description: None,
         };
         let text = error.to_string();
         assert!(text.contains("0xFFFFFFFF"));
