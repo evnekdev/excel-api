@@ -28,7 +28,7 @@ const RETRY_CANCEL_CALL: u32 = u32::MAX;
 /// by the private dispatch layer, where the member kind is known. Dropping this
 /// guard restores the prior filter best-effort; use [`Self::restore`] when a
 /// registration-restoration failure must be observed.
-pub struct ComMessageFilterGuard {
+pub(crate) struct ComMessageFilterGuard {
     _filter: Box<MessageFilter>,
     previous_filter: Option<ComPtr<Unknown>>,
     previous_policy: Option<ComRetryPolicy>,
@@ -49,7 +49,7 @@ impl std::fmt::Debug for ComMessageFilterGuard {
 impl ComMessageFilterGuard {
     /// Registers a filter and makes `policy` available to safe dispatch retries
     /// on `apartment`'s current STA thread.
-    pub fn install(
+    pub(crate) fn install(
         apartment: &ComApartment,
         policy: ComRetryPolicy,
     ) -> Result<Self, ExcelComError> {
@@ -83,12 +83,6 @@ impl ComMessageFilterGuard {
             restored: false,
             _not_send_or_sync: PhantomData,
         })
-    }
-
-    /// Restores the filter that was active before [`Self::install`].
-    pub fn restore(mut self) -> Result<(), ExcelComError> {
-        self.restore_inner()?;
-        Ok(())
     }
 
     fn restore_inner(&mut self) -> Result<(), ExcelComError> {

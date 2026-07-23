@@ -84,6 +84,7 @@ impl Application {
             active: true,
         })
     }
+    #[cfg(feature = "macro-runtime")]
     pub fn run_macro(
         &self,
         macro_name: &str,

@@ -1,0 +1,57 @@
+name: excel-com release preparation
+
+on:
+  push:
+    branches: [master, 'release/**']
+  pull_request:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Check
+        run: cargo check --workspace --all-targets --all-features
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - name: Test
+        run: cargo test --workspace --all-features
+      - name: Doctest
+        run: cargo test --workspace --doc
+      - name: Rustdoc
+        env:
+          RUSTDOCFLAGS: -D warnings -D rustdoc::broken_intra_doc_links
+        run: cargo doc --workspace --all-features --no-deps
+      - name: Package
+        run: cargo package -p excel-com
+      - name: Object-model inventory
+        run: cargo run --offline -p excel-object-model-inventory -- check --root .
+      - name: Object-model typelib diff
+        run: cargo run --offline -p excel-object-model-inventory -- diff --root .
+      - name: Knowledge-base check
+        run: cargo run --offline --manifest-path tools/excel-com-kb/Cargo.toml -- check --root knowledge/excel-object-model
+
+  msrv:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - name: Check and core tests on MSRV
+        run: |
+          cargo check -p excel-com --all-targets --all-features
+          cargo test -p excel-com --lib --all-features
+
+  x86-check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: i686-pc-windows-msvc
+      - name: Compile-check 32-bit Windows target
+        run: cargo check -p excel-com --target i686-pc-windows-msvc --all-features

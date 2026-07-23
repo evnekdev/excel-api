@@ -43,6 +43,8 @@ version = "0.1.0"
 name = "excel-com"
 version = "0.1.0"
 dependencies = [
+ "static_assertions",
+ "trybuild",
  "windows-sys",
 ]
 
@@ -167,6 +169,12 @@ checksum = "6662b5879511e06e8999a8a235d848113e942c9124f211511b16466ee2995f26"
 dependencies = [
  "serde_core",
 ]
+
+[[package]]
+name = "static_assertions"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "syn"

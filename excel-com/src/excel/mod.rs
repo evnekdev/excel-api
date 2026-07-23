@@ -5,18 +5,18 @@ mod border;
 mod borders;
 mod calculation;
 mod collection;
-mod data;
-mod drawing;
-mod external_data;
+pub mod data;
+pub mod drawing;
+pub mod external_data;
 mod file_lifecycle;
 mod font;
-mod formatting;
+pub mod formatting;
 mod formula;
 mod interior;
 mod name;
 mod names;
-mod pivot;
-mod presentation;
+pub mod pivot;
+pub mod presentation;
 mod range;
 mod range_structure;
 mod reference;
@@ -112,7 +112,7 @@ pub use validation::{
 };
 pub use workbook::Workbook;
 pub use workbooks::{Workbooks, WorkbooksIter};
-pub use worksheet::{SheetVisibility, Worksheet, XlSheetVisibility};
+pub use worksheet::{SheetVisibility, Worksheet};
 pub use worksheets::{
     SheetType, WorksheetAddOptions, Worksheets, WorksheetsAddOptions, WorksheetsIter,
 };

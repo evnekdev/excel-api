@@ -3,15 +3,15 @@
 //! Opt-in, visible conditional-formatting acceptance coverage.
 
 use excel_com::{
-    Application, CellValueRuleOptions, ComApartment, ConditionalFormat, ConditionalOperator,
-    IconSetKind,
+    CellValueRuleOptions, ComApartment, ConditionalFormat, ConditionalOperator, IconSetKind,
+    OwnedApplication,
 };
 
 #[test]
 #[ignore = "launches a fresh visible Excel process; run explicitly"]
 fn conditional_formatting_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let outcome = match application.workbooks()?.add() {
         Ok(workbook) => {

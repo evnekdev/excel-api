@@ -1,0 +1,14 @@
+error[E0382]: borrow of moved value: `workbook`
+ --> tests/ui/consuming_close_invalidates_workbook.rs:5:13
+  |
+3 | fn use_after_close(workbook: Workbook) {
+  |                    -------- move occurs because `workbook` has type `Workbook`, which does not implement the `Copy` trait
+4 |     let _ = workbook.close(WorkbookCloseOptions::new());
+  |             -------- value moved here
+5 |     let _ = workbook.name();
+  |             ^^^^^^^^ value borrowed here after move
+  |
+help: consider cloning the value if the performance cost is acceptable
+  |
+4 |     let _ = workbook.clone().close(WorkbookCloseOptions::new());
+  |                     ++++++++

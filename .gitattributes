@@ -30,5 +30,7 @@ knowledge/excel-object-model/error-scode-runtime/*.jsonl text eol=lf
 knowledge/excel-object-model/error-scode-runtime/*.toml text eol=lf
 knowledge/excel-object-model/generated/error-scode-runtime/*.md text eol=lf
 docs/research/excel-com/*.md text eol=lf
+excel-com/LICENSE-APACHE text eol=lf
+excel-com/LICENSE-MIT text eol=lf
 tools/**/Cargo.lock text eol=lf
 tools/excel-com-range-probe/python/*.py text eol=lf

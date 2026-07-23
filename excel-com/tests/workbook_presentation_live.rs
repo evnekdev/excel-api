@@ -3,7 +3,7 @@
 //! Opt-in presentation and worksheet-lifecycle acceptance coverage.
 
 use excel_com::{
-    Application, ComApartment, PageFit, PageOrientation, PageZoom, SheetDestination,
+    ComApartment, OwnedApplication, PageFit, PageOrientation, PageZoom, SheetDestination,
     SheetVisibility, SummaryRow, WorkbookProtectOptions, WorksheetAddOptions,
     WorksheetProtectOptions,
 };
@@ -12,7 +12,7 @@ use excel_com::{
 #[ignore = "requires an Excel host that accepts Workbooks.Add; baseline is currently environment-blocked"]
 fn workbook_presentation_lifecycle_and_layout_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let workbook = application.workbooks()?.add()?;
     let worksheets = workbook.worksheets()?;

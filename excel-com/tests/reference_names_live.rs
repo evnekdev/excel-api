@@ -4,8 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, ComApartment, FormulaConversionOptions,
-    NameAddOptions, NameRefersTo, RangeAddressOptions, ReferenceStyle,
+    AutomationArray, AutomationValue, ComApartment, FormulaConversionOptions, NameAddOptions,
+    NameRefersTo, OwnedApplication, RangeAddressOptions, ReferenceStyle,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -67,7 +67,7 @@ fn references_names_and_evaluation_naturally_exit() -> Result<(), Box<dyn std::e
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let mut cleanup_workbook = None;
 

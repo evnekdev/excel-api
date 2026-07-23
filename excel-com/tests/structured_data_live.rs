@@ -4,8 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutoFilterOptions, AutomationArray, AutomationValue, ComApartment,
-    ListObjectAddOptions, MixedValue, PasteOperation, PasteSpecialOptions, PasteType,
+    AutoFilterOptions, AutomationArray, AutomationValue, ComApartment, ListObjectAddOptions,
+    MixedValue, OwnedApplication, PasteOperation, PasteSpecialOptions, PasteType,
     RangeInsertOptions, RemoveDuplicatesOptions, SortDataOption, SortOrder, TableHeaderMode,
     TotalsCalculation, ValidationAddOptions, ValidationType,
 };
@@ -64,7 +64,7 @@ fn structured_data_operations_naturally_exit() -> Result<(), Box<dyn std::error:
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let mut cleanup_workbook = None;
     let outcome = std::panic::catch_unwind(std::panic::AssertUnwindSafe(

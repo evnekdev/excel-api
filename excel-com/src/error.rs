@@ -51,31 +51,88 @@ pub enum ExcelRuntimeError {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct InvocationError {
     /// The Excel wrapper object receiving the call.
-    pub object_type: &'static str,
+    pub(crate) object_type: &'static str,
     /// The invoked member name.
-    pub member: &'static str,
+    pub(crate) member: &'static str,
     /// The resolved member DISPID.
-    pub dispid: i32,
+    pub(crate) dispid: i32,
     /// The failed HRESULT.
-    pub hresult: i32,
+    pub(crate) hresult: i32,
     /// The server-provided exception SCODE, if any.
-    pub exception_scode: Option<i32>,
+    pub(crate) exception_scode: Option<i32>,
     /// The Automation argument index reported by COM, if any.
-    pub argument_index: Option<u32>,
+    pub(crate) argument_index: Option<u32>,
     /// The `DISPATCH_*` flags supplied to `IDispatch::Invoke`.
-    pub dispatch_flags: u16,
+    pub(crate) dispatch_flags: u16,
     /// Classifies the original HRESULT without replacing it.
-    pub disposition: ComCallDisposition,
+    pub(crate) disposition: ComCallDisposition,
     /// Whether repeating this exact invocation is safe after ambiguity.
-    pub retry_safety: InvocationRetrySafety,
+    pub(crate) retry_safety: InvocationRetrySafety,
     /// Number of attempts made for this invocation.
-    pub attempts: u32,
+    pub(crate) attempts: u32,
     /// Time spent in the invocation, including retry delays.
-    pub elapsed: Duration,
+    pub(crate) elapsed: Duration,
     /// Optional server-provided EXCEPINFO source.
-    pub exception_source: Option<String>,
+    pub(crate) exception_source: Option<String>,
     /// Optional server-provided EXCEPINFO description.
-    pub exception_description: Option<String>,
+    pub(crate) exception_description: Option<String>,
+}
+
+impl InvocationError {
+    /// Returns the Excel wrapper type that received the failed invocation.
+    pub const fn object_type(&self) -> &'static str {
+        self.object_type
+    }
+
+    /// Returns the Excel member name that failed.
+    pub const fn member(&self) -> &'static str {
+        self.member
+    }
+
+    /// Returns the resolved Automation DISPID.
+    pub const fn dispid(&self) -> i32 {
+        self.dispid
+    }
+
+    /// Returns the original HRESULT without retry-classification loss.
+    pub const fn hresult(&self) -> i32 {
+        self.hresult
+    }
+
+    /// Returns the server-provided exception SCODE, when Excel supplied one.
+    pub const fn exception_scode(&self) -> Option<i32> {
+        self.exception_scode
+    }
+
+    /// Returns the optional Automation argument index reported by COM.
+    pub const fn argument_index(&self) -> Option<u32> {
+        self.argument_index
+    }
+
+    /// Returns the `DISPATCH_*` flags used for this invocation.
+    pub const fn dispatch_flags(&self) -> u16 {
+        self.dispatch_flags
+    }
+
+    /// Returns the number of completed attempts, including the initial call.
+    pub const fn attempts(&self) -> u32 {
+        self.attempts
+    }
+
+    /// Returns elapsed invocation time, including any conservative retry delay.
+    pub const fn elapsed(&self) -> Duration {
+        self.elapsed
+    }
+
+    /// Returns Excel's optional EXCEPINFO source without exposing raw pointers.
+    pub fn exception_source(&self) -> Option<&str> {
+        self.exception_source.as_deref()
+    }
+
+    /// Returns Excel's optional EXCEPINFO description without exposing raw pointers.
+    pub fn exception_description(&self) -> Option<&str> {
+        self.exception_description.as_deref()
+    }
 }
 
 /// Production-facing Automation failure without raw address disclosure.

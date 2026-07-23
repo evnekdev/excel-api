@@ -1,0 +1,5 @@
+error[E0599]: no method named `quit` found for struct `AttachedApplication<'_>` in the current scope
+ --> tests/ui/attached_cannot_quit.rs:4:13
+  |
+4 |     session.quit();
+  |             ^^^^ method not found in `AttachedApplication<'_>`

@@ -8,7 +8,7 @@ use windows_sys::Win32::Foundation::{
 
 /// Classifies a COM call result without discarding its original HRESULT.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum ComCallDisposition {
+pub(crate) enum ComCallDisposition {
     /// Excel is temporarily busy and a safe call may be retried.
     RetryableBusy,
     /// Excel explicitly rejected the call and a safe call may be retried.
@@ -21,7 +21,7 @@ pub enum ComCallDisposition {
 
 /// Describes whether repeating an Automation call can be safe after ambiguity.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum InvocationRetrySafety {
+pub(crate) enum InvocationRetrySafety {
     /// A property read does not mutate the Excel object model.
     SafeRead,
     /// A clearly idempotent property assignment may be repeated.
@@ -34,7 +34,7 @@ pub enum InvocationRetrySafety {
 
 /// Bounded, opt-in retry settings for transient COM Automation failures.
 ///
-/// The policy applies only while a [`crate::ComMessageFilterGuard`] is installed
+/// The policy applies only while the crate's private message filter is installed
 /// for the current STA thread. Methods are deliberately not retried because a
 /// rejected call can have completed at the server before COM reports failure.
 #[derive(Clone, Debug, Eq, PartialEq)]

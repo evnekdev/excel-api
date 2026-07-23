@@ -113,6 +113,11 @@ impl XlUpdateLinks {
     /// Always updates external links.
     pub const ALWAYS: Self = Self(3);
 
+    /// Preserves an installed or future Excel value.
+    pub const fn from_raw(value: i32) -> Self {
+        Self(value)
+    }
+
     /// Returns the numeric Excel enumeration value.
     pub const fn raw(self) -> i32 {
         self.0
@@ -131,6 +136,11 @@ impl WorkbookOpenFormat {
     pub const TEMPLATE: Self = Self(17);
     /// Uses Excel's current default workbook format.
     pub const DEFAULT: Self = Self(51);
+
+    /// Preserves an installed or future Excel value.
+    pub const fn from_raw(value: i32) -> Self {
+        Self(value)
+    }
 
     /// Returns the numeric Excel value.
     pub const fn raw(self) -> i32 {
@@ -151,6 +161,11 @@ impl XlPlatform {
     /// MS-DOS text-file origin.
     pub const MSDOS: Self = Self(3);
 
+    /// Preserves an installed or future Excel value.
+    pub const fn from_raw(value: i32) -> Self {
+        Self(value)
+    }
+
     /// Returns the numeric Excel enumeration value.
     pub const fn raw(self) -> i32 {
         self.0
@@ -169,6 +184,11 @@ impl XlCorruptLoad {
     pub const REPAIR: Self = Self(1);
     /// Asks Excel to extract data from a damaged file.
     pub const EXTRACT_DATA: Self = Self(2);
+
+    /// Preserves an installed or future Excel value.
+    pub const fn from_raw(value: i32) -> Self {
+        Self(value)
+    }
 
     /// Returns the numeric Excel enumeration value.
     pub const fn raw(self) -> i32 {

@@ -4,7 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, ComApartment, SaveChanges, WorkbookCloseOptions,
+    AutomationArray, AutomationValue, ComApartment, OwnedApplication, SaveChanges,
+    WorkbookCloseOptions,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
@@ -55,7 +56,7 @@ fn collection_identity_and_navigation_naturally_exits() -> Result<(), Box<dyn st
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let outcome = std::panic::catch_unwind(std::panic::AssertUnwindSafe(
         || -> Result<(), Box<dyn std::error::Error>> {

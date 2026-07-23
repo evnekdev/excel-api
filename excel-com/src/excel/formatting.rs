@@ -507,7 +507,7 @@ pub(crate) fn map_mixed<T, U>(value: MixedValue<T>, map: impl FnOnce(T) -> U) ->
 mod tests {
     use super::*;
     use crate::automation::{MemberDescriptor, MemberKind};
-    use crate::{Application, ComApartment};
+    use crate::{ComApartment, OwnedApplication};
 
     #[test]
     fn color_uses_excel_rgb_byte_order() {
@@ -571,7 +571,7 @@ mod tests {
     fn physical_formatting_variants_are_observed_without_public_exposure()
     -> Result<(), Box<dyn std::error::Error>> {
         let apartment = ComApartment::sta()?;
-        let application = Application::new(&apartment)?;
+        let application = OwnedApplication::new(&apartment)?;
         application.set_visible(true)?;
         let mut cleanup_workbook = None;
         let outcome = std::panic::catch_unwind(std::panic::AssertUnwindSafe(

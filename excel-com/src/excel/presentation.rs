@@ -7,11 +7,14 @@ use std::fmt::{Debug, Formatter};
 use std::iter::FusedIterator;
 use std::path::Path;
 
+#[cfg(feature = "macro-runtime")]
 use windows_sys::Win32::System::Variant::VT_DISPATCH;
 
+#[cfg(feature = "macro-runtime")]
+use crate::automation::AutomationArgument;
 use crate::automation::{
-    AutomationArgument, AutomationValue, ConversionPolicy, OwnedVariant, PositionalArguments,
-    decode_variant, invoke, property_get, property_put,
+    AutomationValue, ConversionPolicy, OwnedVariant, PositionalArguments, decode_variant, invoke,
+    property_get, property_put,
 };
 use crate::excel::collection::{
     CollectionDescriptor, count as collection_count, enumerator, item_by_index,

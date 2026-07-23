@@ -4,8 +4,8 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, BorderIndex, BorderLineStyle, BorderWeight,
-    ComApartment, ExcelColor, FillPattern, HorizontalAlignment, MixedValue, UnderlineStyle,
+    AutomationArray, AutomationValue, BorderIndex, BorderLineStyle, BorderWeight, ComApartment,
+    ExcelColor, FillPattern, HorizontalAlignment, MixedValue, OwnedApplication, UnderlineStyle,
     VerticalAlignment,
 };
 use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
@@ -71,7 +71,7 @@ fn range_formatting_naturally_exits() -> Result<(), Box<dyn std::error::Error>> 
         "live test requires no pre-existing EXCEL.EXE"
     );
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let mut cleanup_workbook = None;
 

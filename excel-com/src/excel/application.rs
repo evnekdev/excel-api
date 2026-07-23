@@ -9,7 +9,7 @@ use crate::excel::{
 };
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
-use crate::{ComApartment, ConversionError, ExcelComError, OwnedApplication};
+use crate::{ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
 
 /// Restores an [`Application`]'s prior `DisplayAlerts` value on drop.
@@ -158,16 +158,6 @@ impl Application {
         &self.inner
     }
 
-    /// Starts a fresh local Excel process with explicit ownership semantics.
-    ///
-    /// New code should call [`OwnedApplication::new`] directly. This retained
-    /// associated constructor returns `OwnedApplication`, not a shared
-    /// `Application`, so callers cannot accidentally gain shutdown authority
-    /// from a wrapper obtained through another object.
-    #[allow(clippy::new_ret_no_self)] // Retained source-compatible owned-session entry point.
-    pub fn new(apartment: &ComApartment) -> Result<OwnedApplication<'_>, ExcelComError> {
-        OwnedApplication::new(apartment)
-    }
     /// Returns the server's Excel version string.
     pub fn version(&self) -> Result<String, ExcelComError> {
         property_get(

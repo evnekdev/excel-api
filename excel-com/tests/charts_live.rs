@@ -5,16 +5,16 @@
 use std::fs;
 
 use excel_com::{
-    Application, AutomationArray, AutomationValue, AxisGroup, AxisType, ChartBounds,
-    ChartCreateOptions, ChartExportOptions, ChartType, ComApartment, CopyPictureFormat,
-    CopyPictureOptions, LegendPosition, MarkerStyle, PictureAppearance, PlotBy,
+    AutomationArray, AutomationValue, AxisGroup, AxisType, ChartBounds, ChartCreateOptions,
+    ChartExportOptions, ChartType, ComApartment, CopyPictureFormat, CopyPictureOptions,
+    LegendPosition, MarkerStyle, OwnedApplication, PictureAppearance, PlotBy,
 };
 
 #[test]
 #[ignore = "launches a fresh visible Excel process; run explicitly with one test thread"]
 fn charts_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let mut exported = None;
     let result = (|| -> Result<(), Box<dyn std::error::Error>> {

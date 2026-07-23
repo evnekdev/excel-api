@@ -1,4 +1,6 @@
-use super::{AutomationValue, ConversionError, ConversionPolicy, OwnedVariant, encode_variant};
+use super::{AutomationValue, ConversionError, OwnedVariant};
+#[cfg(feature = "macro-runtime")]
+use super::{ConversionPolicy, encode_variant};
 use crate::{ExcelComError, excel::DispatchObject};
 use windows_sys::Win32::Foundation::DISP_E_PARAMNOTFOUND;
 
@@ -12,6 +14,7 @@ pub enum AutomationArgument {
 }
 
 impl AutomationArgument {
+    #[cfg(feature = "macro-runtime")]
     pub(crate) fn encode(&self, policy: ConversionPolicy) -> Result<OwnedVariant, ExcelComError> {
         match self {
             Self::Value(value) => encode_variant(value, policy),
@@ -42,6 +45,7 @@ impl PositionalArguments {
             .push(value.unwrap_or_else(|| OwnedVariant::error(DISP_E_PARAMNOTFOUND)));
     }
 
+    #[cfg(feature = "macro-runtime")]
     pub(crate) fn push_argument(
         &mut self,
         value: AutomationArgument,

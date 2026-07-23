@@ -2,13 +2,13 @@
 
 //! Opt-in cell-bound Sparkline group coverage.
 
-use excel_com::{Application, AutomationArray, AutomationValue, ComApartment, SparklineType};
+use excel_com::{AutomationArray, AutomationValue, ComApartment, OwnedApplication, SparklineType};
 
 #[test]
 #[ignore = "launches a fresh visible Excel process; run explicitly with one test thread"]
 fn sparklines_live() -> Result<(), Box<dyn std::error::Error>> {
     let apartment = ComApartment::sta()?;
-    let application = Application::new(&apartment)?;
+    let application = OwnedApplication::new(&apartment)?;
     application.set_visible(true)?;
     let result = (|| -> Result<(), Box<dyn std::error::Error>> {
         let workbook = application.workbooks()?.add()?;

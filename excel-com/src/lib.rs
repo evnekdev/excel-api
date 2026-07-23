@@ -240,9 +240,9 @@
 //!
 //! ```no_run
 //! # fn example() -> Result<(), excel_com::ExcelComError> {
-//! # use excel_com::{Application, ComApartment};
+//! # use excel_com::{ComApartment, OwnedApplication};
 //! # let apartment = ComApartment::sta()?;
-//! # let application = Application::new(&apartment)?;
+//! # let application = OwnedApplication::new(&apartment)?;
 //! # let workbook = application.workbooks()?.add()?;
 //! let worksheets = workbook.worksheets()?;
 //! let direct = worksheets.item_by_index(1)?;
@@ -260,7 +260,7 @@
 //!
 //! ```no_run
 //! use excel_com::{
-//!     Application, ComApartment,
+//!     ComApartment, OwnedApplication,
 //!     SaveChanges, WorkbookCloseOptions, WorkbookOpenOptions,
 //!     WorkbookSaveAsOptions, XlFileFormat,
 //! };
@@ -268,7 +268,7 @@
 //!
 //! # fn main() -> Result<(), excel_com::ExcelComError> {
 //! let apartment = ComApartment::sta()?;
-//! let application = Application::new(&apartment)?;
+//! let application = OwnedApplication::new(&apartment)?;
 //! let workbooks = application.workbooks()?;
 //! let alerts = application.display_alerts_guard(false)?;
 //! let workbook = workbooks.open(
@@ -366,16 +366,17 @@
 #![deny(rustdoc::broken_intra_doc_links)]
 #![warn(rustdoc::private_intra_doc_links)]
 
-mod automation;
-mod error;
+/// Automation values, conversion policy, and conservative retry configuration.
+pub mod automation;
+/// Structured errors returned by the public Excel Automation API.
+pub mod error;
 mod excel;
 mod internal;
 mod object_model;
 
 pub use automation::{
-    AutomationArgument, AutomationArray, AutomationValue, ComCallDisposition,
-    ComMessageFilterGuard, ComRetryPolicy, ConversionError, ConversionPolicy, Currency, ExcelError,
-    InvocationRetrySafety, OaDate,
+    AutomationArgument, AutomationArray, AutomationValue, ComRetryPolicy, ConversionError,
+    ConversionPolicy, Currency, ExcelError, OaDate,
 };
 pub use error::{ExcelComError, ExcelRuntimeError, InvocationError};
 pub use excel::{
@@ -392,38 +393,29 @@ pub use excel::{
     UnsupportedConditionalFormat,
 };
 pub use excel::{
-    AdvancedFilterAction, AdvancedFilterOptions, AggregationFunction, Application, Areas,
-    AreasIter, AskToUpdateLinksGuard, AutoFillType, AutoFilter, AutoFilterOperator,
-    AutoFilterOptions, AutomationSecurity, AutomationSecurityGuard, Border, BorderIndex,
-    BorderLineStyle, BorderWeight, Borders, BordersIter, CalculationMode, CalculationModeGuard,
-    CalculationState, ConsolidateOptions, ConsolidationSource, DataSeriesDateUnit,
-    DataSeriesOptions, DataSeriesType, DataTableInputs, DeleteShiftDirection, DisplayAlertsGuard,
-    DynamicFilterCriteria, ExcelColor, ExcelColorIndex, ExternalLinkSource, FillPattern, Filter,
-    FilterCriterion, Filters, FiltersIter, FindLookIn, FindMatchMode, FindOptions,
-    FixedFormatOptions, FixedFormatQuality, FixedFormatType, Font, FormulaConversionOptions,
-    FormulaValue, GoalSeekOptions, HPageBreak, HPageBreaks, HorizontalAlignment,
-    InsertFormatOrigin, InsertShiftDirection, Interior, LinkStatus, LinkType, ListColumn,
-    ListColumns, ListColumnsIter, ListObject, ListObjectAddOptions, ListObjectSourceType,
-    ListObjects, ListObjectsIter, ListRow, ListRows, ListRowsIter, MixedValue, Name,
-    NameAddOptions, NameRefersTo, Names, NamesIter, OpenTextOptions, Outline, PageBreakType,
+    AdvancedFilterAction, AdvancedFilterOptions, AggregationFunction, AskToUpdateLinksGuard,
+    AutoFillType, AutoFilter, AutoFilterOperator, AutoFilterOptions, AutomationSecurity,
+    AutomationSecurityGuard, BorderIndex, BorderLineStyle, BorderWeight, ConsolidateOptions,
+    ConsolidationSource, DataSeriesDateUnit, DataSeriesOptions, DataSeriesType, DataTableInputs,
+    DeleteShiftDirection, DynamicFilterCriteria, ExternalLinkSource, Filter, FilterCriterion,
+    Filters, FiltersIter, FindLookIn, FindMatchMode, FindOptions, FixedFormatOptions,
+    FixedFormatQuality, FixedFormatType, GoalSeekOptions, HPageBreak, HPageBreaks,
+    InsertFormatOrigin, InsertShiftDirection, LinkStatus, LinkType, ListColumn, ListColumns,
+    ListColumnsIter, ListObject, ListObjectAddOptions, ListObjectSourceType, ListObjects,
+    ListObjectsIter, ListRow, ListRows, ListRowsIter, OpenTextOptions, Outline, PageBreakType,
     PageFit, PageOrientation, PageSetup, PageZoom, PaperSize, PasteOperation, PasteSpecialOptions,
-    PasteType, PrintErrors, PrintLocation, PrintOrder, PrintOutOptions, Range, RangeAddressOptions,
-    RangeFindIter, RangeInsertOptions, RangeSortOptions, ReadingOrder, ReferenceAbsoluteMode,
-    ReferenceStyle, ReferenceStyleGuard, RemoveDuplicatesOptions, ReplaceOptions,
-    SafeWorkbookOpenOptions, SaveChanges, Scenario, ScenarioAddOptions, ScenarioReportType,
+    PasteType, PrintErrors, PrintLocation, PrintOrder, PrintOutOptions, RangeFindIter,
+    RangeInsertOptions, RangeSortOptions, ReadingOrder, RemoveDuplicatesOptions, ReplaceOptions,
+    SafeWorkbookOpenOptions, Scenario, ScenarioAddOptions, ScenarioReportType,
     ScenarioSummaryOptions, Scenarios, ScenariosIter, SearchDirection, SearchOrder,
     SeriesOrientation, Sheet, SheetDestination, SheetObject, SheetType, SheetView, SheetVisibility,
     Sheets, SheetsIter, Sort, SortDataOption, SortField, SortFields, SortMethod, SortOrder,
     SortOrientation, SpecialCellType, SpecialCellValueMask, SummaryColumn, SummaryRow, Tab,
     TableHeaderMode, TextColumnSpec, TextColumnType, TextDelimiter, TextExportOptions,
     TextFileFormat, TextParsingType, TextPlatform, TextQualifier, TextToColumnsOptions,
-    TotalsCalculation, UnderlineStyle, VPageBreak, VPageBreaks, Validation, ValidationAddOptions,
-    ValidationAlertStyle, ValidationOperator, ValidationType, VerticalAlignment, Window,
-    WindowView, Windows, Workbook, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
-    WorkbookProtectOptions, WorkbookSaveAsOptions, Workbooks, WorkbooksIter, Worksheet,
-    WorksheetAddOptions, WorksheetProtectOptions, Worksheets, WorksheetsAddOptions, WorksheetsIter,
-    XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode, XlSaveConflictResolution,
-    XlSheetVisibility, XlUpdateLinks,
+    TotalsCalculation, VPageBreak, VPageBreaks, Validation, ValidationAddOptions,
+    ValidationAlertStyle, ValidationOperator, ValidationType, Window, WindowView, Windows,
+    WorkbookProtectOptions, WorksheetProtectOptions,
 };
 pub use excel::{
     AttachOptions, AttachedApplication, ExcelSession, ExcelSessionDiagnostics,
@@ -466,4 +458,60 @@ pub use internal::ComApartment;
 pub use object_model::{
     DocumentationStatus, IMPLEMENTED_MEMBER_IDS, ImplementationStatus, MemberId, ObjectId,
     TestStatus,
+};
+
+/// Chart, shape, picture, sparkline, and Office drawing APIs.
+pub mod drawing {
+    pub use crate::excel::drawing::*;
+}
+
+/// External data connections, QueryTables, and bounded refresh APIs.
+pub mod external_data {
+    pub use crate::excel::external_data::*;
+}
+
+/// PivotCache, PivotTable, field, filter, and slicer APIs.
+pub mod pivot {
+    pub use crate::excel::pivot::*;
+}
+
+/// Conditional formatting, printing, protection, styles, comments, and workbook presentation APIs.
+pub mod presentation {
+    pub use crate::excel::presentation::*;
+}
+
+/// Text interchange, data transformation, scenarios, links, and what-if APIs.
+pub mod data {
+    pub use crate::excel::data::*;
+}
+
+/// Range-formatting, colour, font, fill, and border APIs.
+pub mod formatting {
+    pub use crate::excel::formatting::*;
+    pub use crate::excel::{Border, Borders, BordersIter, Font, Interior};
+}
+
+/// Excel tables, filters, sorting, validation, and structural range-edit APIs.
+pub mod tables {
+    pub use crate::excel::{
+        AutoFilter, AutoFilterOperator, AutoFilterOptions, DynamicFilterCriteria, Filter,
+        FilterCriterion, Filters, FiltersIter, ListColumn, ListColumns, ListColumnsIter,
+        ListObject, ListObjectAddOptions, ListObjectSourceType, ListObjects, ListObjectsIter,
+        ListRow, ListRows, ListRowsIter, RangeSortOptions, Sort, SortDataOption, SortField,
+        SortFields, SortMethod, SortOrder, SortOrientation, TableHeaderMode, TotalsCalculation,
+        Validation, ValidationAddOptions, ValidationAlertStyle, ValidationOperator, ValidationType,
+    };
+}
+
+/// Core workbook, worksheet, and range abstractions kept convenient at the crate root.
+pub use excel::{
+    Application, Areas, AreasIter, Border, Borders, BordersIter, CalculationMode,
+    CalculationModeGuard, CalculationState, DisplayAlertsGuard, ExcelColor, ExcelColorIndex,
+    FillPattern, Font, FormulaConversionOptions, FormulaValue, HorizontalAlignment, Interior,
+    MixedValue, Name, NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions,
+    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, SaveChanges, UnderlineStyle,
+    VerticalAlignment, Workbook, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
+    WorkbookSaveAsOptions, Workbooks, WorkbooksIter, Worksheet, WorksheetAddOptions, Worksheets,
+    WorksheetsAddOptions, WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform,
+    XlSaveAsAccessMode, XlSaveConflictResolution, XlUpdateLinks,
 };
