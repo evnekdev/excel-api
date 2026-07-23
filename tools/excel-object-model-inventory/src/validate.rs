@@ -65,6 +65,32 @@ pub fn check(root: &Path) -> Result<(), String> {
             if !model::COLLECTION_ITERATOR_STATUSES.contains(&status) {
                 return Err(format!("invalid collection iterator status {status}"));
             }
+            let requires_policy = matches!(
+                object["name"].as_str(),
+                Some(
+                    "FormatConditions"
+                        | "ColorScaleCriteria"
+                        | "IconCriteria"
+                        | "Styles"
+                        | "Comments"
+                        | "CommentsThreaded"
+                        | "Hyperlinks"
+                )
+            );
+            match collection
+                .get("heterogeneous_policy")
+                .and_then(Value::as_str)
+            {
+                Some(policy)
+                    if ["homogeneous", "typed-subtype-by-type-property"].contains(&policy) => {}
+                Some(policy) => {
+                    return Err(format!("invalid collection heterogeneous policy {policy}"));
+                }
+                None if requires_policy => {
+                    return Err("collection lacks heterogeneous_policy".to_owned());
+                }
+                None => {}
+            }
         } else if !object["collection"].is_null() {
             return Err("collection must be an object or null".to_owned());
         }
@@ -165,6 +191,22 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "validation",
                 "remove_duplicates",
                 "structural_editing",
+            ],
+        )?;
+        validate_boolean_capability(
+            object,
+            "advanced_presentation_capability",
+            &[
+                "conditional_formatting",
+                "color_scales",
+                "data_bars",
+                "icon_sets",
+                "styles",
+                "theme_colors",
+                "display_format",
+                "legacy_comments",
+                "threaded_comment_inspection",
+                "hyperlinks",
             ],
         )?;
         for member in object["members"]

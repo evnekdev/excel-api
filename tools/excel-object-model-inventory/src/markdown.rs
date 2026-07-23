@@ -43,7 +43,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed workbooks, worksheets, sheets, windows, page setup, tab, outline, page-break, and table collections plus core Range navigation, formulas, calculation, formatting, presentation, print/fixed-format output, filtering, sorting, validation, duplicate removal, and structural edits. Structured collection metadata and its [dashboard](indexes/collections.md) describe only typed collections implemented by the crate. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed workbooks, worksheets, sheets, windows, page setup, tab, outline, page-break, table, conditional-format, Style, Note, and hyperlink collections plus core Range navigation, formulas, calculation, formatting, presentation, print/fixed-format output, filtering, sorting, validation, duplicate removal, and structural edits. Advanced-presentation capability metadata is recorded on Range; typed collection metadata and its [dashboard](indexes/collections.md) describe only typed collections implemented by the crate. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -149,6 +149,7 @@ fn capability_table(object: &Value) -> String {
         ("Auditing and search", "auditing_search_capability"),
         ("Formatting", "formatting_capability"),
         ("Structured data", "structured_data_capability"),
+        ("Advanced presentation", "advanced_presentation_capability"),
     ];
     let mut text = String::new();
     for (label, field) in groups {
@@ -476,6 +477,13 @@ fn collection_index(objects: &[Value]) -> String {
         "Charts",
         "Shapes",
         "ListObjects",
+        "FormatConditions",
+        "ColorScaleCriteria",
+        "IconCriteria",
+        "Styles",
+        "Comments",
+        "CommentsThreaded",
+        "Hyperlinks",
     ] {
         let status = objects
             .iter()
@@ -511,6 +519,33 @@ fn collection_index(objects: &[Value]) -> String {
                 .collect::<Vec<_>>()
                 .join(", "),
             collection["iterator_status"].as_str().unwrap_or("--"),
+        ));
+    }
+    lines.extend([
+        "".to_owned(),
+        "## Prompt 16 typed collection policy".to_owned(),
+        "".to_owned(),
+        "| Collection | Element | Index kinds | Iterator | Heterogeneous policy |".to_owned(),
+        "|---|---|---|---|---|".to_owned(),
+    ]);
+    for object in objects
+        .iter()
+        .filter(|object| object["collection"]["heterogeneous_policy"].is_string())
+    {
+        let collection = &object["collection"];
+        lines.push(format!(
+            "| {} | {} | {} | {} | {} |",
+            object["name"].as_str().unwrap_or("--"),
+            collection["element_type"].as_str().unwrap_or("Unknown"),
+            collection["index_kinds"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+                .collect::<Vec<_>>()
+                .join(", "),
+            collection["iterator_status"].as_str().unwrap_or("--"),
+            collection["heterogeneous_policy"].as_str().unwrap_or("--"),
         ));
     }
     lines.join("\n") + "\n"

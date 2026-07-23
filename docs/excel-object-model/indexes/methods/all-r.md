@@ -71,7 +71,7 @@
 | Range | AutoComplete | 1185 | Metadata Only |
 | Range | InsertIndent | 1381 | Metadata Only |
 | Range | UnMerge | 1384 | Implemented |
-| Range | AddComment | 1389 | Metadata Only |
+| Range | AddComment | 1389 | Implemented |
 | Range | ClearComments | 1390 | Implemented |
 | Range | _PrintOut | 1772 | Metadata Only |
 | Range | SetPhonetic | 1812 | Metadata Only |

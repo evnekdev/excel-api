@@ -49,6 +49,20 @@ pub use formula::FormulaValue;
 pub use interior::Interior;
 pub use name::Name;
 pub use names::{NameAddOptions, NameRefersTo, Names, NamesIter};
+#[allow(unused_imports)]
+pub use presentation::{
+    AboveAverage, AboveAverageOptions, AboveAverageRuleOptions, AboveBelowMode,
+    CellValueRuleOptions, ColorScale, ColorScaleCriteria, ColorScaleCriterion, Comment,
+    CommentAuthor, Comments, CommentsIter, ConditionValue, ConditionValueType, ConditionalFormat,
+    ConditionalFormatType, ConditionalOperator, DataBar, DataBarAxisPosition, DataBarDirection,
+    DataBarFillType, DisplayFormat, DuplicateMode, ExpressionRuleOptions, FormatColor,
+    FormatCondition, FormatConditions, FormatConditionsIter, Hyperlink, HyperlinkAddOptions,
+    Hyperlinks, HyperlinksIter, IconCriteria, IconCriterion, IconKind, IconSetCondition,
+    IconSetKind, Style, Styles, StylesIter, TextCondition, TextConditionOperator, TextRuleOptions,
+    ThemeColor, ThemeFont, ThreadedComment, ThreadedComments, ThreadedCommentsIter, TimePeriod,
+    Top10, Top10Options, TopBottomRuleOptions, UniqueValues, UniqueValuesOptions,
+    UnsupportedConditionalFormat,
+};
 pub use presentation::{
     AutomationSecurity, AutomationSecurityGuard, FixedFormatOptions, FixedFormatQuality,
     FixedFormatType, HPageBreak, HPageBreaks, Outline, PageBreakType, PageFit, PageOrientation,

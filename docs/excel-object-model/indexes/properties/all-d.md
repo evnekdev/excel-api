@@ -6,21 +6,21 @@
 | Databar | Application | 148 | Metadata Only |
 | Databar | Creator | 149 | Metadata Only |
 | Databar | Parent | 150 | Metadata Only |
-| Databar | Direction | 168 | Metadata Only |
+| Databar | Direction | 168 | Implemented |
 | Databar | Formula | 261 | Metadata Only |
-| Databar | Priority | 985 | Metadata Only |
-| Databar | ShowValue | 2024 | Metadata Only |
+| Databar | Priority | 985 | Implemented |
+| Databar | ShowValue | 2024 | Implemented |
 | Databar | ScopeType | 2615 | Metadata Only |
 | Databar | StopIfTrue | 2625 | Metadata Only |
-| Databar | AppliesTo | 2626 | Metadata Only |
+| Databar | AppliesTo | 2626 | Implemented |
 | Databar | PTCondition | 2631 | Metadata Only |
-| Databar | MinPoint | 2718 | Metadata Only |
-| Databar | MaxPoint | 2719 | Metadata Only |
+| Databar | MinPoint | 2718 | Implemented |
+| Databar | MaxPoint | 2719 | Implemented |
 | Databar | PercentMin | 2720 | Metadata Only |
 | Databar | PercentMax | 2721 | Metadata Only |
-| Databar | BarColor | 2722 | Metadata Only |
-| Databar | BarFillType | 2941 | Metadata Only |
-| Databar | AxisPosition | 2942 | Metadata Only |
+| Databar | BarColor | 2722 | Implemented |
+| Databar | BarFillType | 2941 | Implemented |
+| Databar | AxisPosition | 2942 | Implemented |
 | Databar | AxisColor | 2943 | Metadata Only |
 | Databar | BarBorder | 2944 | Metadata Only |
 | Databar | NegativeBarFormat | 2945 | Metadata Only |
@@ -316,23 +316,23 @@
 | DialogSheetView | Creator | 149 | Metadata Only |
 | DialogSheetView | Parent | 150 | Metadata Only |
 | DialogSheetView | Sheet | 751 | Metadata Only |
-| DisplayFormat | Interior | 129 | Metadata Only |
+| DisplayFormat | Interior | 129 | Implemented |
 | DisplayFormat | Orientation | 134 | Metadata Only |
-| DisplayFormat | HorizontalAlignment | 136 | Metadata Only |
-| DisplayFormat | VerticalAlignment | 137 | Metadata Only |
-| DisplayFormat | Font | 146 | Metadata Only |
+| DisplayFormat | HorizontalAlignment | 136 | Implemented |
+| DisplayFormat | VerticalAlignment | 137 | Implemented |
+| DisplayFormat | Font | 146 | Implemented |
 | DisplayFormat | Application | 148 | Metadata Only |
 | DisplayFormat | Creator | 149 | Metadata Only |
 | DisplayFormat | Parent | 150 | Metadata Only |
-| DisplayFormat | NumberFormat | 193 | Metadata Only |
+| DisplayFormat | NumberFormat | 193 | Implemented |
 | DisplayFormat | IndentLevel | 201 | Metadata Only |
 | DisplayFormat | MergeCells | 208 | Metadata Only |
 | DisplayFormat | ShrinkToFit | 209 | Metadata Only |
 | DisplayFormat | Style | 260 | Metadata Only |
 | DisplayFormat | FormulaHidden | 262 | Metadata Only |
 | DisplayFormat | Locked | 269 | Metadata Only |
-| DisplayFormat | WrapText | 276 | Metadata Only |
-| DisplayFormat | Borders | 435 | Metadata Only |
+| DisplayFormat | WrapText | 276 | Implemented |
+| DisplayFormat | Borders | 435 | Implemented |
 | DisplayFormat | Characters | 603 | Metadata Only |
 | DisplayFormat | ReadingOrder | 975 | Metadata Only |
 | DisplayFormat | AddIndent | 1063 | Metadata Only |

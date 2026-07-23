@@ -9,8 +9,8 @@
 | Border | Application | 148 | Metadata Only |
 | Border | Creator | 149 | Metadata Only |
 | Border | Parent | 150 | Metadata Only |
-| Border | ThemeColor | 2365 | Metadata Only |
-| Border | TintAndShade | 2366 | Metadata Only |
+| Border | ThemeColor | 2365 | Implemented |
+| Border | TintAndShade | 2366 | Implemented |
 | Borders | _NewEnum | -4 | Implemented |
 | Borders | _Default | 0 | Metadata Only |
 | Borders | Value | 6 | Metadata Only |

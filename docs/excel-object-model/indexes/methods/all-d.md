@@ -2,7 +2,7 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Databar | Delete | 117 | Metadata Only |
+| Databar | Delete | 117 | Implemented |
 | Databar | ModifyAppliesToRange | 2627 | Metadata Only |
 | Databar | SetFirstPriority | 2629 | Metadata Only |
 | Databar | SetLastPriority | 2630 | Metadata Only |

@@ -10,14 +10,14 @@
 | AboveAverage | Parent | 150 | Metadata Only |
 | AboveAverage | NumberFormat | 193 | Metadata Only |
 | AboveAverage | Borders | 435 | Metadata Only |
-| AboveAverage | Priority | 985 | Metadata Only |
+| AboveAverage | Priority | 985 | Implemented |
 | AboveAverage | ScopeType | 2615 | Metadata Only |
 | AboveAverage | StopIfTrue | 2625 | Metadata Only |
-| AboveAverage | AppliesTo | 2626 | Metadata Only |
+| AboveAverage | AppliesTo | 2626 | Implemented |
 | AboveAverage | PTCondition | 2631 | Metadata Only |
 | AboveAverage | CalcFor | 2730 | Metadata Only |
-| AboveAverage | AboveBelow | 2731 | Metadata Only |
-| AboveAverage | NumStdDev | 2732 | Metadata Only |
+| AboveAverage | AboveBelow | 2731 | Implemented |
+| AboveAverage | NumStdDev | 2732 | Implemented |
 | Action | Type | 108 | Metadata Only |
 | Action | Name | 110 | Metadata Only |
 | Action | Caption | 139 | Metadata Only |
@@ -399,12 +399,12 @@
 | Areas | Creator | 149 | Metadata Only |
 | Areas | Parent | 150 | Metadata Only |
 | Areas | Item | 170 | Implemented |
-| Author | Name | 110 | Metadata Only |
+| Author | Name | 110 | Implemented |
 | Author | Application | 148 | Metadata Only |
 | Author | Creator | 149 | Metadata Only |
 | Author | Parent | 150 | Metadata Only |
-| Author | ProviderID | 3286 | Metadata Only |
-| Author | UserID | 3287 | Metadata Only |
+| Author | ProviderID | 3286 | Implemented |
+| Author | UserID | 3287 | Implemented |
 | AutoCorrect | Application | 148 | Metadata Only |
 | AutoCorrect | Creator | 149 | Metadata Only |
 | AutoCorrect | Parent | 150 | Metadata Only |

@@ -46,7 +46,7 @@
       "dispid": 117,
       "documentation_status": "generated",
       "id": "excel.databar.delete",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -62,11 +62,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -179,7 +179,7 @@
       "dispid": 168,
       "documentation_status": "generated",
       "id": "excel.databar.direction",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -196,11 +196,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -263,7 +263,7 @@
       "dispid": 985,
       "documentation_status": "generated",
       "id": "excel.databar.priority",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -280,11 +280,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -305,7 +305,7 @@
       "dispid": 2024,
       "documentation_status": "generated",
       "id": "excel.databar.showvalue",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -322,11 +322,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -411,7 +411,7 @@
       "dispid": 2626,
       "documentation_status": "generated",
       "id": "excel.databar.appliesto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -427,11 +427,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -575,7 +575,7 @@
       "dispid": 2718,
       "documentation_status": "generated",
       "id": "excel.databar.minpoint",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -591,11 +591,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -606,7 +606,7 @@
       "dispid": 2719,
       "documentation_status": "generated",
       "id": "excel.databar.maxpoint",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -622,11 +622,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -721,7 +721,7 @@
       "dispid": 2722,
       "documentation_status": "generated",
       "id": "excel.databar.barcolor",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -737,11 +737,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -761,7 +761,7 @@
       "dispid": 2941,
       "documentation_status": "generated",
       "id": "excel.databar.barfilltype",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -778,11 +778,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -803,7 +803,7 @@
       "dispid": 2942,
       "documentation_status": "generated",
       "id": "excel.databar.axisposition",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -820,11 +820,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"

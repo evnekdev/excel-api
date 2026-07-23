@@ -1,21 +1,21 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{00024492-0000-0000-c000-000000000046}",
   "id": "excel.conditionvalue",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 6,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.value",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -31,11 +31,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -44,9 +44,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.type",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -62,11 +62,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -75,7 +75,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -106,7 +106,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -137,7 +137,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -185,7 +185,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1581,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.modify",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -233,7 +233,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -264,7 +264,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -295,7 +295,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -335,7 +335,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -391,7 +391,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -463,7 +463,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -559,7 +559,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.conditionvalue.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -588,11 +588,11 @@
     }
   ],
   "name": "ConditionValue",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "ConditionValue",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

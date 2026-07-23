@@ -28,17 +28,17 @@
 | Hyperlink | Application | 148 | Metadata Only |
 | Hyperlink | Creator | 149 | Metadata Only |
 | Hyperlink | Parent | 150 | Metadata Only |
-| Hyperlink | Range | 197 | Metadata Only |
-| Hyperlink | Address | 236 | Metadata Only |
-| Hyperlink | SubAddress | 1471 | Metadata Only |
+| Hyperlink | Range | 197 | Implemented |
+| Hyperlink | Address | 236 | Implemented |
+| Hyperlink | SubAddress | 1471 | Implemented |
 | Hyperlink | Shape | 1582 | Metadata Only |
-| Hyperlink | ScreenTip | 1881 | Metadata Only |
-| Hyperlink | TextToDisplay | 1882 | Metadata Only |
+| Hyperlink | ScreenTip | 1881 | Implemented |
+| Hyperlink | TextToDisplay | 1882 | Implemented |
 | Hyperlink | EmailSubject | 1883 | Metadata Only |
-| Hyperlinks | _NewEnum | -4 | Metadata Only |
+| Hyperlinks | _NewEnum | -4 | Implemented |
 | Hyperlinks | _Default | 0 | Metadata Only |
-| Hyperlinks | Count | 118 | Metadata Only |
+| Hyperlinks | Count | 118 | Implemented |
 | Hyperlinks | Application | 148 | Metadata Only |
 | Hyperlinks | Creator | 149 | Metadata Only |
 | Hyperlinks | Parent | 150 | Metadata Only |
-| Hyperlinks | Item | 170 | Metadata Only |
+| Hyperlinks | Item | 170 | Implemented |

@@ -32,7 +32,7 @@
 | Workbook | Windows | 430 | Implemented |
 | Workbook | Names | 442 | Implemented |
 | Workbook | Sheets | 485 | Implemented |
-| Workbook | Styles | 493 | Metadata Only |
+| Workbook | Styles | 493 | Implemented |
 | Workbook | Worksheets | 494 | Implemented |
 | Workbook | Author | 574 | Metadata Only |
 | Workbook | Comments | 575 | Metadata Only |

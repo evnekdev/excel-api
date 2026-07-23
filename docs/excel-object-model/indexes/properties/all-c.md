@@ -430,20 +430,20 @@
 | ColorScale | Creator | 149 | Metadata Only |
 | ColorScale | Parent | 150 | Metadata Only |
 | ColorScale | Formula | 261 | Metadata Only |
-| ColorScale | Priority | 985 | Metadata Only |
+| ColorScale | Priority | 985 | Implemented |
 | ColorScale | ScopeType | 2615 | Metadata Only |
 | ColorScale | StopIfTrue | 2625 | Metadata Only |
-| ColorScale | AppliesTo | 2626 | Metadata Only |
+| ColorScale | AppliesTo | 2626 | Implemented |
 | ColorScale | PTCondition | 2631 | Metadata Only |
-| ColorScale | ColorScaleCriteria | 2716 | Metadata Only |
-| ColorScaleCriteria | _NewEnum | -4 | Metadata Only |
+| ColorScale | ColorScaleCriteria | 2716 | Implemented |
+| ColorScaleCriteria | _NewEnum | -4 | Implemented |
 | ColorScaleCriteria | _Default | 0 | Metadata Only |
-| ColorScaleCriteria | Count | 118 | Metadata Only |
-| ColorScaleCriteria | Item | 170 | Metadata Only |
-| ColorScaleCriterion | Value | 6 | Metadata Only |
-| ColorScaleCriterion | Type | 108 | Metadata Only |
+| ColorScaleCriteria | Count | 118 | Implemented |
+| ColorScaleCriteria | Item | 170 | Implemented |
+| ColorScaleCriterion | Value | 6 | Implemented |
+| ColorScaleCriterion | Type | 108 | Implemented |
 | ColorScaleCriterion | Index | 486 | Metadata Only |
-| ColorScaleCriterion | FormatColor | 2717 | Metadata Only |
+| ColorScaleCriterion | FormatColor | 2717 | Implemented |
 | ColorStop | Color | 99 | Metadata Only |
 | ColorStop | Position | 133 | Metadata Only |
 | ColorStop | Application | 148 | Metadata Only |
@@ -460,30 +460,30 @@
 | Comment | Application | 148 | Metadata Only |
 | Comment | Creator | 149 | Metadata Only |
 | Comment | Parent | 150 | Metadata Only |
-| Comment | Visible | 558 | Metadata Only |
-| Comment | Author | 574 | Metadata Only |
+| Comment | Visible | 558 | Implemented |
+| Comment | Author | 574 | Implemented |
 | Comment | Shape | 1582 | Metadata Only |
-| Comments | _NewEnum | -4 | Metadata Only |
+| Comments | _NewEnum | -4 | Implemented |
 | Comments | _Default | 0 | Metadata Only |
-| Comments | Count | 118 | Metadata Only |
+| Comments | Count | 118 | Implemented |
 | Comments | Application | 148 | Metadata Only |
 | Comments | Creator | 149 | Metadata Only |
 | Comments | Parent | 150 | Metadata Only |
-| CommentsThreaded | _NewEnum | -4 | Metadata Only |
+| CommentsThreaded | _NewEnum | -4 | Implemented |
 | CommentsThreaded | _Default | 0 | Metadata Only |
-| CommentsThreaded | Count | 118 | Metadata Only |
+| CommentsThreaded | Count | 118 | Implemented |
 | CommentsThreaded | Application | 148 | Metadata Only |
 | CommentsThreaded | Creator | 149 | Metadata Only |
 | CommentsThreaded | Parent | 150 | Metadata Only |
 | CommentThreaded | Application | 148 | Metadata Only |
 | CommentThreaded | Creator | 149 | Metadata Only |
 | CommentThreaded | Parent | 150 | Metadata Only |
-| CommentThreaded | Date | 465 | Metadata Only |
-| CommentThreaded | Author | 574 | Metadata Only |
-| CommentThreaded | Replies | 3285 | Metadata Only |
+| CommentThreaded | Date | 465 | Implemented |
+| CommentThreaded | Author | 574 | Implemented |
+| CommentThreaded | Replies | 3285 | Implemented |
 | CommentThreaded | Resolved | 3304 | Metadata Only |
-| ConditionValue | Value | 6 | Metadata Only |
-| ConditionValue | Type | 108 | Metadata Only |
+| ConditionValue | Value | 6 | Implemented |
+| ConditionValue | Type | 108 | Implemented |
 | ConditionValue | Application | 148 | Metadata Only |
 | ConditionValue | Creator | 149 | Metadata Only |
 | ConditionValue | Parent | 150 | Metadata Only |

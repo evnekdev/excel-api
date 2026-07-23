@@ -72,7 +72,7 @@
 | Font | ColorIndex | 97 | Implemented |
 | Font | Color | 99 | Implemented |
 | Font | Italic | 101 | Implemented |
-| Font | Shadow | 103 | Metadata Only |
+| Font | Shadow | 103 | Implemented |
 | Font | Size | 104 | Implemented |
 | Font | Strikethrough | 105 | Implemented |
 | Font | Underline | 106 | Implemented |
@@ -80,43 +80,43 @@
 | Font | Application | 148 | Metadata Only |
 | Font | Creator | 149 | Metadata Only |
 | Font | Parent | 150 | Metadata Only |
-| Font | FontStyle | 177 | Metadata Only |
-| Font | Superscript | 178 | Metadata Only |
-| Font | Subscript | 179 | Metadata Only |
+| Font | FontStyle | 177 | Implemented |
+| Font | Superscript | 178 | Implemented |
+| Font | Subscript | 179 | Implemented |
 | Font | Background | 180 | Metadata Only |
-| Font | OutlineFont | 221 | Metadata Only |
-| Font | ThemeColor | 2365 | Metadata Only |
-| Font | TintAndShade | 2366 | Metadata Only |
-| Font | ThemeFont | 2367 | Metadata Only |
-| FormatColor | ColorIndex | 97 | Metadata Only |
-| FormatColor | Color | 99 | Metadata Only |
+| Font | OutlineFont | 221 | Implemented |
+| Font | ThemeColor | 2365 | Implemented |
+| Font | TintAndShade | 2366 | Implemented |
+| Font | ThemeFont | 2367 | Implemented |
+| FormatColor | ColorIndex | 97 | Implemented |
+| FormatColor | Color | 99 | Implemented |
 | FormatColor | Application | 148 | Metadata Only |
 | FormatColor | Creator | 149 | Metadata Only |
 | FormatColor | Parent | 150 | Metadata Only |
-| FormatColor | ThemeColor | 2365 | Metadata Only |
-| FormatColor | TintAndShade | 2366 | Metadata Only |
-| FormatCondition | Type | 108 | Metadata Only |
-| FormatCondition | Interior | 129 | Metadata Only |
+| FormatColor | ThemeColor | 2365 | Implemented |
+| FormatColor | TintAndShade | 2366 | Implemented |
+| FormatCondition | Type | 108 | Implemented |
+| FormatCondition | Interior | 129 | Implemented |
 | FormatCondition | Text | 138 | Metadata Only |
-| FormatCondition | Font | 146 | Metadata Only |
+| FormatCondition | Font | 146 | Implemented |
 | FormatCondition | Application | 148 | Metadata Only |
 | FormatCondition | Creator | 149 | Metadata Only |
 | FormatCondition | Parent | 150 | Metadata Only |
 | FormatCondition | NumberFormat | 193 | Metadata Only |
-| FormatCondition | Borders | 435 | Metadata Only |
-| FormatCondition | Operator | 797 | Metadata Only |
-| FormatCondition | Priority | 985 | Metadata Only |
-| FormatCondition | Formula1 | 1579 | Metadata Only |
-| FormatCondition | Formula2 | 1580 | Metadata Only |
+| FormatCondition | Borders | 435 | Implemented |
+| FormatCondition | Operator | 797 | Implemented |
+| FormatCondition | Priority | 985 | Implemented |
+| FormatCondition | Formula1 | 1579 | Implemented |
+| FormatCondition | Formula2 | 1580 | Implemented |
 | FormatCondition | TextOperator | 2613 | Metadata Only |
 | FormatCondition | DateOperator | 2614 | Metadata Only |
 | FormatCondition | ScopeType | 2615 | Metadata Only |
-| FormatCondition | StopIfTrue | 2625 | Metadata Only |
-| FormatCondition | AppliesTo | 2626 | Metadata Only |
+| FormatCondition | StopIfTrue | 2625 | Implemented |
+| FormatCondition | AppliesTo | 2626 | Implemented |
 | FormatCondition | PTCondition | 2631 | Metadata Only |
-| FormatConditions | _NewEnum | -4 | Metadata Only |
+| FormatConditions | _NewEnum | -4 | Implemented |
 | FormatConditions | _Default | 0 | Metadata Only |
-| FormatConditions | Count | 118 | Metadata Only |
+| FormatConditions | Count | 118 | Implemented |
 | FormatConditions | Application | 148 | Metadata Only |
 | FormatConditions | Creator | 149 | Metadata Only |
 | FormatConditions | Parent | 150 | Metadata Only |

@@ -1,0 +1,2 @@
+{"object":"Comment","modern_excel_ui_name":"Note","implementation":"typed legacy comment wrapper","members":["Text","Author","Visible","Delete"],"test":"unit-compiled; live pending"}
+{"objects":["CommentThreaded","CommentsThreaded","CommentAuthor"],"implementation":"read-only inspection wrapper","identity_behavior":"does not create identities or threaded comments","members":["Text","Date","Author","Replies","Name","Id"],"test":"version-or-account-dependent; no runtime claim"}

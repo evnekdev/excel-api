@@ -1,0 +1,12 @@
+schema_version = 1
+scope = "excel-com Prompt 16 conditional formatting, styles, comments, and hyperlinks"
+source_policy = "local source, registered type-library inventory, and controlled visible Excel tests only"
+network_access = false
+
+[[source]]
+kind = "repository"
+description = "excel-com wrappers, object-model registry, and inventory generator"
+
+[[source]]
+kind = "controlled-live-test"
+description = "Fresh unsaved workbook created by Workbooks.Add; no external hyperlinks followed"

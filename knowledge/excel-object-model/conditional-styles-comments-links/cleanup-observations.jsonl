@@ -1,0 +1,2 @@
+{"environment_id":"prompt16-fresh-add-baseline","result":"passed","cleanup":"owned workbook and application exited naturally"}
+{"environment_id":"prompt16-conditional-first-run","result":"manual-close-required","reason":"The failed pre-cleanup test left an owned visible Excel instance; the test now uses explicit close-and-quit cleanup on both success and error paths."}

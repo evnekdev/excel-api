@@ -1,19 +1,19 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.iconsetcondition",
   "guid": "{00024497-0000-0000-c000-000000000046}",
   "id": "excel.iconsetcondition",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.type",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -30,7 +30,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -44,9 +44,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.delete",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -61,12 +61,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -75,7 +75,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -92,7 +92,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -106,7 +106,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -123,7 +123,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -137,7 +137,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -154,7 +154,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -177,7 +177,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 261,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.formula",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -195,7 +195,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -219,9 +219,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 985,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.priority",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -237,12 +237,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -261,7 +261,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2615,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.scopetype",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -279,7 +279,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -294,7 +294,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2625,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.stopiftrue",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -311,7 +311,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -325,9 +325,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2626,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.appliesto",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -342,12 +342,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -365,7 +365,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2627,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.modifyappliestorange",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -382,7 +382,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -396,7 +396,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2629,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.setfirstpriority",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -413,7 +413,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -427,7 +427,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2630,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.setlastpriority",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -444,7 +444,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -458,7 +458,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2631,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.ptcondition",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -475,7 +475,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -498,9 +498,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2723,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.reverseorder",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -516,12 +516,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -540,7 +540,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2724,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.percentilevalues",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -558,7 +558,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -582,9 +582,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2725,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.showicononly",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -600,12 +600,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -624,9 +624,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2726,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.iconset",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -642,12 +642,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -657,9 +657,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2727,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.iconcriteria",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -674,12 +674,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -705,7 +705,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -722,7 +722,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -736,7 +736,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -753,7 +753,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -767,7 +767,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -784,7 +784,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -807,7 +807,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -824,7 +824,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -863,7 +863,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -880,7 +880,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -935,7 +935,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -952,7 +952,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1031,7 +1031,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.iconsetcondition.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1048,7 +1048,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1060,11 +1060,11 @@
     }
   ],
   "name": "IconSetCondition",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "IconSetCondition",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

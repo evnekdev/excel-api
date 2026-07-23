@@ -286,6 +286,45 @@
 //! To save a workbook as `.xlsx`, use
 //! `WorkbookSaveAsOptions { file_format: Some(XlFileFormat::OPEN_XML_WORKBOOK),
 //! ..WorkbookSaveAsOptions::new() }` with [`Workbook::save_as`].
+//!
+//! # Conditional formatting, styles, comments, and hyperlinks
+//!
+//! The advanced-presentation surface remains apartment-bound and is neither
+//! `Send` nor `Sync`. Excel evaluates conditional formatting; this crate does
+//! not parse formulas or reproduce its rule engine. Formula text is passed to
+//! Excel unchanged (apart from embedded-NUL rejection), and relative formulas
+//! are interpreted by Excel relative to the upper-left cell of `AppliesTo`.
+//! `FormatConditions` enumerates Excel's current rule order, which is expected
+//! but not promised to be priority order until a controlled host observation
+//! verifies it. `StopIfTrue` is an Excel rule property, not a Rust evaluator.
+//!
+//! | Need | API |
+//! |---|---|
+//! | Conditional rules | [`Range::format_conditions`] and [`FormatConditions`] |
+//! | Effective display result | [`Range::display_format`] and [`DisplayFormat`] |
+//! | Reusable workbook style | [`Workbook::styles`] and [`Styles`] |
+//! | Assign a style | [`Range::set_style_by_name`] or [`Range::set_style`] |
+//! | Theme colour and tint | [`ThemeColor`], Font, Interior, Border, and Tab methods |
+//! | Legacy Note | [`Range::add_comment`] and [`Comment`] |
+//! | Read-only threaded comments | [`Range::threaded_comment`] |
+//! | Internal/external link representation | [`Hyperlinks::add`] and [`Hyperlink`] |
+//!
+//! [`DisplayFormat`] exposes Excel's displayed formatting after conditional
+//! evaluation; it is intentionally read-only and is not interchangeable with
+//! ordinary Range formatting. A [`Style`] has independent inclusion flags and
+//! may be built-in or custom; Excel controls which built-in styles may be
+//! deleted. Direct [`ExcelColor`] and [`ThemeColor`] assignments are both
+//! passed to Excel. Their interaction, including tint and shade, remains
+//! Excel-defined; every tint setter validates the inclusive `-1.0..=1.0`
+//! range before COM.
+//!
+//! Modern Excel calls legacy [`Comment`] objects *Notes*. They are distinct
+//! from account-dependent threaded comments, for which this crate provides
+//! inspection only. Hyperlink `Address` and `SubAddress` are independent:
+//! an internal link normally uses `SubAddress` without `Address`. The API
+//! rejects embedded NUL text, does not validate a URL, and never follows a
+//! hyperlink. Visible live acceptance tests are opt-in; see the normalized
+//! evidence for their current runtime status.
 
 #![cfg(windows)]
 #![deny(missing_docs)]
@@ -303,6 +342,19 @@ pub use automation::{
     Currency, ExcelError, OaDate,
 };
 pub use error::ExcelComError;
+pub use excel::{
+    AboveAverage, AboveAverageOptions, AboveAverageRuleOptions, AboveBelowMode,
+    CellValueRuleOptions, ColorScale, ColorScaleCriteria, ColorScaleCriterion, Comment,
+    CommentAuthor, Comments, CommentsIter, ConditionValue, ConditionValueType, ConditionalFormat,
+    ConditionalFormatType, ConditionalOperator, DataBar, DataBarAxisPosition, DataBarDirection,
+    DataBarFillType, DisplayFormat, DuplicateMode, ExpressionRuleOptions, FormatColor,
+    FormatCondition, FormatConditions, FormatConditionsIter, Hyperlink, HyperlinkAddOptions,
+    Hyperlinks, HyperlinksIter, IconCriteria, IconCriterion, IconKind, IconSetCondition,
+    IconSetKind, Style, Styles, StylesIter, TextCondition, TextConditionOperator, TextRuleOptions,
+    ThemeColor, ThemeFont, ThreadedComment, ThreadedComments, ThreadedCommentsIter, TimePeriod,
+    Top10, Top10Options, TopBottomRuleOptions, UniqueValues, UniqueValuesOptions,
+    UnsupportedConditionalFormat,
+};
 pub use excel::{
     Application, Areas, AreasIter, AutoFilter, AutoFilterOperator, AutoFilterOptions,
     AutomationSecurity, AutomationSecurityGuard, Border, BorderIndex, BorderLineStyle,

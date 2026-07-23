@@ -1,21 +1,21 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.displayformat",
   "guid": "{000244c2-0000-0000-c000-000000000046}",
   "id": "excel.displayformat",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 129,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.interior",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -30,12 +30,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -44,7 +44,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 134,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.orientation",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -61,7 +61,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -75,9 +75,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 136,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.horizontalalignment",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -92,12 +92,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -106,9 +106,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 137,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.verticalalignment",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -123,12 +123,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -137,9 +137,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 146,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.font",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -154,12 +154,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -168,7 +168,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -185,7 +185,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -199,7 +199,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -216,7 +216,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -230,7 +230,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -247,7 +247,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -261,9 +261,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 193,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.numberformat",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -278,12 +278,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -292,7 +292,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 201,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.indentlevel",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -309,7 +309,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -323,7 +323,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 208,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.mergecells",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -340,7 +340,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -354,7 +354,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 209,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.shrinktofit",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -371,7 +371,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -385,7 +385,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 260,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.style",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -402,7 +402,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -416,7 +416,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 262,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.formulahidden",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -433,7 +433,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -447,7 +447,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 269,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.locked",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -464,7 +464,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -478,9 +478,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 276,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.wraptext",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -495,12 +495,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -509,9 +509,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 435,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.borders",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -526,12 +526,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -557,7 +557,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 603,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.characters",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -574,7 +574,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -588,7 +588,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 975,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.readingorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -605,7 +605,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -619,7 +619,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1063,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.addindent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -636,7 +636,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -650,7 +650,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1097,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.numberformatlocal",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -667,7 +667,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -698,7 +698,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -715,7 +715,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -729,7 +729,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -746,7 +746,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -760,7 +760,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -777,7 +777,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -800,7 +800,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -817,7 +817,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -856,7 +856,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -873,7 +873,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -928,7 +928,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -945,7 +945,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1024,7 +1024,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.displayformat.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1041,7 +1041,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1053,11 +1053,11 @@
     }
   ],
   "name": "DisplayFormat",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "DisplayFormat",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

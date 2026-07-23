@@ -43,7 +43,7 @@ No capability metadata is recorded for this surface.
 | ColorIndex | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 97 | Implemented | Reviewed | Live Tested | |
 | Color | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 99 | Implemented | Reviewed | Live Tested | |
 | Italic | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 101 | Implemented | Reviewed | Live Tested | |
-| Shadow | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 103 | Metadata Only | Reviewed | Not Tested | |
+| Shadow | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 103 | Implemented | Reviewed | Live Tested | |
 | Size | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 104 | Implemented | Reviewed | Live Tested | |
 | Strikethrough | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 105 | Implemented | Reviewed | Live Tested | |
 | Underline | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 106 | Implemented | Reviewed | Live Tested | |
@@ -51,14 +51,14 @@ No capability metadata is recorded for this surface.
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| FontStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 177 | Metadata Only | Reviewed | Not Tested | |
-| Superscript | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 178 | Metadata Only | Reviewed | Not Tested | |
-| Subscript | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 179 | Metadata Only | Reviewed | Not Tested | |
+| FontStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 177 | Implemented | Reviewed | Live Tested | |
+| Superscript | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 178 | Implemented | Reviewed | Live Tested | |
+| Subscript | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 179 | Implemented | Reviewed | Live Tested | |
 | Background | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 180 | Metadata Only | Reviewed | Not Tested | |
-| OutlineFont | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 221 | Metadata Only | Reviewed | Not Tested | |
-| ThemeColor | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2365 | Metadata Only | Reviewed | Not Tested | |
-| TintAndShade | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2366 | Metadata Only | Reviewed | Not Tested | |
-| ThemeFont | PROPERTYGET/PROPERTYPUT | XlThemeFont | declared | 2367 | Metadata Only | Reviewed | Not Tested | |
+| OutlineFont | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 221 | Implemented | Reviewed | Live Tested | |
+| ThemeColor | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2365 | Implemented | Reviewed | Live Tested | |
+| TintAndShade | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2366 | Implemented | Reviewed | Live Tested | |
+| ThemeFont | PROPERTYGET/PROPERTYPUT | XlThemeFont | declared | 2367 | Implemented | Reviewed | Live Tested | |
 
 ## Methods
 

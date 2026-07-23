@@ -377,8 +377,8 @@
 | ColorFormat | GetTypeInfo | 1610678273 | Metadata Only |
 | ColorFormat | GetIDsOfNames | 1610678274 | Metadata Only |
 | ColorFormat | Invoke | 1610678275 | Metadata Only |
-| ColorScale | Delete | 117 | Metadata Only |
-| ColorScale | ModifyAppliesToRange | 2627 | Metadata Only |
+| ColorScale | Delete | 117 | Implemented |
+| ColorScale | ModifyAppliesToRange | 2627 | Implemented |
 | ColorScale | SetFirstPriority | 2629 | Metadata Only |
 | ColorScale | SetLastPriority | 2630 | Metadata Only |
 | ColorScale | QueryInterface | 1610612736 | Metadata Only |
@@ -420,8 +420,8 @@
 | ColorStops | GetTypeInfo | 1610678273 | Metadata Only |
 | ColorStops | GetIDsOfNames | 1610678274 | Metadata Only |
 | ColorStops | Invoke | 1610678275 | Metadata Only |
-| Comment | Delete | 117 | Metadata Only |
-| Comment | Text | 138 | Metadata Only |
+| Comment | Delete | 117 | Implemented |
+| Comment | Text | 138 | Implemented |
 | Comment | Next | 502 | Metadata Only |
 | Comment | Previous | 503 | Metadata Only |
 | Comment | QueryInterface | 1610612736 | Metadata Only |
@@ -431,7 +431,7 @@
 | Comment | GetTypeInfo | 1610678273 | Metadata Only |
 | Comment | GetIDsOfNames | 1610678274 | Metadata Only |
 | Comment | Invoke | 1610678275 | Metadata Only |
-| Comments | Item | 170 | Metadata Only |
+| Comments | Item | 170 | Implemented |
 | Comments | QueryInterface | 1610612736 | Metadata Only |
 | Comments | AddRef | 1610612737 | Metadata Only |
 | Comments | Release | 1610612738 | Metadata Only |
@@ -439,7 +439,7 @@
 | Comments | GetTypeInfo | 1610678273 | Metadata Only |
 | Comments | GetIDsOfNames | 1610678274 | Metadata Only |
 | Comments | Invoke | 1610678275 | Metadata Only |
-| CommentsThreaded | Item | 170 | Metadata Only |
+| CommentsThreaded | Item | 170 | Implemented |
 | CommentsThreaded | QueryInterface | 1610612736 | Metadata Only |
 | CommentsThreaded | AddRef | 1610612737 | Metadata Only |
 | CommentsThreaded | Release | 1610612738 | Metadata Only |
@@ -448,7 +448,7 @@
 | CommentsThreaded | GetIDsOfNames | 1610678274 | Metadata Only |
 | CommentsThreaded | Invoke | 1610678275 | Metadata Only |
 | CommentThreaded | Delete | 117 | Metadata Only |
-| CommentThreaded | Text | 138 | Metadata Only |
+| CommentThreaded | Text | 138 | Implemented |
 | CommentThreaded | Next | 502 | Metadata Only |
 | CommentThreaded | Previous | 503 | Metadata Only |
 | CommentThreaded | AddReply | 3283 | Metadata Only |

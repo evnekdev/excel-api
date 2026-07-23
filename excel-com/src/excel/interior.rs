@@ -4,11 +4,11 @@ use std::fmt::{Debug, Formatter};
 
 use crate::ExcelComError;
 use crate::automation::OwnedVariant;
-use crate::excel::DispatchObject;
 use crate::excel::formatting::{
-    ExcelColor, ExcelColorIndex, FillPattern, MixedValue, map_mixed, mixed_i32, property_mixed_get,
-    property_put_value,
+    ExcelColor, ExcelColorIndex, FillPattern, MixedValue, finite, map_mixed, mixed_f64, mixed_i32,
+    property_mixed_get, property_put_value,
 };
+use crate::excel::{DispatchObject, ThemeColor};
 use crate::internal::{ComPtr, Dispatch};
 
 /// An apartment-bound Excel fill object returned by [`crate::Range::interior`].
@@ -125,4 +125,45 @@ impl Interior {
             OwnedVariant::i32(index.raw()),
         )
     }
+
+    /// Returns the fill theme color or a mixed result.
+    pub fn theme_color(&self) -> Result<MixedValue<ThemeColor>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.interior.themecolor", |value| {
+            mixed_i32(value).map(|result| map_mixed(result, ThemeColor::from_raw))
+        })
+    }
+    /// Sets the fill theme color.
+    pub fn set_theme_color(&self, value: ThemeColor) -> Result<(), ExcelComError> {
+        property_put_value(
+            &self.inner,
+            "excel.interior.themecolor",
+            OwnedVariant::i32(value.raw()),
+        )
+    }
+    /// Returns fill theme tint or a mixed result.
+    pub fn tint_and_shade(&self) -> Result<MixedValue<f64>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.interior.tintandshade", mixed_f64)
+    }
+    /// Sets fill theme tint.
+    pub fn set_tint_and_shade(&self, value: f64) -> Result<(), ExcelComError> {
+        tint_put(&self.inner, "excel.interior.tintandshade", value)
+    }
+    /// Returns pattern theme tint or a mixed result.
+    pub fn pattern_tint_and_shade(&self) -> Result<MixedValue<f64>, ExcelComError> {
+        property_mixed_get(&self.inner, "excel.interior.patterntintandshade", mixed_f64)
+    }
+    /// Sets pattern theme tint.
+    pub fn set_pattern_tint_and_shade(&self, value: f64) -> Result<(), ExcelComError> {
+        tint_put(&self.inner, "excel.interior.patterntintandshade", value)
+    }
+}
+
+fn tint_put(target: &DispatchObject, id: &'static str, value: f64) -> Result<(), ExcelComError> {
+    finite(value)?;
+    if !(-1.0..=1.0).contains(&value) {
+        return Err(ExcelComError::Unsupported {
+            detail: "TintAndShade must be between -1.0 and 1.0",
+        });
+    }
+    property_put_value(target, id, OwnedVariant::f64(value))
 }

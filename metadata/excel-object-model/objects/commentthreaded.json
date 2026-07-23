@@ -1,19 +1,19 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.commentthreaded",
   "guid": "{000244fd-0000-0000-c000-000000000046}",
   "id": "excel.commentthreaded",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -30,7 +30,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -69,9 +69,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 138,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.text",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -86,12 +86,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -100,7 +100,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -117,7 +117,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -131,7 +131,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -148,7 +148,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -162,7 +162,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -179,7 +179,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -193,9 +193,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 465,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.date",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -210,12 +210,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -224,7 +224,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 502,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.next",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -241,7 +241,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -255,7 +255,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 503,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.previous",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -272,7 +272,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -286,9 +286,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 574,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.author",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -303,12 +303,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -326,7 +326,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3283,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.addreply",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -343,7 +343,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -357,9 +357,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3285,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.replies",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -374,12 +374,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -397,7 +397,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3304,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.resolved",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -415,7 +415,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -447,7 +447,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -464,7 +464,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -478,7 +478,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -495,7 +495,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -509,7 +509,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -526,7 +526,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -549,7 +549,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -566,7 +566,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -605,7 +605,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -622,7 +622,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -677,7 +677,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -694,7 +694,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -773,7 +773,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.commentthreaded.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -790,7 +790,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -802,11 +802,11 @@
     }
   ],
   "name": "CommentThreaded",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "CommentThreaded",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

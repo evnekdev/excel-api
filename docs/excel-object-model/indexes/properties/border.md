@@ -9,5 +9,5 @@
 | Border | Application | 148 | Metadata Only |
 | Border | Creator | 149 | Metadata Only |
 | Border | Parent | 150 | Metadata Only |
-| Border | ThemeColor | 2365 | Metadata Only |
-| Border | TintAndShade | 2366 | Metadata Only |
+| Border | ThemeColor | 2365 | Implemented |
+| Border | TintAndShade | 2366 | Implemented |

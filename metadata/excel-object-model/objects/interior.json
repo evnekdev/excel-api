@@ -404,7 +404,7 @@
       "dispid": 2365,
       "documentation_status": "reviewed",
       "id": "excel.interior.themecolor",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -421,11 +421,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -446,7 +446,7 @@
       "dispid": 2366,
       "documentation_status": "reviewed",
       "id": "excel.interior.tintandshade",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -463,11 +463,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -530,7 +530,7 @@
       "dispid": 2644,
       "documentation_status": "reviewed",
       "id": "excel.interior.patterntintandshade",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -547,11 +547,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"

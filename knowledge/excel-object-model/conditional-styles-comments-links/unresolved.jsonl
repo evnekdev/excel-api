@@ -1,0 +1,5 @@
+{"question":"Does FormatConditions enumeration order equal priority order?","status":"unresolved-pending-clean-state-retest"}
+{"question":"How do priorities change after deletion and save/reopen?","status":"unresolved-pending-clean-state-retest"}
+{"question":"Does DisplayFormat update immediately after calculation?","status":"unresolved-pending-clean-state-retest"}
+{"question":"What theme/RGB interaction does this Excel host expose?","status":"unresolved-pending-clean-state-retest"}
+{"question":"Are threaded comments available without a signed-in account?","status":"unresolved-account-dependent"}

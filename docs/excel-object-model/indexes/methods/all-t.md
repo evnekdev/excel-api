@@ -202,7 +202,7 @@
 | Toolbars | GetTypeInfo | 1610678273 | Metadata Only |
 | Toolbars | GetIDsOfNames | 1610678274 | Metadata Only |
 | Toolbars | Invoke | 1610678275 | Metadata Only |
-| Top10 | Delete | 117 | Metadata Only |
+| Top10 | Delete | 117 | Implemented |
 | Top10 | ModifyAppliesToRange | 2627 | Metadata Only |
 | Top10 | SetFirstPriority | 2629 | Metadata Only |
 | Top10 | SetLastPriority | 2630 | Metadata Only |

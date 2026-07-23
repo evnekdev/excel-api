@@ -144,6 +144,52 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         "HPageBreak" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hpagebreak"),
         "VPageBreaks" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.vpagebreaks"),
         "VPageBreak" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.vpagebreak"),
+        "FormatConditions" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.formatconditions")
+        }
+        "FormatCondition" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.formatcondition")
+        }
+        "ColorScale" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.colorscale"),
+        "ColorScaleCriteria" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.colorscalecriteria")
+        }
+        "ColorScaleCriterion" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.colorscalecriterion")
+        }
+        "FormatColor" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.formatcolor"),
+        "DataBar" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.databar"),
+        "IconSetCondition" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.iconsetcondition")
+        }
+        "IconCriteria" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.iconcriteria")
+        }
+        "IconCriterion" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.iconcriterion")
+        }
+        "Top10" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.top10"),
+        "AboveAverage" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.aboveaverage")
+        }
+        "UniqueValues" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.uniquevalues")
+        }
+        "DisplayFormat" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.displayformat")
+        }
+        "Styles" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.styles"),
+        "Style" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.style"),
+        "Comments" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.comments"),
+        "Comment" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.comment"),
+        "CommentsThreaded" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.commentsthreaded")
+        }
+        "CommentThreaded" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.commentthreaded")
+        }
+        "Hyperlinks" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hyperlinks"),
+        "Hyperlink" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hyperlink"),
         _ => None,
     }
 }
@@ -186,6 +232,30 @@ pub fn priority_object(name: &str) -> bool {
             | "HPageBreak"
             | "VPageBreaks"
             | "VPageBreak"
+            | "FormatConditions"
+            | "FormatCondition"
+            | "ColorScale"
+            | "ColorScaleCriteria"
+            | "ColorScaleCriterion"
+            | "FormatColor"
+            | "DataBar"
+            | "ConditionValue"
+            | "IconSetCondition"
+            | "IconCriteria"
+            | "IconCriterion"
+            | "Top10"
+            | "AboveAverage"
+            | "UniqueValues"
+            | "DisplayFormat"
+            | "Styles"
+            | "Style"
+            | "Comments"
+            | "Comment"
+            | "CommentsThreaded"
+            | "CommentThreaded"
+            | "Author"
+            | "Hyperlinks"
+            | "Hyperlink"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
@@ -227,6 +297,30 @@ pub fn wrapper_object(name: &str) -> bool {
             | "HPageBreak"
             | "VPageBreaks"
             | "VPageBreak"
+            | "FormatConditions"
+            | "FormatCondition"
+            | "ColorScale"
+            | "ColorScaleCriteria"
+            | "ColorScaleCriterion"
+            | "FormatColor"
+            | "DataBar"
+            | "ConditionValue"
+            | "IconSetCondition"
+            | "IconCriteria"
+            | "IconCriterion"
+            | "Top10"
+            | "AboveAverage"
+            | "UniqueValues"
+            | "DisplayFormat"
+            | "Styles"
+            | "Style"
+            | "Comments"
+            | "Comment"
+            | "CommentsThreaded"
+            | "CommentThreaded"
+            | "Author"
+            | "Hyperlinks"
+            | "Hyperlink"
     )
 }
 pub fn surface_class(
@@ -361,7 +455,8 @@ pub fn runtime_blocked_member(id: &str) -> bool {
         )
 }
 
-/// Returns whether a new Prompt 15 object family has no passing live test yet.
+/// Returns whether a Prompt 15 or Prompt 16 object family has no passing
+/// controlled live test for the current evidence environment.
 pub fn runtime_blocked_object(name: &str) -> bool {
     matches!(
         canonical_name(name),
@@ -375,5 +470,29 @@ pub fn runtime_blocked_object(name: &str) -> bool {
             | "HPageBreak"
             | "VPageBreaks"
             | "VPageBreak"
+            | "FormatConditions"
+            | "FormatCondition"
+            | "ColorScale"
+            | "ColorScaleCriteria"
+            | "ColorScaleCriterion"
+            | "FormatColor"
+            | "DataBar"
+            | "ConditionValue"
+            | "IconSetCondition"
+            | "IconCriteria"
+            | "IconCriterion"
+            | "Top10"
+            | "AboveAverage"
+            | "UniqueValues"
+            | "DisplayFormat"
+            | "Styles"
+            | "Style"
+            | "Comments"
+            | "Comment"
+            | "CommentsThreaded"
+            | "CommentThreaded"
+            | "Author"
+            | "Hyperlinks"
+            | "Hyperlink"
     )
 }

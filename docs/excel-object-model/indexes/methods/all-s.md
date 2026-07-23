@@ -561,7 +561,7 @@
 | Spinners | GetTypeInfo | 1610678273 | Metadata Only |
 | Spinners | GetIDsOfNames | 1610678274 | Metadata Only |
 | Spinners | Invoke | 1610678275 | Metadata Only |
-| Style | Delete | 117 | Metadata Only |
+| Style | Delete | 117 | Implemented |
 | Style | QueryInterface | 1610612736 | Metadata Only |
 | Style | AddRef | 1610612737 | Metadata Only |
 | Style | Release | 1610612738 | Metadata Only |
@@ -569,7 +569,7 @@
 | Style | GetTypeInfo | 1610678273 | Metadata Only |
 | Style | GetIDsOfNames | 1610678274 | Metadata Only |
 | Style | Invoke | 1610678275 | Metadata Only |
-| Styles | Add | 181 | Metadata Only |
+| Styles | Add | 181 | Implemented |
 | Styles | Merge | 564 | Metadata Only |
 | Styles | QueryInterface | 1610612736 | Metadata Only |
 | Styles | AddRef | 1610612737 | Metadata Only |

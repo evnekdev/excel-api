@@ -70,12 +70,12 @@
 | FormatColor | GetTypeInfo | 1610678273 | Metadata Only |
 | FormatColor | GetIDsOfNames | 1610678274 | Metadata Only |
 | FormatColor | Invoke | 1610678275 | Metadata Only |
-| FormatCondition | Delete | 117 | Metadata Only |
+| FormatCondition | Delete | 117 | Implemented |
 | FormatCondition | Modify | 1581 | Metadata Only |
 | FormatCondition | _Modify | 2623 | Metadata Only |
-| FormatCondition | ModifyAppliesToRange | 2627 | Metadata Only |
-| FormatCondition | SetFirstPriority | 2629 | Metadata Only |
-| FormatCondition | SetLastPriority | 2630 | Metadata Only |
+| FormatCondition | ModifyAppliesToRange | 2627 | Implemented |
+| FormatCondition | SetFirstPriority | 2629 | Implemented |
+| FormatCondition | SetLastPriority | 2630 | Implemented |
 | FormatCondition | QueryInterface | 1610612736 | Metadata Only |
 | FormatCondition | AddRef | 1610612737 | Metadata Only |
 | FormatCondition | Release | 1610612738 | Metadata Only |
@@ -83,12 +83,12 @@
 | FormatCondition | GetTypeInfo | 1610678273 | Metadata Only |
 | FormatCondition | GetIDsOfNames | 1610678274 | Metadata Only |
 | FormatCondition | Invoke | 1610678275 | Metadata Only |
-| FormatConditions | Delete | 117 | Metadata Only |
-| FormatConditions | Item | 170 | Metadata Only |
-| FormatConditions | Add | 181 | Metadata Only |
-| FormatConditions | AddColorScale | 2616 | Metadata Only |
-| FormatConditions | AddDatabar | 2618 | Metadata Only |
-| FormatConditions | AddIconSetCondition | 2619 | Metadata Only |
+| FormatConditions | Delete | 117 | Implemented |
+| FormatConditions | Item | 170 | Implemented |
+| FormatConditions | Add | 181 | Implemented |
+| FormatConditions | AddColorScale | 2616 | Implemented |
+| FormatConditions | AddDatabar | 2618 | Implemented |
+| FormatConditions | AddIconSetCondition | 2619 | Implemented |
 | FormatConditions | AddTop10 | 2620 | Metadata Only |
 | FormatConditions | AddAboveAverage | 2621 | Metadata Only |
 | FormatConditions | AddUniqueValues | 2622 | Metadata Only |

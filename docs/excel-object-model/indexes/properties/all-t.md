@@ -7,8 +7,8 @@
 | Tab | Application | 148 | Metadata Only |
 | Tab | Creator | 149 | Metadata Only |
 | Tab | Parent | 150 | Metadata Only |
-| Tab | ThemeColor | 2365 | Metadata Only |
-| Tab | TintAndShade | 2366 | Metadata Only |
+| Tab | ThemeColor | 2365 | Implemented |
+| Tab | TintAndShade | 2366 | Implemented |
 | TableObject | Application | 148 | Metadata Only |
 | TableObject | Creator | 149 | Metadata Only |
 | TableObject | Parent | 150 | Metadata Only |
@@ -311,14 +311,14 @@
 | Top10 | Parent | 150 | Metadata Only |
 | Top10 | NumberFormat | 193 | Metadata Only |
 | Top10 | Borders | 435 | Metadata Only |
-| Top10 | Priority | 985 | Metadata Only |
-| Top10 | Rank | 1290 | Metadata Only |
+| Top10 | Priority | 985 | Implemented |
+| Top10 | Rank | 1290 | Implemented |
 | Top10 | ScopeType | 2615 | Metadata Only |
 | Top10 | StopIfTrue | 2625 | Metadata Only |
-| Top10 | AppliesTo | 2626 | Metadata Only |
+| Top10 | AppliesTo | 2626 | Implemented |
 | Top10 | PTCondition | 2631 | Metadata Only |
-| Top10 | TopBottom | 2728 | Metadata Only |
-| Top10 | Percent | 2729 | Metadata Only |
+| Top10 | TopBottom | 2728 | Implemented |
+| Top10 | Percent | 2729 | Implemented |
 | Top10 | CalcFor | 2730 | Metadata Only |
 | TreeviewControl | Application | 148 | Metadata Only |
 | TreeviewControl | Creator | 149 | Metadata Only |

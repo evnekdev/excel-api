@@ -14,6 +14,13 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Charts | metadata-only |
 | Shapes | metadata-only |
 | ListObjects | implemented |
+| FormatConditions | implemented |
+| ColorScaleCriteria | implemented |
+| IconCriteria | implemented |
+| Styles | implemented |
+| Comments | implemented |
+| CommentsThreaded | implemented |
+| Hyperlinks | implemented |
 
 ## All structurally identified collections
 
@@ -37,10 +44,10 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | ChartObjects | Unknown | excel.chartobjects.count | excel.chartobjects.item | excel.chartobjects.newenum | variant-key | metadata-only |
 | Charts | Unknown | excel.charts.count | excel.charts.item | excel.charts.newenum | variant-key | metadata-only |
 | CheckBoxes | Unknown | excel.checkboxes.count | excel.checkboxes.item | excel.checkboxes.newenum | variant-key | metadata-only |
-| ColorScaleCriteria | Unknown | excel.colorscalecriteria.count | excel.colorscalecriteria.item | excel.colorscalecriteria.newenum | variant-key | metadata-only |
+| ColorScaleCriteria | ColorScaleCriterion | excel.colorscalecriteria.count | excel.colorscalecriteria.item | excel.colorscalecriteria.newenum | one-based-integer | implemented |
 | ColorStops | Unknown | excel.colorstops.count | excel.colorstops.item | excel.colorstops.newenum | variant-key | metadata-only |
-| Comments | Unknown | excel.comments.count | excel.comments.item | excel.comments.newenum | variant-key | metadata-only |
-| CommentsThreaded | Unknown | excel.commentsthreaded.count | excel.commentsthreaded.item | excel.commentsthreaded.newenum | variant-key | metadata-only |
+| Comments | Comment | excel.comments.count | excel.comments.item | excel.comments.newenum | one-based-integer | implemented |
+| CommentsThreaded | CommentThreaded | excel.commentsthreaded.count | excel.commentsthreaded.item | excel.commentsthreaded.newenum | one-based-integer | implemented |
 | Connections | Unknown | excel.connections.count | excel.connections.item | excel.connections.newenum | variant-key | metadata-only |
 | CubeFields | Unknown | excel.cubefields.count | excel.cubefields.item | excel.cubefields.newenum | variant-key | metadata-only |
 | CustomProperties | Unknown | excel.customproperties.count | excel.customproperties.item | excel.customproperties.newenum | variant-key | metadata-only |
@@ -56,13 +63,13 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | EditBoxes | Unknown | excel.editboxes.count | excel.editboxes.item | excel.editboxes.newenum | variant-key | metadata-only |
 | FileExportConverters | Unknown | excel.fileexportconverters.count | excel.fileexportconverters.item | excel.fileexportconverters.newenum | variant-key | metadata-only |
 | Filters | Filter | excel.filters.count | excel.filters.item | excel.filters.newenum | one-based-integer | implemented |
-| FormatConditions | Unknown | excel.formatconditions.count | excel.formatconditions.item | excel.formatconditions.newenum | variant-key | metadata-only |
+| FormatConditions | ConditionalFormat | excel.formatconditions.count | excel.formatconditions.item | excel.formatconditions.newenum | one-based-integer | implemented |
 | FullSeriesCollection | Unknown | excel.fullseriescollection.count | excel.fullseriescollection.item | excel.fullseriescollection.newenum | variant-key | metadata-only |
 | GroupBoxes | Unknown | excel.groupboxes.count | excel.groupboxes.item | excel.groupboxes.newenum | variant-key | metadata-only |
 | GroupObjects | Unknown | excel.groupobjects.count | excel.groupobjects.item | excel.groupobjects.newenum | variant-key | metadata-only |
 | GroupShapes | Unknown | excel.groupshapes.count | excel.groupshapes.item | excel.groupshapes.newenum | variant-key | metadata-only |
 | HPageBreaks | Unknown | excel.hpagebreaks.count | excel.hpagebreaks.item | excel.hpagebreaks.newenum | variant-key | metadata-only |
-| Hyperlinks | Unknown | excel.hyperlinks.count | excel.hyperlinks.item | excel.hyperlinks.newenum | variant-key | metadata-only |
+| Hyperlinks | Hyperlink | excel.hyperlinks.count | excel.hyperlinks.item | excel.hyperlinks.newenum | one-based-integer | implemented |
 | IActions | Unknown | excel.iactions.count | excel.iactions.item | excel.iactions.newenum | variant-key | metadata-only |
 | IAddIns | Unknown | excel.iaddins.count | excel.iaddins.item | excel.iaddins.newenum | variant-key | metadata-only |
 | IAddIns2 | Unknown | excel.iaddins2.count | excel.iaddins2.item | excel.iaddins2.newenum | variant-key | metadata-only |
@@ -84,7 +91,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | IColorStops | Unknown | excel.icolorstops.count | excel.icolorstops.item | excel.icolorstops.newenum | variant-key | metadata-only |
 | IComments | Unknown | excel.icomments.count | excel.icomments.item | excel.icomments.newenum | variant-key | metadata-only |
 | ICommentsThreaded | Unknown | excel.icommentsthreaded.count | excel.icommentsthreaded.item | excel.icommentsthreaded.newenum | variant-key | metadata-only |
-| IconCriteria | Unknown | excel.iconcriteria.count | excel.iconcriteria.item | excel.iconcriteria.newenum | variant-key | metadata-only |
+| IconCriteria | IconCriterion | excel.iconcriteria.count | excel.iconcriteria.item | excel.iconcriteria.newenum | one-based-integer | implemented |
 | IConnections | Unknown | excel.iconnections.count | excel.iconnections.item | excel.iconnections.newenum | variant-key | metadata-only |
 | IconSet | Unknown | excel.iconset.count | excel.iconset.item | excel.iconset.newenum | variant-key | metadata-only |
 | IconSets | Unknown | excel.iconsets.count | excel.iconsets.item | excel.iconsets.newenum | variant-key | metadata-only |
@@ -265,7 +272,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | SparklineGroup | Unknown | excel.sparklinegroup.count | excel.sparklinegroup.item | excel.sparklinegroup.newenum | variant-key | metadata-only |
 | SparklineGroups | Unknown | excel.sparklinegroups.count | excel.sparklinegroups.item | excel.sparklinegroups.newenum | variant-key | metadata-only |
 | Spinners | Unknown | excel.spinners.count | excel.spinners.item | excel.spinners.newenum | variant-key | metadata-only |
-| Styles | Unknown | excel.styles.count | excel.styles.item | excel.styles.newenum | variant-key | metadata-only |
+| Styles | Style | excel.styles.count | excel.styles.item | excel.styles.newenum | one-based-integer, string-key | implemented |
 | TableStyleElements | Unknown | excel.tablestyleelements.count | excel.tablestyleelements.item | excel.tablestyleelements.newenum | variant-key | metadata-only |
 | TableStyles | Unknown | excel.tablestyles.count | excel.tablestyles.item | excel.tablestyles.newenum | variant-key | metadata-only |
 | TextBoxes | Unknown | excel.textboxes.count | excel.textboxes.item | excel.textboxes.newenum | variant-key | metadata-only |
@@ -282,3 +289,15 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | XmlMaps | Unknown | excel.xmlmaps.count | excel.xmlmaps.item | excel.xmlmaps.newenum | variant-key | metadata-only |
 | XmlNamespaces | Unknown | excel.xmlnamespaces.count | excel.xmlnamespaces.item | excel.xmlnamespaces.newenum | variant-key | metadata-only |
 | XmlSchemas | Unknown | excel.xmlschemas.count | excel.xmlschemas.item | excel.xmlschemas.newenum | variant-key | metadata-only |
+
+## Prompt 16 typed collection policy
+
+| Collection | Element | Index kinds | Iterator | Heterogeneous policy |
+|---|---|---|---|---|
+| ColorScaleCriteria | ColorScaleCriterion | one-based-integer | implemented | homogeneous |
+| Comments | Comment | one-based-integer | implemented | homogeneous |
+| CommentsThreaded | CommentThreaded | one-based-integer | implemented | homogeneous |
+| FormatConditions | ConditionalFormat | one-based-integer | implemented | typed-subtype-by-type-property |
+| Hyperlinks | Hyperlink | one-based-integer | implemented | homogeneous |
+| IconCriteria | IconCriterion | one-based-integer | implemented | homogeneous |
+| Styles | Style | one-based-integer, string-key | implemented | homogeneous |

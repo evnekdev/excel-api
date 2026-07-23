@@ -201,7 +201,7 @@
       "dispid": 2365,
       "documentation_status": "reviewed",
       "id": "excel.tab.themecolor",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -221,8 +221,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -243,7 +243,7 @@
       "dispid": 2366,
       "documentation_status": "reviewed",
       "id": "excel.tab.tintandshade",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -263,8 +263,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"

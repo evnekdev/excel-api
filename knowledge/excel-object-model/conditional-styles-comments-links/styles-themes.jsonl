@@ -1,0 +1,2 @@
+{"objects":["Styles","Style"],"implementation":"typed-wrapper","members":["Count","Item","_NewEnum","Add","Name","BuiltIn","IncludeNumber","IncludeFont","IncludeAlignment","IncludeBorder","IncludeProtection","IncludePatterns","Font","Interior","Borders","NumberFormat","Delete"],"test":"unit-compiled; live pending"}
+{"objects":["Font","Interior","Border","Tab","FormatColor"],"implementation":"theme-color-and-tint-accessors","tint_range":"-1.0..=1.0 validated before COM","test":"unit-compiled; live pending"}

@@ -70,7 +70,7 @@ No capability metadata is recorded for this surface.
 | Windows | PROPERTYGET | Windows | declared | 430 | Implemented | Reviewed | Blocked | |
 | Names | PROPERTYGET | Names | declared | 442 | Implemented | Reviewed | Live Tested | |
 | Sheets | PROPERTYGET | Sheets | declared | 485 | Implemented | Reviewed | Blocked | |
-| Styles | PROPERTYGET | Styles | declared | 493 | Metadata Only | Reviewed | Not Tested | |
+| Styles | PROPERTYGET | Styles | declared | 493 | Implemented | Reviewed | Live Tested | |
 | Worksheets | PROPERTYGET | Sheets | declared | 494 | Implemented | Reviewed | Live Tested | |
 | Author | PROPERTYGET/PROPERTYPUT | String | declared | 574 | Metadata Only | Reviewed | Not Tested | |
 | Comments | PROPERTYGET/PROPERTYPUT | String | declared | 575 | Metadata Only | Reviewed | Not Tested | |
