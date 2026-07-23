@@ -542,10 +542,10 @@
 | PivotValueCell | ServerActions | 2491 | Metadata Only |
 | PlotArea | Name | 110 | Metadata Only |
 | PlotArea | Format | 116 | Implemented |
-| PlotArea | Width | 122 | Metadata Only |
-| PlotArea | Height | 123 | Metadata Only |
-| PlotArea | Top | 126 | Metadata Only |
-| PlotArea | Left | 127 | Metadata Only |
+| PlotArea | Width | 122 | Implemented |
+| PlotArea | Height | 123 | Implemented |
+| PlotArea | Top | 126 | Implemented |
+| PlotArea | Left | 127 | Implemented |
 | PlotArea | Border | 128 | Metadata Only |
 | PlotArea | Interior | 129 | Metadata Only |
 | PlotArea | Position | 133 | Metadata Only |
@@ -553,38 +553,38 @@
 | PlotArea | Creator | 149 | Metadata Only |
 | PlotArea | Parent | 150 | Metadata Only |
 | PlotArea | Fill | 1663 | Metadata Only |
-| PlotArea | InsideLeft | 1667 | Metadata Only |
-| PlotArea | InsideTop | 1668 | Metadata Only |
-| PlotArea | InsideWidth | 1669 | Metadata Only |
-| PlotArea | InsideHeight | 1670 | Metadata Only |
+| PlotArea | InsideLeft | 1667 | Implemented |
+| PlotArea | InsideTop | 1668 | Implemented |
+| PlotArea | InsideWidth | 1669 | Implemented |
+| PlotArea | InsideHeight | 1670 | Implemented |
 | PlotArea | _InsideLeft | 2654 | Metadata Only |
 | PlotArea | _InsideTop | 2655 | Metadata Only |
 | PlotArea | _InsideWidth | 2656 | Metadata Only |
 | PlotArea | _InsideHeight | 2657 | Metadata Only |
-| Point | MarkerStyle | 72 | Metadata Only |
+| Point | MarkerStyle | 72 | Implemented |
 | Point | MarkerBackgroundColor | 73 | Metadata Only |
 | Point | MarkerBackgroundColorIndex | 74 | Metadata Only |
 | Point | MarkerForegroundColor | 75 | Metadata Only |
 | Point | MarkerForegroundColorIndex | 76 | Metadata Only |
-| Point | HasDataLabel | 77 | Metadata Only |
+| Point | HasDataLabel | 77 | Implemented |
 | Point | Shadow | 103 | Metadata Only |
 | Point | Name | 110 | Metadata Only |
-| Point | Format | 116 | Metadata Only |
+| Point | Format | 116 | Implemented |
 | Point | Width | 122 | Metadata Only |
 | Point | Height | 123 | Metadata Only |
 | Point | Top | 126 | Metadata Only |
 | Point | Left | 127 | Metadata Only |
 | Point | Border | 128 | Metadata Only |
 | Point | Interior | 129 | Metadata Only |
-| Point | InvertIfNegative | 132 | Metadata Only |
+| Point | InvertIfNegative | 132 | Implemented |
 | Point | Application | 148 | Metadata Only |
 | Point | Creator | 149 | Metadata Only |
 | Point | Parent | 150 | Metadata Only |
-| Point | DataLabel | 158 | Metadata Only |
+| Point | DataLabel | 158 | Implemented |
 | Point | PictureType | 161 | Metadata Only |
 | Point | PictureUnit | 162 | Metadata Only |
-| Point | Explosion | 182 | Metadata Only |
-| Point | MarkerSize | 231 | Metadata Only |
+| Point | Explosion | 182 | Implemented |
+| Point | MarkerSize | 231 | Implemented |
 | Point | ApplyPictToSides | 1659 | Metadata Only |
 | Point | ApplyPictToFront | 1660 | Metadata Only |
 | Point | ApplyPictToEnd | 1661 | Metadata Only |
@@ -593,7 +593,7 @@
 | Point | Has3DEffect | 1665 | Metadata Only |
 | Point | PictureUnit2 | 2649 | Metadata Only |
 | Point | IsTotal | 3203 | Metadata Only |
-| Points | Count | 118 | Metadata Only |
+| Points | Count | 118 | Implemented |
 | Points | Application | 148 | Metadata Only |
 | Points | Creator | 149 | Metadata Only |
 | Points | Parent | 150 | Metadata Only |

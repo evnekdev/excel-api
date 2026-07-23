@@ -9,27 +9,27 @@
 | Chart | Line3DGroup | 20 | Metadata Only |
 | Chart | Pie3DGroup | 21 | Metadata Only |
 | Chart | SurfaceGroup | 22 | Metadata Only |
-| Chart | DepthPercent | 48 | Metadata Only |
-| Chart | Elevation | 49 | Metadata Only |
-| Chart | GapDepth | 50 | Metadata Only |
+| Chart | DepthPercent | 48 | Implemented |
+| Chart | Elevation | 49 | Implemented |
+| Chart | GapDepth | 50 | Implemented |
 | Chart | HasAxis | 52 | Metadata Only |
 | Chart | HasLegend | 53 | Implemented |
 | Chart | HasTitle | 54 | Implemented |
-| Chart | HeightPercent | 55 | Metadata Only |
-| Chart | Perspective | 57 | Metadata Only |
-| Chart | RightAngleAxes | 58 | Metadata Only |
-| Chart | Rotation | 59 | Metadata Only |
+| Chart | HeightPercent | 55 | Implemented |
+| Chart | Perspective | 57 | Implemented |
+| Chart | RightAngleAxes | 58 | Implemented |
+| Chart | Rotation | 59 | Implemented |
 | Chart | Corners | 79 | Metadata Only |
 | Chart | ChartArea | 80 | Implemented |
 | Chart | ChartTitle | 81 | Implemented |
-| Chart | Floor | 83 | Metadata Only |
+| Chart | Floor | 83 | Implemented |
 | Chart | Legend | 84 | Implemented |
 | Chart | PlotArea | 85 | Implemented |
-| Chart | Walls | 86 | Metadata Only |
+| Chart | Walls | 86 | Implemented |
 | Chart | PlotVisibleOnly | 92 | Metadata Only |
 | Chart | DisplayBlanksAs | 93 | Metadata Only |
 | Chart | SizeWithWindow | 94 | Metadata Only |
-| Chart | AutoScaling | 107 | Metadata Only |
+| Chart | AutoScaling | 107 | Implemented |
 | Chart | Type | 108 | Metadata Only |
 | Chart | SubType | 109 | Metadata Only |
 | Chart | Name | 110 | Implemented |
@@ -69,7 +69,7 @@
 | Chart | ShowDataLabelsOverMaximum | 2504 | Metadata Only |
 | Chart | SideWall | 2505 | Metadata Only |
 | Chart | BackWall | 2506 | Metadata Only |
-| Chart | ChartStyle | 2509 | Metadata Only |
+| Chart | ChartStyle | 2509 | Implemented |
 | Chart | PrintedCommentPages | 2857 | Metadata Only |
 | Chart | Dummy24 | 2858 | Metadata Only |
 | Chart | Dummy25 | 2859 | Metadata Only |

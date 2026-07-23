@@ -16,8 +16,8 @@
 | FileExportConverters | Parent | 150 | Metadata Only |
 | FileExportConverters | Item | 170 | Metadata Only |
 | FillFormat | Parent | 1 | Metadata Only |
-| FillFormat | BackColor | 100 | Metadata Only |
-| FillFormat | ForeColor | 101 | Metadata Only |
+| FillFormat | BackColor | 100 | Implemented |
+| FillFormat | ForeColor | 101 | Implemented |
 | FillFormat | GradientColorType | 102 | Metadata Only |
 | FillFormat | GradientDegree | 103 | Metadata Only |
 | FillFormat | GradientStyle | 104 | Metadata Only |
@@ -27,9 +27,9 @@
 | FillFormat | PresetTexture | 108 | Metadata Only |
 | FillFormat | TextureName | 109 | Metadata Only |
 | FillFormat | TextureType | 110 | Metadata Only |
-| FillFormat | Transparency | 111 | Metadata Only |
+| FillFormat | Transparency | 111 | Implemented |
 | FillFormat | Type | 112 | Metadata Only |
-| FillFormat | Visible | 113 | Metadata Only |
+| FillFormat | Visible | 113 | Implemented |
 | FillFormat | GradientStops | 114 | Metadata Only |
 | FillFormat | TextureOffsetX | 115 | Metadata Only |
 | FillFormat | TextureOffsetY | 116 | Metadata Only |
@@ -59,7 +59,7 @@
 | Filters | Parent | 150 | Metadata Only |
 | Filters | Item | 170 | Implemented |
 | Floor | Name | 110 | Metadata Only |
-| Floor | Format | 116 | Metadata Only |
+| Floor | Format | 116 | Implemented |
 | Floor | Border | 128 | Metadata Only |
 | Floor | Interior | 129 | Metadata Only |
 | Floor | Application | 148 | Metadata Only |

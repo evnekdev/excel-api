@@ -3,20 +3,23 @@
 //! # Scope and platform
 //!
 //! This Windows-only crate implements the narrow path
-//! `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range`.
-//! It starts a local Excel Automation server; it does not attach to an
-//! existing session, marshal interfaces, expose raw COM pointers, or offer a
-//! generic collection, chart, macro, or event API. The public API
-//! remains experimental and may change before a first release.
+//! `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range`,
+//! plus typed chart, shape, and Office-formatting surfaces. [`OwnedApplication`]
+//! activates a local Excel Automation server; [`AttachedApplication`] can use
+//! Excel's active-object registration without gaining shutdown rights. The
+//! crate does not marshal interfaces, expose raw COM pointers, or offer a
+//! generic event API. The public API remains experimental and may change
+//! before a first release.
 //!
 //! # Apartments and lifetime
 //!
 //! Create [`ComApartment::sta`] on the calling thread, retain its guard for
-//! longer than every wrapper created through it, and create [`Application`]
-//! with that guard. The guard and wrappers are not `Send` or `Sync`; this crate
-//! does not marshal COM interfaces between threads. Releasing a wrapper only
-//! releases its COM reference. Call [`Application::quit`] explicitly to stop a
-//! crate-created Excel server.
+//! longer than every wrapper created through it, and create an
+//! [`OwnedApplication`] with that guard. The guard and wrappers are not `Send`
+//! or `Sync`; this crate does not marshal COM interfaces between threads.
+//! Releasing a wrapper only releases its COM reference. Call
+//! [`OwnedApplication::quit`] explicitly to stop a crate-created Excel server;
+//! an [`AttachedApplication`] deliberately has no shutdown operation.
 //!
 //! # Values and Range shape
 //!
@@ -314,9 +317,10 @@
 //! | Sparklines | [`Range::sparkline_groups`] |
 //!
 //! These wrappers are visible opt-in integration-test surfaces because their
-//! result depends on the installed Excel version and its rendering stack. They
-//! require an explicitly created local application and should be followed by
-//! [`Application::quit`]; they never attach to an existing Excel session.
+//! result depends on the installed Excel version and its rendering stack. Use
+//! an [`OwnedApplication`] for isolated local-server testing and finish with
+//! [`OwnedApplication::quit`]. An [`AttachedApplication`] may operate the
+//! active Automation registration, but it deliberately cannot close it.
 //!
 //! # Conditional formatting, styles, comments, and hyperlinks
 //!
@@ -369,11 +373,11 @@ mod internal;
 mod object_model;
 
 pub use automation::{
-    AutomationArgument, AutomationArray, AutomationValue, ConversionError, ConversionPolicy,
-    ComCallDisposition, ComMessageFilterGuard, ComRetryPolicy, Currency, ExcelError,
+    AutomationArgument, AutomationArray, AutomationValue, ComCallDisposition,
+    ComMessageFilterGuard, ComRetryPolicy, ConversionError, ConversionPolicy, Currency, ExcelError,
     InvocationRetrySafety, OaDate,
 };
-pub use error::{ExcelComError, ExcelRuntimeError};
+pub use error::{ExcelComError, ExcelRuntimeError, InvocationError};
 pub use excel::{
     AboveAverage, AboveAverageOptions, AboveAverageRuleOptions, AboveBelowMode,
     CellValueRuleOptions, ColorScale, ColorScaleCriteria, ColorScaleCriterion, Comment,
@@ -427,17 +431,20 @@ pub use excel::{
     SessionOwnership,
 };
 pub use excel::{
-    AutoShapeType, Axes, Axis, AxisGroup, AxisScaleType, AxisTitle, AxisType, Chart, ChartArea,
-    ChartBounds, ChartCreateOptions, ChartExportOptions, ChartFormat, ChartObject, ChartObjects,
-    ChartObjectsIter, ChartSheet, ChartSheetDestination, ChartTitle, ChartType, Charts, ChartsIter,
-    CopyPictureFormat, CopyPictureOptions, CutCopyMode, DataLabel, DataLabelOptions, DataLabelType,
-    DataLabels, ErrorBarDirection, ErrorBarInclude, ErrorBarOptions, ErrorBarType, FillFormat,
-    Legend, LegendPosition, LineFormat, MarkerStyle, PictureAddOptions, PictureAppearance,
-    PlotArea, PlotBy, Series, SeriesAddOptions, SeriesCollection, SeriesCollectionIter, SeriesData,
-    Shape, ShapeBounds, ShapePlacement, ShapePoint, ShapeType, Shapes, ShapesIter, SparkScale,
-    SparklineGroup, SparklineGroups, SparklineGroupsIter, SparklineType, TextBoxAddOptions,
-    TextFrame, TextOrientation, TextRange, TickLabelPosition, TickLabels, TickMark, Trendline,
-    TrendlineAddOptions, TrendlineType, Trendlines, TrendlinesIter, ZOrderCommand,
+    AutoShapeType, Axes, Axis, AxisCrosses, AxisGroup, AxisScaleType, AxisTitle, AxisType,
+    CategoryType, Chart, ChartArea, ChartBounds, ChartColor, ChartCreateOptions,
+    ChartElementBounds, ChartExportOptions, ChartFormat, ChartGroup, ChartGroups, ChartGroupsIter,
+    ChartObject, ChartObjects, ChartObjectsIter, ChartSheet, ChartSheetDestination, ChartTitle,
+    ChartType, Charts, ChartsIter, ColorFormat, CopyPictureFormat, CopyPictureOptions, CutCopyMode,
+    DataLabel, DataLabelOptions, DataLabelType, DataLabels, DataLabelsIter, ErrorBarDirection,
+    ErrorBarInclude, ErrorBarOptions, ErrorBarType, ErrorBars, FillFormat, Floor, Gridlines,
+    Legend, LegendPosition, LineFormat, MarkerFormat, MarkerStyle, PictureAddOptions,
+    PictureAppearance, PlotArea, PlotBy, Point, Points, PointsIter, Series, SeriesAddOptions,
+    SeriesCollection, SeriesCollectionIter, SeriesData, Shape, ShapeBounds, ShapePlacement,
+    ShapePoint, ShapeType, Shapes, ShapesIter, SparkScale, SparklineGroup, SparklineGroups,
+    SparklineGroupsIter, SparklineType, TextBoxAddOptions, TextFrame, TextOrientation, TextRange,
+    TickLabelPosition, TickLabels, TickMark, TimeUnit, Trendline, TrendlineAddOptions,
+    TrendlineType, Trendlines, TrendlinesIter, Walls, ZOrderCommand,
 };
 pub use excel::{
     CommandType, ConnectionDetails, ConnectionFileType, ConnectionType, Connections,

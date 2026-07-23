@@ -116,7 +116,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | FixedDecimal | PROPERTYGET/PROPERTYPUT | bool | declared | 351 | Metadata Only | Reviewed | Not Tested | |
 | FixedDecimalPlaces | PROPERTYGET/PROPERTYPUT | i32 | declared | 352 | Metadata Only | Reviewed | Not Tested | |
 | IgnoreRemoteRequests | PROPERTYGET/PROPERTYPUT | bool | declared | 356 | Metadata Only | Reviewed | Not Tested | |
-| Interactive | PROPERTYGET/PROPERTYPUT | bool | declared | 361 | Metadata Only | Reviewed | Not Tested | |
+| Interactive | PROPERTYGET/PROPERTYPUT | bool | declared | 361 | Implemented | Reviewed | Live Tested | |
 | International | PROPERTYGET | AutomationValue | declared | 362 | Metadata Only | Reviewed | Not Tested | |
 | Iteration | PROPERTYGET/PROPERTYPUT | bool | declared | 363 | Metadata Only | Reviewed | Not Tested | |
 | LargeButtons | PROPERTYGET/PROPERTYPUT | bool | declared | 364 | Metadata Only | Reviewed | Not Tested | |
@@ -233,7 +233,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | FeatureInstall | PROPERTYGET/PROPERTYPUT | MsoFeatureInstall | declared | 1808 | Metadata Only | Reviewed | Not Tested | |
 | DecimalSeparator | PROPERTYGET/PROPERTYPUT | String | declared | 1809 | Metadata Only | Reviewed | Not Tested | |
 | ThousandsSeparator | PROPERTYGET/PROPERTYPUT | String | declared | 1810 | Metadata Only | Reviewed | Not Tested | |
-| Ready | PROPERTYGET | bool | declared | 1932 | Metadata Only | Reviewed | Not Tested | |
+| Ready | PROPERTYGET | bool | declared | 1932 | Implemented | Reviewed | Live Tested | |
 | FindFormat | PROPERTYGET/PROPERTYPUTREF | CellFormat | declared | 1934 | Metadata Only | Reviewed | Not Tested | |
 | ReplaceFormat | PROPERTYGET/PROPERTYPUTREF | CellFormat | declared | 1935 | Metadata Only | Reviewed | Not Tested | |
 | UsedObjects | PROPERTYGET | UsedObjects | declared | 1936 | Metadata Only | Reviewed | Not Tested | |
@@ -247,7 +247,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | DisplayInsertOptions | PROPERTYGET/PROPERTYPUT | bool | declared | 1947 | Metadata Only | Reviewed | Not Tested | |
 | GenerateGetPivotData | PROPERTYGET/PROPERTYPUT | bool | declared | 1948 | Metadata Only | Reviewed | Not Tested | |
 | AutoRecover | PROPERTYGET | AutoRecover | declared | 1949 | Metadata Only | Reviewed | Not Tested | |
-| Hwnd | PROPERTYGET | i32 | declared | 1950 | Metadata Only | Reviewed | Not Tested | |
+| Hwnd | PROPERTYGET | i32 | declared | 1950 | Implemented | Reviewed | Live Tested | |
 | Hinstance | PROPERTYGET | i32 | declared | 1951 | Metadata Only | Reviewed | Not Tested | |
 | ErrorCheckingOptions | PROPERTYGET | ErrorCheckingOptions | declared | 1954 | Metadata Only | Reviewed | Not Tested | |
 | AutoFormatAsYouTypeReplaceHyperlinks | PROPERTYGET/PROPERTYPUT | bool | declared | 1955 | Metadata Only | Reviewed | Not Tested | |

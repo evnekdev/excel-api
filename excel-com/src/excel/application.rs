@@ -1,6 +1,6 @@
 use crate::automation::{
-    ConversionPolicy, OwnedVariant, PositionalArguments, decode_variant, invoke,
-    property_get, property_put,
+    ConversionPolicy, OwnedVariant, PositionalArguments, decode_variant, invoke, property_get,
+    property_put,
 };
 use crate::excel::text::text_bstr;
 use crate::excel::{
@@ -164,7 +164,8 @@ impl Application {
     /// associated constructor returns `OwnedApplication`, not a shared
     /// `Application`, so callers cannot accidentally gain shutdown authority
     /// from a wrapper obtained through another object.
-    pub fn new(apartment: &ComApartment) -> Result<OwnedApplication, ExcelComError> {
+    #[allow(clippy::new_ret_no_self)] // Retained source-compatible owned-session entry point.
+    pub fn new(apartment: &ComApartment) -> Result<OwnedApplication<'_>, ExcelComError> {
         OwnedApplication::new(apartment)
     }
     /// Returns the server's Excel version string.
@@ -520,7 +521,11 @@ impl Application {
         Ok(Workbooks::from_dispatch(result.take_dispatch()?))
     }
     pub(crate) fn hwnd(&self) -> Result<i32, ExcelComError> {
-        get_i32_property(&self.inner, "excel.application.hwnd", "Application.Hwnd was not an integer")
+        get_i32_property(
+            &self.inner,
+            "excel.application.hwnd",
+            "Application.Hwnd was not an integer",
+        )
     }
 
     pub(crate) fn ready(&self) -> Result<bool, ExcelComError> {
@@ -552,7 +557,9 @@ impl Application {
         let dispatch = collection.take_dispatch()?;
         let value = property_get(&dispatch, member(MemberId::new(count_id), false), vec![])?;
         let count = value.as_i32().ok_or(ExcelComError::Conversion(
-            ConversionError::UnsupportedVariantType { vartype: value.vt() },
+            ConversionError::UnsupportedVariantType {
+                vartype: value.vt(),
+            },
         ))?;
         usize::try_from(count).map_err(|_| ExcelComError::Unsupported {
             detail: "Excel collection count was negative",
@@ -591,14 +598,19 @@ fn get_i32_property(
     detail: &'static str,
 ) -> Result<i32, ExcelComError> {
     let value = property_get(&target.dispatch, member(MemberId::new(id), false), vec![])?;
-    value.as_i32().ok_or(ExcelComError::Conversion(
-        ConversionError::UnsupportedVariantType { vartype: value.vt() },
-    )).map_err(|error| match error {
-        ExcelComError::Conversion(ConversionError::UnsupportedVariantType { .. }) => {
-            ExcelComError::Unsupported { detail }
-        }
-        other => other,
-    })
+    value
+        .as_i32()
+        .ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType {
+                vartype: value.vt(),
+            },
+        ))
+        .map_err(|error| match error {
+            ExcelComError::Conversion(ConversionError::UnsupportedVariantType { .. }) => {
+                ExcelComError::Unsupported { detail }
+            }
+            other => other,
+        })
 }
 
 fn convert_formula_arguments(

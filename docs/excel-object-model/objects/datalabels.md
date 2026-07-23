@@ -35,7 +35,7 @@ No capability metadata is recorded for this surface.
 |---|---|---|
 | `Application` | `excel.application` | Metadata Only |
 | `Border` | `excel.border` | Metadata Only |
-| `Font` | `excel.font` | Metadata Only |
+| `Font` | `excel.font` | Implemented |
 | `Interior` | `excel.interior` | Metadata Only |
 | `Item` | `excel.datalabel` | Implemented |
 
@@ -46,39 +46,39 @@ No capability metadata is recorded for this surface.
 | Shadow | PROPERTYGET/PROPERTYPUT | bool | declared | 103 | Metadata Only | Reviewed | Not Tested | |
 | Type | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 108 | Metadata Only | Reviewed | Not Tested | |
 | Name | PROPERTYGET | String | declared | 110 | Metadata Only | Reviewed | Not Tested | |
-| Format | PROPERTYGET | ChartFormat | declared | 116 | Metadata Only | Reviewed | Not Tested | |
+| Format | PROPERTYGET | ChartFormat | declared | 116 | Implemented | Reviewed | Live Tested | |
 | Count | PROPERTYGET | i32 | declared | 118 | Implemented | Reviewed | Live Tested | |
 | Border | PROPERTYGET | Border | declared | 128 | Metadata Only | Reviewed | Not Tested | |
 | Interior | PROPERTYGET | Interior | declared | 129 | Metadata Only | Reviewed | Not Tested | |
-| Position | PROPERTYGET/PROPERTYPUT | XlDataLabelPosition | declared | 133 | Metadata Only | Reviewed | Not Tested | |
+| Position | PROPERTYGET/PROPERTYPUT | XlDataLabelPosition | declared | 133 | Implemented | Reviewed | Live Tested | |
 | Orientation | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 134 | Metadata Only | Reviewed | Not Tested | |
 | AutoText | PROPERTYGET/PROPERTYPUT | bool | declared | 135 | Metadata Only | Reviewed | Not Tested | |
 | HorizontalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 136 | Metadata Only | Reviewed | Not Tested | |
 | VerticalAlignment | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 137 | Metadata Only | Reviewed | Not Tested | |
-| Font | PROPERTYGET | Font | declared | 146 | Metadata Only | Reviewed | Not Tested | |
+| Font | PROPERTYGET | Font | declared | 146 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |
-| ShowLegendKey | PROPERTYGET/PROPERTYPUT | bool | declared | 171 | Metadata Only | Reviewed | Not Tested | |
-| NumberFormat | PROPERTYGET/PROPERTYPUT | String | declared | 193 | Metadata Only | Reviewed | Not Tested | |
+| ShowLegendKey | PROPERTYGET/PROPERTYPUT | bool | declared | 171 | Implemented | Reviewed | Live Tested | |
+| NumberFormat | PROPERTYGET/PROPERTYPUT | String | declared | 193 | Implemented | Reviewed | Live Tested | |
 | NumberFormatLinked | PROPERTYGET/PROPERTYPUT | bool | declared | 194 | Metadata Only | Reviewed | Not Tested | |
 | ReadingOrder | PROPERTYGET/PROPERTYPUT | i32 | declared | 975 | Metadata Only | Reviewed | Not Tested | |
 | NumberFormatLocal | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1097 | Metadata Only | Reviewed | Not Tested | |
 | AutoScaleFont | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 1525 | Metadata Only | Reviewed | Not Tested | |
 | Fill | PROPERTYGET | ChartFillFormat | declared | 1663 | Metadata Only | Reviewed | Not Tested | |
-| ShowSeriesName | PROPERTYGET/PROPERTYPUT | bool | declared | 2022 | Metadata Only | Reviewed | Not Tested | |
-| ShowCategoryName | PROPERTYGET/PROPERTYPUT | bool | declared | 2023 | Metadata Only | Reviewed | Not Tested | |
-| ShowValue | PROPERTYGET/PROPERTYPUT | bool | declared | 2024 | Metadata Only | Reviewed | Not Tested | |
-| ShowPercentage | PROPERTYGET/PROPERTYPUT | bool | declared | 2025 | Metadata Only | Reviewed | Not Tested | |
-| ShowBubbleSize | PROPERTYGET/PROPERTYPUT | bool | declared | 2026 | Metadata Only | Reviewed | Not Tested | |
-| Separator | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2027 | Metadata Only | Reviewed | Not Tested | |
+| ShowSeriesName | PROPERTYGET/PROPERTYPUT | bool | declared | 2022 | Implemented | Reviewed | Live Tested | |
+| ShowCategoryName | PROPERTYGET/PROPERTYPUT | bool | declared | 2023 | Implemented | Reviewed | Live Tested | |
+| ShowValue | PROPERTYGET/PROPERTYPUT | bool | declared | 2024 | Implemented | Reviewed | Live Tested | |
+| ShowPercentage | PROPERTYGET/PROPERTYPUT | bool | declared | 2025 | Implemented | Reviewed | Live Tested | |
+| ShowBubbleSize | PROPERTYGET/PROPERTYPUT | bool | declared | 2026 | Implemented | Reviewed | Live Tested | |
+| Separator | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2027 | Implemented | Reviewed | Live Tested | |
 | ShowRange | PROPERTYGET/PROPERTYPUT | bool | declared | 3086 | Metadata Only | Reviewed | Not Tested | |
 
 ## Methods
 
 | Method | Return | Arguments | Origin | DISPID | Implementation | Docs | Tests | Notes |
 |---|---|---:|---|---:|---|---|---|---|
-| _NewEnum | Unknown | 0 | declared | -4 | Metadata Only | Reviewed | Not Tested | |
+| _NewEnum | Unknown | 0 | declared | -4 | Implemented | Reviewed | Live Tested | |
 | _Default | DataLabel | 1 | declared | 0 | Metadata Only | Reviewed | Not Tested | |
 | Delete | AutomationValue | 0 | declared | 117 | Metadata Only | Reviewed | Not Tested | |
 | Item | DataLabel | 1 | declared | 170 | Implemented | Reviewed | Live Tested | |

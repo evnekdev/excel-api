@@ -9,8 +9,8 @@ use windows_sys::Win32::System::Com::INTERFACEINFO;
 use windows_sys::core::{GUID, IUnknown_Vtbl};
 
 use super::retry::{ComRetryPolicy, replace_active_policy};
-use crate::internal::{ComPtr, Unknown};
 use crate::error::ExcelRuntimeError;
+use crate::internal::{ComPtr, Unknown};
 use crate::{ComApartment, ExcelComError};
 
 const IID_IUNKNOWN: GUID = GUID::from_u128(0x00000000_0000_0000_c000_000000000046);
@@ -59,10 +59,7 @@ impl ComMessageFilterGuard {
         // SAFETY: `filter` stays pinned in this guard until it is unregistered;
         // output storage accepts the previous IUnknown-compatible filter pointer.
         let status = unsafe {
-            CoRegisterMessageFilter(
-                (&mut *filter as *mut MessageFilter).cast(),
-                &mut previous,
-            )
+            CoRegisterMessageFilter((&mut *filter as *mut MessageFilter).cast(), &mut previous)
         };
         if ExcelComError::failed(status) {
             return Err(ExcelComError::Runtime(
@@ -74,6 +71,8 @@ impl ComMessageFilterGuard {
         let previous_filter = if previous.is_null() {
             None
         } else {
+            // SAFETY: successful registration transferred one owned reference
+            // for this non-null previous IUnknown-compatible filter pointer.
             Some(unsafe { ComPtr::from_owned(previous) }?)
         };
         Ok(Self {
@@ -128,7 +127,8 @@ impl Drop for ComMessageFilterGuard {
 #[repr(C)]
 struct MessageFilterVtbl {
     base: IUnknown_Vtbl,
-    handle_incoming_call: unsafe extern "system" fn(*mut c_void, u32, *mut c_void, u32, *const INTERFACEINFO) -> u32,
+    handle_incoming_call:
+        unsafe extern "system" fn(*mut c_void, u32, *mut c_void, u32, *const INTERFACEINFO) -> u32,
     retry_rejected_call: unsafe extern "system" fn(*mut c_void, *mut c_void, u32, u32) -> u32,
     message_pending: unsafe extern "system" fn(*mut c_void, *mut c_void, u32, u32) -> u32,
 }
@@ -190,7 +190,12 @@ fn guid_eq(left: &GUID, right: &GUID) -> bool {
 
 unsafe extern "system" fn message_filter_add_ref(this: *mut c_void) -> u32 {
     // SAFETY: COM invokes the vtable only for the MessageFilter object.
-    unsafe { (&*(this.cast::<MessageFilter>())).references.fetch_add(1, Ordering::Relaxed) + 1 }
+    unsafe {
+        (&*(this.cast::<MessageFilter>()))
+            .references
+            .fetch_add(1, Ordering::Relaxed)
+            + 1
+    }
 }
 
 unsafe extern "system" fn message_filter_release(this: *mut c_void) -> u32 {

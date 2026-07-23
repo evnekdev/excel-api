@@ -12,7 +12,7 @@ use super::{
     classify_com_hresult, reverse_for_com,
 };
 use crate::{
-    ExcelComError,
+    ExcelComError, InvocationError,
     internal::{ComPtr, Dispatch, wide_nul},
 };
 
@@ -95,7 +95,7 @@ pub(crate) fn invoke(
         reverse_for_com(&mut args);
     }
 
-    let retry_safety = retry_safety(descriptor.kind, property_put);
+    let retry_safety = retry_safety(descriptor, property_put);
     let policy = active_policy();
     let started = Instant::now();
     let mut attempts = 0;
@@ -154,7 +154,7 @@ pub(crate) fn invoke(
         }
         let elapsed = started.elapsed();
         let disposition = classify_com_hresult(status);
-        let error = ExcelComError::Invocation {
+        let error = ExcelComError::Invocation(Box::new(InvocationError {
             object_type: object_type(descriptor.id.as_str()),
             member,
             dispid,
@@ -168,7 +168,7 @@ pub(crate) fn invoke(
             elapsed,
             exception_source,
             exception_description,
-        };
+        }));
         let Some(policy) = policy.as_ref() else {
             return Err(error);
         };
@@ -195,8 +195,24 @@ pub(crate) fn invoke(
     }
 }
 
-fn retry_safety(kind: MemberKind, property_put: bool) -> InvocationRetrySafety {
-    match (kind, property_put) {
+fn retry_safety(descriptor: MemberDescriptor, property_put: bool) -> InvocationRetrySafety {
+    // The Excel typelib records some mutating members (notably Workbooks.Add)
+    // as PROPERTYGET. Known object-creation and destructive descriptors must
+    // therefore override the generic DISPATCH classification.
+    if matches!(
+        descriptor.id.as_str(),
+        "excel.workbooks.add"
+            | "excel.worksheets.add"
+            | "excel.charts.add"
+            | "excel.chartobjects.add"
+            | "excel.seriescollection.add"
+            | "excel.seriescollection.newseries"
+            | "excel.workbookconnection.delete"
+    ) || descriptor.name == "Delete"
+    {
+        return InvocationRetrySafety::NonIdempotentWrite;
+    }
+    match (descriptor.kind, property_put) {
         (MemberKind::PropertyGet, false) => InvocationRetrySafety::SafeRead,
         (MemberKind::PropertyPut | MemberKind::PropertyPutRef, true) => {
             InvocationRetrySafety::IdempotentWrite
@@ -258,15 +274,51 @@ mod tests {
     #[test]
     fn only_reads_and_property_puts_are_retry_safe() {
         assert_eq!(
-            retry_safety(MemberKind::PropertyGet, false),
+            retry_safety(
+                MemberDescriptor {
+                    id: crate::MemberId::new("excel.application.version"),
+                    name: "Version",
+                    kind: MemberKind::PropertyGet,
+                },
+                false,
+            ),
             InvocationRetrySafety::SafeRead
         );
         assert_eq!(
-            retry_safety(MemberKind::PropertyPut, true),
+            retry_safety(
+                MemberDescriptor {
+                    id: crate::MemberId::new("excel.application.visible"),
+                    name: "Visible",
+                    kind: MemberKind::PropertyPut,
+                },
+                true,
+            ),
             InvocationRetrySafety::IdempotentWrite
         );
         assert_eq!(
-            retry_safety(MemberKind::Method, false),
+            retry_safety(
+                MemberDescriptor {
+                    id: crate::MemberId::new("excel.application.quit"),
+                    name: "Quit",
+                    kind: MemberKind::Method,
+                },
+                false,
+            ),
+            InvocationRetrySafety::NonIdempotentWrite
+        );
+    }
+
+    #[test]
+    fn workbooks_add_is_never_classified_as_a_read() {
+        assert_eq!(
+            retry_safety(
+                MemberDescriptor {
+                    id: crate::MemberId::new("excel.workbooks.add"),
+                    name: "Add",
+                    kind: MemberKind::PropertyGet,
+                },
+                false,
+            ),
             InvocationRetrySafety::NonIdempotentWrite
         );
     }

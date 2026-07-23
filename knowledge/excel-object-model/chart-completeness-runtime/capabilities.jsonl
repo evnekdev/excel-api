@@ -1,0 +1,2 @@
+{"schema_version":1,"capability_group":"chart_completeness","chart_groups":true,"points":true,"series_format":true,"marker_format":true,"axis_complete":true,"gridlines":true,"data_labels_complete":true,"trendline_format":true,"error_bar_format":true,"backgrounds":true,"three_d":true,"modern_chart_properties":false,"templates":true}
+{"schema_version":1,"capability_group":"runtime_capability","owned_sessions":true,"attached_sessions":true,"multiple_instance_discovery":false,"message_filter":true,"busy_retry":true,"fixture_fallback":true,"process_diagnostics":true}

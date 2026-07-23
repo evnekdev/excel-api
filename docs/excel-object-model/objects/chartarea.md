@@ -45,10 +45,10 @@ No capability metadata is recorded for this surface.
 | Shadow | PROPERTYGET/PROPERTYPUT | bool | declared | 103 | Metadata Only | Reviewed | Not Tested | |
 | Name | PROPERTYGET | String | declared | 110 | Metadata Only | Reviewed | Not Tested | |
 | Format | PROPERTYGET | ChartFormat | declared | 116 | Implemented | Reviewed | Live Tested | |
-| Width | PROPERTYGET/PROPERTYPUT | f64 | declared | 122 | Metadata Only | Reviewed | Not Tested | |
-| Height | PROPERTYGET/PROPERTYPUT | f64 | declared | 123 | Metadata Only | Reviewed | Not Tested | |
-| Top | PROPERTYGET/PROPERTYPUT | f64 | declared | 126 | Metadata Only | Reviewed | Not Tested | |
-| Left | PROPERTYGET/PROPERTYPUT | f64 | declared | 127 | Metadata Only | Reviewed | Not Tested | |
+| Width | PROPERTYGET/PROPERTYPUT | f64 | declared | 122 | Implemented | Reviewed | Live Tested | |
+| Height | PROPERTYGET/PROPERTYPUT | f64 | declared | 123 | Implemented | Reviewed | Live Tested | |
+| Top | PROPERTYGET/PROPERTYPUT | f64 | declared | 126 | Implemented | Reviewed | Live Tested | |
+| Left | PROPERTYGET/PROPERTYPUT | f64 | declared | 127 | Implemented | Reviewed | Live Tested | |
 | Border | PROPERTYGET | Border | declared | 128 | Metadata Only | Reviewed | Not Tested | |
 | Interior | PROPERTYGET | Interior | declared | 129 | Metadata Only | Reviewed | Not Tested | |
 | Font | PROPERTYGET | Font | declared | 146 | Metadata Only | Reviewed | Not Tested | |

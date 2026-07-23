@@ -68,7 +68,9 @@ impl Default for ComRetryPolicy {
 
 impl ComRetryPolicy {
     pub(crate) fn delay_for_retry(&self, completed_attempts: u32) -> Duration {
-        let multiplier = 1_u32.checked_shl(completed_attempts.saturating_sub(1)).unwrap_or(u32::MAX);
+        let multiplier = 1_u32
+            .checked_shl(completed_attempts.saturating_sub(1))
+            .unwrap_or(u32::MAX);
         self.initial_delay
             .checked_mul(multiplier)
             .unwrap_or(self.maximum_delay)

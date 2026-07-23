@@ -3,7 +3,7 @@
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
 | Walls | Name | 110 | Metadata Only |
-| Walls | Format | 116 | Metadata Only |
+| Walls | Format | 116 | Implemented |
 | Walls | Border | 128 | Metadata Only |
 | Walls | Interior | 129 | Metadata Only |
 | Walls | Application | 148 | Metadata Only |

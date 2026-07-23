@@ -18,7 +18,8 @@ pub(super) use crate::automation::{
 };
 pub(super) use crate::excel::text::text_bstr;
 pub(super) use crate::excel::{
-    Application, DispatchObject, Font, Range, Sheet, SheetDestination, Workbook, Worksheet,
+    Application, Border, DispatchObject, ExcelColor, Font, Range, Sheet, SheetDestination,
+    ThemeColor, Workbook, Worksheet,
 };
 pub(super) use crate::internal::{ComPtr, Dispatch, path_bstr};
 pub(super) use crate::object_model::{MemberId, member};
@@ -45,14 +46,168 @@ macro_rules! drawing_value {
 drawing_value! {
 /// A forward-compatible `XlChartType` value.
 ChartType {
+    /// `xl3DArea`.
+    AREA_3D = -4098;
+    /// `xl3DAreaStacked`.
+    AREA_3D_STACKED = 78;
+    /// `xl3DAreaStacked100`.
+    AREA_3D_STACKED_100 = 79;
+    /// `xlArea`.
+    AREA = 1;
+    /// `xlAreaStacked`.
+    AREA_STACKED = 76;
+    /// `xlAreaStacked100`.
+    AREA_STACKED_100 = 77;
+    /// `xl3DBarClustered`.
+    BAR_3D_CLUSTERED = 60;
+    /// `xl3DBarStacked`.
+    BAR_3D_STACKED = 61;
+    /// `xl3DBarStacked100`.
+    BAR_3D_STACKED_100 = 62;
+    /// `xlBarClustered`.
+    BAR_CLUSTERED = 57;
+    /// `xlBarStacked`.
+    BAR_STACKED = 58;
+    /// `xlBarStacked100`.
+    BAR_STACKED_100 = 59;
+    /// `xlBubble`.
+    BUBBLE = 15;
+    /// `xlBubble3DEffect`.
+    BUBBLE_3D_EFFECT = 87;
+    /// `xl3DColumn`.
+    COLUMN_3D = -4100;
+    /// `xl3DColumnClustered`.
+    COLUMN_3D_CLUSTERED = 54;
+    /// `xl3DColumnStacked`.
+    COLUMN_3D_STACKED = 55;
+    /// `xl3DColumnStacked100`.
+    COLUMN_3D_STACKED_100 = 56;
+    /// `xl3DLine`.
+    LINE_3D = -4101;
+    /// `xl3DPie`.
+    PIE_3D = -4102;
+    /// `xl3DPieExploded`.
+    PIE_3D_EXPLODED = 70;
     /// `xlColumnClustered`.
     COLUMN_CLUSTERED = 51;
+    /// `xlColumnStacked`.
+    COLUMN_STACKED = 52;
+    /// `xlColumnStacked100`.
+    COLUMN_STACKED_100 = 53;
+    /// `xlConeBarClustered`.
+    CONE_BAR_CLUSTERED = 102;
+    /// `xlConeBarStacked`.
+    CONE_BAR_STACKED = 103;
+    /// `xlConeBarStacked100`.
+    CONE_BAR_STACKED_100 = 104;
+    /// `xlConeCol`.
+    CONE_COLUMN_3D = 105;
+    /// `xlConeColClustered`.
+    CONE_COLUMN_CLUSTERED = 99;
+    /// `xlConeColStacked`.
+    CONE_COLUMN_STACKED = 100;
+    /// `xlConeColStacked100`.
+    CONE_COLUMN_STACKED_100 = 101;
+    /// `xlCylinderBarClustered`.
+    CYLINDER_BAR_CLUSTERED = 95;
+    /// `xlCylinderBarStacked`.
+    CYLINDER_BAR_STACKED = 96;
+    /// `xlCylinderBarStacked100`.
+    CYLINDER_BAR_STACKED_100 = 97;
+    /// `xlCylinderCol`.
+    CYLINDER_COLUMN_3D = 98;
+    /// `xlCylinderColClustered`.
+    CYLINDER_COLUMN_CLUSTERED = 92;
+    /// `xlCylinderColStacked`.
+    CYLINDER_COLUMN_STACKED = 93;
+    /// `xlCylinderColStacked100`.
+    CYLINDER_COLUMN_STACKED_100 = 94;
+    /// `xlDoughnut`.
+    DOUGHNUT = -4120;
+    /// `xlDoughnutExploded`.
+    DOUGHNUT_EXPLODED = 80;
     /// `xlLine`.
     LINE = 4;
     /// `xlLineMarkers`.
     LINE_MARKERS = 65;
+    /// `xlLineMarkersStacked`.
+    LINE_MARKERS_STACKED = 66;
+    /// `xlLineMarkersStacked100`.
+    LINE_MARKERS_STACKED_100 = 67;
+    /// `xlLineStacked`.
+    LINE_STACKED = 63;
+    /// `xlLineStacked100`.
+    LINE_STACKED_100 = 64;
+    /// `xlPie`.
+    PIE = 5;
+    /// `xlPieExploded`.
+    PIE_EXPLODED = 69;
+    /// `xlPieOfPie`.
+    PIE_OF_PIE = 68;
+    /// `xlBarOfPie`.
+    BAR_OF_PIE = 71;
+    /// `xlPyramidBarClustered`.
+    PYRAMID_BAR_CLUSTERED = 109;
+    /// `xlPyramidBarStacked`.
+    PYRAMID_BAR_STACKED = 110;
+    /// `xlPyramidBarStacked100`.
+    PYRAMID_BAR_STACKED_100 = 111;
+    /// `xlPyramidCol`.
+    PYRAMID_COLUMN_3D = 112;
+    /// `xlPyramidColClustered`.
+    PYRAMID_COLUMN_CLUSTERED = 106;
+    /// `xlPyramidColStacked`.
+    PYRAMID_COLUMN_STACKED = 107;
+    /// `xlPyramidColStacked100`.
+    PYRAMID_COLUMN_STACKED_100 = 108;
+    /// `xlRadar`.
+    RADAR = -4151;
+    /// `xlRadarFilled`.
+    RADAR_FILLED = 82;
+    /// `xlRadarMarkers`.
+    RADAR_MARKERS = 81;
+    /// `xlStockHLC`.
+    STOCK_HLC = 88;
+    /// `xlStockOHLC`.
+    STOCK_OHLC = 89;
+    /// `xlStockVHLC`.
+    STOCK_VHLC = 90;
+    /// `xlStockVOHLC`.
+    STOCK_VOHLC = 91;
+    /// `xlSurface`.
+    SURFACE = 83;
+    /// `xlSurfaceWireframe`.
+    SURFACE_WIREFRAME = 84;
+    /// `xlSurfaceTopView`.
+    SURFACE_TOP_VIEW = 85;
+    /// `xlSurfaceTopViewWireframe`.
+    SURFACE_TOP_VIEW_WIREFRAME = 86;
     /// `xlXYScatter`.
     XY_SCATTER = -4169;
+    /// `xlXYScatterLines`.
+    XY_SCATTER_LINES = 74;
+    /// `xlXYScatterLinesNoMarkers`.
+    XY_SCATTER_LINES_NO_MARKERS = 75;
+    /// `xlXYScatterSmooth`.
+    XY_SCATTER_SMOOTH = 72;
+    /// `xlXYScatterSmoothNoMarkers`.
+    XY_SCATTER_SMOOTH_NO_MARKERS = 73;
+    /// `xlTreemap`.
+    TREEMAP = 117;
+    /// `xlHistogram`.
+    HISTOGRAM = 118;
+    /// `xlWaterfall`.
+    WATERFALL = 119;
+    /// `xlSunburst`.
+    SUNBURST = 120;
+    /// `xlBoxwhisker`.
+    BOX_AND_WHISKER = 121;
+    /// `xlPareto`.
+    PARETO = 122;
+    /// `xlFunnel`.
+    FUNNEL = 123;
+    /// `xlRegionMap`.
+    REGION_MAP = 140;
 } }
 drawing_value! {
 /// Excel's `XlRowCol` orientation for source data.
@@ -87,6 +242,38 @@ AxisScaleType {
     LINEAR = -4132;
     /// Logarithmic scale.
     LOGARITHMIC = -4133;
+} }
+drawing_value! {
+/// A forward-compatible `XlAxisCrosses` value.
+AxisCrosses {
+    /// Excel chooses the crossing automatically.
+    AUTOMATIC = -4105;
+    /// Cross at the minimum axis value.
+    MINIMUM = 4;
+    /// Cross at the maximum axis value.
+    MAXIMUM = 2;
+    /// Cross at a custom numeric value.
+    CUSTOM = -4114;
+} }
+drawing_value! {
+/// A forward-compatible `XlCategoryType` value.
+CategoryType {
+    /// Excel chooses category behavior automatically.
+    AUTOMATIC = -4105;
+    /// Treat categories as text.
+    TEXT = 2;
+    /// Treat categories as date values.
+    TIME_SCALE = 3;
+} }
+drawing_value! {
+/// A forward-compatible `XlTimeUnit` value.
+TimeUnit {
+    /// Days.
+    DAYS = 0;
+    /// Months.
+    MONTHS = 1;
+    /// Years.
+    YEARS = 2;
 } }
 drawing_value! {
 /// A forward-compatible `XlTickMark` value.
@@ -155,6 +342,12 @@ MarkerStyle {
     SQUARE = 1;
     /// Triangle marker.
     TRIANGLE = 3;
+    /// Plus marker.
+    PLUS = 9;
+    /// Star marker.
+    STAR = 5;
+    /// X marker.
+    X = -4168;
 } }
 drawing_value! {
 /// A forward-compatible `XlTrendlineType` value.
@@ -324,6 +517,51 @@ pub struct ChartBounds {
     pub width: f64,
     pub height: f64,
 }
+/// Point-based geometry reported by Excel for a chart element.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ChartElementBounds {
+    /// Left edge in points.
+    pub left: f64,
+    /// Top edge in points.
+    pub top: f64,
+    /// Width in points.
+    pub width: f64,
+    /// Height in points.
+    pub height: f64,
+}
+
+/// A chart colour that preserves direct RGB, theme, and automatic modes.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum ChartColor {
+    /// Direct Excel RGB colour.
+    Rgb(crate::ExcelColor),
+    /// Theme colour with optional Excel tint/shade adjustment.
+    Theme {
+        /// Excel theme colour index.
+        color: crate::ThemeColor,
+        /// Excel tint-and-shade value.
+        tint_and_shade: Option<f64>,
+    },
+    /// Excel's automatic colour choice.
+    Automatic,
+}
+
+/// Optional legacy Series marker properties.
+///
+/// Excel exposes marker foreground and background colours as legacy colour
+/// properties; this is intentionally separate from Office `FillFormat`.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct MarkerFormat {
+    /// Marker shape.
+    pub style: Option<MarkerStyle>,
+    /// Marker size between 2 and 72 points.
+    pub size: Option<i32>,
+    /// Legacy marker foreground colour.
+    pub foreground_color: Option<ChartColor>,
+    /// Legacy marker background colour.
+    pub background_color: Option<ChartColor>,
+}
+
 /// A point used for a shape endpoint.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ShapePoint {

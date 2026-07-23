@@ -143,16 +143,16 @@
 | LineFormat | BeginArrowheadLength | 101 | Metadata Only |
 | LineFormat | BeginArrowheadStyle | 102 | Metadata Only |
 | LineFormat | BeginArrowheadWidth | 103 | Metadata Only |
-| LineFormat | DashStyle | 104 | Metadata Only |
+| LineFormat | DashStyle | 104 | Implemented |
 | LineFormat | EndArrowheadLength | 105 | Metadata Only |
 | LineFormat | EndArrowheadStyle | 106 | Metadata Only |
 | LineFormat | EndArrowheadWidth | 107 | Metadata Only |
-| LineFormat | ForeColor | 108 | Metadata Only |
+| LineFormat | ForeColor | 108 | Implemented |
 | LineFormat | Pattern | 109 | Metadata Only |
 | LineFormat | Style | 110 | Metadata Only |
-| LineFormat | Transparency | 111 | Metadata Only |
-| LineFormat | Visible | 112 | Metadata Only |
-| LineFormat | Weight | 113 | Metadata Only |
+| LineFormat | Transparency | 111 | Implemented |
+| LineFormat | Visible | 112 | Implemented |
+| LineFormat | Weight | 113 | Implemented |
 | LineFormat | InsetPen | 114 | Metadata Only |
 | LineFormat | Application | 1610743808 | Metadata Only |
 | LineFormat | Creator | 1610743809 | Metadata Only |

@@ -47,6 +47,37 @@ pub enum ExcelRuntimeError {
     },
 }
 
+/// Structured diagnostics for one failed Automation invocation.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct InvocationError {
+    /// The Excel wrapper object receiving the call.
+    pub object_type: &'static str,
+    /// The invoked member name.
+    pub member: &'static str,
+    /// The resolved member DISPID.
+    pub dispid: i32,
+    /// The failed HRESULT.
+    pub hresult: i32,
+    /// The server-provided exception SCODE, if any.
+    pub exception_scode: Option<i32>,
+    /// The Automation argument index reported by COM, if any.
+    pub argument_index: Option<u32>,
+    /// The `DISPATCH_*` flags supplied to `IDispatch::Invoke`.
+    pub dispatch_flags: u16,
+    /// Classifies the original HRESULT without replacing it.
+    pub disposition: ComCallDisposition,
+    /// Whether repeating this exact invocation is safe after ambiguity.
+    pub retry_safety: InvocationRetrySafety,
+    /// Number of attempts made for this invocation.
+    pub attempts: u32,
+    /// Time spent in the invocation, including retry delays.
+    pub elapsed: Duration,
+    /// Optional server-provided EXCEPINFO source.
+    pub exception_source: Option<String>,
+    /// Optional server-provided EXCEPINFO description.
+    pub exception_description: Option<String>,
+}
+
 /// Production-facing Automation failure without raw address disclosure.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ExcelComError {
@@ -84,34 +115,7 @@ pub enum ExcelComError {
         detail: &'static str,
     },
     /// Calling an Automation member failed.
-    Invocation {
-        /// The Excel wrapper object receiving the call.
-        object_type: &'static str,
-        /// The invoked member name.
-        member: &'static str,
-        /// The resolved member DISPID.
-        dispid: i32,
-        /// The failed HRESULT.
-        hresult: i32,
-        /// The server-provided exception SCODE, if any.
-        exception_scode: Option<i32>,
-        /// The Automation argument index reported by COM, if any.
-        argument_index: Option<u32>,
-        /// The `DISPATCH_*` flags supplied to `IDispatch::Invoke`.
-        dispatch_flags: u16,
-        /// Classifies the original HRESULT without replacing it.
-        disposition: ComCallDisposition,
-        /// Whether repeating this exact invocation is safe after ambiguity.
-        retry_safety: InvocationRetrySafety,
-        /// Number of attempts made for this invocation.
-        attempts: u32,
-        /// Time spent in the invocation, including retry delays.
-        elapsed: Duration,
-        /// Optional server-provided EXCEPINFO source.
-        exception_source: Option<String>,
-        /// Optional server-provided EXCEPINFO description.
-        exception_description: Option<String>,
-    },
+    Invocation(Box<InvocationError>),
     /// An attachment, ownership, message-filter, or process runtime failure.
     Runtime(ExcelRuntimeError),
     /// A value could not be converted before or after an Automation call.
@@ -182,41 +186,62 @@ impl Display for ExcelComError {
                 "enumeration of {collection} at item {item_index} failed ({detail}, HRESULT {:?})",
                 hresult.map(|value| format!("0x{:08X}", value as u32))
             ),
-            Self::Invocation {
-                object_type,
-                member,
-                dispid,
-                hresult,
-                exception_scode,
-                argument_index,
-                dispatch_flags,
-                disposition,
-                retry_safety,
-                attempts,
-                elapsed,
-                exception_source,
-                exception_description,
-            } => write!(
+            Self::Invocation(error) => write!(
                 formatter,
-                "invocation of {object_type}.{member} (DISPID {dispid}, flags {dispatch_flags}) failed (0x{:08X}, EXCEPINFO {:?}, source {:?}, description {:?}, argument {:?}, disposition {:?}, retry safety {:?}, attempts {attempts}, elapsed {:?})",
-                *hresult as u32,
-                exception_scode.map(|value| format!("0x{:08X}", value as u32)),
-                exception_source,
-                exception_description,
-                argument_index,
-                disposition,
-                retry_safety,
-                elapsed,
+                "invocation of {}.{} (DISPID {}, flags {}) failed (0x{:08X}, EXCEPINFO {:?}, source {:?}, description {:?}, argument {:?}, disposition {:?}, retry safety {:?}, attempts {}, elapsed {:?})",
+                error.object_type,
+                error.member,
+                error.dispid,
+                error.dispatch_flags,
+                error.hresult as u32,
+                error
+                    .exception_scode
+                    .map(|value| format!("0x{:08X}", value as u32)),
+                error.exception_source,
+                error.exception_description,
+                error.argument_index,
+                error.disposition,
+                error.retry_safety,
+                error.attempts,
+                error.elapsed,
             ),
             Self::Runtime(error) => match error {
-                ExcelRuntimeError::NoRunningInstance => write!(formatter, "no running Excel instance is registered"),
-                ExcelRuntimeError::AmbiguousRunningInstances => write!(formatter, "multiple ambiguous Excel instances are registered"),
-                ExcelRuntimeError::SessionDisappeared => write!(formatter, "Excel session disappeared during the operation"),
-                ExcelRuntimeError::ExcelBusy { attempts, elapsed } => write!(formatter, "Excel remained busy after {attempts} attempts over {elapsed:?}"),
-                ExcelRuntimeError::RetryUnsafe { object, member } => write!(formatter, "retry of {object}.{member} is unsafe because it may have mutated Excel"),
-                ExcelRuntimeError::MessageFilterRegistrationFailed { hresult } => write!(formatter, "COM message-filter registration failed (0x{:08X})", *hresult as u32),
-                ExcelRuntimeError::ProcessExitTimeout { process_id, timeout } => write!(formatter, "owned Excel process {:?} did not exit within {timeout:?}", process_id),
-                ExcelRuntimeError::RotAccessFailed { hresult } => write!(formatter, "Excel active-object lookup failed (0x{:08X})", *hresult as u32),
+                ExcelRuntimeError::NoRunningInstance => {
+                    write!(formatter, "no running Excel instance is registered")
+                }
+                ExcelRuntimeError::AmbiguousRunningInstances => write!(
+                    formatter,
+                    "multiple ambiguous Excel instances are registered"
+                ),
+                ExcelRuntimeError::SessionDisappeared => {
+                    write!(formatter, "Excel session disappeared during the operation")
+                }
+                ExcelRuntimeError::ExcelBusy { attempts, elapsed } => write!(
+                    formatter,
+                    "Excel remained busy after {attempts} attempts over {elapsed:?}"
+                ),
+                ExcelRuntimeError::RetryUnsafe { object, member } => write!(
+                    formatter,
+                    "retry of {object}.{member} is unsafe because it may have mutated Excel"
+                ),
+                ExcelRuntimeError::MessageFilterRegistrationFailed { hresult } => write!(
+                    formatter,
+                    "COM message-filter registration failed (0x{:08X})",
+                    *hresult as u32
+                ),
+                ExcelRuntimeError::ProcessExitTimeout {
+                    process_id,
+                    timeout,
+                } => write!(
+                    formatter,
+                    "owned Excel process {:?} did not exit within {timeout:?}",
+                    process_id
+                ),
+                ExcelRuntimeError::RotAccessFailed { hresult } => write!(
+                    formatter,
+                    "Excel active-object lookup failed (0x{:08X})",
+                    *hresult as u32
+                ),
             },
             Self::Conversion(error) => write!(formatter, "Automation conversion failed: {error:?}"),
             Self::Ownership { detail } => write!(formatter, "COM ownership failure: {detail}"),
@@ -242,7 +267,7 @@ mod tests {
     use super::*;
     #[test]
     fn formatting_keeps_hresult_and_omits_addresses() {
-        let error = ExcelComError::Invocation {
+        let error = ExcelComError::Invocation(Box::new(InvocationError {
             object_type: "Application",
             member: "Quit",
             dispid: 302,
@@ -256,7 +281,7 @@ mod tests {
             elapsed: Duration::ZERO,
             exception_source: None,
             exception_description: None,
-        };
+        }));
         let text = error.to_string();
         assert!(text.contains("0xFFFFFFFF"));
         assert!(text.contains("Quit"));

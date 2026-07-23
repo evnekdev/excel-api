@@ -182,6 +182,18 @@ pub(super) const SERIES: Collection = Collection {
     item: "excel.seriescollection.item",
     new_enum: "excel.seriescollection.newenum",
 };
+pub(super) const CHART_GROUPS: Collection = Collection {
+    name: "ChartGroups",
+    count: "excel.chartgroups.count",
+    item: "excel.chartgroups.item",
+    new_enum: "excel.chartgroups.newenum",
+};
+pub(super) const POINTS: Collection = Collection {
+    name: "Points",
+    count: "excel.points.count",
+    item: "excel.points.item",
+    new_enum: "excel.points.newenum",
+};
 pub(super) const SHAPES: Collection = Collection {
     name: "Shapes",
     count: "excel.shapes.count",
