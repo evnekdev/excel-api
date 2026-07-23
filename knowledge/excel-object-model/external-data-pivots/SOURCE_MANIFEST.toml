@@ -1,0 +1,17 @@
+schema_version = 1
+scope = "Prompt 19 external data, QueryTables, refresh orchestration, workbook queries, and PivotTables"
+
+[[sources]]
+kind = "registered-type-library"
+name = "Microsoft Excel Object Library"
+purpose = "Member DISPIDs, invocation kinds, optional-argument positions, collection contracts, and enum values."
+
+[[sources]]
+kind = "repository-source"
+name = "excel-com external_data and pivot subsystems"
+purpose = "Typed apartment-bound wrappers, secret redaction, explicit timeout handling, and restoration guards."
+
+[[sources]]
+kind = "runtime-observation"
+name = "Prompt 19 fresh Workbooks.Add baseline"
+purpose = "Honest runtime-blocked classification for workbook-dependent observations."

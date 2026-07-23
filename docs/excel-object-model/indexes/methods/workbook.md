@@ -32,9 +32,9 @@
 | Workbook | Post | 1166 | Metadata Only |
 | Workbook | ExclusiveAccess | 1168 | Metadata Only |
 | Workbook | MergeWorkbook | 1446 | Metadata Only |
-| Workbook | PivotCaches | 1449 | Metadata Only |
+| Workbook | PivotCaches | 1449 | Implemented |
 | Workbook | _ProtectSharing | 1450 | Metadata Only |
-| Workbook | RefreshAll | 1452 | Metadata Only |
+| Workbook | RefreshAll | 1452 | Implemented |
 | Workbook | RemoveUser | 1453 | Metadata Only |
 | Workbook | UnprotectSharing | 1455 | Metadata Only |
 | Workbook | HighlightChangesOptions | 1458 | Metadata Only |

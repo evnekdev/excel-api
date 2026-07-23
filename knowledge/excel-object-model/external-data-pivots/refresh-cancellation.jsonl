@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"refresh cancellation","status":"implemented-source-derived","scope":"refreshing QueryTables plus refreshing OLE DB and ODBC connections","idle_behavior":"no CancelRefresh invocation is attempted","uncovered":"other connection kinds are counted as unsupported"}

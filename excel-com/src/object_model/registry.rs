@@ -1105,9 +1105,168 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.workbook.changelink",
     "excel.workbook.linkinfo",
     "excel.application.asktoupdatelinks",
+    "excel.application.calculateuntilasyncqueriesdone",
+    "excel.connections.count",
+    "excel.connections.item",
+    "excel.connections.newenum",
+    "excel.odbcconnection.backgroundquery",
+    "excel.odbcconnection.cancelrefresh",
+    "excel.odbcconnection.commandtext",
+    "excel.odbcconnection.commandtype",
+    "excel.odbcconnection.connection",
+    "excel.odbcconnection.enablerefresh",
+    "excel.odbcconnection.refreshing",
+    "excel.odbcconnection.refreshonfileopen",
+    "excel.odbcconnection.refreshperiod",
+    "excel.oledbconnection.backgroundquery",
+    "excel.oledbconnection.cancelrefresh",
+    "excel.oledbconnection.commandtext",
+    "excel.oledbconnection.commandtype",
+    "excel.oledbconnection.connection",
+    "excel.oledbconnection.enablerefresh",
+    "excel.oledbconnection.refreshing",
+    "excel.oledbconnection.refreshonfileopen",
+    "excel.oledbconnection.refreshperiod",
+    "excel.pivotcache.backgroundquery",
+    "excel.pivotcache.commandtext",
+    "excel.pivotcache.connection",
+    "excel.pivotcache.createpivottable",
+    "excel.pivotcache.index",
+    "excel.pivotcache.missingitemslimit",
+    "excel.pivotcache.refresh",
+    "excel.pivotcache.refreshonfileopen",
+    "excel.pivotcache.sourcedata",
+    "excel.pivotcache.sourcetype",
+    "excel.pivotcaches.count",
+    "excel.pivotcaches.create",
+    "excel.pivotcaches.item",
+    "excel.pivotcaches.newenum",
+    "excel.pivotfield.caption",
+    "excel.pivotfield.clearallfilters",
+    "excel.pivotfield.function",
+    "excel.pivotfield.name",
+    "excel.pivotfield.numberformat",
+    "excel.pivotfield.orientation",
+    "excel.pivotfield.pivotfilters",
+    "excel.pivotfield.pivotitems",
+    "excel.pivotfield.position",
+    "excel.pivotfield.sourcename",
+    "excel.pivotfield.subtotals",
+    "excel.pivotfields.count",
+    "excel.pivotfields.item",
+    "excel.pivotfields.newenum",
+    "excel.pivotfilter.active",
+    "excel.pivotfilter.delete",
+    "excel.pivotfilter.description",
+    "excel.pivotfilter.filtertype",
+    "excel.pivotfilter.name",
+    "excel.pivotfilters.add",
+    "excel.pivotfilters.count",
+    "excel.pivotfilters.item",
+    "excel.pivotfilters.newenum",
+    "excel.pivotitem.caption",
+    "excel.pivotitem.name",
+    "excel.pivotitem.position",
+    "excel.pivotitem.visible",
+    "excel.pivotitems.count",
+    "excel.pivotitems.item",
+    "excel.pivotitems.newenum",
+    "excel.pivottable.adddatafield",
+    "excel.pivottable.changepivotcache",
+    "excel.pivottable.cleartable",
+    "excel.pivottable.columnfields",
+    "excel.pivottable.columnrange",
+    "excel.pivottable.databodyrange",
+    "excel.pivottable.datafields",
+    "excel.pivottable.manualupdate",
+    "excel.pivottable.name",
+    "excel.pivottable.pagefields",
+    "excel.pivottable.pagerange",
+    "excel.pivottable.pivotcache",
+    "excel.pivottable.pivotfields",
+    "excel.pivottable.refreshtable",
+    "excel.pivottable.rowfields",
+    "excel.pivottable.rowrange",
+    "excel.pivottable.showtablestylerowstripes",
+    "excel.pivottable.sourcedata",
+    "excel.pivottable.tablerange1",
+    "excel.pivottable.tablerange2",
+    "excel.pivottable.tablestyle2",
+    "excel.pivottable.update",
+    "excel.pivottables.count",
+    "excel.pivottables.item",
+    "excel.pivottables.newenum",
+    "excel.queries.count",
+    "excel.queries.item",
+    "excel.queries.newenum",
+    "excel.querytable.adjustcolumnwidth",
+    "excel.querytable.backgroundquery",
+    "excel.querytable.cancelrefresh",
+    "excel.querytable.commandtext",
+    "excel.querytable.delete",
+    "excel.querytable.destination",
+    "excel.querytable.name",
+    "excel.querytable.preserveformatting",
+    "excel.querytable.refresh",
+    "excel.querytable.refreshing",
+    "excel.querytable.refreshonfileopen",
+    "excel.querytable.resultrange",
+    "excel.querytable.textfilecolumndatatypes",
+    "excel.querytable.textfilecommadelimiter",
+    "excel.querytable.textfileotherdelimiter",
+    "excel.querytable.textfileparsetype",
+    "excel.querytable.textfilesemicolondelimiter",
+    "excel.querytable.textfilespacedelimiter",
+    "excel.querytable.textfiletabdelimiter",
+    "excel.querytable.textfiletextqualifier",
+    "excel.querytable.workbookconnection",
+    "excel.querytables.add",
+    "excel.querytables.count",
+    "excel.querytables.item",
+    "excel.querytables.newenum",
+    "excel.ranges.count",
+    "excel.ranges.item",
+    "excel.ranges.newenum",
+    "excel.slicer.name",
+    "excel.slicer.slicercache",
+    "excel.slicercache.name",
+    "excel.slicercache.pivottables",
+    "excel.slicercache.slicers",
+    "excel.slicercache.sourcename",
+    "excel.slicercaches.count",
+    "excel.slicercaches.item",
+    "excel.slicercaches.newenum",
+    "excel.slicers.count",
+    "excel.slicers.item",
+    "excel.slicers.newenum",
+    "excel.workbook.connections",
+    "excel.workbook.pivotcaches",
+    "excel.workbook.queries",
+    "excel.workbook.refreshall",
+    "excel.workbook.slicercaches",
+    "excel.workbookconnection.delete",
+    "excel.workbookconnection.description",
+    "excel.workbookconnection.name",
+    "excel.workbookconnection.odbcconnection",
+    "excel.workbookconnection.oledbconnection",
+    "excel.workbookconnection.ranges",
+    "excel.workbookconnection.refresh",
+    "excel.workbookconnection.refreshwithrefreshall",
+    "excel.workbookconnection.textconnection",
+    "excel.workbookconnection.type",
+    "excel.workbookquery.delete",
+    "excel.workbookquery.description",
+    "excel.workbookquery.formula",
+    "excel.workbookquery.name",
+    "excel.workbookquery.refresh",
+    "excel.worksheet.pivottables",
+    "excel.worksheet.querytables",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
+    if let Some(descriptor) = external_data_pivot_member(id, put) {
+        return descriptor;
+    }
     if let Some(descriptor) = data_member(id, put) {
         return descriptor;
     }
@@ -1694,6 +1853,275 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.name.delete", _) => NAME_DELETE,
         _ => unreachable!("implemented member ID must be registered"),
     }
+}
+
+fn external_data_pivot_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {
+    let (name, kind) = match (id.as_str(), put) {
+        ("excel.application.calculateuntilasyncqueriesdone", _) => {
+            ("CalculateUntilAsyncQueriesDone", MemberKind::Method)
+        }
+        ("excel.workbook.connections", _) => ("Connections", MemberKind::PropertyGet),
+        ("excel.workbook.refreshall", _) => ("RefreshAll", MemberKind::Method),
+        ("excel.workbook.queries", _) => ("Queries", MemberKind::PropertyGet),
+        ("excel.worksheet.querytables", _) => ("QueryTables", MemberKind::PropertyGet),
+        ("excel.connections.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.connections.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.connections.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.workbookconnection.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.workbookconnection.description", false) => ("Description", MemberKind::PropertyGet),
+        ("excel.workbookconnection.description", true) => ("Description", MemberKind::PropertyPut),
+        ("excel.workbookconnection.type", _) => ("Type", MemberKind::PropertyGet),
+        ("excel.workbookconnection.refreshwithrefreshall", false) => {
+            ("RefreshWithRefreshAll", MemberKind::PropertyGet)
+        }
+        ("excel.workbookconnection.refreshwithrefreshall", true) => {
+            ("RefreshWithRefreshAll", MemberKind::PropertyPut)
+        }
+        ("excel.workbookconnection.ranges", _) => ("Ranges", MemberKind::PropertyGet),
+        ("excel.workbookconnection.refresh", _) => ("Refresh", MemberKind::Method),
+        ("excel.workbookconnection.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.workbookconnection.oledbconnection", _) => {
+            ("OLEDBConnection", MemberKind::PropertyGet)
+        }
+        ("excel.workbookconnection.odbcconnection", _) => {
+            ("ODBCConnection", MemberKind::PropertyGet)
+        }
+        ("excel.workbookconnection.textconnection", _) => {
+            ("TextConnection", MemberKind::PropertyGet)
+        }
+        ("excel.ranges.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.ranges.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.ranges.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.oledbconnection.connection", _) | ("excel.odbcconnection.connection", _) => {
+            ("Connection", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.commandtext", _) | ("excel.odbcconnection.commandtext", _) => {
+            ("CommandText", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.commandtype", _) | ("excel.odbcconnection.commandtype", _) => {
+            ("CommandType", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.backgroundquery", false)
+        | ("excel.odbcconnection.backgroundquery", false) => {
+            ("BackgroundQuery", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.backgroundquery", true)
+        | ("excel.odbcconnection.backgroundquery", true) => {
+            ("BackgroundQuery", MemberKind::PropertyPut)
+        }
+        ("excel.oledbconnection.refreshing", _) | ("excel.odbcconnection.refreshing", _) => {
+            ("Refreshing", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.refreshonfileopen", false)
+        | ("excel.odbcconnection.refreshonfileopen", false) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.refreshonfileopen", true)
+        | ("excel.odbcconnection.refreshonfileopen", true) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyPut)
+        }
+        ("excel.oledbconnection.refreshperiod", false)
+        | ("excel.odbcconnection.refreshperiod", false) => {
+            ("RefreshPeriod", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.refreshperiod", true)
+        | ("excel.odbcconnection.refreshperiod", true) => {
+            ("RefreshPeriod", MemberKind::PropertyPut)
+        }
+        ("excel.oledbconnection.enablerefresh", false)
+        | ("excel.odbcconnection.enablerefresh", false) => {
+            ("EnableRefresh", MemberKind::PropertyGet)
+        }
+        ("excel.oledbconnection.enablerefresh", true)
+        | ("excel.odbcconnection.enablerefresh", true) => {
+            ("EnableRefresh", MemberKind::PropertyPut)
+        }
+        ("excel.oledbconnection.cancelrefresh", _) | ("excel.odbcconnection.cancelrefresh", _) => {
+            ("CancelRefresh", MemberKind::Method)
+        }
+        ("excel.querytables.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.querytables.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.querytables.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.querytables.add", _) => ("Add", MemberKind::Method),
+        ("excel.querytable.name", false) => ("Name", MemberKind::PropertyGet),
+        ("excel.querytable.name", true) => ("Name", MemberKind::PropertyPut),
+        ("excel.querytable.destination", _) => ("Destination", MemberKind::PropertyGet),
+        ("excel.querytable.resultrange", _) => ("ResultRange", MemberKind::PropertyGet),
+        ("excel.querytable.workbookconnection", _) => {
+            ("WorkbookConnection", MemberKind::PropertyGet)
+        }
+        ("excel.querytable.commandtext", false) => ("CommandText", MemberKind::PropertyGet),
+        ("excel.querytable.commandtext", true) => ("CommandText", MemberKind::PropertyPut),
+        ("excel.querytable.backgroundquery", false) => ("BackgroundQuery", MemberKind::PropertyGet),
+        ("excel.querytable.backgroundquery", true) => ("BackgroundQuery", MemberKind::PropertyPut),
+        ("excel.querytable.refreshing", _) => ("Refreshing", MemberKind::PropertyGet),
+        ("excel.querytable.refreshonfileopen", false) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyGet)
+        }
+        ("excel.querytable.refreshonfileopen", true) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.preserveformatting", false) => {
+            ("PreserveFormatting", MemberKind::PropertyGet)
+        }
+        ("excel.querytable.preserveformatting", true) => {
+            ("PreserveFormatting", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.adjustcolumnwidth", false) => {
+            ("AdjustColumnWidth", MemberKind::PropertyGet)
+        }
+        ("excel.querytable.adjustcolumnwidth", true) => {
+            ("AdjustColumnWidth", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.refresh", _) => ("Refresh", MemberKind::Method),
+        ("excel.querytable.cancelrefresh", _) => ("CancelRefresh", MemberKind::Method),
+        ("excel.querytable.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.querytable.textfileparsetype", true) => {
+            ("TextFileParseType", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfiletextqualifier", true) => {
+            ("TextFileTextQualifier", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfiletabdelimiter", true) => {
+            ("TextFileTabDelimiter", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfilesemicolondelimiter", true) => {
+            ("TextFileSemicolonDelimiter", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfilecommadelimiter", true) => {
+            ("TextFileCommaDelimiter", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfilespacedelimiter", true) => {
+            ("TextFileSpaceDelimiter", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfileotherdelimiter", true) => {
+            ("TextFileOtherDelimiter", MemberKind::PropertyPut)
+        }
+        ("excel.querytable.textfilecolumndatatypes", true) => {
+            ("TextFileColumnDataTypes", MemberKind::PropertyPut)
+        }
+        ("excel.queries.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.queries.item", _) => ("Item", MemberKind::Method),
+        ("excel.queries.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.workbookquery.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.workbookquery.description", _) => ("Description", MemberKind::PropertyGet),
+        ("excel.workbookquery.formula", _) => ("Formula", MemberKind::PropertyGet),
+        ("excel.workbookquery.refresh", _) => ("Refresh", MemberKind::Method),
+        ("excel.workbookquery.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.workbook.pivotcaches", _) => ("PivotCaches", MemberKind::Method),
+        ("excel.pivotcaches.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.pivotcaches.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.pivotcaches.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.pivotcaches.create", _) => ("Create", MemberKind::Method),
+        ("excel.pivotcache.index", _) => ("Index", MemberKind::PropertyGet),
+        ("excel.pivotcache.sourcetype", _) => ("SourceType", MemberKind::PropertyGet),
+        ("excel.pivotcache.sourcedata", _) => ("SourceData", MemberKind::PropertyGet),
+        ("excel.pivotcache.connection", _) => ("Connection", MemberKind::PropertyGet),
+        ("excel.pivotcache.commandtext", _) => ("CommandText", MemberKind::PropertyGet),
+        ("excel.pivotcache.backgroundquery", false) => ("BackgroundQuery", MemberKind::PropertyGet),
+        ("excel.pivotcache.backgroundquery", true) => ("BackgroundQuery", MemberKind::PropertyPut),
+        ("excel.pivotcache.refreshonfileopen", false) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyGet)
+        }
+        ("excel.pivotcache.refreshonfileopen", true) => {
+            ("RefreshOnFileOpen", MemberKind::PropertyPut)
+        }
+        ("excel.pivotcache.missingitemslimit", false) => {
+            ("MissingItemsLimit", MemberKind::PropertyGet)
+        }
+        ("excel.pivotcache.missingitemslimit", true) => {
+            ("MissingItemsLimit", MemberKind::PropertyPut)
+        }
+        ("excel.pivotcache.refresh", _) => ("Refresh", MemberKind::Method),
+        ("excel.pivotcache.createpivottable", _) => ("CreatePivotTable", MemberKind::Method),
+        ("excel.worksheet.pivottables", _) => ("PivotTables", MemberKind::Method),
+        ("excel.pivottables.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.pivottables.item", _) => ("Item", MemberKind::Method),
+        ("excel.pivottables.newenum", _) => ("_NewEnum", MemberKind::Method),
+        ("excel.pivottable.name", false) => ("Name", MemberKind::PropertyGet),
+        ("excel.pivottable.name", true) => ("Name", MemberKind::PropertyPut),
+        ("excel.pivottable.tablerange1", _) => ("TableRange1", MemberKind::PropertyGet),
+        ("excel.pivottable.tablerange2", _) => ("TableRange2", MemberKind::PropertyGet),
+        ("excel.pivottable.databodyrange", _) => ("DataBodyRange", MemberKind::PropertyGet),
+        ("excel.pivottable.rowrange", _) => ("RowRange", MemberKind::PropertyGet),
+        ("excel.pivottable.columnrange", _) => ("ColumnRange", MemberKind::PropertyGet),
+        ("excel.pivottable.pagerange", _) => ("PageRange", MemberKind::PropertyGet),
+        ("excel.pivottable.pivotcache", _) => ("PivotCache", MemberKind::Method),
+        ("excel.pivottable.pivotfields", _) => ("PivotFields", MemberKind::Method),
+        ("excel.pivottable.rowfields", _) => ("RowFields", MemberKind::PropertyGet),
+        ("excel.pivottable.columnfields", _) => ("ColumnFields", MemberKind::PropertyGet),
+        ("excel.pivottable.pagefields", _) => ("PageFields", MemberKind::PropertyGet),
+        ("excel.pivottable.datafields", _) => ("DataFields", MemberKind::PropertyGet),
+        ("excel.pivottable.refreshtable", _) => ("RefreshTable", MemberKind::Method),
+        ("excel.pivottable.update", _) => ("Update", MemberKind::Method),
+        ("excel.pivottable.manualupdate", false) => ("ManualUpdate", MemberKind::PropertyGet),
+        ("excel.pivottable.manualupdate", true) => ("ManualUpdate", MemberKind::PropertyPut),
+        ("excel.pivottable.showtablestylerowstripes", false) => {
+            ("ShowTableStyleRowStripes", MemberKind::PropertyGet)
+        }
+        ("excel.pivottable.showtablestylerowstripes", true) => {
+            ("ShowTableStyleRowStripes", MemberKind::PropertyPut)
+        }
+        ("excel.pivottable.tablestyle2", false) => ("TableStyle2", MemberKind::PropertyGet),
+        ("excel.pivottable.tablestyle2", true) => ("TableStyle2", MemberKind::PropertyPut),
+        ("excel.pivottable.cleartable", _) => ("ClearTable", MemberKind::Method),
+        ("excel.pivottable.adddatafield", _) => ("AddDataField", MemberKind::Method),
+        ("excel.pivottable.changepivotcache", _) => ("ChangePivotCache", MemberKind::Method),
+        ("excel.pivottable.sourcedata", true) => ("SourceData", MemberKind::PropertyPut),
+        ("excel.pivotfields.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.pivotfields.item", _) => ("Item", MemberKind::Method),
+        ("excel.pivotfields.newenum", _) => ("_NewEnum", MemberKind::Method),
+        ("excel.pivotfield.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.pivotfield.sourcename", _) => ("SourceName", MemberKind::PropertyGet),
+        ("excel.pivotfield.caption", false) => ("Caption", MemberKind::PropertyGet),
+        ("excel.pivotfield.caption", true) => ("Caption", MemberKind::PropertyPut),
+        ("excel.pivotfield.orientation", false) => ("Orientation", MemberKind::PropertyGet),
+        ("excel.pivotfield.orientation", true) => ("Orientation", MemberKind::PropertyPut),
+        ("excel.pivotfield.position", false) => ("Position", MemberKind::PropertyGet),
+        ("excel.pivotfield.position", true) => ("Position", MemberKind::PropertyPut),
+        ("excel.pivotfield.function", false) => ("Function", MemberKind::PropertyGet),
+        ("excel.pivotfield.function", true) => ("Function", MemberKind::PropertyPut),
+        ("excel.pivotfield.numberformat", false) => ("NumberFormat", MemberKind::PropertyGet),
+        ("excel.pivotfield.numberformat", true) => ("NumberFormat", MemberKind::PropertyPut),
+        ("excel.pivotfield.subtotals", false) => ("Subtotals", MemberKind::PropertyGet),
+        ("excel.pivotfield.subtotals", true) => ("Subtotals", MemberKind::PropertyPut),
+        ("excel.pivotfield.pivotitems", _) => ("PivotItems", MemberKind::PropertyGet),
+        ("excel.pivotfield.clearallfilters", _) => ("ClearAllFilters", MemberKind::Method),
+        ("excel.pivotfield.pivotfilters", _) => ("PivotFilters", MemberKind::PropertyGet),
+        ("excel.pivotitems.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.pivotitems.item", _) => ("Item", MemberKind::Method),
+        ("excel.pivotitems.newenum", _) => ("_NewEnum", MemberKind::Method),
+        ("excel.pivotitem.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.pivotitem.caption", _) => ("Caption", MemberKind::PropertyGet),
+        ("excel.pivotitem.visible", false) => ("Visible", MemberKind::PropertyGet),
+        ("excel.pivotitem.visible", true) => ("Visible", MemberKind::PropertyPut),
+        ("excel.pivotitem.position", false) => ("Position", MemberKind::PropertyGet),
+        ("excel.pivotitem.position", true) => ("Position", MemberKind::PropertyPut),
+        ("excel.pivotfilters.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.pivotfilters.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.pivotfilters.add", _) => ("Add", MemberKind::Method),
+        ("excel.pivotfilters.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.pivotfilter.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.pivotfilter.description", _) => ("Description", MemberKind::PropertyGet),
+        ("excel.pivotfilter.active", _) => ("Active", MemberKind::PropertyGet),
+        ("excel.pivotfilter.filtertype", _) => ("FilterType", MemberKind::PropertyGet),
+        ("excel.pivotfilter.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.workbook.slicercaches", _) => ("SlicerCaches", MemberKind::PropertyGet),
+        ("excel.slicercaches.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.slicercaches.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.slicercaches.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.slicercache.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.slicercache.sourcename", _) => ("SourceName", MemberKind::PropertyGet),
+        ("excel.slicercache.pivottables", _) => ("PivotTables", MemberKind::PropertyGet),
+        ("excel.slicercache.slicers", _) => ("Slicers", MemberKind::PropertyGet),
+        ("excel.slicers.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.slicers.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.slicers.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.slicer.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.slicer.slicercache", _) => ("SlicerCache", MemberKind::PropertyGet),
+        _ => return None,
+    };
+    Some(MemberDescriptor { id, name, kind })
 }
 
 fn presentation_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {

@@ -18,6 +18,18 @@
   },
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbook",
+  "external_data_capability": {
+    "async_wait": true,
+    "background_refresh": true,
+    "connections": true,
+    "local_text_query": true,
+    "odbc_metadata": true,
+    "oledb_metadata": true,
+    "power_query_editing": false,
+    "query_tables": true,
+    "refresh_cancellation": true,
+    "workbook_queries": true
+  },
   "guid": "{000208da-0000-0000-c000-000000000046}",
   "id": "excel.workbook",
   "implemented_interface_count": 1,
@@ -4098,7 +4110,7 @@
       "dispid": 1449,
       "documentation_status": "reviewed",
       "id": "excel.workbook.pivotcaches",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -4114,11 +4126,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -4209,7 +4221,7 @@
       "dispid": 1452,
       "documentation_status": "reviewed",
       "id": "excel.workbook.refreshall",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -4225,11 +4237,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -7128,7 +7140,7 @@
       "dispid": 2513,
       "documentation_status": "reviewed",
       "id": "excel.workbook.connections",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -7144,11 +7156,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -8223,7 +8235,7 @@
       "dispid": 2866,
       "documentation_status": "reviewed",
       "id": "excel.workbook.slicercaches",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -8239,11 +8251,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -9045,7 +9057,7 @@
       "dispid": 3186,
       "documentation_status": "reviewed",
       "id": "excel.workbook.queries",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -9061,11 +9073,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": true,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -9786,6 +9798,17 @@
     }
   ],
   "name": "Workbook",
+  "pivot_capability": {
+    "connection_cache": true,
+    "data_fields": true,
+    "field_layout": true,
+    "pivot_filters": true,
+    "pivot_items": true,
+    "pivot_tables": true,
+    "range_cache": true,
+    "slicer_inspection": true,
+    "table_cache": true
+  },
   "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "_Workbook",

@@ -248,6 +248,37 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "external_links",
             ],
         )?;
+        validate_boolean_capability(
+            object,
+            "external_data_capability",
+            &[
+                "connections",
+                "query_tables",
+                "local_text_query",
+                "oledb_metadata",
+                "odbc_metadata",
+                "background_refresh",
+                "refresh_cancellation",
+                "async_wait",
+                "workbook_queries",
+                "power_query_editing",
+            ],
+        )?;
+        validate_boolean_capability(
+            object,
+            "pivot_capability",
+            &[
+                "range_cache",
+                "table_cache",
+                "connection_cache",
+                "pivot_tables",
+                "field_layout",
+                "data_fields",
+                "pivot_items",
+                "pivot_filters",
+                "slicer_inspection",
+            ],
+        )?;
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?

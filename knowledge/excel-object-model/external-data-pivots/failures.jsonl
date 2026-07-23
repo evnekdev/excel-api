@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"runtime baseline failure","status":"observed","stage":"Workbooks.Add","outer_hresult":"0x80020009","excel_scode":"0x800A03EC","effect":"all workbook-dependent Prompt 19 live observations classified runtime-blocked"}

@@ -1,0 +1,4 @@
+{"schema_version":1,"topic":"local text QueryTable refresh result","status":"runtime-blocked","reason":"owned CSV fixture cannot be opened until Workbooks.Add succeeds"}
+{"schema_version":1,"topic":"OLE DB and ODBC creation","status":"provider-blocked","reason":"no provider or DSN was installed or configured; descriptor types are available but Add/Add2 are intentionally not exposed"}
+{"schema_version":1,"topic":"WorkbookQuery fixture","status":"fixture-blocked","reason":"no reviewed local Power Query workbook can be exercised while the host rejects Workbooks.Add"}
+{"schema_version":1,"topic":"slicer runtime behavior","status":"runtime-blocked","reason":"installed typelib surface was inspected but no owned PivotTable could be created"}

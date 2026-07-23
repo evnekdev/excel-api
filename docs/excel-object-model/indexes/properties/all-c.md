@@ -487,9 +487,9 @@
 | ConditionValue | Application | 148 | Metadata Only |
 | ConditionValue | Creator | 149 | Metadata Only |
 | ConditionValue | Parent | 150 | Metadata Only |
-| Connections | _NewEnum | -4 | Metadata Only |
+| Connections | _NewEnum | -4 | Implemented |
 | Connections | _Default | 0 | Metadata Only |
-| Connections | Count | 118 | Metadata Only |
+| Connections | Count | 118 | Implemented |
 | Connections | Application | 148 | Metadata Only |
 | Connections | Creator | 149 | Metadata Only |
 | Connections | Parent | 150 | Metadata Only |

@@ -433,6 +433,22 @@ pub use excel::{
     TextFrame, TextOrientation, TextRange, TickLabelPosition, TickLabels, TickMark, Trendline,
     TrendlineAddOptions, TrendlineType, Trendlines, TrendlinesIter, ZOrderCommand,
 };
+pub use excel::{
+    CommandType, ConnectionDetails, ConnectionFileType, ConnectionType, Connections,
+    ConnectionsIter, CredentialsMethod, OdbcConnection, OdbcConnectionAddOptions, OleDbConnection,
+    OleDbConnectionAddOptions, QueryTable, QueryTables, QueryTablesIter, RefreshCancellationReport,
+    RefreshWaitOptions, RefreshWaitReport, SecretStringValue, TextConnection, TextQueryAddOptions,
+    WebConnection, WorkbookConnection, WorkbookQueries, WorkbookQueriesIter, WorkbookQuery,
+};
+pub use excel::{
+    MissingItemsLimit, PivotCache, PivotCaches, PivotCachesIter, PivotDataField, PivotField,
+    PivotFieldOrientation, PivotFieldPlacement, PivotFields, PivotFieldsIter, PivotFilter,
+    PivotFilterType, PivotFilters, PivotFiltersIter, PivotItem, PivotItems, PivotItemsIter,
+    PivotLabelFilterOptions, PivotLayoutOptions, PivotSourceType, PivotTable,
+    PivotTableCreateOptions, PivotTableVersion, PivotTables, PivotTablesIter,
+    PivotValueFilterOptions, Slicer, SlicerCache, SlicerCaches, SlicerCachesIter, Slicers,
+    SlicersIter,
+};
 pub use internal::ComApartment;
 pub use object_model::{
     DocumentationStatus, IMPLEMENTED_MEMBER_IDS, ImplementationStatus, MemberId, ObjectId,

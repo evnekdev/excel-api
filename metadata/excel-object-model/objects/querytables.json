@@ -2,13 +2,14 @@
   "alias_target": null,
   "collection": {
     "count_member_id": "excel.querytables.count",
-    "element_type": "Unknown",
+    "element_type": "QueryTable",
     "enumerator_member_id": "excel.querytables.newenum",
     "index_kinds": [
-      "variant-key"
+      "one-based-integer",
+      "string-key"
     ],
     "item_member_id": "excel.querytables.item",
-    "iterator_status": "metadata-only"
+    "iterator_status": "implemented"
   },
   "documentation_status": "generated",
   "documentation_url": null,
@@ -24,7 +25,7 @@
       "dispid": -4,
       "documentation_status": "generated",
       "id": "excel.querytables.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -40,11 +41,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -95,7 +96,7 @@
       "dispid": 118,
       "documentation_status": "generated",
       "id": "excel.querytables.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -111,11 +112,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -228,7 +229,7 @@
       "dispid": 170,
       "documentation_status": "generated",
       "id": "excel.querytables.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -244,11 +245,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -284,7 +285,7 @@
       "dispid": 181,
       "documentation_status": "generated",
       "id": "excel.querytables.add",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -300,11 +301,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

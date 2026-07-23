@@ -44,13 +44,47 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | `text_export` | true |
 | `text_to_columns` | false |
 
+### External data
+
+| Capability | Available |
+|---|---|
+| `async_wait` | true |
+| `background_refresh` | true |
+| `connections` | true |
+| `local_text_query` | true |
+| `odbc_metadata` | true |
+| `oledb_metadata` | true |
+| `power_query_editing` | false |
+| `query_tables` | true |
+| `refresh_cancellation` | true |
+| `workbook_queries` | true |
+
+### Pivots
+
+| Capability | Available |
+|---|---|
+| `connection_cache` | true |
+| `data_fields` | true |
+| `field_layout` | true |
+| `pivot_filters` | true |
+| `pivot_items` | true |
+| `pivot_tables` | true |
+| `range_cache` | true |
+| `slicer_inspection` | true |
+| `table_cache` | true |
+
 
 
 ## Relationships
 
 | Relationship | Target | Status |
 |---|---|---|
+| `ActiveSlicer` | `excel.slicer` | Metadata Only |
 | `Application` | `excel.application` | Metadata Only |
+| `Connections` | `excel.connections` | Implemented |
+| `PivotCaches` | `excel.pivotcaches` | Implemented |
+| `Queries` | `excel.queries` | Implemented |
+| `SlicerCaches` | `excel.slicercaches` | Implemented |
 | `Worksheets` | `excel.worksheets` | Implemented |
 
 ## Properties
@@ -160,7 +194,7 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | InactiveListBorderVisible | PROPERTYGET/PROPERTYPUT | bool | declared | 2275 | Metadata Only | Reviewed | Not Tested | |
 | DisplayInkComments | PROPERTYGET/PROPERTYPUT | bool | declared | 2276 | Metadata Only | Reviewed | Not Tested | |
 | ContentTypeProperties | PROPERTYGET | MetaProperties | declared | 2512 | Metadata Only | Reviewed | Not Tested | |
-| Connections | PROPERTYGET | Connections | declared | 2513 | Metadata Only | Reviewed | Not Tested | |
+| Connections | PROPERTYGET | Connections | declared | 2513 | Implemented | Reviewed | Live Tested | |
 | Signatures | PROPERTYGET | SignatureSet | declared | 2516 | Metadata Only | Reviewed | Not Tested | |
 | ServerPolicy | PROPERTYGET | ServerPolicy | declared | 2519 | Metadata Only | Reviewed | Not Tested | |
 | DocumentInspectors | PROPERTYGET | DocumentInspectors | declared | 2521 | Metadata Only | Reviewed | Not Tested | |
@@ -181,7 +215,7 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | EncryptionProvider | PROPERTYGET/PROPERTYPUT | String | declared | 2540 | Metadata Only | Reviewed | Not Tested | |
 | DoNotPromptForConvert | PROPERTYGET/PROPERTYPUT | bool | declared | 2541 | Metadata Only | Reviewed | Not Tested | |
 | ForceFullCalculation | PROPERTYGET/PROPERTYPUT | bool | declared | 2542 | Metadata Only | Reviewed | Not Tested | |
-| SlicerCaches | PROPERTYGET | SlicerCaches | declared | 2866 | Metadata Only | Reviewed | Not Tested | |
+| SlicerCaches | PROPERTYGET | SlicerCaches | declared | 2866 | Implemented | Reviewed | Live Tested | |
 | ActiveSlicer | PROPERTYGET | Slicer | declared | 2867 | Metadata Only | Reviewed | Not Tested | |
 | DefaultSlicerStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 2868 | Metadata Only | Reviewed | Not Tested | |
 | AccuracyVersion | PROPERTYGET/PROPERTYPUT | i32 | declared | 2871 | Metadata Only | Reviewed | Not Tested | |
@@ -192,7 +226,7 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | Model | PROPERTYGET | Model | declared | 3059 | Metadata Only | Reviewed | Not Tested | |
 | DefaultTimelineStyle | PROPERTYGET/PROPERTYPUT | AutomationValue | declared | 3060 | Metadata Only | Reviewed | Not Tested | |
 | WorkIdentity | PROPERTYGET/PROPERTYPUT | String | declared | 3173 | Metadata Only | Reviewed | Not Tested | |
-| Queries | PROPERTYGET | Queries | declared | 3186 | Metadata Only | Reviewed | Not Tested | |
+| Queries | PROPERTYGET | Queries | declared | 3186 | Implemented | Reviewed | Live Tested | |
 | AutoSaveOn | PROPERTYGET/PROPERTYPUT | bool | declared | 3232 | Metadata Only | Reviewed | Not Tested | |
 | SensitivityLabel | PROPERTYGET | ISensitivityLabel | declared | 3379 | Metadata Only | Reviewed | Not Tested | |
 | ExternalCodeServiceTimeout | PROPERTYGET/PROPERTYPUT | i32 | declared | 3406 | Metadata Only | Reviewed | Not Tested | |
@@ -232,9 +266,9 @@ An Excel workbook object. The bounded crate supports identity, file lifecycle, w
 | Post | Unknown | 1 | declared | 1166 | Metadata Only | Reviewed | Not Tested | |
 | ExclusiveAccess | bool | 0 | declared | 1168 | Metadata Only | Reviewed | Not Tested | |
 | MergeWorkbook | Unknown | 1 | declared | 1446 | Metadata Only | Reviewed | Not Tested | |
-| PivotCaches | PivotCaches | 0 | declared | 1449 | Metadata Only | Reviewed | Not Tested | |
+| PivotCaches | PivotCaches | 0 | declared | 1449 | Implemented | Reviewed | Live Tested | |
 | _ProtectSharing | Unknown | 6 | declared | 1450 | Metadata Only | Reviewed | Not Tested | |
-| RefreshAll | Unknown | 0 | declared | 1452 | Metadata Only | Reviewed | Not Tested | |
+| RefreshAll | Unknown | 0 | declared | 1452 | Implemented | Reviewed | Live Tested | |
 | RemoveUser | Unknown | 1 | declared | 1453 | Metadata Only | Reviewed | Not Tested | |
 | UnprotectSharing | Unknown | 1 | declared | 1455 | Metadata Only | Reviewed | Not Tested | |
 | HighlightChangesOptions | Unknown | 3 | declared | 1458 | Metadata Only | Reviewed | Not Tested | |

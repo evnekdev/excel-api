@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"PivotCaches","status":"implemented-source-derived","sources":["Range external R1C1 reference","ListObject full Range","existing WorkbookConnection"],"source_data":"returned as AutomationValue without coercion","connection_string":"redacted when present"}

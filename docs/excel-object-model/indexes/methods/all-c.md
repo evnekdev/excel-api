@@ -467,7 +467,7 @@
 | ConditionValue | GetTypeInfo | 1610678273 | Metadata Only |
 | ConditionValue | GetIDsOfNames | 1610678274 | Metadata Only |
 | ConditionValue | Invoke | 1610678275 | Metadata Only |
-| Connections | Item | 170 | Metadata Only |
+| Connections | Item | 170 | Implemented |
 | Connections | Add | 181 | Metadata Only |
 | Connections | _AddFromFile | 2700 | Metadata Only |
 | Connections | Add2 | 3054 | Metadata Only |

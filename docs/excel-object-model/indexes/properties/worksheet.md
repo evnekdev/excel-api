@@ -58,7 +58,7 @@
 | Worksheet | EnableCalculation | 1424 | Metadata Only |
 | Worksheet | EnableSelection | 1425 | Metadata Only |
 | Worksheet | ScrollArea | 1433 | Metadata Only |
-| Worksheet | QueryTables | 1434 | Metadata Only |
+| Worksheet | QueryTables | 1434 | Implemented |
 | Worksheet | DisplayPageBreaks | 1435 | Metadata Only |
 | Worksheet | DisplayRightToLeft | 1774 | Metadata Only |
 | Worksheet | Scripts | 1816 | Metadata Only |

@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"PivotFilters","status":"implemented-source-derived","supported":["label equals","label not equals","begins with","contains","greater than","less than","between","top count","top percent","value equals","value greater than","value less than","value between"],"unknown_types":"rejected before COM invocation"}

@@ -176,21 +176,21 @@
 | PivotCache | Parent | 150 | Metadata Only |
 | PivotCache | MemoryUsed | 372 | Metadata Only |
 | PivotCache | Version | 392 | Metadata Only |
-| PivotCache | Index | 486 | Metadata Only |
-| PivotCache | SourceType | 685 | Metadata Only |
-| PivotCache | SourceData | 686 | Metadata Only |
+| PivotCache | Index | 486 | Implemented |
+| PivotCache | SourceType | 685 | Implemented |
+| PivotCache | SourceData | 686 | Implemented |
 | PivotCache | RefreshDate | 696 | Metadata Only |
 | PivotCache | RefreshName | 697 | Metadata Only |
 | PivotCache | Recordset | 1165 | Metadata Only |
-| PivotCache | BackgroundQuery | 1427 | Metadata Only |
+| PivotCache | BackgroundQuery | 1427 | Implemented |
 | PivotCache | OptimizeCache | 1428 | Metadata Only |
-| PivotCache | Connection | 1432 | Metadata Only |
+| PivotCache | Connection | 1432 | Implemented |
 | PivotCache | EnableRefresh | 1477 | Metadata Only |
 | PivotCache | RecordCount | 1478 | Metadata Only |
-| PivotCache | RefreshOnFileOpen | 1479 | Metadata Only |
+| PivotCache | RefreshOnFileOpen | 1479 | Implemented |
 | PivotCache | Sql | 1480 | Metadata Only |
 | PivotCache | SavePassword | 1481 | Metadata Only |
-| PivotCache | CommandText | 1829 | Metadata Only |
+| PivotCache | CommandText | 1829 | Implemented |
 | PivotCache | CommandType | 1830 | Metadata Only |
 | PivotCache | QueryType | 1831 | Metadata Only |
 | PivotCache | MaintainConnection | 1832 | Metadata Only |
@@ -200,14 +200,14 @@
 | PivotCache | ADOConnection | 2074 | Metadata Only |
 | PivotCache | IsConnected | 2075 | Metadata Only |
 | PivotCache | OLAP | 2077 | Metadata Only |
-| PivotCache | MissingItemsLimit | 2078 | Metadata Only |
+| PivotCache | MissingItemsLimit | 2078 | Implemented |
 | PivotCache | SourceConnectionFile | 2079 | Metadata Only |
 | PivotCache | SourceDataFile | 2080 | Metadata Only |
 | PivotCache | RobustConnect | 2081 | Metadata Only |
 | PivotCache | WorkbookConnection | 2544 | Metadata Only |
 | PivotCache | UpgradeOnRefresh | 2545 | Metadata Only |
 | PivotCaches | _Default | 0 | Metadata Only |
-| PivotCaches | Count | 118 | Metadata Only |
+| PivotCaches | Count | 118 | Implemented |
 | PivotCaches | Application | 148 | Metadata Only |
 | PivotCaches | Creator | 149 | Metadata Only |
 | PivotCaches | Parent | 150 | Metadata Only |
@@ -232,14 +232,14 @@
 | PivotCell | CellChanged | 2931 | Metadata Only |
 | PivotField | _Default | 0 | Metadata Only |
 | PivotField | Value | 6 | Metadata Only |
-| PivotField | Name | 110 | Metadata Only |
-| PivotField | Position | 133 | Metadata Only |
-| PivotField | Orientation | 134 | Metadata Only |
-| PivotField | Caption | 139 | Metadata Only |
+| PivotField | Name | 110 | Implemented |
+| PivotField | Position | 133 | Implemented |
+| PivotField | Orientation | 134 | Implemented |
+| PivotField | Caption | 139 | Implemented |
 | PivotField | Application | 148 | Metadata Only |
 | PivotField | Creator | 149 | Metadata Only |
 | PivotField | Parent | 150 | Metadata Only |
-| PivotField | NumberFormat | 193 | Metadata Only |
+| PivotField | NumberFormat | 193 | Implemented |
 | PivotField | Formula | 261 | Metadata Only |
 | PivotField | Hidden | 268 | Metadata Only |
 | PivotField | Calculation | 316 | Metadata Only |
@@ -248,7 +248,7 @@
 | PivotField | ShowDetail | 585 | Metadata Only |
 | PivotField | LabelRange | 719 | Metadata Only |
 | PivotField | DataRange | 720 | Metadata Only |
-| PivotField | SourceName | 721 | Metadata Only |
+| PivotField | SourceName | 721 | Implemented |
 | PivotField | DataType | 722 | Metadata Only |
 | PivotField | GroupLevel | 723 | Metadata Only |
 | PivotField | TotalLevels | 724 | Metadata Only |
@@ -257,12 +257,12 @@
 | PivotField | ParentItems | 729 | Metadata Only |
 | PivotField | ChildItems | 730 | Metadata Only |
 | PivotField | ParentField | 732 | Metadata Only |
-| PivotField | Subtotals | 733 | Metadata Only |
+| PivotField | Subtotals | 733 | Implemented |
 | PivotField | BaseField | 734 | Metadata Only |
 | PivotField | BaseItem | 735 | Metadata Only |
 | PivotField | ChildField | 736 | Metadata Only |
 | PivotField | CurrentPage | 738 | Metadata Only |
-| PivotField | Function | 899 | Metadata Only |
+| PivotField | Function | 899 | Implemented |
 | PivotField | DragToColumn | 1508 | Metadata Only |
 | PivotField | DragToHide | 1509 | Metadata Only |
 | PivotField | DragToPage | 1510 | Metadata Only |
@@ -301,40 +301,40 @@
 | PivotField | LayoutCompactRow | 2586 | Metadata Only |
 | PivotField | IncludeNewItemsInFilter | 2587 | Metadata Only |
 | PivotField | VisibleItemsList | 2588 | Metadata Only |
-| PivotField | PivotFilters | 2589 | Metadata Only |
+| PivotField | PivotFilters | 2589 | Implemented |
 | PivotField | AutoSortPivotLine | 2590 | Metadata Only |
 | PivotField | AutoSortCustomSubtotal | 2591 | Metadata Only |
 | PivotField | ShowingInAxis | 2592 | Metadata Only |
 | PivotField | AllItemsVisible | 2593 | Metadata Only |
 | PivotField | SourceCaption | 2599 | Metadata Only |
 | PivotField | RepeatLabels | 2885 | Metadata Only |
-| PivotFields | Count | 118 | Metadata Only |
+| PivotFields | Count | 118 | Implemented |
 | PivotFields | Application | 148 | Metadata Only |
 | PivotFields | Creator | 149 | Metadata Only |
 | PivotFields | Parent | 150 | Metadata Only |
-| PivotFilter | Name | 110 | Metadata Only |
+| PivotFilter | Name | 110 | Implemented |
 | PivotFilter | Application | 148 | Metadata Only |
 | PivotFilter | Creator | 149 | Metadata Only |
 | PivotFilter | Parent | 150 | Metadata Only |
 | PivotFilter | Order | 192 | Metadata Only |
-| PivotFilter | Description | 218 | Metadata Only |
+| PivotFilter | Description | 218 | Implemented |
 | PivotFilter | PivotField | 731 | Metadata Only |
 | PivotFilter | Value2 | 1388 | Metadata Only |
 | PivotFilter | DataField | 2091 | Metadata Only |
-| PivotFilter | Active | 2312 | Metadata Only |
-| PivotFilter | FilterType | 2686 | Metadata Only |
+| PivotFilter | Active | 2312 | Implemented |
+| PivotFilter | FilterType | 2686 | Implemented |
 | PivotFilter | DataCubeField | 2687 | Metadata Only |
 | PivotFilter | Value1 | 2688 | Metadata Only |
 | PivotFilter | MemberPropertyField | 2689 | Metadata Only |
 | PivotFilter | IsMemberPropertyFilter | 2690 | Metadata Only |
 | PivotFilter | WholeDayFilter | 3099 | Metadata Only |
-| PivotFilters | _NewEnum | -4 | Metadata Only |
+| PivotFilters | _NewEnum | -4 | Implemented |
 | PivotFilters | _Default | 0 | Metadata Only |
-| PivotFilters | Count | 118 | Metadata Only |
+| PivotFilters | Count | 118 | Implemented |
 | PivotFilters | Application | 148 | Metadata Only |
 | PivotFilters | Creator | 149 | Metadata Only |
 | PivotFilters | Parent | 150 | Metadata Only |
-| PivotFilters | Item | 170 | Metadata Only |
+| PivotFilters | Item | 170 | Implemented |
 | PivotFormula | _Default | 0 | Metadata Only |
 | PivotFormula | Value | 6 | Metadata Only |
 | PivotFormula | Application | 148 | Metadata Only |
@@ -350,14 +350,14 @@
 | PivotFormulas | Parent | 150 | Metadata Only |
 | PivotItem | _Default | 0 | Metadata Only |
 | PivotItem | Value | 6 | Metadata Only |
-| PivotItem | Name | 110 | Metadata Only |
-| PivotItem | Position | 133 | Metadata Only |
-| PivotItem | Caption | 139 | Metadata Only |
+| PivotItem | Name | 110 | Implemented |
+| PivotItem | Position | 133 | Implemented |
+| PivotItem | Caption | 139 | Implemented |
 | PivotItem | Application | 148 | Metadata Only |
 | PivotItem | Creator | 149 | Metadata Only |
 | PivotItem | Parent | 150 | Metadata Only |
 | PivotItem | Formula | 261 | Metadata Only |
-| PivotItem | Visible | 558 | Metadata Only |
+| PivotItem | Visible | 558 | Implemented |
 | PivotItem | ShowDetail | 585 | Metadata Only |
 | PivotItem | LabelRange | 719 | Metadata Only |
 | PivotItem | DataRange | 720 | Metadata Only |
@@ -375,7 +375,7 @@
 | PivotItemList | Application | 148 | Metadata Only |
 | PivotItemList | Creator | 149 | Metadata Only |
 | PivotItemList | Parent | 150 | Metadata Only |
-| PivotItems | Count | 118 | Metadata Only |
+| PivotItems | Count | 118 | Implemented |
 | PivotItems | Application | 148 | Metadata Only |
 | PivotItems | Creator | 149 | Metadata Only |
 | PivotItems | Parent | 150 | Metadata Only |
@@ -417,14 +417,14 @@
 | PivotLines | Item | 170 | Metadata Only |
 | PivotTable | _Default | 0 | Metadata Only |
 | PivotTable | Value | 6 | Metadata Only |
-| PivotTable | Name | 110 | Metadata Only |
+| PivotTable | Name | 110 | Implemented |
 | PivotTable | Application | 148 | Metadata Only |
 | PivotTable | Creator | 149 | Metadata Only |
 | PivotTable | Parent | 150 | Metadata Only |
 | PivotTable | Hidden | 268 | Metadata Only |
 | PivotTable | Summary | 273 | Metadata Only |
 | PivotTable | Version | 392 | Metadata Only |
-| PivotTable | SourceData | 686 | Metadata Only |
+| PivotTable | SourceData | 686 | Implemented |
 | PivotTable | SaveData | 692 | Metadata Only |
 | PivotTable | RowGrand | 693 | Metadata Only |
 | PivotTable | ColumnGrand | 694 | Metadata Only |
@@ -432,19 +432,19 @@
 | PivotTable | RefreshDate | 696 | Metadata Only |
 | PivotTable | RefreshName | 697 | Metadata Only |
 | PivotTable | InnerDetail | 698 | Metadata Only |
-| PivotTable | TableRange1 | 699 | Metadata Only |
-| PivotTable | TableRange2 | 700 | Metadata Only |
-| PivotTable | RowRange | 701 | Metadata Only |
-| PivotTable | ColumnRange | 702 | Metadata Only |
-| PivotTable | PageRange | 703 | Metadata Only |
+| PivotTable | TableRange1 | 699 | Implemented |
+| PivotTable | TableRange2 | 700 | Implemented |
+| PivotTable | RowRange | 701 | Implemented |
+| PivotTable | ColumnRange | 702 | Implemented |
+| PivotTable | PageRange | 703 | Implemented |
 | PivotTable | DataLabelRange | 704 | Metadata Only |
-| PivotTable | DataBodyRange | 705 | Metadata Only |
+| PivotTable | DataBodyRange | 705 | Implemented |
 | PivotTable | VisibleFields | 710 | Metadata Only |
 | PivotTable | HiddenFields | 711 | Metadata Only |
-| PivotTable | RowFields | 712 | Metadata Only |
-| PivotTable | ColumnFields | 713 | Metadata Only |
-| PivotTable | PageFields | 714 | Metadata Only |
-| PivotTable | DataFields | 715 | Metadata Only |
+| PivotTable | RowFields | 712 | Implemented |
+| PivotTable | ColumnFields | 713 | Implemented |
+| PivotTable | PageFields | 714 | Implemented |
+| PivotTable | DataFields | 715 | Implemented |
 | PivotTable | Location | 1397 | Metadata Only |
 | PivotTable | PageFieldOrder | 1429 | Metadata Only |
 | PivotTable | PageFieldWrapCount | 1430 | Metadata Only |
@@ -456,7 +456,7 @@
 | PivotTable | EnableFieldDialog | 1488 | Metadata Only |
 | PivotTable | EnableWizard | 1489 | Metadata Only |
 | PivotTable | ErrorString | 1490 | Metadata Only |
-| PivotTable | ManualUpdate | 1493 | Metadata Only |
+| PivotTable | ManualUpdate | 1493 | Implemented |
 | PivotTable | MergeLabels | 1494 | Metadata Only |
 | PivotTable | NullString | 1495 | Metadata Only |
 | PivotTable | PivotFormulas | 1497 | Metadata Only |
@@ -500,9 +500,9 @@
 | PivotTable | DisplayFieldCaptions | 2555 | Metadata Only |
 | PivotTable | ActiveFilters | 2559 | Metadata Only |
 | PivotTable | InGridDropZones | 2560 | Metadata Only |
-| PivotTable | TableStyle2 | 2562 | Metadata Only |
+| PivotTable | TableStyle2 | 2562 | Implemented |
 | PivotTable | ShowTableStyleLastColumn | 2563 | Metadata Only |
-| PivotTable | ShowTableStyleRowStripes | 2564 | Metadata Only |
+| PivotTable | ShowTableStyleRowStripes | 2564 | Implemented |
 | PivotTable | ShowTableStyleColumnStripes | 2565 | Metadata Only |
 | PivotTable | ShowTableStyleRowHeaders | 2566 | Metadata Only |
 | PivotTable | ShowTableStyleColumnHeaders | 2567 | Metadata Only |
@@ -530,7 +530,7 @@
 | PivotTableChangeList | Creator | 149 | Metadata Only |
 | PivotTableChangeList | Parent | 150 | Metadata Only |
 | PivotTableChangeList | Item | 170 | Metadata Only |
-| PivotTables | Count | 118 | Metadata Only |
+| PivotTables | Count | 118 | Implemented |
 | PivotTables | Application | 148 | Metadata Only |
 | PivotTables | Creator | 149 | Metadata Only |
 | PivotTables | Parent | 150 | Metadata Only |

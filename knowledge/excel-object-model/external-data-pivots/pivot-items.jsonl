@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"PivotItems","status":"implemented-source-derived","members":["Count","Item","_NewEnum","Name","Caption","Visible","Position"],"constraint":"Excel may reject hiding the final visible item","runtime":"blocked"}

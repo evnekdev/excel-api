@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"WorkbookQueries","status":"fixture-blocked","typelib_surface":"Workbook.Queries and WorkbookQuery are present","implementation":"read-only inspection, refresh, and delete; formulas use SecretStringValue","formula_editing":"excluded","reason":"no reviewed owned local Power Query fixture can be exercised while Workbooks.Add is blocked"}

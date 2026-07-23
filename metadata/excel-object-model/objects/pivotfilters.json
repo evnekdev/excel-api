@@ -2,13 +2,13 @@
   "alias_target": null,
   "collection": {
     "count_member_id": "excel.pivotfilters.count",
-    "element_type": "Unknown",
+    "element_type": "PivotFilter",
     "enumerator_member_id": "excel.pivotfilters.newenum",
     "index_kinds": [
-      "variant-key"
+      "one-based-integer"
     ],
     "item_member_id": "excel.pivotfilters.item",
-    "iterator_status": "metadata-only"
+    "iterator_status": "implemented"
   },
   "documentation_status": "generated",
   "documentation_url": null,
@@ -24,7 +24,7 @@
       "dispid": -4,
       "documentation_status": "generated",
       "id": "excel.pivotfilters.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -40,11 +40,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -95,7 +95,7 @@
       "dispid": 118,
       "documentation_status": "generated",
       "id": "excel.pivotfilters.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -111,11 +111,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -228,7 +228,7 @@
       "dispid": 170,
       "documentation_status": "generated",
       "id": "excel.pivotfilters.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -244,11 +244,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -324,7 +324,7 @@
       "dispid": 181,
       "documentation_status": "generated",
       "id": "excel.pivotfilters.add",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -340,11 +340,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

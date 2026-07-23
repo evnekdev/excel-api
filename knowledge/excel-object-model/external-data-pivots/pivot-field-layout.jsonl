@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"PivotTable field layout","status":"implemented-source-derived","operations":["typed orientation","one-based position","AddDataField aggregation","number format"],"guard":"ManualUpdate captures, explicitly restores, and attempts non-panicking Drop restoration","dual_failure":"operation and restoration errors are preserved"}

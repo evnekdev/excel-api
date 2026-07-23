@@ -396,7 +396,7 @@ The root Automation object for a locally activated Excel instance. The bounded c
 | DisplayXMLSourcePane | Unknown | 1 | declared | 2252 | Metadata Only | Reviewed | Not Tested | |
 | Support | AutomationValue | 3 | declared | 2255 | Metadata Only | Reviewed | Not Tested | |
 | Dummy20 | AutomationValue | 1 | declared | 2373 | Metadata Only | Reviewed | Not Tested | |
-| CalculateUntilAsyncQueriesDone | Unknown | 0 | declared | 2387 | Metadata Only | Reviewed | Not Tested | |
+| CalculateUntilAsyncQueriesDone | Unknown | 0 | declared | 2387 | Implemented | Reviewed | Live Tested | |
 | SharePointVersion | i32 | 1 | declared | 2392 | Metadata Only | Reviewed | Not Tested | |
 | MacroOptions | Unknown | 11 | declared | 2770 | Metadata Only | Reviewed | Not Tested | |
 | QueryInterface | Unknown | 2 | inherited-iunknown | 1610612736 | Metadata Only | Reviewed | Not Tested | |

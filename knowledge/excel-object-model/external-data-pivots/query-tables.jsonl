@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"QueryTables","status":"implemented-source-derived","members":["Worksheet.QueryTables","Count","Item","_NewEnum","Add"],"creation_sources":["existing WorkbookConnection","owned local text path"],"persistence":"Excel-owned persistent import"}

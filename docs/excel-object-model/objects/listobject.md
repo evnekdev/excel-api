@@ -51,7 +51,9 @@ An apartment-bound Excel table wrapper with bounded table, row, column, filter, 
 | `InsertRowRange` | `excel.range` | Implemented |
 | `ListColumns` | `excel.listcolumns` | Implemented |
 | `ListRows` | `excel.listrows` | Implemented |
+| `QueryTable` | `excel.querytable` | Metadata Only |
 | `Range` | `excel.range` | Implemented |
+| `Slicers` | `excel.slicers` | Metadata Only |
 | `_Sort` | `excel.sort` | Metadata Only |
 | `Sort` | `excel.sort` | Implemented |
 | `TotalsRowRange` | `excel.range` | Implemented |

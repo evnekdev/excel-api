@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"local text QueryTable refresh","status":"runtime-blocked","reason":"Workbooks.Add failed before an owned CSV fixture and QueryTable could be created","network":"excluded","implementation":"TEXT; local path with source-derived TextFile settings and shared FieldInfo SAFEARRAY encoding"}

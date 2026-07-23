@@ -7,15 +7,15 @@
 | ODBCConnection | Parent | 150 | Metadata Only |
 | ODBCConnection | SourceData | 686 | Metadata Only |
 | ODBCConnection | RefreshDate | 696 | Metadata Only |
-| ODBCConnection | BackgroundQuery | 1427 | Metadata Only |
-| ODBCConnection | Connection | 1432 | Metadata Only |
-| ODBCConnection | EnableRefresh | 1477 | Metadata Only |
-| ODBCConnection | RefreshOnFileOpen | 1479 | Metadata Only |
+| ODBCConnection | BackgroundQuery | 1427 | Implemented |
+| ODBCConnection | Connection | 1432 | Implemented |
+| ODBCConnection | EnableRefresh | 1477 | Implemented |
+| ODBCConnection | RefreshOnFileOpen | 1479 | Implemented |
 | ODBCConnection | SavePassword | 1481 | Metadata Only |
-| ODBCConnection | Refreshing | 1587 | Metadata Only |
-| ODBCConnection | CommandText | 1829 | Metadata Only |
-| ODBCConnection | CommandType | 1830 | Metadata Only |
-| ODBCConnection | RefreshPeriod | 1833 | Metadata Only |
+| ODBCConnection | Refreshing | 1587 | Implemented |
+| ODBCConnection | CommandText | 1829 | Implemented |
+| ODBCConnection | CommandType | 1830 | Implemented |
+| ODBCConnection | RefreshPeriod | 1833 | Implemented |
 | ODBCConnection | SourceConnectionFile | 2079 | Metadata Only |
 | ODBCConnection | SourceDataFile | 2080 | Metadata Only |
 | ODBCConnection | RobustConnect | 2081 | Metadata Only |
@@ -36,16 +36,16 @@
 | OLEDBConnection | Creator | 149 | Metadata Only |
 | OLEDBConnection | Parent | 150 | Metadata Only |
 | OLEDBConnection | RefreshDate | 696 | Metadata Only |
-| OLEDBConnection | BackgroundQuery | 1427 | Metadata Only |
-| OLEDBConnection | Connection | 1432 | Metadata Only |
-| OLEDBConnection | EnableRefresh | 1477 | Metadata Only |
-| OLEDBConnection | RefreshOnFileOpen | 1479 | Metadata Only |
+| OLEDBConnection | BackgroundQuery | 1427 | Implemented |
+| OLEDBConnection | Connection | 1432 | Implemented |
+| OLEDBConnection | EnableRefresh | 1477 | Implemented |
+| OLEDBConnection | RefreshOnFileOpen | 1479 | Implemented |
 | OLEDBConnection | SavePassword | 1481 | Metadata Only |
-| OLEDBConnection | Refreshing | 1587 | Metadata Only |
-| OLEDBConnection | CommandText | 1829 | Metadata Only |
-| OLEDBConnection | CommandType | 1830 | Metadata Only |
+| OLEDBConnection | Refreshing | 1587 | Implemented |
+| OLEDBConnection | CommandText | 1829 | Implemented |
+| OLEDBConnection | CommandType | 1830 | Implemented |
 | OLEDBConnection | MaintainConnection | 1832 | Metadata Only |
-| OLEDBConnection | RefreshPeriod | 1833 | Metadata Only |
+| OLEDBConnection | RefreshPeriod | 1833 | Implemented |
 | OLEDBConnection | LocalConnection | 1835 | Metadata Only |
 | OLEDBConnection | UseLocalConnection | 1837 | Metadata Only |
 | OLEDBConnection | ADOConnection | 2074 | Metadata Only |

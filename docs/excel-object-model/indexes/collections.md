@@ -48,7 +48,7 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | ColorStops | Unknown | excel.colorstops.count | excel.colorstops.item | excel.colorstops.newenum | variant-key | metadata-only |
 | Comments | Comment | excel.comments.count | excel.comments.item | excel.comments.newenum | one-based-integer | implemented |
 | CommentsThreaded | CommentThreaded | excel.commentsthreaded.count | excel.commentsthreaded.item | excel.commentsthreaded.newenum | one-based-integer | implemented |
-| Connections | Unknown | excel.connections.count | excel.connections.item | excel.connections.newenum | variant-key | metadata-only |
+| Connections | WorkbookConnection | excel.connections.count | excel.connections.item | excel.connections.newenum | one-based-integer, string-key | implemented |
 | CubeFields | Unknown | excel.cubefields.count | excel.cubefields.item | excel.cubefields.newenum | variant-key | metadata-only |
 | CustomProperties | Unknown | excel.customproperties.count | excel.customproperties.item | excel.customproperties.newenum | variant-key | metadata-only |
 | CustomViews | Unknown | excel.customviews.count | excel.customviews.item | excel.customviews.newenum | variant-key | metadata-only |
@@ -232,22 +232,22 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Parameters | Unknown | excel.parameters.count | excel.parameters.item | excel.parameters.newenum | variant-key | metadata-only |
 | Phonetics | Unknown | excel.phonetics.count | excel.phonetics.item | excel.phonetics.newenum | variant-key | metadata-only |
 | Pictures | Unknown | excel.pictures.count | excel.pictures.item | excel.pictures.newenum | variant-key | metadata-only |
-| PivotCaches | Unknown | excel.pivotcaches.count | excel.pivotcaches.item | excel.pivotcaches.newenum | variant-key | metadata-only |
-| PivotFields | Unknown | excel.pivotfields.count | excel.pivotfields.item | excel.pivotfields.newenum | variant-key | metadata-only |
-| PivotFilters | Unknown | excel.pivotfilters.count | excel.pivotfilters.item | excel.pivotfilters.newenum | variant-key | metadata-only |
+| PivotCaches | PivotCache | excel.pivotcaches.count | excel.pivotcaches.item | excel.pivotcaches.newenum | one-based-integer | implemented |
+| PivotFields | PivotField | excel.pivotfields.count | excel.pivotfields.item | excel.pivotfields.newenum | one-based-integer, string-key | implemented |
+| PivotFilters | PivotFilter | excel.pivotfilters.count | excel.pivotfilters.item | excel.pivotfilters.newenum | one-based-integer | implemented |
 | PivotFormulas | Unknown | excel.pivotformulas.count | excel.pivotformulas.item | excel.pivotformulas.newenum | variant-key | metadata-only |
 | PivotItemList | Unknown | excel.pivotitemlist.count | excel.pivotitemlist.item | excel.pivotitemlist.newenum | variant-key | metadata-only |
-| PivotItems | Unknown | excel.pivotitems.count | excel.pivotitems.item | excel.pivotitems.newenum | variant-key | metadata-only |
+| PivotItems | PivotItem | excel.pivotitems.count | excel.pivotitems.item | excel.pivotitems.newenum | one-based-integer, string-key | implemented |
 | PivotLineCells | Unknown | excel.pivotlinecells.count | excel.pivotlinecells.item | excel.pivotlinecells.newenum | variant-key | metadata-only |
 | PivotLines | Unknown | excel.pivotlines.count | excel.pivotlines.item | excel.pivotlines.newenum | variant-key | metadata-only |
 | PivotTableChangeList | Unknown | excel.pivottablechangelist.count | excel.pivottablechangelist.item | excel.pivottablechangelist.newenum | variant-key | metadata-only |
-| PivotTables | Unknown | excel.pivottables.count | excel.pivottables.item | excel.pivottables.newenum | variant-key | metadata-only |
+| PivotTables | PivotTable | excel.pivottables.count | excel.pivottables.item | excel.pivottables.newenum | one-based-integer, string-key | implemented |
 | Points | Unknown | excel.points.count | excel.points.item | excel.points.newenum | variant-key | metadata-only |
 | ProtectedViewWindows | Unknown | excel.protectedviewwindows.count | excel.protectedviewwindows.item | excel.protectedviewwindows.newenum | variant-key | metadata-only |
 | PublishedDocs | Unknown | excel.publisheddocs.count | excel.publisheddocs.item | excel.publisheddocs.newenum | variant-key | metadata-only |
 | PublishObjects | Unknown | excel.publishobjects.count | excel.publishobjects.item | excel.publishobjects.newenum | variant-key | metadata-only |
-| Queries | Unknown | excel.queries.count | excel.queries.item | excel.queries.newenum | variant-key | metadata-only |
-| QueryTables | Unknown | excel.querytables.count | excel.querytables.item | excel.querytables.newenum | variant-key | metadata-only |
+| Queries | WorkbookQuery | excel.queries.count | excel.queries.item | excel.queries.newenum | one-based-integer, string-key | implemented |
+| QueryTables | QueryTable | excel.querytables.count | excel.querytables.item | excel.querytables.newenum | one-based-integer, string-key | implemented |
 | Range | Unknown | excel.range.count | excel.range.item | excel.range.newenum | variant-key | metadata-only |
 | Ranges | Unknown | excel.ranges.count | excel.ranges.item | excel.ranges.newenum | variant-key | metadata-only |
 | RecentFiles | Unknown | excel.recentfiles.count | excel.recentfiles.item | excel.recentfiles.newenum | variant-key | metadata-only |
@@ -262,10 +262,10 @@ Collections are detected structurally from Count and Item. Iterator status is in
 | Sheets | Unknown | excel.sheets.count | excel.sheets.item | excel.sheets.newenum | variant-key | metadata-only |
 | SheetViews | Unknown | excel.sheetviews.count | excel.sheetviews.item | excel.sheetviews.newenum | variant-key | metadata-only |
 | SlicerCacheLevels | Unknown | excel.slicercachelevels.count | excel.slicercachelevels.item | excel.slicercachelevels.newenum | variant-key | metadata-only |
-| SlicerCaches | Unknown | excel.slicercaches.count | excel.slicercaches.item | excel.slicercaches.newenum | variant-key | metadata-only |
+| SlicerCaches | SlicerCache | excel.slicercaches.count | excel.slicercaches.item | excel.slicercaches.newenum | one-based-integer, string-key | implemented |
 | SlicerItems | Unknown | excel.sliceritems.count | excel.sliceritems.item | excel.sliceritems.newenum | variant-key | metadata-only |
 | SlicerPivotTables | Unknown | excel.slicerpivottables.count | excel.slicerpivottables.item | excel.slicerpivottables.newenum | variant-key | metadata-only |
-| Slicers | Unknown | excel.slicers.count | excel.slicers.item | excel.slicers.newenum | variant-key | metadata-only |
+| Slicers | Slicer | excel.slicers.count | excel.slicers.item | excel.slicers.newenum | one-based-integer | implemented |
 | SmartTagActions | Unknown | excel.smarttagactions.count | excel.smarttagactions.item | excel.smarttagactions.newenum | variant-key | metadata-only |
 | SmartTagRecognizers | Unknown | excel.smarttagrecognizers.count | excel.smarttagrecognizers.item | excel.smarttagrecognizers.newenum | variant-key | metadata-only |
 | SortFields | SortField | excel.sortfields.count | excel.sortfields.item | excel.sortfields.newenum | one-based-integer | metadata-only |

@@ -100,9 +100,9 @@
 | Workbook | Post | 1166 | Metadata Only |
 | Workbook | ExclusiveAccess | 1168 | Metadata Only |
 | Workbook | MergeWorkbook | 1446 | Metadata Only |
-| Workbook | PivotCaches | 1449 | Metadata Only |
+| Workbook | PivotCaches | 1449 | Implemented |
 | Workbook | _ProtectSharing | 1450 | Metadata Only |
-| Workbook | RefreshAll | 1452 | Metadata Only |
+| Workbook | RefreshAll | 1452 | Implemented |
 | Workbook | RemoveUser | 1453 | Metadata Only |
 | Workbook | UnprotectSharing | 1455 | Metadata Only |
 | Workbook | HighlightChangesOptions | 1458 | Metadata Only |
@@ -159,8 +159,8 @@
 | Workbook | GetTypeInfo | 1610678273 | Metadata Only |
 | Workbook | GetIDsOfNames | 1610678274 | Metadata Only |
 | Workbook | Invoke | 1610678275 | Metadata Only |
-| WorkbookConnection | Delete | 117 | Metadata Only |
-| WorkbookConnection | Refresh | 1417 | Metadata Only |
+| WorkbookConnection | Delete | 117 | Implemented |
+| WorkbookConnection | Refresh | 1417 | Implemented |
 | WorkbookConnection | QueryInterface | 1610612736 | Metadata Only |
 | WorkbookConnection | AddRef | 1610612737 | Metadata Only |
 | WorkbookConnection | Release | 1610612738 | Metadata Only |
@@ -168,8 +168,8 @@
 | WorkbookConnection | GetTypeInfo | 1610678273 | Metadata Only |
 | WorkbookConnection | GetIDsOfNames | 1610678274 | Metadata Only |
 | WorkbookConnection | Invoke | 1610678275 | Metadata Only |
-| WorkbookQuery | Delete | 117 | Metadata Only |
-| WorkbookQuery | Refresh | 1417 | Metadata Only |
+| WorkbookQuery | Delete | 117 | Implemented |
+| WorkbookQuery | Refresh | 1417 | Implemented |
 | WorkbookQuery | QueryInterface | 1610612736 | Metadata Only |
 | WorkbookQuery | AddRef | 1610612737 | Metadata Only |
 | WorkbookQuery | Release | 1610612738 | Metadata Only |
@@ -214,7 +214,7 @@
 | Worksheet | Buttons | 557 | Metadata Only |
 | Worksheet | Move | 637 | Implemented |
 | Worksheet | PivotTableWizard | 684 | Metadata Only |
-| Worksheet | PivotTables | 690 | Metadata Only |
+| Worksheet | PivotTables | 690 | Implemented |
 | Worksheet | Arcs | 760 | Metadata Only |
 | Worksheet | Lines | 767 | Metadata Only |
 | Worksheet | Pictures | 771 | Metadata Only |

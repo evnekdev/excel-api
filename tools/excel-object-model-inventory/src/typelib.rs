@@ -416,6 +416,26 @@ fn object_record(
                         | "SortFields"
                         | "SortField"
                         | "Validation"
+                        | "Connections"
+                        | "WorkbookConnection"
+                        | "QueryTables"
+                        | "QueryTable"
+                        | "Queries"
+                        | "WorkbookQuery"
+                        | "PivotCaches"
+                        | "PivotCache"
+                        | "PivotTables"
+                        | "PivotTable"
+                        | "PivotFields"
+                        | "PivotField"
+                        | "PivotItems"
+                        | "PivotItem"
+                        | "PivotFilters"
+                        | "PivotFilter"
+                        | "SlicerCaches"
+                        | "SlicerCache"
+                        | "Slicers"
+                        | "Slicer"
                 )
             })
             .or_else(|| relationship_fallback(&id).map(str::to_owned));
@@ -459,6 +479,16 @@ fn object_record(
         "Trendlines" => Some("Trendline"),
         "Shapes" => Some("Shape"),
         "SparklineGroups" => Some("SparklineGroup"),
+        "Connections" => Some("WorkbookConnection"),
+        "QueryTables" => Some("QueryTable"),
+        "Queries" => Some("WorkbookQuery"),
+        "PivotCaches" => Some("PivotCache"),
+        "PivotTables" => Some("PivotTable"),
+        "PivotFields" => Some("PivotField"),
+        "PivotItems" => Some("PivotItem"),
+        "PivotFilters" => Some("PivotFilter"),
+        "SlicerCaches" => Some("SlicerCache"),
+        "Slicers" => Some("Slicer"),
         _ => None,
     };
     let member_id = |name: &str| {
@@ -469,12 +499,15 @@ fn object_record(
             .map(str::to_owned)
     };
     let index_kinds = match model::canonical_name(raw_name) {
-        "Workbooks" | "Worksheets" | "Names" | "ListObjects" | "ListColumns" => {
+        "Workbooks" | "Worksheets" | "Names" | "ListObjects" | "ListColumns" | "Connections"
+        | "QueryTables" | "Queries" | "PivotTables" | "PivotFields" | "PivotItems"
+        | "SlicerCaches" => {
             vec!["one-based-integer", "string-key"]
         }
         "Areas" | "ListRows" | "Filters" | "SortFields" | "FormatConditions"
         | "ColorScaleCriteria" | "IconCriteria" | "Comments" | "CommentsThreaded"
-        | "Hyperlinks" | "DataLabels" | "Trendlines" | "SparklineGroups" => {
+        | "Hyperlinks" | "DataLabels" | "Trendlines" | "SparklineGroups" | "PivotCaches"
+        | "PivotFilters" | "Slicers" => {
             vec!["one-based-integer"]
         }
         "Styles" | "ChartObjects" | "Charts" | "Shapes" => vec!["one-based-integer", "string-key"],
@@ -487,7 +520,9 @@ fn object_record(
         | "ListColumns" | "ListRows" | "Filters" | "FormatConditions" | "ColorScaleCriteria"
         | "IconCriteria" | "Styles" | "Comments" | "CommentsThreaded" | "Hyperlinks"
         | "ChartObjects" | "Charts" | "SeriesCollection" | "Trendlines" | "Shapes"
-        | "SparklineGroups" => "implemented",
+        | "SparklineGroups" | "Connections" | "QueryTables" | "Queries" | "PivotCaches"
+        | "PivotTables" | "PivotFields" | "PivotItems" | "PivotFilters" | "SlicerCaches"
+        | "Slicers" => "implemented",
         _ if is_collection => "metadata-only",
         _ => "not-started",
     };
@@ -575,6 +610,14 @@ fn object_record(
     let data_utility = data_utility_capability(raw_name);
     if !data_utility.is_null() {
         record["data_utility_capability"] = data_utility;
+    }
+    let external_data = external_data_capability(raw_name);
+    if !external_data.is_null() {
+        record["external_data_capability"] = external_data;
+    }
+    let pivot = pivot_capability(raw_name);
+    if !pivot.is_null() {
+        record["pivot_capability"] = pivot;
     }
     Ok(record)
 }
@@ -1031,6 +1074,41 @@ fn data_utility_capability(name: &str) -> Value {
             "scenarios": false,
             "data_tables": true,
             "external_links": false,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn external_data_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Workbook" => json!({
+            "connections": true,
+            "query_tables": true,
+            "local_text_query": true,
+            "oledb_metadata": true,
+            "odbc_metadata": true,
+            "background_refresh": true,
+            "refresh_cancellation": true,
+            "async_wait": true,
+            "workbook_queries": true,
+            "power_query_editing": false,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn pivot_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Workbook" => json!({
+            "range_cache": true,
+            "table_cache": true,
+            "connection_cache": true,
+            "pivot_tables": true,
+            "field_layout": true,
+            "data_fields": true,
+            "pivot_items": true,
+            "pivot_filters": true,
+            "slicer_inspection": true,
         }),
         _ => Value::Null,
     }

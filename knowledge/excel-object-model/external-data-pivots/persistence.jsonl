@@ -1,0 +1,1 @@
+{"schema_version":1,"topic":"connection query and pivot persistence","status":"runtime-blocked","reason":"Workbooks.Add failed before save and reopen could be observed","not_claimed":["ManualUpdate persistence","refresh-on-open persistence","PivotCache persistence","QueryTable persistence"]}
