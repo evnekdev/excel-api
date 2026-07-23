@@ -22,8 +22,8 @@
 | [AutoFilter](../objects/autofilter.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | AutoRecover | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Axes | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Axis | dispatch-interface | Metadata Only | Generated | Not Tested |
-| AxisTitle | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Axis](../objects/axis.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [AxisTitle](../objects/axistitle.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [Border](../objects/border.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | [Borders](../objects/borders.md) | dispatch-interface | Partial | Reviewed | Live Tested |
 | Button | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -37,9 +37,9 @@
 | CellControl | dispatch-interface | Metadata Only | Generated | Not Tested |
 | CellFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Characters | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Chart | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Chart | coclass | Metadata Only | Generated | Not Tested |
-| ChartArea | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Chart](../objects/chart.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| Chart | coclass | Metadata Only | Generated | Blocked |
+| [ChartArea](../objects/chartarea.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | ChartCategory | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ChartColorFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ChartEvents | event-interface | Not Started | Generated | Not Tested |
@@ -47,11 +47,11 @@
 | ChartFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ChartGroup | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ChartGroups | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ChartObject | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ChartObjects | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Charts | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ChartObject](../objects/chartobject.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [ChartObjects](../objects/chartobjects.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Charts](../objects/charts.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | ChartSeriesGradientStopData | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ChartTitle | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ChartTitle](../objects/charttitle.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | ChartView | dispatch-interface | Metadata Only | Generated | Not Tested |
 | CheckBox | dispatch-interface | Metadata Only | Generated | Not Tested |
 | CheckBoxes | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -79,8 +79,8 @@
 | Databar | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DataBarBorder | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DataFeedConnection | dispatch-interface | Metadata Only | Generated | Not Tested |
-| DataLabel | dispatch-interface | Metadata Only | Generated | Not Tested |
-| DataLabels | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [DataLabel](../objects/datalabel.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [DataLabels](../objects/datalabels.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | DataTable | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DefaultPivotTableLayoutOptions | dispatch-interface | Metadata Only | Generated | Not Tested |
 | DefaultWebOptions | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -508,7 +508,7 @@
 | Label | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Labels | dispatch-interface | Metadata Only | Generated | Not Tested |
 | LeaderLines | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Legend | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Legend](../objects/legend.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | LegendEntries | dispatch-interface | Metadata Only | Generated | Not Tested |
 | LegendEntry | dispatch-interface | Metadata Only | Generated | Not Tested |
 | LegendKey | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -620,7 +620,7 @@
 | PivotTableChangeList | dispatch-interface | Metadata Only | Generated | Not Tested |
 | PivotTables | dispatch-interface | Metadata Only | Generated | Not Tested |
 | PivotValueCell | dispatch-interface | Metadata Only | Generated | Not Tested |
-| PlotArea | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [PlotArea](../objects/plotarea.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | Point | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Points | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ProtectedViewWindow | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -650,17 +650,17 @@
 | Scenarios | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ScrollBar | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ScrollBars | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Series | dispatch-interface | Metadata Only | Generated | Not Tested |
-| SeriesCollection | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Series](../objects/series.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [SeriesCollection](../objects/seriescollection.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | SeriesGradientStopColorFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SeriesLines | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ServerViewableItems | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ShadowFormat | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Shape | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Shape](../objects/shape.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | ShapeNode | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ShapeNodes | dispatch-interface | Metadata Only | Generated | Not Tested |
-| ShapeRange | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Shapes | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [ShapeRange](../objects/shaperange.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Shapes](../objects/shapes.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [Sheets](../objects/sheets.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | SheetViews | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Slicer | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -687,8 +687,8 @@
 | SparkColor | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SparkHorizontalAxis | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Sparkline | dispatch-interface | Metadata Only | Generated | Not Tested |
-| SparklineGroup | dispatch-interface | Metadata Only | Generated | Not Tested |
-| SparklineGroups | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [SparklineGroup](../objects/sparklinegroup.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [SparklineGroups](../objects/sparklinegroups.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | SparkPoints | dispatch-interface | Metadata Only | Generated | Not Tested |
 | SparkVerticalAxis | dispatch-interface | Metadata Only | Generated | Not Tested |
 | Speech | dispatch-interface | Metadata Only | Generated | Not Tested |
@@ -719,8 +719,8 @@
 | Toolbars | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Top10](../objects/top10.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | TreeviewControl | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Trendline | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Trendlines | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Trendline](../objects/trendline.md) | dispatch-interface | Partial | Reviewed | Blocked |
+| [Trendlines](../objects/trendlines.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | [UniqueValues](../objects/uniquevalues.md) | dispatch-interface | Partial | Reviewed | Blocked |
 | UpBars | dispatch-interface | Metadata Only | Generated | Not Tested |
 | UsedObjects | dispatch-interface | Metadata Only | Generated | Not Tested |

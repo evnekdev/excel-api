@@ -190,6 +190,25 @@ pub fn documentation_url(name: &str) -> Option<&'static str> {
         }
         "Hyperlinks" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hyperlinks"),
         "Hyperlink" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.hyperlink"),
+        "ChartObjects" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.chartobjects")
+        }
+        "ChartObject" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.chartobject"),
+        "Charts" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.charts"),
+        "Chart" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.chart(object)"),
+        "SeriesCollection" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.seriescollection")
+        }
+        "Series" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.series"),
+        "Axis" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.axis"),
+        "Shapes" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.shapes"),
+        "Shape" => Some("https://learn.microsoft.com/en-us/office/vba/api/excel.shape"),
+        "SparklineGroups" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sparklinegroups")
+        }
+        "SparklineGroup" => {
+            Some("https://learn.microsoft.com/en-us/office/vba/api/excel.sparklinegroup")
+        }
         _ => None,
     }
 }
@@ -256,6 +275,27 @@ pub fn priority_object(name: &str) -> bool {
             | "Author"
             | "Hyperlinks"
             | "Hyperlink"
+            | "ChartObjects"
+            | "ChartObject"
+            | "Charts"
+            | "Chart"
+            | "ChartTitle"
+            | "ChartArea"
+            | "PlotArea"
+            | "Legend"
+            | "SeriesCollection"
+            | "Series"
+            | "Axis"
+            | "AxisTitle"
+            | "DataLabels"
+            | "DataLabel"
+            | "Trendlines"
+            | "Trendline"
+            | "Shapes"
+            | "Shape"
+            | "ShapeRange"
+            | "SparklineGroups"
+            | "SparklineGroup"
     )
 }
 pub fn wrapper_object(name: &str) -> bool {
@@ -321,6 +361,27 @@ pub fn wrapper_object(name: &str) -> bool {
             | "Author"
             | "Hyperlinks"
             | "Hyperlink"
+            | "ChartObjects"
+            | "ChartObject"
+            | "Charts"
+            | "Chart"
+            | "ChartTitle"
+            | "ChartArea"
+            | "PlotArea"
+            | "Legend"
+            | "SeriesCollection"
+            | "Series"
+            | "Axis"
+            | "AxisTitle"
+            | "DataLabels"
+            | "DataLabel"
+            | "Trendlines"
+            | "Trendline"
+            | "Shapes"
+            | "Shape"
+            | "ShapeRange"
+            | "SparklineGroups"
+            | "SparklineGroup"
     )
 }
 pub fn surface_class(
@@ -494,5 +555,26 @@ pub fn runtime_blocked_object(name: &str) -> bool {
             | "Author"
             | "Hyperlinks"
             | "Hyperlink"
+            | "ChartObjects"
+            | "ChartObject"
+            | "Charts"
+            | "Chart"
+            | "ChartTitle"
+            | "ChartArea"
+            | "PlotArea"
+            | "Legend"
+            | "SeriesCollection"
+            | "Series"
+            | "Axis"
+            | "AxisTitle"
+            | "DataLabels"
+            | "DataLabel"
+            | "Trendlines"
+            | "Trendline"
+            | "Shapes"
+            | "Shape"
+            | "ShapeRange"
+            | "SparklineGroups"
+            | "SparklineGroup"
     )
 }

@@ -5,6 +5,7 @@ mod border;
 mod borders;
 mod calculation;
 mod collection;
+mod drawing;
 mod file_lifecycle;
 mod font;
 mod formatting;
@@ -35,6 +36,7 @@ pub use autofilter::{
 pub use border::Border;
 pub use borders::{Borders, BordersIter};
 pub use calculation::{CalculationMode, CalculationState};
+pub use drawing::*;
 pub use file_lifecycle::{
     SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
     WorkbookSaveAsOptions, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,

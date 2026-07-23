@@ -209,6 +209,26 @@ pub fn check(root: &Path) -> Result<(), String> {
                 "hyperlinks",
             ],
         )?;
+        validate_boolean_capability(
+            object,
+            "drawing_capability",
+            &[
+                "embedded_charts",
+                "chart_sheets",
+                "series",
+                "axes",
+                "data_labels",
+                "trendlines",
+                "error_bars",
+                "shapes",
+                "text_boxes",
+                "pictures",
+                "grouping",
+                "chart_export",
+                "range_image_export",
+                "sparklines",
+            ],
+        )?;
         for member in object["members"]
             .as_array()
             .ok_or("object members must be an array")?

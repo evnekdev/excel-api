@@ -1,12 +1,12 @@
 {
   "alias_target": null,
   "collection": null,
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{000208cd-0000-0000-c000-000000000046}",
   "id": "excel.legend",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
@@ -22,7 +22,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 103,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.shadow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -55,7 +55,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.name",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -86,7 +86,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 111,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.clear",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -117,9 +117,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 116,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.format",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -135,11 +135,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -148,7 +148,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -188,7 +188,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 122,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.width",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -230,7 +230,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 123,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.height",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -272,7 +272,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 126,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.top",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -314,7 +314,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 127,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.left",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -347,7 +347,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -378,7 +378,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 129,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.interior",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -418,9 +418,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 133,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.position",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -437,11 +437,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -451,9 +451,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 146,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.font",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -469,11 +469,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -482,7 +482,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -513,7 +513,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -544,7 +544,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -584,7 +584,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 173,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.legendentries",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -615,7 +615,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -655,7 +655,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1525,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.autoscalefont",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -688,7 +688,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.fill",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -728,9 +728,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2648,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.includeinlayout",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -747,11 +747,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET",
         "PROPERTYPUT"
@@ -778,7 +778,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3253,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.setproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -818,7 +818,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3256,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.getproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -866,7 +866,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -897,7 +897,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -928,7 +928,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -968,7 +968,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1024,7 +1024,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1096,7 +1096,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1192,7 +1192,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.legend.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1221,11 +1221,11 @@
     }
   ],
   "name": "Legend",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "Legend",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

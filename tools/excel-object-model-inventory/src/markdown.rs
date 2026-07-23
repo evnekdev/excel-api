@@ -43,7 +43,7 @@ pub fn planned_outputs(root: &Path) -> Result<BTreeMap<PathBuf, String>, String>
         read_relationships(&root.join("metadata/excel-object-model/relationships.json"))?;
     let docs = root.join("docs/excel-object-model");
     let mut output = BTreeMap::new();
-    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed workbooks, worksheets, sheets, windows, page setup, tab, outline, page-break, table, conditional-format, Style, Note, and hyperlink collections plus core Range navigation, formulas, calculation, formatting, presentation, print/fixed-format output, filtering, sorting, validation, duplicate removal, and structural edits. Advanced-presentation capability metadata is recorded on Range; typed collection metadata and its [dashboard](indexes/collections.md) describe only typed collections implemented by the crate. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
+    output.insert(docs.join("README.md"), "# Excel Object Model inventory\n\nThis maintained inventory is generated from the locally registered Excel type library plus explicit policy metadata. It is an implementation guide for the experimental `excel-com` crate, not a claim of complete wrapper coverage.\n\nEvery object has independent `surface_class` (what the typelib exposes) and `roadmap_class` (the wrapper plan) fields. Standard IUnknown and IDispatch entries are retained structurally but excluded from human Excel-member coverage. The experimental crate implements a bounded `Application -> Workbooks -> Workbook -> Worksheets -> Worksheet -> Range` slice, with typed workbooks, worksheets, chart sheets, charts, shapes, sparklines, sheets, windows, page setup, tab, outline, page-break, table, conditional-format, Style, Note, and hyperlink collections plus core Range navigation, formulas, calculation, formatting, presentation, print/fixed-format output, filtering, sorting, validation, duplicate removal, and structural edits. Drawing capability metadata records structural implementation separately from live observations; grouping and Range image export remain explicitly unavailable. Typed collection metadata and its [dashboard](indexes/collections.md) describe only typed collections implemented by the crate. See [STATUS](STATUS.md) for coverage and the indexes directory for objects, members, events, enums, and deferred surface area. Historical runtime research remains in `docs/research/excel-com/`.\n".to_owned());
     for object in priority_records(&objects) {
         let file = docs.join("objects").join(format!(
             "{}.md",
@@ -150,6 +150,7 @@ fn capability_table(object: &Value) -> String {
         ("Formatting", "formatting_capability"),
         ("Structured data", "structured_data_capability"),
         ("Advanced presentation", "advanced_presentation_capability"),
+        ("Drawing", "drawing_capability"),
     ];
     let mut text = String::new();
     for (label, field) in groups {
@@ -213,6 +214,9 @@ fn summary(name: &str) -> &'static str {
         }
         "ListRows" => "The typed collection of data rows belonging to one Excel table.",
         "ListRow" => "One apartment-bound data row within an Excel table.",
+        "Sheets" => {
+            "The heterogeneous workbook sheet collection. The experimental wrapper distinguishes typed worksheets and chart sheets from other Excel sheet kinds."
+        }
         "AutoFilter" => "Excel's stateful AutoFilter object for a table or worksheet range.",
         "Filters" => "The typed collection of AutoFilter field state objects.",
         "Filter" => "Read-only criteria state for one AutoFilter field.",
@@ -744,6 +748,28 @@ fn priority_records(objects: &[Value]) -> Vec<&Value> {
         "SortField",
         "Validation",
         "Sheets",
+        "ChartObjects",
+        "ChartObject",
+        "Chart",
+        "Charts",
+        "SeriesCollection",
+        "Series",
+        "Axis",
+        "AxisTitle",
+        "ChartTitle",
+        "Legend",
+        "ChartArea",
+        "PlotArea",
+        "ChartFormat",
+        "DataLabels",
+        "DataLabel",
+        "Trendlines",
+        "Trendline",
+        "Shapes",
+        "Shape",
+        "SparklineGroups",
+        "SparklineGroup",
+        "TickLabels",
         "Windows",
         "Window",
         "PageSetup",

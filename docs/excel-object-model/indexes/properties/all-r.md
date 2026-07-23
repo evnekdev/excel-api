@@ -7,10 +7,10 @@
 | Range | Value | 6 | Implemented |
 | Range | Name | 110 | Metadata Only |
 | Range | Count | 118 | Implemented |
-| Range | Width | 122 | Metadata Only |
-| Range | Height | 123 | Metadata Only |
-| Range | Top | 126 | Metadata Only |
-| Range | Left | 127 | Metadata Only |
+| Range | Width | 122 | Implemented |
+| Range | Height | 123 | Implemented |
+| Range | Top | 126 | Implemented |
+| Range | Left | 127 | Implemented |
 | Range | Interior | 129 | Implemented |
 | Range | Orientation | 134 | Implemented |
 | Range | HorizontalAlignment | 136 | Implemented |
@@ -102,7 +102,7 @@
 | Range | XPath | 2258 | Metadata Only |
 | Range | ServerActions | 2491 | Metadata Only |
 | Range | CountLarge | 2499 | Metadata Only |
-| Range | SparklineGroups | 2853 | Metadata Only |
+| Range | SparklineGroups | 2853 | Implemented |
 | Range | CommentThreaded | 3281 | Implemented |
 | Range | LinkedDataTypeState | 3291 | Metadata Only |
 | Range | HasSpill | 3295 | Implemented |

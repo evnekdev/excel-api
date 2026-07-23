@@ -1,0 +1,2 @@
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"SeriesCollection.Item and marker formatting","result":"success","implemented":true,"observed":true}
+{"environment_id":"prompt17-fresh-add-success","case_id":"charts-live","operation":"Series Values, XValues, and formula","result":"not-observed-in-current-live-case","implemented":true,"observed":false}

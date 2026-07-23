@@ -4,7 +4,7 @@
 |---|---|---:|---|
 | Workbook | _CodeName | -2147418112 | Metadata Only |
 | Workbook | Name | 110 | Implemented |
-| Workbook | Charts | 121 | Metadata Only |
+| Workbook | Charts | 121 | Implemented |
 | Workbook | Application | 148 | Metadata Only |
 | Workbook | Creator | 149 | Metadata Only |
 | Workbook | Parent | 150 | Metadata Only |

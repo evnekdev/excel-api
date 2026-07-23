@@ -1,0 +1,2 @@
+{"environment_id":"prompt17-fresh-add-success","case_id":"shapes-images-live","operation":"Shapes.AddPicture with a reviewed local PNG fixture","result":"success-embedded-picture","implemented":true,"observed":true}
+{"environment_id":"prompt17-fresh-add-success","case_id":"shapes-images-live","operation":"JPEG and linked-picture persistence","result":"not-observed-in-current-live-case","implemented":true,"observed":false}

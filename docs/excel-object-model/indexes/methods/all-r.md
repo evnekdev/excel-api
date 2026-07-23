@@ -8,7 +8,7 @@
 | Range | _ClearContents | 113 | Implemented |
 | Range | AutoFormat | 114 | Metadata Only |
 | Range | Delete | 117 | Implemented |
-| Range | CopyPicture | 213 | Metadata Only |
+| Range | CopyPicture | 213 | Implemented |
 | Range | _Replace | 226 | Metadata Only |
 | Range | Select | 235 | Implemented |
 | Range | AutoFit | 237 | Implemented |

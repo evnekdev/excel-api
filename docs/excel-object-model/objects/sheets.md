@@ -2,7 +2,8 @@
 
 ## Summary
 
-This type-library object is structurally inventoried for future wrapper planning.
+The heterogeneous workbook sheet collection. The experimental wrapper
+distinguishes typed worksheets and chart sheets from other Excel sheet kinds.
 
 ## Sources
 

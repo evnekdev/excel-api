@@ -5,8 +5,8 @@
 | Status | Count |
 |---|---:|
 | Implemented | 0 |
-| Partial | 59 |
-| Metadata Only | 683 |
+| Partial | 80 |
+| Metadata Only | 662 |
 | Not Started | 12 |
 | Blocked | 0 |
 | Unsupported | 0 |
@@ -15,13 +15,13 @@
 
 | Surface class | Object count |
 |---|---:|
-| primary-object-model | 59 |
-| secondary-public | 251 |
+| primary-object-model | 80 |
+| secondary-public | 231 |
 | hidden | 422 |
 | restricted | 0 |
 | event-interface | 12 |
 | coclass | 7 |
-| legacy | 3 |
+| legacy | 2 |
 | internal | 0 |
 | unknown | 0 |
 
@@ -29,9 +29,9 @@
 
 | Roadmap class | Object count |
 |---|---:|
-| implemented-wrapper | 59 |
+| implemented-wrapper | 80 |
 | priority-inventory | 0 |
-| deferred-inventory | 695 |
+| deferred-inventory | 674 |
 
 ## Member coverage
 
@@ -40,25 +40,25 @@
 | Raw type-library members | 17828 |
 | Declared Excel members | 15112 |
 | Inherited COM members | 2716 |
-| Implemented declared Excel members | 518 |
+| Implemented declared Excel members | 658 |
 
 Only declared Excel members are included in the human coverage table below.
 
 | Member type | Declared total | Implemented | Partial | Metadata only | Not started |
 |---|---:|---:|---:|---:|---:|
-| Properties | 10388 | 402 | 0 | 9986 | 0 |
-| Methods | 4440 | 116 | 0 | 4324 | 0 |
+| Properties | 10388 | 497 | 0 | 9891 | 0 |
+| Methods | 4440 | 161 | 0 | 4279 | 0 |
 | Events | 284 | 0 | 0 | 0 | 284 |
 
 ## Test coverage
 
 | Test status | Count |
 |---|---:|
-| Live Tested | 408 |
+| Live Tested | 548 |
 | Integration Tested | 0 |
 | Unit Tested | 0 |
-| Not Tested | 15289 |
-| Blocked | 169 |
+| Not Tested | 15127 |
+| Blocked | 191 |
 
 ## Priority objects
 
@@ -91,6 +91,28 @@ Only declared Excel members are included in the human coverage table below.
 | [SortField](objects/sortfield.md) | Partial |
 | [Validation](objects/validation.md) | Partial |
 | [Sheets](objects/sheets.md) | Partial |
+| [ChartObjects](objects/chartobjects.md) | Partial |
+| [ChartObject](objects/chartobject.md) | Partial |
+| [Chart](objects/chart.md) | Partial |
+| [Charts](objects/charts.md) | Partial |
+| [SeriesCollection](objects/seriescollection.md) | Partial |
+| [Series](objects/series.md) | Partial |
+| [Axis](objects/axis.md) | Partial |
+| [AxisTitle](objects/axistitle.md) | Partial |
+| [ChartTitle](objects/charttitle.md) | Partial |
+| [Legend](objects/legend.md) | Partial |
+| [ChartArea](objects/chartarea.md) | Partial |
+| [PlotArea](objects/plotarea.md) | Partial |
+| [ChartFormat](objects/chartformat.md) | Metadata Only |
+| [DataLabels](objects/datalabels.md) | Partial |
+| [DataLabel](objects/datalabel.md) | Partial |
+| [Trendlines](objects/trendlines.md) | Partial |
+| [Trendline](objects/trendline.md) | Partial |
+| [Shapes](objects/shapes.md) | Partial |
+| [Shape](objects/shape.md) | Partial |
+| [SparklineGroups](objects/sparklinegroups.md) | Partial |
+| [SparklineGroup](objects/sparklinegroup.md) | Partial |
+| [TickLabels](objects/ticklabels.md) | Metadata Only |
 | [Windows](objects/windows.md) | Partial |
 | [Window](objects/window.md) | Partial |
 | [PageSetup](objects/pagesetup.md) | Partial |

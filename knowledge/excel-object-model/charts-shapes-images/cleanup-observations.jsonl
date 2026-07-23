@@ -1,0 +1,3 @@
+{"environment_id":"prompt17-fresh-add-success","operation":"baseline local application cleanup","result":"application exited naturally","observed":true}
+{"environment_id":"prompt17-fresh-add-success","operation":"chart and sparkline live-case cleanup","result":"application exited naturally","observed":true}
+{"environment_id":"prompt17-fresh-add-success","operation":"shape live-case cleanup","result":"Quit returned success; external process inspection became access-denied during normal shutdown","observed":true}

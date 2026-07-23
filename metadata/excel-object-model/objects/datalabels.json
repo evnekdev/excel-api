@@ -2,27 +2,27 @@
   "alias_target": null,
   "collection": {
     "count_member_id": "excel.datalabels.count",
-    "element_type": "Unknown",
+    "element_type": "DataLabel",
     "enumerator_member_id": "excel.datalabels.newenum",
     "index_kinds": [
-      "variant-key"
+      "one-based-integer"
     ],
     "item_member_id": "excel.datalabels.item",
     "iterator_status": "metadata-only"
   },
-  "documentation_status": "generated",
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{000208b3-0000-0000-c000-000000000046}",
   "id": "excel.datalabels",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.newenum",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -62,7 +62,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -102,7 +102,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 103,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.shadow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -144,7 +144,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 108,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.type",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -177,7 +177,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 110,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.name",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -208,7 +208,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 116,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.format",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -239,7 +239,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -270,9 +270,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -288,11 +288,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -301,7 +301,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -332,7 +332,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 129,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.interior",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -372,7 +372,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 133,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.position",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -414,7 +414,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 134,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.orientation",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -456,7 +456,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 135,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.autotext",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -498,7 +498,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 136,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.horizontalalignment",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -540,7 +540,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 137,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.verticalalignment",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -573,7 +573,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 146,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.font",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -604,7 +604,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -635,7 +635,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -666,7 +666,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -706,9 +706,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -724,11 +724,11 @@
       "schema_version": 1,
       "source": {
         "microsoft_docs": false,
-        "runtime_verified": false,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -746,7 +746,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 171,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showlegendkey",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -788,7 +788,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 193,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.numberformat",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -830,7 +830,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 194,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.numberformatlinked",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -863,7 +863,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -903,7 +903,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 975,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.readingorder",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -945,7 +945,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1097,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.numberformatlocal",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -987,7 +987,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1525,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.autoscalefont",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1020,7 +1020,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1663,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.fill",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1060,7 +1060,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2022,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showseriesname",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1102,7 +1102,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2023,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showcategoryname",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1144,7 +1144,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2024,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showvalue",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1186,7 +1186,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2025,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showpercentage",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1228,7 +1228,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2026,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showbubblesize",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1270,7 +1270,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2027,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.separator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1312,7 +1312,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3086,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.showrange",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1354,7 +1354,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3087,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.propagate",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1402,7 +1402,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3253,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.setproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1442,7 +1442,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 3256,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.getproperty",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1473,7 +1473,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65545,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.dummy9",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1504,7 +1504,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65546,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.dummy10",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1535,7 +1535,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65549,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.dummy13",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1566,7 +1566,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65552,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.dummy16",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1597,7 +1597,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65553,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.dummy17",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1645,7 +1645,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1676,7 +1676,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1707,7 +1707,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1747,7 +1747,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1803,7 +1803,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1875,7 +1875,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1971,7 +1971,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.datalabels.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -2000,11 +2000,11 @@
     }
   ],
   "name": "DataLabels",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "DataLabels",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

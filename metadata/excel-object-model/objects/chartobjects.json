@@ -2,29 +2,30 @@
   "alias_target": null,
   "collection": {
     "count_member_id": "excel.chartobjects.count",
-    "element_type": "Unknown",
+    "element_type": "ChartObject",
     "enumerator_member_id": "excel.chartobjects.newenum",
     "index_kinds": [
-      "variant-key"
+      "one-based-integer",
+      "string-key"
     ],
     "item_member_id": "excel.chartobjects.item",
-    "iterator_status": "metadata-only"
+    "iterator_status": "implemented"
   },
-  "documentation_status": "generated",
-  "documentation_url": null,
+  "documentation_status": "reviewed",
+  "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.chartobjects",
   "guid": "{000208d0-0000-0000-c000-000000000046}",
   "id": "excel.chartobjects",
   "implemented_interface_count": 1,
-  "implemented_status": "metadata-only",
+  "implemented_status": "partial",
   "kind": "dispatch-interface",
   "members": [
     {
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -39,12 +40,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -62,7 +63,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 0,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.default",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -79,7 +80,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -93,7 +94,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 46,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.group",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -110,7 +111,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -133,7 +134,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 103,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.shadow",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -151,7 +152,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -166,7 +167,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 117,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.delete",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -183,7 +184,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -197,9 +198,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -214,12 +215,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -237,7 +238,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 122,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.width",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -255,7 +256,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -279,7 +280,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 123,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.height",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -297,7 +298,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -321,7 +322,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 126,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.top",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -339,7 +340,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -363,7 +364,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 127,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.left",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -381,7 +382,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -396,7 +397,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 128,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.border",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -413,7 +414,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -427,7 +428,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 129,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.interior",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -444,7 +445,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -458,7 +459,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -475,7 +476,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -489,7 +490,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -506,7 +507,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -520,7 +521,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -537,7 +538,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -560,9 +561,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -577,12 +578,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -624,9 +625,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 181,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.add",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -641,12 +642,12 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
-        "runtime_verified": false,
+        "microsoft_docs": true,
+        "runtime_verified": true,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "runtime-confirmed",
+      "test_status": "live-tested",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -672,7 +673,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 213,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.copypicture",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -689,7 +690,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -712,7 +713,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 235,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.select",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -729,7 +730,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -752,7 +753,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 269,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.locked",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -770,7 +771,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -785,7 +786,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 551,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.copy",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -802,7 +803,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -825,7 +826,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 558,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.visible",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -843,7 +844,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -858,7 +859,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 565,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.cut",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -875,7 +876,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -898,7 +899,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 596,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.onaction",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -916,7 +917,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -940,7 +941,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 600,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.enabled",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -958,7 +959,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -973,7 +974,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 602,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.bringtofront",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -990,7 +991,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1004,7 +1005,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 605,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.sendtoback",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1021,7 +1022,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1044,7 +1045,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 617,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.placement",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1062,7 +1063,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1086,7 +1087,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 618,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.printobject",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1104,7 +1105,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1128,7 +1129,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 619,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.roundedcorners",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1146,7 +1147,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1161,7 +1162,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1039,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.duplicate",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1178,7 +1179,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1192,7 +1193,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1528,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.shaperange",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1209,7 +1210,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1232,7 +1233,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1529,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.protectchartobject",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1250,7 +1251,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1265,7 +1266,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 2609,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.copy-2609",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1282,7 +1283,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1296,7 +1297,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65539,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy3",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1313,7 +1314,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1327,7 +1328,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65548,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy12",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1344,7 +1345,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1358,7 +1359,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65551,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy15",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1375,7 +1376,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1389,7 +1390,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65558,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy22",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1406,7 +1407,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1420,7 +1421,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65561,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy25",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1437,7 +1438,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1451,7 +1452,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65563,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy27",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1468,7 +1469,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1482,7 +1483,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 65564,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.dummy28",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1499,7 +1500,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1530,7 +1531,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1547,7 +1548,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1561,7 +1562,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1578,7 +1579,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1592,7 +1593,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1609,7 +1610,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1632,7 +1633,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1649,7 +1650,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1688,7 +1689,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1705,7 +1706,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1760,7 +1761,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1777,7 +1778,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1856,7 +1857,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.chartobjects.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -1873,7 +1874,7 @@
       "runtime_confirmed_invoke_kinds": [],
       "schema_version": 1,
       "source": {
-        "microsoft_docs": false,
+        "microsoft_docs": true,
         "runtime_verified": false,
         "typelib": true
       },
@@ -1885,11 +1886,11 @@
     }
   ],
   "name": "ChartObjects",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "implemented-wrapper",
   "schema_version": 1,
   "source_interface": "ChartObjects",
-  "surface_class": "secondary-public",
-  "test_status": "not-tested",
+  "surface_class": "primary-object-model",
+  "test_status": "blocked",
   "typelib_type_flags": 4096,
   "typelib_version": {
     "major": 1,

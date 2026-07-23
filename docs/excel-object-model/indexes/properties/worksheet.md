@@ -51,7 +51,7 @@
 | Worksheet | EnablePivotTable | 1158 | Metadata Only |
 | Worksheet | ProtectionMode | 1159 | Implemented |
 | Worksheet | CodeName | 1373 | Metadata Only |
-| Worksheet | Shapes | 1377 | Metadata Only |
+| Worksheet | Shapes | 1377 | Implemented |
 | Worksheet | Hyperlinks | 1393 | Implemented |
 | Worksheet | HPageBreaks | 1418 | Implemented |
 | Worksheet | VPageBreaks | 1419 | Implemented |

@@ -221,7 +221,7 @@
 | TreeviewControl | GetIDsOfNames | 1610678274 | Metadata Only |
 | TreeviewControl | Invoke | 1610678275 | Metadata Only |
 | Trendline | ClearFormats | 112 | Metadata Only |
-| Trendline | Delete | 117 | Metadata Only |
+| Trendline | Delete | 117 | Implemented |
 | Trendline | Select | 235 | Metadata Only |
 | Trendline | SetProperty | 3253 | Metadata Only |
 | Trendline | GetProperty | 3256 | Metadata Only |
@@ -232,10 +232,10 @@
 | Trendline | GetTypeInfo | 1610678273 | Metadata Only |
 | Trendline | GetIDsOfNames | 1610678274 | Metadata Only |
 | Trendline | Invoke | 1610678275 | Metadata Only |
-| Trendlines | _NewEnum | -4 | Metadata Only |
+| Trendlines | _NewEnum | -4 | Implemented |
 | Trendlines | _Default | 0 | Metadata Only |
-| Trendlines | Item | 170 | Metadata Only |
-| Trendlines | Add | 181 | Metadata Only |
+| Trendlines | Item | 170 | Implemented |
+| Trendlines | Add | 181 | Implemented |
 | Trendlines | QueryInterface | 1610612736 | Metadata Only |
 | Trendlines | AddRef | 1610612737 | Metadata Only |
 | Trendlines | Release | 1610612738 | Metadata Only |

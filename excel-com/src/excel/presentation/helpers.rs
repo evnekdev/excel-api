@@ -18,6 +18,10 @@ pub(super) fn sheet_from_dispatch(dispatch: ComPtr<Dispatch>) -> Result<Sheet, E
     let sheet_type = get_i32(&object, "excel.worksheet.type", "Sheet.Type")?;
     if sheet_type == -4167 {
         Ok(Sheet::Worksheet(Worksheet::from_dispatch(object.dispatch)))
+    } else if sheet_type == -4109 {
+        Ok(Sheet::Chart(crate::excel::ChartSheet::from_dispatch(
+            object.dispatch,
+        )))
     } else {
         Ok(Sheet::Other(SheetObject::from_dispatch(object.dispatch)))
     }

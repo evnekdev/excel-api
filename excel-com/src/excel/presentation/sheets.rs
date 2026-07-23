@@ -1,6 +1,7 @@
 //! Heterogeneous worksheet and sheet collection wrappers.
 
 use super::*;
+use crate::excel::ChartSheet;
 
 /// A non-worksheet object contained by the heterogeneous Excel `Sheets` collection.
 pub struct SheetObject {
@@ -43,6 +44,10 @@ impl SheetObject {
     pub fn sheet_type(&self) -> Result<i32, ExcelComError> {
         get_i32(&self.inner, "excel.worksheet.type", "Sheet.Type")
     }
+
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        &self.inner
+    }
 }
 
 /// A safe heterogeneous member of Excel's `Sheets` collection.
@@ -50,7 +55,9 @@ impl SheetObject {
 pub enum Sheet {
     /// A normal worksheet with the full typed worksheet API.
     Worksheet(Worksheet),
-    /// A chart, macro sheet, dialog sheet, or other non-worksheet object.
+    /// A typed Excel chart sheet.
+    Chart(ChartSheet),
+    /// A macro sheet, dialog sheet, or other non-worksheet object.
     Other(SheetObject),
 }
 
@@ -59,6 +66,7 @@ impl Sheet {
     pub fn name(&self) -> Result<String, ExcelComError> {
         match self {
             Self::Worksheet(value) => value.name(),
+            Self::Chart(value) => value.name(),
             Self::Other(value) => value.name(),
         }
     }
@@ -67,7 +75,17 @@ impl Sheet {
     pub fn sheet_type(&self) -> Result<i32, ExcelComError> {
         match self {
             Self::Worksheet(_) => Ok(-4167),
+            Self::Chart(_) => Ok(-4109),
             Self::Other(value) => value.sheet_type(),
+        }
+    }
+
+    /// Returns the private dispatch object used only by typed placement APIs.
+    pub(crate) fn dispatch_object(&self) -> &DispatchObject {
+        match self {
+            Self::Worksheet(value) => value.dispatch_object(),
+            Self::Chart(value) => value.dispatch_object(),
+            Self::Other(value) => value.dispatch_object(),
         }
     }
 }

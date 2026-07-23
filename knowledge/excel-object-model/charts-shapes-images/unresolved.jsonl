@@ -1,0 +1,3 @@
+{"topic":"shape grouping","status":"deferred","reason":"runtime return ownership and safe grouping semantics have not been observed"}
+{"topic":"range image export","status":"deferred","reason":"temporary chart cleanup path has not been proven live"}
+{"topic":"shared Office fill and line operations","status":"version-dependent","reason":"typed wrappers exist but broader members require observed contracts"}

@@ -1,0 +1,17 @@
+schema_version = 1
+scope = "Prompt 17 charts, shapes, pictures, and sparklines"
+
+[[sources]]
+kind = "registered-type-library"
+name = "Microsoft Excel Object Library"
+purpose = "member DISPIDs, signatures, collection contracts, and Excel enums"
+
+[[sources]]
+kind = "registered-type-library"
+name = "Microsoft Office Object Library"
+purpose = "shared shape, text, placement, z-order, and picture contracts"
+
+[[sources]]
+kind = "repository-source"
+name = "excel-com drawing subsystem"
+purpose = "typed wrapper and invocation implementation"

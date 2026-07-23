@@ -236,7 +236,7 @@
 | Worksheet | Scenarios | 908 | Metadata Only |
 | Worksheet | ClearArrows | 970 | Metadata Only |
 | Worksheet | _PasteSpecial | 1027 | Metadata Only |
-| Worksheet | ChartObjects | 1060 | Metadata Only |
+| Worksheet | ChartObjects | 1060 | Implemented |
 | Worksheet | GroupObjects | 1113 | Metadata Only |
 | Worksheet | SetBackgroundPicture | 1188 | Metadata Only |
 | Worksheet | ResetAllPageBreaks | 1426 | Implemented |

@@ -99,27 +99,27 @@
 | Chart | DoughnutGroups | 14 | Metadata Only |
 | Chart | RadarGroups | 15 | Metadata Only |
 | Chart | XYGroups | 16 | Metadata Only |
-| Chart | Axes | 23 | Metadata Only |
-| Chart | SeriesCollection | 68 | Metadata Only |
+| Chart | Axes | 23 | Implemented |
+| Chart | SeriesCollection | 68 | Implemented |
 | Chart | DrawingObjects | 88 | Metadata Only |
 | Chart | AutoFormat | 114 | Metadata Only |
-| Chart | Delete | 117 | Metadata Only |
+| Chart | Delete | 117 | Implemented |
 | Chart | _ApplyDataLabels | 151 | Metadata Only |
 | Chart | ChartWizard | 196 | Metadata Only |
 | Chart | Paste | 211 | Metadata Only |
-| Chart | CopyPicture | 213 | Metadata Only |
+| Chart | CopyPicture | 213 | Implemented |
 | Chart | SetDefaultChart | 219 | Metadata Only |
 | Chart | Select | 235 | Metadata Only |
 | Chart | PrintPreview | 281 | Metadata Only |
 | Chart | _Protect | 282 | Metadata Only |
 | Chart | __SaveAs | 284 | Metadata Only |
 | Chart | Unprotect | 285 | Metadata Only |
-| Chart | Activate | 304 | Metadata Only |
+| Chart | Activate | 304 | Implemented |
 | Chart | CreatePublisher | 458 | Metadata Only |
 | Chart | CheckSpelling | 505 | Metadata Only |
-| Chart | Copy | 551 | Metadata Only |
+| Chart | Copy | 551 | Implemented |
 | Chart | Buttons | 557 | Metadata Only |
-| Chart | Move | 637 | Metadata Only |
+| Chart | Move | 637 | Implemented |
 | Chart | Arcs | 760 | Metadata Only |
 | Chart | Lines | 767 | Metadata Only |
 | Chart | Pictures | 771 | Metadata Only |
@@ -145,9 +145,9 @@
 | Chart | ApplyCustomType | 1401 | Metadata Only |
 | Chart | CopyChartBuild | 1404 | Metadata Only |
 | Chart | GetChartElement | 1409 | Metadata Only |
-| Chart | SetSourceData | 1413 | Metadata Only |
-| Chart | Export | 1414 | Metadata Only |
-| Chart | Refresh | 1417 | Metadata Only |
+| Chart | SetSourceData | 1413 | Implemented |
+| Chart | Export | 1414 | Implemented |
+| Chart | Refresh | 1417 | Implemented |
 | Chart | _PrintOut | 1772 | Metadata Only |
 | Chart | ApplyDataLabels | 1922 | Metadata Only |
 | Chart | _SaveAs | 1925 | Metadata Only |
@@ -242,11 +242,11 @@
 | ChartGroups | GetTypeInfo | 1610678273 | Metadata Only |
 | ChartGroups | GetIDsOfNames | 1610678274 | Metadata Only |
 | ChartGroups | Invoke | 1610678275 | Metadata Only |
-| ChartObject | Delete | 117 | Metadata Only |
-| ChartObject | CopyPicture | 213 | Metadata Only |
+| ChartObject | Delete | 117 | Implemented |
+| ChartObject | CopyPicture | 213 | Implemented |
 | ChartObject | Select | 235 | Metadata Only |
-| ChartObject | Activate | 304 | Metadata Only |
-| ChartObject | Copy | 551 | Metadata Only |
+| ChartObject | Activate | 304 | Implemented |
+| ChartObject | Copy | 551 | Implemented |
 | ChartObject | Cut | 565 | Metadata Only |
 | ChartObject | BringToFront | 602 | Metadata Only |
 | ChartObject | SendToBack | 605 | Metadata Only |
@@ -259,12 +259,12 @@
 | ChartObject | GetTypeInfo | 1610678273 | Metadata Only |
 | ChartObject | GetIDsOfNames | 1610678274 | Metadata Only |
 | ChartObject | Invoke | 1610678275 | Metadata Only |
-| ChartObjects | _NewEnum | -4 | Metadata Only |
+| ChartObjects | _NewEnum | -4 | Implemented |
 | ChartObjects | _Default | 0 | Metadata Only |
 | ChartObjects | Group | 46 | Metadata Only |
 | ChartObjects | Delete | 117 | Metadata Only |
-| ChartObjects | Item | 170 | Metadata Only |
-| ChartObjects | Add | 181 | Metadata Only |
+| ChartObjects | Item | 170 | Implemented |
+| ChartObjects | Add | 181 | Implemented |
 | ChartObjects | CopyPicture | 213 | Metadata Only |
 | ChartObjects | Select | 235 | Metadata Only |
 | ChartObjects | Copy | 551 | Metadata Only |
@@ -288,7 +288,7 @@
 | ChartObjects | GetIDsOfNames | 1610678274 | Metadata Only |
 | ChartObjects | Invoke | 1610678275 | Metadata Only |
 | Charts | Delete | 117 | Metadata Only |
-| Charts | Add | 181 | Metadata Only |
+| Charts | Add | 181 | Implemented |
 | Charts | Select | 235 | Metadata Only |
 | Charts | PrintPreview | 281 | Metadata Only |
 | Charts | Copy | 551 | Metadata Only |

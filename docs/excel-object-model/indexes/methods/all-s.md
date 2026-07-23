@@ -64,11 +64,11 @@
 | ScrollBars | Invoke | 1610678275 | Metadata Only |
 | Series | Points | 70 | Metadata Only |
 | Series | ClearFormats | 112 | Metadata Only |
-| Series | Delete | 117 | Metadata Only |
-| Series | _ApplyDataLabels | 151 | Metadata Only |
-| Series | ErrorBar | 152 | Metadata Only |
-| Series | Trendlines | 154 | Metadata Only |
-| Series | DataLabels | 157 | Metadata Only |
+| Series | Delete | 117 | Implemented |
+| Series | _ApplyDataLabels | 151 | Implemented |
+| Series | ErrorBar | 152 | Implemented |
+| Series | Trendlines | 154 | Implemented |
+| Series | DataLabels | 157 | Implemented |
 | Series | Paste | 211 | Metadata Only |
 | Series | Select | 235 | Metadata Only |
 | Series | Copy | 551 | Metadata Only |
@@ -83,13 +83,13 @@
 | Series | GetTypeInfo | 1610678273 | Metadata Only |
 | Series | GetIDsOfNames | 1610678274 | Metadata Only |
 | Series | Invoke | 1610678275 | Metadata Only |
-| SeriesCollection | _NewEnum | -4 | Metadata Only |
+| SeriesCollection | _NewEnum | -4 | Implemented |
 | SeriesCollection | _Default | 0 | Metadata Only |
-| SeriesCollection | Item | 170 | Metadata Only |
-| SeriesCollection | Add | 181 | Metadata Only |
+| SeriesCollection | Item | 170 | Implemented |
+| SeriesCollection | Add | 181 | Implemented |
 | SeriesCollection | Paste | 211 | Metadata Only |
 | SeriesCollection | Extend | 227 | Metadata Only |
-| SeriesCollection | NewSeries | 1117 | Metadata Only |
+| SeriesCollection | NewSeries | 1117 | Implemented |
 | SeriesCollection | QueryInterface | 1610612736 | Metadata Only |
 | SeriesCollection | AddRef | 1610612737 | Metadata Only |
 | SeriesCollection | Release | 1610612738 | Metadata Only |
@@ -135,13 +135,13 @@
 | ShadowFormat | GetTypeInfo | 1610678273 | Metadata Only |
 | ShadowFormat | GetIDsOfNames | 1610678274 | Metadata Only |
 | ShadowFormat | Invoke | 1610678275 | Metadata Only |
-| Shape | Delete | 117 | Metadata Only |
+| Shape | Delete | 117 | Implemented |
 | Shape | CopyPicture | 213 | Metadata Only |
 | Shape | Select | 235 | Metadata Only |
 | Shape | Ungroup | 244 | Metadata Only |
-| Shape | Copy | 551 | Metadata Only |
-| Shape | Cut | 565 | Metadata Only |
-| Shape | ZOrder | 622 | Metadata Only |
+| Shape | Copy | 551 | Implemented |
+| Shape | Cut | 565 | Implemented |
+| Shape | ZOrder | 622 | Implemented |
 | Shape | Duplicate | 1039 | Metadata Only |
 | Shape | Apply | 1675 | Metadata Only |
 | Shape | Flip | 1676 | Metadata Only |
@@ -218,17 +218,17 @@
 | ShapeRange | GetIDsOfNames | 1610678274 | Metadata Only |
 | ShapeRange | Invoke | 1610678275 | Metadata Only |
 | Shapes | _Default | 0 | Metadata Only |
-| Shapes | Item | 170 | Metadata Only |
+| Shapes | Item | 170 | Implemented |
 | Shapes | AddCallout | 1713 | Metadata Only |
 | Shapes | AddConnector | 1714 | Metadata Only |
 | Shapes | AddCurve | 1719 | Metadata Only |
 | Shapes | AddLabel | 1721 | Metadata Only |
-| Shapes | AddLine | 1722 | Metadata Only |
-| Shapes | AddPicture | 1723 | Metadata Only |
+| Shapes | AddLine | 1722 | Implemented |
+| Shapes | AddPicture | 1723 | Implemented |
 | Shapes | AddPolyline | 1726 | Metadata Only |
-| Shapes | AddShape | 1727 | Metadata Only |
+| Shapes | AddShape | 1727 | Implemented |
 | Shapes | AddTextEffect | 1728 | Metadata Only |
-| Shapes | AddTextbox | 1734 | Metadata Only |
+| Shapes | AddTextbox | 1734 | Implemented |
 | Shapes | BuildFreeform | 1735 | Metadata Only |
 | Shapes | SelectAll | 1737 | Metadata Only |
 | Shapes | AddFormControl | 1738 | Metadata Only |
@@ -470,7 +470,7 @@
 | Sparkline | GetTypeInfo | 1610678273 | Metadata Only |
 | Sparkline | GetIDsOfNames | 1610678274 | Metadata Only |
 | Sparkline | Invoke | 1610678275 | Metadata Only |
-| SparklineGroup | Delete | 117 | Metadata Only |
+| SparklineGroup | Delete | 117 | Implemented |
 | SparklineGroup | Modify | 1581 | Metadata Only |
 | SparklineGroup | ModifyLocation | 2949 | Metadata Only |
 | SparklineGroup | ModifySourceData | 2950 | Metadata Only |
@@ -484,7 +484,7 @@
 | SparklineGroup | Invoke | 1610678275 | Metadata Only |
 | SparklineGroups | Group | 46 | Metadata Only |
 | SparklineGroups | Clear | 111 | Metadata Only |
-| SparklineGroups | Add | 181 | Metadata Only |
+| SparklineGroups | Add | 181 | Implemented |
 | SparklineGroups | Ungroup | 244 | Metadata Only |
 | SparklineGroups | ClearGroups | 2947 | Metadata Only |
 | SparklineGroups | QueryInterface | 1610612736 | Metadata Only |

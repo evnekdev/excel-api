@@ -42,7 +42,7 @@ No capability metadata is recorded for this surface.
 |---|---|---|---|---:|---|---|---|---|
 | _CodeName | PROPERTYGET/PROPERTYPUT | String | declared | -2147418112 | Metadata Only | Reviewed | Not Tested | |
 | Name | PROPERTYGET | String | declared | 110 | Implemented | Reviewed | Live Tested | |
-| Charts | PROPERTYGET | Sheets | declared | 121 | Metadata Only | Reviewed | Not Tested | |
+| Charts | PROPERTYGET | Sheets | declared | 121 | Implemented | Reviewed | Live Tested | |
 | Application | PROPERTYGET | Application | declared | 148 | Metadata Only | Reviewed | Not Tested | |
 | Creator | PROPERTYGET | XlCreator | declared | 149 | Metadata Only | Reviewed | Not Tested | |
 | Parent | PROPERTYGET | Object | declared | 150 | Metadata Only | Reviewed | Not Tested | |

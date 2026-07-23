@@ -43,6 +43,25 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | `tables` | true |
 | `validation` | true |
 
+### Drawing
+
+| Capability | Available |
+|---|---|
+| `axes` | true |
+| `chart_export` | true |
+| `chart_sheets` | true |
+| `data_labels` | true |
+| `embedded_charts` | true |
+| `error_bars` | true |
+| `grouping` | false |
+| `pictures` | true |
+| `range_image_export` | false |
+| `series` | true |
+| `shapes` | true |
+| `sparklines` | true |
+| `text_boxes` | true |
+| `trendlines` | true |
+
 
 
 ## Relationships
@@ -117,7 +136,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | EnablePivotTable | PROPERTYGET/PROPERTYPUT | bool | declared | 1158 | Metadata Only | Reviewed | Not Tested | |
 | ProtectionMode | PROPERTYGET | bool | declared | 1159 | Implemented | Reviewed | Blocked | |
 | CodeName | PROPERTYGET | String | declared | 1373 | Metadata Only | Reviewed | Not Tested | |
-| Shapes | PROPERTYGET | Shapes | declared | 1377 | Metadata Only | Reviewed | Not Tested | |
+| Shapes | PROPERTYGET | Shapes | declared | 1377 | Implemented | Reviewed | Live Tested | |
 | Hyperlinks | PROPERTYGET | Hyperlinks | declared | 1393 | Implemented | Reviewed | Live Tested | |
 | HPageBreaks | PROPERTYGET | HPageBreaks | declared | 1418 | Implemented | Reviewed | Blocked | |
 | VPageBreaks | PROPERTYGET | VPageBreaks | declared | 1419 | Implemented | Reviewed | Blocked | |
@@ -183,7 +202,7 @@ A worksheet object within a workbook. The bounded crate slice exposes identity, 
 | Scenarios | Object | 1 | declared | 908 | Metadata Only | Reviewed | Not Tested | |
 | ClearArrows | Unknown | 0 | declared | 970 | Metadata Only | Reviewed | Not Tested | |
 | _PasteSpecial | Unknown | 6 | declared | 1027 | Metadata Only | Reviewed | Not Tested | |
-| ChartObjects | Object | 1 | declared | 1060 | Metadata Only | Reviewed | Not Tested | |
+| ChartObjects | Object | 1 | declared | 1060 | Implemented | Reviewed | Live Tested | |
 | GroupObjects | Object | 1 | declared | 1113 | Metadata Only | Reviewed | Not Tested | |
 | SetBackgroundPicture | Unknown | 1 | declared | 1188 | Metadata Only | Reviewed | Not Tested | |
 | ResetAllPageBreaks | Unknown | 0 | declared | 1426 | Implemented | Reviewed | Blocked | |

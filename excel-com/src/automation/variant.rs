@@ -6,7 +6,7 @@ use windows_sys::Win32::Foundation::SysStringLen;
 use windows_sys::Win32::System::Com::CY;
 use windows_sys::Win32::System::Variant::{
     VARIANT, VT_ARRAY, VT_BOOL, VT_BSTR, VT_CY, VT_DATE, VT_DISPATCH, VT_EMPTY, VT_ERROR, VT_I4,
-    VT_NULL, VT_R8, VT_UNKNOWN, VT_VARIANT, VariantClear, VariantInit,
+    VT_NULL, VT_R4, VT_R8, VT_UNKNOWN, VT_VARIANT, VariantClear, VariantInit,
 };
 
 use super::SafeArray;
@@ -45,6 +45,15 @@ impl OwnedVariant {
         let mut result = Self::empty();
         result.0.Anonymous.Anonymous.vt = VT_R8;
         result.0.Anonymous.Anonymous.Anonymous.dblVal = value;
+        result
+    }
+
+    /// Creates an exact `VT_R4` value for Office drawing members whose
+    /// registered signature is single precision.
+    pub(crate) fn f32(value: f32) -> Self {
+        let mut result = Self::empty();
+        result.0.Anonymous.Anonymous.vt = VT_R4;
+        result.0.Anonymous.Anonymous.Anonymous.fltVal = value;
         result
     }
 
