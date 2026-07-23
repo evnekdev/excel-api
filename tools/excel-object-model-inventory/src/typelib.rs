@@ -572,6 +572,10 @@ fn object_record(
     if !drawing.is_null() {
         record["drawing_capability"] = drawing;
     }
+    let data_utility = data_utility_capability(raw_name);
+    if !data_utility.is_null() {
+        record["data_utility_capability"] = data_utility;
+    }
     Ok(record)
 }
 
@@ -961,6 +965,72 @@ fn drawing_capability(name: &str) -> Value {
             "chart_export": true,
             "range_image_export": false,
             "sparklines": true,
+        }),
+        _ => Value::Null,
+    }
+}
+
+fn data_utility_capability(name: &str) -> Value {
+    match model::canonical_name(name) {
+        "Workbooks" => json!({
+            "open_text": true,
+            "text_export": false,
+            "text_to_columns": false,
+            "fill": false,
+            "autofill": false,
+            "flash_fill": false,
+            "advanced_filter": false,
+            "subtotal": false,
+            "consolidate": false,
+            "goal_seek": false,
+            "scenarios": false,
+            "data_tables": false,
+            "external_links": false,
+        }),
+        "Workbook" => json!({
+            "open_text": false,
+            "text_export": true,
+            "text_to_columns": false,
+            "fill": false,
+            "autofill": false,
+            "flash_fill": false,
+            "advanced_filter": false,
+            "subtotal": false,
+            "consolidate": false,
+            "goal_seek": false,
+            "scenarios": false,
+            "data_tables": false,
+            "external_links": true,
+        }),
+        "Worksheet" | "Scenarios" | "Scenario" => json!({
+            "open_text": false,
+            "text_export": false,
+            "text_to_columns": false,
+            "fill": false,
+            "autofill": false,
+            "flash_fill": false,
+            "advanced_filter": false,
+            "subtotal": false,
+            "consolidate": false,
+            "goal_seek": false,
+            "scenarios": true,
+            "data_tables": false,
+            "external_links": false,
+        }),
+        "Range" => json!({
+            "open_text": false,
+            "text_export": false,
+            "text_to_columns": true,
+            "fill": true,
+            "autofill": true,
+            "flash_fill": true,
+            "advanced_filter": true,
+            "subtotal": true,
+            "consolidate": true,
+            "goal_seek": true,
+            "scenarios": false,
+            "data_tables": true,
+            "external_links": false,
         }),
         _ => Value::Null,
     }

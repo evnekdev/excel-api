@@ -1,0 +1,17 @@
+schema_version = 1
+scope = "Prompt 18 text interchange, transformation, what-if analysis, and external links"
+
+[[sources]]
+kind = "registered-type-library"
+name = "Microsoft Excel Object Library"
+purpose = "member DISPIDs, argument order, collection contracts, and enum values"
+
+[[sources]]
+kind = "repository-source"
+name = "excel-com data subsystem"
+purpose = "typed apartment-bound wrappers and input validation"
+
+[[sources]]
+kind = "runtime-observation"
+name = "Prompt 18 fresh Workbooks.Add baseline"
+purpose = "honest runtime-blocked classification for workbook-dependent operations"

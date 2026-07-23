@@ -26,7 +26,24 @@ The typed collection through which an Application exposes open workbooks. The bo
 
 ## Capabilities
 
-No capability metadata is recorded for this surface.
+### Data utility
+
+| Capability | Available |
+|---|---|
+| `advanced_filter` | false |
+| `autofill` | false |
+| `consolidate` | false |
+| `data_tables` | false |
+| `external_links` | false |
+| `fill` | false |
+| `flash_fill` | false |
+| `goal_seek` | false |
+| `open_text` | true |
+| `scenarios` | false |
+| `subtotal` | false |
+| `text_export` | false |
+| `text_to_columns` | false |
+
 
 
 ## Relationships
@@ -65,7 +82,7 @@ No capability metadata is recorded for this surface.
 | __OpenText | Unknown | 14 | declared | 683 | Metadata Only | Reviewed | Not Tested | |
 | _OpenText | Unknown | 16 | declared | 1773 | Metadata Only | Reviewed | Not Tested | |
 | Open | Workbook | 15 | declared | 1923 | Implemented | Reviewed | Live Tested | |
-| OpenText | Unknown | 18 | declared | 1924 | Metadata Only | Reviewed | Not Tested | |
+| OpenText | Unknown | 18 | declared | 1924 | Implemented | Reviewed | Blocked | |
 | OpenDatabase | Workbook | 5 | declared | 2067 | Metadata Only | Reviewed | Not Tested | |
 | CheckOut | Unknown | 1 | declared | 2069 | Metadata Only | Reviewed | Not Tested | |
 | CanCheckOut | bool | 1 | declared | 2070 | Metadata Only | Reviewed | Not Tested | |

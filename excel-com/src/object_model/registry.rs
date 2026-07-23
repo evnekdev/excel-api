@@ -1068,9 +1068,49 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.sparklinegroup.sourcedata",
     "excel.sparklinegroup.location",
     "excel.sparklinegroup.delete",
+    "excel.workbooks.opentext-1924",
+    "excel.range.texttocolumns",
+    "excel.range.filldown",
+    "excel.range.fillup",
+    "excel.range.fillleft",
+    "excel.range.fillright",
+    "excel.range.autofill",
+    "excel.range.dataseries",
+    "excel.range.flashfill",
+    "excel.range.advancedfilter",
+    "excel.range.subtotal",
+    "excel.range.removesubtotal",
+    "excel.range.consolidate",
+    "excel.range.goalseek",
+    "excel.range.table",
+    "excel.range.rowdifferences",
+    "excel.range.columndifferences",
+    "excel.range.application",
+    "excel.worksheet.scenarios",
+    "excel.scenarios.count",
+    "excel.scenarios.item",
+    "excel.scenarios.newenum",
+    "excel.scenarios.add",
+    "excel.scenarios.createsummary",
+    "excel.scenario.name",
+    "excel.scenario.comment",
+    "excel.scenario.changingcells",
+    "excel.scenario.values",
+    "excel.scenario.show",
+    "excel.scenario.changescenario",
+    "excel.scenario.delete",
+    "excel.workbook.linksources",
+    "excel.workbook.updatelink",
+    "excel.workbook.breaklink",
+    "excel.workbook.changelink",
+    "excel.workbook.linkinfo",
+    "excel.application.asktoupdatelinks",
 ];
 
 pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
+    if let Some(descriptor) = data_member(id, put) {
+        return descriptor;
+    }
     if let Some(descriptor) = drawing_member(id, put) {
         return descriptor;
     }
@@ -2451,6 +2491,55 @@ fn drawing_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {
         ("office.textframe2.textrange", _) => ("TextRange", MemberKind::PropertyGet),
         ("office.textrange2.text", false) => ("Text", MemberKind::PropertyGet),
         ("office.textrange2.text", true) => ("Text", MemberKind::PropertyPut),
+        _ => return None,
+    };
+    Some(MemberDescriptor { id, name, kind })
+}
+
+fn data_member(id: MemberId, put: bool) -> Option<MemberDescriptor> {
+    let (name, kind) = match (id.as_str(), put) {
+        ("excel.workbooks.opentext-1924", _) => ("OpenText", MemberKind::Method),
+        ("excel.range.texttocolumns", _) => ("TextToColumns", MemberKind::Method),
+        ("excel.range.filldown", _) => ("FillDown", MemberKind::Method),
+        ("excel.range.fillup", _) => ("FillUp", MemberKind::Method),
+        ("excel.range.fillleft", _) => ("FillLeft", MemberKind::Method),
+        ("excel.range.fillright", _) => ("FillRight", MemberKind::Method),
+        ("excel.range.autofill", _) => ("AutoFill", MemberKind::Method),
+        ("excel.range.dataseries", _) => ("DataSeries", MemberKind::Method),
+        ("excel.range.flashfill", _) => ("FlashFill", MemberKind::Method),
+        ("excel.range.advancedfilter", _) => ("AdvancedFilter", MemberKind::Method),
+        ("excel.range.subtotal", _) => ("Subtotal", MemberKind::Method),
+        ("excel.range.removesubtotal", _) => ("RemoveSubtotal", MemberKind::Method),
+        ("excel.range.consolidate", _) => ("Consolidate", MemberKind::Method),
+        ("excel.range.goalseek", _) => ("GoalSeek", MemberKind::Method),
+        ("excel.range.table", _) => ("Table", MemberKind::Method),
+        ("excel.range.rowdifferences", _) => ("RowDifferences", MemberKind::Method),
+        ("excel.range.columndifferences", _) => ("ColumnDifferences", MemberKind::Method),
+        ("excel.range.application", _) => ("Application", MemberKind::PropertyGet),
+        ("excel.worksheet.scenarios", _) => ("Scenarios", MemberKind::PropertyGet),
+        ("excel.scenarios.count", _) => ("Count", MemberKind::PropertyGet),
+        ("excel.scenarios.item", _) => ("Item", MemberKind::PropertyGet),
+        ("excel.scenarios.newenum", _) => ("_NewEnum", MemberKind::PropertyGet),
+        ("excel.scenarios.add", _) => ("Add", MemberKind::Method),
+        ("excel.scenarios.createsummary", _) => ("CreateSummary", MemberKind::Method),
+        ("excel.scenario.name", _) => ("Name", MemberKind::PropertyGet),
+        ("excel.scenario.comment", _) => ("Comment", MemberKind::PropertyGet),
+        ("excel.scenario.changingcells", _) => ("ChangingCells", MemberKind::PropertyGet),
+        ("excel.scenario.values", _) => ("Values", MemberKind::PropertyGet),
+        ("excel.scenario.show", _) => ("Show", MemberKind::Method),
+        ("excel.scenario.changescenario", _) => ("ChangeScenario", MemberKind::Method),
+        ("excel.scenario.delete", _) => ("Delete", MemberKind::Method),
+        ("excel.workbook.linksources", _) => ("LinkSources", MemberKind::Method),
+        ("excel.workbook.updatelink", _) => ("UpdateLink", MemberKind::Method),
+        ("excel.workbook.breaklink", _) => ("BreakLink", MemberKind::Method),
+        ("excel.workbook.changelink", _) => ("ChangeLink", MemberKind::Method),
+        ("excel.workbook.linkinfo", _) => ("LinkInfo", MemberKind::Method),
+        ("excel.application.asktoupdatelinks", false) => {
+            ("AskToUpdateLinks", MemberKind::PropertyGet)
+        }
+        ("excel.application.asktoupdatelinks", true) => {
+            ("AskToUpdateLinks", MemberKind::PropertyPut)
+        }
         _ => return None,
     };
     Some(MemberDescriptor { id, name, kind })

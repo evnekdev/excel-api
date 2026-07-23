@@ -1,6 +1,21 @@
 {
   "alias_target": null,
   "collection": null,
+  "data_utility_capability": {
+    "advanced_filter": false,
+    "autofill": false,
+    "consolidate": false,
+    "data_tables": false,
+    "external_links": true,
+    "fill": false,
+    "flash_fill": false,
+    "goal_seek": false,
+    "open_text": false,
+    "scenarios": false,
+    "subtotal": false,
+    "text_export": true,
+    "text_to_columns": false
+  },
   "documentation_status": "reviewed",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.workbook",
   "guid": "{000208da-0000-0000-c000-000000000046}",
@@ -2185,7 +2200,7 @@
       "dispid": 802,
       "documentation_status": "reviewed",
       "id": "excel.workbook.changelink",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2204,8 +2219,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2289,7 +2304,7 @@
       "dispid": 804,
       "documentation_status": "reviewed",
       "id": "excel.workbook.updatelink",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2308,8 +2323,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2353,7 +2368,7 @@
       "dispid": 807,
       "documentation_status": "reviewed",
       "id": "excel.workbook.linkinfo",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2372,8 +2387,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -2393,7 +2408,7 @@
       "dispid": 808,
       "documentation_status": "reviewed",
       "id": "excel.workbook.linksources",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -2412,8 +2427,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -5692,7 +5707,7 @@
       "dispid": 2047,
       "documentation_status": "reviewed",
       "id": "excel.workbook.breaklink",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -5711,8 +5726,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]

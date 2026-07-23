@@ -1,0 +1,9 @@
+{"member":"Workbooks.OpenText","dispid":1924,"kind":"METHOD","arguments":18,"status":"implemented-source-derived"}
+{"member":"Range.TextToColumns","dispid":1040,"kind":"METHOD","arguments":14,"status":"implemented-source-derived"}
+{"member":"Range.AdvancedFilter","dispid":876,"kind":"METHOD","status":"implemented-source-derived"}
+{"member":"Range.Subtotal","dispid":882,"kind":"METHOD","status":"implemented-source-derived"}
+{"member":"Range.Consolidate","dispid":482,"kind":"METHOD","status":"implemented-source-derived"}
+{"member":"Range.GoalSeek","dispid":472,"kind":"METHOD","status":"implemented-source-derived"}
+{"member":"Range.Table","dispid":497,"kind":"METHOD","status":"implemented-source-derived"}
+{"member":"Worksheet.Scenarios","dispid":908,"kind":"PROPERTYGET","status":"implemented-source-derived"}
+{"member":"Workbook.LinkSources","dispid":808,"kind":"METHOD","status":"implemented-source-derived"}

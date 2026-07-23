@@ -128,12 +128,18 @@ impl Workbooks {
             "excel.workbooks.application",
             Application::from_dispatch,
         )?;
-        let guard = application.automation_security_guard(AutomationSecurity::FORCE_DISABLE)?;
-        let opened = self.open(filename, options.open);
-        let restored = guard.restore();
-        match (opened, restored) {
-            (Ok(workbook), Ok(())) => Ok(workbook),
-            (Err(error), _) | (_, Err(error)) => Err(error),
+        let SafeWorkbookOpenOptions { open, link_prompt } = options;
+        let security_guard =
+            application.automation_security_guard(AutomationSecurity::FORCE_DISABLE)?;
+        let link_guard = link_prompt
+            .map(|value| application.ask_to_update_links_guard(value))
+            .transpose()?;
+        let opened = self.open(filename, open);
+        let security_restored = security_guard.restore();
+        let link_restored = link_guard.map(|guard| guard.restore()).transpose();
+        match (opened, security_restored, link_restored) {
+            (Ok(workbook), Ok(()), Ok(_)) => Ok(workbook),
+            (Err(error), _, _) | (_, Err(error), _) | (_, _, Err(error)) => Err(error),
         }
     }
 }

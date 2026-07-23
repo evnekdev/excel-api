@@ -10,6 +10,8 @@ The complete inventory is sharded alphabetically by owning object; the core wrap
 - [Worksheets](methods/worksheets.md)
 - [Worksheet](methods/worksheet.md)
 - [Range](methods/range.md)
+- [Scenarios](methods/scenarios.md)
+- [Scenario](methods/scenario.md)
 - [Areas](methods/areas.md)
 - [Names](methods/names.md)
 - [Name](methods/name.md)

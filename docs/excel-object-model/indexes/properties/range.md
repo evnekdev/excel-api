@@ -17,7 +17,7 @@
 | Range | VerticalAlignment | 137 | Implemented |
 | Range | Text | 138 | Metadata Only |
 | Range | Font | 146 | Implemented |
-| Range | Application | 148 | Metadata Only |
+| Range | Application | 148 | Implemented |
 | Range | Creator | 149 | Metadata Only |
 | Range | Parent | 150 | Metadata Only |
 | Range | Item | 170 | Implemented |

@@ -30,8 +30,8 @@
 | Roadmap class | Object count |
 |---|---:|
 | implemented-wrapper | 80 |
-| priority-inventory | 0 |
-| deferred-inventory | 674 |
+| priority-inventory | 2 |
+| deferred-inventory | 672 |
 
 ## Member coverage
 
@@ -40,14 +40,14 @@
 | Raw type-library members | 17828 |
 | Declared Excel members | 15112 |
 | Inherited COM members | 2716 |
-| Implemented declared Excel members | 658 |
+| Implemented declared Excel members | 695 |
 
 Only declared Excel members are included in the human coverage table below.
 
 | Member type | Declared total | Implemented | Partial | Metadata only | Not started |
 |---|---:|---:|---:|---:|---:|
-| Properties | 10388 | 497 | 0 | 9891 | 0 |
-| Methods | 4440 | 161 | 0 | 4279 | 0 |
+| Properties | 10388 | 504 | 0 | 9884 | 0 |
+| Methods | 4440 | 191 | 0 | 4249 | 0 |
 | Events | 284 | 0 | 0 | 0 | 284 |
 
 ## Test coverage
@@ -57,8 +57,8 @@ Only declared Excel members are included in the human coverage table below.
 | Live Tested | 548 |
 | Integration Tested | 0 |
 | Unit Tested | 0 |
-| Not Tested | 15127 |
-| Blocked | 191 |
+| Not Tested | 15090 |
+| Blocked | 228 |
 
 ## Priority objects
 
@@ -70,6 +70,8 @@ Only declared Excel members are included in the human coverage table below.
 | [Worksheets](objects/worksheets.md) | Partial |
 | [Worksheet](objects/worksheet.md) | Partial |
 | [Range](objects/range.md) | Partial |
+| [Scenarios](objects/scenarios.md) | Metadata Only |
+| [Scenario](objects/scenario.md) | Metadata Only |
 | [Areas](objects/areas.md) | Partial |
 | [Names](objects/names.md) | Partial |
 | [Name](objects/name.md) | Partial |

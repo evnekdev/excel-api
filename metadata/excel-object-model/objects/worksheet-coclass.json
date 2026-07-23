@@ -4,6 +4,21 @@
     "calculate": true
   },
   "collection": null,
+  "data_utility_capability": {
+    "advanced_filter": false,
+    "autofill": false,
+    "consolidate": false,
+    "data_tables": false,
+    "external_links": false,
+    "fill": false,
+    "flash_fill": false,
+    "goal_seek": false,
+    "open_text": false,
+    "scenarios": true,
+    "subtotal": false,
+    "text_export": false,
+    "text_to_columns": false
+  },
   "documentation_status": "generated",
   "documentation_url": "https://learn.microsoft.com/en-us/office/vba/api/excel.worksheet",
   "drawing_capability": {

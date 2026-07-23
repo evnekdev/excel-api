@@ -123,7 +123,7 @@
 | Application | MailSession | 942 | Metadata Only |
 | Application | MailSystem | 971 | Metadata Only |
 | Application | CopyObjectsWithCells | 991 | Metadata Only |
-| Application | AskToUpdateLinks | 992 | Metadata Only |
+| Application | AskToUpdateLinks | 992 | Implemented |
 | Application | SheetsInNewWorkbook | 993 | Metadata Only |
 | Application | OnSheetActivate | 1031 | Metadata Only |
 | Application | DefaultFilePath | 1038 | Metadata Only |

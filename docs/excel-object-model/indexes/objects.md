@@ -646,8 +646,8 @@
 | Research | dispatch-interface | Metadata Only | Generated | Not Tested |
 | RoutingSlip | dispatch-interface | Metadata Only | Generated | Not Tested |
 | RTD | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Scenario | dispatch-interface | Metadata Only | Generated | Not Tested |
-| Scenarios | dispatch-interface | Metadata Only | Generated | Not Tested |
+| [Scenario](../objects/scenario.md) | dispatch-interface | Metadata Only | Reviewed | Not Tested |
+| [Scenarios](../objects/scenarios.md) | dispatch-interface | Metadata Only | Reviewed | Not Tested |
 | ScrollBar | dispatch-interface | Metadata Only | Generated | Not Tested |
 | ScrollBars | dispatch-interface | Metadata Only | Generated | Not Tested |
 | [Series](../objects/series.md) | dispatch-interface | Partial | Reviewed | Blocked |

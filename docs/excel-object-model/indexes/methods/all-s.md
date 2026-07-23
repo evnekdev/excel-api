@@ -2,9 +2,9 @@
 
 | Object | Member | DISPID | Status |
 |---|---|---:|---|
-| Scenario | Delete | 117 | Metadata Only |
-| Scenario | Show | 496 | Metadata Only |
-| Scenario | ChangeScenario | 912 | Metadata Only |
+| Scenario | Delete | 117 | Implemented |
+| Scenario | Show | 496 | Implemented |
+| Scenario | ChangeScenario | 912 | Implemented |
 | Scenario | QueryInterface | 1610612736 | Metadata Only |
 | Scenario | AddRef | 1610612737 | Metadata Only |
 | Scenario | Release | 1610612738 | Metadata Only |
@@ -12,11 +12,11 @@
 | Scenario | GetTypeInfo | 1610678273 | Metadata Only |
 | Scenario | GetIDsOfNames | 1610678274 | Metadata Only |
 | Scenario | Invoke | 1610678275 | Metadata Only |
-| Scenarios | _NewEnum | -4 | Metadata Only |
-| Scenarios | Item | 170 | Metadata Only |
-| Scenarios | Add | 181 | Metadata Only |
+| Scenarios | _NewEnum | -4 | Implemented |
+| Scenarios | Item | 170 | Implemented |
+| Scenarios | Add | 181 | Implemented |
 | Scenarios | Merge | 564 | Metadata Only |
-| Scenarios | CreateSummary | 913 | Metadata Only |
+| Scenarios | CreateSummary | 913 | Implemented |
 | Scenarios | QueryInterface | 1610612736 | Metadata Only |
 | Scenarios | AddRef | 1610612737 | Metadata Only |
 | Scenarios | Release | 1610612738 | Metadata Only |

@@ -10,7 +10,22 @@
     "item_member_id": "excel.scenarios.item",
     "iterator_status": "metadata-only"
   },
-  "documentation_status": "generated",
+  "data_utility_capability": {
+    "advanced_filter": false,
+    "autofill": false,
+    "consolidate": false,
+    "data_tables": false,
+    "external_links": false,
+    "fill": false,
+    "flash_fill": false,
+    "goal_seek": false,
+    "open_text": false,
+    "scenarios": true,
+    "subtotal": false,
+    "text_export": false,
+    "text_to_columns": false
+  },
+  "documentation_status": "reviewed",
   "documentation_url": null,
   "guid": "{00020896-0000-0000-c000-000000000046}",
   "id": "excel.scenarios",
@@ -22,9 +37,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": -4,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.newenum",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -43,8 +58,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -53,9 +68,9 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 118,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.count",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "PROPERTYGET"
       ],
@@ -74,8 +89,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "PROPERTYGET"
       ]
@@ -84,7 +99,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 148,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.application",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -115,7 +130,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 149,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.creator",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -146,7 +161,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 150,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.parent",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -186,9 +201,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 170,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.item",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -207,8 +222,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -266,9 +281,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 181,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.add",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -287,8 +302,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -306,7 +321,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 564,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.merge",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -354,9 +369,9 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 913,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.createsummary",
-      "implementation_status": "metadata-only",
+      "implementation_status": "implemented",
       "invoke_kinds": [
         "METHOD"
       ],
@@ -375,8 +390,8 @@
         "runtime_verified": false,
         "typelib": true
       },
-      "source_confidence": "typelib-only",
-      "test_status": "not-tested",
+      "source_confidence": "typelib-and-docs",
+      "test_status": "blocked",
       "typelib_invoke_kinds": [
         "METHOD"
       ]
@@ -402,7 +417,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612736,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.queryinterface",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -433,7 +448,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612737,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.addref",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -464,7 +479,7 @@
       "arguments": [],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610612738,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.release",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -504,7 +519,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678272,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.gettypeinfocount",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -560,7 +575,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678273,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.gettypeinfo",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -632,7 +647,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678274,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.getidsofnames",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -728,7 +743,7 @@
       ],
       "chosen_crate_invoke_kinds": [],
       "dispid": 1610678275,
-      "documentation_status": "generated",
+      "documentation_status": "reviewed",
       "id": "excel.scenarios.invoke",
       "implementation_status": "metadata-only",
       "invoke_kinds": [
@@ -757,7 +772,7 @@
     }
   ],
   "name": "Scenarios",
-  "roadmap_class": "deferred-inventory",
+  "roadmap_class": "priority-inventory",
   "schema_version": 1,
   "source_interface": "Scenarios",
   "surface_class": "secondary-public",

@@ -5,6 +5,7 @@ mod border;
 mod borders;
 mod calculation;
 mod collection;
+mod data;
 mod drawing;
 mod file_lifecycle;
 mod font;
@@ -36,6 +37,8 @@ pub use autofilter::{
 pub use border::Border;
 pub use borders::{Borders, BordersIter};
 pub use calculation::{CalculationMode, CalculationState};
+#[allow(unused_imports)]
+pub use data::*;
 pub use drawing::*;
 pub use file_lifecycle::{
     SaveChanges, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
