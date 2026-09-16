@@ -106,6 +106,13 @@ impl XlSaveConflictResolution {
 pub struct XlUpdateLinks(i32);
 
 impl XlUpdateLinks {
+    /// `Workbooks.Open(UpdateLinks := 0)`: do not update external references.
+    ///
+    /// Excel's `Workbooks.Open` parameter uses the documented values `0` and
+    /// `3` rather than only the named `XlUpdateLinks` enumeration members.
+    /// This constant keeps migration callers from spelling that API-specific
+    /// value as an unexplained integer.
+    pub const DO_NOT_UPDATE: Self = Self(0);
     /// Uses the user's current update-link setting.
     pub const USER_SETTING: Self = Self(1);
     /// Does not update external links.

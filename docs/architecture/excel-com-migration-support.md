@@ -53,6 +53,70 @@ Migration support should extend this design rather than create a parallel automa
 
 The first implementation task is to compare this list against the current crate and classify each item as already supported, partially supported, or missing.
 
+### Audited PyroApp reference surface (2026-09-16)
+
+This matrix is the completed E0/M0 audit of
+`pyroapprs/tools/workbook-migrator/Invoke-PyroAppWorkbookMigration.ps1` and
+`tools/workbook-migrator/tests/WorkbookMigration.Tests.ps1` against
+`excel-com` at `c0dd9a0db1286226875030c2003e7e4db37a5df4`. The PowerShell test fixture
+uses a few construction calls that the production migration path does not use;
+they remain listed because the compiled replacement needs equivalent synthetic
+acceptance fixtures.
+
+Status meanings are deliberately literal:
+
+- **SUPPORTED BY excel-com**: a public typed API exists;
+- **PARTIALLY SUPPORTED**: the underlying operation exists, but the public
+  migration-facing surface or focused live evidence is incomplete;
+- **MISSING FROM excel-com**: generic Excel behavior must be added here before
+  the compiled migrator may depend on it;
+- **NOT COM — migration-specific**: belongs in the PyroApp application;
+- **NOT COM — UI/application concern**: belongs in the executable shell or OS
+  integration.
+
+| Reference operation / behavior | Public `excel-com` API | Status at audit | Existing real-Excel evidence | Required action |
+|---|---|---|---|---|
+| Create a new private `Excel.Application` | `ComApartment::sta`, `OwnedApplication::new` | SUPPORTED BY excel-com | `fixture_open_live`, `release_smoke_live`, session diagnostics | Keep owned activation as the only migrator construction path; never use `AttachedApplication`. |
+| `Application.Visible` | `visible`, `set_visible` | SUPPORTED BY excel-com | release/session live suites | None. |
+| `Application.UserControl` | none | MISSING FROM excel-com | Earlier runtime probes only; no public-wrapper live test | Add typed read/write access and live-test private-session behavior. |
+| `Application.DisplayAlerts` | `display_alerts`, `set_display_alerts`, `display_alerts_guard` | SUPPORTED BY excel-com | release/presentation live suites | Use the restoring guard in the migrator. |
+| `Application.AskToUpdateLinks` | `ask_to_update_links`, `ask_to_update_links_guard` | SUPPORTED BY excel-com | external-link suite is environment-blocked; property participates in safe-open code | Add focused migration-support live evidence on the available desktop Excel host. |
+| `Application.EnableEvents` | none | MISSING FROM excel-com | Installed type-library evidence only | Add typed read/write access plus a restoring guard and live test. |
+| `Application.AutomationSecurity = ForceDisable` | `AutomationSecurity`, `automation_security_guard`, `Workbooks::open_safely` | SUPPORTED BY excel-com | `macro_runtime_live` verifies guard restoration | Exercise `open_safely` against the controlled `.xlsm` fixture in the migration suite; do not enable macro execution. |
+| `Application.Calculation = Manual` | `calculation_mode`, `calculation_mode_guard`, `CalculationMode::MANUAL` | SUPPORTED BY excel-com | `formula_calculation_live` | Use the guard rather than an un-restored scalar assignment. |
+| `CalculationState`, `Calculate`, `CalculateFull`, `Quit` | typed state/method APIs and `OwnedApplication::quit_and_wait` | SUPPORTED BY excel-com | calculation and release smoke suites | Include exact-process exit evidence in the migration lifecycle test. |
+| `Application.Workbooks` and `Workbooks.Add` (fixture only) | `Application::workbooks`, `Workbooks::add` | SUPPORTED BY excel-com | multiple live suites | Production migration must open a copied fixture; `Add` remains test-only. |
+| `Workbooks.Open(path, UpdateLinks=0, ReadOnly=true)` | `Workbooks::open` with `WorkbookOpenOptions`; `open_safely` | SUPPORTED BY excel-com | fixture/file live suites | Use typed options and safe open; preserve all optional positions inside the crate. |
+| `Workbook.Worksheets` / indexed and named lookup | `Workbook::worksheets`, `Worksheets::item_by_index`, `item_by_name`, `iter` | SUPPORTED BY excel-com | worksheet/collection live suites | None. |
+| `Workbook.Names`, `Names.Item`, `Names.Add` (fixture) | `Workbook::names`, `Names::item_by_name`, `Names::add` | SUPPORTED BY excel-com | `reference_names_live` | Extend live evidence to same textual name in workbook and worksheet scopes. |
+| `Workbook.SaveAs(..., 51/52)` | `Workbook::save_as`, `WorkbookSaveAsOptions`, `XlFileFormat::{OPEN_XML_WORKBOOK, OPEN_XML_WORKBOOK_MACRO_ENABLED}` | SUPPORTED BY excel-com | workbook-file and release smoke suites | Use typed formats; add `.xlsm`→`.xlsx` reopen verification. |
+| `Workbook.Save`, `Path`, `FullName`, `Close` | `save`, `path`, `full_name`, consuming `close` | SUPPORTED BY excel-com | workbook-file live suite | The migrator must not call `save` on its source. Close explicitly with discard after SaveAs. |
+| `Workbook.HasVBProject` for output verification | `has_vb_project` | SUPPORTED BY excel-com | presentation live coverage is not migration-focused | Verify the reopened `.xlsx` reports no VBA project. |
+| `Worksheet.Name`, `Range`, `Cells`, `UsedRange`, `Names` | `name`, `range`, `cell`/`range_from_cells`, `used_range`, `names` | SUPPORTED BY excel-com | worksheet/range, structured-data, reference-name suites | None beyond consolidated migration evidence. |
+| `Range.Value2`, `Formula`, `Formula2`, `HasFormula` | `value2`/`set_value2`, formula APIs, `has_formula` | SUPPORTED BY excel-com | worksheet/range and formula-calculation suites | Migrator uses `Formula2` directly; an older-version fallback is not enabled without contrary live evidence. |
+| Formula2 compatibility fallback to Formula | no silent fallback by design | SUPPORTED BY excel-com | installed Excel 16.0 accepts Formula2 | Keep version-sensitive failure inside `excel-com`; do not let the migrator catch arbitrary Formula2 errors and retry Formula. |
+| `Range.HasArray`, `CurrentArray`, `FormulaArray`, whole-array set | `has_array`, `current_array`, `formula_array`, `set_formula_array` | SUPPORTED BY excel-com | `formula_calculation_live` uses a genuine legacy CSE array and checks partial-edit safety | The PowerShell reference does not protect CSE members; the compiled migrator must group by `CurrentArray` and migrate each array once. |
+| `Range.Address`, rows, columns, cells, areas and indexed cell access | typed address/count/navigation APIs and `Areas` | SUPPORTED BY excel-com | worksheet/range and formula-calculation suites | None. |
+| `Range.SpecialCells(xlCellTypeFormulas)` | `special_cells` / `try_formula_cells`, `SpecialCellType::FORMULAS` | SUPPORTED BY excel-com | `formula_calculation_live` covers formula discovery and no-match handling | Prefer `try_formula_cells` so “no formula cells” is `Ok(None)`. |
+| `Range.Worksheet` | no public method (only private internal dispatch use) | MISSING FROM excel-com | registry metadata exists; no public live test | Add `Range::worksheet` and verify identity/name on real Excel. |
+| `Name.Name`, `RefersTo`, `RefersToRange` | `name`, `refers_to`, `range` | PARTIALLY SUPPORTED | `reference_names_live` covers global/local ranges | Add the explicit `refers_to_range` spelling as a compatibility-preserving alias and focused scope-collision evidence. |
+| Explicit COM release / zombie-process prevention | apartment-bound wrappers, consuming close, `quit_and_wait` exact PID | SUPPORTED BY excel-com | `release_smoke_live` | Add a migration-like traversal test that drops every temporary wrapper before quit. |
+| Formula recognition/translation and unsupported-family rejection | not applicable | NOT COM — migration-specific | PowerShell pure tests | Port to pure Rust tests without Excel. |
+| `CA_CALCULATE` parsing and three-row header normalization | not applicable | NOT COM — migration-specific | PowerShell pure/live tests | Preserve behavior, then add CSE-aware planning. |
+| File selection, save dialog, progress, cancellation, report and error dialogs | not applicable | NOT COM — UI/application concern | PowerShell UI/static tests | Implement in the standalone Windows executable. |
+| Source-closed preflight, isolated staging copy, output collision policy and partial-output cleanup | not applicable | NOT COM — UI/application concern | PowerShell integration behavior | Implement in the executable with ordinary filesystem APIs. |
+
+The audit also identified two behavioral gaps in the reference implementation,
+not missing COM members: it rewrites formula cells individually without
+`CurrentArray` grouping, and it treats a successful `SaveAs` as completion
+without closing and reopening the output. The compiled implementation must
+correct both, while preserving the reference formula and header semantics.
+
+**E0/M0 gate result:** complete. Every current COM interaction and every
+additional COM operation required by the target CSE/output-verification design
+has an owner. E1-E5 must close the four public/evidence gaps above before the
+compiled migrator starts.
+
 ### Application and session
 
 Required generic capabilities:
@@ -308,6 +372,33 @@ Implement and live-test:
 Run the complete live suite serially against real desktop Excel and record the tested Excel version/bitness.
 
 The gate passes only when every COM operation required by the migration consumer is available through public `excel-com` API with real Excel evidence.
+
+### E5 outcome (2026-09-16)
+
+The migration-support gate is complete at the implementation represented by
+this workstream. The E0 gaps were closed as follows:
+
+| Gap | Final public API / policy | Real-Excel evidence |
+|---|---|---|
+| `Application.UserControl` | `user_control`, `set_user_control` | A crate-owned Excel 16.0 session accepted and round-tripped `false`. |
+| `Application.EnableEvents` | `enable_events`, `set_enable_events`, `enable_events_guard` | Excel 16.0 accepted the temporary value and explicit restoration. |
+| `Range.Worksheet` | `Range::worksheet` | The returned worksheet matched the source worksheet by canonical COM identity. |
+| explicit `RefersToRange` and name-scope safety | `Name::refers_to_range`; scope-verifying `Names::item_by_name` | A workbook-global and worksheet-local `MigrationHeader` resolved independently before and after SaveAs/reopen. The first live run caught Excel's ambiguous raw lookup and drove the scope fix. |
+| `Workbooks.Open(UpdateLinks := 0)` | `XlUpdateLinks::DO_NOT_UPDATE` | The copied `.xlsm` opened read-only through `open_safely` with link prompts disabled. |
+| consolidated lifecycle evidence | `tests/migration_support_live.rs` | Excel 16.0: safe `.xlsm` open, Formula2, genuine CSE `CurrentArray`, UsedRange/SpecialCells, scoped names, `.xlsx` SaveAs/reopen, no VBA project, and exact owned-process exit all passed. |
+| private-instance isolation | second test in `migration_support_live.rs` | Two `OwnedApplication::new` calls produced different observed process IDs; quitting the newer instance left the pre-existing instance callable, and both exited naturally. |
+
+The installed Automation surface reports Excel version `16.0`. Office bitness
+is not authoritative through the available object model and remains `None`
+rather than being guessed. This host can reject restoration of
+`Application.Calculation` with Excel error `0x800A03EC`; the reference migrator
+already treats manual calculation as a best-effort performance setting. No
+migration correctness rule depends on changing calculation mode, while the
+typed guard continues to expose the restoration result.
+
+There are no remaining unsupported migration-critical COM operations. The
+consumer must still group legacy CSE members by `CurrentArray`, reopen and
+verify its output, and contain no raw COM implementation.
 
 ## Cross-repository handoff
 

@@ -177,6 +177,13 @@ pub enum ExcelComError {
     Runtime(ExcelRuntimeError),
     /// A value could not be converted before or after an Automation call.
     Conversion(ConversionError),
+    /// A defined name was absent from the explicitly requested Excel scope.
+    DefinedNameNotFound {
+        /// Caller-supplied simple defined-name text.
+        name: String,
+        /// Human-readable scope selected by the originating Names collection.
+        scope: String,
+    },
     /// A COM ownership invariant was violated.
     Ownership {
         /// A static description of the invariant.
@@ -301,6 +308,12 @@ impl Display for ExcelComError {
                 ),
             },
             Self::Conversion(error) => write!(formatter, "Automation conversion failed: {error:?}"),
+            Self::DefinedNameNotFound { name, scope } => {
+                write!(
+                    formatter,
+                    "defined name '{name}' was not found in {scope} scope"
+                )
+            }
             Self::Ownership { detail } => write!(formatter, "COM ownership failure: {detail}"),
             Self::InvalidPath { detail } => write!(formatter, "invalid Windows path: {detail}"),
             Self::Unsupported { detail } => {

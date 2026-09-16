@@ -8,10 +8,12 @@ Microsoft Graph workbook APIs.
 
 The implemented path is `Application -> Workbooks -> Workbook -> Worksheets
 -> Worksheet -> Range`. It supports creating a local Excel instance,
-inspecting and setting visibility, controlling `DisplayAlerts` with restoration,
-creating or opening a workbook, saving it or a copy, closing it with typed
-options, navigating worksheets, and reading or writing a bounded Range
-value/formula surface. It does not claim complete Excel object-model support.
+inspecting and setting visibility and user-control state, controlling
+`DisplayAlerts`, `EnableEvents`, external-link prompts, calculation mode, and
+macro automation security with restoration, creating or opening a workbook,
+saving it or a copy, closing it with typed options, navigating worksheets, and
+reading or writing a bounded Range value/formula surface. It does not claim
+complete Excel object-model support.
 
 The crate is layered as Excel wrappers, object-model member descriptors,
 Automation values and dispatch invocation, then private `windows-sys` COM
@@ -39,11 +41,19 @@ their `Debug` implementations. File paths accept `Path`/`OsStr` input directly
 as Windows UTF-16 units: the wrapper neither canonicalizes nor performs a
 lossy string conversion, and rejects embedded NULs before COM.
 
-Use `Application::display_alerts_guard` for temporary alert suppression. The
-guard restores the prior setting on drop, and `restore` exposes an explicit
-restoration result. `Workbook::close` consumes the wrapper and uses
+Use `Application::display_alerts_guard`, `enable_events_guard`,
+`ask_to_update_links_guard`, and `automation_security_guard` for temporary
+process-wide changes. Each guard restores the prior setting on drop, and
+`restore` exposes an explicit restoration result. `Workbooks::open_safely`
+forces macros off while Excel opens a workbook. `Workbook::close` consumes the wrapper and uses
 `SaveChanges::{Prompt, Save, Discard}`; `close_without_saving` delegates to
 the explicit discard form.
+
+Workbook and worksheet `Names` collections retain their originating scope.
+`Names::item_by_name` verifies that scope so an ambiguous raw Excel lookup
+cannot silently return a worksheet-local name in place of a workbook-global
+name. `Name::refers_to_range` is fallible because constants and formula-only
+names do not resolve to a Range.
 
 See `../docs/excel-object-model/README.md` for the generated inventory and
 `../docs/architecture/excel-com-project-layout.md` for repository boundaries.
@@ -53,9 +63,10 @@ Live tests are opt-in because they launch a new Excel process:
 ```powershell
 cargo test -p excel-com --test live -- --ignored --test-threads=1
 cargo test -p excel-com --test workbook_file_live -- --ignored --test-threads=1
+cargo test -p excel-com --test migration_support_live -- --ignored --test-threads=1
 ```
 
-Events, COM marshaling, VBA source editing, ActiveX/Form controls, Data
+Event-handler authoring, COM marshaling, VBA source editing, ActiveX/Form controls, Data
 Model/DAX mutation, and a stable pre-1.0 API remain out of scope.
 
 ## Charts, drawings, pictures, and sparklines

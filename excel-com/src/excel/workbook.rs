@@ -72,7 +72,7 @@ impl Workbook {
             member(MemberId::new("excel.workbook.names"), false),
             vec![],
         )?;
-        Ok(Names::from_dispatch(result.take_dispatch()?))
+        Ok(Names::from_workbook_dispatch(result.take_dispatch()?))
     }
     /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {

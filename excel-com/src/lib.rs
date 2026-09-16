@@ -506,12 +506,13 @@ pub mod tables {
 /// Core workbook, worksheet, and range abstractions kept convenient at the crate root.
 pub use excel::{
     Application, Areas, AreasIter, Border, Borders, BordersIter, CalculationMode,
-    CalculationModeGuard, CalculationState, DisplayAlertsGuard, ExcelColor, ExcelColorIndex,
-    FillPattern, Font, FormulaConversionOptions, FormulaValue, HorizontalAlignment, Interior,
-    MixedValue, Name, NameAddOptions, NameRefersTo, Names, NamesIter, Range, RangeAddressOptions,
-    ReferenceAbsoluteMode, ReferenceStyle, ReferenceStyleGuard, SaveChanges, UnderlineStyle,
-    VerticalAlignment, Workbook, WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions,
-    WorkbookSaveAsOptions, Workbooks, WorkbooksIter, Worksheet, WorksheetAddOptions, Worksheets,
-    WorksheetsAddOptions, WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform,
-    XlSaveAsAccessMode, XlSaveConflictResolution, XlUpdateLinks,
+    CalculationModeGuard, CalculationState, DisplayAlertsGuard, EnableEventsGuard, ExcelColor,
+    ExcelColorIndex, FillPattern, Font, FormulaConversionOptions, FormulaValue,
+    HorizontalAlignment, Interior, MixedValue, Name, NameAddOptions, NameRefersTo, Names,
+    NamesIter, Range, RangeAddressOptions, ReferenceAbsoluteMode, ReferenceStyle,
+    ReferenceStyleGuard, SaveChanges, UnderlineStyle, VerticalAlignment, Workbook,
+    WorkbookCloseOptions, WorkbookOpenFormat, WorkbookOpenOptions, WorkbookSaveAsOptions,
+    Workbooks, WorkbooksIter, Worksheet, WorksheetAddOptions, Worksheets, WorksheetsAddOptions,
+    WorksheetsIter, XlCorruptLoad, XlFileFormat, XlPlatform, XlSaveAsAccessMode,
+    XlSaveConflictResolution, XlUpdateLinks,
 };

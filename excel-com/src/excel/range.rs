@@ -5,7 +5,7 @@ use crate::automation::{
     AutomationValue, ConversionPolicy, DateWriteMode, OwnedVariant, PositionalArguments,
     decode_variant, invoke, property_get, property_put, validate_range_shape,
 };
-use crate::excel::{Areas, DispatchObject, RangeAddressOptions, ReferenceStyle};
+use crate::excel::{Areas, DispatchObject, RangeAddressOptions, ReferenceStyle, Worksheet};
 use crate::internal::{ComPtr, Dispatch};
 use crate::object_model::{MemberId, member};
 
@@ -44,6 +44,20 @@ impl Range {
     /// Returns whether two Range wrappers denote the same COM object identity.
     pub fn is_same_object(&self, other: &Self) -> Result<bool, ExcelComError> {
         self.inner.same_object(&other.inner)
+    }
+
+    /// Returns the worksheet that owns this Range.
+    ///
+    /// Excel returns a new COM wrapper for the parent worksheet. Callers that
+    /// need identity comparison should use [`Worksheet::is_same_object`]
+    /// rather than comparing names.
+    pub fn worksheet(&self) -> Result<Worksheet, ExcelComError> {
+        let mut result = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.range.worksheet"), false),
+            vec![],
+        )?;
+        Ok(Worksheet::from_dispatch(result.take_dispatch()?))
     }
 
     /// Returns the default absolute A1-style address as reported by Excel.

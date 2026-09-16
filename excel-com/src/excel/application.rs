@@ -22,6 +22,17 @@ pub struct DisplayAlertsGuard<'a> {
     active: bool,
 }
 
+/// Restores an [`Application`]'s prior `EnableEvents` value on drop.
+///
+/// Event delivery is process-wide application state. Migration and other
+/// unattended callers should prefer this guard to an unscoped mutation. Call
+/// [`Self::restore`] when restoration failures must be observed.
+pub struct EnableEventsGuard<'a> {
+    application: &'a Application,
+    previous: bool,
+    active: bool,
+}
+
 /// Restores an [`Application`]'s prior global `ReferenceStyle` on drop.
 ///
 /// The setting is process-wide Excel state. Prefer this guard to an unscoped
@@ -126,6 +137,34 @@ impl Drop for DisplayAlertsGuard<'_> {
     }
 }
 
+impl Debug for EnableEventsGuard<'_> {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("EnableEventsGuard")
+            .field("previous", &self.previous)
+            .field("active", &self.active)
+            .finish()
+    }
+}
+
+impl EnableEventsGuard<'_> {
+    /// Restores the prior `EnableEvents` value and disarms the guard.
+    pub fn restore(mut self) -> Result<(), ExcelComError> {
+        self.application.set_enable_events(self.previous)?;
+        self.active = false;
+        Ok(())
+    }
+}
+
+impl Drop for EnableEventsGuard<'_> {
+    fn drop(&mut self) {
+        if self.active {
+            let _ = self.application.set_enable_events(self.previous);
+            self.active = false;
+        }
+    }
+}
+
 /// Experimental wrapper for a crate-created local Excel Application instance.
 pub struct Application {
     inner: DispatchObject,
@@ -187,6 +226,51 @@ impl Application {
             OwnedVariant::bool(value),
         )?;
         Ok(())
+    }
+    /// Returns whether this Excel instance is controlled by an interactive user.
+    ///
+    /// A freshly activated [`crate::OwnedApplication`] is expected to report
+    /// `false`. This property is exposed for diagnostics and for parity with
+    /// Excel automation clients; session ownership is still determined by the
+    /// Rust handle type, never by this Boolean alone.
+    pub fn user_control(&self) -> Result<bool, ExcelComError> {
+        self.bool_property("excel.application.usercontrol")
+    }
+    /// Sets Excel's `UserControl` flag.
+    ///
+    /// Excel owns the precise lifetime semantics of this legacy Automation
+    /// property. This does not convert an attached session into an owned one
+    /// and does not grant shutdown rights.
+    pub fn set_user_control(&self, value: bool) -> Result<(), ExcelComError> {
+        let _ = property_put(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.usercontrol"), true),
+            OwnedVariant::bool(value),
+        )?;
+        Ok(())
+    }
+    /// Returns whether Excel application events are enabled.
+    pub fn enable_events(&self) -> Result<bool, ExcelComError> {
+        self.bool_property("excel.application.enableevents")
+    }
+    /// Enables or disables Excel application events.
+    pub fn set_enable_events(&self, value: bool) -> Result<(), ExcelComError> {
+        let _ = property_put(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.application.enableevents"), true),
+            OwnedVariant::bool(value),
+        )?;
+        Ok(())
+    }
+    /// Sets `EnableEvents` and returns a guard that restores its prior value.
+    pub fn enable_events_guard(&self, value: bool) -> Result<EnableEventsGuard<'_>, ExcelComError> {
+        let previous = self.enable_events()?;
+        self.set_enable_events(value)?;
+        Ok(EnableEventsGuard {
+            application: self,
+            previous,
+            active: true,
+        })
     }
     /// Returns Excel's `DisplayAlerts` setting.
     pub fn display_alerts(&self) -> Result<bool, ExcelComError> {

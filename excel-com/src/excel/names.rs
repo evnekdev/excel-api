@@ -3,7 +3,7 @@ use std::iter::FusedIterator;
 
 use crate::ExcelComError;
 use crate::automation::{
-    EnumVariant, OwnedVariant, PositionalArguments, enumerated_dispatch, invoke, property_get,
+    EnumVariant, OwnedVariant, PositionalArguments, enumerated_dispatch, invoke,
 };
 use crate::excel::collection::{
     CollectionDescriptor, count as collection_count, enumerator, item_by_index,
@@ -56,11 +56,22 @@ pub struct NameAddOptions<'a> {
 /// Experimental typed wrapper for an Excel Names collection.
 pub struct Names {
     inner: DispatchObject,
+    scope: NamesScope,
+}
+
+#[derive(Clone, Debug)]
+enum NamesScope {
+    Workbook,
+    Worksheet(String),
 }
 
 impl Debug for Names {
     fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
-        formatter.debug_tuple("Names").field(&self.inner).finish()
+        formatter
+            .debug_struct("Names")
+            .field("object", &self.inner)
+            .field("scope", &self.scope)
+            .finish()
     }
 }
 
@@ -68,17 +79,32 @@ impl Clone for Names {
     fn clone(&self) -> Self {
         Self {
             inner: self.inner.clone(),
+            scope: self.scope.clone(),
         }
     }
 }
 
 impl Names {
-    pub(crate) fn from_dispatch(dispatch: ComPtr<Dispatch>) -> Self {
+    pub(crate) fn from_workbook_dispatch(dispatch: ComPtr<Dispatch>) -> Self {
         Self {
             inner: DispatchObject {
                 dispatch,
                 kind: "Names",
             },
+            scope: NamesScope::Workbook,
+        }
+    }
+
+    pub(crate) fn from_worksheet_dispatch(
+        dispatch: ComPtr<Dispatch>,
+        worksheet_name: String,
+    ) -> Self {
+        Self {
+            inner: DispatchObject {
+                dispatch,
+                kind: "Names",
+            },
+            scope: NamesScope::Worksheet(worksheet_name),
         }
     }
 
@@ -96,17 +122,49 @@ impl Names {
         )?))
     }
 
-    /// Returns the Name selected by its Excel-visible string key.
+    /// Returns the Name selected by its simple name in this collection's scope.
     ///
-    /// Workbook and worksheet-local collections may expose different
-    /// qualification strings. Excel supplies lookup and collision semantics.
+    /// Excel's raw `Workbook.Names.Item("Name")` lookup can silently select a
+    /// worksheet-local name when a global name has the same text. This wrapper
+    /// enumerates and verifies the Excel-visible name instead: a collection
+    /// obtained from [`crate::Workbook::names`] returns only the unqualified
+    /// workbook name, while one obtained from [`crate::Worksheet::names`]
+    /// returns only the name qualified by that worksheet. Absence is reported
+    /// as [`ExcelComError::DefinedNameNotFound`].
     pub fn item_by_name(&self, name: &str) -> Result<Name, ExcelComError> {
-        let mut result = property_get(
-            &self.inner.dispatch,
-            member(MemberId::new("excel.names.item"), false),
-            vec![text_bstr(name)?],
-        )?;
-        Ok(Name::from_dispatch(result.take_dispatch()?))
+        if name.is_empty() || name.contains('\0') {
+            return Err(ExcelComError::Unsupported {
+                detail: "Names.Item requires a nonempty name without embedded NUL",
+            });
+        }
+        for candidate in self.iter()? {
+            let candidate = candidate?;
+            if self.matches_scope(&candidate.name()?, name) {
+                return Ok(candidate);
+            }
+        }
+        Err(ExcelComError::DefinedNameNotFound {
+            name: name.to_owned(),
+            scope: match &self.scope {
+                NamesScope::Workbook => "workbook".to_owned(),
+                NamesScope::Worksheet(worksheet) => format!("worksheet '{worksheet}'"),
+            },
+        })
+    }
+
+    fn matches_scope(&self, excel_name: &str, requested: &str) -> bool {
+        match &self.scope {
+            NamesScope::Workbook => {
+                !excel_name.contains('!') && excel_name.eq_ignore_ascii_case(requested)
+            }
+            NamesScope::Worksheet(worksheet) => {
+                let Some((qualifier, local_name)) = excel_name.rsplit_once('!') else {
+                    return false;
+                };
+                local_name.eq_ignore_ascii_case(requested)
+                    && unquote_worksheet_qualifier(qualifier).eq_ignore_ascii_case(worksheet)
+            }
+        }
     }
 
     /// Adds a Name using the narrow, position-preserving Prompt 11 input model.
@@ -164,6 +222,14 @@ impl Names {
             terminal: false,
         })
     }
+}
+
+fn unquote_worksheet_qualifier(value: &str) -> String {
+    value
+        .strip_prefix('\'')
+        .and_then(|value| value.strip_suffix('\''))
+        .unwrap_or(value)
+        .replace("''", "'")
 }
 
 /// Typed, single-pass iterator over Excel Names.

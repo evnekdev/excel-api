@@ -49,7 +49,11 @@ impl Application {
             detail: "Application.AskToUpdateLinks did not return VT_BOOL",
         })
     }
-    fn set_ask_to_update_links(&self, value: bool) -> Result<(), ExcelComError> {
+    /// Changes Excel's global external-link prompt setting.
+    ///
+    /// Prefer [`Self::ask_to_update_links_guard`] for temporary changes so the
+    /// prior process-wide state is restored on every normal exit path.
+    pub fn set_ask_to_update_links(&self, value: bool) -> Result<(), ExcelComError> {
         let _ = crate::automation::property_put(
             &self.dispatch_object().dispatch,
             member(MemberId::new("excel.application.asktoupdatelinks"), true),

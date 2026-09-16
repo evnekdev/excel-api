@@ -237,12 +237,16 @@ impl Worksheet {
 
     /// Returns this worksheet's Name collection for worksheet-local names.
     pub fn names(&self) -> Result<Names, ExcelComError> {
+        let worksheet_name = self.name()?;
         let mut result = property_get(
             &self.inner.dispatch,
             member(MemberId::new("excel.worksheet.names"), false),
             vec![],
         )?;
-        Ok(Names::from_dispatch(result.take_dispatch()?))
+        Ok(Names::from_worksheet_dispatch(
+            result.take_dispatch()?,
+            worksheet_name,
+        ))
     }
 
     /// Evaluates a worksheet-scoped expression as a scalar or array value.

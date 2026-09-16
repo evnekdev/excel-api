@@ -107,6 +107,16 @@ impl Name {
         Ok(Range::from_dispatch(result.take_dispatch()?))
     }
 
+    /// Resolves this defined name through Excel's `RefersToRange` property.
+    ///
+    /// This is an explicit spelling of [`Self::range`] for consumers that need
+    /// to distinguish a name's `RefersTo` formula text from its Range target.
+    /// Names that refer to constants or non-Range formulas return Excel's
+    /// structured error.
+    pub fn refers_to_range(&self) -> Result<Range, ExcelComError> {
+        self.range()
+    }
+
     /// Deletes this Name in Excel.
     ///
     /// The wrapper is consumed regardless of whether Excel accepts the

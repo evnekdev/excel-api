@@ -31,7 +31,9 @@ mod workbooks;
 mod worksheet;
 mod worksheets;
 
-pub use application::{Application, CalculationModeGuard, DisplayAlertsGuard, ReferenceStyleGuard};
+pub use application::{
+    Application, CalculationModeGuard, DisplayAlertsGuard, EnableEventsGuard, ReferenceStyleGuard,
+};
 pub use areas::{Areas, AreasIter};
 pub use autofilter::{
     AutoFilter, AutoFilterOperator, AutoFilterOptions, DynamicFilterCriteria, Filter,
