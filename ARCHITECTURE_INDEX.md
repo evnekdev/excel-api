@@ -24,13 +24,15 @@ notification are optional or experimental, not core 1.0 prerequisites.
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Reproducible M14 XLL packaging implemented; publication rehearsal active | M14-M20 |
 | Async | `ASYNC_ARCHITECTURE.md` | M16 implementation and race hardening complete; live validation pending | M16 |
 | Dispatcher | `MAIN_THREAD_DISPATCH_ARCHITECTURE.md` | Cooperative M17 implemented; live validation and autonomous wake pending | M17 |
-| RTD | `RTD_STREAMING_ARCHITECTURE.md` | Experimental Windows-only prototype; optional post-1.0 | Optional E1-E2 |
-| COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | Deferred optional integrations | Optional E3-E4 |
+| Native XLL host integration | `docs/architecture/native-xll-hosting-roadmap.md` | Architecture baseline complete; optional host/Ribbon implementation not started | H0-H8 |
+| RTD | `RTD_STREAMING_ARCHITECTURE.md` | Experimental Windows-only prototype; optional post-1.0 | Optional E1-E2 / H7 if required |
+| COM/Ribbon | `COM_ARCHITECTURE.md`, `RIBBON_UI_ARCHITECTURE.md` | Deferred optional integrations; concrete host/Ribbon path is now defined by the H roadmap | Optional E3-E5 / H2-H5 |
+| Excel COM extraction | `docs/architecture/com-automation-roadmap.md` | Architecture decision and staged generic COM extraction roadmap | C0-C9 |
 | Excel COM knowledge base | `knowledge/excel-object-model/README.md`, `docs/research/excel-com/02-object-model-knowledge-base.md` | Documentation-derived, attributed research foundation; no runtime implementation | Optional E4 preparation |
 | Excel COM object-model analysis | `docs/research/excel-com/03-excel-object-model-analysis.md`, `knowledge/excel-object-model/generated/analysis/` | Documentation-derived navigation, candidate, typelib, and runtime evidence backlog; no runtime implementation | Optional E4 preparation |
 | Excel COM typelib audit | `docs/research/excel-com/04-core-excel-typelib-audit.md`, `knowledge/excel-object-model/typelib/`, `knowledge/excel-object-model/generated/typelib/` | Installed Excel type-library evidence; no activation, dispatch implementation, or runtime conclusions | Optional E4 preparation |
 | Excel COM Range runtime probe | `docs/research/excel-com/05-range-variant-safearray-runtime.md`, `knowledge/excel-object-model/runtime/`, `knowledge/excel-object-model/generated/runtime/` | Isolated raw-COM probe infrastructure; current host blocked before Range observation | Optional E4 preparation |
-| Support/release | `SUPPORT_MATRIX.md`, `OPTIONAL_INTEGRATIONS_ROADMAP.md`, `docs/release/core-1.0-release-checklist.md` | Core 1.0 boundary defined; release audit active | M20 / E1-E5 |
+| Support/release | `SUPPORT_MATRIX.md`, `OPTIONAL_INTEGRATIONS_ROADMAP.md`, `docs/release/core-1.0-release-checklist.md` | Core 1.0 boundary defined; release audit active | M20 / E1-E5 / H0-H8 |
 
 ## Dependency order
 
@@ -44,14 +46,18 @@ ABI
  -> async/cooperative dispatch
  -> M20 core stabilization
 
-Optional after core 1.0: RTD/COM/Ribbon/notification adapters
+Optional after core 1.0:
+ -> native XLL host integration (H1-H4)
+ -> Ribbon/COM integration (H5, coordinated with C milestones)
+ -> application cutover and async parity research (H6-H8)
 ```
 
 ## Release boundary
 
 Core 1.0 excludes optional RTD, COM/Ribbon, custom task panes, autonomous
-notification, and `xlcOnTime` research. See ADR-0033 and
-`SUPPORT_MATRIX.md`; those integrations remain separate post-1.0 decisions.
+notification, and native desktop host integration. See ADR-0033,
+`SUPPORT_MATRIX.md`, and `docs/architecture/native-xll-hosting-roadmap.md`;
+those integrations remain separate post-1.0 decisions.
 
 ## Freeze policy
 
