@@ -157,3 +157,55 @@ therefore cannot drain M17 work, and issue #30 remains open.
 The dispatcher queue remains notification-source agnostic. A future adapter
 still requires separate authoritative proof that Excel issues a callback with
 the exact typed capability required by each selected operation.
+
+## Planned H3 notification adapter
+
+The post-core host-integration roadmap now identifies a preferred new research
+and implementation path in
+`docs/architecture/native-xll-hosting-roadmap.md` H3. This does **not** change
+M17's current implementation status: today the production dispatcher still has
+no autonomous wake source.
+
+The preferred H3 topology is:
+
+```text
+producer
+  |
+  | enqueue owned work + coalesced wake
+  v
+Excel-UI-thread hidden/message-only window
+  |
+  | narrow current-host Application.Run(helper name)
+  v
+Excel invokes registered XLL helper command
+  |
+  v
+genuine MacroContext
+  |
+  v
+M17-compatible drain / application macro handler
+```
+
+Important invariants:
+
+- `PostMessage` and a window procedure do not create Excel callback capability;
+- the window procedure must not call arbitrary Excel C API functions;
+- only Excel's subsequent invocation of the registered helper macro creates the
+  `MacroContext` used for macro-capable work;
+- busy/edit/modal failures in the wake attempt use a bounded/coalesced UI-thread
+  retry mechanism rather than spinning;
+- timers may retry the wake attempt but may not directly call Excel C API from
+  an OS timer callback;
+- all window/timer/helper registrations are generation-owned and torn down
+  before XLL code can unload;
+- stale producers cannot wake a later runtime generation.
+
+H3 also requires a separate review of how application-specific owned tasks
+extend the currently sealed M17 operation catalogue. The roadmap prefers typed
+owned payloads plus statically registered handlers and explicitly rejects
+silently replacing the sealed catalogue with arbitrary callback-context
+closures merely for convenience.
+
+A successful H3 implementation would satisfy the main production wake need
+without requiring `xlcOnTime`. Issue #30 remains valid research evidence until
+H3 passes its own real-Excel idle/busy/edit/modal/shutdown matrix.
