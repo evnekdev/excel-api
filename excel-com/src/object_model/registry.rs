@@ -760,6 +760,7 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.vbproject.vbcomponents",
     "excel.vbcomponents.count",
     "excel.vbcomponents.item",
+    "excel.vbcomponents.add",
     "excel.vbcomponent.name",
     "excel.vbcomponent.codemodule",
     "excel.vbacodemodule.countoflines",
@@ -1525,6 +1526,11 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
             id: MemberId::new("excel.vbcomponents.item"),
             name: "Item",
             kind: MemberKind::PropertyGet,
+        },
+        ("excel.vbcomponents.add", _) => MemberDescriptor {
+            id: MemberId::new("excel.vbcomponents.add"),
+            name: "Add",
+            kind: MemberKind::Method,
         },
         ("excel.vbcomponent.name", _) => MemberDescriptor {
             id: MemberId::new("excel.vbcomponent.name"),

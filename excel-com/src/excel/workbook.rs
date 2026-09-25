@@ -194,6 +194,44 @@ impl Workbook {
         )?;
         Ok(())
     }
+    /// Creates a standard VBA module and appends its source text without
+    /// running any procedure. This is useful for disposable authoring or test
+    /// fixtures whose function ownership must be explicit.
+    pub fn add_vba_standard_module_source(&self, source: &str) -> Result<(), ExcelComError> {
+        // vbext_ct_StdModule is the Office VBA extensibility value 1.
+        let mut project = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbook.vbproject"), false),
+            vec![],
+        )?;
+        let project = project.take_dispatch()?;
+        let mut components = property_get(
+            &project,
+            member(MemberId::new("excel.vbproject.vbcomponents"), false),
+            vec![],
+        )?;
+        let components = components.take_dispatch()?;
+        let mut component = invoke(
+            &components,
+            member(MemberId::new("excel.vbcomponents.add"), false),
+            vec![OwnedVariant::i32(1)],
+            false,
+        )?;
+        let component = component.take_dispatch()?;
+        let mut module = property_get(
+            &component,
+            member(MemberId::new("excel.vbcomponent.codemodule"), false),
+            vec![],
+        )?;
+        let module = module.take_dispatch()?;
+        invoke(
+            &module,
+            member(MemberId::new("excel.vbacodemodule.addfromstring"), false),
+            vec![OwnedVariant::bstr(source)?],
+            false,
+        )?;
+        Ok(())
+    }
     /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {
         property_get(
