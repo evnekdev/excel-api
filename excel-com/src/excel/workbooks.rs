@@ -106,6 +106,27 @@ impl Workbooks {
         )?;
         Ok(Workbook::from_dispatch(result.take_dispatch()?))
     }
+    /// Opens a workbook with the safe prefix of Excel's `Workbooks.Open`
+    /// signature, without adding trailing `Missing` positions.
+    ///
+    /// `UpdateLinks := 0` prevents external-link updates, while `read_only`
+    /// selects whether the caller needs to mutate the workbook. This matches
+    /// the documented Office automation shape and avoids both the rejected
+    /// one-argument form and legacy files that reject a fully expanded
+    /// `Missing` argument list.
+    pub fn open_without_link_updates<P: AsRef<Path>>(
+        &self,
+        filename: P,
+        read_only: bool,
+    ) -> Result<Workbook, ExcelComError> {
+        let mut result = invoke(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbooks.open-1923"), false),
+            open_without_link_updates_arguments(filename.as_ref(), read_only)?,
+            false,
+        )?;
+        Ok(Workbook::from_dispatch(result.take_dispatch()?))
+    }
     /// Returns the one-based workbook at `index`.
     pub fn item_by_index(&self, index: usize) -> Result<Workbook, ExcelComError> {
         Ok(Workbook::from_dispatch(item_by_index(
@@ -205,6 +226,17 @@ fn open_minimal_arguments(filename: &Path) -> Result<Vec<OwnedVariant>, ExcelCom
     Ok(vec![path_bstr(filename)?])
 }
 
+fn open_without_link_updates_arguments(
+    filename: &Path,
+    read_only: bool,
+) -> Result<Vec<OwnedVariant>, ExcelComError> {
+    Ok(vec![
+        path_bstr(filename)?,
+        OwnedVariant::i32(0),
+        OwnedVariant::bool(read_only),
+    ])
+}
+
 fn push_optional_text(
     arguments: &mut PositionalArguments,
     value: Option<&str>,
@@ -249,6 +281,18 @@ mod tests {
             open_minimal_arguments(Path::new("relative folder/\u{8cc7}\u{6599} book.xlsx"))
                 .expect("path argument");
         assert_eq!(values.len(), 1);
+    }
+
+    #[test]
+    fn safe_open_prefix_disables_link_updates_and_sets_read_only() {
+        let values = open_without_link_updates_arguments(
+            Path::new("relative folder/\u{8cc7}\u{6599} book.xlsx"),
+            true,
+        )
+        .expect("safe-open arguments");
+        assert_eq!(values.len(), 3);
+        assert_eq!(values[1].as_i32(), Some(0));
+        assert_eq!(values[2].as_bool(), Some(true));
     }
 
     #[test]
