@@ -764,6 +764,7 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.vbcomponent.codemodule",
     "excel.vbacodemodule.countoflines",
     "excel.vbacodemodule.lines",
+    "excel.vbacodemodule.addfromstring",
     "excel.application.registeredfunctions",
     "excel.workbook.protectstructure",
     "excel.workbook.protectwindows",
@@ -1543,6 +1544,11 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.vbacodemodule.lines", _) => MemberDescriptor {
             id: MemberId::new("excel.vbacodemodule.lines"),
             name: "Lines",
+            kind: MemberKind::Method,
+        },
+        ("excel.vbacodemodule.addfromstring", _) => MemberDescriptor {
+            id: MemberId::new("excel.vbacodemodule.addfromstring"),
+            name: "AddFromString",
             kind: MemberKind::Method,
         },
         ("excel.worksheets.count", _) => WORKSHEETS_COUNT,

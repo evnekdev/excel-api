@@ -152,6 +152,48 @@ impl Workbook {
         }
         Ok(sources)
     }
+    /// Appends source text to an existing VBA component without running it.
+    ///
+    /// This is intended for explicitly opted-in authoring or disposable test
+    /// fixtures. Excel may reject it when Trust Center policy disallows VBA
+    /// project access. It never invokes a VBA procedure or calculates a cell.
+    pub fn append_vba_component_source(
+        &self,
+        component_index: i32,
+        source: &str,
+    ) -> Result<(), ExcelComError> {
+        let mut project = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbook.vbproject"), false),
+            vec![],
+        )?;
+        let project = project.take_dispatch()?;
+        let mut components = property_get(
+            &project,
+            member(MemberId::new("excel.vbproject.vbcomponents"), false),
+            vec![],
+        )?;
+        let components = components.take_dispatch()?;
+        let mut component = property_get(
+            &components,
+            member(MemberId::new("excel.vbcomponents.item"), false),
+            vec![OwnedVariant::i32(component_index)],
+        )?;
+        let component = component.take_dispatch()?;
+        let mut module = property_get(
+            &component,
+            member(MemberId::new("excel.vbcomponent.codemodule"), false),
+            vec![],
+        )?;
+        let module = module.take_dispatch()?;
+        invoke(
+            &module,
+            member(MemberId::new("excel.vbacodemodule.addfromstring"), false),
+            vec![OwnedVariant::bstr(source)?],
+            false,
+        )?;
+        Ok(())
+    }
     /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {
         property_get(
