@@ -9,6 +9,16 @@ use crate::{ConversionError, ExcelComError};
 use std::fmt::{Debug, Formatter};
 use std::path::Path;
 
+/// Read-only text of one workbook VBA component. Reading this metadata never
+/// runs workbook macros or calls a VBA procedure.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VbaComponentSource {
+    /// Excel/VBA component name.
+    pub name: String,
+    /// Complete component source text as exposed by the VBA project model.
+    pub source: String,
+}
+
 /// Experimental wrapper for a single Excel Workbook.
 pub struct Workbook {
     inner: DispatchObject,
@@ -73,6 +83,74 @@ impl Workbook {
             vec![],
         )?;
         Ok(Names::from_workbook_dispatch(result.take_dispatch()?))
+    }
+    /// Reads source text for the workbook's VBA components without executing
+    /// VBA. Excel may reject this when the user's Trust Center disallows
+    /// programmatic VBA-project access; callers must surface that policy
+    /// boundary rather than guessing function ownership.
+    pub fn vba_component_sources(&self) -> Result<Vec<VbaComponentSource>, ExcelComError> {
+        let mut project = property_get(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbook.vbproject"), false),
+            vec![],
+        )?;
+        let project = project.take_dispatch()?;
+        let mut components = property_get(
+            &project,
+            member(MemberId::new("excel.vbproject.vbcomponents"), false),
+            vec![],
+        )?;
+        let components = components.take_dispatch()?;
+        let count = property_get(
+            &components,
+            member(MemberId::new("excel.vbcomponents.count"), false),
+            vec![],
+        )?
+        .as_i32()
+        .ok_or(ExcelComError::Conversion(
+            ConversionError::UnsupportedVariantType { vartype: 0 },
+        ))?;
+        let mut sources = Vec::new();
+        for index in 1..=count {
+            let mut component = property_get(
+                &components,
+                member(MemberId::new("excel.vbcomponents.item"), false),
+                vec![OwnedVariant::i32(index)],
+            )?;
+            let component = component.take_dispatch()?;
+            let name = property_get(
+                &component,
+                member(MemberId::new("excel.vbcomponent.name"), false),
+                vec![],
+            )?
+            .as_string()?;
+            let mut module = property_get(
+                &component,
+                member(MemberId::new("excel.vbcomponent.codemodule"), false),
+                vec![],
+            )?;
+            let module = module.take_dispatch()?;
+            let lines = property_get(
+                &module,
+                member(MemberId::new("excel.vbacodemodule.countoflines"), false),
+                vec![],
+            )?
+            .as_i32()
+            .unwrap_or(0);
+            let source = if lines == 0 {
+                String::new()
+            } else {
+                invoke(
+                    &module,
+                    member(MemberId::new("excel.vbacodemodule.lines"), false),
+                    vec![OwnedVariant::i32(1), OwnedVariant::i32(lines)],
+                    false,
+                )?
+                .as_string()?
+            };
+            sources.push(VbaComponentSource { name, source });
+        }
+        Ok(sources)
     }
     /// Returns Excel's current saved-state flag.
     pub fn saved(&self) -> Result<bool, ExcelComError> {

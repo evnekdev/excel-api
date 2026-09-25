@@ -112,7 +112,8 @@ pub use table::{
 pub use validation::{
     Validation, ValidationAddOptions, ValidationAlertStyle, ValidationOperator, ValidationType,
 };
-pub use workbook::Workbook;
+#[allow(unused_imports)]
+pub use workbook::{VbaComponentSource, Workbook};
 pub use workbooks::{Workbooks, WorkbooksIter};
 pub use worksheet::{SheetVisibility, Worksheet};
 pub use worksheets::{
