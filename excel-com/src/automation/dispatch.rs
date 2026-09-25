@@ -73,30 +73,56 @@ pub(crate) fn invoke(
     let member = descriptor.name;
     let name = wide_nul(member);
     let names = [name.as_ptr()];
-    let mut dispid = 0;
-    // SAFETY: the vtable is validated by ComPtr and all lookup buffers outlive the call.
-    let lookup = unsafe {
-        (target.vtbl().get_ids_of_names)(
-            target.raw(),
-            &GUID::default(),
-            names.as_ptr(),
-            1,
-            LOCALE_USER_DEFAULT,
-            &mut dispid,
-        )
+    let policy = active_policy();
+    let lookup_started = Instant::now();
+    let mut lookup_attempts = 0;
+    let dispid = loop {
+        lookup_attempts += 1;
+        let mut dispid = 0;
+        // SAFETY: the vtable is validated by ComPtr and all lookup buffers outlive the call.
+        let lookup = unsafe {
+            (target.vtbl().get_ids_of_names)(
+                target.raw(),
+                &GUID::default(),
+                names.as_ptr(),
+                1,
+                LOCALE_USER_DEFAULT,
+                &mut dispid,
+            )
+        };
+        if !ExcelComError::failed(lookup) {
+            break dispid;
+        }
+        let Some(policy) = policy.as_ref() else {
+            return Err(ExcelComError::NameLookup {
+                member,
+                hresult: lookup,
+            });
+        };
+        let retryable = match classify_com_hresult(lookup) {
+            super::ComCallDisposition::RetryableBusy => policy.retry_server_busy,
+            super::ComCallDisposition::RetryableRejected => policy.retry_call_rejected,
+            super::ComCallDisposition::PermanentFailure | super::ComCallDisposition::Unknown => {
+                false
+            }
+        };
+        let delay = policy.delay_for_retry(lookup_attempts);
+        if !retryable
+            || lookup_attempts >= policy.max_attempts.max(1)
+            || lookup_started.elapsed().saturating_add(delay) > policy.total_timeout
+        {
+            return Err(ExcelComError::NameLookup {
+                member,
+                hresult: lookup,
+            });
+        }
+        std::thread::sleep(delay);
     };
-    if ExcelComError::failed(lookup) {
-        return Err(ExcelComError::NameLookup {
-            member,
-            hresult: lookup,
-        });
-    }
     if !property_put {
         reverse_for_com(&mut args);
     }
 
     let retry_safety = retry_safety(descriptor, property_put);
-    let policy = active_policy();
     let started = Instant::now();
     let mut attempts = 0;
     loop {
