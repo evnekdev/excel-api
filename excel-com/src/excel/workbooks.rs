@@ -90,6 +90,22 @@ impl Workbooks {
     pub fn open_default<P: AsRef<Path>>(&self, filename: P) -> Result<Workbook, ExcelComError> {
         self.open(filename, WorkbookOpenOptions::new())
     }
+    /// Opens a workbook with only Excel's required filename argument.
+    ///
+    /// This deliberately differs from [`Self::open_default`]: it omits all
+    /// optional positions from the COM invocation instead of supplying them as
+    /// explicit `Missing` values. Some legacy workbooks with data-model or
+    /// external-link metadata accept the normal Office automation form but
+    /// reject a fully expanded `Missing` argument list.
+    pub fn open_minimal<P: AsRef<Path>>(&self, filename: P) -> Result<Workbook, ExcelComError> {
+        let mut result = invoke(
+            &self.inner.dispatch,
+            member(MemberId::new("excel.workbooks.open-1923"), false),
+            open_minimal_arguments(filename.as_ref())?,
+            false,
+        )?;
+        Ok(Workbook::from_dispatch(result.take_dispatch()?))
+    }
     /// Returns the one-based workbook at `index`.
     pub fn item_by_index(&self, index: usize) -> Result<Workbook, ExcelComError> {
         Ok(Workbook::from_dispatch(item_by_index(
@@ -185,6 +201,10 @@ fn open_arguments(
     Ok(arguments.into_inner())
 }
 
+fn open_minimal_arguments(filename: &Path) -> Result<Vec<OwnedVariant>, ExcelComError> {
+    Ok(vec![path_bstr(filename)?])
+}
+
 fn push_optional_text(
     arguments: &mut PositionalArguments,
     value: Option<&str>,
@@ -221,6 +241,14 @@ mod tests {
         assert_eq!(values[11].as_i32(), Some(9));
         assert_eq!(values[13].as_bool(), Some(false));
         assert_eq!(values[14].as_scode(), Some(DISP_E_PARAMNOTFOUND));
+    }
+
+    #[test]
+    fn minimal_open_omits_optional_positions() {
+        let values =
+            open_minimal_arguments(Path::new("relative folder/\u{8cc7}\u{6599} book.xlsx"))
+                .expect("path argument");
+        assert_eq!(values.len(), 1);
     }
 
     #[test]
