@@ -1550,7 +1550,7 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.vbacodemodule.lines", _) => MemberDescriptor {
             id: MemberId::new("excel.vbacodemodule.lines"),
             name: "Lines",
-            kind: MemberKind::Method,
+            kind: MemberKind::PropertyGet,
         },
         ("excel.vbacodemodule.addfromstring", _) => MemberDescriptor {
             id: MemberId::new("excel.vbacodemodule.addfromstring"),

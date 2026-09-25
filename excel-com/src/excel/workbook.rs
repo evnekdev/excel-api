@@ -141,11 +141,10 @@ impl Workbook {
             let source = if lines == 0 {
                 String::new()
             } else {
-                invoke(
+                property_get(
                     &module,
                     member(MemberId::new("excel.vbacodemodule.lines"), false),
                     vec![OwnedVariant::i32(1), OwnedVariant::i32(lines)],
-                    false,
                 )?
                 .as_string()?
             };
