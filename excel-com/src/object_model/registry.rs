@@ -61,6 +61,11 @@ const APPLICATION_EVALUATE: MemberDescriptor = MemberDescriptor {
     name: "Evaluate",
     kind: MemberKind::Method,
 };
+const APPLICATION_REGISTERED_FUNCTIONS: MemberDescriptor = MemberDescriptor {
+    id: MemberId::new("excel.application.registeredfunctions"),
+    name: "RegisteredFunctions",
+    kind: MemberKind::PropertyGet,
+};
 const WORKBOOKS_COUNT: MemberDescriptor = MemberDescriptor {
     id: MemberId::new("excel.workbooks.count"),
     name: "Count",
@@ -751,6 +756,7 @@ pub const IMPLEMENTED_MEMBER_IDS: &[&str] = &[
     "excel.workbook.activesheet",
     "excel.workbook.exportasfixedformat-3175",
     "excel.workbook.hasvbproject",
+    "excel.application.registeredfunctions",
     "excel.workbook.protectstructure",
     "excel.workbook.protectwindows",
     "excel.workbook.printout-2361",
@@ -1472,6 +1478,7 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         },
         ("excel.application.convertformula", _) => APPLICATION_CONVERT_FORMULA,
         ("excel.application.evaluate-1", _) => APPLICATION_EVALUATE,
+        ("excel.application.registeredfunctions", _) => APPLICATION_REGISTERED_FUNCTIONS,
         ("excel.workbooks.count", _) => WORKBOOKS_COUNT,
         ("excel.workbooks.item", _) => WORKBOOKS_ITEM,
         ("excel.workbooks.newenum", _) => WORKBOOKS_NEW_ENUM,

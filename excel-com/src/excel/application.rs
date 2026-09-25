@@ -554,6 +554,23 @@ impl Application {
         Ok(Range::from_dispatch(result.take_dispatch()?))
     }
 
+    /// Returns the Excel Automation `RegisteredFunctions` metadata table.
+    ///
+    /// Excel supplies this without evaluating worksheet formulas. Consumers can
+    /// use it to identify functions registered by XLL/Automation add-ins while
+    /// leaving ordinary built-ins out of their own application-specific policy.
+    pub fn registered_functions(&self) -> Result<crate::AutomationValue, ExcelComError> {
+        let result = property_get(
+            &self.inner.dispatch,
+            member(
+                MemberId::new("excel.application.registeredfunctions"),
+                false,
+            ),
+            vec![],
+        )?;
+        decode_variant(&result, ConversionPolicy::default())
+    }
+
     fn evaluate(&self, expression: &str) -> Result<OwnedVariant, ExcelComError> {
         invoke(
             &self.inner.dispatch,
