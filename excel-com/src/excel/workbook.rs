@@ -112,10 +112,11 @@ impl Workbook {
         ))?;
         let mut sources = Vec::new();
         for index in 1..=count {
-            let mut component = property_get(
+            let mut component = invoke(
                 &components,
                 member(MemberId::new("excel.vbcomponents.item"), false),
                 vec![OwnedVariant::i32(index)],
+                false,
             )?;
             let component = component.take_dispatch()?;
             let name = property_get(
@@ -174,10 +175,11 @@ impl Workbook {
             vec![],
         )?;
         let components = components.take_dispatch()?;
-        let mut component = property_get(
+        let mut component = invoke(
             &components,
             member(MemberId::new("excel.vbcomponents.item"), false),
             vec![OwnedVariant::i32(component_index)],
+            false,
         )?;
         let component = component.take_dispatch()?;
         let mut module = property_get(

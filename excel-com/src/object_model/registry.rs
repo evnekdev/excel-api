@@ -1525,7 +1525,7 @@ pub(crate) fn member(id: MemberId, put: bool) -> MemberDescriptor {
         ("excel.vbcomponents.item", _) => MemberDescriptor {
             id: MemberId::new("excel.vbcomponents.item"),
             name: "Item",
-            kind: MemberKind::PropertyGet,
+            kind: MemberKind::Method,
         },
         ("excel.vbcomponents.add", _) => MemberDescriptor {
             id: MemberId::new("excel.vbcomponents.add"),
