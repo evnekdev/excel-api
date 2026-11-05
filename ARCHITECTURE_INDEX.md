@@ -24,7 +24,8 @@ notification are optional or experimental, not core 1.0 prerequisites.
 | Packaging | `PACKAGING_ARCHITECTURE.md` | Reproducible M14 XLL packaging implemented; publication rehearsal active | M14-M20 |
 | Async | `ASYNC_ARCHITECTURE.md` | M16 implementation and race hardening complete; live validation pending | M16 |
 | Dispatcher | `MAIN_THREAD_DISPATCH_ARCHITECTURE.md` | Cooperative M17 implemented; live validation and autonomous wake pending | M17 |
-| Excel-DNA subsystem-to-crate map | `docs/architecture/excel-dna-subsystems-and-crates.md` | Proposed ownership for 18 upstream subsystems; 3 core crates retained, optional Ribbon/RTD and research-only host wake; no code split performed | #78 / #79 |
+| Excel C API-first inventory | `docs/architecture/c-api-inventory-layer.md`, `knowledge/excel-c-api/README.md`, `knowledge/excel-c-api/schema.md`, `knowledge/excel-c-api/symbols.jsonl` | Canonical raw C API declaration layer defined; **15 verified seed symbols, NOT complete SDK coverage or Rust/Excel acceptance** | #116 / EDNA-02 #90 |
+| Excel-DNA subsystem-to-crate map | `docs/architecture/excel-dna-subsystems-and-crates.md` | Proposed ownership for 25 identified EDNA capability subsystems; 3 core crates retained, optional Ribbon/RTD and research-only host wake; no code split performed | #78 / #79 |
 | Excel-DNA-equivalent Rust infrastructure | `docs/architecture/excel-dna-capability-roadmap.md` | Proposed long-term C-API-first capability roadmap; PyroApp full parity is first acceptance consumer; implementation/verification independently tracked | P0 / B1-B7 |
 | Native XLL host integration | `docs/architecture/native-xll-hosting-roadmap.md` | Architecture baseline complete; optional host/Ribbon implementation not started | H0-H8 |
 | RTD | `RTD_STREAMING_ARCHITECTURE.md` | Experimental Windows-only prototype; optional post-1.0 | Optional E1-E2 / H7 if required |
