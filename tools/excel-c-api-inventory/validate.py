@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CATALOGUE = ROOT / 'knowledge/excel-c-api/symbols.jsonl'
 BASELINE = '172a003172e5d90a26ea4a8345218988d4b189cc'
+CATALOGUE_PATH = 'knowledge/excel-c-api/symbols.jsonl'
 SOURCE_PATH = 'tools/Excel2013XLLSDK/INCLUDE/XLCALL.H'
 KINDS = {'struct', 'type-flag', 'special-function-id', 'worksheet-function-id', 'macro-command-id', 'function-prototype'}
 RUST = {'unassessed', 'absent', 'partial', 'implemented', 'not-applicable'}
@@ -18,6 +19,9 @@ SHA = re.compile(r'[0-9a-f]{40}\Z')
 NAME = re.compile(r'[A-Za-z_][A-Za-z_0-9]*\Z')
 
 class Invalid(ValueError):
+    pass
+
+class HistoryUnavailable(ValueError):
     pass
 
 def git(*args):
@@ -56,6 +60,66 @@ def unique_keys(pairs):
 
 def identity(r):
     return (r['source']['path'], r['kind'], r['symbol'])
+
+def historical_identities(baseline=BASELINE, head='HEAD', upstream='refs/remotes/origin/master', extra=None):
+    """Reserve identities from catalogue snapshots reachable from both relevant tips."""
+    try:
+        if git('rev-parse', '--is-shallow-repository').decode().strip() != 'false':
+            raise HistoryUnavailable('shallow repository; fetch complete catalogue history')
+        tips = [head, upstream] + ([extra] if extra else [])
+        for ref in (baseline, *tips):
+            git('rev-parse', '--verify', f'{ref}^{{commit}}')
+        for ref in tips:
+            git('merge-base', '--is-ancestor', baseline, ref)
+        commits = git('log', '--full-history', '--format=%H', *tips, '--', CATALOGUE_PATH).decode().splitlines()
+        if git('rev-parse', f'{baseline}^{{commit}}').decode().strip() not in commits:
+            raise HistoryUnavailable('original catalogue baseline is missing from relevant history')
+    except Invalid as e:
+        raise HistoryUnavailable(f'required catalogue history unavailable: {e}') from e
+    reserved = {}; snapshots = {}
+    def snapshot(commit):
+        if commit in snapshots:
+            return snapshots[commit]
+        try:
+            if not git('ls-tree', commit, '--', CATALOGUE_PATH).strip():
+                snapshots[commit] = None
+                return None
+            records = read_jsonl(git('show', f'{commit}:{CATALOGUE_PATH}'))
+        except Invalid as e:
+            raise HistoryUnavailable(f'cannot read catalogue snapshot {commit}: {e}') from e
+        seen = {}
+        for r in records:
+            try:
+                ident = r['id']; key = identity(r)
+                if not isinstance(ident, str) or not re.fullmatch(r'CAPI-[0-9]{6}', ident) or ident == 'CAPI-000000':
+                    raise Invalid(f'invalid historical ID in {commit}')
+                if any(not isinstance(part, str) or not part for part in key):
+                    raise Invalid(f'invalid historical identity for {ident} in {commit}')
+                if ident in seen:
+                    raise Invalid(f'duplicate historical ID {ident} in {commit}')
+                seen[ident] = key
+                if ident in reserved and reserved[ident] != key:
+                    raise Invalid(f'historical ID {ident} reassigned in reachable catalogue history')
+                reserved[ident] = key
+            except (KeyError, TypeError) as e:
+                raise Invalid(f'invalid historical record in {commit}: {e}') from e
+        snapshots[commit] = seen
+        return seen
+    for commit in commits:
+        current = snapshot(commit)
+        if current is None:
+            raise Invalid(f'historical catalogue removed in {commit}; no retirement policy exists')
+        try:
+            parents = git('rev-list', '--parents', '-n', '1', commit).decode().split()[1:]
+        except Invalid as e:
+            raise HistoryUnavailable(f'cannot read parents of {commit}: {e}') from e
+        for parent in parents:
+            previous = snapshot(parent)
+            if previous:
+                missing = previous.keys() - current.keys()
+                if missing:
+                    raise Invalid(f'historical IDs removed in {commit}: ' + ', '.join(sorted(missing)))
+    return reserved
 
 def strip_comments(text):
     # Preserve newlines so anchors remain meaningful. Strings are irrelevant to
@@ -113,7 +177,7 @@ def validate(records, baseline=None, blob_reader=source_blob):
             for k in ('id', 'symbol', 'kind', 'description', 'rust_status', 'excel_host_status'):
                 if not isinstance(r.get(k), str) or not r[k].strip():
                     raise Invalid(f'missing or invalid {k}')
-            if not re.fullmatch(r'CAPI-\d{6}', r['id']) or r['id'] == 'CAPI-000000':
+            if not re.fullmatch(r'CAPI-[0-9]{6}', r['id']) or r['id'] == 'CAPI-000000':
                 raise Invalid('invalid CAPI ID')
             if not NAME.fullmatch(r['symbol']) or r['kind'] not in KINDS:
                 raise Invalid('invalid symbol or kind')
@@ -147,9 +211,13 @@ def validate(records, baseline=None, blob_reader=source_blob):
             declaration(r, cache[cachekey])
         except (Invalid, KeyError, TypeError, UnicodeDecodeError) as e:
             raise Invalid(f"{r.get('id', '<unknown>')}: {e}") from e
+    if baseline is not None:
+        missing = baseline.keys() - ids
+        if missing:
+            raise Invalid('historical IDs removed without a retirement policy: ' + ', '.join(sorted(missing)))
     return len(records)
 
-def reconcile(records, census):
+def compare_census(records, census):
     if census is None:
         return ['NOT ASSESSED — complete source census pending #117'], False
     if not isinstance(census, dict) or not isinstance(census.get('entries'), list) or type(census.get('complete')) is not bool:
@@ -193,12 +261,10 @@ def reconcile(records, census):
             messages.append(f'EXTRA: {key}'); problems = True
     if not census['complete']:
         messages.append('NOT ASSESSED — complete source census pending #117')
-    elif not problems:
-        messages.append('CENSUS MATCH (review census provenance independently; not an extractor)')
     return messages, problems
 
 def freshness(records):
-    out = ['Source evidence: pinned historical blobs; run check for integrity.',
+    out = ['Source evidence: pinned historical blobs; integrity checked by CLI.',
            'Catalogue completeness: NOT ASSESSED — complete source census pending #117']
     for field, status, label in [('rust_status', 'unassessed', 'Rust implementation'), ('excel_host_status', 'not-run', 'Native Excel evidence')]:
         assessed = sum(r[field] != status for r in records)
@@ -210,25 +276,33 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['check', 'reconcile', 'freshness'])
     parser.add_argument('--catalogue', type=Path, default=CATALOGUE)
-    parser.add_argument('--baseline', default=BASELINE, help='Git revision containing historical catalogue')
+    parser.add_argument('--baseline', help='additional Git history tip to protect; does not replace required history')
     parser.add_argument('--census', type=Path, help='independently reviewed census JSON')
     args = parser.parse_args(argv)
     try:
         records = read_jsonl(args.catalogue.read_bytes())
+        # Validate the input even if the required Git history is unavailable.
+        validate(records)
+        try:
+            history = historical_identities(extra=args.baseline)
+        except HistoryUnavailable as e:
+            print(f'NOT VERIFIED: historical ID protection incomplete: {e}', file=sys.stderr)
+            return 3
+        n = validate(records, history)
         if args.command == 'check':
-            try:
-                old = read_jsonl(git('show', f'{args.baseline}:knowledge/excel-c-api/symbols.jsonl'))
-                baseline = {r['id']: identity(r) for r in old}
-            except (Invalid, KeyError) as e:
-                print(f'WARNING: historical ID baseline unavailable: {e}', file=sys.stderr); baseline = None
-            n = validate(records, baseline)
-            print(f'PASS: {n} records, schema v1 and pinned declaration anchors; historical baseline ' + ('checked' if baseline else 'NOT ASSESSED'))
+            print(f'PASS: {n} records, schema v1 and pinned declaration anchors; reachable catalogue history checked')
             print('LIMIT: macro values/aliases/guards, full C semantics and evidence authenticity are not verified.')
         elif args.command == 'reconcile':
-            census = json.loads(args.census.read_text(encoding='utf-8')) if args.census else None
-            messages, problems = reconcile(records, census)
+            census = json.loads(args.census.read_text(encoding='utf-8'), object_pairs_hook=unique_keys) if args.census else None
+            messages, problems = compare_census(records, census)
             print('\n'.join(messages))
-            return 1 if problems else 0
+            if problems:
+                print('RECONCILIATION MISMATCH — SOURCE COMPLETENESS NOT VERIFIED')
+                return 2
+            if census is not None:
+                scope = '' if census['complete'] else 'PARTIAL '
+                print(f'MATCHES SUPPLIED {scope}CENSUS — SOURCE COMPLETENESS NOT VERIFIED')
+            return 3  # A caller-supplied census cannot prove source completeness.
         else:
             print('\n'.join(freshness(records)))
         return 0
