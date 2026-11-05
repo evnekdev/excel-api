@@ -12,6 +12,12 @@ Evidence inspected 2026-11-06:
 
 Source inspection is **not** proof of complete source-line coverage or real-Excel acceptance. `excel-api` statuses are scoped to the exact inspected sources. Where the source does not establish full behavior, mark partial/unverified.
 
+## 0. Canonical C API foundation beneath EDNA
+
+The [canonical Microsoft C API inventory](c-api-inventory-layer.md) is deliberately **separate from and upstream of** this Excel-DNA subsystem map. The raw [CAPI symbol catalogue](../../knowledge/excel-c-api/symbols.jsonl) assigns `CAPI-000001`-style stable IDs to SDK declarations and links them to one or more EDNA subsystems. A C API declaration that Excel-DNA never wraps **still belongs in the raw inventory**; a Ribbon/RTD/Office protocol feature may have **no C API symbol**. Each EDNA family remains a functional/behavioral workstream, not a header or crate boundary.
+
+**Coverage invariant:** source symbol identified != Rust ABI mapped != safe wrapper supported != behavior documented != real Excel tested. Raw declaration coverage, Excel-DNA functional coverage and PyroApp parity are independently assessed. The initial C API catalogue contains a small verified seed, **not a comprehensive C API inventory**. Header provenance and license audit remains [#114](https://github.com/evnekdev/excel-api/issues/114); Dalton's historical practical/rare-behavior evidence index remains [#115](https://github.com/evnekdev/excel-api/issues/115).
+
 ## 1. Architectural decision
 
 **Retain the three existing publishable core crates:**
