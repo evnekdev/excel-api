@@ -47,3 +47,7 @@ This example is a real entry in the source-verified seed, with Rust/Excel runtim
 ```
 
 See [architecture](../../docs/architecture/c-api-inventory-layer.md) for the separate semantic and Excel-DNA inventories.
+
+## Local validation
+
+The [validator](../../tools/excel-c-api-inventory/README.md) implements the implicit version-1 shape and accepts an optional explicit integer `schema_version: 1`. It rejects unrecognized fields until the schema is reviewed, including proposed alias and guard fields. Its source checks identify supported declaration forms against pinned Git blobs; they do not establish effective values, preprocessor availability, ABI fidelity or actual host runs; the current validator rejects host `pass` claims pending a verifiable evidence format. A missing historical baseline is reported as unassessed, not proof of stable identity.

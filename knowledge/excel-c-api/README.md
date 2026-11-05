@@ -26,3 +26,5 @@ Search the JSONL catalogue by exact C API symbol or persistent `CAPI-xxxxxx` ID;
 Do not create one issue for each JSONL row automatically. Open a focused issue only for a real inventory uncertainty, source incompatibility, missing Rust functionality or independent validation task. The raw completeness audit is pending under [EDNA-02 #90](https://github.com/evnekdev/excel-api/issues/90). Until it is reconciled with the complete SDK source, **no percentage of C API coverage is meaningful**.
 
 All initial `rust_status` fields are `unassessed`; all initial `excel_host_status` fields are `not-run`. These are conservative placeholders, **not findings that source is missing or host behavior fails**.
+
+The [header provenance inventory](../../docs/evidence/native-xll-header-provenance.md) records the pinned Microsoft and Excel-DNA headers and licensing uncertainties. Run the local [catalogue validator](../../tools/excel-c-api-inventory/README.md) for integrity, explicitly bounded reconciliation and freshness reports; the exhaustive source census remains [#117](https://github.com/evnekdev/excel-api/issues/117).

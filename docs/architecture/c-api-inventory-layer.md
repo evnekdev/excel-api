@@ -31,7 +31,7 @@ This is an **evidence/data dependency**, not a crate dependency, a GitHub parent
 | **Steve Dalton (Wiley, 2nd ed., 2007)** | Historical practical cases, pitfalls, crash patterns, test scenarios | Copyrighted private project Library copy; bibliographic/evidence register pending [#115](https://github.com/evnekdev/excel-api/issues/115) |
 | **Rust source and native host** | Implementation existence, ABI correctness and observed runtime behavior | Current source/revision and real-Excel evidence must be recorded separately for each assessed entry |
 
-The checked-in Microsoft SDK also includes sample-only headers, callback-bridge source, import libraries, documentation and an EULA. The **full header provenance register remains a separate outstanding task #114**. Do not import additional proprietary headers into the public repository as an incidental inventory step. The book is not an authoritative definition of modern Microsoft 365 behavior.
+The checked-in Microsoft SDK also includes sample-only headers, callback-bridge source, import libraries, documentation and an EULA. The [header provenance register](../evidence/native-xll-header-provenance.md) records the audited header scope; licensing questions remain under #114. Do not import additional proprietary headers into the public repository as an incidental inventory step. The book is not an authoritative definition of modern Microsoft 365 behavior.
 
 ## Canonical ownership and identifiers
 
@@ -70,3 +70,5 @@ The schema uses **`unassessed`** by default for Rust and host coverage. For beha
 - **Product acceptance:** prove PyroApp parity separately; no reduction in its supported modes, exports, UI or bitness.
 
 **Current acceptance:** architecture and a limited source-verified seed only. No complete C API coverage, Rust implementation completeness, x86 acceptance or real-Excel validation is asserted here.
+
+The [native header provenance inventory](../evidence/native-xll-header-provenance.md) records source-controlled headers, direct includes and licensing uncertainties. The local [validator](../../tools/excel-c-api-inventory/README.md) checks the seed without claiming exhaustive source reconciliation; [#117](https://github.com/evnekdev/excel-api/issues/117) owns the independent census.
