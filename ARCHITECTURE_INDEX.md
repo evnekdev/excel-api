@@ -66,3 +66,5 @@ those integrations remain separate post-1.0 decisions.
 
 A design becomes `Implemented` only after code and tests exist. It becomes
 `Stable` only after real Excel integration and API review.
+
+The [native XLL header provenance inventory](docs/evidence/native-xll-header-provenance.md) and [C API validator](tools/excel-c-api-inventory/README.md) support EDNA-02 evidence and catalogue integrity; exhaustive declaration reconciliation remains open.
