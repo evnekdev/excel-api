@@ -64,7 +64,7 @@ The schema uses **`unassessed`** by default for Rust and host coverage. For beha
 ## Work sequence
 
 - **[#114](https://github.com/evnekdev/excel-api/issues/114):** finalize exact primary/supporting C/C++ header list, hashes, include dependencies, license disposition.
-- **EDNA-02 scoped follow-up:** exhaustively enumerate all actual declarations in the pinned `XLCALL.H`, including aliases, guards, duplicate spellings and collisions; compare an independently reviewed count against the source. Mark any parser limitations. Do not silently infer symbols from names or sample code.
+- **[EDNA-02 exhaustive audit #117](https://github.com/evnekdev/excel-api/issues/117):** enumerate all actual declarations in the pinned `XLCALL.H`, including aliases, guards, duplicate spellings and collisions; compare an independently reviewed count against the source. Mark any parser limitations. Do not silently infer symbols from names or sample code.
 - **EDNA behavior work:** annotate the inventory using official references and page-precise citations from Dalton; open investigations for unknown legality or surprising scenarios.
 - **EDNA coverage work:** map independently assessed C API entries and higher-level Excel-DNA capabilities to exact Rust implementation paths and host tests, then create meaningful leaf issues.
 - **Product acceptance:** prove PyroApp parity separately; no reduction in its supported modes, exports, UI or bitness.
