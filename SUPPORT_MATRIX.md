@@ -7,6 +7,7 @@ review scope; it does not turn pending live validation into a completed claim.
 |---|---|---|
 | Stable target for 1.0 | Excel 12 ABI; callback-borrowed and owned semantic values; return planning/allocation; DLLFree/`xlAutoFree12`; Excel-owned result RAII; manual/macro registration; procedural macros/diagnostics; typed contexts and call catalogue; synchronous worksheet functions/commands; lifecycle; packaging/build infrastructure | Core 1.0 review scope |
 | Implemented but live validation pending | Async UDF lifecycle; cooperative dispatcher pump; stress-harness smoke/soak/channel matrix | Automated coverage exists; real Excel matrix remains pending |
+| Implemented in native batch, host acceptance deferred | Validated reference coordinates; rectangular `xlCoerce` reads; command-only `xlSet` write/clear and `xlcCalculateNow`; typed `xlfGetDocument`; optional HelpTopic supplements | Deterministic coverage; #127/#128/#129 remain open for #126 x64 sweep. Multi-area I/O, full recalculation and reference return ownership are not supported |
 | Experimental | `examples/minimal-rtd-server`; RTD control server; `xlcOnTime` compatibility probe | Windows-only/unpublished research; no production support |
 | Deferred | Ribbon UI; general COM automation; custom task panes; autonomous dispatcher notification; production RTD API | Optional post-1.0 roadmap |
 | Unsupported | 32-bit Excel; arbitrary background-thread Excel C API calls; unverified RTD-to-M17 dispatch | Not supported by 1.0 |

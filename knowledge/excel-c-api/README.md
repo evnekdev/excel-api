@@ -1,5 +1,10 @@
 # Microsoft Excel C API — canonical declaration catalogue
 
+New implementation evidence for references, typed document/mutation/calculation
+calls and HelpTopic is recorded in the [native batch report](../../docs/evidence/native-c-api-batch.md)
+(#127/#128/#129). It does not rewrite the historical Rust assessment or imply
+native host acceptance; the consolidated host sweep remains #126.
+
 This is the **raw Excel C API evidence/inventory layer** for `excel-api`, distinct from the higher-level [Excel-DNA subsystem map](../../docs/architecture/excel-dna-subsystems-and-crates.md). Its existence does **not** mean the Rust project or Excel-DNA implements every C API entry.
 
 ## Files
