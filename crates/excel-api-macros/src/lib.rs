@@ -29,6 +29,7 @@ struct FunctionAttributes {
     name: Option<LitStr>,
     category: Option<LitStr>,
     description: Option<LitStr>,
+    help_topic: Option<LitStr>,
     thunk: Option<LitStr>,
     return_type: Option<LitStr>,
     volatile: bool,
@@ -285,6 +286,52 @@ fn expand_excel_function(
         .category
         .map(|value| quote!(.category(#value)))
         .unwrap_or_default();
+    let help_metadata = if let Some(value) = &attributes.help_topic {
+        let encoded = value.value();
+        let (resource, id) = encoded.rsplit_once('!').ok_or_else(|| {
+            syn::Error::new_spanned(value, "help_topic requires resource!decimal_context_id")
+        })?;
+        let id: u32 = if !id.is_empty() && id.bytes().all(|b| b.is_ascii_digit()) {
+            id.parse()
+                .map_err(|_| syn::Error::new_spanned(value, "help context must fit u32"))?
+        } else {
+            return Err(syn::Error::new_spanned(
+                value,
+                "help context must be decimal u32",
+            ));
+        };
+        let lower = resource.to_ascii_lowercase();
+        let valid = if lower.starts_with("https://") {
+            let authority = resource[8..].split(['/', '?', '#']).next().unwrap_or("");
+            !authority.is_empty()
+                && !resource.chars().any(char::is_whitespace)
+                && !resource.contains('\\')
+                && id == 0
+        } else {
+            !resource.contains("://") && (lower.ends_with(".chm") || lower.ends_with(".hlp"))
+        };
+        if !valid
+            || resource.contains('!')
+            || resource.chars().any(char::is_control)
+            || encoded.encode_utf16().count() > 32_767
+        {
+            return Err(syn::Error::new_spanned(
+                value,
+                "help_topic requires a .chm/.hlp resource or HTTPS resource with context 0",
+            ));
+        }
+        let help_ident = format_ident!(
+            "__EXCEL_FUNCTION_HELP_{}",
+            function.sig.ident.to_string().to_uppercase()
+        );
+        quote! {
+            #[doc(hidden)]
+            pub const #help_ident: ::excel_api::FunctionHelp = ::excel_api::FunctionHelp::new(
+                #thunk, ::excel_api::HelpTopic::new(#resource, #id));
+        }
+    } else {
+        quote!()
+    };
     let description = attributes
         .description
         .map(|value| quote!(.description(#value)))
@@ -306,13 +353,22 @@ fn expand_excel_function(
     let invoke = quote!(#function_ident(#(#invoke_arguments),*));
     let invoke = match context {
         Some(ContextKind::Worksheet) => {
-            quote!(__excel_scope.with_worksheet_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its registered worksheet callback.
+                unsafe { __excel_scope.with_worksheet_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::ThreadSafe) => {
-            quote!(__excel_scope.with_thread_safe_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its thread-safe registered callback.
+                unsafe { __excel_scope.with_thread_safe_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::Macro) => {
-            quote!(__excel_scope.with_macro_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its macro-sheet registered callback.
+                unsafe { __excel_scope.with_macro_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::Async) => invoke,
         None => invoke,
@@ -395,10 +451,12 @@ fn expand_excel_function(
 
     Ok(quote! {
         #function
+        #help_metadata
 
         #[doc(hidden)]
         #[doc = "# Safety"]
         #[doc = "Pointer arguments must be the live callback-owned values described by the generated registration signature."]
+        #[doc = "Excel must have invoked this thunk on its callback thread under the generated registration, including its worksheet/macro-sheet/thread-safe permissions."]
         #[unsafe(export_name = #thunk)]
         pub unsafe extern "system" fn #thunk_ident(#(#raw_arguments),*) -> #thunk_return {
             #thunk_execution
@@ -479,6 +537,9 @@ fn parse_attributes(raw: Punctuated<Meta, Token![,]>) -> syn::Result<FunctionAtt
             }
             Meta::NameValue(value) if value.path.is_ident("description") => {
                 set_once(&mut parsed.description, string_value(&value)?, &value)?;
+            }
+            Meta::NameValue(value) if value.path.is_ident("help_topic") => {
+                set_once(&mut parsed.help_topic, string_value(&value)?, &value)?;
             }
             Meta::NameValue(value) if value.path.is_ident("thunk") => {
                 set_once(&mut parsed.thunk, string_value(&value)?, &value)?;
@@ -891,7 +952,8 @@ fn expand_excel_command(
 ) -> syn::Result<proc_macro2::TokenStream> {
     let attributes = parse_attributes(raw_attributes)?;
     validate_function_shape(&command)?;
-    if attributes.category.is_some()
+    if attributes.help_topic.is_some()
+        || attributes.category.is_some()
         || attributes.return_type.is_some()
         || attributes.volatile
         || attributes.thread_safe
@@ -982,14 +1044,17 @@ fn expand_excel_command(
         #command
 
         #[doc(hidden)]
+        #[doc = "# Safety"]
+        #[doc = "Excel must have synchronously invoked this exported thunk as a command (macroType 2) on its authorized callback thread."]
         #[unsafe(export_name = #thunk)]
-        pub extern "system" fn #thunk_ident() -> i16 {
+        pub unsafe extern "system" fn #thunk_ident() -> i16 {
             ::excel_api::thunk::scalar_thunk(0_i16, || {
                 ::excel_api::thunk::with_callback(|__excel_scope| {
-                    __excel_scope.with_macro_context(|__excel_context| {
+                    // SAFETY: this exported thunk is registered as a command (macroType 2).
+                    unsafe { __excel_scope.with_command_context(|__excel_context| {
                         #invoke
                         Ok(1_i16)
-                    })
+                    }) }
                 })
             })
         }

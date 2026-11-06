@@ -60,6 +60,23 @@ in reverse registration order.
 
 ## Function Wizard
 
+### Optional HelpTopic supplement (#129)
+
+`HelpTopic::new(resource, context_id)` and `FunctionHelp` provide validated static
+help metadata through `Runtime::initialize_with_help`. Existing `initialize`,
+`FunctionRegistration` and `AddInDescriptor` remain source-compatible, including
+struct literals. The explicit supplement is keyed by the exported worksheet thunk;
+unknown, duplicate or ambiguous keys fail before backend linking.
+
+`#[excel_function(help_topic = "guide.chm!42", ...)]` emits the companion
+`__EXCEL_FUNCTION_HELP_<RUST_NAME>` constant. Authors include that constant in the
+help slice at initialization. The normal function metadata and ABI thunk remain
+unchanged. Absent help remains an empty string in registration position 9; supplied
+help does not shift description/argument help. Command metadata stays separate.
+Only .chm/.hlp files or HTTPS resources (context 0) are exposed in this bounded API;
+existence and Excel's help UI behavior require native evidence. See
+[usage and acceptance scenarios](docs/evidence/native-c-api-batch.md).
+
 Support:
 
 - category;

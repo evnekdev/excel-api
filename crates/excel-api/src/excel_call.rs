@@ -1,5 +1,9 @@
 //! Narrow Excel12v callback capability and the M8 call catalogue.
 
+#[cfg(test)]
+#[path = "excel_call_batch_tests.rs"]
+mod batch_tests;
+
 use core::{
     ffi::{c_char, c_int, c_void},
     fmt, ptr,
@@ -195,6 +199,80 @@ pub const XL_COERCE: ExcelCallDescriptor = ExcelCallDescriptor {
     maximum_arguments: 2,
 };
 
+/// Command-only rectangular constant write/clear with a checked Boolean result.
+pub const XL_SET: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlSet",
+    function: excel_api_sys::xlSet,
+    permissions: &[CallPermission::Macro],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::XlFreeRequired,
+    thread_safe: false,
+    minimum_arguments: 1,
+    maximum_arguments: 2,
+};
+
+/// Macro-only XLM document information. Ordinary worksheet and MTR contexts lack permission.
+pub const XLF_GET_DOCUMENT: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlfGetDocument",
+    function: excel_api_sys::xlfGetDocument,
+    permissions: &[CallPermission::Macro],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::XlFreeRequired,
+    thread_safe: false,
+    minimum_arguments: 1,
+    maximum_arguments: 2,
+};
+
+/// Recalculates all open workbooks from an Excel-issued command callback.
+pub const XLC_CALCULATE_NOW: ExcelCallDescriptor = ExcelCallDescriptor {
+    name: "xlcCalculateNow",
+    function: excel_api_sys::xlcCalculateNow,
+    permissions: &[CallPermission::Macro],
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::XlFreeRequired,
+    thread_safe: false,
+    minimum_arguments: 0,
+    maximum_arguments: 0,
+};
+
+/// Closed set of documented GET.DOCUMENT selectors; no arbitrary numeric escape hatch.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum DocumentInfo {
+    /// Selector 1: workbook/sheet display name, without directory or window number.
+    Name,
+    /// Selector 2: containing directory; unsaved documents may return #N/A.
+    Directory,
+    /// Selector 4: changes since the sheet was last saved.
+    HasChanges,
+    /// Selector 5: sheet read-only state.
+    ReadOnly,
+    /// Selector 76: active sheet name, including workbook qualification.
+    ActiveSheetName,
+    /// Selector 88: active workbook name, not the XLL or formula caller workbook.
+    ActiveWorkbookName,
+}
+impl DocumentInfo {
+    const fn selector(self) -> i32 {
+        match self {
+            Self::Name => 1,
+            Self::Directory => 2,
+            Self::HasChanges => 4,
+            Self::ReadOnly => 5,
+            Self::ActiveSheetName => 76,
+            Self::ActiveWorkbookName => 88,
+        }
+    }
+    fn accepts(self, value: &crate::ExcelValue) -> bool {
+        if matches!(value, crate::ExcelValue::Error(_)) {
+            return true;
+        }
+        match self {
+            Self::HasChanges | Self::ReadOnly => matches!(value, crate::ExcelValue::Boolean(_)),
+            _ => matches!(value, crate::ExcelValue::Text(_)),
+        }
+    }
+}
+
 /// Experimental M17 research call used only to obtain Excel's own serial clock.
 #[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
@@ -313,6 +391,18 @@ impl fmt::Display for ExcelReturnCode {
 #[derive(Clone, Debug, Eq, PartialEq)]
 /// Failure of descriptor validation, typed invocation, or result handling.
 pub enum ExcelCallError {
+    /// Invalid coordinates or unsupported write/read shape.
+    Reference(crate::ReferenceError),
+    /// A value cannot be represented as bounded callback argument storage.
+    ArgumentPlan(crate::ReturnError),
+    /// Argument storage could not be materialized.
+    ArgumentMaterialization(crate::ReturnMaterializationError),
+    /// Invalid or incompatible optional document name.
+    InvalidDocumentName,
+    /// A command returned an Excel worksheet error value.
+    CommandError(crate::ExcelError),
+    /// A command returned FALSE despite a successful callback transport.
+    CommandRejected,
     /// No linked Excel12v callback entry point is available.
     BackendUnavailable,
     /// The descriptor does not permit the supplied argument count.
@@ -360,6 +450,12 @@ pub enum ExcelCallError {
 impl fmt::Display for ExcelCallError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::Reference(error) => write!(f, "{error}"),
+            Self::ArgumentPlan(error) => write!(f, "{error}"),
+            Self::ArgumentMaterialization(error) => write!(f, "{error}"),
+            Self::InvalidDocumentName => f.write_str("document name is empty, contains NUL, or is incompatible with an active-document selector"),
+            Self::CommandError(error) => write!(f, "Excel command returned {error:?}"),
+            Self::CommandRejected => f.write_str("Excel command returned FALSE"),
             Self::BackendUnavailable => f.write_str("Excel12v callback backend is unavailable"),
             Self::InvalidArgumentCount { function, count } => {
                 write!(f, "{function} does not accept {count} arguments")
@@ -814,7 +910,11 @@ impl CallArguments {
     fn registration(
         module: &ExcelString,
         registration: &FunctionRegistration,
+        help: Option<crate::HelpTopic>,
     ) -> Result<Self, ExcelCallError> {
+        if let Some(help) = help {
+            help.validate().map_err(ExcelCallError::Registration)?;
+        }
         registration
             .validate()
             .map_err(ExcelCallError::Registration)?;
@@ -832,7 +932,7 @@ impl CallArguments {
             argument_text,
             registration.category.unwrap_or("Rust").into(),
             String::new(),
-            String::new(),
+            help.map(|h| h.encoded()).unwrap_or_default(),
             registration.description.unwrap_or("").into(),
         ];
         values.extend(
@@ -1002,8 +1102,9 @@ impl LifecycleContext<'_> {
         &self,
         module: &ExcelString,
         registration: &FunctionRegistration,
+        help: Option<crate::HelpTopic>,
     ) -> Result<f64, ExcelCallError> {
-        let mut storage = CallArguments::registration(module, registration)?;
+        let mut storage = CallArguments::registration(module, registration, help)?;
         let mut arguments = storage.pointers();
         let owner = self
             .capability()
@@ -1183,6 +1284,28 @@ caller_context!(crate::MacroContext<'call>, CallPermission::Macro);
 macro_rules! coerce_context {
     ($type:ty, $permission:expr) => {
         impl<'call> $type {
+            /// Reads one rectangle with `xlCoerce`'s omitted destination type.
+            ///
+            /// Excel chooses scalar/nil or array output. Errors remain ExcelValue::Error.
+            /// Copying obeys `limits` and releases the Excel result exactly once, even
+            /// when conversion fails. Uncalculated dependencies may return xlretUncalced;
+            /// this does not bypass worksheet/MTR calculation restrictions.
+            pub fn read_reference(
+                &self,
+                reference: &crate::OwnedExcelReference,
+                limits: &crate::ConversionLimits,
+            ) -> Result<crate::ExcelValue, ExcelCallError> {
+                reference
+                    .require_rectangle()
+                    .map_err(ExcelCallError::Reference)?;
+                let mut source = reference.argument();
+                let mut arguments = [&mut source.root as LPXLOPER12];
+                self.capability()
+                    .call($permission, XL_COERCE, &mut arguments)?
+                    .expect("descriptor requires a result")
+                    .into_owned_value(limits)
+                    .map_err(ExcelCallError::ResultConversion)
+            }
             /// Converts an Excel-owned callback result to a requested root type.
             ///
             /// The source remains owned by the caller and is not consumed or
@@ -1217,6 +1340,138 @@ macro_rules! coerce_context {
 coerce_context!(crate::WorksheetContext<'call>, CallPermission::Worksheet);
 coerce_context!(crate::ThreadSafeContext<'call>, CallPermission::ThreadSafe);
 coerce_context!(crate::MacroContext<'call>, CallPermission::Macro);
+
+impl crate::MacroContext<'_> {
+    /// Writes constants into one rectangle using `xlSet`. Destroys Excel undo history.
+    ///
+    /// Text is literal, never a formula. Scalars fill the range; Excel applies its
+    /// documented array broadcast/padding/truncation rules. Empty clears cells;
+    /// Missing is rejected (including array elements). Array-formula targets have
+    /// Excel-specific restrictions: this is not a transactional write or rollback API.
+    /// Input storage remains Rust-owned and is dropped after the synchronous call.
+    pub fn set_reference(
+        &self,
+        reference: &crate::OwnedExcelReference,
+        value: crate::ExcelValue,
+    ) -> Result<(), ExcelCallError> {
+        self.require_command(XL_SET.name)?;
+        reference
+            .require_rectangle()
+            .map_err(ExcelCallError::Reference)?;
+        if matches!(value, crate::ExcelValue::Missing)
+            || matches!(&value, crate::ExcelValue::Array(a) if a.values().iter().any(|v| matches!(v, crate::ExcelValue::Missing)))
+        {
+            return Err(ExcelCallError::Reference(
+                crate::ReferenceError::MissingValue,
+            ));
+        }
+        if matches!(value, crate::ExcelValue::Empty) {
+            return self.clear_reference(reference);
+        }
+        let plan = crate::ExcelReturnValue::from(value)
+            .plan()
+            .map_err(ExcelCallError::ArgumentPlan)?;
+        let mut value =
+            crate::ExcelReturn::from_plan(plan).map_err(ExcelCallError::ArgumentMaterialization)?;
+        let mut reference = reference.argument();
+        let mut arguments = [
+            &mut reference.root as LPXLOPER12,
+            value.as_xloper_mut_for_callback() as LPXLOPER12,
+        ];
+        self.checked_command_result(XL_SET, &mut arguments)
+    }
+
+    /// Clears one rectangle by omitting xlSet's value argument. Destroys undo history.
+    pub fn clear_reference(
+        &self,
+        reference: &crate::OwnedExcelReference,
+    ) -> Result<(), ExcelCallError> {
+        self.require_command(XL_SET.name)?;
+        reference
+            .require_rectangle()
+            .map_err(ExcelCallError::Reference)?;
+        let mut reference = reference.argument();
+        self.checked_command_result(XL_SET, &mut [&mut reference.root])
+    }
+
+    /// Queries documented XLM document metadata from a genuine macro callback.
+    ///
+    /// `None` addresses the active document, never implicitly the formula caller.
+    /// ActiveSheetName/ActiveWorkbookName require `None`. Other selectors accept
+    /// an explicit open workbook/sheet name. Returns text/Boolean according to
+    /// the selector, or an Excel error value; unexpected roots are rejected.
+    /// The result is deep-copied and its Excel storage released before return.
+    pub fn document_info(
+        &self,
+        selector: DocumentInfo,
+        name: Option<&str>,
+    ) -> Result<crate::ExcelValue, ExcelCallError> {
+        if name.is_some_and(|n| n.is_empty() || n.contains('\0'))
+            || (name.is_some()
+                && matches!(
+                    selector,
+                    DocumentInfo::ActiveSheetName | DocumentInfo::ActiveWorkbookName
+                ))
+        {
+            return Err(ExcelCallError::InvalidDocumentName);
+        }
+        let mut number = XLOPER12 {
+            val: XLOPER12Value {
+                w: selector.selector(),
+            },
+            xltype: excel_api_sys::xltypeInt,
+        };
+        let mut text = name.map(CallArguments::one_string).transpose()?;
+        let mut arguments = vec![&mut number as LPXLOPER12];
+        if let Some(text) = &mut text {
+            arguments.extend(text.pointers());
+        }
+        let value = self
+            .capability()
+            .call(CallPermission::Macro, XLF_GET_DOCUMENT, &mut arguments)?
+            .expect("descriptor requires a result")
+            .into_owned_value(&crate::ConversionLimits::default())
+            .map_err(ExcelCallError::ResultConversion)?;
+        if !selector.accepts(&value) {
+            return Err(ExcelCallError::MalformedResult {
+                function: XLF_GET_DOCUMENT.name,
+                expected: "selector-specific text/Boolean or Excel error",
+                actual: value.kind_name(),
+            });
+        }
+        Ok(value)
+    }
+
+    /// Requests normal calculation of all open workbooks (not a full dependency rebuild).
+    /// Only an Excel-issued command callback authorizes this; no background wake is implied.
+    pub fn calculate_now(&self) -> Result<(), ExcelCallError> {
+        self.require_command(XLC_CALCULATE_NOW.name)?;
+        self.checked_command_result(XLC_CALCULATE_NOW, &mut [])
+    }
+
+    fn checked_command_result(
+        &self,
+        descriptor: ExcelCallDescriptor,
+        arguments: &mut [LPXLOPER12],
+    ) -> Result<(), ExcelCallError> {
+        let value = self
+            .capability()
+            .call(CallPermission::Macro, descriptor, arguments)?
+            .expect("descriptor requires a result")
+            .into_owned_value(&crate::ConversionLimits::default())
+            .map_err(ExcelCallError::ResultConversion)?;
+        match value {
+            crate::ExcelValue::Boolean(true) => Ok(()),
+            crate::ExcelValue::Boolean(false) => Err(ExcelCallError::CommandRejected),
+            crate::ExcelValue::Error(error) => Err(ExcelCallError::CommandError(error)),
+            other => Err(ExcelCallError::MalformedResult {
+                function: descriptor.name,
+                expected: "command Boolean or Excel error",
+                actual: other.kind_name(),
+            }),
+        }
+    }
+}
 
 #[cfg(feature = "xlcontime-research")]
 impl crate::MacroContext<'_> {

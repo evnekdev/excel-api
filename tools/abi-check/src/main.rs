@@ -146,6 +146,8 @@ fn main() {
         fn excel_sdk_xlfsetname() -> i32;
         fn excel_sdk_xlfcaller() -> i32;
         fn excel_sdk_xlfregister() -> i32;
+        fn excel_sdk_xlfgetdocument() -> i32;
+        fn excel_sdk_xlccalculatenow() -> i32;
         fn excel_sdk_xlfunregister() -> i32;
         fn excel_sdk_xlfregisterid() -> i32;
         fn excel_sdk_xludf() -> i32;
@@ -590,6 +592,8 @@ fn main() {
         check!("xlfSetName", xlfSetName, excel_sdk_xlfsetname());
         check!("xlfCaller", xlfCaller, excel_sdk_xlfcaller());
         check!("xlfRegister", xlfRegister, excel_sdk_xlfregister());
+        check!("xlfGetDocument", xlfGetDocument, excel_sdk_xlfgetdocument());
+        check!("xlcCalculateNow", xlcCalculateNow, excel_sdk_xlccalculatenow());
         check!("xlfUnregister", xlfUnregister, excel_sdk_xlfunregister());
         check!("xlfRegisterId", xlfRegisterId, excel_sdk_xlfregisterid());
         check!("xlUDF", xlUDF, excel_sdk_xludf());

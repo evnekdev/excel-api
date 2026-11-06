@@ -12,11 +12,61 @@ use excel_api_sys::{
     name = "TEST.SCALAR",
     category = "Tests",
     description = "Scalar mapping",
+    help_topic = "https://example.test/help.chm!0",
     thunk = "test_scalar",
     arguments(number = "number", boolean = "boolean", integer = "integer")
 )]
 fn scalar(number: f64, boolean: bool, integer: i32) -> f64 {
     number + f64::from(integer) + if boolean { 1.0 } else { 0.0 }
+}
+
+#[test]
+fn help_metadata_is_additive_and_preserves_the_signature() {
+    let help = __EXCEL_FUNCTION_HELP_SCALAR;
+    assert_eq!(help.rust_symbol, "test_scalar");
+    assert_eq!(help.topic.resource(), "https://example.test/help.chm");
+    assert_eq!(help.topic.context_id(), 0);
+    help.topic.validate().unwrap();
+    assert_eq!(
+        __EXCEL_FUNCTION_METADATA_SCALAR.type_text().unwrap(),
+        "BBAJ"
+    );
+}
+
+#[excel_function(
+    name = "TEST.MACRO.PERMISSIONS",
+    thunk = "test_macro_permissions",
+    macro_type
+)]
+fn macro_sheet_permissions(context: &excel_api::MacroContext<'_>) -> bool {
+    matches!(
+        context.calculate_now(),
+        Err(excel_api::ExcelCallError::IllegalContext { .. })
+    )
+}
+
+#[excel_api::excel_command(name = "TEST.COMMAND.PERMISSIONS", thunk = "test_command_permissions")]
+fn command_permissions(context: &excel_api::MacroContext<'_>) -> Result<(), ExcelError> {
+    // No Excel backend is linked in this deterministic integration test.
+    if matches!(
+        context.calculate_now(),
+        Err(excel_api::ExcelCallError::BackendUnavailable)
+    ) {
+        Ok(())
+    } else {
+        Err(ExcelError::Value)
+    }
+}
+
+#[test]
+fn generated_macro_sheet_and_command_thunks_have_distinct_permissions() {
+    assert_eq!(
+        // SAFETY: no pointer arguments; rejection happens before any host call.
+        unsafe { __excel_function_thunk_macro_sheet_permissions() },
+        1
+    );
+    // SAFETY: isolated mock path has no linked Excel backend and only checks permissions.
+    assert_eq!(unsafe { __excel_command_thunk_command_permissions() }, 1);
 }
 
 #[excel_function(

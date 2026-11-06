@@ -3,7 +3,8 @@
 ## Status
 
 - **Status:** Borrowed and owned flat arrays, logical planning, and DLLFree
-  return multis implemented through M6; references remain borrowed only.
+  return multis implemented through M6; borrowed references plus Rust-owned
+  coordinate descriptors and single-rectangle read/write now implemented (#127).
 - **Implemented in:** `borrowed.rs` (`ExcelArrayView` and reference views),
   `value.rs` (`ExcelArray`), `convert.rs` (bounded deep copy), and
   `return_plan.rs` (`ExcelReturnArray` and `PlannedArray`), and
@@ -15,8 +16,8 @@
   element/string accounting, zero-dimensional return rejection, pointer
   stability, deep string buffers, partial-failure cleanup, root-only DLLFree,
   nested pointer survival through handoff, and exactly-once callback cleanup.
-- **Remaining limitations:** owned references, reference coercion, FP12 safe
-  wrappers and XLFree transfer integration.
+- **Remaining limitations:** owned reference returns, multi-area I/O, FP12 safe
+  wrappers and XLFree transfer integration. New reference operations need native acceptance.
 
 ## Arrays
 
@@ -117,6 +118,22 @@ Value-only general arguments cause references to be converted to:
 This distinction must be represented in registration descriptors.
 
 ## References
+
+### Native implementation batch (#127)
+
+`ReferenceArea` validates inclusive zero-based Excel 12 bounds. `OwnedExcelReference`
+owns coordinates and an optional explicit sheet ID, not workbook state or values.
+It can copy borrowed reference geometry without retaining callback pointers.
+Multiple areas share one sheet; no clipping, merging, or cross-sheet union occurs.
+Internal marshaling uses a stable aligned trailing-area allocation; SDK ABI checks
+verify the count/table offsets. No pointer or return-ownership handoff is public.
+
+`read_reference` on worksheet, thread-safe and macro contexts uses omitted-target
+`xlCoerce` for one rectangle, then bounded copy and exactly-once Excel release.
+`set_reference`/`clear_reference` require an actual command origin, even when a
+macro-sheet function also uses `MacroContext`. Writes reuse return planning and
+local allocation without DLLFree transfer. Multi-area I/O remains rejected.
+See [batch evidence and examples](docs/evidence/native-c-api-batch.md).
 
 ### `xltypeSRef`
 

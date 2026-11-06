@@ -92,6 +92,33 @@ yet calculated; it is not a query result. Revisit only with an authoritative
 Microsoft C API ID, selector/arguments, result ownership, and callback-context
 contract.
 
+## Native reference/document/calculation batch (#127/#128)
+
+The catalogue adds `XL_SET`, `XLF_GET_DOCUMENT` and `XLC_CALCULATE_NOW`, using
+the same private CallCapability and backend. No unrestricted public invocation
+method is added. Typed document selectors return checked text/Boolean or an
+Excel error value. Recalculation is the normal dirty-cell calculation operation,
+not a forced dependency rebuild. Workbook identity is explicitly active/named,
+never inferred to be the formula caller or XLL workbook.
+
+`MacroContext` previously represented both command and macro-sheet worksheet
+callbacks. It now retains origin internally; new mutation/recalculation methods
+reject worksheet origin. Generated command thunks use a narrow, doc-hidden unsafe
+command constructor with an explicit callback precondition. Existing ordinary
+macro-sheet syntax still compiles. This does not provide autonomous wake or
+authorize arbitrary threads. Historical experimental scheduling is unchanged.
+Independent review made every public capability-granting scope helper unsafe,
+and generated command exports unsafe to invoke from Rust; exported C ABI and
+ordinary annotated function signatures are unchanged. `xlSet` now checks its
+Boolean/error result and releases the result root once, independently of its
+callback transport return code.
+All callback context tokens and CallbackScope are now explicitly !Send/!Sync,
+enforcing their documented thread confinement even for thread-safe UDF callbacks.
+
+On `xlretAbort`/`xlretUncalced`, callers must return control to Excel and only
+perform permitted `xlFree` cleanup; no retry or general recovery loop is added.
+See [contract/evidence/acceptance](docs/evidence/native-c-api-batch.md).
+
 ## Runtime linking
 
 Linking/resolution happens during idempotent initialization, not static
