@@ -33,10 +33,15 @@ Version 2 retains the version-1 required fields and identities; each record expl
 | `signature` | Whitespace-normalized prototype or callback typedef declaration. |
 | `linkage` | Conditional C++ linkage context for prototypes. |
 | `conditional_fields` | Guarded member spellings of XLOPER; nested members remain part of the aggregate. |
-| `guard` | Active supported preprocessor guards on a macro candidate, if any. |
+| `guard` | Active supported preprocessor guards on a declaration candidate, if any; not runtime availability. |
 | `alias_of` | Explicit single-name macro alias target, if any; equal numbers alone do not imply an alias. |
+| `subfamily` | Optional source-checked refinement of `other-constant`: `cluster-return-code`, `edit-mode`, `document-type`, `mouse-hit-test`, or `user-defined-function-id`. It does not change canonical identity. |
 
 For a v2 record, source details must match the candidate derived from its pinned source blob. These fields do not establish full aggregate field semantics, platform type widths, ABI layout or actual Excel behavior. There is no retirement or supersession representation yet; never remove or reuse an ID. Version 1 remains readable under its original, narrower checks.
+
+The additive subfamily enrichment retains the base v2 fields and all historical kinds/IDs; older v2 records without it remain accepted by the updated validator. Earlier validator binaries reject the new field, so use the updated tool when reading enriched records. No migration of `(path, kind, symbol)` occurs. `special-function-id` includes auxiliary LPenHelper selectors; `worksheet-function-id` includes historical XLM function numbers. Neither kind implies modern call legality. The [independent agent review](../../docs/evidence/excel-c-api-source-census.md#independent-agent-technical-review-2026-11-06) records these distinctions and all non-macro member relationships.
+
+Source approval is separate from Git consistency: `source_census.APPROVED_SOURCES` lists reviewed repository/revision/path/blob tuples. New historical SDK versions require an explicit reviewed allowlist extension and matching tests, preserving existing anchors and IDs. Missing approved Git objects report incomplete source verification (exit 3); an unapproved tuple fails integrity (exit 1).
 
 ## Invariants
 

@@ -27,6 +27,9 @@ class Invalid(ValueError):
 class HistoryUnavailable(ValueError):
     pass
 
+class SourceUnavailable(ValueError):
+    pass
+
 def git(*args):
     p = subprocess.run(['git', *args], cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if p.returncode:
@@ -136,12 +139,20 @@ def source_blob(source):
         if not isinstance(source[k], str) or not SHA.fullmatch(source[k]):
             raise Invalid(f'invalid source {k}')
     rev, path = source['revision'], source['path']
-    if git('rev-parse', f'{rev}^{{commit}}').decode().strip() != rev:
+    key = (source['repository'], rev, path, source['blob_sha'])
+    if key not in source_census.APPROVED_SOURCES:
+        raise Invalid('revision/path/blob is not an approved source baseline; add a reviewed source version explicitly')
+    try:
+        resolved = git('rev-parse', f'{rev}^{{commit}}').decode().strip()
+        actual = git('rev-parse', f'{rev}:{path}').decode().strip()
+        text = git('cat-file', 'blob', actual).decode('latin-1')
+    except Invalid as e:
+        raise SourceUnavailable(f'approved source baseline unavailable locally; fetch the pinned revision/blob: {e}') from e
+    if resolved != rev:
         raise Invalid('source revision is not an exact commit')
-    actual = git('rev-parse', f'{rev}:{path}').decode().strip()
     if actual != source['blob_sha']:
         raise Invalid('source blob does not match revision and path')
-    return git('cat-file', 'blob', actual).decode('latin-1')
+    return text
 
 def declaration(r, text, clean_lines=None):
     s = r['source']; lines = clean_lines if clean_lines is not None else strip_comments(text).splitlines()
@@ -174,7 +185,7 @@ def validate(records, baseline=None, blob_reader=source_blob):
     ids = set(); identities = set(); cache = {}; parsed = {}; cleaned = {}
     for r in records:
         try:
-            allowed = {'schema_version', 'id', 'symbol', 'kind', 'description', 'source', 'edna_ids', 'rust_status', 'rust_evidence', 'excel_host_status', 'excel_host_evidence', 'behavior_refs', 'expression', 'value', 'underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of'}
+            allowed = {'schema_version', 'id', 'symbol', 'kind', 'description', 'source', 'edna_ids', 'rust_status', 'rust_evidence', 'excel_host_status', 'excel_host_evidence', 'behavior_refs', 'expression', 'value', 'underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of', 'subfamily'}
             if set(r) - allowed:
                 raise Invalid('unsupported fields (including aliases or guards): ' + ', '.join(sorted(set(r) - allowed)))
             for k in ('id', 'symbol', 'kind', 'description', 'rust_status', 'excel_host_status'):
@@ -186,7 +197,7 @@ def validate(records, baseline=None, blob_reader=source_blob):
                 raise Invalid('invalid symbol or kind')
             if type(r.get('schema_version', 1)) is not int or r.get('schema_version', 1) not in (1, 2):
                 raise Invalid('unsupported schema version')
-            detail = {'expression', 'value', 'underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of'}
+            detail = {'expression', 'value', 'underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of', 'subfamily'}
             if r.get('schema_version', 1) == 1 and (set(r) & detail):
                 raise Invalid('source detail fields require schema version 2')
             for k in ('edna_ids', 'rust_evidence', 'excel_host_evidence', 'behavior_refs'):
@@ -224,6 +235,9 @@ def validate(records, baseline=None, blob_reader=source_blob):
                 if (s['line_start'], s['line_end']) != (candidate['line_start'], candidate['line_end']):
                     raise Invalid('declaration source span does not match source extraction')
                 expected = {k: candidate[k] for k in detail if k in candidate}
+                # Additive v2 enrichment: older v2 records remain readable, but
+                # any asserted subfamily must agree with the source.
+                if 'subfamily' not in r: expected.pop('subfamily', None)
                 actual = {k: r[k] for k in detail if k in r}
                 if actual != expected or ('value' in actual and type(actual['value']) is not int):
                     raise Invalid('source declaration detail or effective value mismatch')
@@ -243,6 +257,23 @@ def compare_census(records, census):
     if not isinstance(census, dict) or not isinstance(census.get('entries'), list) or type(census.get('complete')) is not bool:
         raise Invalid('invalid census: expected complete boolean and entries array')
     found = {}; messages = []; problems = False
+    provenance = census.get('source')
+    if provenance is not None:
+        if not isinstance(provenance, dict): raise Invalid('census source provenance must be an object')
+        fields = ('repository', 'revision', 'path', 'blob_sha')
+        if any(not isinstance(provenance.get(k), str) for k in fields):
+            raise Invalid('census source provenance needs repository, revision, path and blob_sha')
+        declared = tuple(provenance[k] for k in fields)
+        if declared not in source_census.APPROVED_SOURCES or any(
+                tuple(r['source'][k] for k in fields) != declared for r in records):
+            messages.append('CHANGED SOURCE PROVENANCE: census source is not the approved catalogue baseline')
+            problems = True
+        # Metadata is checked for consistency, never treated as authentication.
+        if records and 'sha256' in provenance:
+            import hashlib
+            digest = hashlib.sha256(source_blob(records[0]['source']).encode('latin1')).hexdigest()
+            if provenance['sha256'] != digest:
+                messages.append('CHANGED SOURCE PROVENANCE: SHA-256 mismatch'); problems = True
     for entry in census['entries']:
         if not isinstance(entry, dict) or any(not isinstance(entry.get(k), str) or not entry[k] for k in ('path', 'kind', 'symbol', 'disposition')):
             raise Invalid('invalid census entry')
@@ -292,7 +323,7 @@ def compare_census(records, census):
             if type(entry['value']) is not int or not candidate or entry['value'] != candidate.get('value'):
                 messages.append(f'CHANGED MACRO VALUE: {key}'); problems = True
         if key in actual:
-            details = ('underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of', 'line_start', 'line_end')
+            details = ('underlying', 'target', 'tag', 'signature', 'conditional_fields', 'linkage', 'guard', 'alias_of', 'subfamily', 'line_start', 'line_end')
             if any(field in entry for field in details):
                 _, candidates = candidates_for(actual[key]['source'])
                 candidate = candidates.get((key[1], key[2]), {})
@@ -334,7 +365,7 @@ def main(argv=None):
         n = validate(records, history)
         if args.command == 'check':
             print(f'PASS: {n} records, schema v1/v2 and pinned declaration anchors; reachable catalogue history checked')
-            print('LIMIT: v2 macro expressions and values are checked; full C semantics, aliases, guards and evidence authenticity are not verified.')
+            print('LIMIT: v2 source details and macro values are checked; full C semantics, general alias/preprocessor semantics and evidence authenticity are not verified.')
         elif args.command == 'reconcile':
             census = json.loads(args.census.read_text(encoding='utf-8'), object_pairs_hook=unique_keys) if args.census else None
             messages, problems = compare_census(records, census)
@@ -349,6 +380,8 @@ def main(argv=None):
         else:
             print('\n'.join(freshness(records)))
         return 0
+    except SourceUnavailable as e:
+        print(f'NOT VERIFIED: source integrity incomplete: {e}', file=sys.stderr); return 3
     except (Invalid, OSError, ValueError) as e:
         print(f'FAIL: {e}', file=sys.stderr); return 1
 

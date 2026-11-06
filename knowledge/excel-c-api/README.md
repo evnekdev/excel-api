@@ -6,7 +6,7 @@ This is the **raw Excel C API evidence/inventory layer** for `excel-api`, distin
 
 | File | Responsibility | Current completeness |
 | --- | --- | --- |
-| [`symbols.jsonl`](symbols.jsonl) | Persistent `CAPI-xxxxxx` identifier per inspected C API declaration, source anchors and related EDNA IDs | **1,132 provisional source-derived records, including the 15 original IDs. Independent completeness review pending.** |
+| [`symbols.jsonl`](symbols.jsonl) | Persistent `CAPI-xxxxxx` identifier per inspected C API declaration, source anchors and related EDNA IDs | **1,132 records including the 15 original IDs; independent agent source review performed, authenticated completeness acceptance pending.** |
 | [`schema.md`](schema.md) | Required fields, identity, evidence and verification rules | Versions 1 and 2 |
 | [Architecture and coverage model](../../docs/architecture/c-api-inventory-layer.md) | Canonical layering, behavior evidence, mapping, closure and implementation boundary | Defined |
 | [Microsoft SDK locally](../../tools/Excel2013XLLSDK/README.md) | Checked-in primary header, SDK samples, EULA, libraries and SDK documentation | Present; redistribution rights still require review |
@@ -29,4 +29,4 @@ All current `rust_status` fields are `unassessed`; all current `excel_host_statu
 
 The [header provenance inventory](../../docs/evidence/native-xll-header-provenance.md) records the pinned Microsoft and Excel-DNA headers and licensing uncertainties. Run the local [catalogue validator](../../tools/excel-c-api-inventory/README.md) for integrity, explicitly bounded reconciliation and freshness reports; the exhaustive source census remains [#117](https://github.com/evnekdev/excel-api/issues/117).
 
-The [source-census working report](../../docs/evidence/excel-c-api-source-census.md) states the candidate counts, accounting rules and outstanding independent review.
+The [source-census working report](../../docs/evidence/excel-c-api-source-census.md) retains the initial working history and adds the independent agent review, complete non-macro table, macro-family accounting and remaining acceptance limits. This is not human sign-off. Miscellaneous constants now have source-checked subfamilies and generated descriptions explain source roles while preserving curated text. New empty EDNA lists remain unassessed relationships; proposed mapping families are documented in the report.

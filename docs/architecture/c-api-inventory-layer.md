@@ -1,6 +1,6 @@
 # Canonical Excel C API inventory layer
 
-**Status:** architecture established; raw symbol catalogue contains provisional source-derived candidates; independent completeness review is pending. Do **not** use it as a percentage-of-SDK or implemented-feature score.
+**Status:** architecture established; independent agent source review of the raw catalogue is recorded, with authenticated completeness acceptance pending. Do **not** use it as a percentage-of-SDK or implemented-feature score.
 
 Tracking: [architecture #116](https://github.com/evnekdev/excel-api/issues/116), [programme #78](https://github.com/evnekdev/excel-api/issues/78), [EDNA-02 #90](https://github.com/evnekdev/excel-api/issues/90). Header-evidence completion is separately tracked by [#114](https://github.com/evnekdev/excel-api/issues/114); the Dalton behavior-book evidence index by [#115](https://github.com/evnekdev/excel-api/issues/115).
 
@@ -69,8 +69,8 @@ The schema uses **`unassessed`** by default for Rust and host coverage. For beha
 - **EDNA coverage work:** map independently assessed C API entries and higher-level Excel-DNA capabilities to exact Rust implementation paths and host tests, then create meaningful leaf issues.
 - **Product acceptance:** prove PyroApp parity separately; no reduction in its supported modes, exports, UI or bitness.
 
-**Current acceptance:** architecture and a provisional source-derived catalogue; independent source completeness review remains outstanding. No complete C API coverage, Rust implementation completeness, x86 acceptance or real-Excel validation is asserted here.
+**Current acceptance:** architecture and source-derived catalogue with a documented independent agent technical review; authenticated completeness acceptance remains outstanding. No general C API semantic coverage, Rust implementation completeness, x86 acceptance or real-Excel validation is asserted here.
 
 The [native header provenance inventory](../evidence/native-xll-header-provenance.md) records source-controlled headers, direct includes and licensing uncertainties. The local [validator](../../tools/excel-c-api-inventory/README.md) checks the catalogue without claiming exhaustive source reconciliation; [#117](https://github.com/evnekdev/excel-api/issues/117) owns the independent census.
 
-The [source-census working report](../evidence/excel-c-api-source-census.md) describes the provisional candidate totals and review limitations.
+The [source-census working report](../evidence/excel-c-api-source-census.md) retains the provisional history and adds the source-first independent agent review, all 38 non-macro identities, macro-family accounting and remaining limitations. Stable kinds/IDs are preserved while optional subfamilies refine miscellaneous constants.

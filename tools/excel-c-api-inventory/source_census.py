@@ -14,6 +14,9 @@ ROOT = Path(__file__).resolve().parents[2]
 REVISION = '6c8354d6536e18b58559f9cc3134f25a9e58d478'
 BLOB = '4eb50e8fd3aea40d283181b7dcc74871ba88d854'
 PATH = 'tools/Excel2013XLLSDK/INCLUDE/XLCALL.H'
+# Reviewed provenance tuples, extended only with source/version evidence and tests.
+# This is a source allowlist, not a duplicate CAPI identity register.
+APPROVED_SOURCES = frozenset({('evnekdev/excel-api', REVISION, PATH, BLOB)})
 
 class ExtractionError(ValueError):
     pass
@@ -33,6 +36,11 @@ def uncomment(s):
 
 def value_of(expression, definitions, active=()):
     """Evaluate only integer literals, names, parentheses, unary +/- and bitwise OR."""
+    # Python's AST is only a safe evaluation mechanism, not the source grammar.
+    # Reject Python-only numeral spellings before parsing (e.g. 1_000, 0o10).
+    for token in re.findall(r'\w+|[^\w\s]', expression, flags=re.ASCII):
+        if token[0].isdigit() and not re.fullmatch(r'(?:0[xX][0-9a-fA-F]+|0|[1-9][0-9]*)', token):
+            raise ExtractionError(f'unsupported integer literal {token!r}')
     try:
         tree = ast.parse(expression, mode='eval')
     except SyntaxError as e:
@@ -72,9 +80,20 @@ def explicit_alias(expression, definitions):
         return None
     return node.id if isinstance(node, ast.Name) and node.id in definitions else None
 
+def macro_subfamily(name):
+    for prefix, family in (('xlHpcRet', 'cluster-return-code'), ('xlMode', 'edit-mode'),
+                           ('dt', 'document-type'), ('ht', 'mouse-hit-test')):
+        if name.startswith(prefix): return family
+    if name == 'xlUDF': return 'user-defined-function-id'
+    return None
+
 def extract(text):
     clean = uncomment(text)
     lines = clean.splitlines()
+    accounted = bytearray(len(clean))
+    def cover(start, end):
+        accounted[start:end] = b'\x01' * (end - start)
+    offset = 0
     guards = {}; stack = []; seen_else = []
     for line, content in enumerate(lines, 1):
         directive = re.match(r'^\s*#\s*(ifdef|ifndef|if|elif|else|endif)\b\s*(.*?)\s*$', content)
@@ -93,15 +112,25 @@ def extract(text):
                 stack.pop(); seen_else.pop()
             else:
                 raise ExtractionError(f'unsupported preprocessor {op} on line {line}')
+        if content.lstrip().startswith('#'):
+            if not (directive or re.match(r'^\s*#\s*define\b', content) or
+                    re.fullmatch(r'\s*#\s*pragma\s+once\s*', content)):
+                raise ExtractionError(f'unsupported preprocessor directive on line {line}: {content.strip()}')
+            cover(offset, offset + len(content))
         guards[line] = list(stack)
+        offset += len(content) + 1
     if stack: raise ExtractionError('unterminated preprocessor conditional')
     candidates = []
     def add(symbol, kind, start, end, **fields):
+        if guards[start]: fields['guard'] = guards[start]
         candidates.append(dict(symbol=symbol, kind=kind, line_start=start, line_end=end, **fields))
     macros = []
     for line, content in enumerate(lines, 1):
         m = re.match(r'^\s*#\s*define\s+([A-Za-z_]\w*)(.*)$', content)
-        if not m: continue
+        if not m:
+            if re.match(r'^\s*#\s*define\b', content):
+                raise ExtractionError(f'malformed macro definition on line {line}')
+            continue
         if not m.group(2) or not m.group(2)[0].isspace() or content.rstrip().endswith('\\'):
             raise ExtractionError(f'unsupported function-like or multiline macro on line {line}')
         expr = m.group(2).strip()
@@ -115,11 +144,15 @@ def extract(text):
         details = {'expression':expr, 'value':value_of(expr, definitions, (name,))}
         alias = explicit_alias(expr, definitions)
         if alias: details['alias_of'] = alias
+        family = macro_subfamily(name)
+        if family: details['subfamily'] = family
         if guards[line]: details['guard'] = guards[line]
         add(name, macro_kind(name, expr), line, line, **details)
     for match in re.finditer(r'(?m)^\s*typedef\s+([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*;', clean):
-        line = clean.count('\n', 0, match.start(2)) + 1
-        add(match.group(2), 'scalar-typedef', line, line, underlying=match.group(1))
+        cover(match.start(), match.end())
+        line = clean.count('\n', 0, clean.index('typedef', match.start(), match.end())) + 1
+        end_line = clean.count('\n', 0, match.end() - 1) + 1
+        add(match.group(2), 'scalar-typedef', line, end_line, underlying=match.group(1))
     for match in re.finditer(r'(?m)^\s*typedef\s+struct\s+([A-Za-z_]\w*)\s*\{', clean):
         depth = 1; pos = match.end()
         while pos < len(clean) and depth:
@@ -130,7 +163,8 @@ def extract(text):
         names = clean[pos:end].strip()
         m = re.fullmatch(r'([A-Za-z_]\w*)(?:\s*,\s*\*\s*([A-Za-z_]\w*))?', names)
         if not m: raise ExtractionError(f'unsupported struct typedef names {names!r}')
-        start_line = clean.count('\n', 0, match.start(1)) + 1
+        cover(match.start(), end + 1)
+        start_line = clean.count('\n', 0, clean.index('typedef', match.start(), match.end())) + 1
         end_line = clean.count('\n', 0, end) + 1
         tag, name, pointer = match.group(1), m.group(1), m.group(2)
         fields = {'tag': tag}
@@ -144,8 +178,10 @@ def extract(text):
         if pointer: add(pointer, 'pointer-typedef', start_line, end_line, target=name)
     pattern = r'(?m)^\s*typedef\s+(int\s*\(CALLBACK\s*\*\s*([A-Za-z_]\w*)\)\s*\([^;]+\))\s*;'
     for match in re.finditer(pattern, clean):
-        line = clean.count('\n', 0, match.start(2)) + 1
-        add(match.group(2), 'function-pointer-typedef', line, line, signature=' '.join(match.group(1).split()))
+        cover(match.start(), match.end())
+        line = clean.count('\n', 0, clean.index('typedef', match.start(), match.end())) + 1
+        end_line = clean.count('\n', 0, match.end() - 1) + 1
+        add(match.group(2), 'function-pointer-typedef', line, end_line, signature=' '.join(match.group(1).split()))
     pattern = r'(?m)^\s*((?:int|long)\s+(?:_cdecl|pascal)\s+([A-Za-z_]\w*)\s*\([^;{}]*\))\s*;'
     opening = re.search(r'#ifdef\s+__cplusplus\s+extern\s+"C"\s*\{\s*#endif', clean)
     if not opening:
@@ -153,12 +189,20 @@ def extract(text):
     closing = re.search(r'#ifdef\s+__cplusplus\s*}\s*#endif', clean)
     if not closing or closing.start() <= opening.end():
         raise ExtractionError('conditional C linkage closing changed')
+    cover(opening.start(), opening.end())
+    cover(closing.start(), closing.end())
     for match in re.finditer(pattern, clean):
         if not opening.end() <= match.start(1) < closing.start():
             raise ExtractionError('function prototype outside conditional C linkage block')
-        line = clean.count('\n', 0, match.start(2)) + 1
-        add(match.group(2), 'function-prototype', line, line, signature=' '.join(match.group(1).split()),
+        line = clean.count('\n', 0, match.start(1)) + 1
+        cover(match.start(), match.end())
+        end_line = clean.count('\n', 0, match.end() - 1) + 1
+        add(match.group(2), 'function-prototype', line, end_line, signature=' '.join(match.group(1).split()),
             linkage='extern "C" when __cplusplus')
+    for pos, char in enumerate(clean):
+        if not accounted[pos] and not char.isspace():
+            line = clean.count('\n', 0, pos) + 1
+            raise ExtractionError(f'unsupported active source construct on line {line}: {lines[line-1].strip()}')
     keys = [(x['kind'], x['symbol']) for x in candidates]
     if len(keys) != len(set(keys)): raise ExtractionError('duplicate declaration identity')
     return sorted(candidates, key=lambda x: (x['line_start'], x['line_end'], x['kind'], x['symbol']))
@@ -169,11 +213,11 @@ def census(text):
     return {'source': {'repository':'evnekdev/excel-api','revision':REVISION,'path':PATH,'blob_sha':BLOB,
                        'sha256':hashlib.sha256(text.encode('latin1')).hexdigest(),'header_version':'15.0'},
             'complete':True,
-            'method':'compare the entire extracted candidate set; independently reviewed source completeness not established',
+            'method':'compare the entire extracted candidate set; completeness attestation is not authenticated',
             'included_categories':list(counts), 'counts':counts,
             'exclusions':['preprocessor control and pragma directives', 'comments', 'nested aggregate members as separate identities'],
-            'ambiguities':['independent source/category review and complete C semantics are not established'],
-            'review':{'status':'not independently reviewed','inspection_date':'2026-11-06'},
+            'ambiguities':['authenticated completeness acceptance and complete C semantics are not established'],
+            'review':{'status':'generated census is not an authenticated completeness attestation','inspection_date':'2026-11-06'},
             'entries':[dict(path=PATH, disposition='eligible', source_blob=BLOB, **x) for x in candidates]}
 
 if __name__ == '__main__':

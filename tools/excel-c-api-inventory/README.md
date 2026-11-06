@@ -8,6 +8,8 @@ python tools/excel-c-api-inventory/validate.py reconcile
 python tools/excel-c-api-inventory/validate.py freshness
 python tools/excel-c-api-inventory/source_census.py --output census.json
 python tools/excel-c-api-inventory/audit_source.py census.json
+python tools/excel-c-api-inventory/review_source.py --catalogue-revision 2747f97
+python tools/excel-c-api-inventory/review_source.py --require-subfamilies
 python tools/excel-c-api-inventory/validate.py reconcile --census census.json
 python -m unittest discover -s tools/excel-c-api-inventory -p "test*.py" -v
 ```
@@ -22,7 +24,7 @@ Anchors are loaded with Git from the exact commit and checked against the path a
 
 `reconcile` without a census reports `NOT ASSESSED — complete source census pending #117`. An independently prepared JSON file may be supplied with `--census FILE`. It has `complete` (boolean) and `entries` (array), each entry with `path`, `kind`, `symbol`, and `disposition` (`eligible`, `excluded`, or `ambiguous`); exclusions and ambiguities require a `reason`. Optional `alias_of`, `guard`, typedef/signature details and source line coordinates are compared with extracted source details when provided; optional `source_blob` detects a changed blob; optional `expression` compares source macro expression text, ignoring whitespace; an accompanying `value` is compared with the supported source-derived effective integer. Eligible missing entries, duplicate identities, ambiguities, excluded-but-catalogued entries, mismatched expressions/blobs, and (only when `complete` is true) extra catalogue entries are reported as mismatches. `complete` means only that the caller asks for a set comparison against all supplied entries. It is **not proof** that the source was exhaustively enumerated. An incomplete census can compare its listed entries but cannot establish extras or coverage.
 
-A matching supplied census is reported as `MATCHES SUPPLIED CENSUS — SOURCE COMPLETENESS NOT VERIFIED`; this tool cannot authenticate independence, review or exhaustive extraction. For #117, the JSON can carry additional metadata for source repository, pinned revision, header path and blob SHA, included/excluded declaration categories, independently established counts, reviewed exclusions/ambiguities and review provenance. These additional metadata are currently **unvalidated annotations**, not proof; #117 must define and implement a reviewed verification method before the validator can report independently verified source completeness. There is no independently reviewed complete census yet. Struct layout and general C semantics remain unverified; supported v2 macro expressions and values are checked.
+A matching supplied census is reported as `MATCHES SUPPLIED CENSUS — SOURCE COMPLETENESS NOT VERIFIED`; this tool cannot authenticate independence, review or exhaustive extraction. For #117, the JSON can carry additional metadata for source repository, pinned revision, header path and blob SHA, included/excluded declaration categories, independently established counts, reviewed exclusions/ambiguities and review provenance. When a `source` object is supplied, repository/revision/path/blob must identify the approved catalogue baseline; optional SHA-256 must match its bytes. A contradiction is a mismatch (exit 2), malformed provenance is invalid (exit 1). Counts, exclusions and review annotations are not authenticated. A matching name or reviewer boolean cannot unlock exit 0. Independent agent technical inspection is now recorded in the working report, but an authenticated completeness acceptance mechanism remains absent. Struct layout and general C semantics remain unverified; supported v2 macro expressions and values are checked.
 
 Exit codes are stable for scripts:
 
@@ -31,8 +33,18 @@ Exit codes are stable for scripts:
 | `0` | `check` or `freshness` input integrity and available history passed. For `reconcile`, reserved for a future independently verified complete reconciliation; currently never returned. |
 | `1` | Invalid catalogue, historic identity conflict/removal, or invalid input/census. |
 | `2` | Valid catalogue but supplied census has a reconciliation mismatch or ambiguity. |
-| `3` | Unverified/incomplete evidence: no census, supplied matching census without verified completeness, or required Git history unavailable. |
+| `3` | Unverified/incomplete evidence: no census, supplied matching census without verified completeness, or required Git history / approved source objects unavailable. |
 
 Thus a code of `0` for `check` or `freshness` is not an SDK-coverage or Excel-runtime claim, and a code of `3` is not a successful exhaustive reconciliation.
 
 `freshness` validates catalogue integrity first and separates pinned-source integrity, source completeness, Rust assessments, native Excel evidence and EDNA functional coverage. Seed assessments are not assessed. Existing schema v1 evidence strings do not supply machine-readable dependency revisions, so assessed records are reported unknown rather than declared current or stale based on unrelated HEAD changes. This is a local report, not a CI or release gate.
+
+## Independent review corrections
+
+The [dated agent review](../../docs/evidence/excel-c-api-source-census.md#independent-agent-technical-review-2026-11-06) describes the source-first expectations, comparison and sequencing caveat. `review_source.py` imports no production inventory modules and classifies macros from header comment sections, then compares directly with the catalogue. A zero exit there means no differences in its defined comparison, **not** authenticated completeness, human sign-off, general C semantics or ABI. Keep generated `census.json` temporary.
+
+`source_census.APPROVED_SOURCES` is the explicit reviewed source tuple allowlist. All CLI commands reject unapproved revision/path/blob combinations even if internally consistent. Missing approved objects return 3 with fetch guidance. Future SDK sources require an explicitly reviewed extension, not changing a record to an arbitrary commit. This list contains no CAPI identities.
+
+Extraction now accounts for recognized character spans and rejects remaining top-level text, unsupported directives and malformed defines. Supported typedef/prototype guards are retained. Aggregate member grammar is not fully parsed; members were inspected and summarized in the evidence report. Integer literals are restricted to the decimal/hex forms used by the pinned header; Python numeral extensions, arbitrary arithmetic and general C promotions/overflow are unsupported.
+
+The 48 miscellaneous constants retain their historical kinds and gain optional source-checked `subfamily`. `populate.py --write` upgrades only descriptions equal to the exact old generic template, and otherwise preserves curated descriptions and EDNA mappings. It enriches source detail without reassigning IDs. The source-comment typo/ambiguity around htRwShow/htColShow is explicitly qualified. The new descriptions do not establish modern Excel availability, memory protocol or host acceptance.
