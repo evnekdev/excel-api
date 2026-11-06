@@ -12,7 +12,7 @@ import validate as v
 class ValidatorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.seed = v.read_jsonl(v.CATALOGUE.read_bytes())
+        cls.seed = v.read_jsonl(v.git('show', f'{v.BASELINE}:{v.CATALOGUE_PATH}'))
         cls.baseline = {r['id']: v.identity(r) for r in cls.seed}
 
     def changed(self, change, expected):
@@ -67,7 +67,7 @@ class ValidatorTests(unittest.TestCase):
         from io import StringIO
         out = StringIO()
         with redirect_stdout(out): self.assertEqual(v.main(['check']), 0)
-        self.assertIn('macro values/aliases/guards', out.getvalue())
+        self.assertIn('full C semantics', out.getvalue())
 
     def test_host_pass_needs_evidence(self):
         self.changed(lambda r: r[0].update(excel_host_status='pass'), 'excel_host_evidence')
@@ -178,7 +178,7 @@ class ValidatorTests(unittest.TestCase):
 
 class HistoricalGitTests(unittest.TestCase):
     def test_later_ids_removal_reassignment_and_reuse(self):
-        seed = v.read_jsonl(v.CATALOGUE.read_bytes())
+        seed = v.read_jsonl(v.git('show', f'{v.BASELINE}:{v.CATALOGUE_PATH}'))
         additional = copy.deepcopy(seed[7])
         additional['id'] = 'CAPI-000100'; additional['symbol'] = 'xlStack'
         additional['source']['line_start'] = additional['source']['line_end'] = 382
