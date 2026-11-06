@@ -1,6 +1,6 @@
 # Canonical Excel C API inventory layer
 
-**Status:** architecture established; raw symbol catalogue is a deliberately incomplete, source-verified seed. Do **not** use it as a percentage-of-SDK or implemented-feature score.
+**Status:** architecture established; independent agent source review of the raw catalogue is recorded, with authenticated completeness acceptance pending. Do **not** use it as a percentage-of-SDK or implemented-feature score.
 
 Tracking: [architecture #116](https://github.com/evnekdev/excel-api/issues/116), [programme #78](https://github.com/evnekdev/excel-api/issues/78), [EDNA-02 #90](https://github.com/evnekdev/excel-api/issues/90). Header-evidence completion is separately tracked by [#114](https://github.com/evnekdev/excel-api/issues/114); the Dalton behavior-book evidence index by [#115](https://github.com/evnekdev/excel-api/issues/115).
 
@@ -31,7 +31,7 @@ This is an **evidence/data dependency**, not a crate dependency, a GitHub parent
 | **Steve Dalton (Wiley, 2nd ed., 2007)** | Historical practical cases, pitfalls, crash patterns, test scenarios | Copyrighted private project Library copy; bibliographic/evidence register pending [#115](https://github.com/evnekdev/excel-api/issues/115) |
 | **Rust source and native host** | Implementation existence, ABI correctness and observed runtime behavior | Current source/revision and real-Excel evidence must be recorded separately for each assessed entry |
 
-The checked-in Microsoft SDK also includes sample-only headers, callback-bridge source, import libraries, documentation and an EULA. The [header provenance register](../evidence/native-xll-header-provenance.md) records the audited header scope; licensing questions remain under #114. Do not import additional proprietary headers into the public repository as an incidental inventory step. The book is not an authoritative definition of modern Microsoft 365 behavior.
+The checked-in Microsoft SDK also includes sample-only headers, callback-bridge source, import libraries, documentation and an EULA. The [header provenance register](../evidence/native-xll-header-provenance.md) records the audited header scope; licensing questions remain under [#120](https://github.com/evnekdev/excel-api/issues/120). Do not import additional proprietary headers into the public repository as an incidental inventory step. The book is not an authoritative definition of modern Microsoft 365 behavior.
 
 ## Canonical ownership and identifiers
 
@@ -63,12 +63,14 @@ The schema uses **`unassessed`** by default for Rust and host coverage. For beha
 
 ## Work sequence
 
-- **[#114](https://github.com/evnekdev/excel-api/issues/114):** finalize exact primary/supporting C/C++ header list, hashes, include dependencies, license disposition.
+- **[#114](https://github.com/evnekdev/excel-api/issues/114):** header provenance inventory; unresolved rights review is tracked separately by [#120](https://github.com/evnekdev/excel-api/issues/120).
 - **[EDNA-02 exhaustive audit #117](https://github.com/evnekdev/excel-api/issues/117):** enumerate all actual declarations in the pinned `XLCALL.H`, including aliases, guards, duplicate spellings and collisions; compare an independently reviewed count against the source. Mark any parser limitations. Do not silently infer symbols from names or sample code.
 - **EDNA behavior work:** annotate the inventory using official references and page-precise citations from Dalton; open investigations for unknown legality or surprising scenarios.
 - **EDNA coverage work:** map independently assessed C API entries and higher-level Excel-DNA capabilities to exact Rust implementation paths and host tests, then create meaningful leaf issues.
 - **Product acceptance:** prove PyroApp parity separately; no reduction in its supported modes, exports, UI or bitness.
 
-**Current acceptance:** architecture and a limited source-verified seed only. No complete C API coverage, Rust implementation completeness, x86 acceptance or real-Excel validation is asserted here.
+**Current acceptance:** architecture and source-derived catalogue with a documented independent agent technical review; authenticated completeness acceptance remains outstanding. No general C API semantic coverage, Rust implementation completeness, x86 acceptance or real-Excel validation is asserted here.
 
-The [native header provenance inventory](../evidence/native-xll-header-provenance.md) records source-controlled headers, direct includes and licensing uncertainties. The local [validator](../../tools/excel-c-api-inventory/README.md) checks the seed without claiming exhaustive source reconciliation; [#117](https://github.com/evnekdev/excel-api/issues/117) owns the independent census.
+The [native header provenance inventory](../evidence/native-xll-header-provenance.md) records source-controlled headers, direct includes and licensing uncertainties. The local [validator](../../tools/excel-c-api-inventory/README.md) checks the catalogue without claiming exhaustive source reconciliation; [#117](https://github.com/evnekdev/excel-api/issues/117) owns the independent census.
+
+The [source-census working report](../evidence/excel-c-api-source-census.md) retains the provisional history and adds the source-first independent agent review, all 38 non-macro identities, macro-family accounting and remaining limitations. Stable kinds/IDs are preserved while optional subfamilies refine miscellaneous constants.
