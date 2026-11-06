@@ -256,6 +256,39 @@ impl Runtime {
     /// registration failure this performs bounded rollback; a rollback failure
     /// leaves [`RuntimePhase::CleanupRequired`] so [`Self::close`] can retry.
     pub fn initialize(&self, add_in: &AddInDescriptor) -> Result<LifecycleOutcome, LifecycleError> {
+        self.initialize_with_help(add_in, &[])
+    }
+
+    /// Registers optional worksheet help supplements in an Excel-issued open callback.
+    ///
+    /// Invalid/duplicate mappings fail before linking or dispatch. Existing initialized
+    /// generations are unchanged; close/reopen is required to apply new metadata.
+    pub fn initialize_with_help(
+        &self,
+        add_in: &AddInDescriptor,
+        help: &[crate::FunctionHelp],
+    ) -> Result<LifecycleOutcome, LifecycleError> {
+        for (index, entry) in help.iter().enumerate() {
+            entry
+                .topic
+                .validate()
+                .map_err(|e| LifecycleError::Excel(ExcelCallError::Registration(e)))?;
+            if add_in
+                .functions
+                .iter()
+                .filter(|f| f.rust_symbol == entry.rust_symbol)
+                .count()
+                != 1
+                || help[..index]
+                    .iter()
+                    .any(|h| h.rust_symbol == entry.rust_symbol)
+            {
+                return Err(ExcelCallError::Registration(
+                    crate::RegistrationError::InvalidHelpMapping,
+                )
+                .into());
+            }
+        }
         let _callback = crate::dispatcher::enter_callback();
         add_in
             .validate()
@@ -329,7 +362,11 @@ impl Runtime {
 
         let mut registered = Vec::with_capacity(add_in.functions.len());
         for function in add_in.functions {
-            match context.register(&module, function) {
+            let topic = help
+                .iter()
+                .find(|h| h.rust_symbol == function.rust_symbol)
+                .map(|h| h.topic);
+            match context.register(&module, function, topic) {
                 Ok(id) => registered.push(id),
                 Err(primary) => {
                     let mut cleanup = Vec::new();
@@ -837,6 +874,73 @@ mod tests {
         AddInDescriptor::new("commands", "commands", &[]).commands(COMMANDS);
     static MIXED_ADD_IN: AddInDescriptor =
         AddInDescriptor::new("mixed", "mixed", FUNCTIONS).commands(COMMANDS);
+
+    #[test]
+    fn help_supplements_fill_slot_nine_and_preserve_cleanup() {
+        let _runtime = runtime_test_guard();
+        let help = [crate::FunctionHelp::new(
+            "one",
+            crate::HelpTopic::new("guide.chm", 42),
+        )];
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        runtime.initialize_with_help(&MIXED_ADD_IN, &help).unwrap();
+        {
+            let state = backend.state.lock().unwrap();
+            let first = &state.registration_arguments[0];
+            assert_eq!(first.len(), 10);
+            assert_eq!(first[8], (excel_api_sys::xltypeStr, "guide.chm!42".into()));
+            assert_eq!(first[5], (excel_api_sys::xltypeNum, "1".into()));
+            assert_eq!(first[6].1, "Rust");
+            assert_eq!(first[7].1, "");
+            assert_eq!(first[9].1, "");
+            assert_eq!(state.registration_arguments[1][8].1, "");
+            assert_command_arguments(
+                &state.registration_arguments[2],
+                "A",
+                "Run command",
+                "run_command",
+                "RUST.RUN",
+            );
+        }
+        runtime.close().unwrap();
+        assert_eq!(
+            backend.state.lock().unwrap().unregistered,
+            [2.0, 1.0, 4.0, 3.0]
+        );
+
+        let backend = Arc::new(MockBackend::failing_registration(2));
+        let runtime = Runtime::with_backend(backend.clone());
+        assert!(runtime.initialize_with_help(&ADD_IN, &help).is_err());
+        let state = backend.state.lock().unwrap();
+        assert_eq!(state.unregistered, [1.0]);
+        assert!(state.allocations.is_empty());
+    }
+
+    #[test]
+    fn invalid_help_and_mapping_fail_before_link_or_dispatch() {
+        let _runtime = runtime_test_guard();
+        let valid = crate::FunctionHelp::new("one", crate::HelpTopic::new("guide.chm", u32::MAX));
+        for help in [
+            vec![crate::FunctionHelp::new(
+                "one",
+                crate::HelpTopic::new("", 0),
+            )],
+            vec![crate::FunctionHelp::new("unknown", valid.topic)],
+            vec![valid, valid],
+            vec![crate::FunctionHelp::new(
+                "one",
+                crate::HelpTopic::new("https://example.test/help", 1),
+            )],
+        ] {
+            let backend = Arc::new(MockBackend::default());
+            let runtime = Runtime::with_backend(backend.clone());
+            assert!(runtime.initialize_with_help(&ADD_IN, &help).is_err());
+            let state = backend.state.lock().unwrap();
+            assert!(!state.linked);
+            assert!(state.calls.is_empty());
+        }
+    }
 
     fn assert_command_arguments(
         arguments: &[(u32, String)],

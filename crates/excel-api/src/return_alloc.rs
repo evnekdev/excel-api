@@ -68,7 +68,7 @@ impl ExcelReturn {
         &self.allocation.root
     }
 
-    /// Mutable root access confined to a synchronous `xlAsyncReturn` call.
+    /// Mutable root access confined to synchronous `xlAsyncReturn`/`xlSet` calls.
     pub(crate) fn as_xloper_mut_for_callback(&mut self) -> &mut XLOPER12 {
         &mut self.allocation.root
     }

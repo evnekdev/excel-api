@@ -5,7 +5,7 @@ use excel_api::{
 };
 use excel_api_macros::excel_function;
 
-#[excel_function(name = "PASS.SCALARS", thunk = "pass_scalars", arguments(a = "a", b = "b", c = "c"))]
+#[excel_function(name = "PASS.SCALARS", thunk = "pass_scalars", help_topic = "guide.chm!4294967295", arguments(a = "a", b = "b", c = "c"))]
 fn scalars(a: f64, b: bool, c: i32) -> i16 { let _ = (b, c); a as i16 }
 
 #[excel_function(name = "PASS.VALUES", thunk = "pass_values", arguments(value = "value", reference = "reference", counted = "counted", nul = "nul"))]

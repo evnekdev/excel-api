@@ -90,6 +90,10 @@ pub const xlfNow: i32 = 74;
 pub const xlfSetName: i32 = 88;
 pub const xlfCaller: i32 = 89;
 pub const xlfRegister: i32 = 149;
+/// Document information selector function from the pinned XLCALL.H.
+pub const xlfGetDocument: i32 = 188;
+/// Normal calculation of all open workbooks; macro command only.
+pub const xlcCalculateNow: i32 = 31 | xlCommand;
 pub const xlfUnregister: i32 = 201;
 pub const xlfRegisterId: i32 = 267;
 pub const xlUDF: i32 = 255;

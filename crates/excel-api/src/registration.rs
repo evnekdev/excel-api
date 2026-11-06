@@ -1,5 +1,67 @@
 use core::fmt;
 
+/// Optional xlfRegister help resource and unsigned 32-bit context ID.
+/// Excel resolves the file/HTTPS resource at host runtime; no viewer is implemented.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct HelpTopic {
+    resource: &'static str,
+    context_id: u32,
+}
+impl HelpTopic {
+    /// Constructs metadata; validation is run before registration.
+    /// Use a .chm/.hlp file or an HTTPS address (context ID zero for HTTPS).
+    pub const fn new(resource: &'static str, context_id: u32) -> Self {
+        Self {
+            resource,
+            context_id,
+        }
+    }
+    /// Help resource without the context suffix.
+    pub const fn resource(self) -> &'static str {
+        self.resource
+    }
+    /// Unsigned help context identifier.
+    pub const fn context_id(self) -> u32 {
+        self.context_id
+    }
+    /// Checks supported syntax and length, not resource existence.
+    pub fn validate(self) -> Result<(), RegistrationError> {
+        let resource = self.resource;
+        let lower = resource.to_ascii_lowercase();
+        let supported = if lower.starts_with("https://") {
+            resource.len() > 8 && self.context_id == 0
+        } else {
+            !resource.contains("://") && (lower.ends_with(".chm") || lower.ends_with(".hlp"))
+        };
+        if !supported || resource.contains(['!', '\0']) {
+            return Err(RegistrationError::InvalidHelpTopic);
+        }
+        if self.encoded().encode_utf16().count() > excel_api_sys::EXCEL12_MAX_STRING_CODE_UNITS {
+            return Err(RegistrationError::StringTooLong);
+        }
+        Ok(())
+    }
+    pub(crate) fn encoded(self) -> String {
+        format!("{}!{}", self.resource, self.context_id)
+    }
+}
+
+/// Additive help metadata keyed by the exported worksheet thunk symbol.
+/// Preserves existing FunctionRegistration and AddInDescriptor struct literals.
+#[derive(Clone, Copy, Debug)]
+pub struct FunctionHelp {
+    /// Exported thunk symbol matching exactly one function in the add-in.
+    pub rust_symbol: &'static str,
+    /// Help resource supplied to xlfRegister position 9.
+    pub topic: HelpTopic,
+}
+impl FunctionHelp {
+    /// Creates a static supplement for Runtime::initialize_with_help.
+    pub const fn new(rust_symbol: &'static str, topic: HelpTopic) -> Self {
+        Self { rust_symbol, topic }
+    }
+}
+
 use excel_api_sys::{
     XLL_MODIFIER_CLUSTER_SAFE, XLL_MODIFIER_MACRO_SHEET, XLL_MODIFIER_THREAD_SAFE,
     XLL_MODIFIER_VOLATILE, XLL_TYPE_ASYNC_HANDLE, XLL_TYPE_ASYNC_VOID, XLL_TYPE_BOOL,
@@ -341,6 +403,10 @@ impl AddInDescriptor {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 /// Static registration metadata is inconsistent or exceeds Excel limits.
 pub enum RegistrationError {
+    /// Help resource is not a supported file/HTTPS and context combination.
+    InvalidHelpTopic,
+    /// A help supplement has a duplicate or nonexistent/ambiguous exported symbol.
+    InvalidHelpMapping,
     /// The add-in name was empty.
     EmptyAddInName,
     /// The exported Rust thunk symbol was empty.
@@ -362,6 +428,8 @@ pub enum RegistrationError {
 impl fmt::Display for RegistrationError {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         formatter.write_str(match self {
+            Self::InvalidHelpTopic => "help topic requires a .chm/.hlp file and context ID, or HTTPS resource with context 0",
+            Self::InvalidHelpMapping => "help metadata must identify exactly one worksheet function with no duplicates",
             Self::EmptyAddInName => "add-in name must not be empty",
             Self::EmptyRustSymbol => "Rust symbol must not be empty",
             Self::EmptyExcelName => "Excel function name must not be empty",
@@ -387,6 +455,36 @@ impl std::error::Error for RegistrationError {}
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn help_topics_validate_resources_contexts_and_limits() {
+        for topic in [
+            HelpTopic::new("guide.chm", 0),
+            HelpTopic::new("C:\\help\\guide.HLP", u32::MAX),
+            HelpTopic::new("https://example.test/help.chm", 0),
+        ] {
+            topic.validate().unwrap();
+        }
+        for topic in [
+            HelpTopic::new("", 0),
+            HelpTopic::new("bad!file.chm", 0),
+            HelpTopic::new("bad\0file.chm", 0),
+            HelpTopic::new("https://example.test/help", 1),
+            HelpTopic::new("http://example.test/help", 0),
+            HelpTopic::new("http://example.test/help.chm", 0),
+        ] {
+            assert_eq!(topic.validate(), Err(RegistrationError::InvalidHelpTopic));
+        }
+        assert_eq!(
+            HelpTopic::new("guide.chm", u32::MAX).encoded(),
+            "guide.chm!4294967295"
+        );
+        let long: &'static str = Box::leak(format!("{}.chm", "a".repeat(32_767)).into_boxed_str());
+        assert_eq!(
+            HelpTopic::new(long, 0).validate(),
+            Err(RegistrationError::StringTooLong)
+        );
+    }
 
     const TWO_NUMBERS: &[ExcelArgumentType] =
         &[ExcelArgumentType::Number, ExcelArgumentType::Number];

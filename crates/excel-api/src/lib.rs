@@ -87,6 +87,8 @@ mod excel_call;
 mod excel_owned;
 /// Owned metadata arguments used to describe registered functions and commands.
 pub mod metadata;
+/// Validated Rust-owned worksheet coordinates and references.
+pub mod reference;
 /// Manual registration descriptors and signature validation.
 pub mod registration;
 mod return_alloc;
@@ -130,6 +132,7 @@ pub use excel_call::{
     XL_FREE, XL_GET_NAME, XL_SHEET_ID, XL_SHEET_NM, XLF_CALLER, XLF_REGISTER, XLF_SET_NAME,
     XLF_UNREGISTER,
 };
+pub use excel_call::{DocumentInfo, XL_SET, XLC_CALCULATE_NOW, XLF_GET_DOCUMENT};
 #[cfg(feature = "xlcontime-research")]
 #[doc(hidden)]
 pub use excel_call::{ExperimentalOnTimeOutcome, ExperimentalOnTimeValue, XLC_ON_TIME, XLF_NOW};
@@ -138,10 +141,12 @@ pub use excel_owned::{
     ExcelXlFreeTransfer,
 };
 pub use metadata::{CountedUtf16Arg, ExcelReferenceArg, ExcelValueArg, NullTerminatedUtf16Arg};
+pub use reference::{OwnedExcelReference, ReferenceArea, ReferenceError};
 pub use registration::{
     AddInDescriptor, CommandRegistration, ExcelArgumentType, ExcelReturnType, FunctionFlags,
     FunctionRegistration, FunctionSignature, RegistrationError,
 };
+pub use registration::{FunctionHelp, HelpTopic};
 pub use return_alloc::{ExcelReturn, xl_auto_free12};
 pub use return_plan::{
     ExcelReturnArray, ExcelReturnValue, PlannedArray, PlannedArrayElement, PlannedText,

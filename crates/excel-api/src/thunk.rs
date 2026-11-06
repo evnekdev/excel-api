@@ -38,6 +38,7 @@ pub type AsyncTask = Box<
 #[doc(hidden)]
 pub struct CallbackScope<'backend> {
     capability: CallCapability<'backend>,
+    _thread: core::marker::PhantomData<std::rc::Rc<()>>,
 }
 
 impl CallbackScope<'_> {
@@ -106,6 +107,16 @@ impl CallbackScope<'_> {
     }
 
     pub fn with_macro_context<R>(&self, body: impl FnOnce(&MacroContext<'_>) -> R) -> R {
+        let context = MacroContext::macro_sheet(&self.capability);
+        body(&context)
+    }
+
+    /// Generated command thunks only: grants command-equivalent operations.
+    ///
+    /// # Safety
+    /// The caller must be executing an Excel-issued command callback, not a
+    /// macro-sheet-equivalent worksheet function or an arbitrary thread.
+    pub unsafe fn with_command_context<R>(&self, body: impl FnOnce(&MacroContext<'_>) -> R) -> R {
         let context = MacroContext::new(&self.capability);
         body(&context)
     }
@@ -118,6 +129,7 @@ pub fn with_callback<R>(body: impl for<'call> FnOnce(&'call CallbackScope<'call>
     let backend = production_backend();
     let scope = CallbackScope {
         capability: CallCapability::new(backend.as_ref()),
+        _thread: core::marker::PhantomData,
     };
     body(&scope)
 }

@@ -1,0 +1,29 @@
+error: help_topic requires resource!decimal_context_id
+ --> tests/ui/fail/help_topic.rs:3:70
+  |
+3 | #[excel_function(name = "BAD.HELP", thunk = "bad_help", help_topic = "guide.chm")]
+  |                                                                      ^^^^^^^^^^^
+
+error: help_topic requires a .chm/.hlp resource or HTTPS resource with context 0
+ --> tests/ui/fail/help_topic.rs:6:72
+  |
+6 | #[excel_function(name = "BAD.EMPTY", thunk = "bad_empty", help_topic = "!0")]
+  |                                                                        ^^^^
+
+error: help context must fit u32
+ --> tests/ui/fail/help_topic.rs:9:66
+  |
+9 | #[excel_function(name = "BAD.ID", thunk = "bad_id", help_topic = "guide.chm!4294967296")]
+  |                                                                  ^^^^^^^^^^^^^^^^^^^^^^
+
+error: help context must be decimal u32
+  --> tests/ui/fail/help_topic.rs:12:70
+   |
+12 | #[excel_function(name = "BAD.SIGN", thunk = "bad_sign", help_topic = "guide.chm!-1")]
+   |                                                                      ^^^^^^^^^^^^^^
+
+error: duplicate attribute option
+  --> tests/ui/fail/help_topic.rs:15:83
+   |
+15 | #[excel_function(name = "BAD.DUP", thunk = "bad_dup", help_topic = "guide.chm!1", help_topic = "guide.chm!2")]
+   |                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
