@@ -98,6 +98,14 @@ pub enum DispatchRequirement {
 pub enum DispatchOperation {
     /// Returns the same fully owned semantic value without calling Excel.
     EchoOwned(ExcelValue),
+    /// Writes owned constants during a genuine command callback; destroys undo history.
+    SetReference(crate::OwnedExcelReference, ExcelValue),
+    /// Clears a single rectangle during a genuine command callback.
+    ClearReference(crate::OwnedExcelReference),
+    /// Queries a closed document selector during a command callback.
+    DocumentInfo(crate::DocumentInfo, Option<String>),
+    /// Requests normal calculation during a command callback, not a full rebuild.
+    CalculateNow,
     /// Calls verified `xlAbort` with its preserving zero-argument form.
     PollCancellationPreservingBreak,
     #[cfg(test)]
@@ -119,7 +127,11 @@ impl DispatchOperation {
     pub const fn requirement(&self) -> DispatchRequirement {
         match self {
             Self::EchoOwned(_) => DispatchRequirement::ContextNeutral,
-            Self::PollCancellationPreservingBreak => DispatchRequirement::Macro,
+            Self::PollCancellationPreservingBreak
+            | Self::SetReference(..)
+            | Self::ClearReference(..)
+            | Self::DocumentInfo(..)
+            | Self::CalculateNow => DispatchRequirement::Macro,
             #[cfg(test)]
             Self::TestEnqueueNested(_) | Self::TestBlock | Self::TestPanic => {
                 DispatchRequirement::ContextNeutral
@@ -132,7 +144,11 @@ impl DispatchOperation {
     /// Returns whether executing this operation invokes the typed Excel catalogue.
     pub const fn calls_excel(&self) -> bool {
         match self {
-            Self::PollCancellationPreservingBreak => true,
+            Self::PollCancellationPreservingBreak
+            | Self::SetReference(..)
+            | Self::ClearReference(..)
+            | Self::DocumentInfo(..)
+            | Self::CalculateNow => true,
             #[cfg(test)]
             Self::TestNestedMacroDrain => true,
             _ => false,
@@ -143,6 +159,8 @@ impl DispatchOperation {
 /// Owned completion values for the initial operation catalogue.
 #[derive(Clone, Debug, PartialEq)]
 pub enum DispatchResult {
+    /// A typed command reported acceptance; not proof of native host behavior.
+    CommandAccepted,
     /// Fully owned semantic value from a context-neutral operation.
     OwnedValue(ExcelValue),
     /// User break state returned by preserving `xlAbort` polling.
@@ -269,6 +287,8 @@ pub enum DispatchCallbackKind {
     Worksheet,
     /// Registered macro command callback.
     Macro,
+    /// Macro-sheet-equivalent worksheet UDF; cannot drain command requirements.
+    MacroSheet,
     /// Open/close lifecycle callback.
     Lifecycle,
 }
@@ -307,6 +327,8 @@ pub struct DispatchDrainReport {
     pub nested_suppressed: bool,
     /// Whether the configured drain duration stopped batch selection.
     pub duration_limit_reached: bool,
+    /// Excel requires returning control; remaining selected work was requeued.
+    pub return_to_excel_required: bool,
 }
 
 /// Bounded cumulative counters for a dispatcher generation.
@@ -1187,7 +1209,7 @@ enum DrainContext<'call, 'context> {
 }
 
 impl DrainContext<'_, '_> {
-    const fn kind(&self) -> DispatchCallbackKind {
+    fn kind(&self) -> DispatchCallbackKind {
         match self {
             Self::ThreadSafe(context) => {
                 let _ = context;
@@ -1197,7 +1219,13 @@ impl DrainContext<'_, '_> {
                 let _ = context;
                 DispatchCallbackKind::Worksheet
             }
-            Self::Macro(_) => DispatchCallbackKind::Macro,
+            Self::Macro(context) => {
+                if context.require_command("dispatcher").is_ok() {
+                    DispatchCallbackKind::Macro
+                } else {
+                    DispatchCallbackKind::MacroSheet
+                }
+            }
             Self::Lifecycle(context) => {
                 let _ = context;
                 DispatchCallbackKind::Lifecycle
@@ -1295,8 +1323,16 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
         if result.is_err() {
             report.failed += 1;
         }
+        let must_return = matches!(&result, Err(DispatchExecutionError::Excel(error)) if error.requires_return_to_excel());
         running.finish(result);
         report.processed += 1;
+        if must_return {
+            generation
+                .controller
+                .requeue_selected(&selected[index + 1..]);
+            report.return_to_excel_required = true;
+            break;
+        }
     }
     report
 }
@@ -1313,6 +1349,34 @@ fn execute(
     }
     match operation {
         DispatchOperation::EchoOwned(value) => Ok(DispatchResult::OwnedValue(value)),
+        DispatchOperation::SetReference(reference, value) => match context {
+            DrainContext::Macro(context) => context
+                .set_reference(&reference, value)
+                .map(|()| DispatchResult::CommandAccepted)
+                .map_err(DispatchExecutionError::Excel),
+            _ => unreachable!("selection enforces command origin"),
+        },
+        DispatchOperation::ClearReference(reference) => match context {
+            DrainContext::Macro(context) => context
+                .clear_reference(&reference)
+                .map(|()| DispatchResult::CommandAccepted)
+                .map_err(DispatchExecutionError::Excel),
+            _ => unreachable!("selection enforces command origin"),
+        },
+        DispatchOperation::CalculateNow => match context {
+            DrainContext::Macro(context) => context
+                .calculate_now()
+                .map(|()| DispatchResult::CommandAccepted)
+                .map_err(DispatchExecutionError::Excel),
+            _ => unreachable!("selection enforces command origin"),
+        },
+        DispatchOperation::DocumentInfo(selector, name) => match context {
+            DrainContext::Macro(context) => context
+                .document_info(selector, name.as_deref())
+                .map(DispatchResult::OwnedValue)
+                .map_err(DispatchExecutionError::Excel),
+            _ => unreachable!("selection enforces command origin"),
+        },
         DispatchOperation::PollCancellationPreservingBreak => match context {
             DrainContext::Macro(context) => context
                 .is_cancellation_requested()
@@ -1469,7 +1533,10 @@ mod tests {
             _: *mut LPXLOPER12,
         ) -> i32 {
             self.calls.lock().unwrap().push((function, count as usize));
-            // SAFETY: the xlAbort wrapper supplies one live immediate result root.
+            if function == excel_api_sys::xlFree {
+                return excel_api_sys::xlretSuccess;
+            }
+            // SAFETY: typed calls supply a live immediate result root.
             unsafe {
                 (*result).val = XLOPER12Value {
                     xbool: i32::from(self.result.load(Ordering::Acquire)),
@@ -2119,5 +2186,132 @@ mod tests {
             *backend.calls.lock().unwrap(),
             vec![(excel_api_sys::xlAbort, 0)]
         );
+    }
+    #[test]
+    fn command_operations_wait_for_command_origin_and_keep_owned_results() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _) = start(DispatchConfig::default());
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        let area =
+            crate::OwnedExcelReference::current_sheet(crate::ReferenceArea::cell(0, 0).unwrap());
+        let write = enqueue(DispatchOperation::SetReference(
+            area.clone(),
+            ExcelValue::Integer(7),
+        ))
+        .unwrap();
+        let clear = enqueue(DispatchOperation::ClearReference(area)).unwrap();
+        let calc = enqueue(DispatchOperation::CalculateNow).unwrap();
+        let info = enqueue(DispatchOperation::DocumentInfo(
+            crate::DocumentInfo::ReadOnly,
+            None,
+        ))
+        .unwrap();
+        assert_eq!(
+            drain_worksheet(&WorksheetContext::new(&capability)).processed,
+            0
+        );
+        assert_eq!(
+            drain_thread_safe(&ThreadSafeContext::new(&capability)).processed,
+            0
+        );
+        assert_eq!(
+            drain_lifecycle(&LifecycleContext::new(&capability)).processed,
+            0
+        );
+        assert_eq!(
+            drain_macro(&MacroContext::macro_sheet(&capability)).processed,
+            0
+        );
+        assert!(backend.calls.lock().unwrap().is_empty());
+        assert_eq!(drain_macro(&MacroContext::new(&capability)).processed, 4);
+        for ticket in [write, clear, calc] {
+            assert_eq!(
+                ticket.try_result(),
+                Some(Ok(DispatchResult::CommandAccepted))
+            );
+        }
+        assert_eq!(
+            info.try_result(),
+            Some(Ok(DispatchResult::OwnedValue(ExcelValue::Boolean(true))))
+        );
+        let calls: Vec<_> = backend
+            .calls
+            .lock()
+            .unwrap()
+            .iter()
+            .copied()
+            .filter(|(f, _)| *f != excel_api_sys::xlFree)
+            .collect();
+        assert_eq!(calls, [(16387, 2), (16387, 1), (32799, 0), (188, 1)]);
+    }
+
+    #[test]
+    fn queued_commands_cancel_shutdown_and_reject_without_extra_calls() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _) = start(DispatchConfig::default());
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        let canceled = enqueue(DispatchOperation::CalculateNow).unwrap();
+        assert_eq!(canceled.cancel(), DispatchCancelOutcome::Canceled);
+        let rejected = enqueue(DispatchOperation::CalculateNow).unwrap();
+        backend.result.store(false, Ordering::Release);
+        let report = drain_macro(&MacroContext::new(&capability));
+        assert_eq!((report.processed, report.failed), (1, 1));
+        assert!(matches!(
+            rejected.try_result(),
+            Some(Err(DispatchCompletionError::Operation(_)))
+        ));
+        let late = enqueue(DispatchOperation::CalculateNow).unwrap();
+        shutdown();
+        assert_eq!(
+            late.try_result(),
+            Some(Err(DispatchCompletionError::DispatcherShutdown))
+        );
+        let before = backend.calls.lock().unwrap().len();
+        assert_eq!(drain_macro(&MacroContext::new(&capability)).processed, 0);
+        assert_eq!(backend.calls.lock().unwrap().len(), before);
+    }
+    #[test]
+    fn abort_or_uncalced_stops_batch_until_a_later_callback() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        for code in [excel_api_sys::xlretAbort, excel_api_sys::xlretUncalced] {
+            let (_guard, _) = start(DispatchConfig::default());
+            let backend = AbortBackend::linked();
+            backend.code.store(code, Ordering::Release);
+            let capability = CallCapability::new(&backend);
+            let first = enqueue(DispatchOperation::CalculateNow).unwrap();
+            let next = enqueue(DispatchOperation::CalculateNow).unwrap();
+            let report = drain_macro(&MacroContext::new(&capability));
+            assert!(report.return_to_excel_required);
+            assert_eq!(report.processed, 1);
+            assert!(first.try_result().unwrap().is_err());
+            assert!(next.try_result().is_none());
+            assert_eq!(backend.calls.lock().unwrap().len(), 1);
+            backend.code.store(0, Ordering::Release);
+            assert_eq!(drain_macro(&MacroContext::new(&capability)).processed, 1);
+            assert_eq!(next.try_result(), Some(Ok(DispatchResult::CommandAccepted)));
+        }
+    }
+
+    #[test]
+    fn invalid_owned_command_metadata_fails_without_backend_dispatch() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, _) = start(DispatchConfig::default());
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        let ticket = enqueue(DispatchOperation::DocumentInfo(
+            crate::DocumentInfo::ActiveWorkbookName,
+            Some("invalid-for-active-selector".into()),
+        ))
+        .unwrap();
+        assert_eq!(drain_macro(&MacroContext::new(&capability)).failed, 1);
+        assert!(matches!(
+            ticket.try_result(),
+            Some(Err(DispatchCompletionError::Operation(
+                DispatchExecutionError::Excel(ExcelCallError::InvalidDocumentName)
+            )))
+        ));
+        assert!(backend.calls.lock().unwrap().is_empty());
     }
 }

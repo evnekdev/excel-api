@@ -75,6 +75,11 @@ pub fn status() -> ExcelString {
                 ticket.generation(),
                 ticket.id()
             ),
+            Some(Ok(DispatchResult::CommandAccepted)) => format!(
+                "completed;command_accepted;generation={};request={};last_pump_processed={processed}",
+                ticket.generation(),
+                ticket.id()
+            ),
             Some(Err(error)) => format!(
                 "failed={};generation={};request={};last_pump_processed={processed}",
                 completion_label(&error),

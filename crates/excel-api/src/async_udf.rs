@@ -24,6 +24,7 @@ const CANCEL_REQUESTED: u8 = 2;
 const COMPLETING: u8 = 3;
 const COMPLETED: u8 = 4;
 const CANCELED: u8 = 5;
+const RETURNING: u8 = 6;
 
 /// One owned closure submitted to an [`AsyncExecutor`].
 pub type AsyncJob = Box<dyn FnOnce() + Send + 'static>;
@@ -471,7 +472,7 @@ impl Request {
             let state = self.state.load(Ordering::Acquire);
             let next = match state {
                 SCHEDULED => CANCELED,
-                RUNNING => CANCEL_REQUESTED,
+                RUNNING | COMPLETING => CANCEL_REQUESTED,
                 _ => return,
             };
             if self
@@ -525,9 +526,33 @@ impl Request {
             .map_err(ThunkError::ReturnPlanning)
             .and_then(|plan| plan.materialize().map_err(ThunkError::Materialization));
         let result = match result {
-            Ok(result) => owner.return_to_excel(self.handle, result),
+            Ok(result) => {
+                #[cfg(test)]
+                if let Some(pause) = owner.before_return.lock().unwrap().clone() {
+                    pause.reached.wait();
+                    pause.release.wait();
+                }
+                // Cancellation remains effective during result preparation. This CAS
+                // commits the one allowed return; after it cancellation is too late.
+                if self
+                    .state
+                    .compare_exchange(COMPLETING, RETURNING, Ordering::AcqRel, Ordering::Acquire)
+                    .is_err()
+                {
+                    self.state.store(CANCELED, Ordering::Release);
+                    self.retire();
+                    return Err(AsyncCompletionError::Canceled);
+                }
+                owner.return_to_excel(self.handle, result)
+            }
             Err(error) => Err(AsyncCompletionError::Return(error)),
         };
+        if result.is_err() {
+            owner.failures.fetch_add(1, Ordering::Relaxed);
+            emit_async_failure();
+        } else {
+            owner.completed.fetch_add(1, Ordering::Relaxed);
+        }
         self.state.store(COMPLETED, Ordering::Release);
         self.retire();
         result
@@ -555,9 +580,15 @@ struct AsyncController {
     maximum: usize,
     epoch: u64,
     next_id: AtomicU64,
+    completed: AtomicU64,
+    failures: AtomicU64,
+    canceled_events: AtomicU64,
+    ended_events: AtomicU64,
     state: Mutex<ControllerState>,
     #[cfg(test)]
     before_submit: Mutex<Option<Arc<SubmissionPause>>>,
+    #[cfg(test)]
+    before_return: Mutex<Option<Arc<SubmissionPause>>>,
 }
 
 impl AsyncController {
@@ -573,6 +604,10 @@ impl AsyncController {
             maximum: maximum.max(1),
             epoch,
             next_id: AtomicU64::new(1),
+            completed: AtomicU64::new(0),
+            failures: AtomicU64::new(0),
+            canceled_events: AtomicU64::new(0),
+            ended_events: AtomicU64::new(0),
             state: Mutex::new(ControllerState {
                 active: true,
                 requests: HashMap::new(),
@@ -580,6 +615,8 @@ impl AsyncController {
             }),
             #[cfg(test)]
             before_submit: Mutex::new(None),
+            #[cfg(test)]
+            before_return: Mutex::new(None),
         })
     }
 
@@ -721,8 +758,34 @@ impl AsyncController {
         }
     }
 
-    fn calculation_ended(&self) {
+    fn calculation_event(&self, canceled: bool) {
+        if !self.is_active(self.epoch) {
+            return;
+        }
+        let counter = if canceled {
+            &self.canceled_events
+        } else {
+            &self.ended_events
+        };
+        counter.fetch_add(1, Ordering::Relaxed);
+        // Only this generation's native async requests, never unrelated dispatch work.
         self.cancel_all();
+    }
+
+    fn calculation_ended(&self) {
+        self.calculation_event(false);
+    }
+
+    fn diagnostics(&self) -> AsyncDiagnostics {
+        let state = self.lock_state();
+        AsyncDiagnostics {
+            generation: self.epoch,
+            pending: state.in_flight,
+            completed: self.completed.load(Ordering::Relaxed),
+            failures: self.failures.load(Ordering::Relaxed),
+            calculation_canceled: self.canceled_events.load(Ordering::Relaxed),
+            calculation_ended: self.ended_events.load(Ordering::Relaxed),
+        }
     }
 
     fn shutdown(&self) {
@@ -894,7 +957,7 @@ pub(crate) fn reset_generations_for_test() {
 
 pub(crate) fn calculation_canceled() {
     if let Some(controller) = active_controller() {
-        controller.cancel_all();
+        controller.calculation_event(true);
     }
 }
 
@@ -902,6 +965,29 @@ pub(crate) fn calculation_ended() {
     if let Some(controller) = active_controller() {
         controller.calculation_ended();
     }
+}
+
+/// Bounded counters for the active native-async generation, not host acceptance.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct AsyncDiagnostics {
+    /// Runtime generation owning these counters.
+    pub generation: u64,
+    /// Requests still retained by the controller.
+    pub pending: usize,
+    /// Returns accepted by the callback transport and Boolean result.
+    pub completed: u64,
+    /// Result preparation or backend completion failures.
+    pub failures: u64,
+    /// Cancellation notifications observed for this generation.
+    pub calculation_canceled: u64,
+    /// End notifications observed for this generation.
+    pub calculation_ended: u64,
+}
+
+/// Observes the active generation without acquiring any Excel callback permission.
+/// Counters disappear on close; programmatic calculation may emit no events.
+pub fn diagnostics() -> Option<AsyncDiagnostics> {
+    active_controller().map(|controller| controller.diagnostics())
 }
 
 /// Excel calculation-cancellation event procedure registered by name.
@@ -1561,5 +1647,86 @@ mod tests {
             Err(AsyncSubmitError::ExecutorClosed)
         );
         assert_eq!(controller.accounting(), (0, 0));
+    }
+    #[test]
+    fn cancellation_during_materialization_prevents_return_and_duplicate_completion() {
+        let executor = Arc::new(QueueExecutor::initialized());
+        let backend = Arc::new(MockBackend::linked());
+        let controller = controller(executor.clone(), backend.clone(), 1, 1);
+        let pause = Arc::new(SubmissionPause {
+            reached: Barrier::new(2),
+            release: Barrier::new(2),
+        });
+        *controller.before_return.lock().unwrap() = Some(pause.clone());
+        controller
+            .schedule(handle(1), Box::new(|_| Ok(number(3.0))))
+            .unwrap();
+        let request = controller
+            .lock_state()
+            .requests
+            .values()
+            .next()
+            .unwrap()
+            .clone();
+        let worker = std::thread::spawn(move || executor.run_one());
+        pause.reached.wait();
+        controller.cancel_all();
+        pause.release.wait();
+        worker.join().unwrap();
+        assert!(backend.calls.lock().unwrap().is_empty());
+        assert_eq!(controller.accounting(), (0, 0));
+        assert!(matches!(
+            request.complete(number(4.0)),
+            Err(AsyncCompletionError::Canceled)
+        ));
+    }
+
+    #[test]
+    fn diagnostics_distinguish_acceptance_conversion_and_backend_failure() {
+        let executor = Arc::new(QueueExecutor::initialized());
+        let backend = Arc::new(MockBackend::linked());
+        let controller = controller(executor.clone(), backend.clone(), 2, 41);
+        controller
+            .schedule(handle(1), Box::new(|_| Ok(number(1.0))))
+            .unwrap();
+        executor.run_one();
+        backend.accepted.store(false, Ordering::Release);
+        controller
+            .schedule(handle(2), Box::new(|_| Ok(number(2.0))))
+            .unwrap();
+        executor.run_one();
+        controller
+            .schedule(
+                handle(3),
+                Box::new(|_| Ok(ExcelReturnValue::Text("x".repeat(32_768).into()))),
+            )
+            .unwrap();
+        executor.run_one();
+        assert_eq!(controller.diagnostics().completed, 1);
+        assert_eq!(controller.diagnostics().failures, 2);
+        assert_eq!(controller.diagnostics().pending, 0);
+    }
+
+    #[test]
+    fn event_observation_is_generation_scoped_and_inactive_events_are_noops() {
+        let executor = Arc::new(QueueExecutor::initialized());
+        let backend = Arc::new(MockBackend::linked());
+        let old = controller(executor, backend.clone(), 1, 7);
+        old.schedule(handle(1), Box::new(|_| Ok(number(1.0))))
+            .unwrap();
+        old.calculation_event(true);
+        old.calculation_ended();
+        assert_eq!(old.accounting(), (0, 0));
+        assert_eq!(old.diagnostics().calculation_canceled, 1);
+        assert_eq!(old.diagnostics().calculation_ended, 1);
+        old.shutdown();
+        let new = controller(Arc::new(QueueExecutor::initialized()), backend, 1, 8);
+        new.schedule(handle(2), Box::new(|_| Ok(number(2.0))))
+            .unwrap();
+        old.calculation_event(true);
+        assert_eq!(old.diagnostics().calculation_canceled, 1);
+        assert_eq!(new.diagnostics().pending, 1);
+        assert_eq!(new.diagnostics().calculation_canceled, 0);
+        new.shutdown();
     }
 }
