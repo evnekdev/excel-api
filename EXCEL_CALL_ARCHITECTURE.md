@@ -107,6 +107,11 @@ reject worksheet origin. Generated command thunks use a narrow, doc-hidden unsaf
 command constructor with an explicit callback precondition. Existing ordinary
 macro-sheet syntax still compiles. This does not provide autonomous wake or
 authorize arbitrary threads. Historical experimental scheduling is unchanged.
+Independent review made every public capability-granting scope helper unsafe,
+and generated command exports unsafe to invoke from Rust; exported C ABI and
+ordinary annotated function signatures are unchanged. `xlSet` now checks its
+Boolean/error result and releases the result root once, independently of its
+callback transport return code.
 All callback context tokens and CallbackScope are now explicitly !Send/!Sync,
 enforcing their documented thread confinement even for thread-safe UDF callbacks.
 
