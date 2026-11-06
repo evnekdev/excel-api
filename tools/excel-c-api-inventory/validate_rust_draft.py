@@ -1,5 +1,6 @@
 """Validate the preliminary #122 candidate inventory, not implementation coverage."""
 import ast
+import collections
 import functools
 import json
 import pathlib
@@ -38,10 +39,21 @@ TEST_EVIDENCE = {
         'xlerrNull', 'xlerrDiv0', 'xlerrValue', 'xlerrRef', 'xlerrName', 'xlerrNum', 'xlerrNA', 'xlerrGettingData')},
     'xltypeMissing': ('crates/excel-api/src/borrowed.rs', 'missing_and_nil_are_independent'),
     'xltypeNil': ('crates/excel-api/src/borrowed.rs', 'missing_and_nil_are_independent'),
+    'xleventCalculationCanceled': ('crates/excel-api/src/runtime.rs', 'async_events_register_once_across_close_and_reopen'),
+    'xleventCalculationEnded': ('crates/excel-api/src/runtime.rs', 'async_events_register_once_across_close_and_reopen'),
+    'xlfNow': ('crates/excel-api-sys/src/constants.rs', 'on_time_and_now_match_checked_in_xlcall_header'),
+    'xlcOnTime': ('crates/excel-api-sys/src/constants.rs', 'on_time_and_now_match_checked_in_xlcall_header'),
+    'xlretAbort': ('crates/excel-api/src/excel_call.rs', 'abort_is_available_to_verified_contexts_and_preserves_return_codes'),
+    'xlretUncalced': ('crates/excel-api/src/excel_call.rs', 'abort_is_available_to_verified_contexts_and_preserves_return_codes'),
+    'xlretInvAsynchronousContext': ('crates/excel-api/src/async_udf.rs', 'excel_return_code_and_boolean_rejection_are_preserved'),
 }
 ERROR_VARIANTS = dict(zip(
     ('xlerrNull','xlerrDiv0','xlerrValue','xlerrRef','xlerrName','xlerrNum','xlerrNA','xlerrGettingData'),
     ('Null','Div0','Value','Ref','Name','Num','Na','GettingData')))
+BORROWED_WRAPPERS = {'XLOPER12': ('RawExcelValue', 'raw: NonNull<XLOPER12>'), 'XLREF12': ('ExcelReferenceArea', 'area: NonNull<XLREF12>')}
+ABI_CHECKED = {'BOOL','XCHAR','RW','COL','IDSHEET','XLREF12','XLMREF12','FP12','XLOPER12'}
+LEGACY_NAMES = {'XLREF','xlref','LPXLREF','XLMREF','xlmref','LPXLMREF',
+                'FP','_FP','XLOPER','xloper','LPXLOPER','Excel4','Excel4v'}
 
 @functools.lru_cache(maxsize=None)
 def git_show(path):
@@ -84,20 +96,80 @@ def public_definitions():
                 definitions.setdefault(match.group(1), []).append({'path': path, 'line': number, 'symbol': match.group(1)})
     return definitions
 
+def core_symbol_occurrences():
+    paths = subprocess.check_output(
+        ['git', 'ls-tree', '-r', '--name-only', REVISION, '--',
+         'crates/excel-api-sys/src', 'crates/excel-api/src', 'crates/excel-api-macros/src'],
+        cwd=ROOT, text=True, encoding='utf8').splitlines()
+    counts = collections.Counter()
+    for path in paths:
+        if path.endswith('.rs'):
+            counts.update(re.findall(r'[A-Za-z_][A-Za-z_0-9]*', git_show(path)))
+    return counts
+
+def abi_numeric_checks():
+    rust = git_show('tools/abi-check/src/main.rs')
+    native = git_show('tools/abi-check/native/layout_check.cpp')
+    checks = {}
+    pattern = r'check!\(\s*"(\w+)"\s*,\s*(\w+)\s*,\s*(excel_sdk_\w+)\(\)\s*\)'
+    for match in re.finditer(pattern, rust):
+        label, symbol, helper = match.groups()
+        if label == symbol and re.search(r'CONST_[UI]32_FN\(\s*' + re.escape(helper) + r'\s*,\s*' + re.escape(symbol) + r'\s*\)', native):
+            checks[symbol] = rust.count('\n', 0, match.start()) + 1
+    return checks
+
+def call_descriptor_names():
+    source = git_show('crates/excel-api/src/excel_call.rs')
+    pattern = r'pub const \w+: ExcelCallDescriptor = ExcelCallDescriptor \{(.*?)\n\};'
+    result = set()
+    for block in re.findall(pattern, source, flags=re.DOTALL):
+        match = re.search(r'\bname: "(\w+)"', block)
+        if not match:
+            raise ValueError('descriptor without a literal name; update audit')
+        result.add(match.group(1))
+    return result
+
 def verify(rows):
     catalogue = [json.loads(line) for line in git_show(CATALOGUE).splitlines()]
     ids = {row['id']: row for row in catalogue}
     if len(ids) != len(catalogue): raise ValueError('duplicate source catalogue ID')
     found = set()
     constants = numeric_constants()
+    abi_numbers = abi_numeric_checks()
+    descriptors = call_descriptor_names()
     definitions = public_definitions()
+    occurrences = core_symbol_occurrences()
     allowed = {'crates/excel-api-sys/src/constants.rs', 'crates/excel-api-sys/src/types.rs', 'crates/excel-api-sys/src/functions.rs'}
     cache = {}
     for row in rows:
-        if set(row) != {'capi_id','raw_state','functional_state','test_state','host_state','exact_name_candidates','functional_evidence','related_rust','test_evidence'}: raise ValueError('invalid row fields')
+        if not isinstance(row, dict): raise ValueError('assessment row must be an object')
+        if set(row) != {'capi_id','raw_state','functional_state','test_state','host_state','exact_name_candidates','functional_evidence','related_rust','test_evidence','abi_evidence','descriptor_observation','related_evidence','core_name_occurrences'}: raise ValueError('invalid row fields')
         ident = row['capi_id']
+        if not isinstance(ident, str): raise ValueError('CAPI ID must be a string')
         if ident not in ids or ident in found: raise ValueError(f'duplicate or invalid ID: {ident}')
         found.add(ident)
+        if type(row['core_name_occurrences']) != int or row['core_name_occurrences'] != occurrences[ids[ident]['symbol']]: raise ValueError(f'invalid core occurrence count: {ident}')
+        additional = row['related_evidence']
+        if not isinstance(additional, list) or len(additional) > 1: raise ValueError(f'invalid related evidence: {ident}')
+        for evidence in additional:
+            if not isinstance(evidence, dict) or set(evidence) != {'path','line','role'} or evidence['path'] != 'crates/excel-api/src/return_alloc.rs' or evidence['role'] != 'return-materialization' or type(evidence['line']) != int: raise ValueError(f'invalid return evidence: {ident}')
+            lines = git_show(evidence['path']).splitlines(); n = evidence['line']; symbol = ids[ident]['symbol']
+            if not 1 <= n < 800 or not re.search(r'\b' + re.escape(symbol) + r'\b', lines[n-1]): raise ValueError(f'stale return evidence: {ident}')
+        if not isinstance(row['exact_name_candidates'], list) or not all(isinstance(candidate, dict) for candidate in row['exact_name_candidates']): raise ValueError(f'invalid candidate list: {ident}')
+        item = ids[ident]
+        applicable = item['kind'] in ('worksheet-function-id', 'macro-command-id', 'special-function-id')
+        expected_observation = ('present' if item['symbol'] in descriptors else 'not-observed') if applicable else None
+        if row['descriptor_observation'] != expected_observation: raise ValueError(f'wrong descriptor observation: {ident}')
+        abi = row['abi_evidence']; symbol = ids[ident]['symbol']
+        if abi is not None:
+            if not isinstance(abi, dict) or set(abi) != {'path','line','target','command','check'} or abi['path'] != 'tools/abi-check/src/main.rs' or abi['target'] != 'x86_64-pc-windows-msvc' or abi['command'] != 'cargo run --manifest-path tools/abi-check/Cargo.toml' or type(abi['line']) != int: raise ValueError(f'invalid ABI evidence: {ident}')
+            lines = git_show(abi['path']).splitlines(); n = abi['line']
+            if abi['check'] == 'size' and symbol in ABI_CHECKED:
+                if not 1 <= n <= len(lines) or f'size_of::<{symbol}>()' not in lines[n-1]: raise ValueError(f'stale ABI size evidence: {ident}')
+            elif abi['check'] == 'numeric-value' and abi_numbers.get(symbol) == n and row['raw_state'] == 'numeric-value-matched':
+                pass
+            else:
+                raise ValueError(f'stale ABI evidence: {ident}')
         related = row['related_rust']
         if related is not None:
             if not isinstance(related, dict) or set(related) != {'path', 'line', 'symbol'} or related['symbol'] != ALTERNATE_NAMES.get(ids[ident]['symbol']) or related['path'] not in {'crates/excel-api-sys/src/types.rs', 'crates/excel-api-sys/src/functions.rs'} or type(related['line']) != int: raise ValueError(f'invalid related declaration: {ident}')
@@ -118,7 +190,7 @@ def verify(rows):
             block = '\n'.join(lines[number-1:number+80]).split('\n    }', 1)[0]
             if not re.search(r'\b' + re.escape(symbol) + r'\b', block): raise ValueError(f'unrelated test: {ident}')
         elif row['test_state'] != 'unassessed' or test is not None: raise ValueError(f'unsupported test assessment: {ident}')
-        if row['functional_state'] not in ('unassessed', 'descriptor-present', 'decode-branch-present', 'decoding-explicitly-unsupported', 'async-return-operation-present', 'ownership-mask-present', 'error-conversion-present'): raise ValueError(f'unsupported functional assessment: {ident}')
+        if row['functional_state'] not in ('unassessed', 'descriptor-present', 'decode-branch-present', 'decoding-explicitly-unsupported', 'async-return-operation-present', 'ownership-mask-present', 'error-conversion-present', 'event-registration-present', 'borrowed-wrapper-present', 'fp12-registration-type-not-observed', 'generic-return-code-wrapper'): raise ValueError(f'unsupported functional assessment: {ident}')
         if row['functional_state'] == 'descriptor-present':
             evidence = row['functional_evidence']
             if not isinstance(evidence, dict) or set(evidence) != {'path', 'symbol', 'line', 'configuration'} or evidence['path'] != 'crates/excel-api/src/excel_call.rs' or type(evidence['line']) != int: raise ValueError(f'invalid functional evidence: {ident}')
@@ -129,6 +201,29 @@ def verify(rows):
             if evidence['configuration'] != ('xlcontime-research' if feature else 'default'): raise ValueError(f'invalid descriptor configuration: {ident}')
             block = '\n'.join(source[number - 1:number + 25]).split('};', 1)[0]
             if f'name: "{ids[ident]["symbol"]}"' not in block or f'function: excel_api_sys::{ids[ident]["symbol"]}' not in block: raise ValueError(f'unrelated descriptor: {ident}')
+        elif row['functional_state'] == 'generic-return-code-wrapper':
+            evidence = row['functional_evidence']
+            if ids[ident]['kind'] != 'return-code' or row['raw_state'] != 'numeric-value-matched' or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/excel_call.rs' or evidence['symbol'] != 'ExcelReturnCode' or evidence['configuration'] != 'default' or type(evidence['line']) != int: raise ValueError(f'invalid return code evidence: {ident}')
+            lines = git_show(evidence['path']).splitlines(); n = evidence['line']
+            if not 1 <= n <= len(lines) or lines[n-1] != 'pub struct ExcelReturnCode(pub i32);' or 'self.0 & flag != 0' not in '\n'.join(lines[n:n+15]) or 'let code = ExcelReturnCode(raw);' not in '\n'.join(lines): raise ValueError(f'stale return code evidence: {ident}')
+        elif row['functional_state'] == 'fp12-registration-type-not-observed':
+            evidence = row['functional_evidence']
+            if ids[ident]['symbol'] != 'FP12' or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/registration.rs' or evidence['symbol'] != 'ExcelArgumentType' or evidence['configuration'] != 'default' or type(evidence['line']) != int: raise ValueError(f'invalid FP12 evidence: {ident}')
+            lines = git_show(evidence['path']).splitlines(); n = evidence['line']
+            if not 1 <= n <= len(lines) or lines[n-1] != 'pub enum ExcelArgumentType {' or 'pub enum ExcelReturnType {' not in lines: raise ValueError(f'stale FP12 evidence: {ident}')
+            for enum in ('ExcelArgumentType', 'ExcelReturnType'):
+                begin = lines.index(f'pub enum {enum} {{'); end = lines.index('}', begin)
+                if any('FP12' in line.upper() for line in lines[begin:end]): raise ValueError(f'FP12 registration exists: {ident}')
+        elif row['functional_state'] == 'borrowed-wrapper-present':
+            evidence = row['functional_evidence']; pair = BORROWED_WRAPPERS.get(ids[ident]['symbol'])
+            if not pair or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/borrowed.rs' or evidence['symbol'] != pair[0] or evidence['configuration'] != 'default' or type(evidence['line']) != int: raise ValueError(f'invalid wrapper evidence: {ident}')
+            lines = git_show(evidence['path']).splitlines(); n = evidence['line']
+            if not 1 <= n <= len(lines) or not lines[n-1].startswith(f'pub struct {pair[0]}<') or pair[1] not in '\n'.join(lines[n-1:n+5]): raise ValueError(f'stale wrapper evidence: {ident}')
+        elif row['functional_state'] == 'event-registration-present':
+            evidence = row['functional_evidence']; symbol = ids[ident]['symbol']
+            if symbol not in ('xleventCalculationCanceled','xleventCalculationEnded') or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/runtime.rs' or evidence['symbol'] != 'ensure_async_events' or evidence['configuration'] != 'async-functions' or type(evidence['line']) != int: raise ValueError(f'invalid event evidence: {ident}')
+            lines = git_show(evidence['path']).splitlines(); n = evidence['line']
+            if not 1 <= n <= len(lines) or lines[n-1].strip() != f'excel_api_sys::{symbol},' or 'context.register_event(' not in '\n'.join(lines[max(0,n-5):n]): raise ValueError(f'stale event evidence: {ident}')
         elif row['functional_state'] == 'error-conversion-present':
             evidence = row['functional_evidence']; symbol = ids[ident]['symbol']; variant = ERROR_VARIANTS.get(symbol)
             if not variant or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/borrowed.rs' or evidence['symbol'] != variant or evidence['configuration'] != 'default' or type(evidence['line']) != int: raise ValueError(f'invalid error evidence: {ident}')
@@ -158,7 +253,10 @@ def verify(rows):
             unsupported = 'Err(DecodeError::UnsupportedType' in lines[n-1]
             if unsupported != (row['functional_state'] == 'decoding-explicitly-unsupported'): raise ValueError(f'invalid decode claim: {ident}')
         elif row['functional_evidence'] is not None: raise ValueError(f'unassessed descriptor contains evidence: {ident}')
-        if row['raw_state'] not in ('unassessed', 'numeric-value-matched', 'declaration-present-abi-unassessed'): raise ValueError(f'unsupported raw assessment: {ident}')
+        if row['raw_state'] not in ('unassessed', 'numeric-value-matched', 'declaration-present-abi-unassessed', 'related-declaration-abi-unassessed', 'legacy-public-declaration-not-observed'): raise ValueError(f'unsupported raw assessment: {ident}')
+        if row['raw_state'] == 'legacy-public-declaration-not-observed':
+            if ids[ident]['symbol'] not in LEGACY_NAMES or row['exact_name_candidates'] or related is not None or 'Legacy XLOPER structures and Excel4 are unsupported.' not in git_show('crates/excel-api-sys/src/constants.rs'): raise ValueError(f'invalid legacy-name assessment: {ident}')
+        if row['raw_state'] == 'related-declaration-abi-unassessed' and related is None: raise ValueError(f'missing related declaration: {ident}')
         if row['raw_state'] == 'declaration-present-abi-unassessed' and (not row['exact_name_candidates'] or 'value' in ids[ident]): raise ValueError(f'invalid declaration assessment: {ident}')
         if row['raw_state'] == 'numeric-value-matched':
             symbol = ids[ident]['symbol']
@@ -181,15 +279,23 @@ def verify(rows):
     if found != set(ids): raise ValueError(f'missing IDs: {len(set(ids)-found)}')
     return len(found)
 
+def verify_current_inputs():
+    header = 'tools/Excel2013XLLSDK/INCLUDE/XLCALL.H'
+    disk_header = (ROOT / header).read_bytes().replace(b'\r\n', b'\n')
+    pinned_header = subprocess.check_output(['git', 'show', f'6c8354d6536e18b58559f9cc3134f25a9e58d478:{header}'], cwd=ROOT)
+    if disk_header != pinned_header:
+        raise ValueError('working SDK header differs from pinned blob after CRLF normalization')
+    audited = [CATALOGUE, 'crates/excel-api-sys/src', 'crates/excel-api/src', 'crates/excel-api-macros/src', 'tools/abi-check']
+    stale = subprocess.run(['git', 'diff', '--quiet', REVISION, '--', *audited], cwd=ROOT)
+    if stale.returncode != 0:
+        raise ValueError('audited source or catalogue differs from pinned revision; reassessment required')
+    new = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard', '--', *audited], cwd=ROOT)
+    if new.strip():
+        raise ValueError('untracked files in audited source paths; reassessment required')
+
 def main():
     try:
-        audited = [CATALOGUE, 'crates/excel-api-sys/src', 'crates/excel-api/src', 'crates/excel-api-macros/src']
-        stale = subprocess.run(['git', 'diff', '--quiet', REVISION, '--', *audited], cwd=ROOT)
-        if stale.returncode != 0:
-            raise ValueError('audited source or catalogue differs from pinned revision; reassessment required')
-        new = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard', '--', *audited], cwd=ROOT)
-        if new.strip():
-            raise ValueError('untracked files in audited source paths; reassessment required')
+        verify_current_inputs()
         rows = [json.loads(line) for line in DRAFT.read_text(encoding='utf-8').splitlines()]
         print(f'PASS: {verify(rows)} IDs accounted for; candidates and numeric claims verified at {REVISION}')
         print('LIMIT: numeric matches do not prove functional, ABI, test or host coverage')
