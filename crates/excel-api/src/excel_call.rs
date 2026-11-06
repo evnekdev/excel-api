@@ -391,6 +391,31 @@ impl fmt::Display for ExcelReturnCode {
 #[derive(Clone, Debug, Eq, PartialEq)]
 /// Failure of descriptor validation, typed invocation, or result handling.
 pub enum ExcelCallError {
+    /// Registration succeeded but result cleanup failed; bits retain its exact ID.
+    RegistrationRelease {
+        /// Exact IEEE-754 bits of the accepted registration ID.
+        id_bits: u64,
+        /// Exactly-once result release failure.
+        release: crate::ExcelReleaseError,
+    },
+    /// Excel accepted a cleanup side effect, but releasing its result failed.
+    AcceptedCleanupRelease {
+        /// Accepted cleanup operation.
+        function: &'static str,
+        /// Exactly-once result release failure.
+        release: crate::ExcelReleaseError,
+    },
+    /// Cleanup was rejected or returned an unexpected root, with release evidence.
+    CleanupRejected {
+        /// Requested cleanup operation.
+        function: &'static str,
+        /// Actual root type (ownership flags masked).
+        actual_type: u32,
+        /// Excel error code when the root is an error.
+        excel_error: Option<i32>,
+        /// Additional result release failure, if any.
+        release: Option<crate::ExcelReleaseError>,
+    },
     /// Invalid coordinates or unsupported write/read shape.
     Reference(crate::ReferenceError),
     /// A value cannot be represented as bounded callback argument storage.
@@ -447,9 +472,18 @@ pub enum ExcelCallError {
     Registration(RegistrationError),
 }
 
+impl ExcelCallError {
+    pub(crate) fn requires_return_to_excel(&self) -> bool {
+        matches!(self, Self::ExcelFailure { code, .. } if code.0 & (excel_api_sys::xlretAbort | excel_api_sys::xlretUncalced) != 0)
+    }
+}
+
 impl fmt::Display for ExcelCallError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::CleanupRejected { function, actual_type, excel_error, release } => write!(f, "{function} rejected cleanup: type={actual_type}, error={excel_error:?}, release={release:?}"),
+            Self::RegistrationRelease { id_bits, release } => write!(f, "registration {} accepted; result release failed: {release}", f64::from_bits(*id_bits)),
+            Self::AcceptedCleanupRelease { function, release } => write!(f, "{function} accepted; result release failed: {release}"),
             Self::Reference(error) => write!(f, "{error}"),
             Self::ArgumentPlan(error) => write!(f, "{error}"),
             Self::ArgumentMaterialization(error) => write!(f, "{error}"),
@@ -1046,12 +1080,76 @@ impl CallArguments {
     }
 }
 
+// Inspect side effects before consuming the exactly-once release obligation.
+fn registration_result(owner: ExcelOwnedValue<'_>) -> Result<f64, ExcelCallError> {
+    let root = owner.raw_root();
+    let id = if root.xltype & excel_api_sys::XLTYPE_MASK == excel_api_sys::xltypeNum {
+        // SAFETY: the numeric tag selects num.
+        let id = unsafe { root.val.num };
+        id.is_finite().then_some(id)
+    } else {
+        None
+    };
+    let release = owner.release();
+    match (id, release) {
+        (Some(id), Ok(())) => Ok(id),
+        (Some(id), Err(release)) => Err(ExcelCallError::RegistrationRelease {
+            id_bits: id.to_bits(),
+            release,
+        }),
+        (None, Err(error)) => Err(ExcelCallError::ResultRelease(error)),
+        (None, Ok(())) => Err(ExcelCallError::MalformedResult {
+            function: XLF_REGISTER.name,
+            expected: "finite registration ID",
+            actual: "non-numeric or non-finite result",
+        }),
+    }
+}
+
+fn cleanup_result(
+    owner: ExcelOwnedValue<'_>,
+    function: &'static str,
+) -> Result<(), ExcelCallError> {
+    let root = owner.raw_root();
+    let actual_type = root.xltype & excel_api_sys::XLTYPE_MASK;
+    // SAFETY: each union read is guarded by its tag.
+    let accepted = actual_type == excel_api_sys::xltypeBool && unsafe { root.val.xbool } != 0;
+    let excel_error = if actual_type == excel_api_sys::xltypeErr {
+        // SAFETY: error tag selects err.
+        Some(unsafe { root.val.err })
+    } else {
+        None
+    };
+    let release = owner.release();
+    if !accepted {
+        return Err(ExcelCallError::CleanupRejected {
+            function,
+            actual_type,
+            excel_error,
+            release: release.err(),
+        });
+    }
+    release.map_err(|release| ExcelCallError::AcceptedCleanupRelease { function, release })
+}
+
 impl LifecycleContext<'_> {
     pub(crate) fn register_event(
         &self,
         procedure: &str,
         event: i32,
     ) -> Result<i32, ExcelCallError> {
+        if !matches!(
+            event,
+            excel_api_sys::xleventCalculationCanceled | excel_api_sys::xleventCalculationEnded
+        ) || procedure.is_empty()
+            || procedure.contains('\0')
+        {
+            return Err(ExcelCallError::MalformedResult {
+                function: XL_EVENT_REGISTER.name,
+                expected: "documented event ID and nonempty procedure",
+                actual: "invalid event metadata",
+            });
+        }
         let mut storage = CallArguments::event(procedure, event)?;
         let mut arguments = storage.pointers();
         let owner = self
@@ -1110,17 +1208,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_REGISTER, &mut arguments)?
             .expect("descriptor requires a result");
-        let value = owner
-            .into_owned_value(&crate::ConversionLimits::default())
-            .map_err(ExcelCallError::ResultConversion)?;
-        match value {
-            crate::ExcelValue::Number(id) if id.is_finite() => Ok(id),
-            other => Err(ExcelCallError::MalformedResult {
-                function: XLF_REGISTER.name,
-                expected: "finite registration ID",
-                actual: other.kind_name(),
-            }),
-        }
+        registration_result(owner)
     }
 
     pub(crate) fn register_command(
@@ -1134,17 +1222,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_REGISTER, &mut arguments)?
             .expect("descriptor requires a result");
-        let value = owner
-            .into_owned_value(&crate::ConversionLimits::default())
-            .map_err(ExcelCallError::ResultConversion)?;
-        match value {
-            crate::ExcelValue::Number(id) if id.is_finite() => Ok(id),
-            other => Err(ExcelCallError::MalformedResult {
-                function: XLF_REGISTER.name,
-                expected: "finite command registration ID",
-                actual: other.kind_name(),
-            }),
-        }
+        registration_result(owner)
     }
 
     pub(crate) fn unregister(&self, registration_id: f64) -> Result<(), ExcelCallError> {
@@ -1159,7 +1237,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_UNREGISTER, &mut arguments)?
             .expect("descriptor requires a result");
-        owner.release().map_err(ExcelCallError::ResultRelease)
+        cleanup_result(owner, XLF_UNREGISTER.name)
     }
 
     pub(crate) fn delete_defined_name(&self, name: &str) -> Result<(), ExcelCallError> {
@@ -1169,7 +1247,7 @@ impl LifecycleContext<'_> {
             .capability()
             .call(CallPermission::Lifecycle, XLF_SET_NAME, &mut arguments)?
             .expect("descriptor requires a result");
-        owner.release().map_err(ExcelCallError::ResultRelease)
+        cleanup_result(owner, XLF_SET_NAME.name)
     }
 }
 

@@ -11,6 +11,8 @@ struct RegisteredEntry {
     id: f64,
     name: &'static str,
     kind: RegistrationKind,
+    name_pending: bool,
+    id_pending: bool,
 }
 
 #[derive(Clone, Copy, Eq, PartialEq)]
@@ -360,163 +362,96 @@ impl Runtime {
             }
         }
 
-        let mut registered = Vec::with_capacity(add_in.functions.len());
-        for function in add_in.functions {
+        let functions = add_in.functions.iter().map(|function| {
             let topic = help
                 .iter()
                 .find(|h| h.rust_symbol == function.rust_symbol)
                 .map(|h| h.topic);
-            match context.register(&module, function, topic) {
-                Ok(id) => registered.push(id),
-                Err(primary) => {
-                    let mut cleanup = Vec::new();
-                    for (index, id) in registered.iter().copied().enumerate().rev() {
-                        if let Err(error) =
-                            context.delete_defined_name(add_in.functions[index].excel_name)
-                        {
-                            cleanup.push(error);
-                        }
-                        if let Err(error) = context.unregister(id) {
-                            cleanup.push(error);
-                        }
-                    }
-                    if has_async {
-                        crate::async_udf::shutdown();
-                    }
-                    if dispatcher_active {
-                        crate::dispatcher::shutdown();
-                    }
-                    if cleanup.is_empty() {
-                        self.backend.unlink();
-                    }
-                    let mut state = self.lock();
-                    state.diagnostics.rollback_attempts += registered.len();
-                    state.async_generation_active = false;
-                    state.dispatcher_generation_active = false;
-                    if cleanup.is_empty() {
-                        state.phase = RuntimePhase::Uninitialized;
-                        state.module = None;
-                        state.worksheet_registrations.clear();
-                        state.command_registrations.clear();
-                    } else {
-                        // Keep the backend and conservative cleanup metadata
-                        // alive; a later close can retry anything Excel may
-                        // still consider registered.
-                        state.phase = RuntimePhase::CleanupRequired;
-                        state.module = Some(module);
-                        state.worksheet_registrations = add_in.functions[..registered.len()]
-                            .iter()
-                            .zip(registered.iter().copied())
-                            .map(|(function, id)| RegisteredEntry {
-                                id,
-                                name: function.excel_name,
-                                kind: RegistrationKind::Worksheet,
-                            })
-                            .collect();
-                        state.command_registrations.clear();
-                    }
-                    return Err(LifecycleError::RegistrationRollback { primary, cleanup });
+            (
+                RegistrationKind::Worksheet,
+                function.excel_name,
+                context.register(&module, function, topic),
+            )
+        });
+        let commands = add_in.commands.iter().map(|command| {
+            (
+                RegistrationKind::Command,
+                command.excel_name,
+                context.register_command(&module, command),
+            )
+        });
+        let mut entries = Vec::new();
+        for (kind, name, result) in functions.chain(commands) {
+            let id = match &result {
+                Ok(id) => Some(*id),
+                Err(ExcelCallError::RegistrationRelease { id_bits, .. }) => {
+                    Some(f64::from_bits(*id_bits))
                 }
+                _ => None,
+            };
+            if let Some(id) = id {
+                entries.push(RegisteredEntry {
+                    id,
+                    name,
+                    kind,
+                    name_pending: true,
+                    id_pending: true,
+                });
+            }
+            if let Err(primary) = result {
+                if has_async {
+                    crate::async_udf::shutdown();
+                }
+                if dispatcher_active {
+                    crate::dispatcher::shutdown();
+                }
+                let (cleanup, attempts) = if primary.requires_return_to_excel() {
+                    // Preserve obligations for a later genuine lifecycle callback.
+                    (vec![primary.clone()], 0)
+                } else {
+                    cleanup_entries(&context, &mut entries)
+                };
+                if cleanup.is_empty() {
+                    self.backend.unlink();
+                }
+                let mut state = self.lock();
+                state.diagnostics.rollback_attempts += attempts;
+                state.async_generation_active = false;
+                state.dispatcher_generation_active = false;
+                state.phase = if cleanup.is_empty() {
+                    RuntimePhase::Uninitialized
+                } else {
+                    RuntimePhase::CleanupRequired
+                };
+                state.module = if cleanup.is_empty() {
+                    None
+                } else {
+                    Some(module)
+                };
+                state.worksheet_registrations = entries
+                    .iter()
+                    .copied()
+                    .filter(|e| e.kind == RegistrationKind::Worksheet)
+                    .collect();
+                state.command_registrations = entries
+                    .into_iter()
+                    .filter(|e| e.kind == RegistrationKind::Command)
+                    .collect();
+                return Err(LifecycleError::RegistrationRollback { primary, cleanup });
             }
         }
-
-        let mut command_registered = Vec::with_capacity(add_in.commands.len());
-        for command in add_in.commands {
-            match context.register_command(&module, command) {
-                Ok(id) => command_registered.push(id),
-                Err(primary) => {
-                    let mut cleanup = Vec::new();
-                    for (index, id) in command_registered.iter().copied().enumerate().rev() {
-                        if let Err(error) =
-                            context.delete_defined_name(add_in.commands[index].excel_name)
-                        {
-                            cleanup.push(error);
-                        }
-                        if let Err(error) = context.unregister(id) {
-                            cleanup.push(error);
-                        }
-                    }
-                    for (index, id) in registered.iter().copied().enumerate().rev() {
-                        if let Err(error) =
-                            context.delete_defined_name(add_in.functions[index].excel_name)
-                        {
-                            cleanup.push(error);
-                        }
-                        if let Err(error) = context.unregister(id) {
-                            cleanup.push(error);
-                        }
-                    }
-                    if has_async {
-                        crate::async_udf::shutdown();
-                    }
-                    if dispatcher_active {
-                        crate::dispatcher::shutdown();
-                    }
-                    if cleanup.is_empty() {
-                        self.backend.unlink();
-                    }
-                    let mut state = self.lock();
-                    state.diagnostics.rollback_attempts +=
-                        command_registered.len() + registered.len();
-                    state.async_generation_active = false;
-                    state.dispatcher_generation_active = false;
-                    if cleanup.is_empty() {
-                        state.phase = RuntimePhase::Uninitialized;
-                        state.module = None;
-                        state.worksheet_registrations.clear();
-                        state.command_registrations.clear();
-                    } else {
-                        state.phase = RuntimePhase::CleanupRequired;
-                        state.module = Some(module);
-                        state.worksheet_registrations = registered
-                            .iter()
-                            .copied()
-                            .zip(add_in.functions.iter())
-                            .map(|(id, function)| RegisteredEntry {
-                                id,
-                                name: function.excel_name,
-                                kind: RegistrationKind::Worksheet,
-                            })
-                            .collect();
-                        state.command_registrations = command_registered
-                            .iter()
-                            .copied()
-                            .zip(add_in.commands.iter())
-                            .map(|(id, command)| RegisteredEntry {
-                                id,
-                                name: command.excel_name,
-                                kind: RegistrationKind::Command,
-                            })
-                            .collect();
-                    }
-                    return Err(LifecycleError::RegistrationRollback { primary, cleanup });
-                }
-            }
-        }
-
         let mut state = self.lock();
         state.phase = RuntimePhase::Initialized;
         state.module = Some(module);
-        state.diagnostics.registrations += registered.len() + command_registered.len();
-        state.worksheet_registrations = registered
+        state.diagnostics.registrations += entries.len();
+        state.worksheet_registrations = entries
             .iter()
             .copied()
-            .zip(add_in.functions.iter())
-            .map(|(id, function)| RegisteredEntry {
-                id,
-                name: function.excel_name,
-                kind: RegistrationKind::Worksheet,
-            })
+            .filter(|e| e.kind == RegistrationKind::Worksheet)
             .collect();
-        state.command_registrations = command_registered
-            .iter()
-            .copied()
-            .zip(add_in.commands.iter())
-            .map(|(id, command)| RegisteredEntry {
-                id,
-                name: command.excel_name,
-                kind: RegistrationKind::Command,
-            })
+        state.command_registrations = entries
+            .into_iter()
+            .filter(|e| e.kind == RegistrationKind::Command)
             .collect();
         state.diagnostics.successful_initializations += 1;
         Ok(LifecycleOutcome::Completed)
@@ -594,19 +529,10 @@ impl Runtime {
 
         let capability = CallCapability::new(self.backend.as_ref());
         let context = LifecycleContext::new(&capability);
-        let mut failed = Vec::new();
-        let mut errors = Vec::new();
-        for RegisteredEntry { id, name, kind } in registrations.iter().rev().copied() {
-            if let Err(error) = context.delete_defined_name(name) {
-                errors.push(error);
-            }
-            if let Err(error) = context.unregister(id) {
-                failed.push(RegisteredEntry { id, name, kind });
-                errors.push(error);
-            }
-        }
+        let mut failed = registrations;
+        let (errors, attempts) = cleanup_entries(&context, &mut failed);
         let mut state = self.lock();
-        state.diagnostics.unregister_attempts += registrations.len();
+        state.diagnostics.unregister_attempts += attempts;
         if errors.is_empty() {
             self.backend.unlink();
             state.phase = RuntimePhase::Uninitialized;
@@ -616,7 +542,6 @@ impl Runtime {
             state.diagnostics.successful_closes += 1;
             Ok(LifecycleOutcome::Completed)
         } else {
-            failed.reverse();
             state.phase = RuntimePhase::CleanupRequired;
             state.worksheet_registrations = failed
                 .iter()
@@ -630,6 +555,49 @@ impl Runtime {
             Err(LifecycleError::CloseFailed { errors })
         }
     }
+}
+
+// Keep name deletion and unregister obligations independent. An accepted operation
+// must not be repeated merely because xlFree subsequently failed.
+fn cleanup_entries(
+    context: &LifecycleContext<'_>,
+    entries: &mut Vec<RegisteredEntry>,
+) -> (Vec<ExcelCallError>, usize) {
+    let mut errors = Vec::new();
+    let mut unregister_attempts = 0;
+    'entries: for entry in entries.iter_mut().rev() {
+        for delete_name in [true, false] {
+            let pending = if delete_name {
+                &mut entry.name_pending
+            } else {
+                &mut entry.id_pending
+            };
+            if !*pending {
+                continue;
+            }
+            let result = if delete_name {
+                context.delete_defined_name(entry.name)
+            } else {
+                unregister_attempts += 1;
+                context.unregister(entry.id)
+            };
+            match result {
+                Ok(()) => *pending = false,
+                Err(error) => {
+                    if matches!(error, ExcelCallError::AcceptedCleanupRelease { .. }) {
+                        *pending = false;
+                    }
+                    let must_return = error.requires_return_to_excel();
+                    errors.push(error);
+                    if must_return {
+                        break 'entries;
+                    }
+                }
+            }
+        }
+    }
+    entries.retain(|e| e.name_pending || e.id_pending);
+    (errors, unregister_attempts)
 }
 
 pub(crate) fn production_backend() -> Arc<SdkExcel12vBackend> {
@@ -673,6 +641,9 @@ mod tests {
         event_ids: Vec<i32>,
         unregister_linked: Vec<bool>,
         free_calls: usize,
+        fail_free: Option<usize>,
+        reject_cleanup: Option<(i32, u32)>,
+        cleanup_code: Option<(i32, i32)>,
     }
 
     #[derive(Default)]
@@ -709,6 +680,11 @@ mod tests {
         ) -> i32 {
             let mut state = self.state.lock().unwrap();
             state.calls.push((function, count as usize));
+            if let Some((target, code)) = state.cleanup_code {
+                if target == function {
+                    return code;
+                }
+            }
             if function == excel_api_sys::xlGetName {
                 let mut text: Box<[u16]> = [vec![15], "C:\\test\\add.xll".encode_utf16().collect()]
                     .concat()
@@ -826,6 +802,9 @@ mod tests {
                 }
             } else if function == excel_api_sys::xlFree {
                 state.free_calls += 1;
+                if state.fail_free == Some(state.free_calls) {
+                    return excel_api_sys::xlretFailed;
+                }
                 // SAFETY: xlFree receives one live C-API result root.
                 let root = unsafe { *arguments };
                 // SAFETY: root remains live for this synchronous call.
@@ -835,6 +814,17 @@ mod tests {
                     // SAFETY: active union member is string.
                     let address = unsafe { (*root).val.str } as usize;
                     state.allocations.remove(&address);
+                }
+            }
+            if let Some((target, tag)) = state.reject_cleanup {
+                if function == target {
+                    // SAFETY: cleanup supplies a live result; immediate rejection fixture.
+                    unsafe {
+                        *result = XLOPER12 {
+                            val: XLOPER12Value { err: 0 },
+                            xltype: tag,
+                        };
+                    }
                 }
             }
             excel_api_sys::xlretSuccess
@@ -1386,5 +1376,156 @@ mod tests {
         assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
         assert!(!backend.state.lock().unwrap().linked);
         crate::dispatcher::reset_generations_for_test();
+    }
+    #[test]
+    fn registration_release_failure_preserves_function_and_command_ids() {
+        let _guard = runtime_test_guard();
+        for free_index in [2, 4] {
+            let backend = Arc::new(MockBackend::default());
+            backend.state.lock().unwrap().fail_free = Some(free_index);
+            let runtime = Runtime::with_backend(backend.clone());
+            assert!(matches!(
+                runtime.initialize(&MIXED_ADD_IN),
+                Err(LifecycleError::RegistrationRollback {
+                    primary: ExcelCallError::RegistrationRelease { .. },
+                    ..
+                })
+            ));
+            let state = backend.state.lock().unwrap();
+            let expected = if free_index == 2 {
+                vec![1.0]
+            } else {
+                vec![3.0, 2.0, 1.0]
+            };
+            assert_eq!(state.unregistered, expected);
+            assert!(!state.linked);
+        }
+    }
+
+    #[test]
+    fn cleanup_retry_never_repeats_the_other_accepted_operation() {
+        let _guard = runtime_test_guard();
+        for target in [excel_api_sys::xlfSetName, excel_api_sys::xlfUnregister] {
+            for tag in [
+                excel_api_sys::xltypeBool,
+                excel_api_sys::xltypeErr,
+                excel_api_sys::xltypeNil,
+            ] {
+                let backend = Arc::new(MockBackend::default());
+                let runtime = Runtime::with_backend(backend.clone());
+                runtime.initialize(&ADD_IN).unwrap();
+                backend.state.lock().unwrap().reject_cleanup = Some((target, tag));
+                assert!(matches!(
+                    runtime.close(),
+                    Err(LifecycleError::CloseFailed { .. })
+                ));
+                assert!(matches!(
+                    runtime.initialize(&ADD_IN),
+                    Err(LifecycleError::Busy(RuntimePhase::CleanupRequired))
+                ));
+                let before = backend.state.lock().unwrap().calls.len();
+                backend.state.lock().unwrap().reject_cleanup = None;
+                runtime.close().unwrap();
+                let state = backend.state.lock().unwrap();
+                let other = if target == excel_api_sys::xlfSetName {
+                    excel_api_sys::xlfUnregister
+                } else {
+                    excel_api_sys::xlfSetName
+                };
+                assert!(!state.calls[before..].iter().any(|(id, _)| *id == other));
+                assert_eq!(
+                    state.calls[before..]
+                        .iter()
+                        .filter(|(id, _)| *id == target)
+                        .count(),
+                    2
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn accepted_cleanup_with_release_failure_is_not_retried() {
+        let _guard = runtime_test_guard();
+        for free_index in [4, 5] {
+            let backend = Arc::new(MockBackend::default());
+            let runtime = Runtime::with_backend(backend.clone());
+            runtime.initialize(&ADD_IN).unwrap();
+            backend.state.lock().unwrap().fail_free = Some(free_index);
+            assert!(runtime.close().is_err());
+            let before = backend.state.lock().unwrap().calls.len();
+            runtime.close().unwrap();
+            assert_eq!(backend.state.lock().unwrap().calls.len(), before);
+        }
+    }
+
+    #[test]
+    fn rollback_retains_only_failed_obligations() {
+        let _guard = runtime_test_guard();
+        let backend = Arc::new(MockBackend::failing_registration(2));
+        backend.state.lock().unwrap().reject_cleanup =
+            Some((excel_api_sys::xlfSetName, excel_api_sys::xltypeBool));
+        let runtime = Runtime::with_backend(backend.clone());
+        assert!(runtime.initialize(&ADD_IN).is_err());
+        backend.state.lock().unwrap().reject_cleanup = None;
+        runtime.close().unwrap();
+        assert_eq!(backend.state.lock().unwrap().unregistered, [1.0]);
+    }
+
+    #[test]
+    fn invalid_event_metadata_never_dispatches() {
+        let backend = MockBackend::default();
+        backend.link().unwrap();
+        let capability = CallCapability::new(&backend);
+        let context = LifecycleContext::new(&capability);
+        for (name, event) in [
+            ("handler", -1),
+            ("", excel_api_sys::xleventCalculationEnded),
+            ("bad\0name", excel_api_sys::xleventCalculationCanceled),
+        ] {
+            assert!(context.register_event(name, event).is_err());
+        }
+        assert!(backend.state.lock().unwrap().calls.is_empty());
+    }
+    #[test]
+    fn abort_during_cleanup_defers_all_remaining_calls() {
+        let _guard = runtime_test_guard();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        runtime.initialize(&ADD_IN).unwrap();
+        let before = backend.state.lock().unwrap().calls.len();
+        backend.state.lock().unwrap().cleanup_code =
+            Some((excel_api_sys::xlfSetName, excel_api_sys::xlretAbort));
+        assert!(runtime.close().is_err());
+        assert_eq!(backend.state.lock().unwrap().calls.len(), before + 1);
+        backend.state.lock().unwrap().cleanup_code = None;
+        runtime.close().unwrap();
+        assert_eq!(backend.state.lock().unwrap().unregistered, [2.0, 1.0]);
+    }
+
+    #[test]
+    fn cleanup_rejection_preserves_additional_release_error() {
+        let _guard = runtime_test_guard();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        runtime.initialize(&ADD_IN).unwrap();
+        {
+            let mut state = backend.state.lock().unwrap();
+            state.reject_cleanup = Some((excel_api_sys::xlfSetName, excel_api_sys::xltypeErr));
+            state.fail_free = Some(4);
+        }
+        let Err(LifecycleError::CloseFailed { errors }) = runtime.close() else {
+            panic!("expected failure")
+        };
+        assert!(matches!(
+            &errors[0],
+            ExcelCallError::CleanupRejected {
+                excel_error: Some(0),
+                release: Some(_),
+                ..
+            }
+        ));
+        backend.state.lock().unwrap().reject_cleanup = None;
+        runtime.close().unwrap();
     }
 }
