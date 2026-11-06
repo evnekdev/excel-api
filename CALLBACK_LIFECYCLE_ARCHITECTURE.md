@@ -159,3 +159,26 @@ The guard publishes a controlled terminal failure, clears operation storage,
 retires, decrements running, and wakes close even if execution unwinds. Close
 therefore cannot remain blocked solely because an operation panicked or was
 unexpectedly absent after commitment.
+
+## Accepted side effects and cleanup (#131)
+
+Registration IDs are read before the exactly-once result release. A release error
+retains the accepted ID in `RegistrationRelease` (IEEE-754 bits) and includes that
+entry in rollback. Rollback and close share one private cleanup loop; each entry
+tracks name deletion and unregister independently. TRUE retires only that
+obligation. FALSE, Excel errors and malformed roots retain it for explicit retry;
+`CleanupRejected` preserves the tag/error and any additional release error.
+
+TRUE followed by xlFree failure is `AcceptedCleanupRelease`: report the error but
+do not unregister/delete again. Release is attempted once, never retried; leaked
+Excel resources after a release failure are not claimed recovered. CleanupRequired
+prevents reopening until a later close resolves remaining obligations. A later
+close with no remaining side effects acknowledges the prior error without
+repeating accepted calls. No return code from xlAutoClose is claimed to veto unload.
+
+Abort/Uncalced stops cleanup and preserves remaining obligations for a later genuine
+lifecycle callback. Registration returning that code also defers rollback. A
+transport failure or malformed registration without a usable ID remains ambiguous;
+no ID is invented and no automatic registration retry occurs. The documented
+Excel hidden-name deletion bug remains a native acceptance risk, now observable
+rather than silently treated as success. See [batch evidence](docs/evidence/async-dispatch-lifecycle-batch.md).

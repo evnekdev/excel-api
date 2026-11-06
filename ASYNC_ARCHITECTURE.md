@@ -56,7 +56,7 @@ returns. `xlAutoFree12` is never involved in an async result.
 Each request has one atomic execution state and one idempotent retirement bit:
 
 ```text
-Scheduled -> Running -> Completing -> Completed
+Scheduled -> Running -> Completing -> Returning -> Completed
     |            |             |
     |            +-> CancelRequested -> Canceled
     +--------------------------------> Canceled
@@ -64,8 +64,8 @@ Scheduled -> Running -> Completing -> Completed
 
 The worker checks the active generation and wins `Scheduled -> Running` before
 calling user code. Thus cancellation while queued retires the request without
-calling the function body. Only `Running -> Completing` may call
-`xlAsyncReturn`; a cancellation that wins first becomes `CancelRequested` and
+calling the function body. Only `Completing -> Returning` commits the
+`xlAsyncReturn` attempt; cancellation during preparation becomes `CancelRequested` and
 suppresses an ignored result. Retirement atomically removes the registry entry
 and decrements capacity at most once on every terminal path.
 
@@ -76,7 +76,7 @@ and its executor permanently closed before runtime unlink. A new `xlAutoOpen`
 must install a new executor.
 
 Calculation cancellation marks every current request canceled. Calculation
-ended removes terminal request records. XLL close performs the same stop gate,
+ended cancels/retires remaining calculation-scoped requests. XLL close performs the same stop gate,
 then drains/cancels tracked requests and waits for the executor's shutdown
 contract. Executor implementations must make accepted work cooperative and
 bounded so unload cannot wait indefinitely.
@@ -141,3 +141,29 @@ The M17 cooperative dispatcher has its own replaceable controller generation,
 queue, tickets, and shutdown gate. It does not share async handles or the M16
 executor/controller and does not use `xlAsyncReturn`. Both systems follow the
 same rule that their generation is removed and drained before backend unlink.
+
+## Runtime hardening (#132/#134)
+
+`async_udf::diagnostics()` returns a bounded active-generation snapshot of pending
+requests, accepted returns, preparation/backend failures and the two event counts.
+It grants no callback capability and returns None after close. Counters are
+observational (concurrent fields are not an atomic transaction). A successful
+return counter means transport plus Boolean acceptance, not visible cell delivery.
+
+Cancellation wins through result materialization; after Returning commits it is
+too late to retract the callback. Shutdown still joins accepted work before backend
+unlink. Existing executor contracts remain mandatory: bounded cooperative work,
+no inline execute, and shutdown joins/discards accepted jobs. A misbehaving custom
+executor or an indefinitely blocked user task is not repaired by this batch.
+
+Only documented event IDs and nonempty, NUL-free procedure names are accepted.
+Events affect the captured async controller, never the unrelated dispatcher queue.
+An inactive old controller ignores notifications; replacement controllers have
+independent counters. The actual parameterless Excel event carries no generation
+ID: a delayed host notification arriving after reopen cannot be authenticated as
+old. No fabricated host-generation filtering or undocumented unregistration is
+claimed. Microsoft says these events are not raised during programmatic
+recalculation; they cannot implement a general CalculationState barrier.
+
+See [runtime batch evidence](docs/evidence/async-dispatch-lifecycle-batch.md) for
+sources, exact tests, limitations and the pending #126 native scenarios.

@@ -209,3 +209,43 @@ closures merely for convenience.
 A successful H3 implementation would satisfy the main production wake need
 without requiring `xlcOnTime`. Issue #30 remains valid research evidence until
 H3 passes its own real-Excel idle/busy/edit/modal/shutdown matrix.
+
+## Typed cooperative work (#133)
+
+The existing closed catalogue now also supports `SetReference`, `ClearReference`,
+`DocumentInfo` and `CalculateNow`. Arguments are owned, reuse the reviewed typed
+calls, and preserve their result/error and allocation rules. Writes destroy undo
+history and execute against the reference's then-current sheet identity; callers
+should prefer an explicit sheet ID when deferring work across callbacks.
+
+These operations require a genuine command-origin MacroContext. Macro-sheet UDF
+origin is classified separately as `MacroSheet` and leaves command work queued;
+ordinary worksheet/MTR/lifecycle callbacks also cannot drain it. This conservative
+queue policy is narrower than direct typed information-call permission.
+
+`DispatchResult::CommandAccepted` reports successful modeled command acceptance.
+New public enum variants require downstream exhaustive matches to be updated.
+On Abort/Uncalced, the failed ticket completes, the selected remainder returns to
+the queue in order and `return_to_excel_required` is set. The caller must return to
+Excel, not immediately drain again or invoke another API. No global capability
+poisoning or guarantee about consumer behavior is introduced.
+
+Example producer (no Excel API is called while enqueueing):
+
+```rust
+let ticket = excel_api::dispatcher::enqueue(
+    excel_api::DispatchOperation::CalculateNow)?;
+// Retain/poll off callback threads, or cancel before execution commitment.
+// A later genuine command calls context.drain_dispatcher().
+```
+
+No autonomous wake or host crate is added. Source-pinned Excel-DNA uses a posted
+message to request an Automation `Application.Run` call to its registered macro;
+the message itself is not C API permission. The separate Office bridge, retry,
+security and unload contract is not established here. #30/#101 remain open.
+See [runtime batch evidence](docs/evidence/async-dispatch-lifecycle-batch.md).
+
+This preserves the existing H3 preferred Application.Run topology above and the
+native-hosting roadmap; it does not reverse that architecture decision. This batch
+implements core cooperative work only. The roadmap's separate current-host Office
+adapter and its real-Excel busy/edit/modal/shutdown matrix remain future work.
