@@ -2,6 +2,15 @@
 
 use excel_api_sys::{XLOPER12, XLOPER12Value, XLREF12};
 
+// The u32-backed flexible allocation below relies on these SDK layout facts.
+// Fail at compilation if a target changes them; do not infer x86 host support.
+const _: () = {
+    assert!(core::mem::offset_of!(excel_api_sys::XLMREF12, reftbl) == 4);
+    assert!(core::mem::size_of::<XLREF12>() == 16);
+    assert!(core::mem::align_of::<XLREF12>() == core::mem::align_of::<u32>());
+    assert!(core::mem::align_of::<excel_api_sys::XLMREF12>() == core::mem::align_of::<u32>());
+};
+
 /// Invalid reference geometry or a request outside the supported operation scope.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ReferenceError {
@@ -175,13 +184,18 @@ impl OwnedExcelReference {
         if let Some(sheet) = self.sheet {
             // XLMREF12: WORD count, padding to offset 4, then 16-byte XLREF12s.
             // A u32 allocation provides the required alignment and initialized padding.
+            // Private construction bounds n to 1..=u16::MAX: 1 + 4*n fits usize
+            // and the allocation is exactly 4 + 16*n bytes on supported targets.
             let mut storage = vec![0_u32; 1 + 4 * self.areas.len()].into_boxed_slice();
-            let pointer = storage.as_mut_ptr().cast::<excel_api_sys::XLMREF12>();
+            let base = storage.as_mut_ptr();
+            let pointer = base.cast::<excel_api_sys::XLMREF12>();
             // SAFETY: allocation is aligned, large enough for count and all trailing
             // areas, uniquely owned here, and remains boxed through the synchronous call.
+            // Derive the table pointer from the full allocation, never a one-entry
+            // Rust slice/reference to reftbl, so provenance covers every trailing area.
             unsafe {
                 pointer.cast::<u16>().write(self.areas.len() as u16);
-                let table = storage.as_mut_ptr().add(1).cast::<XLREF12>();
+                let table = base.add(1).cast::<XLREF12>();
                 for (i, area) in self.areas.iter().enumerate() {
                     table.add(i).write(area.raw());
                 }
@@ -285,5 +299,114 @@ mod tests {
                 reference
             );
         }
+    }
+
+    #[test]
+    fn maximum_trailing_table_survives_owner_moves_and_geometry_copy() {
+        fn send_sync<T: Send + Sync + 'static>() {}
+        send_sync::<OwnedExcelReference>();
+        let first = ReferenceArea::cell(0, 0).unwrap();
+        let last = ReferenceArea::cell(1_048_575, 16_383).unwrap();
+        let mut areas = vec![first; u16::MAX as usize];
+        *areas.last_mut().unwrap() = last;
+        let expected = OwnedExcelReference::on_sheet(42, areas).unwrap();
+        let copied = {
+            let argument = expected.argument();
+            // SAFETY: the locally owned argument root has the validated Ref tag.
+            let pointer = unsafe { argument.root.val.mref.lpmref };
+            assert_eq!(argument._storage.len() * 4, 4 + 16 * u16::MAX as usize);
+            let moved = Box::new(argument);
+            // SAFETY: moving the owner leaves its boxed trailing storage unchanged.
+            assert_eq!(unsafe { moved.root.val.mref.lpmref }, pointer);
+            // SAFETY: all count entries remain live through the decode and deep copy.
+            let crate::ExcelValueRef::Reference(borrowed) =
+                unsafe { crate::RawExcelValue::from_callback(&moved.root) }
+                    .decode()
+                    .unwrap()
+            else {
+                panic!("reference expected")
+            };
+            OwnedExcelReference::from_borrowed(&borrowed).unwrap()
+        };
+        // Original raw storage and every callback view have been dropped.
+        assert_eq!(copied, expected);
+        let argument = copied.argument();
+        // SAFETY: the independent copy constructs a new live argument allocation.
+        let decoded = unsafe { crate::RawExcelValue::from_callback(&argument.root) }
+            .decode()
+            .unwrap();
+        let crate::ExcelValueRef::Reference(borrowed) = decoded else {
+            panic!("reference expected")
+        };
+        assert_eq!(
+            OwnedExcelReference::from_borrowed(&borrowed).unwrap(),
+            expected
+        );
+    }
+
+    #[test]
+    fn malformed_reference_roots_are_rejected_before_geometry_copy() {
+        let a = ReferenceArea::cell(0, 0).unwrap();
+        let mut argument = OwnedExcelReference::current_sheet(a).argument();
+        argument.root.val.sref.count = 2;
+        assert!(
+            // SAFETY: initialized SRef has an invalid count but readable inline storage.
+            unsafe { crate::RawExcelValue::from_callback(&argument.root) }
+                .decode()
+                .is_err()
+        );
+
+        let argument = OwnedExcelReference::on_sheet(42, vec![a, a])
+            .unwrap()
+            .argument();
+        // SAFETY: storage is exclusively owned, with two initialized trailing entries.
+        unsafe {
+            let pointer = argument.root.val.mref.lpmref;
+            (*pointer).count = 0;
+        }
+        assert!(
+            // SAFETY: readable table header is deliberately empty.
+            unsafe { crate::RawExcelValue::from_callback(&argument.root) }
+                .decode()
+                .is_err()
+        );
+        // SAFETY: restore count and corrupt only a coordinate in allocated trailing storage.
+        unsafe {
+            let pointer = argument.root.val.mref.lpmref;
+            (*pointer).count = 2;
+            pointer
+                .cast::<u32>()
+                .add(5)
+                .cast::<XLREF12>()
+                .write(XLREF12 {
+                    rwFirst: 1,
+                    rwLast: 0,
+                    colFirst: 0,
+                    colLast: 0,
+                });
+        }
+        assert!(
+            // SAFETY: both entries are readable; the second has reversed row bounds.
+            unsafe { crate::RawExcelValue::from_callback(&argument.root) }
+                .decode()
+                .is_err()
+        );
+
+        let mut argument = OwnedExcelReference::on_sheet(42, vec![a])
+            .unwrap()
+            .argument();
+        argument.root.val.mref.idSheet = 0;
+        // SAFETY: valid geometry and live table, with a locally invalid explicit sheet ID.
+        let crate::ExcelValueRef::Reference(borrowed) =
+            unsafe { crate::RawExcelValue::from_callback(&argument.root) }
+                .decode()
+                .unwrap()
+        else {
+            panic!("reference expected")
+        };
+        assert_eq!(
+            OwnedExcelReference::from_borrowed(&borrowed),
+            Err(ReferenceError::InvalidSheet)
+        );
     }
 }

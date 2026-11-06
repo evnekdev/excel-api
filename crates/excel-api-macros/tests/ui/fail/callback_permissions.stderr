@@ -1,0 +1,39 @@
+error[E0133]: call to unsafe function `excel_api::thunk::CallbackScope::<'_>::with_worksheet_context` is unsafe and requires unsafe block
+ --> tests/ui/fail/callback_permissions.rs:9:9
+  |
+9 |         scope.with_worksheet_context(|_| ());
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+  |
+  = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `excel_api::thunk::CallbackScope::<'_>::with_thread_safe_context` is unsafe and requires unsafe block
+  --> tests/ui/fail/callback_permissions.rs:10:9
+   |
+10 |         scope.with_thread_safe_context(|_| ());
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `excel_api::thunk::CallbackScope::<'_>::with_macro_context` is unsafe and requires unsafe block
+  --> tests/ui/fail/callback_permissions.rs:11:9
+   |
+11 |         scope.with_macro_context(|_| ());
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `excel_api::thunk::CallbackScope::<'_>::with_command_context` is unsafe and requires unsafe block
+  --> tests/ui/fail/callback_permissions.rs:12:9
+   |
+12 |         scope.with_command_context(|_| ());
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `__excel_command_thunk_command` is unsafe and requires unsafe block
+  --> tests/ui/fail/callback_permissions.rs:14:5
+   |
+14 |     __excel_command_thunk_command();
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+   |
+   = note: consult the function's documentation for information on how to avoid undefined behavior

@@ -65,7 +65,8 @@ fn generated_macro_sheet_and_command_thunks_have_distinct_permissions() {
         unsafe { __excel_function_thunk_macro_sheet_permissions() },
         1
     );
-    assert_eq!(__excel_command_thunk_command_permissions(), 1);
+    // SAFETY: isolated mock path has no linked Excel backend and only checks permissions.
+    assert_eq!(unsafe { __excel_command_thunk_command_permissions() }, 1);
 }
 
 #[excel_function(

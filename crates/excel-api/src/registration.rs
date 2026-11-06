@@ -29,11 +29,15 @@ impl HelpTopic {
         let resource = self.resource;
         let lower = resource.to_ascii_lowercase();
         let supported = if lower.starts_with("https://") {
-            resource.len() > 8 && self.context_id == 0
+            let authority = resource[8..].split(['/', '?', '#']).next().unwrap_or("");
+            !authority.is_empty()
+                && !resource.chars().any(char::is_whitespace)
+                && !resource.contains('\\')
+                && self.context_id == 0
         } else {
             !resource.contains("://") && (lower.ends_with(".chm") || lower.ends_with(".hlp"))
         };
-        if !supported || resource.contains(['!', '\0']) {
+        if !supported || resource.contains('!') || resource.chars().any(char::is_control) {
             return Err(RegistrationError::InvalidHelpTopic);
         }
         if self.encoded().encode_utf16().count() > excel_api_sys::EXCEL12_MAX_STRING_CODE_UNITS {
@@ -462,6 +466,7 @@ mod tests {
             HelpTopic::new("guide.chm", 0),
             HelpTopic::new("C:\\help\\guide.HLP", u32::MAX),
             HelpTopic::new("https://example.test/help.chm", 0),
+            HelpTopic::new("C:\\help files\\guide.chm", 42),
         ] {
             topic.validate().unwrap();
         }
@@ -472,6 +477,11 @@ mod tests {
             HelpTopic::new("https://example.test/help", 1),
             HelpTopic::new("http://example.test/help", 0),
             HelpTopic::new("http://example.test/help.chm", 0),
+            HelpTopic::new("https:///help.chm", 0),
+            HelpTopic::new("https://?help.chm", 0),
+            HelpTopic::new("https://example.test/bad path", 0),
+            HelpTopic::new("https://example.test\\help.chm", 0),
+            HelpTopic::new("bad\nfile.chm", 0),
         ] {
             assert_eq!(topic.validate(), Err(RegistrationError::InvalidHelpTopic));
         }
@@ -482,6 +492,22 @@ mod tests {
         let long: &'static str = Box::leak(format!("{}.chm", "a".repeat(32_767)).into_boxed_str());
         assert_eq!(
             HelpTopic::new(long, 0).validate(),
+            Err(RegistrationError::StringTooLong)
+        );
+        // Count UTF-16 code units, including the normalized decimal suffix.
+        let exact: &'static str =
+            Box::leak(format!("{}.chm", "💡".repeat(16_376)).into_boxed_str());
+        assert_eq!(
+            HelpTopic::new(exact, u32::MAX)
+                .encoded()
+                .encode_utf16()
+                .count(),
+            32_767
+        );
+        HelpTopic::new(exact, u32::MAX).validate().unwrap();
+        let over: &'static str = Box::leak(format!("a{exact}").into_boxed_str());
+        assert_eq!(
+            HelpTopic::new(over, u32::MAX).validate(),
             Err(RegistrationError::StringTooLong)
         );
     }

@@ -35,6 +35,16 @@ pub type AsyncTask = Box<
 /// Every borrowed argument and injected context is tied to the scope borrow,
 /// so callback-owned storage and capabilities cannot escape through a
 /// supported worksheet-function result.
+///
+/// ```compile_fail
+/// fn send<T: Send>() {}
+/// send::<excel_api::thunk::CallbackScope<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn sync<T: Sync>() {}
+/// sync::<excel_api::thunk::CallbackScope<'static>>();
+/// ```
 #[doc(hidden)]
 pub struct CallbackScope<'backend> {
     capability: CallCapability<'backend>,
@@ -96,17 +106,40 @@ impl CallbackScope<'_> {
         Ok(crate::NullTerminatedUtf16Arg::new(value))
     }
 
-    pub fn with_worksheet_context<R>(&self, body: impl FnOnce(&WorksheetContext<'_>) -> R) -> R {
+    /// Grants worksheet-call permissions on the current Excel callback thread.
+    ///
+    /// # Safety
+    /// Excel must have synchronously called this XLL as a worksheet function or
+    /// command whose registration permits these operations. A scope or linked
+    /// backend alone does not establish callback permission.
+    pub unsafe fn with_worksheet_context<R>(
+        &self,
+        body: impl FnOnce(&WorksheetContext<'_>) -> R,
+    ) -> R {
         let context = WorksheetContext::new(&self.capability);
         body(&context)
     }
 
-    pub fn with_thread_safe_context<R>(&self, body: impl FnOnce(&ThreadSafeContext<'_>) -> R) -> R {
+    /// Grants MTR permissions on the current Excel callback thread.
+    ///
+    /// # Safety
+    /// Excel must have synchronously called a worksheet function registered as
+    /// thread-safe. The scope must be used on that same callback thread.
+    pub unsafe fn with_thread_safe_context<R>(
+        &self,
+        body: impl FnOnce(&ThreadSafeContext<'_>) -> R,
+    ) -> R {
         let context = ThreadSafeContext::new(&self.capability);
         body(&context)
     }
 
-    pub fn with_macro_context<R>(&self, body: impl FnOnce(&MacroContext<'_>) -> R) -> R {
+    /// Grants macro-sheet information permissions, without command permission.
+    ///
+    /// # Safety
+    /// Excel must have synchronously called a function registered as macro-sheet
+    /// equivalent (`#`) or a command, on its authorized callback thread. An
+    /// ordinary worksheet or MTR callback does not satisfy this contract.
+    pub unsafe fn with_macro_context<R>(&self, body: impl FnOnce(&MacroContext<'_>) -> R) -> R {
         let context = MacroContext::macro_sheet(&self.capability);
         body(&context)
     }

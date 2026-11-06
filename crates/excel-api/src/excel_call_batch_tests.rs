@@ -95,10 +95,6 @@ impl ExcelCallBackend for Backend {
                 })
                 .collect();
             self.calls.lock().unwrap().push((function, snapshot));
-            if function == excel_api_sys::xlSet {
-                assert!(result.is_null());
-                return self.code;
-            }
             assert!(!result.is_null());
             if self.code != 0 {
                 return self.code;
@@ -338,8 +334,9 @@ fn read_failures_preserve_codes_and_release_on_conversion_failure() {
 }
 
 #[test]
-fn write_and_clear_use_exact_roots_without_result_or_transfer() {
-    let backend = Backend::new(Reply::Number);
+fn write_and_clear_use_exact_roots_with_checked_result_without_transfer() {
+    let _allocations = crate::return_alloc::allocation_test_guard();
+    let backend = Backend::new(Reply::Boolean(true));
     let capability = CallCapability::new(&backend);
     let context = crate::MacroContext::new(&capability);
     let values = [
@@ -373,11 +370,66 @@ fn write_and_clear_use_exact_roots_without_result_or_transfer() {
     }
     assert_eq!(calls[5], (16387, vec![Argument::Reference(reference())]));
     assert_eq!(calls[6], calls[5]);
-    assert_eq!(*backend.releases.lock().unwrap(), 0);
+    assert_eq!(*backend.releases.lock().unwrap(), 7);
+}
+
+#[test]
+fn writes_and_clears_reject_false_errors_and_malformed_results() {
+    let _allocations = crate::return_alloc::allocation_test_guard();
+    for reply in [
+        Reply::Boolean(false),
+        Reply::Error,
+        Reply::Number,
+        Reply::Text,
+    ] {
+        for clear in [false, true] {
+            let backend = Backend::new(reply);
+            let capability = CallCapability::new(&backend);
+            let context = crate::MacroContext::new(&capability);
+            let result = if clear {
+                context.clear_reference(&reference())
+            } else {
+                context.set_reference(&reference(), ExcelValue::Integer(1))
+            };
+            match reply {
+                Reply::Boolean(false) => assert_eq!(result, Err(ExcelCallError::CommandRejected)),
+                Reply::Error => assert_eq!(
+                    result,
+                    Err(ExcelCallError::CommandError(crate::ExcelError::Na))
+                ),
+                _ => assert!(matches!(
+                    result,
+                    Err(ExcelCallError::MalformedResult {
+                        function: "xlSet",
+                        ..
+                    })
+                )),
+            }
+            assert_eq!(backend.calls.lock().unwrap().len(), 1);
+            assert_eq!(*backend.releases.lock().unwrap(), 1);
+            assert!(backend.text.lock().unwrap().is_none());
+        }
+    }
+}
+
+#[test]
+fn successful_write_does_not_hide_result_release_failure_or_retry() {
+    let mut backend = Backend::new(Reply::Boolean(true));
+    backend.release_code = excel_api_sys::xlretFailed;
+    let capability = CallCapability::new(&backend);
+    assert!(matches!(
+        crate::MacroContext::new(&capability).clear_reference(&reference()),
+        Err(ExcelCallError::ResultConversion(
+            crate::ExcelOwnedConversionError::Release(_)
+        ))
+    ));
+    assert_eq!(backend.calls.lock().unwrap().len(), 1);
+    assert_eq!(*backend.releases.lock().unwrap(), 1);
 }
 
 #[test]
 fn invalid_shapes_and_values_do_not_dispatch() {
+    let _allocations = crate::return_alloc::allocation_test_guard();
     let backend = Backend::new(Reply::Number);
     let capability = CallCapability::new(&backend);
     let context = crate::MacroContext::new(&capability);
@@ -407,13 +459,13 @@ fn invalid_shapes_and_values_do_not_dispatch() {
 
 #[test]
 fn typed_document_selectors_validate_positions_results_and_names() {
-    for selector in [
-        DocumentInfo::Name,
-        DocumentInfo::Directory,
-        DocumentInfo::ActiveSheetName,
-        DocumentInfo::ActiveWorkbookName,
-        DocumentInfo::HasChanges,
-        DocumentInfo::ReadOnly,
+    for (selector, expected_number) in [
+        (DocumentInfo::Name, 1),
+        (DocumentInfo::Directory, 2),
+        (DocumentInfo::ActiveSheetName, 76),
+        (DocumentInfo::ActiveWorkbookName, 88),
+        (DocumentInfo::HasChanges, 4),
+        (DocumentInfo::ReadOnly, 5),
     ] {
         let boolean = matches!(selector, DocumentInfo::HasChanges | DocumentInfo::ReadOnly);
         let backend = Backend::new(if boolean {
@@ -440,7 +492,7 @@ fn typed_document_selectors_validate_positions_results_and_names() {
                 ExcelValue::Text("Book.xlsx".into())
             }
         );
-        let mut args = vec![Argument::Value(ExcelValue::Integer(selector.selector()))];
+        let mut args = vec![Argument::Value(ExcelValue::Integer(expected_number))];
         if name.is_some() {
             args.push(Argument::Value(ExcelValue::Text("Book.xlsx".into())));
         }
@@ -508,6 +560,7 @@ fn calculate_now_checks_transport_and_result_and_releases_once() {
 
 #[test]
 fn new_commands_reject_illegal_contexts_counts_and_unavailable_backend() {
+    let _allocations = crate::return_alloc::allocation_test_guard();
     let backend = Backend::new(Reply::Boolean(true));
     let capability = CallCapability::new(&backend);
     for descriptor in [XL_SET, XLF_GET_DOCUMENT, XLC_CALCULATE_NOW] {
@@ -547,6 +600,7 @@ fn new_commands_reject_illegal_contexts_counts_and_unavailable_backend() {
 
 #[test]
 fn backend_failures_are_not_promoted_to_success_or_spurious_releases() {
+    let _allocations = crate::return_alloc::allocation_test_guard();
     let mut backend = Backend::new(Reply::Boolean(true));
     backend.code = excel_api_sys::xlretFailed;
     let capability = CallCapability::new(&backend);

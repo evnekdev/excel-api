@@ -508,17 +508,17 @@ const _: unsafe extern "system" fn(f64, LPXLOPER12) = __excel_function_thunk_asy
 const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_dispatch_status;
 #[cfg(feature = "xlcontime-research")]
 const _: unsafe extern "system" fn() -> LPXLOPER12 = __excel_function_thunk_ontime_status;
-const _: extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
-const _: extern "system" fn() -> i16 = __excel_command_thunk_dispatch_enqueue;
-const _: extern "system" fn() -> i16 = __excel_command_thunk_dispatch_pump;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_ping_command;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_dispatch_enqueue;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_dispatch_pump;
 #[cfg(feature = "xlcontime-research")]
-const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_schedule;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_ontime_schedule;
 #[cfg(feature = "xlcontime-research")]
-const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_callback;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_ontime_callback;
 #[cfg(feature = "xlcontime-research")]
-const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_cancel;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_ontime_cancel;
 #[cfg(feature = "xlcontime-research")]
-const _: extern "system" fn() -> i16 = __excel_command_thunk_ontime_dump;
+const _: unsafe extern "system" fn() -> i16 = __excel_command_thunk_ontime_dump;
 
 #[cfg(test)]
 mod tests {
@@ -766,7 +766,8 @@ mod tests {
 
     #[test]
     fn generated_command_has_the_documented_short_success_abi() {
-        assert_eq!(__excel_command_thunk_ping_command(), 1);
+        // SAFETY: this isolated thunk only increments a Rust counter and calls no Excel API.
+        assert_eq!(unsafe { __excel_command_thunk_ping_command() }, 1);
     }
 
     #[test]

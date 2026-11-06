@@ -9,8 +9,11 @@ use crate::excel_call::CallCapability;
 ///
 /// ```compile_fail
 /// fn send<T: Send>() {}
-/// fn sync<T: Sync>() {}
 /// send::<excel_api::WorksheetContext<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn sync<T: Sync>() {}
 /// sync::<excel_api::WorksheetContext<'static>>();
 /// ```
 #[derive(Debug)]
@@ -30,8 +33,11 @@ pub struct WorksheetContext<'call> {
 ///
 /// ```compile_fail
 /// fn send<T: Send>() {}
-/// fn sync<T: Sync>() {}
 /// send::<excel_api::ThreadSafeContext<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn sync<T: Sync>() {}
 /// sync::<excel_api::ThreadSafeContext<'static>>();
 /// ```
 #[derive(Debug)]
@@ -50,8 +56,11 @@ pub struct ThreadSafeContext<'call> {
 ///
 /// ```compile_fail
 /// fn send<T: Send>() {}
-/// fn sync<T: Sync>() {}
 /// send::<excel_api::LifecycleContext<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn sync<T: Sync>() {}
 /// sync::<excel_api::LifecycleContext<'static>>();
 /// ```
 ///
@@ -75,8 +84,11 @@ pub struct LifecycleContext<'call> {
 ///
 /// ```compile_fail
 /// fn send<T: Send>() {}
-/// fn sync<T: Sync>() {}
 /// send::<excel_api::MacroContext<'static>>();
+/// ```
+///
+/// ```compile_fail
+/// fn sync<T: Sync>() {}
 /// sync::<excel_api::MacroContext<'static>>();
 /// ```
 #[derive(Debug)]

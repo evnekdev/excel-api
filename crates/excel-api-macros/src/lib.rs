@@ -302,11 +302,19 @@ fn expand_excel_function(
         };
         let lower = resource.to_ascii_lowercase();
         let valid = if lower.starts_with("https://") {
-            resource.len() > 8 && id == 0
+            let authority = resource[8..].split(['/', '?', '#']).next().unwrap_or("");
+            !authority.is_empty()
+                && !resource.chars().any(char::is_whitespace)
+                && !resource.contains('\\')
+                && id == 0
         } else {
             !resource.contains("://") && (lower.ends_with(".chm") || lower.ends_with(".hlp"))
         };
-        if !valid || resource.contains(['!', '\0']) || encoded.encode_utf16().count() > 32_767 {
+        if !valid
+            || resource.contains('!')
+            || resource.chars().any(char::is_control)
+            || encoded.encode_utf16().count() > 32_767
+        {
             return Err(syn::Error::new_spanned(
                 value,
                 "help_topic requires a .chm/.hlp resource or HTTPS resource with context 0",
@@ -345,13 +353,22 @@ fn expand_excel_function(
     let invoke = quote!(#function_ident(#(#invoke_arguments),*));
     let invoke = match context {
         Some(ContextKind::Worksheet) => {
-            quote!(__excel_scope.with_worksheet_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its registered worksheet callback.
+                unsafe { __excel_scope.with_worksheet_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::ThreadSafe) => {
-            quote!(__excel_scope.with_thread_safe_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its thread-safe registered callback.
+                unsafe { __excel_scope.with_thread_safe_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::Macro) => {
-            quote!(__excel_scope.with_macro_context(|__excel_context| #invoke))
+            quote!({
+                // SAFETY: the exported thunk requires its macro-sheet registered callback.
+                unsafe { __excel_scope.with_macro_context(|__excel_context| #invoke) }
+            })
         }
         Some(ContextKind::Async) => invoke,
         None => invoke,
@@ -439,6 +456,7 @@ fn expand_excel_function(
         #[doc(hidden)]
         #[doc = "# Safety"]
         #[doc = "Pointer arguments must be the live callback-owned values described by the generated registration signature."]
+        #[doc = "Excel must have invoked this thunk on its callback thread under the generated registration, including its worksheet/macro-sheet/thread-safe permissions."]
         #[unsafe(export_name = #thunk)]
         pub unsafe extern "system" fn #thunk_ident(#(#raw_arguments),*) -> #thunk_return {
             #thunk_execution
@@ -1026,8 +1044,10 @@ fn expand_excel_command(
         #command
 
         #[doc(hidden)]
+        #[doc = "# Safety"]
+        #[doc = "Excel must have synchronously invoked this exported thunk as a command (macroType 2) on its authorized callback thread."]
         #[unsafe(export_name = #thunk)]
-        pub extern "system" fn #thunk_ident() -> i16 {
+        pub unsafe extern "system" fn #thunk_ident() -> i16 {
             ::excel_api::thunk::scalar_thunk(0_i16, || {
                 ::excel_api::thunk::with_callback(|__excel_scope| {
                     // SAFETY: this exported thunk is registered as a command (macroType 2).

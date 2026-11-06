@@ -792,6 +792,12 @@ static PANIC_BEFORE_RECLAIM: core::sync::atomic::AtomicBool =
     core::sync::atomic::AtomicBool::new(false);
 
 #[cfg(test)]
+pub(crate) fn allocation_test_guard() -> std::sync::MutexGuard<'static, ()> {
+    static TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+    TEST_LOCK.lock().unwrap_or_else(|error| error.into_inner())
+}
+
+#[cfg(test)]
 struct RootTracker;
 
 #[cfg(test)]
@@ -813,17 +819,15 @@ impl Drop for RootTracker {
 #[cfg(test)]
 mod tests {
     use core::{mem::offset_of, slice};
-    use std::sync::{Mutex, MutexGuard};
+    use std::sync::MutexGuard;
 
     use excel_api_sys::{xlbitDLLFree, xlbitXLFree};
 
     use super::*;
     use crate::{ExcelReturnArray, ExcelReturnValue, ExcelString, ReturnText};
 
-    static TEST_LOCK: Mutex<()> = Mutex::new(());
-
     fn lock() -> MutexGuard<'static, ()> {
-        TEST_LOCK.lock().unwrap_or_else(|error| error.into_inner())
+        allocation_test_guard()
     }
 
     fn live_counts() -> (usize, usize, usize) {

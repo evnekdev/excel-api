@@ -199,13 +199,13 @@ pub const XL_COERCE: ExcelCallDescriptor = ExcelCallDescriptor {
     maximum_arguments: 2,
 };
 
-/// Command-only rectangular constant write/clear. No result root is requested.
+/// Command-only rectangular constant write/clear with a checked Boolean result.
 pub const XL_SET: ExcelCallDescriptor = ExcelCallDescriptor {
     name: "xlSet",
     function: excel_api_sys::xlSet,
     permissions: &[CallPermission::Macro],
-    result: ResultRoot::None,
-    release: ExcelReleasePolicy::NoReleaseRequired,
+    result: ResultRoot::Required,
+    release: ExcelReleasePolicy::XlFreeRequired,
     thread_safe: false,
     minimum_arguments: 1,
     maximum_arguments: 2,
@@ -1378,9 +1378,7 @@ impl crate::MacroContext<'_> {
             &mut reference.root as LPXLOPER12,
             value.as_xloper_mut_for_callback() as LPXLOPER12,
         ];
-        self.capability()
-            .call(CallPermission::Macro, XL_SET, &mut arguments)?;
-        Ok(())
+        self.checked_command_result(XL_SET, &mut arguments)
     }
 
     /// Clears one rectangle by omitting xlSet's value argument. Destroys undo history.
@@ -1393,9 +1391,7 @@ impl crate::MacroContext<'_> {
             .require_rectangle()
             .map_err(ExcelCallError::Reference)?;
         let mut reference = reference.argument();
-        self.capability()
-            .call(CallPermission::Macro, XL_SET, &mut [&mut reference.root])?;
-        Ok(())
+        self.checked_command_result(XL_SET, &mut [&mut reference.root])
     }
 
     /// Queries documented XLM document metadata from a genuine macro callback.
@@ -1450,9 +1446,17 @@ impl crate::MacroContext<'_> {
     /// Only an Excel-issued command callback authorizes this; no background wake is implied.
     pub fn calculate_now(&self) -> Result<(), ExcelCallError> {
         self.require_command(XLC_CALCULATE_NOW.name)?;
+        self.checked_command_result(XLC_CALCULATE_NOW, &mut [])
+    }
+
+    fn checked_command_result(
+        &self,
+        descriptor: ExcelCallDescriptor,
+        arguments: &mut [LPXLOPER12],
+    ) -> Result<(), ExcelCallError> {
         let value = self
             .capability()
-            .call(CallPermission::Macro, XLC_CALCULATE_NOW, &mut [])?
+            .call(CallPermission::Macro, descriptor, arguments)?
             .expect("descriptor requires a result")
             .into_owned_value(&crate::ConversionLimits::default())
             .map_err(ExcelCallError::ResultConversion)?;
@@ -1461,7 +1465,7 @@ impl crate::MacroContext<'_> {
             crate::ExcelValue::Boolean(false) => Err(ExcelCallError::CommandRejected),
             crate::ExcelValue::Error(error) => Err(ExcelCallError::CommandError(error)),
             other => Err(ExcelCallError::MalformedResult {
-                function: XLC_CALCULATE_NOW.name,
+                function: descriptor.name,
                 expected: "command Boolean or Excel error",
                 actual: other.kind_name(),
             }),
