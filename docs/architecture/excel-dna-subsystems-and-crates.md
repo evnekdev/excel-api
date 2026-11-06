@@ -186,3 +186,5 @@ Do not create a large set of empty implementation issues before respective sourc
 - [Excel-DNA build tasks](https://github.com/Excel-DNA/ExcelDna/tree/master/Source/ExcelDna.AddIn.Tasks)
 - [Rust core source](https://github.com/evnekdev/excel-api/tree/master/crates), [workspace manifest](https://github.com/evnekdev/excel-api/blob/master/Cargo.toml), [core support matrix](https://github.com/evnekdev/excel-api/blob/master/SUPPORT_MATRIX.md)
 - [RTD research](https://github.com/evnekdev/excel-api/blob/master/RTD_STREAMING_ARCHITECTURE.md), [Ribbon research](https://github.com/evnekdev/excel-api/blob/master/RIBBON_UI_ARCHITECTURE.md)
+
+EDNA-02 evidence: [native header provenance](../evidence/native-xll-header-provenance.md) and the [local catalogue validator](../../tools/excel-c-api-inventory/README.md). These do not establish implementation or real-Excel coverage.
