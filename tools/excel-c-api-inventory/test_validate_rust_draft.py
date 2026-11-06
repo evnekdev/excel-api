@@ -38,7 +38,7 @@ class DraftValidationTests(unittest.TestCase):
 
     def test_unknown_schema_version_is_rejected(self):
         rows = copy.deepcopy(self.rows)
-        rows[0]['assessment_version'] = 2
+        rows[0]['assessment_version'] = 3
         self.assert_invalid(rows)
         rows = copy.deepcopy(self.rows)
         rows[0]['rust_revision'] = '0' * 40
@@ -53,7 +53,7 @@ class DraftValidationTests(unittest.TestCase):
         row['exact_name_candidates'][0]['line'] = 999999
         self.assert_invalid(rows)
         rows = copy.deepcopy(self.rows)
-        row = next(row for row in rows if row['functional_state'] == 'descriptor-present')
+        row = next(row for row in rows if row['functional_state'] == 'typed-operation-present')
         row['functional_evidence']['symbol'] = 'XL_FAKE'
         self.assert_invalid(rows)
 
@@ -193,6 +193,81 @@ class DraftValidationTests(unittest.TestCase):
 
     def test_source_only_test_is_not_counted_as_passed(self):
         self.assertEqual(summary.observed_count([{'test_state': 'test-source-present'}], 'test_state'), 0)
+
+    def test_indented_platform_guard_is_preserved(self):
+        rows = copy.deepcopy(self.rows)
+        rows[0]['test_evidence']['configuration'] = 'windows-x86_64'
+        self.assertEqual(audit.verify(rows), 1132)
+        rows[0]['test_evidence']['configuration'] = 'default'
+        self.assert_invalid(rows)
+
+    def test_comment_and_import_are_not_return_materialization(self):
+        for line in (5, 12):
+            rows = copy.deepcopy(self.rows)
+            row = next(row for row in rows if row['capi_id'] == 'CAPI-000049')
+            row['related_evidence'][0]['line'] = line
+            self.assert_invalid(rows)
+
+    def test_build_configuration_changes_require_reassessment(self):
+        original_run = audit.subprocess.run
+        for changed_path in ('Cargo.toml', 'Cargo.lock', 'crates/excel-api/Cargo.toml',
+                             'crates/excel-api-macros/build.rs', '.cargo/config.toml'):
+            def changed_diff(command, **kwargs):
+                if command[:3] == ['git', 'diff', '--quiet']:
+                    scopes = command[command.index('--') + 1:]
+                    covered = any(changed_path == path or changed_path.startswith(path + '/') for path in scopes)
+                    return types.SimpleNamespace(returncode=int(covered))
+                return original_run(command, **kwargs)
+            with self.subTest(path=changed_path), mock.patch.object(audit.subprocess, 'run', side_effect=changed_diff):
+                with self.assertRaisesRegex(ValueError, 'reassessment required'):
+                    audit.verify_current_inputs()
+
+    def test_typed_operation_needs_implementation_and_correct_version(self):
+        rows = copy.deepcopy(self.rows)
+        row = next(r for r in rows if r['functional_state'] == 'typed-operation-present')
+        row['related_evidence'] = [e for e in row['related_evidence'] if e['role'] != 'typed-operation']
+        self.assert_invalid(rows)
+        rows = copy.deepcopy(self.rows)
+        row = next(r for r in rows if r['functional_state'] == 'typed-operation-present')
+        row['assessment_version'] = 1
+        self.assert_invalid(rows)
+
+    def test_lpenhelper_and_legacy_boundaries_do_not_apply_to_modern_calls(self):
+        for field, state in (('raw_state', 'lpenhelper-declaration-not-observed'),
+                             ('functional_state', 'lpenhelper-operation-not-observed'),
+                             ('functional_state', 'legacy-outside-excel12-target')):
+            rows = copy.deepcopy(self.rows)
+            row = next(r for r in rows if r['capi_id'] == 'CAPI-000010')
+            row['assessment_version'] = 2
+            row[field] = state
+            self.assert_invalid(rows)
+
+    def test_generic_backend_does_not_prove_arbitrary_selector_support(self):
+        rows = copy.deepcopy(self.rows)
+        backend = next(r for r in rows if r['functional_state'] == 'generic-backend-present')
+        unknown = next(r for r in rows if r['functional_state'] == 'unassessed' and r['dispatch_relation'])
+        unknown['assessment_version'] = 2
+        unknown['functional_state'] = backend['functional_state']
+        unknown['functional_evidence'] = copy.deepcopy(backend['functional_evidence'])
+        self.assert_invalid(rows)
+
+    def test_command_registration_gap_is_source_backed_and_bounded(self):
+        self.assertEqual(audit.command_registration_counts(), (9, 10))
+        rows = copy.deepcopy(self.rows)
+        row = next(r for r in rows if r['functional_state'] == 'typed-registration-partial')
+        with mock.patch.object(audit, 'command_registration_counts', return_value=(10, 10)):
+            self.assert_invalid(rows)
+        row['functional_state'] = 'typed-operation-present'
+        self.assert_invalid(rows)
+        row['functional_state'] = 'typed-registration-partial'
+        row['capi_id'] = 'CAPI-000010'
+        self.assert_invalid(rows)
+
+    def test_generated_alias_must_match_source_and_generator(self):
+        rows = copy.deepcopy(self.rows)
+        evidence = next(e for r in rows for e in r['related_evidence'] if e['role'] == 'generated-abi-alias')
+        evidence['line'] = 20 if evidence['line'] == 23 else 23
+        self.assert_invalid(rows)
 
 
 if __name__ == '__main__':

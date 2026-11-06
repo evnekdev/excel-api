@@ -4,7 +4,10 @@ Tracking: #122 (parent #90). Audited source revision for these search leads:
 `172b306fae9b8496d5ad79b626a9fa0b1890cfd4`. The canonical declarations,
 anchors and EDNA links remain in `symbols.jsonl`; rows here reference IDs only.
 
-**Review candidate with substantial explicit unknowns.** Every source identity
+**Independently reviewed inventory with substantial explicit unknowns.**
+See [the 2026-11-07 review](rust-assessment-review.md) for corrections, methodology,
+source-backed limitations and the current execution record. Terra's original
+commits remain intact; this file now summarizes the corrected assessment. Every source identity
 is accounted for by the pinned, reproducible search and assessment below. This
 is not a claim of full Rust, ABI, Excel-DNA or native Excel coverage; unassessed
 means the available evidence does not support a conclusion on that axis.
@@ -13,18 +16,22 @@ Seventy-three raw numeric constants have been evaluated against the source
 catalogue and match; thirteen same-name raw declarations and seven related
 declarations are present but their ABI equivalence remains unassessed. Thirteen
 legacy names have no matching core declaration in the bounded search; that is
-not proof that all possible alternatives are absent. The other 1,026 raw states
-remain unassessed.
-Thirteen function identifiers have a source-traced call descriptor; ten type
+not proof that all possible alternatives are absent. Fifty-one LPenHelper-family identities have no declaration or operation observed
+in the inspected core implementation (a bounded absence, not an approved requirement
+to implement them). The other 975 raw states remain unassessed.
+Thirteen function identifiers have source-traced typed call paths (two research-only);
+`xlfRegister` is partial because command argument construction fails the shared
+minimum-argument check. `Excel12v` has a private generic backend implementation; ten type
 flags have a decoded branch, two have explicitly unsupported decode branches,
 two ownership flags are masked during decoding, eight error codes map through
 raw and safe error enums, two event IDs are registered for async functions,
 three aggregate types and two scalar typedefs have borrowed wrappers; row and
 column typedefs appear in reference accessors, and `BOOL` is decoded; `FP12` has no registration type
 in the inspected enums, eleven return codes share a generic bit-flag wrapper,
-and `xlAsyncReturn` has an async return operation. The other 1,074 functional
-states remain unassessed. Seventy-eight records reference passing local checks:
-39 have mapped Rust unit tests, 38 additional records have ABI-check results,
+and `xlAsyncReturn` has an async return operation. Thirteen legacy identities are explicitly outside the Excel12 target;
+51 LPenHelper-family identities have no observed core operation. The other
+1,009 functional states remain unassessed. Seventy-eight records reference passing local checks:
+44 have mapped Rust unit tests, 33 additional records have ABI-check results,
 and one has a generated-thunk compile-time type assertion. The other 1,054 test
 states are unassessed, and all 1,132 host
 states are unassessed.
@@ -77,7 +84,7 @@ scrutinize the candidate links and the bounded search before accepting it.
 
 ### Draft mapping fields
 
-Each JSONL row has `assessment_version: 1`, the audited `rust_revision`, and exactly one `capi_id`, resolved against the pinned canonical
+Each JSONL row has `assessment_version: 1` or the compatible review extension `2`, the audited `rust_revision`, and exactly one `capi_id`, resolved against the pinned canonical
 catalogue. `raw_state`, `functional_state`, `test_state` and `host_state` are
 separate: no state is inferred from another. Empty `exact_name_candidates`
 means the bounded textual public-definition search found none, not that no
@@ -98,7 +105,7 @@ and conversion-boundary uses. `supplemental_mentions` records capped lexical
 leads, including total line count. `test_evidence` records the named test, configuration and actual command;
 `abi_evidence` identifies a checker statement, target and run command.
 `test_state` distinguishes a named Rust unit test, a thunk compile check and an ABI checker result;
-39 of the 77 checker-linked records also have a named Rust unit test. Host results
+44 of the 77 checker-linked records also have a named Rust unit test. Host results
 remain unassessed. Paths and line numbers refer to the pinned Rust
 revision above, and source anchors and value relationships are joined by CAPI ID
 from the canonical catalogue, not duplicated as a second source registry.
@@ -132,21 +139,21 @@ Counts are exact-name/value observations, not a single implementation
 percentage. `unassessed` includes possibly equivalent declarations under other
 names and does not mean missing.
 
-| Source category | Total | Numeric matches | Nonnumeric declarations, ABI unassessed | Legacy name not observed | Unassessed raw |
+| Source category | Total | Numeric matches | Nonnumeric declarations, ABI unassessed | Legacy or LPenHelper name not observed | Unassessed raw |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Type flags | 12 | 12 | 0 | 0 | 0 |
 | Ownership flags | 2 | 2 | 0 | 0 | 0 |
 | Error, flow, return, event and modifier codes | 30 | 30 | 0 | 0 | 0 |
-| Special function identifiers | 20 | 18 | 0 | 0 | 2 |
+| Special function identifiers | 20 | 18 | 0 | 2 | 0 |
 | Worksheet/XLM identifiers | 579 | 6 | 0 | 0 | 573 |
 | Macro commands | 403 | 1 | 0 | 0 | 402 |
-| Other constants | 48 | 4 | 0 | 0 | 44 |
+| Other constants | 48 | 4 | 0 | 44 | 0 |
 | Scalar typedefs | 5 | 0 | 5 | 0 | 0 |
-| Aggregate typedefs | 10 | 0 | 4 | 4 | 2 |
-| Struct tags | 10 | 0 | 4 related | 4 | 2 |
+| Aggregate typedefs | 10 | 0 | 4 | 6 | 0 |
+| Struct tags | 10 | 0 | 4 related | 6 | 0 |
 | Pointer typedefs | 6 | 0 | 3 | 3 | 0 |
 | Function-pointer typedef | 1 | 0 | 1 | 0 | 0 |
-| Function prototypes | 6 | 0 | 3 related | 2 | 1 |
+| Function prototypes | 6 | 0 | 3 related | 3 | 0 |
 
 The separate `related_rust` field points to seven different-name declarations,
 including `Excel12Fn`/`Excel12vFn`/`XLCallVerFn` and four struct-tag counterparts.
@@ -197,16 +204,16 @@ An observation includes a restricted or explicitly unsupported form; it is not a
 | flow-code | 5 | 5 / 0 | 0 / 5 | 5 / 0 | 0 / 5 |
 | function-modifier | 4 | 4 / 0 | 0 / 4 | 4 / 0 | 0 / 4 |
 | function-pointer-typedef | 1 | 1 / 0 | 0 / 1 | 0 / 1 | 0 / 1 |
-| function-prototype | 6 | 5 / 1 | 0 / 6 | 2 / 4 | 0 / 6 |
+| function-prototype | 6 | 6 / 0 | 4 / 2 | 2 / 4 | 0 / 6 |
 | macro-command-id | 403 | 1 / 402 | 1 / 402 | 1 / 402 | 0 / 403 |
-| other-constant | 48 | 4 / 44 | 0 / 48 | 4 / 44 | 0 / 48 |
+| other-constant | 48 | 48 / 0 | 44 / 4 | 4 / 44 | 0 / 48 |
 | ownership-flag | 2 | 2 / 0 | 2 / 0 | 2 / 0 | 0 / 2 |
-| pointer-typedef | 6 | 6 / 0 | 0 / 6 | 1 / 5 | 0 / 6 |
+| pointer-typedef | 6 | 6 / 0 | 3 / 3 | 1 / 5 | 0 / 6 |
 | return-code | 11 | 11 / 0 | 11 / 0 | 11 / 0 | 0 / 11 |
 | scalar-typedef | 5 | 5 / 0 | 5 / 0 | 5 / 0 | 0 / 5 |
-| special-function-id | 20 | 18 / 2 | 8 / 12 | 11 / 9 | 0 / 20 |
-| struct | 10 | 8 / 2 | 4 / 6 | 4 / 6 | 0 / 10 |
-| struct-tag | 10 | 8 / 2 | 0 / 10 | 0 / 10 | 0 / 10 |
+| special-function-id | 20 | 20 / 0 | 10 / 10 | 11 / 9 | 0 / 20 |
+| struct | 10 | 10 / 0 | 10 / 0 | 4 / 6 | 0 / 10 |
+| struct-tag | 10 | 10 / 0 | 6 / 4 | 0 / 10 | 0 / 10 |
 | type-flag | 12 | 12 / 0 | 12 / 0 | 12 / 0 | 0 / 12 |
 | worksheet-function-id | 579 | 6 / 573 | 5 / 574 | 6 / 573 | 0 / 579 |
 
@@ -233,7 +240,7 @@ legacy header provenance are separately tracked by #120. Ribbon, RTD, Office
 COM and CLR hosting are protocol boundaries and should not be assigned invented
 CAPI identities. No native Excel automation was run.
 
-## Executed Rust tests
+## Terra execution record (historical 2026-11-06)
 
 On Windows x86-64 with rustc 1.99.1 / cargo 1.99.1, at the pinned Rust source
 revision, `cargo test -p excel-api-sys --lib` passed 7/7 and
@@ -366,17 +373,18 @@ subsystem or CAPI row has been implemented or host-tested.
 ## Preliminary gap/reuse disposition
 
 This section is bounded to inspected code; it is not a declaration-by-declaration
-absence claim for the 1,026 unassessed raw identities.
+absence claim for the 975 unassessed raw identities. The independent review below
+supersedes the preliminary counts in Terra's historical execution record.
 
 | Area | Source observation | Needed evidence or follow-up |
 | --- | --- | --- |
 | Raw ABI | Excel 12 structures and function-pointer signatures are present; exact-name public constants are narrow. | Compare legacy forms, Windows x86/x64 layouts and external SDK type contracts; do not infer ABI from spelling. Reuse `tools/abi-check` and #85. |
 | Conversions | Callback decoder explicitly rejects flow and big-data; scalar/text/array/reference branches exist. | Establish which unsupported tags consumers need; preserve ownership and lifetime guarantees, and test malformed and nested values. |
-| Calls and references | Private generic callback backend supports narrow permission-aware descriptors; `xlCoerce` is exposed. `xlSet` (CAPI-000010) has a raw ID but no descriptor in this file; `xlfGetDocument` (CAPI-000334) has no same-name public declaration or descriptor in the scanned scope. | Trace alternate forms and #93/#94 before concluding missing APIs; add only justified operations with callback, argument and cleanup contracts. |
-| Registration | Metadata/thunk generation and registration exist; inspected `FunctionRegistration` has no HelpTopic member. | Compare #95 and metadata call encoding; avoid duplicating generators or treating an absent field alone as host behavior. |
+| Calls and references | Private generic callback backend supports narrow permission-aware descriptors; `xlCoerce` is exposed. `xlSet` (CAPI-000010) has a raw ID but no descriptor in this file; `xlfGetDocument` (CAPI-000334) has no same-name public declaration or descriptor in the scanned scope. | The review found no alternate typed path in the core/generator; retain this bounded scope and use #93/#94; add only justified operations with callback, argument and cleanup contracts. |
+| Registration | Metadata/thunk generation and worksheet registration exist; command registration constructs 9 arguments against a minimum of 10. `FunctionRegistration` has no HelpTopic member. | Compare #95 and metadata call encoding; avoid duplicating generators or treating an absent field alone as host behavior. |
 | Ownership and lifecycle | Callback borrowing, Excel-owned cleanup and DLL-owned returns have separate mechanisms. | Trace failure/rollback and exactly-once tests and independently verify host paths; no leak-free claim follows from the raw structs. |
 | Threading and async | Capability-restricted calls, async return and cooperative dispatcher exist. | Test callback legality, cancellation, stale generations and unload in the appropriate host; autonomous wake is not provided by the cooperative queue. |
-| Tests and host | 78 rows link local passing checks, including 39 with named unit tests, one thunk compile check and two C-only prototype assertions; no native host run is claimed here. Historical ABI report concerns an earlier revision. | Review remaining tests and pinned artifacts per operation; preserve not-run/unknown and use #118 for structured host evidence. |
+| Tests and host | 78 rows link local passing checks, including 44 with named unit tests, one thunk compile check and two C-only prototype assertions; no native host run is claimed here. Historical ABI report concerns an earlier revision. | Review remaining tests and pinned artifacts per operation; preserve not-run/unknown and use #118 for structured host evidence. |
 
 Recommended dependency order once the remaining trace is complete: (1) establish
 target ABI and source equivalence using the existing checker; (2) reuse the
@@ -390,4 +398,39 @@ Existing issue owners cover the coherent follow-ups: #85 for x86 ABI, #91 for
 values and conversion, #92 for ownership, #93 for references, #94 for calls,
 #95 for registration/help metadata, #99 for async and #102 for calculation
 events. #118 owns assessed-evidence freshness and structured host results; #120
-owns SDK mirror rights and legacy-header provenance. These issues remain open.
+owns SDK mirror rights and legacy-header provenance. These issues remain open. #96 owns the demonstrated command-registration defect,
+with #95 related for the shared registration builder.
+
+## Review extension (assessment version 2)
+
+Version 2 retains every version-1 field and adds bounded state/relationship vocabulary;
+version-1 records remain readable. New states require version 2. No source ID or
+canonical record changes. `typed-operation-present` means the descriptor is joined
+to an inspected method/cleanup implementation through `related_evidence` role
+`typed-operation`; it does not mean every argument, callback or host is accepted.
+`typed-registration-partial` specifically records the worksheet path plus the
+command argument-count defect. The descriptor evidence and feature restriction
+remain attached. `generic-backend-present` on Excel12v means the internal adapter
+resolves MdCallBack12 and forwards the reordered arguments; no generic safe public
+operation is implied. `generated-abi-alias` connects LPXLOPER12/RawXloper12 and
+XCHAR/RawXchar to their actual procedural-macro use.
+
+`legacy-outside-excel12-target` records the explicit Excel4/XLOPER exclusion in
+sys/constants.rs. `lpenhelper-declaration-not-observed` and
+`lpenhelper-operation-not-observed` describe the 51 source-related identities
+within the three core crates, inspected generators and minimal-XLL example.
+These are family-level absence observations, not implementation achievements or
+proof that the Windows/Excel host lacks these APIs. There is no invented product
+requirement to add them. An empty functional_evidence for this family refers to
+the documented bounded negative investigation, not a positive implementation.
+The validator checks family membership and zero core lexical occurrences;
+semantic absence rests on the documented source review, not that lexical test alone.
+
+The updated checker rejects comment/import-only return-materialization references,
+preserves indented Windows/x64 test guards, and detects changes to manifests,
+lockfile, relevant build scripts, local Cargo configuration and toolchain files.
+The root lockfile is a conservative dependency-change trigger; a change confined
+to an unrelated package may require a documented reassessment without invalidating
+historical evidence. Environment variables, global Cargo configuration and test
+execution authenticity remain outside this check. It does not prove general Rust
+semantics from its curated anchor vocabulary.

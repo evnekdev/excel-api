@@ -20,6 +20,11 @@ ALTERNATE_NAMES = {
     'xloper12': 'XLOPER12',
 }
 TEST_EVIDENCE = {
+    'xltypeStr': ('crates/excel-api/src/borrowed.rs', 'parses_all_three_string_abis_without_conversion'),
+    'xltypeMulti': ('crates/excel-api/src/borrowed.rs', 'array_supports_indexing_rows_and_columns'),
+    'xltypeRef': ('crates/excel-api/src/borrowed.rs', 'represents_single_and_multi_references_distinctly'),
+    'xltypeSRef': ('crates/excel-api/src/borrowed.rs', 'represents_single_and_multi_references_distinctly'),
+    'XLREF12': ('crates/excel-api/src/borrowed.rs', 'represents_single_and_multi_references_distinctly'),
     'xlAbort': ('crates/excel-api/src/excel_call.rs', 'abort_descriptor_and_zero_retain_clear_forms_are_exact'),
     'xlCoerce': ('crates/excel-api/src/excel_call.rs', 'selected_m11_descriptors_preserve_sdk_ids_and_contracts'),
     'xlSheetId': ('crates/excel-api/src/excel_call.rs', 'selected_m11_descriptors_preserve_sdk_ids_and_contracts'),
@@ -60,6 +65,58 @@ BORROWED_WRAPPERS = {'XLOPER12': ('RawExcelValue', 'raw: NonNull<XLOPER12>'),
 ABI_CHECKED = {'BOOL','XCHAR','RW','COL','IDSHEET','XLREF12','XLMREF12','FP12','XLOPER12'}
 LEGACY_NAMES = {'XLREF','xlref','LPXLREF','XLMREF','xlmref','LPXLMREF',
                 'FP','_FP','XLOPER','xloper','LPXLOPER','Excel4','Excel4v'}
+
+# Reviewed implementation anchors, not inferred from a matching descriptor name.
+# These are bounded code observations; they do not certify host contracts.
+OPERATION_LINES = {
+    'xlGetName': 980, 'xlfRegister': 999, 'xlfUnregister': 1047,
+    'xlfSetName': 1062, 'xlFree': 773, 'xlEventRegister': 948,
+    'xlAbort': 1140, 'xlSheetId': 1080, 'xlSheetNm': 1100,
+    'xlfCaller': 1164, 'xlCoerce': 1189, 'xlfNow': 1223, 'xlcOnTime': 1230,
+}
+OPERATION_NAMES = {
+    'xlGetName': 'get_module_name', 'xlfRegister': 'register',
+    'xlfUnregister': 'unregister', 'xlfSetName': 'delete_defined_name',
+    'xlFree': 'xl_free', 'xlEventRegister': 'register_event',
+    'xlAbort': 'is_cancellation_requested', 'xlSheetId': 'active_sheet_id',
+    'xlSheetNm': 'current_sheet_name', 'xlfCaller': 'caller', 'xlCoerce': 'coerce',
+    'xlfNow': 'experimental_excel_serial_now', 'xlcOnTime': 'experimental_schedule_on_time',
+}
+
+
+def lpenhelper_family(item):
+    return (item.get('subfamily') in ('edit-mode', 'document-type', 'mouse-hit-test')
+            or item['symbol'] in ('LPenHelper', 'FMLAINFO', 'MOUSEINFO',
+                                   '_fmlainfo', '_mouseinfo', 'xlGetFmlaInfo', 'xlGetMouseInfo'))
+
+
+def return_statement(symbol):
+    if symbol in ERROR_VARIANTS:
+        return f'ExcelError::{ERROR_VARIANTS[symbol]} => excel_api_sys::{symbol},'
+    if symbol == 'xlbitDLLFree':
+        return 'allocation.root.xltype = original_type | xlbitDLLFree;'
+    if symbol == 'XLOPER12':
+        return 'pub fn as_xloper(&self) -> &XLOPER12 {'
+    if symbol in ('xltypeNum', 'xltypeInt', 'xltypeBool', 'xltypeErr',
+                  'xltypeMissing', 'xltypeNil', 'xltypeStr', 'xltypeMulti'):
+        return f'xltype: {symbol},'
+    return None
+
+
+def command_registration_counts():
+    """Count the pinned flat argument builder; fail if its syntax changes."""
+    source = git_show('crates/excel-api/src/excel_call.rs')
+    body = source.split('    fn command_registration(', 1)[1].split('    fn pointers(', 1)[0]
+    entries = body.split('let values = vec![', 1)[1].split('];', 1)[0]
+    expected = ['module_text,', 'registration.rust_symbol.into(),',
+                'registration.type_text().into(),', 'registration.excel_name.into(),',
+                'String::new(),', 'registration.shortcut.unwrap_or("").into(),',
+                'String::new(),', 'registration.description.unwrap_or("").into(),']
+    if [line.strip() for line in entries.splitlines() if line.strip()] != expected or body.count('roots.insert(') != 1:
+        raise ValueError('command registration builder changed; review argument accounting')
+    descriptor = source.split('pub const XLF_REGISTER:', 1)[1].split('};', 1)[0]
+    minimum = int(re.search(r'minimum_arguments: (\d+)', descriptor).group(1))
+    return len(expected) + 1, minimum
 
 @functools.lru_cache(maxsize=None)
 def git_show(path):
@@ -195,7 +252,7 @@ def verify(rows):
     for row in rows:
         if not isinstance(row, dict): raise ValueError('assessment row must be an object')
         if set(row) != {'assessment_version','rust_revision','capi_id','raw_state','functional_state','test_state','host_state','exact_name_candidates','functional_evidence','related_rust','test_evidence','abi_evidence','descriptor_observation','related_evidence','core_name_occurrences','supplemental_mentions','dispatch_relation','type_target_capi_id','edna_relations'}: raise ValueError('invalid row fields')
-        if type(row['assessment_version']) != int or row['assessment_version'] != 1: raise ValueError('unsupported assessment version')
+        if type(row['assessment_version']) != int or row['assessment_version'] not in (1, 2): raise ValueError('unsupported assessment version')
         if row['rust_revision'] != REVISION: raise ValueError('incorrect audited Rust revision')
         ident = row['capi_id']
         if not isinstance(ident, str): raise ValueError('CAPI ID must be a string')
@@ -219,7 +276,17 @@ def verify(rows):
             n = evidence['line']; symbol = ids[ident]['symbol']
             if evidence['role'] == 'return-materialization' and evidence['path'] == 'crates/excel-api/src/return_alloc.rs':
                 lines = git_show(evidence['path']).splitlines()
-                if not 1 <= n < 800 or not re.search(r'\b' + re.escape(symbol) + r'\b', lines[n-1]): raise ValueError(f'stale return evidence: {ident}')
+                expected = return_statement(symbol)
+                if expected is None or not 1 <= n <= len(lines) or lines[n-1].strip() != expected: raise ValueError(f'stale return evidence: {ident}')
+            elif evidence['role'] == 'typed-operation' and evidence['path'] == 'crates/excel-api/src/excel_call.rs':
+                lines = git_show(evidence['path']).splitlines()
+                name = OPERATION_NAMES.get(symbol)
+                if not name or n != OPERATION_LINES[symbol] or not re.search(r'\bfn ' + name + r'\(', lines[n-1]): raise ValueError(f'stale typed operation: {ident}')
+            elif evidence['role'] == 'generated-abi-alias' and evidence['path'] == 'crates/excel-api/src/thunk.rs':
+                alias = {'LPXLOPER12': 'RawXloper12', 'XCHAR': 'RawXchar'}.get(symbol)
+                lines = git_show(evidence['path']).splitlines()
+                if alias is None or not 1 <= n <= len(lines) or lines[n-1] != f'pub type {alias} = {symbol};': raise ValueError(f'invalid generated alias: {ident}')
+                if f'::excel_api::thunk::{alias}' not in git_show('crates/excel-api-macros/src/lib.rs'): raise ValueError(f'alias is not used by generator: {ident}')
             elif evidence['role'] == 'owned-conversion-boundary' and evidence['path'] == 'crates/excel-api/src/convert.rs':
                 lines = git_show(evidence['path']).splitlines()
                 expected = 'ExcelValueRef::Reference(_) => Err(ConversionError::UnsupportedReference),' if symbol in ('xltypeRef','xltypeSRef') else 'return Err(ConversionError::NestedArrayUnsupported);' if symbol == 'xltypeMulti' else None
@@ -264,7 +331,7 @@ def verify(rows):
             if test['run'] != (expected_run if row['test_state'] == 'passed-this-run' else None): raise ValueError(f'invalid test run: {ident}')
             lines = git_show(test['path']).splitlines(); number = test['line']
             if not 2 <= number <= len(lines) or lines[number-2].strip() != '#[test]' or lines[number-1].strip() != f'fn {test["symbol"]}() {{': raise ValueError(f'stale test evidence: {ident}')
-            windows_x64 = '#[cfg(all(target_os = "windows", target_arch = "x86_64"))]' in lines[max(0, number-5):number-1]
+            windows_x64 = '#[cfg(all(target_os = "windows", target_arch = "x86_64"))]' in [line.strip() for line in lines[max(0, number-5):number-1]]
             if test['configuration'] != ('windows-x86_64' if windows_x64 else 'default'): raise ValueError(f'invalid test configuration: {ident}')
             block = '\n'.join(lines[number-1:number+80]).split('\n    }', 1)[0]
             if not re.search(r'\b' + re.escape(symbol) + r'\b', block): raise ValueError(f'unrelated test: {ident}')
@@ -275,8 +342,14 @@ def verify(rows):
             lines = git_show(test['path']).splitlines(); n = test['line']
             if not 1 <= n <= len(lines) or not lines[n-1].startswith('const _: unsafe extern "system" fn(') or 'LPXLOPER12' not in lines[n-1]: raise ValueError(f'stale compile evidence: {ident}')
         elif row['test_state'] != 'unassessed' or test is not None: raise ValueError(f'unsupported test assessment: {ident}')
-        if row['functional_state'] not in ('unassessed', 'descriptor-present', 'decode-branch-present', 'decoding-explicitly-unsupported', 'async-return-operation-present', 'ownership-mask-present', 'error-conversion-present', 'event-registration-present', 'borrowed-wrapper-present', 'fp12-registration-type-not-observed', 'generic-return-code-wrapper', 'reference-coordinate-accessor-present', 'boolean-decoding-present'): raise ValueError(f'unsupported functional assessment: {ident}')
-        if row['functional_state'] == 'descriptor-present':
+        new_states = ('typed-operation-present', 'typed-registration-partial', 'generic-backend-present', 'legacy-outside-excel12-target', 'lpenhelper-operation-not-observed')
+        if row['assessment_version'] == 1 and (row['functional_state'] in new_states or row['raw_state'] == 'lpenhelper-declaration-not-observed'): raise ValueError(f'assessment v2 required: {ident}')
+        if row['functional_state'] not in ('unassessed', 'descriptor-present', 'decode-branch-present', 'decoding-explicitly-unsupported', 'async-return-operation-present', 'ownership-mask-present', 'error-conversion-present', 'event-registration-present', 'borrowed-wrapper-present', 'fp12-registration-type-not-observed', 'generic-return-code-wrapper', 'reference-coordinate-accessor-present', 'boolean-decoding-present', *new_states): raise ValueError(f'unsupported functional assessment: {ident}')
+        if row['functional_state'] in ('descriptor-present', 'typed-operation-present', 'typed-registration-partial'):
+            if row['functional_state'] != 'descriptor-present' and not any(e['role'] == 'typed-operation' for e in additional): raise ValueError(f'missing typed operation: {ident}')
+            if row['functional_state'] == 'typed-operation-present' and item['symbol'] == 'xlfRegister': raise ValueError(f'command registration is partial at audited revision: {ident}')
+            if row['functional_state'] == 'typed-registration-partial':
+                if item['symbol'] != 'xlfRegister' or command_registration_counts() != (9, 10): raise ValueError(f'invalid partial registration evidence: {ident}')
             evidence = row['functional_evidence']
             if not isinstance(evidence, dict) or set(evidence) != {'path', 'symbol', 'line', 'configuration'} or evidence['path'] != 'crates/excel-api/src/excel_call.rs' or type(evidence['line']) != int: raise ValueError(f'invalid functional evidence: {ident}')
             source = git_show(evidence['path']).splitlines()
@@ -286,6 +359,16 @@ def verify(rows):
             if evidence['configuration'] != ('xlcontime-research' if feature else 'default'): raise ValueError(f'invalid descriptor configuration: {ident}')
             block = '\n'.join(source[number - 1:number + 25]).split('};', 1)[0]
             if f'name: "{ids[ident]["symbol"]}"' not in block or f'function: excel_api_sys::{ids[ident]["symbol"]}' not in block: raise ValueError(f'unrelated descriptor: {ident}')
+        elif row['functional_state'] == 'generic-backend-present':
+            expected = {'path': 'crates/excel-api/src/excel_call.rs', 'line': 489, 'symbol': 'excel12v_raw', 'configuration': 'windows-host-resolution'}
+            if item['symbol'] != 'Excel12v' or row['functional_evidence'] != expected: raise ValueError(f'invalid backend evidence: {ident}')
+            source = git_show(expected['path']).splitlines()
+            if source[488].strip() != 'unsafe fn excel12v_raw(' or 'unsafe { callback(function, count, arguments, result) }' not in '\n'.join(source[488:506]): raise ValueError(f'stale backend evidence: {ident}')
+        elif row['functional_state'] == 'legacy-outside-excel12-target':
+            if item['symbol'] not in LEGACY_NAMES or row['functional_evidence'] != {'path': 'crates/excel-api-sys/src/constants.rs', 'line': 136, 'symbol': 'Excel4', 'configuration': 'unsupported-legacy'}: raise ValueError(f'invalid legacy boundary: {ident}')
+            if 'Legacy XLOPER structures and Excel4 are unsupported.' not in git_show('crates/excel-api-sys/src/constants.rs').splitlines()[135]: raise ValueError(f'stale legacy boundary: {ident}')
+        elif row['functional_state'] == 'lpenhelper-operation-not-observed':
+            if not lpenhelper_family(item) or row['functional_evidence'] is not None or occurrences[item['symbol']] != 0: raise ValueError(f'invalid LPenHelper boundary: {ident}')
         elif row['functional_state'] == 'boolean-decoding-present':
             evidence = row['functional_evidence']
             if ids[ident]['symbol'] != 'BOOL' or not isinstance(evidence, dict) or set(evidence) != {'path','line','symbol','configuration'} or evidence['path'] != 'crates/excel-api/src/borrowed.rs' or evidence['symbol'] != 'XLTYPE_BOOL' or evidence['configuration'] != 'default' or type(evidence['line']) != int: raise ValueError(f'invalid Boolean evidence: {ident}')
@@ -352,7 +435,9 @@ def verify(rows):
             unsupported = 'Err(DecodeError::UnsupportedType' in lines[n-1]
             if unsupported != (row['functional_state'] == 'decoding-explicitly-unsupported'): raise ValueError(f'invalid decode claim: {ident}')
         elif row['functional_evidence'] is not None: raise ValueError(f'unassessed descriptor contains evidence: {ident}')
-        if row['raw_state'] not in ('unassessed', 'numeric-value-matched', 'declaration-present-abi-unassessed', 'related-declaration-abi-unassessed', 'legacy-public-declaration-not-observed'): raise ValueError(f'unsupported raw assessment: {ident}')
+        if row['raw_state'] not in ('unassessed', 'numeric-value-matched', 'declaration-present-abi-unassessed', 'related-declaration-abi-unassessed', 'legacy-public-declaration-not-observed', 'lpenhelper-declaration-not-observed'): raise ValueError(f'unsupported raw assessment: {ident}')
+        if row['raw_state'] == 'lpenhelper-declaration-not-observed':
+            if not lpenhelper_family(item) or row['exact_name_candidates'] or related is not None or occurrences[item['symbol']] != 0: raise ValueError(f'invalid LPenHelper declaration absence: {ident}')
         if row['raw_state'] == 'legacy-public-declaration-not-observed':
             if ids[ident]['symbol'] not in LEGACY_NAMES or row['exact_name_candidates'] or related is not None or 'Legacy XLOPER structures and Excel4 are unsupported.' not in git_show('crates/excel-api-sys/src/constants.rs'): raise ValueError(f'invalid legacy-name assessment: {ident}')
         if row['raw_state'] == 'related-declaration-abi-unassessed' and related is None: raise ValueError(f'missing related declaration: {ident}')
@@ -395,6 +480,11 @@ def verify_current_inputs():
                'crates/excel-api/src', 'crates/excel-api/tests',
                'crates/excel-api-macros/src', 'crates/excel-api-macros/tests',
                'examples/minimal-xll/src', 'examples/minimal-xll/tests', 'tools/abi-check']
+    # Features, dependencies, build scripts and local Cargo target/flags can
+    # change compiled evidence without altering a cited Rust source line.
+    audited += ['Cargo.toml', 'Cargo.lock', '.cargo', 'rust-toolchain', 'rust-toolchain.toml']
+    for crate in ('crates/excel-api-sys', 'crates/excel-api', 'crates/excel-api-macros', 'examples/minimal-xll'):
+        audited += [f'{crate}/Cargo.toml', f'{crate}/build.rs']
     stale = subprocess.run(['git', 'diff', '--quiet', REVISION, '--', *audited], cwd=ROOT)
     if stale.returncode != 0:
         raise ValueError('audited source or catalogue differs from pinned revision; reassessment required')
