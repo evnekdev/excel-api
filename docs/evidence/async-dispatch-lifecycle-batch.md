@@ -82,7 +82,8 @@ Windows x64, installed dependencies in offline mode. Final commands:
 | `git diff --check` | PASS |
 | SDK ABI checker | NOT RUN; no raw IDs/layout/export signatures changed |
 | Catalogue validator | NOT RUN; catalogue/source/inventory tools unchanged |
-| CI, native Excel, x86 | NOT RUN by task boundary |
+| CI | Unintentionally triggered by branch push; see correction below |
+| Native Excel, x86 | NOT RUN by task boundary |
 
 An intermediate compile exposed minimal-XLL's exhaustive DispatchResult match;
 fixed under #133 before the final passing run. Workspace Clippy failure was
@@ -105,3 +106,16 @@ logs, and restore settings. x86 remains #85 on another machine.
 
 Ready for independent source review, not native accepted. Keep leaves and parents
 open pending their review/host requirements. No merge or next implementation phase.
+
+## Push-triggered CI correction
+
+The first push unintentionally triggered the repository's unconditional branch-push
+workflow: [run 42313476068](https://github.com/evnekdev/excel-api/actions/runs/42313476068).
+The agent omitted a skip marker despite the no-CI instruction. It was already
+completed when discovered; it was not manually dispatched or rerun. Earlier issue
+comments saying CI NOT RUN are corrected by this record and follow-up comments.
+MSRV failed on existing let-chain syntax in the unchanged object-model inventory
+validator (lines 41, 414, 420). The validate job passed formatting then failed
+Clippy on the unchanged OnTime fetch_update deprecation (line 90); later test,
+ABI and packaging steps were skipped. No native Excel execution occurred.
+This evidence-only corrective commit uses [skip ci], with no workflow changes.
