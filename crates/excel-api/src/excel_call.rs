@@ -879,6 +879,8 @@ impl CallArguments {
             registration.type_text().into(),
             registration.excel_name.into(),
             String::new(),
+            // Position 7 after inserting macroType: category precedes shortcut.
+            "Commands".into(),
             registration.shortcut.unwrap_or("").into(),
             String::new(),
             registration.description.unwrap_or("").into(),
@@ -1515,6 +1517,17 @@ mod tests {
             }
             *self.code.lock().unwrap()
         }
+    }
+
+    #[test]
+    fn worksheet_context_cannot_dispatch_registration() {
+        let backend = AbortBackend::default();
+        let capability = CallCapability::new(&backend);
+        assert!(matches!(
+            capability.call(CallPermission::Worksheet, XLF_REGISTER, &mut []),
+            Err(ExcelCallError::IllegalContext { .. })
+        ));
+        assert!(backend.calls.lock().unwrap().is_empty());
     }
 
     #[test]

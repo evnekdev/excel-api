@@ -623,6 +623,8 @@ mod tests {
         linked: bool,
         calls: Vec<(i32, usize)>,
         type_texts: Vec<String>,
+        registration_arguments: Vec<Vec<(u32, String)>>,
+        malformed_registration: Option<usize>,
         unregistered: Vec<f64>,
         allocations: HashMap<usize, Box<[u16]>>,
         next_id: f64,
@@ -684,6 +686,32 @@ mod tests {
                     };
                 }
             } else if function == excel_api_sys::xlfRegister {
+                // SAFETY: the synchronous call keeps all `count` roots and counted strings live.
+                let snapshot = unsafe { core::slice::from_raw_parts(arguments, count as usize) }
+                    .iter()
+                    .map(|pointer| {
+                        // SAFETY: registration supplies initialized roots with string or number tags.
+                        let root = unsafe { &**pointer };
+                        let text = match root.xltype {
+                            excel_api_sys::xltypeStr => {
+                                // SAFETY: CallArguments owns the prefix and complete UTF-16 payload.
+                                let pointer = unsafe { root.val.str };
+                                // SAFETY: the prefix describes the live counted allocation.
+                                let units = unsafe {
+                                    core::slice::from_raw_parts(pointer.add(1), *pointer as usize)
+                                };
+                                String::from_utf16(units).unwrap()
+                            }
+                            excel_api_sys::xltypeNum => {
+                                // SAFETY: the number tag selects the numeric union member.
+                                unsafe { root.val.num }.to_string()
+                            }
+                            other => panic!("unexpected registration tag {other}"),
+                        };
+                        (root.xltype, text)
+                    })
+                    .collect();
+                state.registration_arguments.push(snapshot);
                 state.register_count += 1;
                 if state.fail_registration == Some(state.register_count) {
                     return excel_api_sys::xlretFailed;
@@ -697,6 +725,18 @@ mod tests {
                 // SAFETY: the payload has `length` code units.
                 let units = unsafe { core::slice::from_raw_parts(type_pointer.add(1), length) };
                 state.type_texts.push(String::from_utf16(units).unwrap());
+                if state.malformed_registration == Some(state.register_count) {
+                    // SAFETY: the caller supplies a live result root; simulate Excel #VALUE!.
+                    unsafe {
+                        *result = XLOPER12 {
+                            val: XLOPER12Value {
+                                err: excel_api_sys::xlerrValue,
+                            },
+                            xltype: excel_api_sys::xltypeErr,
+                        };
+                    }
+                    return excel_api_sys::xlretSuccess;
+                }
                 state.next_id += 1.0;
                 // SAFETY: the runtime supplies a live result root.
                 unsafe {
@@ -786,6 +826,211 @@ mod tests {
         }),
     ];
     static ADD_IN: AddInDescriptor = AddInDescriptor::new("test", "test", FUNCTIONS);
+
+    static COMMANDS: &[crate::CommandRegistration] = &[
+        crate::CommandRegistration::new("run_command", "RUST.RUN")
+            .shortcut("A")
+            .description("Run command"),
+        crate::CommandRegistration::new("plain_command", "RUST.PLAIN"),
+    ];
+    static COMMAND_ADD_IN: AddInDescriptor =
+        AddInDescriptor::new("commands", "commands", &[]).commands(COMMANDS);
+    static MIXED_ADD_IN: AddInDescriptor =
+        AddInDescriptor::new("mixed", "mixed", FUNCTIONS).commands(COMMANDS);
+
+    fn assert_command_arguments(
+        arguments: &[(u32, String)],
+        shortcut: &str,
+        help: &str,
+        procedure: &str,
+        name: &str,
+    ) {
+        let values = [
+            "C:\\test\\add.xll",
+            procedure,
+            "I",
+            name,
+            "",
+            "2",
+            "Commands",
+            shortcut,
+            "",
+            help,
+        ];
+        assert_eq!(arguments.len(), values.len());
+        for (index, ((tag, actual), expected)) in arguments.iter().zip(values).enumerate() {
+            assert_eq!(
+                *tag,
+                if index == 5 {
+                    excel_api_sys::xltypeNum
+                } else {
+                    excel_api_sys::xltypeStr
+                },
+                "slot {}",
+                index + 1
+            );
+            assert_eq!(actual, expected, "slot {}", index + 1);
+        }
+    }
+
+    #[test]
+    fn commands_dispatch_exact_positions_and_unregister() {
+        let _runtime = runtime_test_guard();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert_eq!(
+            runtime.initialize(&COMMAND_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        assert_eq!(runtime.phase(), RuntimePhase::Initialized);
+        assert_eq!(
+            runtime
+                .lock()
+                .command_registrations
+                .iter()
+                .map(|entry| entry.id)
+                .collect::<Vec<_>>(),
+            vec![1.0, 2.0]
+        );
+        {
+            let state = backend.state.lock().unwrap();
+            assert_command_arguments(
+                &state.registration_arguments[0],
+                "A",
+                "Run command",
+                "run_command",
+                "RUST.RUN",
+            );
+            assert_command_arguments(
+                &state.registration_arguments[1],
+                "",
+                "",
+                "plain_command",
+                "RUST.PLAIN",
+            );
+            assert_eq!(
+                state
+                    .calls
+                    .iter()
+                    .filter(|(id, _)| *id == excel_api_sys::xlfRegister)
+                    .copied()
+                    .collect::<Vec<_>>(),
+                vec![(excel_api_sys::xlfRegister, 10); 2]
+            );
+        }
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        let state = backend.state.lock().unwrap();
+        assert_eq!(state.unregistered, [2.0, 1.0]);
+        assert_eq!(state.unregister_linked, [true, true]);
+        assert_eq!(state.free_calls, 7);
+        assert!(state.allocations.is_empty());
+        assert!(!state.linked);
+    }
+
+    #[test]
+    fn mixed_functions_and_commands_preserve_registration_order() {
+        let _runtime = runtime_test_guard();
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert_eq!(
+            runtime.initialize(&MIXED_ADD_IN),
+            Ok(LifecycleOutcome::Completed)
+        );
+        {
+            let state = backend.state.lock().unwrap();
+            assert_eq!(state.type_texts, ["Q", "Q$", "I", "I"]);
+            assert_eq!(
+                state.registration_arguments[0][5],
+                (excel_api_sys::xltypeNum, "1".into())
+            );
+            assert_eq!(state.registration_arguments[0][6].1, "Rust");
+            assert_command_arguments(
+                &state.registration_arguments[2],
+                "A",
+                "Run command",
+                "run_command",
+                "RUST.RUN",
+            );
+        }
+        assert_eq!(runtime.registration_ids(), vec![1.0, 2.0]);
+        assert_eq!(
+            runtime
+                .lock()
+                .command_registrations
+                .iter()
+                .map(|entry| entry.id)
+                .collect::<Vec<_>>(),
+            vec![3.0, 4.0]
+        );
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        // Preserve the existing close path: worksheet group then command group, each reversed.
+        assert_eq!(
+            backend.state.lock().unwrap().unregistered,
+            [2.0, 1.0, 4.0, 3.0]
+        );
+    }
+
+    #[test]
+    fn command_failures_roll_back_functions_and_prior_commands() {
+        let _runtime = runtime_test_guard();
+        for malformed in [false, true] {
+            let backend = Arc::new(MockBackend::default());
+            if malformed {
+                backend.state.lock().unwrap().malformed_registration = Some(4);
+            } else {
+                backend.state.lock().unwrap().fail_registration = Some(4);
+            }
+            let runtime = Runtime::with_backend(backend.clone());
+            let Err(LifecycleError::RegistrationRollback { primary, cleanup }) =
+                runtime.initialize(&MIXED_ADD_IN)
+            else {
+                panic!("expected rollback");
+            };
+            if malformed {
+                assert!(matches!(primary, ExcelCallError::MalformedResult { .. }));
+            } else {
+                assert!(matches!(primary, ExcelCallError::ExcelFailure { .. }));
+            }
+            assert!(cleanup.is_empty());
+            assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+            let state = backend.state.lock().unwrap();
+            assert_eq!(state.register_count, 4);
+            assert_eq!(state.unregistered, [3.0, 2.0, 1.0]);
+            assert!(state.allocations.is_empty());
+            assert!(!state.linked);
+        }
+    }
+
+    #[test]
+    fn command_rollback_cleanup_failure_is_reported_and_close_retries() {
+        let _runtime = runtime_test_guard();
+        let backend = Arc::new(MockBackend::failing_registration(2));
+        backend.state.lock().unwrap().fail_unregistration = 1;
+        let runtime = Runtime::with_backend(backend.clone());
+        let Err(LifecycleError::RegistrationRollback { cleanup, .. }) =
+            runtime.initialize(&COMMAND_ADD_IN)
+        else {
+            panic!("expected rollback");
+        };
+        assert_eq!(cleanup.len(), 1);
+        assert_eq!(runtime.phase(), RuntimePhase::CleanupRequired);
+        assert!(backend.state.lock().unwrap().linked);
+        assert_eq!(runtime.close(), Ok(LifecycleOutcome::Completed));
+        assert_eq!(backend.state.lock().unwrap().unregistered, [1.0]);
+        assert_eq!(runtime.phase(), RuntimePhase::Uninitialized);
+    }
+
+    #[test]
+    fn invalid_command_metadata_never_reaches_backend() {
+        let _runtime = runtime_test_guard();
+        static INVALID: &[crate::CommandRegistration] =
+            &[crate::CommandRegistration::new("", "BAD")];
+        let add_in = AddInDescriptor::new("bad", "bad", &[]).commands(INVALID);
+        let backend = Arc::new(MockBackend::default());
+        let runtime = Runtime::with_backend(backend.clone());
+        assert!(runtime.initialize(&add_in).is_err());
+        assert!(backend.state.lock().unwrap().calls.is_empty());
+    }
 
     const ASYNC_ARGS: &[ExcelArgumentType] =
         &[ExcelArgumentType::Number, ExcelArgumentType::AsyncHandle];
