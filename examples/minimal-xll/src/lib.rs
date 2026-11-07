@@ -233,6 +233,10 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     acceptance::__EXCEL_FUNCTION_METADATA_DOCUMENT,
     #[cfg(feature = "native-acceptance")]
     acceptance::__EXCEL_FUNCTION_METADATA_HELP,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_DELAY,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_ASYNC_STATUS,
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[

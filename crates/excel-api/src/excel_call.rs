@@ -992,6 +992,16 @@ impl CallArguments {
                 .iter()
                 .map(|value| (*value).to_owned()),
         );
+        // Excel can truncate the last real argument description by one or two
+        // characters. Microsoft's documented workaround is an extra empty
+        // argument-help string (Known Issues in Excel XLL Development, #138).
+        // Keep the existing 245-description boundary usable: the numeric
+        // macroType root inserted below also consumes one of 255 call slots.
+        if !registration.argument_descriptions.is_empty()
+            && values.len() + 1 < XLF_REGISTER.maximum_arguments
+        {
+            values.push(String::new());
+        }
         let mut strings = Vec::with_capacity(values.len());
         for value in values {
             strings.push(counted(&value).map_err(ExcelCallError::Registration)?);
@@ -1869,6 +1879,50 @@ mod tests {
                 (*result).xltype = excel_api_sys::xltypeBool;
             }
             *self.code.lock().unwrap()
+        }
+    }
+
+    #[test]
+    fn registration_preserves_help_and_appends_empty_wizard_sentinel_when_it_fits() {
+        use crate::{ExcelArgumentType, ExcelReturnType, FunctionSignature};
+        static ARGUMENTS: [ExcelArgumentType; 245] = [ExcelArgumentType::GeneralValue; 245];
+        static NAMES: [&str; 245] = ["value"; 245];
+        static DESCRIPTIONS: [&str; 245] = ["Acceptance argument"; 245];
+        for count in [0, 1, 244, 245] {
+            let registration = FunctionRegistration::new(
+                "wizard",
+                "WIZARD",
+                FunctionSignature::new(ExcelReturnType::Xloper12, &ARGUMENTS[..count]),
+            )
+            .arguments(&NAMES[..count], &DESCRIPTIONS[..count]);
+            let mut storage = CallArguments::registration(
+                &ExcelString::from_utf8("test.xll"),
+                &registration,
+                Some(crate::HelpTopic::new("guide.chm", 42)),
+            )
+            .unwrap();
+            let roots = storage.pointers();
+            let sentinel = usize::from(count > 0 && count < 245);
+            assert_eq!(roots.len(), 10 + count + sentinel);
+            assert!(roots.len() <= XLF_REGISTER.maximum_arguments);
+            // SAFETY: roots point into live storage and these slots are strings.
+            let text = |index: usize| unsafe {
+                let root = &*roots[index];
+                assert_eq!(root.xltype, excel_api_sys::xltypeStr);
+                let pointer = root.val.str;
+                String::from_utf16(core::slice::from_raw_parts(
+                    pointer.add(1),
+                    *pointer as usize,
+                ))
+                .unwrap()
+            };
+            assert_eq!(text(8), "guide.chm!42");
+            if count > 0 {
+                assert_eq!(text(9 + count), "Acceptance argument");
+            }
+            if sentinel == 1 {
+                assert_eq!(text(10 + count), "");
+            }
         }
     }
 

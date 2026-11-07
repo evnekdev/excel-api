@@ -91,3 +91,65 @@ pub fn clear(context: &MacroContext<'_>) -> Result<(), ExcelError> {
 pub fn calculate(context: &MacroContext<'_>) -> Result<(), ExcelError> {
     context.calculate_now().map_err(|_| ExcelError::Value)
 }
+
+// Finite cooperative work: the runner can observe actual worker retirement,
+// independently of the runtime's pending-request count after cancellation.
+static ACTIVE_WORKERS: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+static CANCELED_WORKERS: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+
+#[excel_function(
+    name = "RUST.TEST.DELAY",
+    thunk = "acceptance_delay",
+    asynchronous,
+    thread_safe,
+    arguments(milliseconds = "Bounded delay, at most 10000 milliseconds")
+)]
+pub fn delay(
+    milliseconds: f64,
+    cancel: excel_api::AsyncCancellationToken,
+) -> Result<f64, ExcelError> {
+    use std::sync::atomic::Ordering;
+    if !milliseconds.is_finite() || !(0.0..=10000.0).contains(&milliseconds) {
+        return Err(ExcelError::Value);
+    }
+    ACTIVE_WORKERS.fetch_add(1, Ordering::SeqCst);
+    struct ActiveGuard;
+    impl Drop for ActiveGuard {
+        fn drop(&mut self) {
+            ACTIVE_WORKERS.fetch_sub(1, Ordering::SeqCst);
+        }
+    }
+    let _guard = ActiveGuard;
+    let deadline =
+        std::time::Instant::now() + std::time::Duration::from_millis(milliseconds as u64);
+    loop {
+        if cancel.is_cancellation_requested() {
+            CANCELED_WORKERS.fetch_add(1, Ordering::SeqCst);
+            return Err(ExcelError::Na);
+        }
+        if std::time::Instant::now() >= deadline {
+            return Ok(42.0);
+        }
+        std::thread::sleep(std::time::Duration::from_millis(10));
+    }
+}
+
+#[excel_function(name = "RUST.TEST.ASYNC.STATUS", thunk = "acceptance_async_status")]
+pub fn async_status() -> excel_api::ExcelString {
+    use std::sync::atomic::Ordering;
+    let status = excel_api::async_udf::diagnostics().map_or_else(
+        || "inactive".to_string(),
+        |d| {
+            format!(
+                "{},{},{},{},{},{}",
+                d.pending,
+                d.calculation_canceled,
+                d.calculation_ended,
+                ACTIVE_WORKERS.load(Ordering::SeqCst),
+                CANCELED_WORKERS.load(Ordering::SeqCst),
+                d.completed
+            )
+        },
+    );
+    excel_api::ExcelString::from_utf8(&status)
+}

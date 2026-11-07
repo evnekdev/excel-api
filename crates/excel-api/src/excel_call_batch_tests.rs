@@ -202,7 +202,7 @@ fn help_preserves_every_registration_position_including_argument_help() {
     for help in [None, Some(crate::HelpTopic::new("guide.chm", 42))] {
         let storage =
             CallArguments::registration(&"module.xll".into(), &registration, help).unwrap();
-        assert_eq!(storage.roots.len(), 11);
+        assert_eq!(storage.roots.len(), 12);
         let expected = [
             "module.xll",
             "exported",
@@ -215,6 +215,7 @@ fn help_preserves_every_registration_position_including_argument_help() {
             if help.is_some() { "guide.chm!42" } else { "" },
             "Function help",
             "Argument help",
+            "", // Documented sentinel protects the final visible argument description.
         ];
         for (index, root) in storage.roots.iter().enumerate() {
             // SAFETY: storage owns all roots and their counted strings until this loop ends.

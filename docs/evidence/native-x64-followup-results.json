@@ -1,0 +1,218 @@
+{
+  "run_id": "20261107T071359Z-c12b97bc",
+  "environment": {
+    "windows": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.7",
+    "python_arch": "x64",
+    "windows_arch": "AMD64",
+    "pywin32": true,
+    "excel_executable": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "excel_arch": "x64",
+    "xll": {
+      "path": "C:\\_WORK\\Code\\Rust\\excel-api\\target\\release\\acceptance-wizard-fixed.xll",
+      "architecture": "x64",
+      "sha256": "1342cc7e5f5e62897f894c141be586212ecc9d63a36171de0a73fe3f45fcaa11"
+    },
+    "excel_file_version": "16.0.20527.20150",
+    "source_revision": "fabda4d15ec573df16d94f7fd7f494debda1fad4",
+    "source_binary_provenance": "not independently established",
+    "runner_sha256": "0cd60ccf7ed1b3379cb6f08a9b2c9270c30f30e7204cb11dee6e7298d4c85de4",
+    "existing_excel_pids": [
+      19684
+    ]
+  },
+  "preflight_errors": [],
+  "scenarios": [
+    {
+      "id": "REG-ADD",
+      "area": "registration",
+      "expected": "RUST.ADD(2,3) equals 5",
+      "status": "PASS",
+      "observed": "5.0",
+      "elapsed_seconds": 5.062,
+      "owned_pid": 32516,
+      "log": "REG-ADD.log"
+    },
+    {
+      "id": "VALUE-TEXT",
+      "area": "values",
+      "expected": "Unicode echo round trips",
+      "status": "PASS",
+      "observed": "'Aé水😀'",
+      "elapsed_seconds": 5.125,
+      "owned_pid": 23960,
+      "log": "VALUE-TEXT.log"
+    },
+    {
+      "id": "VALUE-OPTION",
+      "area": "values",
+      "expected": "An omitted optional argument is missing",
+      "status": "PASS",
+      "observed": "'missing'",
+      "elapsed_seconds": 4.672,
+      "owned_pid": 15896,
+      "log": "VALUE-OPTION.log"
+    },
+    {
+      "id": "REF-KIND",
+      "area": "references",
+      "expected": "A worksheet reference reaches the function",
+      "status": "PASS",
+      "observed": "'SRef'",
+      "elapsed_seconds": 4.594,
+      "owned_pid": 32512,
+      "log": "REF-KIND.log"
+    },
+    {
+      "id": "COMMAND",
+      "area": "registration",
+      "expected": "The registered ping command executes",
+      "status": "PASS",
+      "observed": "1.0",
+      "elapsed_seconds": 4.625,
+      "owned_pid": 18512,
+      "log": "COMMAND.log"
+    },
+    {
+      "id": "QUEUE",
+      "area": "dispatcher",
+      "expected": "Worker work waits for an explicit command pump",
+      "status": "BLOCKED",
+      "observed": "worker timed out; Excel process ownership may be unknown; no Excel process was terminated",
+      "elapsed_seconds": 60.031,
+      "log": "QUEUE.log"
+    },
+    {
+      "id": "ASYNC",
+      "area": "async",
+      "expected": "Async double completes with 14",
+      "status": "PASS",
+      "observed": "14.0",
+      "elapsed_seconds": 4.672,
+      "owned_pid": 34092,
+      "log": "ASYNC.log"
+    },
+    {
+      "id": "ASYNC-CANCEL",
+      "area": "async",
+      "expected": "Manual F9 then Escape cancels bounded work and retires its worker",
+      "status": "BLOCKED",
+      "observed": "Manual F9/Escape requires an operator and --manual-ui",
+      "elapsed_seconds": 0
+    },
+    {
+      "id": "REF-READ",
+      "area": "references",
+      "expected": "xlCoerce reads a scratch cell",
+      "status": "PASS",
+      "observed": "42.0",
+      "elapsed_seconds": 4.719,
+      "owned_pid": 31404,
+      "log": "REF-READ.log"
+    },
+    {
+      "id": "REF-WRITE",
+      "area": "references",
+      "expected": "Command-only xlSet writes and clears J1",
+      "status": "PASS",
+      "observed": "None",
+      "elapsed_seconds": 4.781,
+      "owned_pid": 27164,
+      "log": "REF-WRITE.log"
+    },
+    {
+      "id": "REF-PROTECTED",
+      "area": "references",
+      "expected": "Protected J1 rejects xlSet without changing its value",
+      "status": "PASS",
+      "observed": "123.0",
+      "elapsed_seconds": 4.656,
+      "owned_pid": 7416,
+      "log": "REF-PROTECTED.log"
+    },
+    {
+      "id": "REF-STALE",
+      "area": "references",
+      "expected": "Deleted-sheet descriptor rejects write and preserves surviving sheet",
+      "status": "BLOCKED",
+      "observed": "Prior stale-sheet probe lost Excel RPC; diagnostic opt-in required",
+      "elapsed_seconds": 0
+    },
+    {
+      "id": "DOC",
+      "area": "document",
+      "expected": "Active workbook name matches scratch workbook",
+      "status": "PASS",
+      "observed": "'Book1'",
+      "elapsed_seconds": 4.578,
+      "owned_pid": 20956,
+      "log": "DOC.log"
+    },
+    {
+      "id": "CALC",
+      "area": "calculation",
+      "expected": "Command calculates dirty formula in manual mode",
+      "status": "PASS",
+      "observed": "11.0",
+      "elapsed_seconds": 4.735,
+      "owned_pid": 36968,
+      "log": "CALC.log"
+    },
+    {
+      "id": "HELP",
+      "area": "help",
+      "expected": "Function with HelpTopic supplement registers and calculates",
+      "status": "PASS",
+      "observed": "17.0",
+      "elapsed_seconds": 4.421,
+      "owned_pid": 24752,
+      "log": "HELP.log"
+    },
+    {
+      "id": "HELP-WIZARD",
+      "area": "help",
+      "expected": "Function Wizard exposes function and argument descriptions",
+      "status": "BLOCKED",
+      "observed": "Expected wizard descriptions were not accessible through native child-window text",
+      "elapsed_seconds": 7.547,
+      "owned_pid": 11368,
+      "log": "HELP-WIZARD.log"
+    },
+    {
+      "id": "EVENTS",
+      "area": "events",
+      "expected": "Observe calculation-ended callback after F9",
+      "status": "BLOCKED",
+      "observed": "Manual F9/Escape requires an operator and --manual-ui",
+      "elapsed_seconds": 0
+    },
+    {
+      "id": "CLEANUP",
+      "area": "lifecycle",
+      "expected": "Fresh-session registration and owned process exit",
+      "status": "PASS",
+      "observed": "5.0",
+      "elapsed_seconds": 4.922,
+      "owned_pid": 11900,
+      "log": "CLEANUP.log"
+    },
+    {
+      "id": "UNLOAD-RETRY",
+      "area": "lifecycle",
+      "expected": "Idle XLL deactivation and registration retry in the same Excel process",
+      "status": "PASS",
+      "observed": "'host deactivation, function unavailable, two successful registrations in same PID'",
+      "elapsed_seconds": 4.828,
+      "owned_pid": 33672,
+      "log": "UNLOAD-RETRY.log"
+    },
+    {
+      "id": "WAKE",
+      "area": "dispatcher",
+      "expected": "Autonomous wake (#30/#101; not implemented)",
+      "status": "BLOCKED",
+      "observed": "autonomous wake is not implemented (#30/#101)",
+      "elapsed_seconds": 0
+    }
+  ]
+}

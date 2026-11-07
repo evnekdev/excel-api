@@ -46,6 +46,15 @@ Build arguments to `xlfRegister` in a stable owned vector and call through
 
 Store registration IDs for later unregistration.
 
+For worksheet functions with argument descriptions, append an extra empty
+argument-help string when a registration-call slot is available. Microsoft
+[documents this sentinel](https://learn.microsoft.com/en-us/office/client-developer/excel/known-issues-in-excel-xll-development#argument-description-string-truncation-in-the-function-wizard)
+as the workaround for truncation of the final description in the Function
+Wizard (#138). The original metadata and HelpTopic positions are unchanged.
+At the existing 245-description boundary, all 255 callback arguments are used;
+the sentinel is omitted to preserve registration compatibility, so the host's
+final-description truncation limitation remains at that boundary.
+
 ## Commands
 
 Commands use separate descriptor/registration semantics and are not worksheet

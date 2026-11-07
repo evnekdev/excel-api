@@ -1,0 +1,37 @@
+{
+  "run_id": "20261107T070047Z-8a8b0ade",
+  "environment": {
+    "windows": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.7",
+    "python_arch": "x64",
+    "windows_arch": "AMD64",
+    "pywin32": true,
+    "excel_executable": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "excel_arch": "x64",
+    "xll": {
+      "path": "C:\\_WORK\\Code\\Rust\\excel-api\\target\\release\\acceptance-cancellation.xll",
+      "architecture": "x64",
+      "sha256": "f0bac026cf8621df647565f9a4eb9dbeb98fe143d1a49a16b9eaf2a7362f4aa7"
+    },
+    "excel_file_version": "16.0.20527.20150",
+    "source_revision": "fabda4d15ec573df16d94f7fd7f494debda1fad4",
+    "source_binary_provenance": "not independently established",
+    "runner_sha256": "b50e784afb9d92ec392c973fff172109bfa138b1cc7fe42a1069da7cbcda6941",
+    "existing_excel_pids": [
+      19684
+    ]
+  },
+  "preflight_errors": [],
+  "scenarios": [
+    {
+      "id": "ASYNC-CANCEL",
+      "area": "async",
+      "expected": "Manual F9 then Escape cancels bounded work and retires its worker",
+      "status": "PASS",
+      "observed": "(0, 2, 3, 0, 2, 0)",
+      "elapsed_seconds": 34.312,
+      "owned_pid": 33580,
+      "log": "ASYNC-CANCEL.log"
+    }
+  ]
+}

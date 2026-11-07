@@ -1,0 +1,37 @@
+{
+  "run_id": "20261107T065550Z-0306963c",
+  "environment": {
+    "windows": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.7",
+    "python_arch": "x64",
+    "windows_arch": "AMD64",
+    "pywin32": true,
+    "excel_executable": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "excel_arch": "x64",
+    "xll": {
+      "path": "C:\\_WORK\\Code\\Rust\\excel-api\\target\\release\\acceptance-extended.xll",
+      "architecture": "x64",
+      "sha256": "f02edb333a1cd35901e502b0211fbfbd91a089b857be40741c9ece49b1cb53f0"
+    },
+    "excel_file_version": "16.0.20527.20150",
+    "source_revision": "fabda4d15ec573df16d94f7fd7f494debda1fad4",
+    "source_binary_provenance": "not independently established",
+    "runner_sha256": "cc8abf4fb535b06ef1c06882c7cf7a0b59ade37eaa4cf608e4f68db0e4059f6b",
+    "existing_excel_pids": [
+      19684
+    ]
+  },
+  "preflight_errors": [],
+  "scenarios": [
+    {
+      "id": "EVENTS",
+      "area": "events",
+      "expected": "Observe calculation-ended callback after F9",
+      "status": "PASS",
+      "observed": "3.0",
+      "elapsed_seconds": 18.156,
+      "owned_pid": 4044,
+      "log": "EVENTS.log"
+    }
+  ]
+}

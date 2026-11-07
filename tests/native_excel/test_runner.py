@@ -150,6 +150,37 @@ class RunnerTests(unittest.TestCase):
             data = json.loads(next(Path(tmp).glob("*/report.json")).read_text(encoding="utf-8"))
             self.assertEqual(data["scenarios"][0]["status"], "BLOCKED")
 
+    def test_async_retirement_removes_trigger_and_requires_fresh_idle_status(self):
+        order = []
+        app, sheet = mock.Mock(), mock.Mock()
+        sheet.Range.return_value.ClearContents.side_effect = lambda: order.append("clear")
+        def fresh(_):
+            order.append("status")
+            return "0,2,3,0,2,0"
+        app.Run.side_effect = fresh
+        self.assertEqual(runner.retire_async_probe(app, sheet), (0,2,3,0,2,0))
+        self.assertEqual(order, ["clear", "status"])
+        for status in ("1,2,3,0,2,0", "0,2,3,1,2,0", "0,2,3"):
+            app.Run.side_effect = None
+            app.Run.return_value = status
+            with self.assertRaises(RuntimeError): runner.retire_async_probe(app, sheet)
+        app.Run.side_effect = RuntimeError("busy")
+        with self.assertRaisesRegex(RuntimeError, "busy"):
+            runner.retire_async_probe(app, sheet)
+
+    def test_manual_key_scenarios_never_launch_without_operator_opt_in(self):
+        for scenario in ("EVENTS", "ASYNC-CANCEL"):
+            with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as tmp:
+                env = {"pywin32": True, "excel_executable": "Excel", "excel_arch": "x64", "xll": {"architecture": "x64"}}
+                with mock.patch.object(sys, "argv", ["runner", "--output", tmp, "--scenario", scenario]), \
+                     mock.patch.object(runner, "environment", return_value=env), \
+                     mock.patch.object(runner.subprocess, "run") as run, contextlib.redirect_stdout(io.StringIO()):
+                    runner.main()
+                run.assert_not_called()
+                data = json.loads(next(Path(tmp).glob("*/report.json")).read_text(encoding="utf-8"))
+                self.assertEqual(data["scenarios"][0]["status"], "BLOCKED")
+                self.assertIn("--manual-ui", data["scenarios"][0]["observed"])
+
     def test_autonomous_wake_is_explicitly_blocked(self):
         with tempfile.TemporaryDirectory() as tmp:
             env = {"pywin32": True, "excel_executable": None, "excel_arch": None, "xll": None}

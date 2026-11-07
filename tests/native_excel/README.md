@@ -8,13 +8,23 @@ probe until the correlated Office module-version-mismatch report is triaged.
 This shared Python runner and catalogue support Windows x64 and x86 as test
 infrastructure. It is **not** x86 ABI support or x86 host acceptance. #85 owns
 the unsupported x86 XLL ABI and build investigation. #126 owns this suite.
-Fourteen bounded probes are implemented against the repository's `minimal-xll`
+Bounded probes are implemented against the repository's `minimal-xll`
 with its explicit `native-acceptance` feature. These cover basic read/write/clear,
 active-workbook information, normal recalculation, HelpTopic-bearing registration,
 event observation and fresh-session exit as well as the original seven probes.
-They do not establish the full cancellation, protection, rollback, named-document,
-Function Wizard, or same-process unload/reload matrix. The F9 event observation
-can be BLOCKED when targeted keyboard-message delivery does not raise an event.
+They do not establish the full cancellation race, rollback, named-document,
+Function Wizard, or pending-work unload matrix. EVENTS and ASYNC-CANCEL require
+an operator and `--manual-ui --timeout 130`; otherwise they explicitly BLOCK.
+EVENTS: focus the scratch window and press F9. ASYNC-CANCEL: focus it, press F9,
+wait one second, then press Escape. Do not close the window: the runner collects
+counters and retires its own instance. Use the interactive user desktop, not a
+sandbox desktop. Manual input is recorded separately from Python automation.
+The finite cancellation fixture lasts at most 10 seconds and reports both
+pending requests and active workers before cleanup. This does not establish
+all completion/cancellation interleavings. UNLOAD-RETRY requires both counts to
+be zero, asks Excel to deactivate the XLL using module-level UNREGISTER, checks
+an Excel error rather than the previous result, and registers twice in the same
+process. It does not claim an OS module-mapping audit or pending-worker unload.
 A basic reference-kind probe is not an xlCoerce read.
 Autonomous wake is not implemented (#30/#101). This is not a complete sweep.
 
