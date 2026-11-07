@@ -1459,6 +1459,7 @@ mod tests {
 
     #[test]
     fn successful_completion_is_at_most_once_and_preserves_handle() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         let controller = controller(executor.clone(), backend.clone(), 2, 7);
@@ -1481,6 +1482,7 @@ mod tests {
 
     #[test]
     fn completion_racing_cancellation_is_linearizable_and_retires_once() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         for _ in 0..32 {
             let executor = Arc::new(QueueExecutor::initialized());
             let backend = Arc::new(MockBackend::linked());
@@ -1534,6 +1536,7 @@ mod tests {
 
     #[test]
     fn excel_rejection_and_user_panic_each_retire_exactly_once() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         backend.accepted.store(false, Ordering::Release);
@@ -1555,6 +1558,7 @@ mod tests {
 
     #[test]
     fn excel_return_code_and_boolean_rejection_are_preserved() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         backend.accepted.store(false, Ordering::Release);
@@ -1606,6 +1610,7 @@ mod tests {
 
     #[test]
     fn stale_generation_cannot_complete_after_reopen_or_unlink() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let old_executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         let old = controller(old_executor.clone(), backend.clone(), 1, 1);
@@ -1650,6 +1655,7 @@ mod tests {
     }
     #[test]
     fn cancellation_during_materialization_prevents_return_and_duplicate_completion() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         let controller = controller(executor.clone(), backend.clone(), 1, 1);
@@ -1683,6 +1689,7 @@ mod tests {
 
     #[test]
     fn diagnostics_distinguish_acceptance_conversion_and_backend_failure() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let executor = Arc::new(QueueExecutor::initialized());
         let backend = Arc::new(MockBackend::linked());
         let controller = controller(executor.clone(), backend.clone(), 2, 41);
@@ -1728,5 +1735,58 @@ mod tests {
         assert_eq!(new.diagnostics().pending, 1);
         assert_eq!(new.diagnostics().calculation_canceled, 0);
         new.shutdown();
+    }
+
+    #[test]
+    fn shutdown_joins_a_worker_paused_after_result_allocation_without_publication() {
+        let _allocations = crate::return_alloc::allocation_test_guard();
+        struct ObservedPool {
+            pool: ThreadPoolExecutor,
+            shutdown_entered: Barrier,
+        }
+        impl AsyncExecutor for ObservedPool {
+            fn execute(&self, job: AsyncJob) -> Result<(), AsyncExecuteError> {
+                self.pool.execute(job)
+            }
+            fn shutdown(&self) {
+                self.shutdown_entered.wait();
+                self.pool.shutdown();
+            }
+        }
+        let executor = Arc::new(ObservedPool {
+            pool: ThreadPoolExecutor::new(1, 2).unwrap(),
+            shutdown_entered: Barrier::new(2),
+        });
+        let backend = Arc::new(MockBackend::linked());
+        let controller = controller(executor.clone(), backend.clone(), 1, 17);
+        let pause = Arc::new(SubmissionPause {
+            reached: Barrier::new(2),
+            release: Barrier::new(2),
+        });
+        *controller.before_return.lock().unwrap() = Some(pause.clone());
+        controller
+            .schedule(handle(1), Box::new(|_| Ok(number(1.0))))
+            .unwrap();
+        pause.reached.wait();
+        let (done_tx, done_rx) = mpsc::channel();
+        let closing = {
+            let controller = controller.clone();
+            std::thread::spawn(move || {
+                controller.shutdown();
+                done_tx.send(()).unwrap();
+            })
+        };
+        // This executor hook occurs after controller deactivation/cancellation.
+        executor.shutdown_entered.wait();
+        assert!(!controller.is_active(17));
+        assert!(matches!(done_rx.try_recv(), Err(mpsc::TryRecvError::Empty)));
+        assert!(backend.calls.lock().unwrap().is_empty());
+        pause.release.wait();
+        done_rx.recv_timeout(Duration::from_secs(2)).unwrap();
+        closing.join().unwrap();
+        assert!(backend.calls.lock().unwrap().is_empty());
+        assert_eq!(controller.accounting(), (0, 0));
+        assert_eq!(controller.diagnostics().completed, 0);
+        assert_eq!(executor.pool.lifecycle(), "Closed");
     }
 }

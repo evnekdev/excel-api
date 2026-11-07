@@ -642,6 +642,7 @@ mod tests {
         unregister_linked: Vec<bool>,
         free_calls: usize,
         fail_free: Option<usize>,
+        free_status: Option<i32>,
         reject_cleanup: Option<(i32, u32)>,
         cleanup_code: Option<(i32, i32)>,
     }
@@ -803,7 +804,7 @@ mod tests {
             } else if function == excel_api_sys::xlFree {
                 state.free_calls += 1;
                 if state.fail_free == Some(state.free_calls) {
-                    return excel_api_sys::xlretFailed;
+                    return state.free_status.unwrap_or(excel_api_sys::xlretFailed);
                 }
                 // SAFETY: xlFree receives one live C-API result root.
                 let root = unsafe { *arguments };
@@ -1250,10 +1251,7 @@ mod tests {
         assert_eq!(state.event_count, 2);
         assert_eq!(
             state.event_ids,
-            [
-                excel_api_sys::xleventCalculationCanceled,
-                excel_api_sys::xleventCalculationEnded,
-            ]
+            [2, 1] // Independent pinned XLCALL.H: canceled=2, ended=1.
         );
         crate::async_udf::reset_generations_for_test();
     }
@@ -1527,5 +1525,75 @@ mod tests {
         ));
         backend.state.lock().unwrap().reject_cleanup = None;
         runtime.close().unwrap();
+    }
+
+    #[test]
+    fn release_abort_defers_rollback_and_preserves_the_accepted_id() {
+        let _guard = runtime_test_guard();
+        for code in [
+            excel_api_sys::xlretAbort,
+            excel_api_sys::xlretUncalced | excel_api_sys::xlretFailed,
+        ] {
+            let backend = Arc::new(MockBackend::default());
+            {
+                let mut state = backend.state.lock().unwrap();
+                state.fail_free = Some(2);
+                state.free_status = Some(code);
+            }
+            let runtime = Runtime::with_backend(backend.clone());
+            assert!(matches!(
+                runtime.initialize(&ADD_IN),
+                Err(LifecycleError::RegistrationRollback {
+                    primary: ExcelCallError::RegistrationRelease { .. },
+                    ..
+                })
+            ));
+            assert_eq!(runtime.phase(), RuntimePhase::CleanupRequired);
+            assert_eq!(runtime.registration_ids(), [1.0]);
+            {
+                let mut state = backend.state.lock().unwrap();
+                assert_eq!(state.calls.len(), 4);
+                assert!(state.unregistered.is_empty());
+                state.fail_free = None;
+            }
+            runtime.close().unwrap();
+            assert_eq!(backend.state.lock().unwrap().unregistered, [1.0]);
+        }
+    }
+
+    #[test]
+    fn release_abort_after_cleanup_stops_and_does_not_repeat_accepted_side_effect() {
+        let _guard = runtime_test_guard();
+        for rejected in [false, true] {
+            let backend = Arc::new(MockBackend::default());
+            let runtime = Runtime::with_backend(backend.clone());
+            runtime.initialize(&ADD_IN).unwrap();
+            let before = {
+                let mut state = backend.state.lock().unwrap();
+                state.fail_free = Some(4);
+                state.free_status = Some(excel_api_sys::xlretAbort | excel_api_sys::xlretFailed);
+                if rejected {
+                    state.reject_cleanup =
+                        Some((excel_api_sys::xlfSetName, excel_api_sys::xltypeBool));
+                }
+                state.calls.len()
+            };
+            assert!(runtime.close().is_err());
+            {
+                let mut state = backend.state.lock().unwrap();
+                assert_eq!(state.calls.len(), before + 2);
+                assert!(state.unregistered.is_empty());
+                state.fail_free = None;
+                state.reject_cleanup = None;
+            }
+            runtime.close().unwrap();
+            let state = backend.state.lock().unwrap();
+            assert_eq!(state.unregistered, [2.0, 1.0]);
+            let name_calls = state.calls[before..]
+                .iter()
+                .filter(|(f, _)| *f == excel_api_sys::xlfSetName)
+                .count();
+            assert_eq!(name_calls, if rejected { 3 } else { 2 });
+        }
     }
 }

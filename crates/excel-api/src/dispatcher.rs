@@ -1063,6 +1063,20 @@ impl Drop for RunningRequestGuard {
     }
 }
 
+// Selection removes requests from the queue before execution. Return every
+// unstarted member on normal early exit or unwind; the existing state CAS and
+// generation gate exclude terminal, canceled and shutdown requests.
+struct SelectedBatchGuard<'a> {
+    controller: &'a DispatchController,
+    requests: &'a [Arc<Request>],
+}
+
+impl Drop for SelectedBatchGuard<'_> {
+    fn drop(&mut self) {
+        self.controller.requeue_selected(self.requests);
+    }
+}
+
 struct PendingConfig(DispatchConfig);
 
 #[derive(Default)]
@@ -1253,6 +1267,10 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
     }
     let kind = context.kind();
     let (selected, incompatible, expired) = generation.controller.select(kind);
+    let _batch = SelectedBatchGuard {
+        controller: &generation.controller,
+        requests: &selected,
+    };
     let mut report = DispatchDrainReport {
         selected: selected.len(),
         incompatible_skipped: incompatible,
@@ -1260,14 +1278,13 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
         ..DispatchDrainReport::default()
     };
     let started = Instant::now();
-    for (index, request) in selected.iter().enumerate() {
+    for request in &selected {
         if generation
             .controller
             .config
             .maximum_drain_duration
             .is_some_and(|limit| started.elapsed() >= limit)
         {
-            generation.controller.requeue_selected(&selected[index..]);
             report.duration_limit_reached = true;
             break;
         }
@@ -1327,9 +1344,6 @@ fn drain(context: DrainContext<'_, '_>) -> DispatchDrainReport {
         running.finish(result);
         report.processed += 1;
         if must_return {
-            generation
-                .controller
-                .requeue_selected(&selected[index + 1..]);
             report.return_to_excel_required = true;
             break;
         }
@@ -1498,6 +1512,7 @@ mod tests {
         linked: AtomicBool,
         calls: Mutex<Vec<(i32, usize)>>,
         code: std::sync::atomic::AtomicI32,
+        release_code: std::sync::atomic::AtomicI32,
         result: AtomicBool,
     }
 
@@ -1534,7 +1549,7 @@ mod tests {
         ) -> i32 {
             self.calls.lock().unwrap().push((function, count as usize));
             if function == excel_api_sys::xlFree {
-                return excel_api_sys::xlretSuccess;
+                return self.release_code.load(Ordering::Acquire);
             }
             // SAFETY: typed calls supply a live immediate result root.
             unsafe {
@@ -2026,6 +2041,37 @@ mod tests {
     }
 
     #[test]
+    fn unwind_requeues_the_unstarted_selected_tail() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        let (_guard, generation) = start(DispatchConfig::default());
+        let first = enqueue(value(1)).unwrap();
+        let second = enqueue(value(2)).unwrap();
+        let third = enqueue(value(3)).unwrap();
+        let backend = AbortBackend::linked();
+        let capability = CallCapability::new(&backend);
+        generation
+            .controller
+            .panic_after_start
+            .store(true, Ordering::Release);
+        assert!(
+            std::panic::catch_unwind(AssertUnwindSafe(
+                || MacroContext::new(&capability).drain_dispatcher()
+            ))
+            .is_err()
+        );
+        assert!(first.try_result().unwrap().is_err());
+        assert_eq!(generation.diagnostics().running, 0);
+        assert_eq!(generation.diagnostics().pending, 2);
+        assert_eq!(
+            MacroContext::new(&capability).drain_dispatcher().processed,
+            2
+        );
+        assert_owned(&second, 2);
+        assert_owned(&third, 3);
+        assert!(generation.controller.lock_state().registry.is_empty());
+    }
+
+    #[test]
     fn missing_running_operation_is_a_controlled_failure_and_shutdown_remains_live() {
         let _serial = TEST_SERIAL.lock().unwrap();
         let (_guard, generation) = start(DispatchConfig::default());
@@ -2190,6 +2236,7 @@ mod tests {
     #[test]
     fn command_operations_wait_for_command_origin_and_keep_owned_results() {
         let _serial = TEST_SERIAL.lock().unwrap();
+        let _allocations = crate::return_alloc::allocation_test_guard();
         let (_guard, _) = start(DispatchConfig::default());
         let backend = AbortBackend::linked();
         let capability = CallCapability::new(&backend);
@@ -2313,5 +2360,98 @@ mod tests {
             )))
         ));
         assert!(backend.calls.lock().unwrap().is_empty());
+    }
+
+    #[test]
+    fn release_abort_requeues_in_order_with_correct_capacity_and_cancellation() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        for code in [
+            excel_api_sys::xlretAbort,
+            excel_api_sys::xlretUncalced | excel_api_sys::xlretFailed,
+        ] {
+            let (_guard, generation) = start(DispatchConfig {
+                maximum_pending: 5,
+                maximum_drain_duration: None,
+                ..DispatchConfig::default()
+            });
+            let backend = AbortBackend::linked();
+            backend.release_code.store(code, Ordering::Release);
+            let capability = CallCapability::new(&backend);
+            let prefix =
+                enqueue(DispatchOperation::TestEnqueueNested(ExcelValue::Integer(9))).unwrap();
+            let failed = enqueue(DispatchOperation::CalculateNow).unwrap();
+            let canceled = enqueue(DispatchOperation::CalculateNow).unwrap();
+            let tail = enqueue(value(7)).unwrap();
+            let report = MacroContext::new(&capability).drain_dispatcher();
+            assert_eq!((report.processed, report.failed), (2, 1));
+            assert!(report.return_to_excel_required);
+            assert_owned(&prefix, 9);
+            assert!(failed.try_result().unwrap().is_err());
+            assert_eq!(
+                backend.calls.lock().unwrap().as_slice(),
+                &[(32799, 0), (16384, 1)]
+            );
+            {
+                let state = generation.controller.lock_state();
+                let ids: Vec<_> = state.pending.iter().map(|r| r.id).collect();
+                assert_eq!(ids, [canceled.id(), tail.id(), tail.id() + 1]);
+                assert_eq!(state.registry.len(), 3);
+            }
+            let fourth = enqueue(value(4)).unwrap();
+            let fifth = enqueue(value(5)).unwrap();
+            assert!(matches!(
+                enqueue(value(6)),
+                Err(DispatchEnqueueError::QueueFull)
+            ));
+            assert_eq!(canceled.cancel(), DispatchCancelOutcome::Canceled);
+            let sixth = enqueue(value(6)).unwrap();
+            backend.release_code.store(0, Ordering::Release);
+            assert_eq!(
+                MacroContext::new(&capability).drain_dispatcher().processed,
+                5
+            );
+            assert_owned(&tail, 7);
+            assert_owned(&fourth, 4);
+            assert_owned(&fifth, 5);
+            assert_owned(&sixth, 6);
+            assert_eq!(backend.calls.lock().unwrap().len(), 2);
+            assert!(generation.controller.lock_state().registry.is_empty());
+        }
+    }
+
+    #[test]
+    fn requeue_cannot_duplicate_cancel_or_resurrect_shutdown_work() {
+        let _serial = TEST_SERIAL.lock().unwrap();
+        for cancel_first in [false, true] {
+            for shutdown_first in [false, true] {
+                let (_guard, generation) = start(DispatchConfig::default());
+                let canceled = enqueue(value(1)).unwrap();
+                let remaining = enqueue(value(2)).unwrap();
+                let (selected, _, _) = generation.controller.select(DispatchCallbackKind::Macro);
+                if cancel_first {
+                    assert_eq!(canceled.cancel(), DispatchCancelOutcome::Canceled);
+                }
+                if shutdown_first {
+                    shutdown();
+                }
+                generation.controller.requeue_selected(&selected);
+                generation.controller.requeue_selected(&selected);
+                if !cancel_first {
+                    canceled.cancel();
+                }
+                if !shutdown_first {
+                    shutdown();
+                }
+                assert_eq!(
+                    remaining.try_result(),
+                    Some(Err(DispatchCompletionError::DispatcherShutdown))
+                );
+                assert!(canceled.try_result().unwrap().is_err());
+                let state = generation.controller.lock_state();
+                assert!(!state.active);
+                assert!(state.pending.is_empty());
+                assert!(state.registry.is_empty());
+            }
+        }
     }
 }

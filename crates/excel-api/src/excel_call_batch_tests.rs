@@ -623,3 +623,55 @@ fn backend_failures_are_not_promoted_to_success_or_spurious_releases() {
     ));
     assert_eq!(*backend.releases.lock().unwrap(), 0);
 }
+
+#[test]
+fn return_to_excel_status_survives_every_release_error_wrapper() {
+    for code in [
+        excel_api_sys::xlretAbort,
+        excel_api_sys::xlretUncalced | excel_api_sys::xlretFailed,
+        excel_api_sys::xlretFailed,
+    ] {
+        let release = crate::ExcelReleaseError::ExcelCallFailure { code };
+        let errors = [
+            ExcelCallError::ExcelFailure {
+                function: "fixture",
+                code: ExcelReturnCode(code),
+            },
+            ExcelCallError::RegistrationRelease {
+                id_bits: 1.0_f64.to_bits(),
+                release: release.clone(),
+            },
+            ExcelCallError::AcceptedCleanupRelease {
+                function: "fixture",
+                release: release.clone(),
+            },
+            ExcelCallError::CleanupRejected {
+                function: "fixture",
+                actual_type: 4,
+                excel_error: None,
+                release: Some(release.clone()),
+            },
+            ExcelCallError::ResultRelease(release.clone()),
+            ExcelCallError::ResultConversion(crate::ExcelOwnedConversionError::Release(
+                release.clone(),
+            )),
+            ExcelCallError::ResultConversion(
+                crate::ExcelOwnedConversionError::ConversionAndRelease {
+                    conversion: crate::ConversionError::UnsupportedReference,
+                    release,
+                },
+            ),
+        ];
+        for error in errors {
+            assert_eq!(
+                error.requires_return_to_excel(),
+                code != excel_api_sys::xlretFailed,
+                "{error:?}"
+            );
+        }
+    }
+    assert!(
+        !ExcelCallError::ResultRelease(crate::ExcelReleaseError::BackendUnavailable)
+            .requires_return_to_excel()
+    );
+}

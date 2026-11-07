@@ -474,7 +474,24 @@ pub enum ExcelCallError {
 
 impl ExcelCallError {
     pub(crate) fn requires_return_to_excel(&self) -> bool {
-        matches!(self, Self::ExcelFailure { code, .. } if code.0 & (excel_api_sys::xlretAbort | excel_api_sys::xlretUncalced) != 0)
+        fn stops(code: i32) -> bool {
+            code & (excel_api_sys::xlretAbort | excel_api_sys::xlretUncalced) != 0
+        }
+        fn release_stops(error: &crate::ExcelReleaseError) -> bool {
+            matches!(error, crate::ExcelReleaseError::ExcelCallFailure { code } if stops(*code))
+        }
+        match self {
+            Self::ExcelFailure { code, .. } => stops(code.0),
+            Self::RegistrationRelease { release, .. }
+            | Self::AcceptedCleanupRelease { release, .. }
+            | Self::ResultRelease(release) => release_stops(release),
+            Self::CleanupRejected { release, .. } => release.as_ref().is_some_and(release_stops),
+            Self::ResultConversion(
+                crate::ExcelOwnedConversionError::Release(release)
+                | crate::ExcelOwnedConversionError::ConversionAndRelease { release, .. },
+            ) => release_stops(release),
+            _ => false,
+        }
     }
 }
 
