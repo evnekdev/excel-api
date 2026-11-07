@@ -1,0 +1,159 @@
+{
+  "run_id": "20261107T061230Z-f37e8174",
+  "environment": {
+    "windows": "Windows-10-10.0.26300-SP0",
+    "python": "3.11.7",
+    "python_arch": "x64",
+    "windows_arch": "AMD64",
+    "pywin32": true,
+    "excel_executable": "EXCEL.EXE",
+    "excel_arch": "x64",
+    "xll": {
+      "path": "acceptance-final.xll",
+      "architecture": "x64",
+      "sha256": "442ae0317658de9311fb4bfcd3483dedff94f5959a5ecf4f39303f7b8690a158"
+    },
+    "excel_file_version": "16.0.20527.20150",
+    "source_revision": "5184572a13aba3406a7d308f9d08fc5f90e36ffd",
+    "source_binary_provenance": "not independently established",
+    "runner_sha256": "f8676060e48cd50e024c0774f5a437edaf599a69845bad99ce61b820594abd9b",
+    "existing_excel_pids": []
+  },
+  "preflight_errors": [],
+  "scenarios": [
+    {
+      "id": "REG-ADD",
+      "area": "registration",
+      "expected": "RUST.ADD(2,3) equals 5",
+      "status": "PASS",
+      "observed": "5.0",
+      "elapsed_seconds": 6.0,
+      "log": "REG-ADD.log"
+    },
+    {
+      "id": "VALUE-TEXT",
+      "area": "values",
+      "expected": "Unicode echo round trips",
+      "status": "PASS",
+      "observed": "'A\u00e9\u6c34\ud83d\ude00'",
+      "elapsed_seconds": 5.36,
+      "log": "VALUE-TEXT.log"
+    },
+    {
+      "id": "VALUE-OPTION",
+      "area": "values",
+      "expected": "An omitted optional argument is missing",
+      "status": "PASS",
+      "observed": "'missing'",
+      "elapsed_seconds": 5.453,
+      "log": "VALUE-OPTION.log"
+    },
+    {
+      "id": "REF-KIND",
+      "area": "references",
+      "expected": "A worksheet reference reaches the function",
+      "status": "PASS",
+      "observed": "'SRef'",
+      "elapsed_seconds": 5.859,
+      "log": "REF-KIND.log"
+    },
+    {
+      "id": "COMMAND",
+      "area": "registration",
+      "expected": "The registered ping command executes",
+      "status": "PASS",
+      "observed": "1.0",
+      "elapsed_seconds": 5.875,
+      "log": "COMMAND.log"
+    },
+    {
+      "id": "QUEUE",
+      "area": "dispatcher",
+      "expected": "Worker work waits for an explicit command pump",
+      "status": "PASS",
+      "observed": "'completed;kind=text;generation=1;request=1;last_pump_processed=1'",
+      "elapsed_seconds": 5.641,
+      "log": "QUEUE.log"
+    },
+    {
+      "id": "ASYNC",
+      "area": "async",
+      "expected": "Async double completes with 14",
+      "status": "PASS",
+      "observed": "14.0",
+      "elapsed_seconds": 6.312,
+      "log": "ASYNC.log"
+    },
+    {
+      "id": "REF-READ",
+      "area": "references",
+      "expected": "xlCoerce reads a scratch cell",
+      "status": "PASS",
+      "observed": "42.0",
+      "elapsed_seconds": 5.641,
+      "log": "REF-READ.log"
+    },
+    {
+      "id": "REF-WRITE",
+      "area": "references",
+      "expected": "Command-only xlSet writes and clears J1",
+      "status": "PASS",
+      "observed": "None",
+      "elapsed_seconds": 5.562,
+      "log": "REF-WRITE.log"
+    },
+    {
+      "id": "DOC",
+      "area": "document",
+      "expected": "Active workbook name matches scratch workbook",
+      "status": "PASS",
+      "observed": "'Book1'",
+      "elapsed_seconds": 5.625,
+      "log": "DOC.log"
+    },
+    {
+      "id": "CALC",
+      "area": "calculation",
+      "expected": "Command calculates dirty formula in manual mode",
+      "status": "PASS",
+      "observed": "11.0",
+      "elapsed_seconds": 5.719,
+      "log": "CALC.log"
+    },
+    {
+      "id": "HELP",
+      "area": "help",
+      "expected": "Function with HelpTopic supplement registers and calculates",
+      "status": "PASS",
+      "observed": "17.0",
+      "elapsed_seconds": 5.609,
+      "log": "HELP.log"
+    },
+    {
+      "id": "EVENTS",
+      "area": "events",
+      "expected": "Observe calculation-ended callback after F9",
+      "status": "BLOCKED",
+      "observed": "No calculation-ended notification observed after posted F9; UI delivery is not guaranteed",
+      "elapsed_seconds": 11.5,
+      "log": "EVENTS.log"
+    },
+    {
+      "id": "CLEANUP",
+      "area": "lifecycle",
+      "expected": "Fresh-session registration and owned process exit",
+      "status": "PASS",
+      "observed": "5.0",
+      "elapsed_seconds": 5.985,
+      "log": "CLEANUP.log"
+    },
+    {
+      "id": "WAKE",
+      "area": "dispatcher",
+      "expected": "Autonomous wake (#30/#101; not implemented)",
+      "status": "BLOCKED",
+      "observed": "autonomous wake is not implemented (#30/#101)",
+      "elapsed_seconds": 0
+    }
+  ]
+}

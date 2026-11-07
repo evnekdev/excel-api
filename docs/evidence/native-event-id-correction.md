@@ -35,3 +35,25 @@ Cancellation/races, protected/stale/array-formula targets, full document selecto
 coverage, Function Wizard rendering, and same-process unload/retry still require
 additional acceptance work under #126. Autonomous wake remains unimplemented.
 x86 remains separate under #85. No CI or screenshot tools were used.
+
+## Frozen rerun
+
+Source/harness `5184572a13aba3406a7d308f9d08fc5f90e36ffd`, built with
+`cargo build -p minimal-xll --release --features native-acceptance`.
+XLL SHA-256 `442ae0317658de9311fb4bfcd3483dedff94f5959a5ecf4f39303f7b8690a158`.
+Command: `python tests/native_excel/run_acceptance.py --xll target/release/acceptance-final.xll --timeout 45 --output target/native-final`.
+Run `20261107T061230Z-f37e8174`: **13 PASS, 0 FAIL, 2 BLOCKED, 0 NOT RUN**.
+All implemented basic assertions passed except EVENTS (posted F9 did not produce
+an observed callback). WAKE is explicitly BLOCKED/unimplemented. Exact expected,
+observed and duration fields are preserved in `native-event-id-results.json`;
+executable paths are reduced to filenames. Detailed raw logs remain in the run's
+local target directory. CLEANUP means fresh-session execution and observed exit,
+not same-process cleanup/retry acceptance. HELP means the supplemented function
+registered and evaluated, not visible wizard or resource-opening acceptance.
+
+Verification: Python unittest discovery passed 11 tests; workspace cargo check
+and tests with all features passed; focused strict Clippy for excel-api and
+minimal-xll/native-acceptance passed. Workspace strict Clippy failed on unchanged
+RTD fetch_update deprecations. Cargo fmt --all and git diff --check passed.
+Initial fixture metadata-order tests and the harness's obsolete NOT RUN
+expectation failed during development; both were corrected and rerun successfully.
