@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Native Excel acceptance report (partial runner)",
+  "type": "object",
+  "required": ["run_id", "environment", "preflight_errors", "scenarios"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "environment": {"type": "object"},
+    "preflight_errors": {"type": "array", "items": {"type": "string"}},
+    "scenarios": {"type": "array", "items": {
+      "type": "object", "required": ["id", "area", "expected", "status", "observed", "elapsed_seconds"],
+      "properties": {
+        "id": {"type": "string"}, "area": {"type": "string"},
+        "expected": {"type": "string"}, "observed": {"type": "string"},
+        "status": {"enum": ["PASS", "FAIL", "BLOCKED", "NOT RUN"]},
+        "elapsed_seconds": {"type": "number", "minimum": 0}, "log": {"type": "string"}
+      }
+    }}
+  }
+}

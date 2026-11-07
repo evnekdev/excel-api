@@ -1,0 +1,6 @@
+{
+  "note": "Illustrative values only; pass them as CLI arguments, not as a configuration file.",
+  "xll": "C:\\ExcelTests\\minimal_xll.xll",
+  "output": "C:\\ExcelTests\\results",
+  "timeout_seconds": 90
+}
