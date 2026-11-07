@@ -31,6 +31,7 @@ SCENARIOS = {
     "DOC": ("document", "Active workbook name matches scratch workbook", True),
     "CALC": ("calculation", "Command calculates dirty formula in manual mode", True),
     "HELP": ("help", "Function with HelpTopic supplement registers and calculates", True),
+    "HELP-WIZARD": ("help", "Function Wizard exposes function and argument descriptions", True),
     "EVENTS": ("events", "Observe calculation-ended callback after F9", True),
     "CLEANUP": ("lifecycle", "Fresh-session registration and owned process exit", True),
     "WAKE": ("dispatcher", "Autonomous wake (#30/#101; not implemented)", False),
@@ -140,20 +141,20 @@ def worker(scenario, xll, event_file):
             out.write(message + "\n")
     app = book = None
     owned = False
+    owned_pid = None
     async_pending = False
     original = {}
     try:
         before = process_ids()
-        if before:
-            raise RuntimeError("Existing Excel processes detected; isolation cannot be guaranteed")
-        event("activation started; no existing Excel process")
+        event(f"activation started; pre-existing Excel PIDs={sorted(before)}; these will not be touched")
         import win32com.client
         app = win32com.client.DispatchEx("Excel.Application")
         hwnd = int(app.Hwnd)
         pid = ctypes.c_ulong()
-        if not ctypes.windll.user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid)) or not pid.value or pid.value in before or process_ids() != {pid.value}:
+        if not ctypes.windll.user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid)) or not isolated_pid(before, process_ids(), pid.value):
             raise RuntimeError("Excel application process ownership could not be established")
         owned = True
+        owned_pid = pid.value
         event(f"owned Excel application hwnd={hwnd} pid={pid.value}; version={app.Version}; build={app.Build}")
         for name in ("DisplayAlerts", "ScreenUpdating"):
             original[name] = getattr(app, name)
@@ -174,7 +175,53 @@ def worker(scenario, xll, event_file):
             event(f"RegisteredFunctions rows containing RUST.ADD: {matches[:3]!r}")
         except Exception as exc:
             event(f"RegisteredFunctions inspection unavailable: {exc}")
-        if scenario == "EVENTS":
+        if scenario == "HELP-WIZARD":
+            original["Visible"] = app.Visible
+            app.Visible = True
+            app.ScreenUpdating = True
+            app.DisplayAlerts = True
+            sheet.Range("A1").Formula = "=RUST.TEST.HELP(17)"
+            sheet.Range("A1").Select()
+            import threading
+            import win32gui
+            import win32process
+            labels = []
+            dialog_titles = set()
+            def inspect_dialog():
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    windows = []
+                    win32gui.EnumWindows(lambda h, _: windows.append(h), None)
+                    for window in windows:
+                        if win32process.GetWindowThreadProcessId(window)[1] != owned_pid:
+                            continue
+                        dialog_titles.add((win32gui.GetClassName(window), win32gui.GetWindowText(window)))
+                        if win32gui.GetWindowText(window) != "Function Arguments":
+                            continue
+                        time.sleep(.3)
+                        win32gui.EnumChildWindows(window, lambda h, _: labels.append(win32gui.GetWindowText(h)), None)
+                        script = ("[Console]::OutputEncoding=[Text.UTF8Encoding]::new(); "
+                                  "Add-Type -AssemblyName UIAutomationClient; "
+                                  f"$root=[System.Windows.Automation.AutomationElement]::FromHandle([intptr]{window}); "
+                                  "$root.FindAll([System.Windows.Automation.TreeScope]::Subtree,[System.Windows.Automation.Condition]::TrueCondition) | ForEach-Object { $_.Current.Name }")
+                        try:
+                            ui = subprocess.run(["powershell", "-NoProfile", "-Command", script], capture_output=True, encoding="utf-8", errors="replace", timeout=8)
+                            labels.extend(ui.stdout.splitlines())
+                        except subprocess.TimeoutExpired:
+                            labels.append("UI Automation observation timed out")
+                        win32gui.PostMessage(window, 0x0010, 0, 0)
+                        return
+                    time.sleep(.1)
+            watcher = threading.Thread(target=inspect_dialog, daemon=True)
+            watcher.start()
+            sheet.Range("A1").FunctionWizard()
+            watcher.join(timeout=11)
+            event("owned wizard-window inventory: " + repr(sorted(dialog_titles)))
+            observed = " | ".join(x for x in labels if x)
+            event("wizard labels: " + observed[:4000])
+            if "Acceptance help metadata" not in observed or "Acceptance argument" not in observed:
+                raise RuntimeError("Expected wizard descriptions were not accessible through native child-window text")
+        elif scenario == "EVENTS":
             original["Visible"] = app.Visible
             app.Visible = True
             sheet.Range("A1").Formula = "=RUST.TEST.EVENTS()"
@@ -294,7 +341,12 @@ def worker(scenario, xll, event_file):
                 event("cleanup incomplete: " + "; ".join(cleanup_errors))
                 if result["status"] == "PASS": result["status"] = "BLOCKED"
                 result["observed"] += "; cleanup incomplete: " + "; ".join(cleanup_errors)
+    result["owned_pid"] = owned_pid
     return result
+
+
+def isolated_pid(before, after, pid):
+    return bool(pid and pid not in before and after - before == {pid})
 
 
 def main():
@@ -346,9 +398,10 @@ def main():
                     # Excel can take a short interval to exit after its last COM
                     # proxy is released. Observe only; never kill a process.
                     deadline = time.monotonic() + 15
-                    while process_ids() and time.monotonic() < deadline:
+                    owned_pid = entry.get("owned_pid")
+                    while owned_pid and owned_pid in process_ids() and time.monotonic() < deadline:
                         time.sleep(.25)
-                    if process_ids() and entry["status"] == "PASS":
+                    if owned_pid and owned_pid in process_ids() and entry["status"] == "PASS":
                         entry.update(status="BLOCKED", observed=entry["observed"] + "; Excel process exit not observed")
                 except subprocess.TimeoutExpired:
                     entry.update(status="BLOCKED", observed="worker timed out; Excel process ownership may be unknown; no Excel process was terminated")

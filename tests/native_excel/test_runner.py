@@ -47,9 +47,15 @@ class RunnerTests(unittest.TestCase):
             self.assertTrue(any("valid XLL" in e for e in runner.validate_environment(env)))
 
     def test_conflicting_process_blocks_before_com(self):
-        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(runner, "process_ids", return_value={42}):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(runner, "process_ids", return_value={42}), mock.patch("win32com.client.DispatchEx", side_effect=RuntimeError("activation unavailable")):
             result = runner.worker("REG-ADD", "dummy", str(Path(tmp) / "event.log"))
         self.assertEqual(result["status"], "BLOCKED")
+
+    def test_isolation_with_existing_process_never_adopts_it(self):
+        self.assertTrue(runner.isolated_pid({42}, {42, 77}, 77))
+        self.assertFalse(runner.isolated_pid({42}, {42}, 42))
+        self.assertFalse(runner.isolated_pid({42}, {42, 77, 88}, 77))
+        self.assertFalse(runner.isolated_pid(set(), {77}, 0))
 
     def test_process_identity_mismatch_never_quits(self):
         app = mock.Mock()

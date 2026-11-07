@@ -20,9 +20,10 @@ Autonomous wake is not implemented (#30/#101). This is not a complete sweep.
 
 ## Requirements and execution (Windows CMD)
 
-- Windows desktop Excel and a matching, trusted XLL, with no Excel processes
-  running. Save and close other Excel sessions before running. The runner
-  refuses existing instances; it never changes global Office security.
+- Windows desktop Excel and a matching, trusted XLL. The runner records all
+  pre-existing Excel PIDs and never attaches to or closes them. DispatchEx must
+  return a window belonging to the sole newly created PID; reused or ambiguous
+  instances are rejected. It never changes global Office security.
 - Python 3.9 or newer and pywin32. Install in an isolated virtual environment,
   or prepare a wheelhouse on a connected machine and transfer it with the
   bundle. A fresh Python environment can use:
@@ -55,12 +56,12 @@ of XLL provenance. Record an independently reproducible source/build chain.
 
 Every implemented probe runs in a separate worker with an overall deadline
 (`--timeout`, 90 seconds by default). The worker checks process inventory,
-uses DispatchEx and verifies the returned window PID against the initially
-empty inventory before touching a scratch workbook or requesting Quit. If
+uses DispatchEx and verifies the returned window PID against the initial
+inventory before touching a scratch workbook or requesting Quit. If
 activation hangs, the parent stops only its Python worker and does not kill
 Excel; inspect Task Manager and any unsaved work before manually closing an
-unknown Excel process. If a later probe sees an existing Excel process it
-blocks. Cleanup restores changed application settings and closes only the
+unknown Excel process. Existing PIDs remain untouched; an ambiguous new-process
+inventory blocks the probe. Cleanup restores changed application settings and closes only the
 scratch workbook. A timeout or failed cleanup is not a successful test.
 
 The CLEANUP probe checks a fresh session and observes process exit; it does not
