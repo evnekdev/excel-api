@@ -230,6 +230,12 @@ the queue in order and `return_to_excel_required` is set. The caller must return
 Excel, not immediately drain again or invoke another API. No global capability
 poisoning or guarantee about consumer behavior is introduced.
 
+Independent review extends that stop check through result-release and compound
+conversion/release errors, including bit-combined statuses. A private batch guard
+also returns still-selected work on unwind; the existing running guard retires
+only the current operation. Both paths use the same active-generation/state-CAS
+requeue rules, preserving cancellation, capacity and non-resurrection guarantees.
+
 Example producer (no Excel API is called while enqueueing):
 
 ```rust

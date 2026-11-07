@@ -119,3 +119,163 @@ validator (lines 41, 414, 420). The validate job passed formatting then failed
 Clippy on the unchanged OnTime fetch_update deprecation (line 90); later test,
 ABI and packaging steps were skipped. No native Excel execution occurred.
 This evidence-only corrective commit uses [skip ci], with no workflow changes.
+
+## Independent Sol review (2026-11-07)
+
+Starting fetched master: `d5ef74b0e4ccd097d72cea42e47eaa2e1ba0d70e`.
+Fetched Astra tip: `065efa907523224fce15a7004b2aaaa60a5cdeab`, four commits
+ahead / zero behind master, no existing PR, and no part of this batch already
+merged. Review branch: `codex/review-async-dispatch-lifecycle`.
+Corrections and seven additional regressions:
+[`4f7e7eff3b8fd2e1866a7b1ce702f4ac78f50490`](https://github.com/evnekdev/excel-api/commit/4f7e7eff3b8fd2e1866a7b1ce702f4ac78f50490).
+Astra's two implementation and two evidence commits remain ancestors, without
+rewrite. The containing evidence commit identifies this review record; final
+PR/merge SHA and remote-tree verification are recorded on #131-#134.
+
+### Findings, corrections and regression evidence
+
+| Severity / owner | Finding at Astra tip | Correction and evidence |
+| --- | --- | --- |
+| High / #131, #133 | `ExcelCallError::requires_return_to_excel` recognized only direct ExcelFailure. Abort/Uncalced from xlFree was nested in release/conversion errors, so rollback, close or a drain could issue another prohibited callback. | Inspect all release-bearing error forms, including compound conversion/release and rejected cleanup. Keep raw bit-combined codes. Two runtime regressions failed before correction: close continued after release Abort, and registration-release Abort rolled back to Uninitialized instead of retaining the accepted ID for a later callback. Both now pass. Predicate and queue tests also cover combined codes, non-stop failures, accepted/rejected cleanup, no duplicate release or accepted side effect. Microsoft [Calling into Excel](https://learn.microsoft.com/en-us/office/client-developer/excel/calling-into-excel-from-the-dll-or-xll) requires returning control after either status; the fact that the failing operation was xlFree does not permit a subsequent unregister/write. |
+| Medium / #133 | `drain` protected the running request but not its selected tail on unwind. Remaining SELECTED requests were absent from the queue and could remain pending until explicit cancellation/close. | Private SelectedBatchGuard uses the existing requeue CAS on normal early return and unwind. `unwind_requeues_the_unstarted_selected_tail` failed before correction (pending 0 versus 2) and passes after it. The running guard still publishes one failure; the untouched tail executes later. No queue or notification subsystem was replaced. |
+| Regression coverage / #132 | The existing post-materialization cancellation test did not demonstrate shutdown joining a worker already holding an allocated result. | A barrier-observed wrapper around the real ThreadPoolExecutor pauses that worker before Returning, commits controller shutdown/cancellation, proves close has not finished, then releases the worker. No callback occurs; close joins it, capacity reaches zero, and the pool is Closed. Async and write tests which materialize results share the existing allocation-counter test lock; production allocation code is unchanged. |
+| Independent oracle / #134 | The event expectation used the implementation constants directly. | The registration/reopen regression now expects literal canceled=2, ended=1 from pinned XLCALL.H:317-318. The SDK, constants and event ABI remain unchanged. |
+
+The new queue regression stops after a command result's xlFree Abort/Uncalced,
+preserves the failed ticket's error, returns selected work in order ahead of work
+enqueued during the drain, verifies capacity accounting, cancels requeued work,
+and proves no subsequent Excel callback executes. Cancellation and shutdown
+permutations plus repeated requeue verify that terminal requests are neither
+duplicated nor resurrected. These supplement the existing barrier-controlled
+Selected/Running shutdown, generation, reentrancy, expiry and panic tests.
+
+### Independent lifecycle and concurrency assessment
+
+Registration results are inspected before release. A valid numeric ID survives
+release failure exactly as IEEE-754 bits and enters the cleanup obligation list;
+neither an ID nor successful host state is invented for malformed/ambiguous
+results. Name deletion and unregister have independent pending flags. Boolean
+TRUE clears only its accepted obligation, even if release fails; FALSE/error or
+malformed feedback retains the unresolved obligation. Both rollback and close
+use the same loop. CleanupRequired prevents reopen; a later close retries only
+unresolved work. An error with all side effects resolved can require one later
+close to acknowledge it, without repeating those calls. The new nested-status
+handling stops that loop even when the status originated in result release.
+
+Async admission/acceptance and shutdown share the controller mutex; workers
+cannot start under that lock. Running->Completing accepts one completion attempt.
+Cancellation's CAS from Completing competes with Completing->Returning; only
+the latter commits publication, after preparation. A cancellation which wins
+suppresses publication. Preparation failure also retires without publication.
+Shutdown deactivates the old controller, requests cancellation and joins accepted
+executor work before backend unlink. A return whose permission check precedes
+shutdown can finish while close waits, but cannot outlive the executor join.
+The retired bit and identity-checked registry removal bound retirement to once.
+No controller/global mutex is held across Excel calls or executor joins.
+
+Diagnostics count accepted async return calls, preparation/backend failures,
+retained requests and notifications separately. Relaxed counters plus the request
+mutex provide an observational snapshot, not a simultaneous transaction or durable
+cell-delivery receipt. Task failures mapped to an Excel error can still count as
+accepted returns. Controllers own their counters; old captured Rust controllers
+do not affect replacements. Workers use only xlAsyncReturn, retain Rust-owned
+result storage across that synchronous call, and never transfer it with DLLFree
+or free the opaque handle. Existing void/X metadata and generated thunks are
+unchanged. Cooperative executor contracts and indefinitely blocked user tasks
+remain limits, not newly solved problems.
+
+Dispatcher selection/start commit under its mutex, checking active generation
+and request identity. Registry accounting includes queued/selected/running work.
+Cancellation can win before Running; shutdown deactivates before retirement;
+requeue operates on that same controller and CASes only SELECTED members. The new
+batch guard cannot redirect work to another generation. Command requirements
+permit only genuine command origin; MacroSheet, worksheet, MTR and lifecycle
+cannot run those operations. Context-neutral work remains permitted. The sealed
+catalogue owns arguments and reuses PR #130 typed calls; it accepts no arbitrary
+Excel IDs or context closures. A drain's return_to_excel_required is caller
+guidance to return, not permission to immediately redrain or a global poison gate.
+
+Event registration matches [xlEventRegister](https://learn.microsoft.com/en-us/office/client-developer/excel/xleventregister):
+procedure string, integer event, two arguments and positive integer acceptance.
+No invented removal operation is used. Registered procedures remain parameterless,
+panic-contained and make no Excel calls or dispatcher cancellation. Inactive Rust
+controllers ignore new notifications; counters and requests remain generation
+owned. A host callback delivered after reopen has no epoch and cannot be proved
+stale: preserve that native #126 requirement. Microsoft [Handling Events](https://learn.microsoft.com/en-us/office/client-developer/excel/handling-events)
+says programmatic recalculation does not raise these notifications; no universal
+calculation-completion barrier is claimed.
+
+Hidden-name deletion's documented host issue, unusable registration IDs, ambiguous
+transport failure, unrecoverable allocations after failed release and xlAutoClose
+unload control remain explicit limits. The existing public lifecycle methods
+still rely on their genuine-callback contract; no broad constructor redesign was
+made. Native cleanup and unload success remain unverified.
+
+### Complete diff, architecture and compatibility
+
+Reviewed all ten original changed files and surrounding runtime/ownership/context
+code: async_udf, dispatcher, excel_call, runtime, dispatch_demo, three architecture
+documents, SUPPORT_MATRIX and this evidence. Review corrections add only focused
+tests in the existing call-test module. Public API snapshots from starting master
+and review were independently generated with cargo-public-api, in separate named
+worktrees, and compared. No public item/signature was removed or changed. Added
+AsyncDiagnostics/function, cleanup error variants, command operations/results,
+MacroSheet and report field are visible in that diff. **Enum additions break
+exhaustive downstream matches, and the report field breaks complete struct literals**;
+they are not described as universally source-compatible. Minimal-XLL's display
+match handles CommandAccepted, and the full workspace compiles/tests. No release
+compatibility guarantee for every external consumer is inferred.
+
+The same three core crates remain sufficient. No host adapter, COM dependency,
+dependency/feature change, export/ABI change, duplicate runtime, cancellation
+registry or autonomous wake was added. PR #130 capability safety, confinement
+and ownership protections remain intact. H3/Application.Run remains the preferred
+future adapter topology, with #30/#101 unresolved; this batch implements no adapter.
+
+### Independent verification and CI investigation
+
+Windows x64 MSVC, stable rustc 1.99.1; declared core MSRV checked with installed
+Rust 1.85.0. Initial sandbox execution denial for that older compiler was resolved
+by scoped execution permission; the completed results below are actual runs.
+
+| Exact command / inspection | Independent result |
+| --- | --- |
+| `cargo fmt --all` | PASS; formatting applied |
+| `cargo check --workspace --all-targets --all-features --offline` | PASS, exit 0; unchanged optional example warnings |
+| `cargo test -p excel-api --all-features --offline release_abort -- --nocapture` before correction | FAIL, both new lifecycle regressions; corrected rerun without nocapture PASS |
+| `cargo test -p excel-api --all-features --offline unwind_requeues_the_unstarted_selected_tail -- --nocapture` before correction | FAIL, selected tail stranded; corrected rerun PASS |
+| `cargo test -p excel-api --all-features --offline` | PASS: 180 core unit, 7 metadata, 36 doctest entries |
+| `cargo test --workspace --all-features --offline` | PASS: 379 entries, 0 failures, 30 live-host tests ignored; includes macro/trybuild/minimal-XLL tests |
+| `cargo clippy -p excel-api-sys -p excel-api -p excel-api-macros --all-targets --all-features --offline -- -D warnings` | PASS |
+| `cargo clippy --workspace --all-targets --all-features --offline -- -D warnings` | FAIL, exit 101: unchanged OnTime:90 and RTD server.rs:599/608/728 deprecated fetch_update |
+| Same workspace Clippy command in baseline worktree at d5ef74b | FAIL, same OnTime:90; stopped before RTD diagnostics |
+| `cargo clippy -p excel-api-minimal-rtd --all-targets --all-features --offline -- -D warnings` in baseline worktree | FAIL, same three RTD deprecations; failing files byte-identical to review |
+| `cargo +1.85.0 check --workspace --all-targets --all-features --offline` in baseline worktree | FAIL, exit 101: unchanged inventory validate.rs let chains at 41/414/420, matching CI |
+| `cargo +1.85.0 check -p excel-api-sys -p excel-api -p excel-api-macros --all-targets --all-features --offline` | PASS; no core MSRV regression found |
+| `cargo public-api -p excel-api --all-features --simplified --color never` in both named worktrees, text diff | PASS generation/comparison; documented additions only, no detached checkout |
+| `RUSTDOCFLAGS="-D warnings -D rustdoc::broken_intra_doc_links" cargo doc -p excel-api-sys -p excel-api -p excel-api-macros --all-features --no-deps --offline` | PASS; environment set in PowerShell |
+| `git diff --check` and protected-path diff against d5ef74b | PASS; Cargo manifests/lockfile, macros/sys, SDK, ABI-checker and canonical/historical evidence untouched |
+| SDK ABI checker / C API catalogue validator | NOT RUN as requested: all their inputs/dependencies unchanged; this is not a new ABI/catalogue PASS |
+| New CI execution, native Excel, x86, installers/releases | NOT RUN |
+
+The earlier unintended [CI run 42313476068](https://github.com/evnekdev/excel-api/actions/runs/42313476068)
+**did occur**, on Astra evidence tip 9b8facb4. Independently fetched both job logs:
+MSRV job 128220323298 failed Rust 1.85 with E0658 at inventory validate.rs:41/414/420;
+validate job 128220323597 passed formatting and failed Clippy at OnTime:90.
+Later CI tests, ABI, export/build/package steps were skipped. The available logs
+support baseline code/toolchain failures, not a CI test-suite PASS. No native Excel
+execution is evidenced. Local workspace tests are a separate independently
+passing run. No CI rerun, workflow edit or unrelated MSRV/deprecation repair was
+performed; review and merge commits use [skip ci]. The unresolved workspace-wide
+MSRV failure remains accurately disclosed despite core MSRV passing.
+
+Source-level acceptance is satisfied after these corrections, with explicit
+non-blocking baseline toolchain failures. Native acceptance is not waived.
+Native hierarchy is verified as #78 -> #89/#99/#101/#102 -> #131/#132/#133/#134;
+all remain OPEN. #126 retains combined x64 load/unload/reload, command/shortcut,
+reference/document/recalc/help, async, queue, event, partial cleanup/retry,
+shutdown and stale-host-event scenarios. Add release-origin Abort/Uncalced and
+selected-tail recovery where host behavior can be exercised; mock-only injection
+must remain labeled synthetic. Autonomous wake remains BLOCKED under #30/#101;
+x86 remains separate #85/#126. The next session must use authorized Python
+application automation and isolated scratch workbooks; none ran here.

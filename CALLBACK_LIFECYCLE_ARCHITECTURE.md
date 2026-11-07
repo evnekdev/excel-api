@@ -178,6 +178,8 @@ repeating accepted calls. No return code from xlAutoClose is claimed to veto unl
 
 Abort/Uncalced stops cleanup and preserves remaining obligations for a later genuine
 lifecycle callback. Registration returning that code also defers rollback. A
+result-release error containing either status, including a combined code, also
+defers remaining non-xlFree calls; accepted side effects remain retired. A
 transport failure or malformed registration without a usable ID remains ambiguous;
 no ID is invented and no automatic registration retry occurs. The documented
 Excel hidden-name deletion bug remains a native acceptance risk, now observable
