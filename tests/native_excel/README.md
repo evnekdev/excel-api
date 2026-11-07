@@ -3,9 +3,14 @@
 This shared Python runner and catalogue support Windows x64 and x86 as test
 infrastructure. It is **not** x86 ABI support or x86 host acceptance. #85 owns
 the unsupported x86 XLL ABI and build investigation. #126 owns this suite.
-Seven basic probes are implemented against the repository's `minimal-xll`;
-the other catalogue entries are explicitly NOT RUN and need acceptance-only
-fixtures and assertions. A basic reference-kind probe is not an xlCoerce read.
+Fourteen bounded probes are implemented against the repository's `minimal-xll`
+with its explicit `native-acceptance` feature. These cover basic read/write/clear,
+active-workbook information, normal recalculation, HelpTopic-bearing registration,
+event observation and fresh-session exit as well as the original seven probes.
+They do not establish the full cancellation, protection, rollback, named-document,
+Function Wizard, or same-process unload/reload matrix. The F9 event observation
+can be BLOCKED when targeted keyboard-message delivery does not raise an event.
+A basic reference-kind probe is not an xlCoerce read.
 Autonomous wake is not implemented (#30/#101). This is not a complete sweep.
 
 ## Requirements and execution (Windows CMD)
@@ -21,6 +26,8 @@ Autonomous wake is not implemented (#30/#101). This is not a complete sweep.
 python -m venv .venv
 .venv\Scripts\activate.bat
 python -m pip install -r tests\native_excel\requirements.txt
+cargo build -p minimal-xll --release --features native-acceptance
+copy target\release\minimal_xll.dll target\release\acceptance.xll
 python tests\native_excel\run_acceptance.py --check-environment --output results
 python tests\native_excel\run_acceptance.py --xll C:\ExcelTests\minimal_xll.xll --output results
 python tests\native_excel\run_acceptance.py --xll C:\ExcelTests\minimal_xll.xll --scenario REG-ADD --output results
@@ -51,7 +58,10 @@ unknown Excel process. If a later probe sees an existing Excel process it
 blocks. Cleanup restores changed application settings and closes only the
 scratch workbook. A timeout or failed cleanup is not a successful test.
 
-The runner does not force unload an XLL or prove unload/reload behavior. If an
+The CLEANUP probe checks a fresh session and observes process exit; it does not
+prove same-process unregister, retry or reload behavior. The HELP probe verifies
+registration with a supplied HelpTopic, not Function Wizard rendering or opening
+the resource. The runner does not force unload an XLL. If an
 async result is not observed, it does not explicitly close the workbook or
 request Quit: inspect the logged owned PID and resolve pending work safely.
 Tests requiring pending-work unload remain NOT RUN. Excel security prompts, host UI, callback races,

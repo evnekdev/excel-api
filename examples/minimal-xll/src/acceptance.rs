@@ -1,0 +1,67 @@
+//! Scratch-workbook probes, compiled only by explicit acceptance builds (#126).
+#[excel_api::excel_function(name = "RUST.TEST.EVENTS", thunk = "acceptance_events")]
+pub fn events() -> f64 {
+    excel_api::async_udf::diagnostics().map_or(-1.0, |d| d.calculation_ended as f64)
+}
+use excel_api::{
+    ConversionLimits, DocumentInfo, ExcelError, ExcelReferenceArg, ExcelValue, ExcelValueRef,
+    MacroContext, OwnedExcelReference, ReferenceArea, WorksheetContext, excel_command,
+    excel_function,
+};
+
+#[excel_function(
+    name = "RUST.TEST.READ",
+    thunk = "acceptance_read",
+    arguments(reference = "Scratch reference")
+)]
+pub fn read(
+    reference: ExcelReferenceArg<'_>,
+    context: &WorksheetContext<'_>,
+) -> Result<ExcelValue, ExcelError> {
+    let ExcelValueRef::Reference(reference) = reference.into_inner() else {
+        return Err(ExcelError::Value);
+    };
+    let owned = OwnedExcelReference::from_borrowed(&reference).map_err(|_| ExcelError::Value)?;
+    context
+        .read_reference(&owned, &ConversionLimits::default())
+        .map_err(|_| ExcelError::Value)
+}
+
+#[excel_function(name = "RUST.TEST.DOCUMENT", thunk = "acceptance_document", macro_type)]
+pub fn document(context: &MacroContext<'_>) -> Result<ExcelValue, ExcelError> {
+    context
+        .document_info(DocumentInfo::ActiveWorkbookName, None)
+        .map_err(|_| ExcelError::Value)
+}
+
+#[excel_function(
+    name = "RUST.TEST.HELP",
+    thunk = "acceptance_help",
+    description = "Acceptance help metadata",
+    help_topic = "https://example.com/help!0",
+    arguments(value = "Acceptance argument")
+)]
+pub fn help(value: f64) -> f64 {
+    value
+}
+
+fn destination() -> OwnedExcelReference {
+    OwnedExcelReference::current_sheet(ReferenceArea::cell(0, 9).expect("fixed J1 coordinate"))
+}
+
+#[excel_command(name = "RUST.TEST.WRITE", thunk = "acceptance_write")]
+pub fn write(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    context
+        .set_reference(&destination(), ExcelValue::Number(42.0))
+        .map_err(|_| ExcelError::Value)
+}
+#[excel_command(name = "RUST.TEST.CLEAR", thunk = "acceptance_clear")]
+pub fn clear(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    context
+        .clear_reference(&destination())
+        .map_err(|_| ExcelError::Value)
+}
+#[excel_command(name = "RUST.TEST.CALCULATE", thunk = "acceptance_calculate")]
+pub fn calculate(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    context.calculate_now().map_err(|_| ExcelError::Value)
+}

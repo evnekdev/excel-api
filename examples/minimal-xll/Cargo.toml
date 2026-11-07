@@ -11,6 +11,7 @@ crate-type = ["cdylib"]
 
 [features]
 default = []
+native-acceptance = []
 xlcontime-research = ["excel-api/xlcontime-research"]
 
 [dependencies]

@@ -1,5 +1,7 @@
 use std::sync::{Arc, OnceLock};
 
+#[cfg(feature = "native-acceptance")]
+mod acceptance;
 mod dispatch_demo;
 #[cfg(feature = "xlcontime-research")]
 mod ontime_experiment;
@@ -223,6 +225,14 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
     __EXCEL_FUNCTION_METADATA_DISPATCH_STATUS,
     #[cfg(feature = "xlcontime-research")]
     __EXCEL_FUNCTION_METADATA_ONTIME_STATUS,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_EVENTS,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_READ,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_DOCUMENT,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_FUNCTION_METADATA_HELP,
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[
@@ -237,6 +247,12 @@ pub static COMMANDS: &[excel_api::CommandRegistration] = &[
     __EXCEL_COMMAND_METADATA_ONTIME_CANCEL,
     #[cfg(feature = "xlcontime-research")]
     __EXCEL_COMMAND_METADATA_ONTIME_DUMP,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_COMMAND_METADATA_WRITE,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_COMMAND_METADATA_CLEAR,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_COMMAND_METADATA_CALCULATE,
 ];
 
 #[cfg(test)]
@@ -398,7 +414,12 @@ fn install_executor_for_open_generation() {
 pub extern "system" fn xlAutoOpen() -> i32 {
     std::panic::catch_unwind(|| {
         install_executor_for_open_generation();
-        match runtime().initialize(&ADD_IN) {
+        #[cfg(feature = "native-acceptance")]
+        let initialized =
+            runtime().initialize_with_help(&ADD_IN, &[acceptance::__EXCEL_FUNCTION_HELP_HELP]);
+        #[cfg(not(feature = "native-acceptance"))]
+        let initialized = runtime().initialize(&ADD_IN);
+        match initialized {
             Ok(LifecycleOutcome::Completed) => {
                 #[cfg(feature = "xlcontime-research")]
                 if ontime_experiment::enabled_for_current_process() {
@@ -557,6 +578,7 @@ mod tests {
         assert_eq!(ADD_IN.validate(), Ok(()));
         let texts: Vec<_> = FUNCTIONS
             .iter()
+            .filter(|function| !function.excel_name.starts_with("RUST.TEST."))
             .map(|function| function.type_text().unwrap())
             .collect();
         #[cfg(not(feature = "xlcontime-research"))]
@@ -564,9 +586,21 @@ mod tests {
         #[cfg(feature = "xlcontime-research")]
         assert_eq!(texts, ["QBB$", "QQ$", "QQ$", "QU", "QQ$", ">BX$", "Q", "Q"]);
         #[cfg(not(feature = "xlcontime-research"))]
-        assert_eq!(COMMANDS.len(), 3);
+        assert_eq!(
+            COMMANDS
+                .iter()
+                .filter(|c| !c.excel_name.starts_with("RUST.TEST."))
+                .count(),
+            3
+        );
         #[cfg(feature = "xlcontime-research")]
-        assert_eq!(COMMANDS.len(), 7);
+        assert_eq!(
+            COMMANDS
+                .iter()
+                .filter(|c| !c.excel_name.starts_with("RUST.TEST."))
+                .count(),
+            7
+        );
         assert!(COMMANDS.iter().all(|command| command.type_text() == "I"));
     }
 

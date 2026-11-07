@@ -24,13 +24,13 @@ SCENARIOS = {
     "COMMAND": ("registration", "The registered ping command executes", True),
     "QUEUE": ("dispatcher", "Worker work waits for an explicit command pump", True),
     "ASYNC": ("async", "Async double completes with 14", True),
-    "REF-READ": ("references", "xlCoerce scalar, array and error reads", False),
-    "REF-WRITE": ("references", "Command-only xlSet writes and clears", False),
-    "DOC": ("document", "Active and named document information", False),
-    "CALC": ("calculation", "Command-only normal recalculation", False),
-    "HELP": ("help", "HelpTopic and Function Wizard metadata", False),
-    "EVENTS": ("events", "Calculation notifications and lifetime", False),
-    "CLEANUP": ("lifecycle", "Unregister, retry, unload and reload", False),
+    "REF-READ": ("references", "xlCoerce reads a scratch cell", True),
+    "REF-WRITE": ("references", "Command-only xlSet writes and clears J1", True),
+    "DOC": ("document", "Active workbook name matches scratch workbook", True),
+    "CALC": ("calculation", "Command calculates dirty formula in manual mode", True),
+    "HELP": ("help", "Function with HelpTopic supplement registers and calculates", True),
+    "EVENTS": ("events", "Observe calculation-ended callback after F9", True),
+    "CLEANUP": ("lifecycle", "Fresh-session registration and owned process exit", True),
     "WAKE": ("dispatcher", "Autonomous wake (#30/#101; not implemented)", False),
 }
 
@@ -172,21 +172,58 @@ def worker(scenario, xll, event_file):
             event(f"RegisteredFunctions rows containing RUST.ADD: {matches[:3]!r}")
         except Exception as exc:
             event(f"RegisteredFunctions inspection unavailable: {exc}")
-        if scenario == "COMMAND":
+        if scenario == "EVENTS":
+            original["Visible"] = app.Visible
+            app.Visible = True
+            sheet.Range("A1").Formula = "=RUST.TEST.EVENTS()"
+            before_events = sheet.Range("A1").Value
+            import win32api
+            import win32con
+            win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_F9, 0)
+            win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_F9, 0)
+            deadline = time.monotonic() + 5
+            while time.monotonic() < deadline:
+                sheet.Range("A1").Calculate()
+                observed = sheet.Range("A1").Value
+                if observed > before_events: break
+                time.sleep(.1)
+            if observed <= before_events:
+                raise RuntimeError("No calculation-ended notification observed after posted F9; UI delivery is not guaranteed")
+        elif scenario == "REF-WRITE":
+            app.Run("RUST.TEST.WRITE")
+            observed = sheet.Range("J1").Value
+            if observed != 42: raise AssertionError(f"write expected 42, observed {observed!r}")
+            app.Run("RUST.TEST.CLEAR")
+            observed = sheet.Range("J1").Value
+            if observed is not None: raise AssertionError(f"clear expected blank, observed {observed!r}")
+        elif scenario == "CALC":
+            original["Calculation"] = app.Calculation
+            app.Calculation = -4135
+            sheet.Range("J2").Value = 1
+            sheet.Range("J3").Formula = "=J2+1"
+            sheet.Range("J3").Calculate()
+            sheet.Range("J2").Value = 10
+            if sheet.Range("J3").Value != 2: raise RuntimeError("manual calculation control failed")
+            app.Run("RUST.TEST.CALCULATE")
+            observed = sheet.Range("J3").Value
+            if observed != 11: raise AssertionError(f"expected 11, observed {observed!r}")
+        elif scenario == "COMMAND":
             observed = app.Run("RUST.PING.COMMAND")
             event(f"command returned {observed!r}")
         elif scenario == "QUEUE":
             app.Run("RUST.DISPATCH.ENQUEUE")
             sheet.Range("A1").Formula = "=RUST.DISPATCH.STATUS()"
             app.Calculate()
-            before_status = str(sheet.Range("A1").Value)
+            before_status = str(app.Run("RUST.DISPATCH.STATUS"))
             if not before_status.startswith("queued;"): raise AssertionError(f"before pump: {before_status!r}")
             app.Run("RUST.DISPATCH.PUMP")
+            sheet.Range("A1").Formula = "=RUST.DISPATCH.STATUS()"
             sheet.Range("A1").Calculate()
-            observed = str(sheet.Range("A1").Value)
+            observed = str(app.Run("RUST.DISPATCH.STATUS"))
             if not observed.startswith("completed;"): raise AssertionError(f"after pump: {observed!r}")
         else:
-            formulas = {"REG-ADD": ("=RUST.ADD(2,3)", 5), "VALUE-TEXT": ('=RUST.ECHO("Aé水😀")', "Aé水😀"),
+            sheet.Range("J1").Value = 42
+            formulas = {"CLEANUP": ("=RUST.ADD(2,3)", 5), "REF-READ": ("=RUST.TEST.READ(J1)", 42), "DOC": ("=RUST.TEST.DOCUMENT()", book.Name), "HELP": ("=RUST.TEST.HELP(17)", 17), "REG-ADD": ("=RUST.ADD(2,3)", 5), "VALUE-TEXT": ('=RUST.ECHO("A\u00e9\u6c34\U0001f600")', "A\u00e9\u6c34\U0001f600"),
                         "VALUE-OPTION": ("=RUST.OPTION.KIND()", "missing"), "REF-KIND": ("=RUST.REFERENCE.KIND(B1)", ("SRef", "Ref")),
                         "ASYNC": ("=RUST.ASYNC.DOUBLE(7)", 14)}
             formula, expected = formulas[scenario]
@@ -214,18 +251,21 @@ def worker(scenario, xll, event_file):
             result["observed"] += "; possible async work remains, no explicit unload or Quit attempted"
         elif owned:
             cleanup_errors = []
-            try:
-                if book is not None: book.Close(SaveChanges=False)
-            except Exception as exc:
-                cleanup_errors.append(f"scratch workbook close: {exc}")
             for name, value in original.items():
                 try:
                     setattr(app, name, value)
                 except Exception as exc:
                     cleanup_errors.append(f"restore {name}: {exc}")
             try:
+                if book is not None: book.Close(SaveChanges=False)
+            except Exception as exc:
+                cleanup_errors.append(f"scratch workbook close: {exc}")
+            try:
                 app.Quit()
                 event("owned application Quit requested")
+                sheet = book = app = None
+                import gc
+                gc.collect()
             except Exception as exc:
                 cleanup_errors.append(f"Quit: {exc}")
             if cleanup_errors:
@@ -278,9 +318,16 @@ def main():
                 try:
                     p = subprocess.run(command, capture_output=True, text=True, timeout=args.timeout)
                     entry.update(json.loads(p.stdout.strip().splitlines()[-1]))
+                    # Excel can take a short interval to exit after its last COM
+                    # proxy is released. Observe only; never kill a process.
+                    deadline = time.monotonic() + 15
+                    while process_ids() and time.monotonic() < deadline:
+                        time.sleep(.25)
+                    if process_ids() and entry["status"] == "PASS":
+                        entry.update(status="BLOCKED", observed=entry["observed"] + "; Excel process exit not observed")
                 except subprocess.TimeoutExpired:
                     entry.update(status="BLOCKED", observed="worker timed out; Excel process ownership may be unknown; no Excel process was terminated")
-                except (ValueError, IndexError, OSError) as exc:
+                except (ValueError, IndexError, OSError, subprocess.SubprocessError) as exc:
                     entry.update(status="BLOCKED", observed="worker failed: " + str(exc))
                 entry["elapsed_seconds"] = round(time.monotonic() - start, 3)
                 entry["log"] = log.name

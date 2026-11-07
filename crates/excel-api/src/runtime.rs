@@ -636,6 +636,7 @@ mod tests {
         fail_registration: Option<usize>,
         fail_unregistration: usize,
         fail_event: Option<usize>,
+        event_result: Option<i32>,
         register_count: usize,
         event_count: usize,
         event_ids: Vec<i32>,
@@ -796,7 +797,7 @@ mod tests {
                 unsafe {
                     *result = XLOPER12 {
                         val: XLOPER12Value {
-                            w: state.event_count as i32,
+                            w: state.event_result.unwrap_or(state.event_count as i32),
                         },
                         xltype: excel_api_sys::xltypeInt,
                     };
@@ -1468,6 +1469,20 @@ mod tests {
         backend.state.lock().unwrap().reject_cleanup = None;
         runtime.close().unwrap();
         assert_eq!(backend.state.lock().unwrap().unregistered, [1.0]);
+    }
+
+    #[test]
+    fn event_registration_preserves_nonzero_signed_ids_and_rejects_zero() {
+        let backend = MockBackend::default();
+        backend.link().unwrap();
+        let capability = CallCapability::new(&backend);
+        let context = LifecycleContext::new(&capability);
+        for id in [1, i32::MAX, i32::MIN, -853147637] {
+            backend.state.lock().unwrap().event_result = Some(id);
+            assert_eq!(context.register_event("handler", 1).unwrap(), id);
+        }
+        backend.state.lock().unwrap().event_result = Some(0);
+        assert!(context.register_event("handler", 1).is_err());
     }
 
     #[test]

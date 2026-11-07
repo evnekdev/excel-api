@@ -127,7 +127,7 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(len(reports), 2)
             data = json.loads(reports[0].read_text(encoding="utf-8"))
             self.assertEqual([x["id"] for x in data["scenarios"]], ["REF-READ"])
-            self.assertEqual(data["scenarios"][0]["status"], "NOT RUN")
+            self.assertEqual(data["scenarios"][0]["status"], "BLOCKED")
 
     def test_unknown_selection_rejected(self):
         with mock.patch.object(sys, "argv", ["runner", "--scenario", "nonsense"]), contextlib.redirect_stderr(io.StringIO()):

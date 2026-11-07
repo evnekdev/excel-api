@@ -1177,19 +1177,22 @@ impl LifecycleContext<'_> {
         if root.xltype & excel_api_sys::XLTYPE_MASK != excel_api_sys::xltypeInt {
             return Err(ExcelCallError::MalformedResult {
                 function: XL_EVENT_REGISTER.name,
-                expected: "positive integer event registration ID",
+                expected: "nonzero integer event registration ID",
                 actual: "non-integer result",
             });
         }
         // SAFETY: guarded by the integer tag.
         let id = unsafe { root.val.w };
-        if id > 0 {
+        // Excel x64 16.0.20527 returns opaque registration IDs with the sign
+        // bit set (#136). Preserve their bits; zero is the failure sentinel.
+        // The documented >0 wording does not describe this observed host case.
+        if id != 0 {
             Ok(id)
         } else {
             Err(ExcelCallError::MalformedResult {
                 function: XL_EVENT_REGISTER.name,
-                expected: "positive integer event registration ID",
-                actual: "non-positive integer",
+                expected: "nonzero integer event registration ID",
+                actual: "zero integer",
             })
         }
     }
