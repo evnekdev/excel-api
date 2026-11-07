@@ -133,6 +133,16 @@ class RunnerTests(unittest.TestCase):
         with mock.patch.object(sys, "argv", ["runner", "--scenario", "nonsense"]), contextlib.redirect_stderr(io.StringIO()):
             with self.assertRaises(SystemExit): runner.main()
 
+    def test_autonomous_wake_is_explicitly_blocked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = {"pywin32": True, "excel_executable": None, "excel_arch": None, "xll": None}
+            with mock.patch.object(sys, "argv", ["runner", "--output", tmp, "--scenario", "WAKE"]), \
+                 mock.patch.object(runner, "environment", return_value=env), contextlib.redirect_stdout(io.StringIO()):
+                runner.main()
+            data = json.loads(next(Path(tmp).glob("*/report.json")).read_text(encoding="utf-8"))
+            self.assertEqual(data["scenarios"][0]["status"], "BLOCKED")
+            self.assertIn("not implemented", data["scenarios"][0]["observed"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -267,7 +267,9 @@ def main():
         for sid in selected:
             area, expected, implemented = SCENARIOS[sid]
             entry = {"id": sid, "area": area, "expected": expected, "status": "NOT RUN", "observed": "fixture not implemented", "elapsed_seconds": 0}
-            if implemented and errors:
+            if sid == "WAKE":
+                entry.update(status="BLOCKED", observed="autonomous wake is not implemented (#30/#101)")
+            elif implemented and errors:
                 entry.update(status="BLOCKED", observed="; ".join(errors))
             elif implemented:
                 start = time.monotonic()
