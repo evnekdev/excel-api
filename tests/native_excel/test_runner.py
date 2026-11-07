@@ -133,6 +133,17 @@ class RunnerTests(unittest.TestCase):
         with mock.patch.object(sys, "argv", ["runner", "--scenario", "nonsense"]), contextlib.redirect_stderr(io.StringIO()):
             with self.assertRaises(SystemExit): runner.main()
 
+    def test_stale_probe_is_blocked_without_explicit_opt_in(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            env = {"pywin32": True, "excel_executable": "Excel", "excel_arch": "x64", "xll": {"architecture": "x64"}}
+            with mock.patch.object(sys, "argv", ["runner", "--output", tmp, "--scenario", "REF-STALE"]), \
+                 mock.patch.object(runner, "environment", return_value=env), \
+                 mock.patch.object(runner.subprocess, "run") as run, contextlib.redirect_stdout(io.StringIO()):
+                runner.main()
+            run.assert_not_called()
+            data = json.loads(next(Path(tmp).glob("*/report.json")).read_text(encoding="utf-8"))
+            self.assertEqual(data["scenarios"][0]["status"], "BLOCKED")
+
     def test_autonomous_wake_is_explicitly_blocked(self):
         with tempfile.TemporaryDirectory() as tmp:
             env = {"pywin32": True, "excel_executable": None, "excel_arch": None, "xll": None}

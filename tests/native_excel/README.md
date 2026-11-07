@@ -1,5 +1,10 @@
 # Native Excel acceptance runner (partial)
 
+Extended probes: REF-PROTECTED checks rejection and preserved cell contents.
+REF-STALE is BLOCKED by default after a host RPC failure (#137); only controlled
+diagnostic hosts may opt in with `--allow-stale-probe`. Do not repeat the stale
+probe until the correlated Office module-version-mismatch report is triaged.
+
 This shared Python runner and catalogue support Windows x64 and x86 as test
 infrastructure. It is **not** x86 ABI support or x86 host acceptance. #85 owns
 the unsupported x86 XLL ABI and build investigation. #126 owns this suite.

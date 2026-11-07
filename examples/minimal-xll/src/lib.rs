@@ -236,6 +236,10 @@ pub static FUNCTIONS: &[FunctionRegistration] = &[
 ];
 
 pub static COMMANDS: &[excel_api::CommandRegistration] = &[
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_COMMAND_METADATA_CAPTURE,
+    #[cfg(feature = "native-acceptance")]
+    acceptance::__EXCEL_COMMAND_METADATA_WRITE_CAPTURED,
     __EXCEL_COMMAND_METADATA_PING_COMMAND,
     __EXCEL_COMMAND_METADATA_DISPATCH_ENQUEUE,
     __EXCEL_COMMAND_METADATA_DISPATCH_PUMP,

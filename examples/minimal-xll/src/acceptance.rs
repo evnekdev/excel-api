@@ -49,6 +49,32 @@ fn destination() -> OwnedExcelReference {
     OwnedExcelReference::current_sheet(ReferenceArea::cell(0, 9).expect("fixed J1 coordinate"))
 }
 
+static CAPTURED: std::sync::Mutex<Option<OwnedExcelReference>> = std::sync::Mutex::new(None);
+
+#[excel_command(name = "RUST.TEST.CAPTURE", thunk = "acceptance_capture")]
+pub fn capture(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    let id = context.active_sheet_id().map_err(|_| ExcelError::Value)?;
+    let reference = OwnedExcelReference::on_sheet(
+        usize::try_from(id).map_err(|_| ExcelError::Value)?,
+        vec![ReferenceArea::cell(0, 9).map_err(|_| ExcelError::Value)?],
+    )
+    .map_err(|_| ExcelError::Value)?;
+    *CAPTURED.lock().map_err(|_| ExcelError::Value)? = Some(reference);
+    Ok(())
+}
+
+#[excel_command(name = "RUST.TEST.WRITE.CAPTURED", thunk = "acceptance_write_captured")]
+pub fn write_captured(context: &MacroContext<'_>) -> Result<(), ExcelError> {
+    let reference = CAPTURED
+        .lock()
+        .map_err(|_| ExcelError::Value)?
+        .take()
+        .ok_or(ExcelError::Value)?;
+    context
+        .set_reference(&reference, ExcelValue::Number(42.0))
+        .map_err(|_| ExcelError::Value)
+}
+
 #[excel_command(name = "RUST.TEST.WRITE", thunk = "acceptance_write")]
 pub fn write(context: &MacroContext<'_>) -> Result<(), ExcelError> {
     context

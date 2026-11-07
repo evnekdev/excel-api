@@ -26,6 +26,8 @@ SCENARIOS = {
     "ASYNC": ("async", "Async double completes with 14", True),
     "REF-READ": ("references", "xlCoerce reads a scratch cell", True),
     "REF-WRITE": ("references", "Command-only xlSet writes and clears J1", True),
+    "REF-PROTECTED": ("references", "Protected J1 rejects xlSet without changing its value", True),
+    "REF-STALE": ("references", "Deleted-sheet descriptor rejects write and preserves surviving sheet", True),
     "DOC": ("document", "Active workbook name matches scratch workbook", True),
     "CALC": ("calculation", "Command calculates dirty formula in manual mode", True),
     "HELP": ("help", "Function with HelpTopic supplement registers and calculates", True),
@@ -176,19 +178,39 @@ def worker(scenario, xll, event_file):
             original["Visible"] = app.Visible
             app.Visible = True
             sheet.Range("A1").Formula = "=RUST.TEST.EVENTS()"
-            before_events = sheet.Range("A1").Value
+            before_events = app.Run("RUST.TEST.EVENTS")
             import win32api
             import win32con
             win32api.PostMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_F9, 0)
             win32api.PostMessage(hwnd, win32con.WM_KEYUP, win32con.VK_F9, 0)
+            app.CommandBars.ExecuteMso("CalculateNow")
             deadline = time.monotonic() + 5
             while time.monotonic() < deadline:
-                sheet.Range("A1").Calculate()
-                observed = sheet.Range("A1").Value
+                observed = app.Run("RUST.TEST.EVENTS")
                 if observed > before_events: break
                 time.sleep(.1)
             if observed <= before_events:
                 raise RuntimeError("No calculation-ended notification observed after posted F9; UI delivery is not guaranteed")
+        elif scenario == "REF-STALE":
+            sheet.Range("J1").Value = 123
+            doomed = book.Worksheets.Add()
+            doomed.Activate()
+            app.Run("RUST.TEST.CAPTURE")
+            doomed.Delete()
+            doomed = None
+            sheet.Activate()
+            returned = app.Run("RUST.TEST.WRITE.CAPTURED")
+            observed = sheet.Range("J1").Value
+            if returned != 0 or observed != 123:
+                raise AssertionError(f"expected stale rejection and unchanged 123; command={returned!r}, cell={observed!r}")
+        elif scenario == "REF-PROTECTED":
+            sheet.Range("J1").Value = 123
+            sheet.Protect()
+            returned = app.Run("RUST.TEST.WRITE")
+            observed = sheet.Range("J1").Value
+            sheet.Unprotect()
+            if returned != 0 or observed != 123:
+                raise AssertionError(f"expected rejected command and unchanged 123; command={returned!r}, cell={observed!r}")
         elif scenario == "REF-WRITE":
             app.Run("RUST.TEST.WRITE")
             observed = sheet.Range("J1").Value
@@ -284,6 +306,7 @@ def main():
     parser.add_argument("--output", default="native-excel-results")
     parser.add_argument("--scenario", action="append", help="Scenario ID or area; repeatable")
     parser.add_argument("--timeout", type=int, default=90, help="Per-scenario worker deadline in seconds")
+    parser.add_argument("--allow-stale-probe", action="store_true", help="Explicitly enable the known-crashing stale-sheet investigation; isolated diagnostic hosts only")
     parser.add_argument("--worker", choices=SCENARIOS, help=argparse.SUPPRESS)
     parser.add_argument("--event-file", help=argparse.SUPPRESS)
     args = parser.parse_args()
@@ -307,7 +330,9 @@ def main():
         for sid in selected:
             area, expected, implemented = SCENARIOS[sid]
             entry = {"id": sid, "area": area, "expected": expected, "status": "NOT RUN", "observed": "fixture not implemented", "elapsed_seconds": 0}
-            if sid == "WAKE":
+            if sid == "REF-STALE" and not args.allow_stale_probe:
+                entry.update(status="BLOCKED", observed="Prior stale-sheet probe lost Excel RPC; diagnostic opt-in required")
+            elif sid == "WAKE":
                 entry.update(status="BLOCKED", observed="autonomous wake is not implemented (#30/#101)")
             elif implemented and errors:
                 entry.update(status="BLOCKED", observed="; ".join(errors))
